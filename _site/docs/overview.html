@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
         <meta name="docfx:rel" content="../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -154,7 +140,7 @@
 <p>Collections store documents that are indexed with embeddings and searched during inference or through collection endpoints. Plan limits control collection count, search rate, insertion rate, and JSONL import size.</p>
 <p>AIVAX also exposes collections as MCP tools through <code>/v1/mcp/collections</code>. The collection MCP endpoint reads configuration from headers such as collection IDs, tool name, top-k, minimum score, reranker, and whether write tools are allowed.</p>
 <h3 id="tools">Tools</h3>
-<p>Gateways can enable tools that let the model call platform services or external systems. The codebase includes built-in functions for web search, advanced web search, X/Twitter search, image generation, document or page generation, code execution, memory, calendar, and scheduled activations.</p>
+<p>Gateways can enable tools that let the model call platform services or external systems. Built-in functions cover web search, advanced web search, X/Twitter search, image generation, document or page generation, code execution, memory, calendar, and scheduled activations.</p>
 <p>Private keys can use the full gateway tool configuration. Public-key chat-completion calls strip server-side tool surfaces such as MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options.</p>
 <h3 id="skills">Skills</h3>
 <p>Skills are reusable instruction bundles attached to a gateway. They are loaded into the model context when selected by the assistant and can restrict or expose tool behavior.</p>
@@ -166,7 +152,7 @@
 </ul>
 <p>Use <code>json_only</code> only when the caller expects the raw generated JSON instead of the normal chat-completion envelope.</p>
 <h3 id="chat-clients-and-integrations">Chat clients and integrations</h3>
-<p>Chat clients connect a gateway to end users. The backend includes public web-chat session endpoints and integrations for Telegram, Z-API WhatsApp, Evolution API, and Kapso. Chat clients have their own per-session and per-hour limits in addition to account balance checks.</p>
+<p>Chat clients connect a gateway to end users through public web-chat sessions or integrations for Telegram, Z-API WhatsApp, Evolution API, and Kapso. Chat clients have their own per-session and per-hour limits in addition to account balance checks.</p>
 <h3 id="workers-and-hooks">Workers and hooks</h3>
 <p>Workers are account-owned hooks that can interrupt or modify gateway events. Requests from AIVAX to your service may include <code>X-Request-Nonce</code>, a BCrypt hash derived from the account hook key. Validate it before trusting the request.</p>
 <h3 id="batch-processing">Batch processing</h3>

@@ -114,7 +114,7 @@ Reference:
 AIVAX uses two response shapes:
 
 - OpenAI-compatible endpoints return an OpenAI-style `error` object with `message`, `type`, `param`, and `code`.
-- Administrative endpoints return `{"error": "...", "details": null}` for errors and `{"message": "...", "data": ...}` for successful `JsonResponse` results.
+- Administrative endpoints return `{"error": "...", "details": null}` for errors and `{"message": "...", "data": ...}` for successful results.
 
 Common failures:
 

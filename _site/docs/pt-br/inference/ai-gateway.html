@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../../toc.html">
 
         <meta name="docfx:rel" content="../../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -125,40 +111,40 @@
                 <article data-uid="">
 <h1 id="gateway-de-ia">Gateway de IA</h1>
 
-<p>Um Gateway de IA é uma configuração de inferência persistente. Ele permite que você chame um agente pelo nome do modelo enquanto o AIVAX aplica as configurações do modelo do gateway, instruções, coleções RAG, ferramentas, habilidades, workers, moderação e controles de contexto.</p>
-<p>Use um gateway quando o mesmo comportamento precisar ser reutilizado por vários clientes ou alterado sem redeployar a aplicação chamadora.</p>
+<p>Um Gateway de IA é uma configuração de inferência persistente. Ele permite que você chame um agente pelo nome do modelo enquanto a AIVAX aplica as configurações do modelo do gateway, instruções, coleções RAG, ferramentas, habilidades, trabalhadores, moderação e controles de contexto.</p>
+<p>Use um gateway quando o mesmo comportamento precisar ser reutilizado por vários clientes ou alterado sem reimplantar a aplicação chamadora.</p>
 <h2 id="como-pensar-em-um-gateway">Como pensar em um gateway</h2>
-<p>Uma chamada direta para <code>/v1/chat/completions</code> pode chamar um modelo AIVAX integrado diretamente, por exemplo <code>@openai/gpt-5-mini</code>. Um gateway armazena as decisões que você não quer repetir em cada solicitação:</p>
+<p>Uma chamada direta para <code>/v1/chat/completions</code> pode chamar um modelo integrado da AIVAX diretamente, por exemplo <code>@openai/gpt-5-mini</code>. Um gateway armazena as decisões que você não quer repetir em cada solicitação:</p>
 <ul>
-<li>Provedor e nome do modelo.</li>
-<li>Instruções do sistema, fontes de instruções remotas, modelo de prompt do usuário e preenchimento prévio do assistente.</li>
-<li>Coleções RAG, limites de resultados, limiar de pontuação, reordenador, comportamento de referência e estratégia de consulta.</li>
-<li>Ferramentas compatíveis com OpenAI, ferramentas internas do AIVAX, ferramentas MCP, funções de protocolo, habilidades e o ambiente bash opcional.</li>
-<li>Comportamento da janela de contexto, truncamento de mensagens de ferramenta, moderação, workers, roteamento de modelo e tratamento de chamadas de ferramenta.</li>
+<li>Provedor de modelo e nome do modelo.</li>
+<li>Instruções do sistema, fontes de instrução remotas, modelo de prompt do usuário e preenchimento prévio do assistente.</li>
+<li>Coleções RAG, limites de resultados, limiar de pontuação, reranker, comportamento de referência e estratégia de consulta.</li>
+<li>Ferramentas compatíveis com OpenAI, ferramentas internas da AIVAX, ferramentas MCP, funções de protocolo, habilidades e o ambiente bash opcional.</li>
+<li>Comportamento da janela de contexto, truncamento de mensagens de ferramenta, moderação, trabalhadores, roteamento de modelo e tratamento de chamadas de ferramenta.</li>
 </ul>
-<p>Isso cria um limite de responsabilidade. A aplicação cliente envia mensagens e sobrescritas de solicitação opcionais. O administrador do gateway controla a política operacional.</p>
-<p>Em produção, comece com uma configuração conservadora: instruções claras do sistema, um modelo que suporte as modalidades e ferramentas necessárias, uma coleção RAG bem preparada e apenas as ferramentas realmente necessárias. Adicionar muitas ferramentas, habilidades ou coleções aumenta os tokens de entrada, o custo e a chance de o modelo escolher o caminho errado.</p>
+<p>Isso cria um limite de responsabilidade. O aplicativo cliente envia mensagens e substituições de solicitação opcionais. O administrador do gateway controla a política operacional.</p>
+<p>Em produção, comece com uma configuração conservadora: instruções de sistema claras, um modelo que suporte as modalidades e ferramentas necessárias, uma coleção RAG bem preparada e apenas as ferramentas realmente necessárias. Adicionar muitas ferramentas, habilidades ou coleções aumenta os tokens de entrada, o custo e a chance de o modelo escolher o caminho errado.</p>
 <h2 id="modelos-e-nomes-de-gateway">Modelos e nomes de gateway</h2>
-<p>Existem três formas comuns de escolher o que o <code>/v1/chat/completions</code> usa:</p>
+<p>Existem três maneiras comuns de escolher o que <code>/v1/chat/completions</code> usa:</p>
 <ul>
-<li>Usar uma tag de modelo AIVAX integrado, geralmente começando com <code>@</code>.</li>
+<li>Usar uma tag de modelo integrada da AIVAX, normalmente começando com <code>@</code>.</li>
 <li>Usar o ID completo do gateway.</li>
-<li>Usar um slug de gateway no formato <code>nome:final-id</code>, como <code>support:50c3</code>.</li>
+<li>Usar um slug de gateway no formato <code>nome:id-final</code>, como <code>support:50c3</code>.</li>
 </ul>
-<p>Chaves de API privadas podem resolver um gateway por ID completo ou por slug. Chaves de API públicas são mais restritas: podem usar gateways de IA apenas por ID completo, e apenas um conjunto limitado de parâmetros de solicitação de conclusão de chat é aceito.</p>
+<p>Chaves de API privadas podem resolver um gateway pelo ID completo ou pelo slug. Chaves de API públicas são mais restritas: podem usar gateways de IA apenas pelo ID completo, e apenas um conjunto limitado de parâmetros de solicitação de conclusão de chat é aceito.</p>
 <p>Ao escolher um modelo, valide três pontos antes de colocá‑lo em produção:</p>
 <ul>
 <li>O modelo suporta as modalidades de entrada que você pretende enviar, como imagem, áudio, vídeo ou arquivo.</li>
-<li>O modelo suporta chamadas de função se o gateway usar ferramentas, RAG por meio de <code>QueryFunction</code>, MCP, funções de protocolo, habilidades ou funções internas.</li>
+<li>O modelo suporta chamadas de função se o gateway usar ferramentas, RAG através de <code>QueryFunction</code>, MCP, funções de protocolo, habilidades ou funções internas.</li>
 <li>O modelo aceita os parâmetros que você configura. Alguns modelos integrados rejeitam preenchimento prévio do assistente, temperatura, sequências de parada ou esforço de raciocínio.</li>
 </ul>
-<p>Gateways também podem usar roteamento de modelo. Para o roteador de complexidade, o AIVAX classifica a última solicitação do usuário como baixa, média ou alta complexidade, seleciona o modelo configurado para esse nível e emite <code>X-Model-Routed-Complexity</code> na resposta HTTP quando disponível.</p>
+<p>Gateways também podem usar roteamento de modelo. Para o roteador de complexidade, a AIVAX classifica a última solicitação do usuário como baixa, média ou alta complexidade, seleciona o modelo configurado para esse nível e emite <code>X-Model-Routed-Complexity</code> na resposta HTTP quando disponível.</p>
 <h2 id="usando-um-gateway-de-ia">Usando um Gateway de IA</h2>
-<p>O AIVAX fornece um endpoint de conclusão de chat compatível com OpenAI:</p>
+<p>A AIVAX fornece um endpoint de conclusões de chat compatível com OpenAI:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <p>Os valores do gateway podem ser sobrescritos pela solicitação para parâmetros suportados, como <code>temperature</code>, <code>top_p</code>, <code>seed</code>, <code>reasoning_effort</code>, <code>max_completion_tokens</code>, <code>stop</code>, <code>tools</code>, <code>response_schema</code>, <code>response_format</code>, <code>builtin_tools</code>, <code>multimodal_preprocess</code> e <code>tool_invocation_explanations</code>. Para comportamento de inferência direta, incluindo opções de renderização de resposta, veja <a href="/docs/pt-br/inference/inference">Inference</a>.</p>
 <h2 id="usando-sdks">Usando SDKs</h2>
-<p>Como o endpoint segue o formato de conclusão de chat do OpenAI, você pode usar SDKs compatíveis existentes.</p>
+<p>Como o endpoint segue o formato de conclusões de chat da OpenAI, você pode usar SDKs compatíveis existentes.</p>
 <pre><code class="lang-python">from openai import OpenAI
 
 client = OpenAI(
@@ -169,38 +155,38 @@ client = OpenAI(
 response = client.chat.completions.create(
     model=&quot;my-gateway:50c3&quot;,
     messages=[
-        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain why AI gateways are useful.&quot;}
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explique por que os gateways de IA são úteis.&quot;}
     ]
 )
 
 print(response.choices[0].message.content)
 </code></pre>
-<p>A implementação atual de inferência compatível com OpenAI é <code>chat/completions</code>. O repositório não expõe uma implementação <code>/v1/responses</code> neste checkout.</p>
-<h2 id="configuração-recomendada-para-produção">Configuração recomendada para produção</h2>
-<p>Escreva as instruções do sistema para que o modelo entenda seu papel, público, fontes de verdade e limites. Inclua quando usar RAG, quando usar ferramentas e como responder quando a informação não estiver disponível. Evite repetir configurações operacionais que já existem no gateway, como limites de truncamento ou listas de ferramentas.</p>
-<p>Para RAG, vincule coleções com documentos curtos, auto‑contidos e bem nomeados. Escolha a estratégia de consulta com base no tipo de conversa:</p>
+<p>A inferência compatível com OpenAI usa <code>/v1/chat/completions</code>. O endpoint <code>/v1/responses</code> não é suportado.</p>
+<h2 id="configuração-de-produção-recomendada">Configuração de produção recomendada</h2>
+<p>Escreva as instruções do sistema para que o modelo compreenda seu papel, público, fontes de verdade e limites. Inclua quando usar RAG, quando usar ferramentas e como responder quando a informação não estiver disponível. Evite repetir configurações operacionais que já existem no gateway, como limites de truncamento ou listas de ferramentas.</p>
+<p>Para RAG, vincule coleções com documentos curtos, autônomos e bem nomeados. Escolha a estratégia de consulta com base no tipo de conversa:</p>
 <ul>
 <li><code>Plain</code>: Usa a última mensagem do usuário como termo de busca.</li>
-<li><code>Concatenate</code>: Junta o número configurado de últimas mensagens do usuário linha a linha.</li>
+<li><code>Concatenate</code>: Junta o último número configurado de mensagens do usuário linha por linha.</li>
 <li><code>UserRewrite</code>: Reescreve mensagens recentes do usuário em uma ou mais consultas de busca usando um modelo resolvedor.</li>
 <li><code>FullRewrite</code>: Reescreve mensagens recentes do usuário e do assistente usando um modelo resolvedor.</li>
-<li><code>QueryFunction</code>: Expõe uma função de busca ao modelo em vez de injetar um resultado de busca antes da inferência.</li>
+<li><code>QueryFunction</code>: Exponha uma função de busca ao modelo ao invés de injetar um resultado de busca antes da inferência.</li>
 </ul>
-<p>Para ferramentas, habilite apenas aquelas com um papel claro. Ferramentas internas cobrem capacidades comuns como busca na web, abertura de URLs, execução de código, geração de imagens, geração de documentos, geração de páginas, ações de calendário, memória, requisições HTTP e busca de postagens X. MCP externo é melhor quando você já tem um servidor MCP com ferramentas de negócio. Funções de protocolo são úteis quando você quer expor callbacks HTTP específicos ao modelo sem instalar um servidor MCP completo.</p>
-<p>Use um manipulador de ferramenta apenas quando o modelo selecionado precisar de ajuda para produzir chamadas de ferramenta. Neste checkout, o manipulador habilitado é <code>react.v1.selfcall</code>; <code>native</code> ou nenhum valor usa a chamada nativa de ferramenta do modelo.</p>
-<p>Use workers quando um sistema externo precisar decidir algo durante o fluxo de inferência. Um worker pode bloquear uma mensagem, reescrever o contexto, adicionar ferramentas ou substituir o resultado de uma ferramenta do lado do servidor. Como o worker é chamado no caminho crítico, mantenha‑o rápido e determinístico.</p>
+<p>Para ferramentas, habilite apenas as que tenham um papel claro. Ferramentas internas cobrem capacidades comuns como busca na web, abertura de URLs, execução de código, geração de imagens, geração de documentos, geração de páginas, ações de calendário, memória, requisições HTTP e busca de postagens X. MCP externo é melhor quando você já possui um servidor MCP com ferramentas de negócio. Funções de protocolo são úteis quando você deseja expor callbacks HTTP específicos ao modelo sem instalar um servidor MCP completo.</p>
+<p>Use um manipulador de ferramenta apenas quando o modelo selecionado precisar de ajuda para produzir chamadas de ferramenta. O manipulador disponível é <code>react.v1.selfcall</code>; <code>native</code> ou nenhum valor usa a chamada de ferramenta nativa do modelo.</p>
+<p>Use trabalhadores quando um sistema externo precisar decidir algo durante o fluxo de inferência. Um trabalhador pode bloquear uma mensagem, reescrever o contexto, adicionar ferramentas ou substituir um resultado de ferramenta do lado do servidor. Como o trabalhador é chamado no caminho crítico, mantenha‑o rápido e determinístico.</p>
 <h2 id="usando-com-mcp">Usando com MCP</h2>
 <p>Você pode expor um Gateway de IA como uma ferramenta MCP. Isso permite que outro cliente ou modelo compatível com MCP chame o gateway como um sub‑agente.</p>
 <p>Configure a URL do servidor MCP como:</p>
 <pre><code class="lang-text">https://inference.aivax.net/v1/mcp/inference
 </code></pre>
-<p>Defina esses cabeçalhos HTTP:</p>
+<p>Defina estes cabeçalhos HTTP:</p>
 <table>
 <thead>
 <tr>
-<th>Cabeçalho</th>
-<th>Descrição</th>
-<th>Obrigatório</th>
+<th>Header</th>
+<th>Description</th>
+<th>Required</th>
 </tr>
 </thead>
 <tbody>
@@ -211,13 +197,13 @@ print(response.choices[0].message.content)
 </tr>
 <tr>
 <td><code>X-Mcp-Model-Name</code></td>
-<td>Tag de modelo integrado, ID completo do gateway ou slug do gateway.</td>
+<td>Tag de modelo integrada, ID completo do gateway ou slug do gateway.</td>
 <td>Sim</td>
 </tr>
 <tr>
 <td><code>X-Mcp-Tool-Name</code></td>
-<td>Nome base da ferramenta. O AIVAX o converte para formato de identificador e expõe <code>invoke_{tool_name}</code>.</td>
-<td>Não, o padrão é <code>ai_model</code></td>
+<td>Nome base da ferramenta. AIVAX converte para formato de identificador e expõe <code>invoke_{tool_name}</code>.</td>
+<td>Não, padrão <code>ai_model</code></td>
 </tr>
 <tr>
 <td><code>X-Mcp-Tool-Description</code></td>
@@ -246,8 +232,8 @@ print(response.choices[0].message.content)
                 &quot;Authorization&quot;: &quot;Bearer YOUR_AIVAX_API_KEY&quot;,
                 &quot;X-Mcp-Model-Name&quot;: &quot;my-gateway:50c3&quot;,
                 &quot;X-Mcp-Tool-Name&quot;: &quot;data_assistant&quot;,
-                &quot;X-Mcp-Tool-Description&quot;: &quot;Use this tool to invoke the specialized assistant for data analysis.&quot;,
-                &quot;X-Mcp-Tool-Title&quot;: &quot;Data Analysis Assistant&quot;
+                &quot;X-Mcp-Tool-Description&quot;: &quot;Use esta ferramenta para invocar o assistente especializado para análise de dados.&quot;,
+                &quot;X-Mcp-Tool-Title&quot;: &quot;Assistente de Análise de Dados&quot;
             }
         }
     }
@@ -257,9 +243,9 @@ print(response.choices[0].message.content)
 <table>
 <thead>
 <tr>
-<th>Parâmetro</th>
-<th>Tipo</th>
-<th>Descrição</th>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -270,7 +256,7 @@ print(response.choices[0].message.content)
 </tr>
 </tbody>
 </table>
-<p>A ferramenta MCP devolve a resposta do gateway como texto e compartilha o mesmo caminho de faturamento e limite de taxa da inferência subjacente de conclusão de chat.</p>
+<p>A ferramenta MCP devolve a resposta do gateway como texto e compartilha o mesmo caminho de faturamento e limite de taxa de inferência da conclusão de chat subjacente.</p>
 
 </article>
 

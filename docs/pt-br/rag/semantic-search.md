@@ -1,88 +1,158 @@
-﻿# Pesquisa Semântica
+# Busca Semântica
 
-A API de pesquisa realiza busca semântica nas coleções informadas, fazendo uma comparação inteligente entre os termos enviados e cada documento indexado.
+A API de busca semântica pesquisa uma ou mais coleções e retorna os documentos indexados mais relevantes para os termos de pesquisa fornecidos.
 
-Após criar uma coleção, você obterá seu ID. Utilize o ID da sua coleção para realizar a busca nos documentos indexados da mesma.
+A busca é realizada em etapas:
 
-O AIVAX utiliza modelos de embedding que permitem a orientação da tarefa. Para a busca, o termo é vetorizado com uma orientação `DOCUMENT_QUERY`. Para indexação dos documentos, a orientação é `DOCUMENT_RETRIEVAL`, o que fornece uma busca mais otimizada.
+1. Cada termo de consulta é incorporado no modo de consulta.
+2. Os documentos são incorporados no modo de recuperação durante a indexação.
+3. A busca pré-filtra candidatos com hashes de incorporação compactos.
+4. Os documentos candidatos são pontuados com base na similaridade de incorporação.
+5. Candidatos abaixo de `minScore` são removidos após o cálculo da similaridade de incorporação.
+6. O reranker configurado pode ajustar a ordem restante antes de aplicar o limite final `top`.
+
+Depois de criar uma coleção, use seu ID de coleção no array `collections` ao pesquisar.
 
 > [!WARNING]
-> Esse endpoint gera custo. O custo é calculado em cima dos tokens do termo de busca.
+> A busca semântica tem custo. O custo de incorporação da consulta é baseado nos tokens do termo de pesquisa. O reranker `smart` também gera custo de reclassificação baseado nos tokens da consulta e dos documentos candidatos.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-## Ranqueamento
+## Request Parameters
 
-A AIVAX pode aplicar reranking depois da busca vetorial. A primeira etapa encontra documentos semanticamente próximos aos termos consultados. Em seguida, o reranker reavalia os candidatos encontrados e ajusta a ordem final dos resultados.
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `collections` | `string[]` | Required | IDs de coleção para pesquisar. Cada coleção deve pertencer à conta autenticada. |
+| `term` | `string` | Required if `terms` is absent | Um termo de pesquisa. |
+| `terms` | `string[]` | Required if `term` is absent | Um ou mais termos de pesquisa. |
+| `top` | `number` | `5` | Número máximo de documentos retornados. A validação atual permite de 1 a 128. |
+| `minScore` | `number` | `0.2` | Pontuação mínima de similaridade de incorporação antes da reclassificação. A validação atual permite valores de 0,01 a 0,99. |
+| `reranker` | `string` | `rrf` | `rrf`, `lexical`, `smart` ou `none`. |
+| `includeReferences` | `boolean` | `false` | Inclui documentos relacionados com o mesmo ID de referência quando um documento correspondido tem uma referência. |
 
-Esse processo é útil quando vários documentos são parecidos entre si. A busca semântica pode encontrar o conjunto certo de candidatos, mas ainda assim deixar o documento mais útil abaixo de outros documentos relacionados. O reranking funciona como uma segunda etapa de precisão.
+A resposta inclui o ID do documento correspondido, ID da coleção, nome do documento, conteúdo do documento, metadados, pontuação e documentos referenciados quando a expansão de referência está habilitada.
 
-Por exemplo: em uma coleção de suporte técnico, buscar por "como cancelar assinatura anual sem multa" pode retornar documentos sobre "cancelamento de assinatura", "multa contratual", "assinatura mensal" e "reembolsos". O reranker reordena esses candidatos para favorecer o documento que responde melhor à consulta completa.
+## Reranking
 
-Rerankers disponíveis:
+AIVAX pode aplicar reclassificação após os candidatos vetoriais serem encontrados.
 
-| Algoritmo | Custo | Descrição |
-| --------- | ----- | --------- |
-| `none` | Sem custo | Desativa o reranking. Os resultados finais usam apenas a pontuação semântica da busca vetorial. |
-| `lexical` | Sem custo | Aplica um pequeno ajuste local de score com base em correspondência lexical, correspondência aproximada e proximidade dos termos no nome e no conteúdo do documento. |
-| `smart` | $0,005/mtokens | Usa um modelo de reranking para reavaliar os documentos candidatos com a consulta completa e substituir a pontuação final pela pontuação do modelo. |
+Available rerankers:
 
-Na API de pesquisa semântica, o reranker padrão é `lexical`. Para desativar o reranking, envie `none` no parâmetro `reranker`. Para usar o reranker baseado em modelo, envie `smart`.
+| Reranker | Cost | Behavior |
+| --- | --- | --- |
+| `none` | No reranking cost | Uses vector similarity only. |
+| `rrf` | No reranking cost | Fuses the embedding and lexical rank positions. This is the default. |
+| `lexical` | No reranking cost | Applies a local boost based on lexical matches, fuzzy token matches, and term proximity in the document name and content. |
+| `smart` | Reranking cost applies | Uses Cloudflare Workers AI (`@cf/baai/bge-reranker-base`) to rescore candidate documents against the full query. |
+
+O reranker padrão é `rrf`. Para desativar a reclassificação, envie `"reranker": "none"`. Para preservar a pontuação semântica e adicionar um impulso lexical conservador, use `lexical`. Para usar o reranker baseado em modelo, envie `"reranker": "smart"`.
+
+Todos os rerankers diferentes de `none` compartilham o [limite de reclassificação de busca](/docs/pt-br/limits#rag-and-collection-limits) da conta. A mesma cota se aplica ao endpoint independente de [Reranking](reranking.md).
 
 > [!NOTE]
-> O reranking não amplia a busca para documentos que ficaram fora dos candidatos iniciais. Ele atua sobre os candidatos retornados pela busca vetorial e melhora a ordenação final.
+> A reclassificação não pesquisa documentos adicionais. Ela apenas reordena candidatos já encontrados pela etapa de busca vetorial.
 
-## Busca por termos
+## Multiple Terms
 
-A busca por vários termos funciona como uma união ranqueada por melhor correspondência. Ela não faz interseção obrigatória entre termos e não exige que cada resultado combine com todos os termos fornecidos.
+Múltiplos termos funcionam como uma união classada pelo melhor correspondência, não como uma interseção obrigatória.
 
-Para vários termos, cada documento é comparado com todos os termos fornecidos. A pontuação semântica do documento usa a melhor correspondência encontrada entre esses termos. Na prática, um documento pode aparecer bem posicionado por combinar muito bem com apenas um dos termos.
+Cada documento é comparado com todos os termos fornecidos. A pontuação do documento usa a melhor correspondência entre esses termos. Um documento pode ter boa classificação ao corresponder fortemente a um termo, mesmo que não corresponda aos outros termos.
 
-Para várias coleções, a busca percorre as coleções configuradas, agrega os melhores candidatos de cada uma e ordena tudo em uma única lista final. O resultado não é separado por coleção e também não é uma interseção entre coleções.
+Example:
 
-Exemplo: ao buscar os termos `cancelamento`, `multa` e `reembolso` nas coleções `suporte` e `contratos`, a resposta será equivalente a:
+Searching for:
 
-> *melhores documentos de suporte ou contratos que combinem bem com cancelamento ou multa ou reembolso*
+```text
+cancelamento
+multa
+reembolso
+```
 
-Ela não significa:
+nas coleções `suporte` e `contratos` significa:
 
-> *documentos que combinem com cancelamento e multa e reembolso ao mesmo tempo*
+```text
+melhores documentos de suporte ou contrato que correspondam a cancelamento ou multa ou reembolso
+```
 
-nem:
+Isso não significa:
 
-> *documentos presentes simultaneamente em suporte e contratos*
+```text
+documentos que correspondam a cancelamento e multa e reembolso ao mesmo tempo
+```
 
-Se a intenção for buscar uma ideia composta, prefira enviar essa ideia como um termo completo, por exemplo `cancelamento de assinatura anual sem multa`, em vez de quebrar a consulta em muitas palavras isoladas. Use vários termos quando quiser cobrir formas diferentes de expressar a mesma necessidade ou quando aceitar resultados relevantes para qualquer uma das variações.
+Isso também não significa:
 
-## Projeto de busca e qualidade dos resultados
+```text
+documentos que existem tanto em suporte quanto em contratos
+```
 
-A qualidade da busca semântica depende tanto da consulta quanto da forma como os documentos foram preparados. Quando um usuário pergunta algo específico, a melhor consulta costuma ser uma frase completa com intenção clara, não uma lista de palavras-chave soltas. Por exemplo, `como cancelar assinatura anual sem multa` tende a recuperar documentos melhores que `cancelamento`, `assinatura`, `multa`, porque preserva a relação entre os termos. Use múltiplos termos quando você quer cobrir sinônimos ou formulações alternativas, como `cancelar assinatura`, `encerrar contrato` e `rescindir plano`; nesse caso, a busca funciona como uma união de possibilidades e não como uma exigência de que todas apareçam ao mesmo tempo.
+Se a intenção do usuário for uma ideia composta, envie essa ideia como um único termo:
 
-O parâmetro `top` controla quantos documentos entram na resposta, enquanto `minScore` controla o corte mínimo de relevância. Valores baixos de `minScore` aumentam a chance de recuperar algum conteúdo, mas também aumentam ruído. Valores altos reduzem ruído, mas podem retornar poucos resultados quando a coleção é pequena, quando os documentos estão mal segmentados ou quando a pergunta usa uma linguagem diferente dos documentos. Em assistentes com RAG no gateway, comece com poucos documentos e uma pontuação mínima moderada; depois aumente `top` apenas quando a resposta precisa comparar políticas, procedimentos ou trechos de fontes diferentes.
+```text
+cancelamento de assinatura anual sem multa
+```
 
-O reranker deve ser escolhido pelo custo de erro da tarefa. `lexical` é um bom padrão porque melhora a ordenação sem custo adicional, especialmente quando nomes, códigos, títulos ou termos técnicos aparecem no documento. `smart` faz sentido quando os documentos candidatos são muito parecidos entre si e a pergunta exige entender a frase inteira, como suporte técnico, jurídico, financeiro ou documentação longa. `none` só deve ser usado quando você quer a menor latência possível e aceita a ordenação puramente vetorial. O reranking não corrige uma coleção ruim: se documentos relevantes não aparecem entre os candidatos iniciais, melhore chunking, nomes, conteúdo ou estratégia de consulta.
+Use múltiplos termos quando quiser cobrir sinônimos, formulações alternativas ou vários caminhos de recuperação aceitáveis.
 
-Quando a busca não retorna o que você espera, investigue em camadas. Primeiro, confirme se os documentos estão indexados e se a coleção correta está sendo consultada. Segundo, teste a consulta direta pela API antes de testar dentro de um gateway, porque isso separa problema de busca de problema de prompt. Terceiro, compare uma consulta curta, uma consulta completa e duas ou três variações semânticas. Quarto, revise se os documentos são autossuficientes; documentos que dependem de contexto externo, títulos genéricos ou trechos muito longos tendem a pontuar mal. Por fim, se o gateway usa uma estratégia de reescrita, teste a mesma pergunta com `Plain` para descobrir se o problema está na reescrita ou na coleção.
+## Search Quality
+
+Uma consulta completa geralmente tem melhor desempenho do que uma lista de palavras‑chave desconexas, pois preserva a relação entre os conceitos.
+
+Prefira:
+
+```text
+como cancelar assinatura anual sem multa
+```
+
+Em vez de:
+
+```text
+cancelamento
+assinatura
+multa
+```
+
+Ajuste `top` e `minScore` juntos:
+
+- Valores menores de `minScore` retornam mais candidatos e mais ruído.
+- Valores maiores de `minScore` reduzem o ruído, mas podem retornar poucos ou nenhum resultado.
+- Valores maiores de `top` são úteis quando a resposta deve comparar várias políticas, procedimentos ou trechos de fonte.
+- Valores menores de `top` são melhores para respostas diretas no estilo FAQ.
+
+Se a busca retornar resultados ruins:
+
+1. Confirme que os documentos estão indexados.
+2. Interrogue a coleção diretamente antes de testar via AI Gateway.
+3. Compare consultas curtas, perguntas completas e formulações alternativas.
+4. Verifique se o documento relevante é muito curto, muito longo ou não está autocontido.
+5. Verifique se o idioma da consulta corresponde ao idioma do documento.
+6. Se o gateway reescrever perguntas antes da busca, teste com o caminho de consulta simples para isolar problemas de reescrita.
 
 ## MCP
 
-É possível fornecer suas coleções de RAG através de funções MCP (Model Context Protocol). Isso permite que modelos de IA acessem e pesquisem suas coleções de forma nativa através do protocolo MCP.
+Você pode expor coleções RAG como ferramentas MCP (Model Context Protocol). Isso permite que clientes MCP compatíveis pesquisem uma coleção diretamente.
 
-Para configurar uma coleção como servidor MCP, utilize o endpoint `https://inference.aivax.net/v1/mcp/collections` e configure os seguintes cabeçalhos HTTP:
+Endpoint:
 
-| Cabeçalho | Descrição | Padrão |
-|-----------|-----------|--------|
-| `Authorization` | Bearer token da sua API key | - |
-| `X-Mcp-Collection-Id` | IDs das coleções a serem expostas (separados por vírgula para múltiplas coleções) | - |
-| `X-Mcp-Collection-Name` | Nome da coleção para identificação na ferramenta MCP | `collection` |
-| `X-Mcp-Reranker` | Reranker que será usado (`lexical`, `smart` ou `none`). | `lexical` |
-| `X-Mcp-Top-K` | Número máximo de resultados a retornar | `5` |
-| `X-Mcp-Min-Score` | Score mínimo de relevância (0.0 a 1.0) | `0.4` |
-| `X-Mcp-Use-References` | Define se deve incluir referências dos chunks. No comportamento atual, envie `none` para incluir referências; omita o cabeçalho para não incluir. | desabilitado |
-| `X-Mcp-Allow-Write` | Use `yes` para expor ferramentas de criação e remoção de documentos no servidor MCP. | desabilitado |
-| `X-Mcp-Naming-Convention` | Convenção de nomes das ferramentas. Use `default` ou `agent`. | `default` |
+```text
+https://inference.aivax.net/v1/mcp/collections
+```
 
-### Exemplo de configuração
+Headers:
+
+| Header | Description | Default |
+| --- | --- | --- |
+| `Authorization` | Token Bearer da sua chave de API. | Required |
+| `X-Mcp-Collection-Id` | Um ou mais IDs de coleção. Use vírgulas para múltiplas coleções. | Required |
+| `X-Mcp-Collection-Name` | Nome da coleção usado para gerar nomes de ferramentas. | `collection` |
+| `X-Mcp-Reranker` | `rrf`, `lexical`, `smart` ou `none`. | `rrf` |
+| `X-Mcp-Top-K` | Número máximo de resultados a retornar. | `5` |
+| `X-Mcp-Min-Score` | Pontuação mínima de relevância maior que 0 e até 1.0. | `0.4` |
+| `X-Mcp-Use-References` | O comportamento atual do servidor habilita referências quando o valor deste cabeçalho é `none`; omita o cabeçalho para desativar referências. | disabled |
+| `X-Mcp-Allow-Write` | Use `yes` para expor ferramentas de escrita e exclusão de documentos. | disabled |
+| `X-Mcp-Naming-Convention` | `default` ou `agent`. | `default` |
+
+### Configuration Example
 
 Visual Studio Code:
 
@@ -94,7 +164,7 @@ Visual Studio Code:
       "url": "https://inference.aivax.net/v1/mcp/collections",
       "headers": {
         "Authorization": "Bearer {your_api_key}",
-        "X-Mcp-Collection-Id": "019b80d5-cee2-7010-ab22-f676271af866",
+        "X-Mcp-Collection-Id": "your-collection-id",
         "X-Mcp-Collection-Name": "my_collection",
         "X-Mcp-Top-K": "5",
         "X-Mcp-Min-Score": "0.4",
@@ -105,20 +175,25 @@ Visual Studio Code:
 }
 ```
 
-### Ferramenta gerada
+### Generated Tools
 
-O servidor MCP criará automaticamente uma ferramenta com o nome `{collection_name}_search` que aceita o parâmetro:
+Com a convenção de nomenclatura padrão, a ferramenta de leitura é nomeada:
 
-- **search_terms** (`string[]`): Termos de busca para obter informações da coleção
+```text
+{collection_name}_search
+```
 
-A ferramenta executará uma pesquisa semântica na(s) coleção(ões) configurada(s) e retornará os documentos mais relevantes baseados nos parâmetros definidos.
+Ela aceita:
 
-Essa pesquisa limita a quantia de pesquisas que `search_terms` pode realizar para no máximo 10 termos por chamada e ter no máximo 500 caracteres (soma de todos os termos). Se os limites forem excedidos, a ferramenta retornará um erro. Este limite garante que a ferramenta seja utilizada para buscas específicas e relevantes, evitando consultas excessivamente amplas que possam impactar a performance do modelo e gerar custos elevados.
+- `search_terms` (`string[]`): um ou mais termos de pesquisa.
 
-Quando `X-Mcp-Allow-Write` está desabilitado, o MCP de coleções funciona como uma ferramenta de leitura. Esse é o modo recomendado para assistentes que apenas precisam consultar conhecimento. Quando `X-Mcp-Allow-Write: yes` é enviado, o servidor também expõe ferramentas de escrita e remoção de documentos. Esse modo é útil para agentes internos que mantêm uma base viva, por exemplo um assistente que registra novas respostas aprovadas, atualiza uma base de procedimentos ou remove documentos obsoletos. Habilite escrita apenas para clientes confiáveis, porque o modelo poderá alterar a coleção com base na conversa.
+A ferramenta de leitura MCP impõe dois limites de modelagem de solicitação:
 
-A convenção de nomes também muda como o modelo percebe a ferramenta. No modo `default`, a ferramenta de leitura usa o nome `{collection_name}_search`, que funciona bem quando a coleção tem um nome claro, como `manual_suporte_search`. No modo `agent`, as ferramentas usam nomes mais diretos para agentes, como leitura, escrita e remoção associadas ao nome da coleção. A escolha deve considerar o cliente MCP: em um editor de código, nomes explícitos ajudam o modelo a escolher a ferramenta; em um subagente com poucas ferramentas, nomes curtos podem ser suficientes.
+- No máximo 10 termos de pesquisa por chamada.
+- No máximo 500 caracteres totais em todos os termos de pesquisa.
 
-O MCP de coleções é melhor quando você quer dar acesso direto à base para outro modelo ou cliente MCP. Para um chat client comum, normalmente é mais simples vincular a coleção no próprio AI Gateway e deixar o pipeline de RAG anexar os documentos automaticamente. Use MCP quando o modelo chamador precisa decidir quando pesquisar, quando você quer expor a mesma coleção para várias ferramentas externas, ou quando a coleção precisa ser acessada por agentes que não estão dentro da AIVAX.
+Quando `X-Mcp-Allow-Write` está desativado, apenas a ferramenta de pesquisa é exposta. Este é o modo recomendado para assistentes que só precisam ler uma base de conhecimento.
 
-Este MCP compartilha os [limites de taxa de pesquisa semântica](/docs/pt-br/limits) para evitar abusos e garantir a estabilidade do serviço. Se os limites de taxa forem excedidos, a ferramenta retornará um erro indicando que o limite foi atingido.
+Quando `X-Mcp-Allow-Write: yes` é enviado, o servidor também expõe ferramentas de criação/atualização e exclusão de documentos. Habilite isso apenas para clientes confiáveis, pois um modelo com acesso de escrita pode alterar o conteúdo da coleção.
+
+Use o MCP da coleção quando um modelo externo ou cliente MCP deve decidir quando pesquisar. Para um cliente típico de chat AIVAX, costuma ser mais simples anexar a coleção diretamente ao AI Gateway e deixar que o pipeline RAG do gateway recupere os documentos automaticamente.

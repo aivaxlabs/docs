@@ -4,7 +4,7 @@ AIVAX offers a virtual shell environment that can be used by agent assistants to
 
 The shell environment allows moving selected model tools to the shell side, turning them into CLI commands. This is useful when you have many tools and do not want to expose all of them directly to the model, or when a tool is easier to use through command-line arguments and pipes.
 
-When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. The current backend limits each command to 30 seconds and returns up to 4,096 characters of output to the model.
+When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. Each command is limited to 30 seconds and returns up to 4,096 characters of output to the model.
 
 ## Adapting tools for shell
 

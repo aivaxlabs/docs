@@ -1,170 +1,137 @@
-# Planos e limites
+# Planos e Limites
 
-## Planos
+AIVAX tem três planos de conta: **Free**, **Pro** e **Max**. O plano atual é armazenado na conta e controla o acesso ao modelo, comissões, limites de taxa, cotas RAG, limites de ferramentas, cota de armazenamento, retenção de conversas e janelas de reserva do modelo de assinatura.
 
-A AIVAX oferece três planos de assinatura: **Free**, **Pro** e **Max**. Para comparar diferenças comerciais, recursos inclusos e preços atualizados entre os planos, consulte a [página de preços da AIVAX](https://aivax.net/pricing). Esta página mantém apenas limites técnicos úteis para integração e operação.
+Para preços de assinatura comercial e empacotamento de planos, use a [página de preços da AIVAX](https://aivax.net/pricing). Esta página documenta os limites técnicos da API.
 
-Todos os planos são renovados mensalmente e não exigem compromisso de longo prazo. Ao assinar um plano, o valor da assinatura é deduzido automaticamente do saldo da conta. No dia 1 de todo mês, o valor da assinatura é renovado novamente se existir saldo suficiente em conta para a mensalidade atual. Ao assinar um plano após o primeiro dia do mês, o valor proporcional é cobrado para o período restante do mês, e a renovação completa ocorrerá no próximo ciclo mensal.
+## Como os limites são aplicados
 
-Nenhum plano inclui créditos de uso, e os limites de uso são aplicados independentemente do saldo disponível na conta. Os planos definem limites, recursos e condições comerciais diferentes, além de permitir concentrar o saldo de vários serviços em uma única carteira.
+- A autenticação rejeita chaves de API ausentes, expiradas ou desconhecidas.
+- Chaves de API públicas são restritas a rotas públicas e têm limites de requisição e token por chave e por IP.
+- O middleware de saldo rejeita requisições faturáveis quando o saldo da conta está abaixo do mínimo requerido.
+- O middleware de armazenamento rejeita requisições quando o armazenamento da conta excede a cota do plano.
+- A inferência verifica o acesso ao modelo, taxa de requisições, taxa de tokens de entrada, taxa BYOK e tamanho do contexto do plano Free.
+- RAG verifica a contagem de coleções, taxa de busca, taxa de inserção e tamanho de importação JSONL.
+- Ferramentas integradas verificam os limites diários de serviço.
+- Processamento em lote verifica quantos itens de fluxo de trabalho podem ser processados por dia.
 
-É importante ressaltar que a utilização de recursos que envolvem custos é imediatamente interrompida quando o saldo da conta é zero ou negativo, independentemente do plano de assinatura. Portanto, é fundamental manter um saldo positivo para garantir a continuidade do acesso aos recursos e evitar interrupções no serviço.
+<script src="https://inference.aivax.net/apidocs?embed-target=Get%20Account%20Balance&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-## Limites
+## Resumo do plano
 
-Os limites de uso regulam o número de requisições e recursos disponíveis conforme o plano de assinatura da sua conta.
+| Recurso | Gratuito | Pro | Max |
+| --- | --- | --- | --- |
+| Acesso ao modelo | Modelos de baixo custo/básicos | Modelos avançados | Todos os modelos |
+| Multiplicador de comissão de inferência | 1.25x | 1.05x | 1.00x |
+| Requisições BYOK | 30/min | 200/min | Ilimitado |
+| Contexto máximo | 65.536 tokens de entrada aplicados em tempo de execução | Limite do modelo ou gateway | Limite do modelo ou gateway |
+| Reserva do modelo de assinatura | Nenhum | 250 unidades/6h e 3.000 unidades/semana | 1.000 unidades/6h e 15.000 unidades/semana |
+| Cota de armazenamento | 30 MB | 2 GB | 20 GB |
+| Retenção de conversas | 2 horas | 2 dias | 30 dias |
+| Nível de suporte | Email | Prioridade | Dedicado |
 
-Limites aparecem de formas diferentes conforme o recurso. Em inferência, eles podem limitar requisições por minuto, tokens por minuto ou acesso a grupos de modelos. Em BYOK, eles limitam a quantidade de chamadas que passam pela infraestrutura da AIVAX mesmo quando o custo do provedor externo é seu. Em RAG, eles controlam quantidade de coleções, pesquisas por minuto, inserções por dia e tamanho de lotes JSONL. Em ferramentas embutidas, eles controlam quantas vezes uma ação de serviço pode ser executada por dia ou por período. Em Batch, eles controlam quantos itens podem ser processados em segundo plano conforme o plano.
+## Inferência integrada
 
-Quando um limite é atingido, o comportamento esperado é interromper, pausar ou retornar erro, dependendo do recurso. Uma chamada de inferência direta tende a retornar erro imediatamente. Um job de Batch pode ser pausado e retomado depois, porque ele é assíncrono. Uma ferramenta embutida pode falhar dentro da conversa e o modelo deve explicar a limitação ao usuário. Uma inserção de RAG acima do limite do plano deve ser dividida em lotes menores ou feita após ajuste de plano. Para diferenças comerciais, preços e recursos inclusos, use a [página de preços da AIVAX](https://aivax.net/pricing); esta página serve para orientar integração e operação.
+Requisições de modelo integrado são limitadas por taxa de contagem de requisições e tokens de entrada.
 
-## [Free](#tab/free)
+| Plano | Limite de requisições | Limite de tokens de entrada |
+| --- | --- | --- |
+| Gratuito | 20/min e 500/dia | 1.000.000/min |
+| Pro | 200/min | 20.000.000/min |
+| Max | Ilimitado | Ilimitado |
 
-| Recurso | Valor |
+| Grupo de limite de taxa | Multiplicador de limiar |
 | --- | --- |
-| Acesso a modelos | Modelos básicos |
-| Comissão sobre inferência | 25% |
-| BYOK (Bring your own key) | Limitado |
-| JSON Healing | Sim |
-| Stability routing | Sim |
-| Complexity routing | Não |
-| Rate limits | Considerável |
-| Contexto máximo | 64K tokens |
-| **RAG** |  |
-| Coleções | Até 5 coleções de RAG |
-| Pesquisas | Baixo limite — 20 pesquisas/minuto |
-| Inserções | Baixo limite — 500 inserções/dia |
-| Processamento composto | Não disponível |
-| **Ferramentas embutidas** |  |
-| Pesquisa na internet | 15/dia |
-| Pesquisa no Twitter/X | Não disponível |
-| Deep search | Não disponível |
-| Geração de documentos e páginas web | 5/dia |
-| Geração e edição de imagens | 5/dia |
-| Execução de código e requisições avançadas | 30/dia |
-| Memória e calendário | Sim |
-| **Conta** |  |
-| Armazenamento incluso | 30 MB (limite fixo) |
-| Retenção de conversas | 2 horas |
-| Suporte | Por e-mail |
+| Comum | 1.0x |
+| Descontado | 0.5x |
+| Baixo | 0.3x |
+| Gratuito | 0.1x |
 
-## [Pro](#tab/pro)
+Por exemplo, uma conta Pro normalmente tem 200 requisições de modelo integrado por minuto. Com um grupo de modelo `Discounted`, o limiar ajustado é 100 requisições por minuto.
 
-| Recurso | Valor |
+## Inferência BYOK
+
+BYOK significa que o gateway usa uma chave de provedor configurada no gateway em vez de um modelo AIVAX integrado. BYOK ainda passa pela infraestrutura AIVAX e é limitado por taxa de acordo com o plano:
+
+| Plano | Limite de requisições BYOK |
 | --- | --- |
-| Acesso a modelos | Modelos avançados |
-| Comissão sobre inferência | 5% |
-| BYOK (Bring your own key) | Sim |
-| JSON Healing | Sim |
-| Stability routing | Sim |
-| Complexity routing | Sim |
-| Rate limits | Alto |
-| Contexto máximo | Ilimitado |
-| **RAG** |  |
-| Coleções | Ilimitado |
-| Pesquisas | Alto limite — 500 pesquisas/minuto |
-| Inserções | Alto limite — 10.000 inserções/dia |
-| Processamento composto | Até 3 arquivos/dia |
-| **Ferramentas embutidas** |  |
-| Pesquisa na internet | 1.000/dia |
-| Pesquisa no Twitter/X | 1.000/dia |
-| Deep search | 100/dia |
-| Geração de documentos e páginas web | 1.000/dia |
-| Geração e edição de imagens | 500/dia |
-| Execução de código e requisições avançadas | 5.000/dia |
-| Memória e calendário | Sim |
-| **Conta** |  |
-| Armazenamento incluso | 2 GB (excedente: $0,50/GB/mês) |
-| Retenção de conversas | 2 dias |
-| Suporte | Prioritário |
+| Gratuito | 30/min |
+| Pro | 200/min |
+| Max | Ilimitado |
 
-## [Max](#tab/max)
+## Chaves de API públicas
 
-| Recurso | Valor |
+Chaves públicas têm limites adicionais independentes do plano da conta.
+
+| Escopo | Limites de requisições |
 | --- | --- |
-| Acesso a modelos | Todos os modelos |
-| Comissão sobre inferência | Nenhuma |
-| BYOK (Bring your own key) | Sim |
-| JSON Healing | Sim |
-| Stability routing | Sim |
-| Complexity routing | Sim |
-| Rate limits | Mais alto |
-| Contexto máximo | Ilimitado |
-| **RAG** |  |
-| Coleções | Ilimitado |
-| Pesquisas | Limite elevado — 3.000 pesquisas/minuto |
-| Inserções | Ilimitado |
-| Processamento composto | Até 10 arquivos/dia |
-| **Ferramentas embutidas** |  |
-| Pesquisa na internet | 10.000/dia |
-| Pesquisa no Twitter/X | 10.000/dia |
-| Deep search | 1.000/dia |
-| Geração de documentos e páginas web | 50.000/dia |
-| Geração e edição de imagens | 5.000/dia |
-| Execução de código e requisições avançadas | 100.000/dia |
-| Memória e calendário | Sim |
-| **Conta** |  |
-| Armazenamento incluso | 20 GB (excedente: $0,20/GB/mês) |
-| Retenção de conversas | 30 dias |
-| Suporte | Dedicado |
+| Por endereço remoto | 3/5s, 20/min, 300/hora, 1.000/dia |
+| Global por chave | 10/5s, 60/min, 1.500/hora, 10.000/dia |
 
----
+| Escopo | Limites de tokens |
+| --- | --- |
+| Por endereço remoto | 100.000/5min, 500.000/30min, 2.000.000/6h, 5.000.000/dia |
+| Global por chave | 500.000/5min, 2.000.000/30min, 10.000.000/6h, 25.000.000/dia |
 
-## Grupos de modelos
+Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, rerank separado, geração de fala, descrições de mídia, geração de imagens e completações de chat. Para completações de chat, chaves públicas também requerem um UUID completo do AI Gateway, restringem parâmetros de requisição e omitem superfícies de ferramentas do lado do servidor. Veja [Authentication](authentication.md).
 
-Certos modelos possuem multiplicadores de taxa:
-- **Comum:** 1x
-- **Descontados:** 0,5x
-- **Baixa-latência:** 0,3x
-- **Grátis:** 0,1x
+## Limites de RAG e coleções
 
-Exemplo: se usar um modelo "descontado", os limites de taxa serão 50% menores (ex: 75 req/min → 37 req/min).
+| Recurso | Gratuito | Pro | Max |
+| --- | --- | --- | --- |
+| Coleções | 5 | Ilimitado | Ilimitado |
+| Buscas semânticas | 20/min | 500/min | 3.000/min |
+| Buscas de rerank | 30/min | 1.000/min | Ilimitado |
+| Inserções de documentos | 500/dia | 10.000/dia | Ilimitado |
+| Documentos JSONL por requisição de importação | 1.000 | 10.000 | 1.000.000 |
+| Processamento de arquivos compostos | Não disponível | 3 arquivos/dia | 10 arquivos/dia |
 
-## Limites para BYOK (Bring-your-own-key)
+O endpoint de importação JSONL rejeita uma requisição quando atinge o limite de documentos por requisição do plano.
 
-Não há custo para utilizar sua própria api-key. O plano Free possui limites mais restritos, o plano Pro possui limite maior e o plano Max não possui limite de requisições BYOK. Para comparar diferenças entre planos, consulte a [página de preços da AIVAX](https://aivax.net/pricing).
+O limite de rerank é compartilhado pelo endpoint independente `/api/v1/rank` e por cada requisição de Busca Semântica que usa `rrf`, `lexical` ou `smart`. Buscas com `reranker: "none"` não consomem essa cota.
 
-## Detalhes de rate limits
+## Limites de ferramentas integradas
 
-Esta seção detalha os limites aplicados por operação para cada plano.
+| Categoria de ferramenta | Gratuito | Pro | Max |
+| --- | --- | --- | --- |
+| Busca na web | 15/dia | 1.000/dia | 10.000/dia |
+| Busca X/Twitter | Não disponível | 1.000/dia | 10.000/dia |
+| Busca avançada na web | Não disponível | 100/dia | 1.000/dia |
+| Geração de documento e página web | 5/dia | 1.000/dia | 50.000/dia |
+| Geração e edição de imagem | 5/dia | 500/dia | 5.000/dia |
+| Ações de serviço geral | 30/dia | 5.000/dia | 100.000/dia |
+| Comandos Bash | 30/hora | 1.500/hora | 10.000/hora |
 
-### Inferência integrada
+Ações de serviço geral compartilham a cota de ação de serviço mostrada acima.
 
-- **Free:** 20 req/min, 500 req/dia, 1.000.000 tokens/min
-- **Pro:** 200 req/min, 20.000.000 tokens/min
-- **Max:** Ilimitado
+## Geração de fala
 
-### BYOK (Bring your own key)
+Requisições de texto para fala usam um limite de plano dedicado:
 
-- **Free:** 30 req/min, sem limite de input tokens
-- **Pro:** 200 req/min, sem limite de input tokens
-- **Max:** Ilimitado
+| Plano | Requisições de texto para fala |
+| --- | --- |
+| Gratuito | 3/min e 15/hora |
+| Pro | 30/min |
+| Max | 300/min |
 
-### Bash (execução de código)
+## MCP de Documentação
 
-Os limites de Bash referem-se ao número de comandos executados por hora dentro de containers.
+O MCP de Documentação autenticado aplica limites por conta às suas ferramentas:
 
-- **Free:** 
-    - 30 comandos por hora
-    - 2 instâncias concorrentes
-    - timeout de comando de 15 segundos
-    - limite de 32 MB de memória por instância
-    - 1 processador virtual por instância
-    - expira imediatamente após fim do loop agêntico
-    - permite armazenamento persistente
-- **Pro:**
-    - 1.500 comandos por hora
-    - 10 instâncias concorrentes
-    - timeout de comando de 30 segundos
-    - limite de 128 MB de memória por instância
-    - 2 processadores virtuais por instância
-    - sessões persistentes expiram após 15 minutos
-    - permite armazenamento persistente
-- **Max:**
-    - 10.000 comandos por hora
-    - 50 instâncias concorrentes
-    - timeout de comando de 60 segundos
-    - limite de 256 MB de memória por instância
-    - 4 processadores virtuais por instância
-    - sessões persistentes expiram após 30 minutos
-    - permite armazenamento persistente
+| Ferramenta | Limite |
+| --- | --- |
+| Buscar documentação | 10/min e 400/4h |
+| Listar modelos | 30/min e 1.000/dia |
+
+## Processamento em lote
+
+Importações em lote têm guardas de tamanho de requisição, e o processamento de fluxo de trabalho tem um limite diário do plano.
+
+| Recurso | Gratuito | Pro | Max |
+| --- | --- | --- | --- |
+| Itens de fluxo de trabalho processados | 500/dia | 100.000/dia | Ilimitado |
+| Arquivos por requisição de importação | 1.000 | 1.000 | 1.000 |
+| Tamanho total de importação | 100 MB/requisição | 100 MB/requisição | 100 MB/requisição |
+| Tamanho de arquivo único importado | 10 MB | 10 MB | 10 MB |
+
+Lote é assíncrono. Se o processamento for pausado ou falhar por causa da cota, tente novamente após a janela de cota reiniciar ou faça upgrade da conta.

@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -133,117 +119,95 @@
 <tr>
 <th>Provider</th>
 <th>Used for</th>
-<th>Evidence in the platform code</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="https://www.cloudflare.com/">Cloudflare</a></td>
-<td>Reverse proxy/security where deployed; Workers AI reranking; Cloudflare embedding service configuration</td>
-<td>Cloudflare API key/account parameters; <code>CloudflareWorkersAiReranker</code>; <code>CloudflareEmbeddingService</code></td>
+<td>Reverse proxy/security where deployed, Workers AI reranking, and embedding services</td>
 </tr>
 <tr>
 <td><a href="https://www.backblaze.com/">Backblaze</a></td>
-<td>Object/file storage for generated media, uploaded media, generated documents, exposed files, and error artifacts</td>
-<td><code>BackblazeService</code>; B2 bucket/account parameters</td>
+<td>Object and file storage for generated media, uploaded media, generated documents, exposed files, and error artifacts</td>
 </tr>
 <tr>
 <td><a href="https://www.brevo.com/">Brevo</a></td>
 <td>Transactional email and notifications</td>
-<td><code>EmailService</code>; Brevo API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://infinitepay.io/">InfinitePay</a></td>
-<td>Payment invoice creation and payment confirmation webhook</td>
-<td><code>InfinitePayProvider</code>; InfinitePay webhook</td>
+<td>Payment invoice creation and payment confirmation</td>
 </tr>
 <tr>
 <td><a href="https://stripe.com/">Stripe</a></td>
-<td>Payment event webhook support where Stripe checkout is configured</td>
-<td>Stripe API key parameter; Stripe webhook</td>
+<td>Payment event processing where Stripe checkout is configured</td>
 </tr>
 <tr>
 <td><a href="https://developer.x.com/">Twitter/X</a></td>
 <td>Built-in X/Twitter search and post reading tools</td>
-<td><code>TwitterService</code>; <code>TwitterFunctions</code>; X/Twitter API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://www.linkup.so/">Linkup</a></td>
 <td>Web search for context enrichment</td>
-<td><code>LinkupResearchClient</code></td>
 </tr>
 <tr>
 <td><a href="https://www.tavily.com/">Tavily</a></td>
 <td>Web search for context enrichment</td>
-<td><code>TavilyResearchClient</code></td>
 </tr>
 <tr>
 <td><a href="https://sinkin.ai/">Sinkin AI</a></td>
-<td>Image generation provider for selected image models</td>
-<td><code>SinkinImageGenerationProvider</code></td>
+<td>Image generation for selected image models</td>
 </tr>
 <tr>
 <td><a href="https://pollinations.ai/">Pollinations</a></td>
-<td>Image generation provider for selected image models</td>
-<td><code>PollinationsImageGenerationProvider</code></td>
+<td>Image generation for selected image models</td>
 </tr>
 </tbody>
 </table>
 <h2 id="direct-inference-embedding-and-reranking-providers">Direct Inference, Embedding, and Reranking Providers</h2>
-<p>These providers are directly configured in provider factories, embedding services, rerankers, or runtime parameters.</p>
 <table>
 <thead>
 <tr>
 <th>Provider</th>
 <th>Used for</th>
-<th>Evidence in the platform code</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="https://groq.com/">Groq</a></td>
 <td>LLM inference through an OpenAI-compatible endpoint</td>
-<td><code>CreateGroqAi</code>; Groq API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://deepinfra.com/">DeepInfra</a></td>
 <td>LLM inference through an OpenAI-compatible endpoint</td>
-<td><code>CreateDeepInfra</code>; DeepInfra API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://www.vultr.com/">Vultr</a></td>
 <td>LLM inference through Vultr Inference</td>
-<td><code>CreateVultr</code>; Vultr inference API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://ai.nahcrof.com/">CrofAI</a></td>
 <td>LLM inference through an OpenAI-compatible endpoint</td>
-<td><code>CreateCrof</code>; Crof API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://openrouter.ai/">OpenRouter</a></td>
-<td>Model routing and fallback for many model families; Grok Voice TTS</td>
-<td><code>CreateOpenRouter</code>; OpenRouter API key parameter; <code>TtsService</code></td>
+<td>Model routing and fallback for many model families and Grok Voice TTS</td>
 </tr>
 <tr>
 <td><a href="https://platform.xiaomimimo.com/">Xiaomi MiMo</a></td>
 <td>Xiaomi model inference</td>
-<td><code>CreateXiaomi</code>; Xiaomi API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://naga.ac/">NagaAI</a></td>
 <td>LLM inference, embeddings, TTS, and selected research flows</td>
-<td><code>CreateNagaAi</code>; <code>NagaEmbeddingService</code>; <code>TtsService</code></td>
 </tr>
 <tr>
 <td><a href="https://www.inceptionlabs.ai/">Inception Labs</a></td>
 <td>Mercury model inference</td>
-<td><code>CreateInception</code>; Inception API key parameter</td>
 </tr>
 <tr>
 <td><a href="https://developers.cloudflare.com/workers-ai/">Cloudflare Workers AI</a></td>
-<td>Smart reranking and Cloudflare embedding service</td>
-<td><code>CloudflareWorkersAiReranker</code>; <code>CloudflareEmbeddingService</code></td>
+<td>Smart reranking and embedding services</td>
 </tr>
 </tbody>
 </table>
@@ -294,7 +258,7 @@
 <td>GLM/Z.ai model families</td>
 </tr>
 <tr>
-<td><a href="https://www.alibabacloud.com/">Alibaba Cloud</a></td>
+<td><a href="https://www.alibabacloud.com/product/modelstudio">Alibaba Cloud</a></td>
 <td>Qwen/Alibaba model families</td>
 </tr>
 <tr>

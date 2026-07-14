@@ -65,10 +65,10 @@ Calls from AIVAX to the remote MCP server send additional metadata information v
             "location": "New York"
         },
         "_meta": {
-            "_aiv_nonce": "$2a$12$ynC9kC2q6iuEjO8SFDQqVeDxvHPUIZ9jTClE91SJo8VYtt/BSJDUG",
+            "_aiv_nonce": "nonce-hash",
             "_aiv_external_user_id": "custom-user-id",
             "_aiv_call_source": "WebChatClient",
-            "_aiv_conversation_token": "iiocc6stxgj5jc75ay4y",
+            "_aiv_conversation_token": "conversation-token",
             "_aiv_moment": "2025-09-09T16:58:05",
             "custom_metadata_field_1": "foo",
             "something": "bar"

@@ -17,7 +17,7 @@ AIVAX has two key families because browser-facing and server-side use cases have
 | Private key | `sk-aiv-acc` | Server-side integrations and administrative API calls. | Authenticated account APIs and OpenAI-compatible inference. |
 | Public key | `pk-aiv-` | Restricted client-side calls to explicitly public routes. | Public RAG query/answer routes and restricted chat-completion calls. |
 
-Public keys are currently accepted only on routes marked public in the backend, including RAG semantic search, RAG answer generation, and chat completions. When a public key calls chat completions:
+Public keys can be used for RAG semantic search, RAG answer generation, standalone reranking, speech generation, media descriptions, image generation, and chat completions. When a public key calls chat completions:
 
 - The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.
 - Gateway slug lookup is disabled.

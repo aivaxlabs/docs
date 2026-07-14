@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Fun&#231;&#245;es do lado do servidor | AIVAX </title>
+        <title>Fun&#231;&#245;es de Protocolo | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Fun&#231;&#245;es do lado do servidor | AIVAX ">
+        <meta name="title" content="Fun&#231;&#245;es de Protocolo | AIVAX ">
 
 
         <link rel="icon" href="../../../assets/img/favicon.ico">
@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../../toc.html">
 
         <meta name="docfx:rel" content="../../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -123,56 +109,97 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="funções-do-lado-do-servidor">Funções do lado do servidor</h1>
+<h1 id="funções-de-protocolo">Funções de Protocolo</h1>
 
-<p>As funções de protocolo da AIVAX, ou <em>server-side functions</em>, é uma implementação em que a chamada de ferramentas do modelo ocorre do lado do servidor. Similar ao MCP, mas com suporte nativo à autenticação e otimizado para funcionar externamente.</p>
-<p>As funções de protocolo permitem a tomada de ações no lado do servidor da AIVAX, removendo a necessidade de implementação da função no lado do cliente e integrando com aplicações e serviços existentes.</p>
+<p>Funções de protocolo são ferramentas do lado do servidor AIVAX. Elas permitem que um modelo solicite uma ação nomeada enquanto o AIVAX executa a ação do servidor chamando seu callback HTTP ou uma URL de callback interna do AIVAX.</p>
+<p>Use-as quando um assistente precisa de uma forma controlada de interagir com sua aplicação, como verificar um pedido, abrir um ticket de suporte, validar um cupom, registrar um lead ou consultar um serviço privado. O modelo vê o nome da ferramenta, a descrição e o esquema JSON de argumentos. Ele não vê a URL de callback nem os cabeçalhos.</p>
 <img src="/assets/diagrams/protocol-functions-1.drawio.svg">
-<p>Essas funções esperam um <strong>callback</strong> através de uma URL, e quando o modelo decide chamar a função, o callback é acessado com os parâmetros informados pela própria assistente. A assistente não sabe qual URL ela está chamando, pois a mesma permanece invisível tanto para a assistente quanto para o usuário.</p>
+<p>Uma função de protocolo tem dois contratos:</p>
+<ul>
+<li><strong>Contrato do modelo:</strong> o nome público da ferramenta, a descrição e o JSON Schema que orientam a chamada da ferramenta pelo modelo.</li>
+<li><strong>Contrato de callback:</strong> a URL oculta e cabeçalhos opcionais que o AIVAX usa para executar a ferramenta após o modelo chamá‑la.</li>
+</ul>
+<p>Essa separação mantém os detalhes de implementação fora do prompt, ainda dando ao modelo uma capacidade precisa de usar.</p>
 <h2 id="quando-usar-funções-de-protocolo">Quando usar funções de protocolo</h2>
-<p>Use funções de protocolo quando você quer expor uma ação HTTP específica para um AI Gateway sem criar um servidor MCP completo. Elas são boas para integrações pontuais, como consultar um pedido, abrir um ticket, buscar um usuário, validar um cupom, registrar um lead ou chamar uma automação interna. A AIVAX mantém a URL invisível para o modelo, envia a requisição do lado do servidor e adiciona o resultado textual ao contexto da conversa.</p>
-<p>Se você tem muitas ferramentas, ferramentas dinâmicas ou um sistema que já implementa Model Context Protocol, prefira <a href="/docs/pt-br/tools/mcp">MCP</a>. Se você quer usar capacidades já mantidas pela AIVAX, prefira <a href="/docs/pt-br/tools/builtin-tools">ferramentas embutidas</a>. Se você precisa tomar decisões antes ou depois de eventos da inferência, prefira <a href="/docs/pt-br/inference/workers">workers</a>. Funções de protocolo ficam no meio: são mais simples que MCP e mais específicas que workers, mas ainda dão ao modelo uma ferramenta controlada para executar uma ação externa.</p>
-<p>Uma função de protocolo deve ter um nome de ferramenta, uma descrição e um schema de argumentos. O nome ajuda o modelo a reconhecer a ação; a descrição explica quando chamar; o schema limita o formato dos argumentos. A URL de callback e detalhes de autenticação não ficam visíveis para o modelo. Isso permite criar ferramentas especializadas sem expor endpoints internos, desde que seu serviço valide o <code>X-Request-Nonce</code>, valide argumentos recebidos e aplique autorização própria quando a chamada depende do usuário.</p>
+<p>Use funções de protocolo quando quiser expor uma ação HTTP específica a um AI Gateway sem criar um servidor MCP completo. Elas são boas para integrações pontuais, como verificar um pedido, abrir um ticket, buscar um usuário, validar um cupom, registrar um lead ou invocar uma automação interna. O AIVAX mantém a URL invisível ao modelo, envia a requisição do lado do servidor e adiciona o resultado textual ao contexto da conversa.</p>
+<p>Se você tem muitas ferramentas, ferramentas dinâmicas ou um sistema que já implementa o Model Context Protocol, prefira <a href="/docs/pt-br/tools/mcp">MCP</a>. Se quiser usar capacidades já mantidas pelo AIVAX, prefira <a href="/docs/pt-br/tools/builtin-tools">built-in tools</a>. Se precisar tomar decisões antes ou depois de eventos de inferência, prefira <a href="/docs/pt-br/inference/workers">workers</a>. Funções de protocolo ficam no meio: são mais simples que MCP e mais específicas que workers, mas ainda dão ao modelo uma ferramenta controlada para executar uma ação externa.</p>
+<p>Uma função de protocolo deve ter um nome de ferramenta, uma descrição, uma URL de callback e um esquema de argumentos. O nome ajuda o modelo a reconhecer a ação; a descrição explica quando chamar; o esquema limita o formato dos argumentos. Nomes de função devem ser identificadores JavaScript válidos com pelo menos três caracteres. A URL de callback e os detalhes de autenticação não são visíveis ao modelo. Isso permite criar ferramentas especializadas sem expor endpoints internos, desde que seu serviço valide o <code>X-Request-Nonce</code>, valide os argumentos recebidos e aplique sua própria autorização quando a chamada depender do usuário.</p>
+<p>Use a seguinte regra prática:</p>
+<table>
+<thead>
+<tr>
+<th>Necessidade</th>
+<th>Preferir</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uma ou poucas callbacks HTTP estáveis de sua aplicação</td>
+<td>Funções de protocolo</td>
+</tr>
+<tr>
+<td>Catálogo maior de ferramentas, descoberta padronizada ou servidor MCP existente</td>
+<td><a href="/docs/pt-br/tools/mcp">MCP</a></td>
+</tr>
+<tr>
+<td>Busca na web, leitura de URL, execução de código, geração de imagens, memória, calendário ou ferramentas de requisição HTTP mantidas pelo AIVAX</td>
+<td><a href="/docs/pt-br/tools/builtin-tools">Built-in tools</a></td>
+</tr>
+<tr>
+<td>Política em tempo de evento, reescrita de mensagem, injeção dinâmica de ferramentas ou bloqueio de chamada de ferramenta antes da execução</td>
+<td><a href="/docs/pt-br/inference/workers">Workers</a></td>
+</tr>
+<tr>
+<td>Definições de ferramentas nativas do provedor que seu próprio cliente executará</td>
+<td><code>tools</code> brutos em uma requisição compatível com OpenAI</td>
+</tr>
+</tbody>
+</table>
 <h3 id="escolhendo-o-nome-da-função">Escolhendo o nome da função</h3>
-<p>O nome da função deve ser simples e determinístico ao que essa função faz. Evite nomes difíceis de advinhar ou que não remetam ao papel da função, pois a assistente pode se confundir e não chamar a função quando apropriado.</p>
-<p>Como um exemplo, vamos pensar em uma função de consultar um usuário em um banco de dados externo. Os nomes a seguir são bons exemplos para considerar para a chamada:</p>
+<p>O nome da função deve ser simples e específico sobre o que a função faz. Evite nomes difíceis de adivinhar ou que não reflitam o papel da função, pois o assistente pode não chamá‑la quando deveria.</p>
+<p>Por exemplo, considere uma função que consulta um usuário em um banco de dados externo. Bons nomes incluem:</p>
 <ul>
 <li><code>search_user</code></li>
 <li><code>query_user</code></li>
 </ul>
-<p>Nomes ruins incluem:</p>
+<p>Nomes fracos incluem:</p>
 <ul>
-<li><code>search</code> (pouco abrangente)</li>
-<li><code>query-user-in-database-data</code> (nome muito grande)</li>
+<li><code>search</code> (muito amplo)</li>
+<li><code>query_user_in_database_data</code> (longo e ruidoso)</li>
 <li><code>pesquisa-usuario</code> (nome não em inglês)</li>
-<li><code>search user</code> (nome com caracteres impróprios)</li>
+<li><code>search user</code> (nome com caracteres inadequados)</li>
 </ul>
-<p>Tendo o nome da função, podemos pensar na descrição da função.</p>
-<h3 id="escolhendo-a-descrição-da-função">Escolhendo a descrição da função.</h3>
-<p>A descrição da função deve explicar conceitualmente duas situações: o que ela faz e quando deve ser chamada pela assistente. Essa descrição deve incluir os cenários que a assistente deve considerar chamar ela e quando não deve ser chamada, fornecendo poucos exemplos de chamadas (one-shot) e/ou tornando explícitas as regras da função.</p>
+<p>Tendo o nome da função, podemos pensar sobre a descrição da função.</p>
+<h3 id="escolhendo-a-descrição-da-função">Escolhendo a descrição da função</h3>
+<p>A descrição da função deve explicar o que a função faz, quando o assistente deve chamá‑la e quando não deve. Boas descrições incluem a entrada esperada, o tipo de resultado retornado e qualquer regra de decisão que o assistente deve seguir antes de chamar a ferramenta.</p>
+<p>Por exemplo, uma descrição útil é:</p>
+<blockquote>
+<p>Use esta ferramenta para buscar o perfil de um cliente pelo ID do cliente quando o usuário pergunta sobre o status da conta, pedidos recentes ou elegibilidade de suporte. Não a chame quando o usuário fornece apenas um nome ou e‑mail; peça primeiro o ID do cliente.</p>
+</blockquote>
+<p>Isso dá ao modelo uma ação clara, gatilho e limitação. Uma descrição vaga como “Search customers” oferece ao modelo muito menos orientação.</p>
 <h2 id="definindo-funções-de-protocolo">Definindo funções de protocolo</h2>
-<p>Essas funções são definidas no <a href="/docs/pt-br/inference/ai-gateway">AI Gateway</a>, o que permite a criação de agentes inteligentes que realizam ações sem intervenção humana. Elas seguem uma sintaxe simples, esperam o nome da função, uma descrição do que ela faz e os parâmetros de invocação.</p>
-<p>Funções de protocolo são definidas no AI gateway seguindo o JSON:</p>
-<div class="request-item post">
-    <span>POST</span>
-    <span>
-        /api/v1/ai-gateways
-    </span>
-</div>
+<p>Funções de protocolo são definidas no <a href="/docs/pt-br/inference/ai-gateway">AI Gateway</a>. Você pode declará‑las diretamente no gateway quando a lista é estável, ou fornecer uma fonte remota que retorne a lista de funções quando o catálogo for gerenciado por outro serviço.</p>
+<p>A forma direta é a opção mais simples. Use‑a quando a lista de funções muda raramente e pertence à própria configuração do gateway.</p>
+<p>Reference:</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Create%20AI%20Gateway&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <pre><code class="lang-json">{
     &quot;name&quot;: &quot;my-ai-gateway&quot;,
     &quot;parameters&quot;: {
-        ...
+        &quot;baseAddress&quot;: &quot;@integrated&quot;,
+        &quot;modelName&quot;: &quot;@openai/gpt-5-mini&quot;,
         &quot;protocolFunctions&quot;: [
             {
                 &quot;name&quot;: &quot;list_clients&quot;,
-                &quot;description&quot;: &quot;Use essa ferramenta para listar e procurar pelos clientes do usuário.&quot;,
+                &quot;description&quot;: &quot;Use this tool to list and search for the user's clients.&quot;,
                 &quot;callbackUrl&quot;: &quot;https://my-external-api.com/api/scp/users&quot;,
-                &quot;contentFormat&quot;: null
+                &quot;contentFormat&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {}
+                }
             },
             {
                 &quot;name&quot;: &quot;view_client&quot;,
-                &quot;description&quot;: &quot;Use essa ferramenta para obter detalhes e pedidos de um cliente através do seu ID.&quot;,
+                &quot;description&quot;: &quot;Use this tool to obtain details and orders of a client via its ID.&quot;,
                 &quot;callbackUrl&quot;: &quot;https://my-external-api.com/api/scp/users&quot;,
                 &quot;contentFormat&quot;: {
                     &quot;type&quot;: &quot;object&quot;,
@@ -189,28 +216,26 @@
     }
 }
 </code></pre>
-<p>No snippet acima, você está fornecendo duas funções para seu modelo de IA: <code>list_clients</code> e <code>view_client</code>, o qual irá decidir qual será executada durante o seu raciocínio. Você pode fornecer também um formato de conteúdo JSON para qual o modelo irá chamar sua API fornecendo o contéudo informado.</p>
-<p>Você também pode definir as lista de funções suportadas através de um endpoint. Toda vez que o modelo receber uma mensagem, ele irá consultar o endpoint fornecido para obter uma lista de funções que ele possa executar.</p>
+<p>No trecho acima, o gateway expõe <code>list_clients</code> e <code>view_client</code> ao modelo. O modelo decide se chama uma delas durante a geração. Se chamar <code>view_client</code>, o AIVAX valida os argumentos contra <code>contentFormat</code> e então envia a requisição de callback ao seu serviço.</p>
+<h2 id="fontes-de-funções-de-protocolo">Fontes de funções de protocolo</h2>
+<p>Fontes de funções de protocolo permitem que um gateway carregue suas funções de protocolo a partir de um ou mais endpoints remotos ao invés de armazenar cada função inline. Na configuração do gateway, <code>protocolFunctionSources</code> é um array de strings de URL, não um array de objetos de fonte. Use fontes quando o catálogo de funções pertence a outro serviço, muda independentemente do gateway ou precisa ser compartilhado por múltiplos gateways.</p>
+<p>Cada URL de fonte é um endpoint HTTP que retorna um objeto JSON com um array <code>functions</code>. O AIVAX busca a fonte antes de preparar as opções de inferência, converte cada definição retornada em uma ferramenta do lado do servidor e armazena em cache o resultado por 10 minutos por conta e URL de fonte. Durante a janela de cache, o AIVAX reutiliza as definições de função ao invés de fazer outra requisição de listagem.</p>
+<p>Use <code>protocolFunctions</code> inline para ferramentas estáveis e pertencentes ao gateway. Use <code>protocolFunctionSources</code> para catálogos gerenciados remotamente. Você pode usar ambos no mesmo gateway, mas os nomes das funções devem permanecer únicos após a combinação de funções inline, funções de fonte, ferramentas MCP, ferramentas integradas e ferramentas brutas.</p>
 <img src="/assets/diagrams/protocol-functions-2.drawio.svg">
-<p>Defina os endpoints de listagem de funções no seu AI gateway:</p>
-<div class="request-item post">
-    <span>POST</span>
-    <span>
-        /api/v1/ai-gateways
-    </span>
-</div>
+<p>Defina os pontos de listagem de funções no seu AI Gateway:</p>
 <pre><code class="lang-json">{
     &quot;name&quot;: &quot;my-ai-gateway&quot;,
     &quot;parameters&quot;: {
-        ...
+        &quot;baseAddress&quot;: &quot;@integrated&quot;,
+        &quot;modelName&quot;: &quot;@openai/gpt-5-mini&quot;,
         &quot;protocolFunctionSources&quot;: [
             &quot;https://my-external-api.com/api/scp/listings&quot;
         ]
     }
 }
 </code></pre>
-<p>Os endpoint de fornecimento de funções deve responder seguindo o formato:</p>
-<div class="request-item post">
+<p>O endpoint de fonte de funções recebe uma requisição <code>GET</code>. Ele deve retornar um status HTTP de sucesso e um objeto JSON neste formato:</p>
+<div class="request-item get">
     <span>GET</span>
     <span>
         https://my-external-api.com/api/scp/listings
@@ -220,13 +245,16 @@
     &quot;functions&quot;: [
         {
             &quot;name&quot;: &quot;list_clients&quot;,
-            &quot;description&quot;: &quot;Use essa ferramenta para listar e procurar pelos clientes do usuário.&quot;,
+            &quot;description&quot;: &quot;Use this tool to list and search for the user's clients.&quot;,
             &quot;callbackUrl&quot;: &quot;https://my-external-api.com/api/scp/users&quot;,
-            &quot;contentFormat&quot;: null
+            &quot;contentFormat&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {}
+            }
         },
         {
             &quot;name&quot;: &quot;view_client&quot;,
-            &quot;description&quot;: &quot;Use essa ferramenta para obter detalhes e pedidos de um cliente através do seu ID.&quot;,
+            &quot;description&quot;: &quot;Use this tool to obtain details and orders of a client via its ID.&quot;,
             &quot;callbackUrl&quot;: &quot;https://my-external-api.com/api/scp/users&quot;,
             &quot;contentFormat&quot;: {
                 &quot;type&quot;: &quot;object&quot;,
@@ -242,57 +270,63 @@
     ]
 }
 </code></pre>
-<p>Essas funções são armazenadas em cache por 10 minutos antes de uma nova requisição ser feita no endpoint fornecido.</p>
-<h3 id="lidando-com-chamada-de-funções">Lidando com chamada de funções</h3>
-<p>As funções são invocadas no endpoint fornecido em <code>callbackUrl</code> através de uma requisição HTTP POST, com o corpo:</p>
+<p>Os objetos de função retornados usam a mesma estrutura das <code>protocolFunctions</code> inline: <code>name</code>, <code>description</code>, <code>callbackUrl</code>, <code>headers</code> opcionais e <code>contentFormat</code>.</p>
+<p>Se o endpoint de fonte retornar um status de não‑sucesso, o AIVAX registra o erro e a requisição de inferência falha ao preparar as ferramentas. Torne o endpoint de fonte rápido, estável e pequeno o suficiente para retornar apenas as funções que o gateway deve expor. Se o catálogo for específico de usuário ou locatário, use o nonce da requisição e suas próprias regras de autorização para decidir quais funções retornar.</p>
+<h3 id="manipulando-chamadas-de-função">Manipulando chamadas de função</h3>
+<p>Funções são invocadas no endpoint fornecido em <code>callbackUrl</code> via uma requisição HTTP POST. O AIVAX envia <code>Content-Type: application/json</code> e um corpo equivalente a:</p>
 <pre><code class="lang-json">{
+    &quot;type&quot;: &quot;tool_call&quot;,
     &quot;function&quot;: {
         &quot;name&quot;: &quot;view_client&quot;,
         &quot;content&quot;: {
-            &quot;user_id&quot;: &quot;3e5a2823-98fa-49a1-831a-0c4c5d33450e&quot;
+            &quot;user_id&quot;: &quot;example-user-id&quot;
         }
     },
     &quot;context&quot;: {
         &quot;externalUserId&quot;: &quot;...&quot;,
+        &quot;metadata&quot;: {},
+        &quot;callSource&quot;: &quot;WebChatClient&quot;,
+        &quot;conversationToken&quot;: &quot;...&quot;,
         &quot;moment&quot;: &quot;2025-05-18T03:36:27&quot;
     }
 }
 </code></pre>
-<p>A resposta dessa ação deve responder sempre com um status HTTP OK (2xx ou 3xx), até mesmo para erros que a assistente possa ter cometido. Uma resposta não OK irá indicar para a assistente que não foi possível chamar a função e ela não irá continuar com o que estava planejando fazer.</p>
-<h4 id="formato-das-respostas">Formato das respostas</h4>
-<p>As respostas bem sucedidas devem ser textuais e serão anexadas como resposta da função do jeito que for respondida pelo endpoint. Não há formato JSON ou estrutura para essa resposta, mas é aconselhável que dê uma resposta simples, humanamente legível, para que a assistente consiga ler o resultado da ação.</p>
-<p>Erros podem ser comuns, como não encontrar um cliente pelo ID ou algum campo não estiver no formato desejado. Nestes casos, responda com um status OK e no corpo da resposta inclua uma descrição humana do erro e como a assistente pode contornar ele.</p>
-<p><strong>É garantido</strong> que a requisição irá seguir estritamente o JSON Schema do conteúdo fornecido pela definição da função. Funções que não esperam argumentos não devem especificar um formato de conteúdo para essa função.</p>
-<p>A resposta da função deve ser escrita para o modelo, não para o usuário final. Ela pode conter dados, avisos e instruções curtas sobre como usar o resultado. Por exemplo, se uma busca de pedido encontrar o status, responda com o status, data prevista e restrições relevantes. Se não encontrar, responda que o pedido não foi localizado e diga quais dados a assistente deve pedir ao usuário. Evite retornar objetos enormes, HTML, logs brutos ou mensagens internas, porque esse conteúdo entra no contexto e pode confundir a próxima resposta.</p>
+<p>A resposta a essa ação deve retornar um status HTTP de sucesso (2xx), mesmo para erros que o assistente possa ter cometido. Uma resposta de não‑sucesso é registrada e o modelo recebe um erro genérico de chamada de ferramenta ao invés do corpo da sua resposta.</p>
+<h4 id="formato-de-resposta">Formato de resposta</h4>
+<p>Respostas bem‑sucedidas devem ser textuais e serão anexadas como resposta da função da forma que o endpoint retornar. Não há formato ou estrutura JSON para essa resposta, mas é recomendável fornecer uma resposta simples e legível para que o assistente possa ler o resultado da ação.</p>
+<p>Erros podem ser comuns, como não encontrar um cliente por ID ou um campo não estar no formato desejado. Nesses casos, responda com status OK e inclua uma descrição humana do erro no corpo da resposta e como o assistente pode contorná‑lo.</p>
+<p>Os argumentos são validados contra o JSON Schema antes da execução. Seu callback ainda deve validar os argumentos recebidos, pois esquemas podem limitar a estrutura mas não substituem autorizações de negócio ou verificações de consistência. Funções que não esperam argumentos devem usar um esquema de objeto vazio.</p>
+<p>A resposta da função deve ser escrita para o modelo, não para o usuário final. Ela pode conter dados, avisos e instruções curtas sobre como usar o resultado. Por exemplo, se uma busca de pedido encontrar o status, responda com o status, data esperada e restrições relevantes. Se não encontrado, responda que o pedido não foi localizado e indique quais dados o assistente deve solicitar ao usuário. Evite retornar objetos enormes, HTML, logs brutos ou mensagens internas, pois esse conteúdo entra no contexto e pode confundir a próxima resposta.</p>
 <div class="IMPORTANT">
 <h5>Important</h5>
-<p>Quanto mais funções você definir, mais de entrada tokens você irá consumir no processo de raciocínio. A definição da função, bem como o formato dela, consome tokens do processo de raciocínio.</p>
+<p>Quanto mais funções você definir, mais tokens de entrada você consumirá no processo de raciocínio. A definição da função, assim como seu formato, consome tokens do processo de raciocínio.</p>
 </div>
 <h4 id="autenticação">Autenticação</h4>
-<p>A autenticação das requisições é feita pelo cabeçalho <code>X-Request-Nonce</code> enviado nas requisições de protocolo das funções, incluindo as de listagem.</p>
-<p>Veja o manual de <a href="/docs/pt-br/authentication">autenticação</a> para entender como autenticar requisições reversas do AIVAX.</p>
-<h4 id="autenticação-de-usuário">Autenticação de usuário</h4>
-<p>As chamadas de função enviam um campo <code>$.context.externalUserId</code> contendo a tag de usuário criada em uma <a href="/docs/pt-br/features/chat-clients">sessão de chat</a>. Essa tag pode ser usada para autenticar o usuário que chamou essa função.</p>
+<p>A autenticação da requisição é feita via cabeçalho <code>X-Request-Nonce</code> enviado nas chamadas de funções de protocolo e nas requisições de listagem de fontes.</p>
+<p>Consulte o manual de <a href="/docs/pt-br/authentication">authentication</a> para entender como autenticar requisições reversas do AIVAX.</p>
+<h4 id="autenticação-do-usuário">Autenticação do usuário</h4>
+<p>Chamadas de função enviam <code>$.context.externalUserId</code> quando a chamada vem de uma <a href="/docs/pt-br/features/chat-clients">chat session</a> identificada. Elas também incluem <code>metadata</code>, <code>callSource</code>, <code>conversationToken</code> e <code>moment</code>. Use esses campos para correlação e autorização ao nível de usuário, mas não os trate como a única fronteira de segurança; valide o nonce e aplique suas próprias regras de autorização.</p>
 <h4 id="considerações-de-segurança">Considerações de segurança</h4>
-<p>Para o modelo de IA, somente é visível o nome, descrição e formato da função. Ela não é capaz de ver o endpoint para onde essa função aponta. Além disso, ela não possui acesso à tag do usuário que está autenticado em um <a href="/docs/pt-br/features/chat-clients">cliente de chat</a>.</p>
-<h2 id="funções-especialistas">Funções especialistas</h2>
-<p>Além das <a href="/docs/pt-br/tools/builtin-tools">funções embutidas</a>, você pode definir funções especialistas, que executam tarefas específicas na sua conta da AIVAX.</p>
-<p>Você define funções especialistas pelo esquema de URL <code>aivax://</code>, seguindo o exemplo abaixo:</p>
+<p>Para o modelo de IA, somente o nome, a descrição e o formato da função são visíveis. Ele não pode ver o endpoint para o qual a função aponta. Também não recebe os cabeçalhos de callback configurados para a função. Trate todas as requisições de callback como chamadas privilegiadas servidor‑para‑servidor: valide o nonce, valide os argumentos, imponha autorização e evite expor ações de escrita amplas a menos que sua aplicação tenha suas próprias regras de aprovação.</p>
+<h2 id="funções-especializadas">Funções especializadas</h2>
+<p>Além das <a href="/docs/pt-br/tools/builtin-tools">built-in functions</a>, você pode definir funções especializadas que realizam tarefas específicas na sua conta AIVAX.</p>
+<p>Você define funções especializadas usando o esquema de URL <code>aivax://</code>, seguindo o exemplo abaixo:</p>
 <pre><code class="lang-json">{
     &quot;name&quot;: &quot;my-ai-gateway&quot;,
     &quot;parameters&quot;: {
-        ...
+        &quot;baseAddress&quot;: &quot;@integrated&quot;,
+        &quot;modelName&quot;: &quot;@openai/gpt-5-mini&quot;,
         &quot;protocolFunctions&quot;: [
             {
                 &quot;name&quot;: &quot;search_disease&quot;,
-                &quot;description&quot;: &quot;Use essa ferramenta para pesquisar por doenças, tratamentos e sintomas.&quot;,
-                &quot;callbackUrl&quot;: &quot;aivax://query-collection?collection-id=0196f5ef-9334-742b-a988-f913bb3be5ba&amp;top=5&amp;min=0.4&quot;,
+                &quot;description&quot;: &quot;Use this tool to search for diseases, treatments, and symptoms.&quot;,
+                &quot;callbackUrl&quot;: &quot;aivax://query-collection?collection-id=your-collection-id&amp;top=5&amp;min=0.4&quot;,
                 &quot;contentFormat&quot;: {
                     &quot;type&quot;: &quot;object&quot;,
                     &quot;properties&quot;: {
                         &quot;query&quot;: {
                             &quot;type&quot;: &quot;string&quot;,
-                            &quot;description&quot;: &quot;Nome da doença, tratamento ou sintomas.&quot;
+                            &quot;description&quot;: &quot;Name of the disease, treatment, or symptoms.&quot;
                         }
                     },
                     &quot;required&quot;: [
@@ -304,16 +338,18 @@
     }
 }
 </code></pre>
-<p>A função acima cria uma ferramenta para IA consultar em uma <a href="/docs/pt-br/rag/collections">coleção de documentos</a> específica, guiando a assistente do que ela deve pesquisar nessa coleção e o que esperar de uma resposta. Dessa forma, você pode vincular várias coleções de RAG para uma assistente poder buscar conteúdo especialista.</p>
-<p>Você pode personalizar a descrição das propriedades do JSON Schema de funções especialistas mas não sua estrutura, pois nosso backend espera um formato específico para chamar as funções. Os parâmetros de funções especialistas são fornecidos na URL através de parâmetros da query.</p>
-<p>Atualmente, apenas uma função especialista existe:</p>
+<p>A função acima cria uma ferramenta para que a IA consulte uma <a href="/docs/pt-br/rag/collections">document collection</a> específica, orientando o assistente sobre o que buscar nessa coleção e o que esperar de uma resposta. Dessa forma, você pode vincular múltiplas coleções RAG para que o assistente recupere conteúdo especializado.</p>
+<p>Você pode personalizar a descrição das propriedades do JSON Schema para funções especializadas, mas sua estrutura é fixa. Os parâmetros da função especializada são fornecidos na URL via parâmetros de consulta.</p>
+<p>Atualmente, existe apenas uma função especializada:</p>
 <ul>
-<li><p><code>query-collection</code>: executa uma pesquisa RAG em uma coleção informada.
-Parâmetros da query:</p>
+<li><code>query-collection</code>: realiza uma busca RAG em uma coleção especificada.</li>
+</ul>
+<p>Parâmetros de consulta:</p>
 <ul>
-<li><code>collection-id</code>: o UUID da coleção que será pesquisada.</li>
-<li><code>top</code>: um número indicando quantos documentos devem ser retornados na pesquisa.</li>
-<li><code>min</code>: um decimal indicando qual a pontuação mínima de similaridade da busca.</li>
+<li><code>collection-id</code>: o UUID da coleção a ser pesquisada.</li>
+<li><code>top</code>: número indicando quantos documentos devem ser retornados na busca.</li>
+<li><code>min</code>: decimal indicando a pontuação mínima de similaridade da busca.</li>
+<li><code>refs</code>: quando presente, inclui documentos pais referenciados no resultado RAG.</li>
 </ul>
 <p>Formato JSON da função:</p>
 <pre><code class="lang-json">{
@@ -321,7 +357,7 @@ Parâmetros da query:</p>
     &quot;properties&quot;: {
         &quot;query&quot;: {
             &quot;type&quot;: &quot;string&quot;,
-            &quot;description&quot;: &quot;Conteúdo da pesquisa.&quot;
+            &quot;description&quot;: &quot;Search content.&quot;
         }
     },
     &quot;required&quot;: [
@@ -329,8 +365,6 @@ Parâmetros da query:</p>
     ]
 }
 </code></pre>
-</li>
-</ul>
 
 </article>
 

@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../../toc.html">
 
         <meta name="docfx:rel" content="../../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -125,13 +111,13 @@
                 <article data-uid="">
 <h1 id="trabalhadores-de-ia">Trabalhadores de IA</h1>
 
-<p>Os trabalhadores do AI Gateway são hooks HTTP que permitem que um serviço externo controle a execução do gateway em tempo de execução. Um trabalhador pode permitir um evento, interrompê-lo, reescrever o contexto, adicionar instruções ou ferramentas, ou substituir o resultado de uma ferramenta do lado do servidor.</p>
-<p>Use trabalhadores quando uma regra deve ser decidida fora do prompt. Casos comuns incluem verificações de assinatura, enriquecimento de CRM, política específica de locatário, registro de auditoria, bloqueio dinâmico de ferramentas e substituição de um resultado de ferramenta visível ao modelo por dados de um sistema interno.</p>
-<p>Os trabalhadores executam no caminho crítico da inferência. Cada evento de trabalhador adiciona uma requisição HTTP antes que o gateway possa continuar, portanto o endpoint deve responder rapidamente e de forma previsível.</p>
-<h2 id="formato-da-requisição">Formato da requisição</h2>
-<p>Quando um evento de trabalhador configurado dispara, a AIVAX envia uma requisição <code>POST</code> para a URL do trabalhador do gateway.</p>
+<p>Os trabalhadores do AI Gateway são hooks HTTP que permitem que um serviço externo controle a execução do gateway em tempo de execução. Um trabalhador pode permitir um evento, interrompê‑lo, reescrever o contexto, adicionar instruções ou ferramentas, ou substituir o resultado de uma ferramenta do lado do servidor.</p>
+<p>Use trabalhadores quando uma regra precisar ser decidida fora do prompt. Casos comuns incluem verificações de assinatura, enriquecimento de CRM, política específica de locatário, registro de auditoria, bloqueio dinâmico de ferramentas e substituição de um resultado de ferramenta visível ao modelo por dados de um sistema interno.</p>
+<p>Os trabalhadores executam no caminho crítico da inferência. Cada evento de trabalhador adiciona uma solicitação HTTP antes que o gateway possa continuar, portanto o ponto de extremidade deve responder rápida e previsivelmente.</p>
+<h2 id="formato-da-solicitação">Formato da solicitação</h2>
+<p>Quando um evento de trabalhador configurado dispara, o AIVAX envia uma solicitação <code>POST</code> para a URL do trabalhador do gateway.</p>
 <pre><code class="lang-json">{
-    &quot;gatewayId&quot;: &quot;019a6afb-5a03-7b83-a1a2-760bd1ecd11c&quot;,
+    &quot;gatewayId&quot;: &quot;your-gateway-id&quot;,
     &quot;moment&quot;: &quot;2025-12-29T17:04:39&quot;,
     &quot;event&quot;: {
         &quot;name&quot;: &quot;message.received&quot;,
@@ -139,11 +125,11 @@
             &quot;messages&quot;: [
                 {
                     &quot;role&quot;: &quot;system&quot;,
-                    &quot;content&quot;: &quot;User local date is Monday, December 29, 2025 (timezone is America/Sao_Paulo)&quot;
+                    &quot;content&quot;: &quot;A data local do usuário é segunda-feira, 29 de dezembro de 2025 (fuso horário é America/Sao_Paulo)&quot;
                 },
                 {
                     &quot;role&quot;: &quot;user&quot;,
-                    &quot;content&quot;: &quot;Good morning&quot;
+                    &quot;content&quot;: &quot;Bom dia&quot;
                 }
             ],
             &quot;origin&quot;: &quot;ChatCompletionsApi&quot;,
@@ -153,12 +139,12 @@
     }
 }
 </code></pre>
-<p>A forma exata de <code>event.data</code> depende do evento. Sempre valide <code>gatewayId</code> quando um endpoint serve mais de um gateway.</p>
+<p>A forma exata de <code>event.data</code> depende do evento. Sempre valide <code>gatewayId</code> quando um ponto de extremidade serve mais de um gateway.</p>
 <h2 id="autenticação">Autenticação</h2>
-<p>Quando a conta possui uma chave de hook, a AIVAX envia <code>X-Request-Nonce</code>. O nonce é um hash BCrypt derivado do sal da conta. Valide este cabeçalho antes de confiar no corpo, especialmente quando o trabalhador libera dados privados, altera o contexto ou autoriza o uso de ferramentas.</p>
+<p>Quando a conta possui uma chave de hook, o AIVAX envia <code>X-Request-Nonce</code>. O nonce é um hash BCrypt derivado do sal da conta. Valide este cabeçalho antes de confiar no corpo, especialmente quando o trabalhador libera dados privados, altera o contexto ou autoriza o uso de ferramentas.</p>
 <p>Trate <code>externalUserId</code>, <code>metadata</code>, mensagens e argumentos de ferramentas como entrada não confiável.</p>
 <h2 id="comportamento-da-resposta">Comportamento da resposta</h2>
-<p>Depois de enviar a requisição, a AIVAX lida com a resposta do trabalhador da seguinte forma:</p>
+<p>Após enviar a solicitação, o AIVAX trata a resposta do trabalhador da seguinte forma:</p>
 <table>
 <thead>
 <tr>
@@ -169,20 +155,20 @@
 <tbody>
 <tr>
 <td><code>Content-Type: application/json+worker-action</code></td>
-<td>Executar a ação descrita no corpo JSON.</td>
+<td>Executa a ação descrita no corpo JSON.</td>
 </tr>
 <tr>
 <td><code>2xx</code> sem <code>application/json+worker-action</code></td>
-<td>Continuar normalmente.</td>
+<td>Continua normalmente.</td>
 </tr>
 <tr>
-<td>Resposta não OK sem <code>application/json+worker-action</code></td>
-<td>Interromper o evento.</td>
+<td>Resposta não‑OK sem <code>application/json+worker-action</code></td>
+<td>Interrompe o evento.</td>
 </tr>
 </tbody>
 </table>
-<p>Se a requisição do trabalhador falhar com uma exceção de requisição HTTP, a AIVAX registra a falha e interrompe o evento.</p>
-<p>Escolha intencionalmente o comportamento fail-open ou fail-closed. Retorne <code>2xx</code> quando o enriquecimento for opcional. Retorne uma resposta não OK quando a autorização, conformidade ou política de negócios não puder falhar aberto.</p>
+<p>Se a solicitação ao trabalhador falhar com uma exceção de requisição HTTP, o AIVAX registra a falha e interrompe o evento.</p>
+<p>Escolha intencionalmente o comportamento fail‑open ou fail‑closed. Retorne <code>2xx</code> quando o enriquecimento for opcional. Retorne uma resposta não‑OK quando a autorização, conformidade ou política de negócio não puder falhar aberto.</p>
 <h2 id="messagereceived"><code>message.received</code></h2>
 <p>O evento <code>message.received</code> dispara após o gateway preparar o contexto da mensagem recebida e antes da chamada ao modelo.</p>
 <pre><code class="lang-json">{
@@ -202,7 +188,7 @@
         &quot;rewrites&quot;: [
             {
                 &quot;type&quot;: &quot;add-system&quot;,
-                &quot;message&quot;: &quot;Answer in formal English.&quot;
+                &quot;message&quot;: &quot;Responder em inglês formal.&quot;
             }
         ]
     }
@@ -220,8 +206,8 @@
 <tbody>
 <tr>
 <td><code>clear</code></td>
-<td>Remove elementos do contexto.</td>
-<td><code>argument</code>: <code>messages</code>, <code>meta</code>, <code>system</code>, <code>tools</code>, <code>skills</code>, <code>all</code>, ou omitido.</td>
+<td>Remove elementos de contexto.</td>
+<td><code>argument</code>: <code>messages</code>, <code>meta</code>, <code>system</code>, <code>tools</code>, <code>skills</code>, <code>all</code> ou omitido.</td>
 </tr>
 <tr>
 <td><code>add-message</code></td>
@@ -267,7 +253,7 @@
                 &quot;type&quot;: &quot;add-message&quot;,
                 &quot;message&quot;: {
                     &quot;role&quot;: &quot;user&quot;,
-                    &quot;content&quot;: &quot;The original message was removed by an external policy check. Tell the user they need an active subscription to continue.&quot;
+                    &quot;content&quot;: &quot;A mensagem original foi removida por uma verificação de política externa. Diga ao usuário que ele precisa de uma assinatura ativa para continuar.&quot;
                 }
             }
         ]
@@ -295,7 +281,7 @@
             {
                 &quot;type&quot;: &quot;add-mcp-source&quot;,
                 &quot;source&quot;: {
-                    &quot;name&quot;: &quot;Internal CRM&quot;,
+                    &quot;name&quot;: &quot;CRM Interno&quot;,
                     &quot;url&quot;: &quot;https://crm.example.com/mcp&quot;,
                     &quot;headers&quot;: {
                         &quot;Authorization&quot;: &quot;Bearer server-token&quot;
@@ -307,9 +293,9 @@
     }
 }
 </code></pre>
-<p>Use <code>add-mcp-source</code> quando a lista de ferramentas precisa depender da mensagem, usuário, canal ou de uma política externa. A AIVAX lista as ferramentas do servidor MCP, converte cada esquema em uma função chamável pelo modelo e disponibiliza essas ferramentas apenas para aquela inferência. Para fontes permanentes, configure o MCP diretamente no AI Gateway.</p>
+<p>Use <code>add-mcp-source</code> quando a lista de ferramentas precisar depender da mensagem, usuário, canal ou de uma política externa. O AIVAX lista as ferramentas do servidor MCP, converte cada esquema em uma função chamável pelo modelo e disponibiliza essas ferramentas apenas para aquela inferência. Para fontes permanentes, configure o MCP diretamente no AI Gateway.</p>
 <h2 id="toolcalled"><code>tool.called</code></h2>
-<p>O evento <code>tool.called</code> dispara antes da AIVAX executar uma ferramenta interna do lado do servidor.</p>
+<p>O evento <code>tool.called</code> dispara antes que o AIVAX execute uma ferramenta interna do lado do servidor.</p>
 <pre><code class="lang-json">{
     &quot;name&quot;: &quot;tool.called&quot;,
     &quot;data&quot;: {
@@ -323,12 +309,12 @@
     }
 }
 </code></pre>
-<p>Retorne uma resposta não OK para bloquear a chamada da ferramenta. Retorne <code>2xx</code> para permitir que a AIVAX execute a ferramenta normalmente.</p>
+<p>Retorne uma resposta não‑OK para bloquear a chamada da ferramenta. Retorne <code>2xx</code> para que o AIVAX execute a ferramenta normalmente.</p>
 <p>Para substituir o resultado da ferramenta, retorne <code>Content-Type: application/json+worker-action</code> com <code>type: &quot;tool.called.response&quot;</code>:</p>
 <pre><code class="lang-json">{
     &quot;type&quot;: &quot;tool.called.response&quot;,
     &quot;data&quot;: {
-        &quot;result&quot;: &quot;Order A123 is paid and scheduled for delivery tomorrow.&quot;,
+        &quot;result&quot;: &quot;O pedido A123 está pago e programado para entrega amanhã.&quot;,
         &quot;messages&quot;: []
     }
 }
@@ -348,17 +334,17 @@
 </tr>
 <tr>
 <td><code>messages</code></td>
-<td>Mensagens adicionais em formato OpenAI opcionalmente ao contexto da conversa.</td>
+<td>Mensagens adicionais opcionais no formato OpenAI anexadas ao contexto da conversa.</td>
 </tr>
 </tbody>
 </table>
-<p>Quando <code>tool.called.response</code> é retornado, a AIVAX usa o resultado fornecido pelo trabalhador em vez de executar o manipulador padrão da ferramenta.</p>
+<p>Quando <code>tool.called.response</code> é retornado, o AIVAX usa o resultado fornecido pelo trabalhador em vez de executar o manipulador padrão da ferramenta.</p>
 <h2 id="exemplo-bloqueando-usuários-não-autorizados">Exemplo: bloqueando usuários não autorizados</h2>
-<p>O exemplo abaixo mostra um Cloudflare Worker que bloqueia uma chamada ao gateway quando o usuário externo não é permitido.</p>
+<p>O exemplo abaixo mostra um Cloudflare Worker que bloqueia uma chamada ao gateway quando o usuário externo não tem permissão.</p>
 <pre><code class="lang-js">export default {
   async fetch(request, env) {
     if (request.method !== &quot;POST&quot;) {
-      return new Response(&quot;Method not allowed&quot;, { status: 405 });
+      return new Response(&quot;Método não permitido&quot;, { status: 405 });
     }
 
     const body = await request.json();
@@ -375,7 +361,7 @@
     const allowedUsers = new Set((env.ALLOWED_USERS || &quot;&quot;).split(&quot;,&quot;));
 
     if (!allowedUsers.has(externalUserId)) {
-      return new Response(&quot;User is not authorized&quot;, { status: 403 });
+      return new Response(&quot;Usuário não está autorizado&quot;, { status: 403 });
     }
 
     return new Response();
@@ -383,7 +369,7 @@
 };
 </code></pre>
 <h2 id="exemplo-substituindo-uma-ferramenta-por-um-sistema-interno">Exemplo: substituindo uma ferramenta por um sistema interno</h2>
-<p>Use <code>tool.called</code> quando o modelo deve ver o resultado de uma ferramenta, mas os dados reais devem vir do seu sistema.</p>
+<p>Use <code>tool.called</code> quando o modelo deve ver um resultado de ferramenta, mas os dados reais devem vir do seu sistema.</p>
 <pre><code class="lang-js">export default {
   async fetch(request, env) {
     const body = await request.json();
@@ -409,7 +395,7 @@
       return new Response(JSON.stringify({
         type: &quot;tool.called.response&quot;,
         data: {
-          result: `The order ${orderId} could not be retrieved for user ${externalUserId}. Ask the user to confirm the order number.`
+          result: `O pedido ${orderId} não pôde ser recuperado para o usuário ${externalUserId}. Peça ao usuário para confirmar o número do pedido.`
         }
       }), {
         headers: {
@@ -423,7 +409,7 @@
     return new Response(JSON.stringify({
       type: &quot;tool.called.response&quot;,
       data: {
-        result: `Order ${order.id}: status ${order.status}, estimated delivery ${order.eta}.`
+        result: `Pedido ${order.id}: status ${order.status}, entrega estimada ${order.eta}.`
       }
     }), {
       headers: {
@@ -433,7 +419,7 @@
   }
 };
 </code></pre>
-<p>Esse padrão evita expor a API interna diretamente ao modelo. O trabalhador continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanta dados podem ser retornados ao contexto do modelo.</p>
+<p>Este padrão evita expor a API interna diretamente ao modelo. O trabalhador permanece responsável por autenticar a solicitação, validar o usuário, chamar o sistema interno e decidir quanto dado pode ser retornado ao contexto do modelo.</p>
 
 </article>
 

@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -247,10 +233,10 @@ Previous update: July 30, 2025</p>
 </tr>
 </tbody>
 </table>
-<p>The current code exposes conversation export periods of 2 hours, 1 day, 7 days, and 30 days, capped by the account plan's retention period.</p>
+<p>Conversation export periods are 2 hours, 1 day, 7 days, and 30 days, capped by the account plan's retention period.</p>
 <hr>
 <h3 id="5-conversation-logging-and-deletion">5. Conversation Logging and Deletion</h3>
-<p>Conversation logging is controlled by the account parameter <code>AllowConversationsLogging</code>, which is enabled by default in the current implementation. When disabled for an account, the conversation repository does not write conversation records for that account.</p>
+<p>Conversation logging is enabled by default. When an Account Manager disables it, AIVAX does not store new conversation records for that account.</p>
 <p>The authenticated Account Manager can list, view, export, and delete stored conversations through the conversations API, subject to authorization and retention windows. Deleting a conversation removes the matching conversation record for that account from production storage.</p>
 <hr>
 <h3 id="6-rag-memories-and-storage">6. RAG, Memories, and Storage</h3>

@@ -6,34 +6,32 @@ This page is a technical inventory, not legal advice. Provider policies may chan
 
 ## Operations, Services, and Infrastructure
 
-| Provider | Used for | Evidence in the platform code |
-| --- | --- | --- |
-| [Cloudflare](https://www.cloudflare.com/) | Reverse proxy/security where deployed; Workers AI reranking; Cloudflare embedding service configuration | Cloudflare API key/account parameters; `CloudflareWorkersAiReranker`; `CloudflareEmbeddingService` |
-| [Backblaze](https://www.backblaze.com/) | Object/file storage for generated media, uploaded media, generated documents, exposed files, and error artifacts | `BackblazeService`; B2 bucket/account parameters |
-| [Brevo](https://www.brevo.com/) | Transactional email and notifications | `EmailService`; Brevo API key parameter |
-| [InfinitePay](https://infinitepay.io/) | Payment invoice creation and payment confirmation webhook | `InfinitePayProvider`; InfinitePay webhook |
-| [Stripe](https://stripe.com/) | Payment event webhook support where Stripe checkout is configured | Stripe API key parameter; Stripe webhook |
-| [Twitter/X](https://developer.x.com/) | Built-in X/Twitter search and post reading tools | `TwitterService`; `TwitterFunctions`; X/Twitter API key parameter |
-| [Linkup](https://www.linkup.so/) | Web search for context enrichment | `LinkupResearchClient` |
-| [Tavily](https://www.tavily.com/) | Web search for context enrichment | `TavilyResearchClient` |
-| [Sinkin AI](https://sinkin.ai/) | Image generation provider for selected image models | `SinkinImageGenerationProvider` |
-| [Pollinations](https://pollinations.ai/) | Image generation provider for selected image models | `PollinationsImageGenerationProvider` |
+| Provider | Used for |
+| --- | --- |
+| [Cloudflare](https://www.cloudflare.com/) | Reverse proxy/security where deployed, Workers AI reranking, and embedding services |
+| [Backblaze](https://www.backblaze.com/) | Object and file storage for generated media, uploaded media, generated documents, exposed files, and error artifacts |
+| [Brevo](https://www.brevo.com/) | Transactional email and notifications |
+| [InfinitePay](https://infinitepay.io/) | Payment invoice creation and payment confirmation |
+| [Stripe](https://stripe.com/) | Payment event processing where Stripe checkout is configured |
+| [Twitter/X](https://developer.x.com/) | Built-in X/Twitter search and post reading tools |
+| [Linkup](https://www.linkup.so/) | Web search for context enrichment |
+| [Tavily](https://www.tavily.com/) | Web search for context enrichment |
+| [Sinkin AI](https://sinkin.ai/) | Image generation for selected image models |
+| [Pollinations](https://pollinations.ai/) | Image generation for selected image models |
 
 ## Direct Inference, Embedding, and Reranking Providers
 
-These providers are directly configured in provider factories, embedding services, rerankers, or runtime parameters.
-
-| Provider | Used for | Evidence in the platform code |
-| --- | --- | --- |
-| [Groq](https://groq.com/) | LLM inference through an OpenAI-compatible endpoint | `CreateGroqAi`; Groq API key parameter |
-| [DeepInfra](https://deepinfra.com/) | LLM inference through an OpenAI-compatible endpoint | `CreateDeepInfra`; DeepInfra API key parameter |
-| [Vultr](https://www.vultr.com/) | LLM inference through Vultr Inference | `CreateVultr`; Vultr inference API key parameter |
-| [CrofAI](https://ai.nahcrof.com/) | LLM inference through an OpenAI-compatible endpoint | `CreateCrof`; Crof API key parameter |
-| [OpenRouter](https://openrouter.ai/) | Model routing and fallback for many model families; Grok Voice TTS | `CreateOpenRouter`; OpenRouter API key parameter; `TtsService` |
-| [Xiaomi MiMo](https://platform.xiaomimimo.com/) | Xiaomi model inference | `CreateXiaomi`; Xiaomi API key parameter |
-| [NagaAI](https://naga.ac/) | LLM inference, embeddings, TTS, and selected research flows | `CreateNagaAi`; `NagaEmbeddingService`; `TtsService` |
-| [Inception Labs](https://www.inceptionlabs.ai/) | Mercury model inference | `CreateInception`; Inception API key parameter |
-| [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) | Smart reranking and Cloudflare embedding service | `CloudflareWorkersAiReranker`; `CloudflareEmbeddingService` |
+| Provider | Used for |
+| --- | --- |
+| [Groq](https://groq.com/) | LLM inference through an OpenAI-compatible endpoint |
+| [DeepInfra](https://deepinfra.com/) | LLM inference through an OpenAI-compatible endpoint |
+| [Vultr](https://www.vultr.com/) | LLM inference through Vultr Inference |
+| [CrofAI](https://ai.nahcrof.com/) | LLM inference through an OpenAI-compatible endpoint |
+| [OpenRouter](https://openrouter.ai/) | Model routing and fallback for many model families and Grok Voice TTS |
+| [Xiaomi MiMo](https://platform.xiaomimimo.com/) | Xiaomi model inference |
+| [NagaAI](https://naga.ac/) | LLM inference, embeddings, TTS, and selected research flows |
+| [Inception Labs](https://www.inceptionlabs.ai/) | Mercury model inference |
+| [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) | Smart reranking and embedding services |
 
 ## Model Families and Underlying Providers
 
@@ -50,7 +48,7 @@ The model catalog also identifies model families or underlying providers that ma
 | [Mistral AI](https://mistral.ai/) | Mistral model families |
 | [DeepSeek](https://www.deepseek.com/) | DeepSeek model families |
 | [Z.ai](https://z.ai/) | GLM/Z.ai model families |
-| [Alibaba Cloud](https://www.alibabacloud.com/) | Qwen/Alibaba model families |
+| [Alibaba Cloud](https://www.alibabacloud.com/product/modelstudio) | Qwen/Alibaba model families |
 | [Cerebras](https://www.cerebras.ai/) | Cerebras model families |
 | [Nebius](https://nebius.com/) | Nebius-backed model families |
 | [Fireworks AI](https://fireworks.ai/) | Fireworks-backed model families |

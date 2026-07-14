@@ -29,6 +29,10 @@
 - Do not edit generated API artifacts/binaries under `ref/`.
 - Do not edit generated site files under `_site/`.
 - Do not run translation generation for `docs/pt-br/` unless explicitly requested by the user.
+- Treat all documentation as public. Never publish secrets, credentials, confidential data, proprietary operational details, or information intended only for internal use.
+- Do not reference non-public source code or expose internal class, method, type, repository, file, parameter, limiter, job, factory, implementation-path, or checkout names. Describe only the supported public contract and user-observable behavior.
+- Use explicit placeholders in examples. Never include real or realistic-looking API keys, tokens, nonce hashes, session identifiers, UUIDs, account identifiers, internal hosts, IP addresses, or filesystem paths unless the value is an intentional part of the public contract.
+- Mentions of secrets, confidential data, sensitive data, or trade secrets are allowed only for security guidance, legal definitions, and non-disclosure clauses that do not reveal the protected information.
 - If changing styles, edit `template/style/src/*.xcss` and rebuild; do not hand-edit compiled CSS.
 - When referencing an AIVAX API endpoint in documentation, use the embedded API reference script instead of a `curl` example. Look up the correct endpoint name in `https://inference.aivax.net/apidocs/llms.txt`, then embed it as `<script src="https://inference.aivax.net/apidocs?embed-target=ENDPOINT%20NAME&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>`.
 

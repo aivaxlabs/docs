@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
         <meta name="docfx:rel" content="../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -198,7 +184,7 @@ print(response.choices[0].message.content)
 <p>AIVAX uses two response shapes:</p>
 <ul>
 <li>OpenAI-compatible endpoints return an OpenAI-style <code>error</code> object with <code>message</code>, <code>type</code>, <code>param</code>, and <code>code</code>.</li>
-<li>Administrative endpoints return <code>{&quot;error&quot;: &quot;...&quot;, &quot;details&quot;: null}</code> for errors and <code>{&quot;message&quot;: &quot;...&quot;, &quot;data&quot;: ...}</code> for successful <code>JsonResponse</code> results.</li>
+<li>Administrative endpoints return <code>{&quot;error&quot;: &quot;...&quot;, &quot;details&quot;: null}</code> for errors and <code>{&quot;message&quot;: &quot;...&quot;, &quot;data&quot;: ...}</code> for successful results.</li>
 </ul>
 <p>Common failures:</p>
 <table>

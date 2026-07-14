@@ -103,11 +103,11 @@ You can also send a simple text request with `prompt`:
 
 ## Request idempotency
 
-Set `idempotency_key` when your integration needs repeat calls to update the same stored conversation record instead of creating a new conversation token. AIVAX uses this value as the internal `ConversationToken` for the AI Gateway context and conversation logging.
+Set `idempotency_key` when your integration needs repeat calls to update the same stored conversation record instead of creating a new conversation token. AIVAX uses this value to correlate the AI Gateway context and conversation logging.
 
 ```json
 {
-    "model": "0198683a-2b6d-7066-9598-6ea119c219f2",
+    "model": "your-model-or-gateway-id",
     "messages": [
         {
             "role": "user",
@@ -126,7 +126,7 @@ Set `metadata` to attach string key/value information to the inference request. 
 
 ```json
 {
-    "model": "0198683a-2b6d-7066-9598-6ea119c219f2",
+    "model": "your-model-or-gateway-id",
     "messages": [
         {
             "role": "user",
@@ -180,7 +180,7 @@ Available pre-processing flags are:
 - `OtherFiles`
 - `All`
 
-The resolver caches media descriptions by content hash for reuse. `Image`, `Audio`, `Video`, and PDF `File` pre-processing use auxiliary multimodal inference. `OtherFiles` uses the internal extraction path for non-PDF files that can be converted to text.
+The resolver caches media descriptions by content hash for reuse. `Image`, `Audio`, `Video`, and PDF `File` pre-processing use auxiliary multimodal inference. Supported non-PDF files use local text extraction.
 
 Files and videos require a minimum account balance of $0.50. Images and audio require a minimum account balance of $0.10.
 
@@ -314,7 +314,7 @@ Example stream event:
     "choices": [],
     "servertool": {
         "name": "web_search",
-        "id": "call-70944e44-fbc5-4906-9f9f-99559c05db11-0",
+        "id": "call-example-id-0",
         "contents": "{\"query\":\"weather forecast today\",\"_tool_reason\":\"Searching for today's weather forecast online\",\"_tool_goal\":\"I need current weather information to answer accurately.\"}",
         "state": "Created",
         "explanation": {

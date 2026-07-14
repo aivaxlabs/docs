@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Come&#231;ando | AIVAX </title>
+        <title>Iniciando | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Come&#231;ando | AIVAX ">
+        <meta name="title" content="Iniciando | AIVAX ">
 
 
         <link rel="icon" href="../../assets/img/favicon.ico">
@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -123,15 +109,15 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="começando">Começando</h1>
+<h1 id="iniciando">Iniciando</h1>
 
-<p>Este guia mostra o caminho mais curto de uma conta AIVAX até a primeira conclusão de chat compatível com OpenAI.</p>
+<p>Este guia mostra o caminho mais curto de uma conta AIVAX para a primeira conclusão de chat compatível com OpenAI.</p>
 <h2 id="antes-de-começar">Antes de começar</h2>
 <p>Você precisa:</p>
 <ul>
 <li>Uma conta AIVAX.</li>
 <li>Uma chave de API privada do painel da conta ou do endpoint de chave de API.</li>
-<li>Saldo suficiente na conta para a operação. Algumas rotas exigem apenas que o saldo não seja negativo, enquanto clientes de chat, integrações, processamento em lote e entradas multimodais podem exigir um saldo estritamente positivo ou mínimo.</li>
+<li>Saldo suficiente na conta para a operação. Algumas rotas exigem apenas que o saldo não seja negativo, enquanto clientes de chat, integrações, processamento em lote e entradas multimodais podem exigir um saldo estritamente positivo ou um mínimo.</li>
 <li>Um nome de modelo hospedado ou um ID de Gateway de IA.</li>
 </ul>
 <p>URL base da API de produção:</p>
@@ -144,20 +130,19 @@
 <p>Use uma chave de API <strong>privada</strong> para chamadas do lado do servidor. Chaves privadas são geradas com o prefixo <code>sk-aiv-acc</code> e podem chamar APIs de conta autenticadas e endpoints de inferência compatíveis com OpenAI.</p>
 <p>Chaves públicas usam o prefixo <code>pk-aiv-</code>. Elas são destinadas ao uso restrito do lado do cliente em rotas públicas, como rotas públicas de consulta/resposta RAG e conclusões de chat restritas. Elas não podem chamar endpoints de gerenciamento de conta.</p>
 <p>Para a maioria das primeiras integrações, comece com uma chave privada de um serviço backend. Ela fornece a superfície completa da conta: listagem de modelos, conclusões de chat, Gateways de IA, coleções RAG, fluxos de trabalho em lote e APIs administrativas. Chaves públicas são úteis mais tarde, quando você expõe intencionalmente uma capacidade restrita a um navegador ou outro ambiente do lado do cliente.</p>
-<p>Consulte <a href="authentication.html">Authentication</a> para tipos de chave, esquemas de autenticação aceitos e validação de hooks. Se a próxima coisa que você deseja construir é um widget de usuário final em vez de uma integração backend, também leia <a href="features/chat-clients.html">Chat Clients</a>, pois sessões de chat resolvem identidade, histórico de conversas, anexos e limites por usuário de forma mais direta que uma chave pública bruta.</p>
+<p>Consulte <a href="authentication.html">Authentication</a> para tipos de chave, esquemas de autenticação aceitos e validação de hook. Se a próxima coisa que você deseja construir for um widget para o usuário final em vez de uma integração backend, também leia <a href="features/chat-clients.html">Chat Clients</a>, pois sessões de chat resolvem identidade, histórico de conversas, anexos e limites por usuário de forma mais direta do que uma chave pública bruta.</p>
 <h2 id="2-encontre-um-modelo-ou-id-de-gateway">2. Encontre um modelo ou ID de gateway</h2>
-<p>Você pode chamar qualquer um dos seguintes:</p>
+<p>Você pode chamar um dos seguintes:</p>
 <ul>
 <li>Um nome de modelo hospedado retornado pelo endpoint de listagem de modelos.</li>
 <li>Um identificador de gateway da sua conta.</li>
 </ul>
 <p>Slugs de gateway são suportados para chaves privadas. Conclusões de chat com chave pública devem usar o UUID completo do gateway e não podem chamar modelos integrados diretamente.</p>
-<p>Use um nome de modelo hospedado quando precisar apenas de uma chamada direta ao modelo. Use um AI Gateway quando quiser comportamento reutilizável: instruções, coleções RAG, ferramentas integradas, workers, servidores MCP, funções de protocolo, habilidades, moderação ou configurações de provedor. Um gateway se torna a &quot;configuração de assistente&quot; estável que sua aplicação pode chamar repetidamente sem reconstruir as mesmas opções em cada requisição.</p>
-<p>Se ainda estiver explorando, liste os modelos primeiro e faça uma chamada direta. Quando o prompt, ferramentas ou regras de recuperação começarem a fazer parte do produto, mova essa configuração para um <a href="inference/ai-gateway.html">AI Gateway</a>.</p>
-<p>Referência:</p>
+<p>Use um nome de modelo hospedado quando você precisar apenas de uma chamada direta ao modelo. Use um AI Gateway quando quiser comportamento reutilizável: instruções, coleções RAG, ferramentas embutidas, workers, servidores MCP, funções de protocolo, habilidades, moderação ou configurações de provedor. Um gateway se torna a &quot;configuração de assistente&quot; estável que sua aplicação pode chamar repetidamente sem reconstruir as mesmas opções em cada requisição.</p>
+<p>Se ainda estiver explorando, liste os modelos primeiro e faça uma chamada direta. Quando o prompt, as ferramentas ou as regras de recuperação começarem a fazer parte do produto, mova essa configuração para um <a href="inference/ai-gateway.html">AI Gateway</a>.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="3-faça-uma-requisição-de-conclusão-de-chat">3. Faça uma requisição de conclusão de chat</h2>
-<p>Instale o SDK OpenAI para sua linguagem e, em seguida, aponte-o para a AIVAX:</p>
+<p>Instale o SDK OpenAI para sua linguagem e, aponte-o para AIVAX:</p>
 <pre><code class="lang-python">from openai import OpenAI
 
 client = OpenAI(
@@ -168,37 +153,35 @@ client = OpenAI(
 response = client.chat.completions.create(
     model=&quot;&lt;MODEL_OR_GATEWAY_ID&gt;&quot;,
     messages=[
-        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a one-sentence welcome message.&quot;}
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Escreva uma mensagem de boas-vindas de uma frase.&quot;}
     ]
 )
 
 print(response.choices[0].message.content)
 </code></pre>
-<p>Substitua <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> por um nome de modelo integrado ou um ID de gateway disponível em sua conta.</p>
-<p>Esta requisição é intencionalmente pequena: uma mensagem de usuário, um modelo ou gateway e uma resposta. Depois que funcionar, você pode adicionar os componentes do produto um a um. Para saída JSON estruturada, veja <a href="inference/structured-responses.html">Structured Responses</a>. Para recuperar conhecimento de documentos antes de responder, crie uma <a href="rag/collections.html">RAG collection</a> e anexe-a a um gateway. Para permitir que o modelo chame sistemas externos, compare <a href="tools/builtin-tools.html">Built-in Tools</a>, <a href="tools/mcp.html">MCP</a> e <a href="tools/protocol-functions.html">Protocol Functions</a>.</p>
+<p>Substitua <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> por um nome de modelo integrado ou um ID de gateway disponível na sua conta.</p>
+<p>Esta requisição é intencionalmente pequena: uma mensagem do usuário, um modelo ou gateway e uma resposta. Depois que funcionar, você pode adicionar os componentes do produto um a um. Para saída JSON estruturada, veja <a href="inference/structured-responses.html">Structured Responses</a>. Para recuperar conhecimento de documentos antes de responder, crie uma <a href="rag/collections.html">RAG collection</a> e anexe-a a um gateway. Para permitir que o modelo chame sistemas externos, compare <a href="tools/builtin-tools.html">Built-in Tools</a>, <a href="tools/mcp.html">MCP</a> e <a href="tools/protocol-functions.html">Protocol Functions</a>.</p>
 <h3 id="inferência-de-longa-duração">Inferência de longa duração</h3>
 <p>Para requisições normais, continue usando <code>https://inference.aivax.net/v1</code>.</p>
-<p>Se uma chamada de inferência pode durar mais que o tempo limite do proxy Cloudflare, ou se seu cliente receber erros HTTP <code>524</code> enquanto aguarda conclusões longas, use o host de inferência direta:</p>
+<p>Se uma chamada de inferência pode durar mais que o timeout do proxy Cloudflare, ou se seu cliente receber erros HTTP <code>524</code> enquanto aguarda conclusões longas, use o host de inferência direto:</p>
 <pre><code class="lang-text">https://direct.inference.aivax.net/v1
 </code></pre>
-<p>Este host expõe apenas os caminhos de inferência compatíveis com OpenAI necessários para listagem de modelos e conclusões de chat. Use a mesma chave de API, valor do modelo, corpo da requisição e configuração do SDK, mudando apenas a URL base:</p>
+<p>Este host expõe apenas os caminhos de inferência compatíveis com OpenAI necessários para listagem de modelos e conclusões de chat. Use a mesma chave de API, valor de modelo, corpo da requisição e configuração do SDK, alterando apenas a URL base:</p>
 <pre><code class="lang-python">client = OpenAI(
     base_url=&quot;https://direct.inference.aivax.net/v1&quot;,
     api_key=&quot;sk-aiv-acc...&quot;
 )
 </code></pre>
-<p>Referência:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="4-confirme-faturamento-e-limites">4. Confirme faturamento e limites</h2>
 <p>Após uma requisição bem-sucedida, o uso é registrado contra a conta autenticada e o recurso da chave de API. O uso de modelo integrado é cobrado do saldo da conta, a menos que esteja coberto por uma janela de reserva de modelo de assinatura.</p>
-<p>Verificar o saldo após a primeira chamada é um bom passo de validação porque confirma que a autenticação, acesso ao modelo, rastreamento de uso e faturamento foram resolvidos sob a conta esperada. O endpoint de saldo também retorna informações de plano e limites, o que é útil antes de habilitar recursos de maior volume, como importações RAG, clientes de chat ou processamento em lote.</p>
-<p>Referência:</p>
+<p>Verificar o saldo após a primeira chamada é um bom passo de verificação, pois confirma que autenticação, acesso ao modelo, rastreamento de uso e faturamento foram resolvidos sob a conta esperada. O endpoint de saldo também retorna informações de plano e limites, o que é útil antes de habilitar recursos de maior volume, como importações RAG, clientes de chat ou processamento em lote.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Account%20Balance&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="formatos-de-erro">Formatos de erro</h2>
 <p>AIVAX usa dois formatos de resposta:</p>
 <ul>
 <li>Endpoints compatíveis com OpenAI retornam um objeto <code>error</code> no estilo OpenAI com <code>message</code>, <code>type</code>, <code>param</code> e <code>code</code>.</li>
-<li>Endpoints administrativos retornam <code>{&quot;error&quot;: &quot;...&quot;, &quot;details&quot;: null}</code> para erros e <code>{&quot;message&quot;: &quot;...&quot;, &quot;data&quot;: ...}</code> para resultados bem-sucedidos de <code>JsonResponse</code>.</li>
+<li>Endpoints administrativos retornam <code>{&quot;error&quot;: &quot;...&quot;, &quot;details&quot;: null}</code> para erros e <code>{&quot;message&quot;: &quot;...&quot;, &quot;data&quot;: ...}</code> para resultados bem-sucedidos.</li>
 </ul>
 <p>Falhas comuns:</p>
 <table>
@@ -211,7 +194,7 @@ print(response.choices[0].message.content)
 <tbody>
 <tr>
 <td><code>401 Unauthorized</code></td>
-<td>Falta, formato, expirada ou chave de API desconhecida.</td>
+<td>Falta, malformada, expirada ou chave de API desconhecida.</td>
 </tr>
 <tr>
 <td><code>403 Forbidden</code></td>
@@ -223,7 +206,7 @@ print(response.choices[0].message.content)
 </tr>
 <tr>
 <td><code>429 Too Many Requests</code></td>
-<td>Um limite de taxa foi atingido.</td>
+<td>Um limite de taxa foi alcançado.</td>
 </tr>
 <tr>
 <td><code>400 Bad Request</code></td>
@@ -231,26 +214,26 @@ print(response.choices[0].message.content)
 </tr>
 </tbody>
 </table>
-<p>Para conclusões de chat em streaming, trate blocos SSE normais, blocos opcionais <code>servertool</code>, metadados de uso finais, <code>[DONE]</code> e blocos de erro de streaming.</p>
+<p>Para conclusões de chat em streaming, trate blocos SSE normais, blocos opcionais <code>servertool</code>, metadados de uso final, <code>[DONE]</code> e blocos de erro de streaming.</p>
 <h2 id="lista-de-verificação-de-solução-de-problemas">Lista de verificação de solução de problemas</h2>
 <p>Quando uma requisição falha, verifique na seguinte ordem:</p>
 <ol>
 <li>A URL base é <code>https://inference.aivax.net/v1</code> para chamadas do SDK OpenAI.</li>
-<li>A chave é enviada como <code>Authorization: Bearer &lt;KEY&gt;</code>, autenticação Basic ou como parâmetro de consulta <code>api-key</code>.</li>
+<li>A chave é enviada como <code>Authorization: Bearer &lt;KEY&gt;</code>, autenticação Basic ou o parâmetro de consulta <code>api-key</code>.</li>
 <li>A conta tem saldo e cota de armazenamento suficientes.</li>
 <li>O ID do modelo ou gateway existe e é permitido pelo plano atual.</li>
-<li>A requisição está dentro dos limites de requisições, tokens, RAG, ferramentas ou lote do plano.</li>
-<li>Chamadas com chave pública usam apenas parâmetros de conclusão de chat permitidos e UUIDs completos de gateway.</li>
-<li>Configuração de ferramenta, RAG, worker ou esquema está isolada testando o mesmo prompt sem esse recurso.</li>
+<li>A requisição está dentro dos limites de requisição, token, RAG, ferramenta ou lote do plano.</li>
+<li>Chamadas com chave pública usam apenas parâmetros de conclusão de chat permitidos e UUIDs de gateway completos.</li>
+<li>A configuração de ferramenta, RAG, worker ou esquema é isolada testando o mesmo prompt sem esse recurso.</li>
 </ol>
 <h2 id="próximos-passos">Próximos passos</h2>
 <ul>
-<li><a href="authentication.html">Authentication</a>: entenda chaves privadas, chaves públicas e validação reversa de hooks.</li>
-<li><a href="limits.html">Plans and limits</a>: verifique limites de requisições, limites de contexto, limites RAG, limites de ferramentas e limites de lote antes de abrir um fluxo de trabalho para usuários.</li>
+<li><a href="authentication.html">Authentication</a>: entenda chaves privadas, chaves públicas e validação de hook reversa.</li>
+<li><a href="limits.html">Plans and limits</a>: verifique limites de requisição, limites de contexto, limites RAG, limites de ferramenta e limites de lote antes de abrir um fluxo de trabalho para usuários.</li>
 <li><a href="pricing.html">Pricing</a>: entenda como funcionam créditos, uso, armazenamento e verificações de saldo mínimo.</li>
 <li><a href="inference/ai-gateway.html">AI Gateways</a>: passe de uma chamada direta ao modelo para uma configuração de assistente reutilizável.</li>
 <li><a href="rag/collections.html">RAG collections</a>: armazene documentos e recupere-os durante a inferência.</li>
-<li><a href="features/batch.html">Batch</a>: execute o mesmo fluxo de trabalho de IA em muitos registros independentes.</li>
+<li><a href="features/batch.html">Batch</a>: execute o mesmo fluxo de trabalho de IA sobre muitos registros independentes.</li>
 </ul>
 
 </article>

@@ -11,39 +11,14 @@
 - name: Plans and limits
   href: limits.md 
 
-- name: Platform
-
-- name: Platform basics
-  href: platform/basics.md
-- name: Account, balance, and multiple accounts
-  href: platform/account-balance.md
-- name: Models
-  href: platform/models.md
-- name: AI Gateways
-  href: platform/ai-gateways.md
-- name: RAG Collections
-  href: platform/rag-collections.md
-- name: Chat Clients
-  href: platform/chat-clients.md
-- name: Batch
-  href: platform/batch.md
-- name: Analytics
-  href: platform/analytics.md
-- name: Conversations
-  href: platform/conversations.md
-- name: Skills
-  href: platform/skills.md
-- name: Logs
-  href: platform/logs.md
-- name: Memories
-  href: platform/memories.md
-
 - name: RAG and collections
 
 - name: Collections
   href: rag/collections.md
 - name: Semantic search
   href: rag/semantic-search.md
+- name: Reranking
+  href: rag/reranking.md
 - name: Best practices
   href: rag/best-practices.md
 
@@ -59,6 +34,15 @@
   href: inference/structured-responses.md
 - name: AI workers
   href: inference/workers.md
+
+  - name: Generations
+
+- name: Speech generation
+  href: generations/speech.md
+- name: Media descriptions
+  href: generations/media-descriptions.md
+- name: Image generation
+  href: generations/images.md
 
 - name: Tools
 
@@ -83,6 +67,33 @@
   href: features/chat-clients.md
 - name: Batch
   href: features/batch.md
+
+- name: Platform
+
+- name: Platform basics
+  href: platform/basics.md
+- name: Accounts and balance
+  href: platform/account-balance.md
+- name: Model gateway
+  href: platform/models.md
+- name: AI Gateways
+  href: platform/ai-gateways.md
+- name: RAG Collections
+  href: platform/rag-collections.md
+- name: Chat Clients
+  href: platform/chat-clients.md
+- name: Batch
+  href: platform/batch.md
+- name: Analytics
+  href: platform/analytics.md
+- name: Conversations
+  href: platform/conversations.md
+- name: Skills
+  href: platform/skills.md
+- name: Logs
+  href: platform/logs.md
+- name: Memories
+  href: platform/memories.md
 
 - name: Legal documents
 

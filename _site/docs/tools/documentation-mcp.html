@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -192,7 +178,7 @@
 }
 </code></pre>
 <p>Use more complete phrases when the question has a clear intent, such as <code>semantic search reranker settings</code> or <code>public key chat completion restrictions</code>. Use multiple terms when you want to cover neighboring concepts, alternate names, or likely API-reference terms.</p>
-<p>Search calls are rate-limited per account: 10 requests per minute and 400 requests per four hours.</p>
+<p>Search calls use the per-account quotas documented in <a href="/docs/limits#documentation-mcp">Plans and limits</a>.</p>
 <h3 id="aivax_list_models"><code>aivax_list_models</code></h3>
 <p>Lists integrated AIVAX chat models and returns a model-readable summary for each match. Use it when the assistant needs to choose a model, explain whether a model is available to the current plan, compare capabilities, or understand pricing and provider routes.</p>
 <p>The tool accepts:</p>
@@ -220,7 +206,7 @@
   &quot;name_filter&quot;: &quot;gemini flash&quot;
 }
 </code></pre>
-<p>Model listing calls are rate-limited per account: 30 requests per minute and 1,000 requests per day.</p>
+<p>Model listing calls use the per-account quotas documented in <a href="/docs/limits#documentation-mcp">Plans and limits</a>.</p>
 <h2 id="when-to-use-it">When to use it</h2>
 <p>Use the documentation MCP when you want an assistant to answer AIVAX questions from source-backed context instead of memory. This is useful in IDEs, support tools, onboarding agents, internal implementation copilots, and evaluation workflows where the assistant should search the manual before recommending a route, parameter, feature, model, or debugging step.</p>
 <p>It is also helpful for agent-building workflows. Before creating or editing an <a href="/docs/inference/ai-gateway">AI Gateway</a>, an assistant can search for the relevant feature, check model capabilities, then explain what configuration should be used and why. For example, it can compare built-in tools, MCP functions, server-side functions, workers, RAG collections, structured responses, and multimodal pre-processing before suggesting a design.</p>

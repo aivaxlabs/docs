@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Precifica&#231;&#227;o | AIVAX </title>
+        <title>Pre&#231;os | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Precifica&#231;&#227;o | AIVAX ">
+        <meta name="title" content="Pre&#231;os | AIVAX ">
 
 
         <link rel="icon" href="../../assets/img/favicon.ico">
@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -123,43 +109,163 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="precificação">Precificação</h1>
+<h1 id="preços">Preços</h1>
 
-<p>O modelo de pagamento da AIVAX é <strong>pré-pago</strong>: você adiciona saldo à sua conta e utiliza nossos serviços consumindo esse crédito. A AIVAX utiliza um modelo de assinatura mensal em conjunto com o saldo de utilização dos serviços. Para comparar diferenças entre Free, Pro e Max, consulte a <a href="https://aivax.net/pricing">página de preços da AIVAX</a>, que é a fonte atualizada para planos. O consumo dos serviços é sempre debitado do saldo da conta.</p>
-<p>Ao adicionar créditos, a AIVAX cobra uma pequena taxa (variável por método de pagamento) para cobrir impostos (notas fiscais), tarifas bancárias e custos operacionais.</p>
-<p>Alguns planos incluem uma <strong>taxa de comissão</strong> para o uso de saldo, que é uma porcentagem aplicada sobre o valor gasto em inferência (geração de texto). Consulte a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para ver a comissão atual de cada plano.</p>
-<p>A precificação de inferência (geração de texto) é baseada nos custos dos provedores, no modelo utilizado e nas regras comerciais do plano ativo. Para comparar diferenças entre planos, recursos inclusos, assinatura e comissão aplicável, consulte a <a href="https://aivax.net/pricing">página de preços da AIVAX</a>.</p>
-<p>Usamos diferentes <a href="/docs/pt-br/tools/builtin-tools">serviços</a> para ajudar você a criar assistentes agênticos. Algumas ferramentas possuem custos específicos que são debitados do seu saldo sem taxas adicionais.</p>
-<blockquote>
-<p><strong>Nota:</strong> Todos os custos são calculados em dólares americanos (USD). Pode haver flutuação cambial ao converter da sua moeda local para o dólar no momento da recarga ou do uso.</p>
-</blockquote>
-<h2 id="expiração-de-créditos">Expiração de Créditos</h2>
-<p>Como não podemos prever qual modelo você utilizará, precisamos alinhar a validade dos créditos com as políticas mais restritivas dos nossos fornecedores.</p>
-<p>Atualmente, os créditos expiram <strong>12 meses</strong> após a data de adição. Consulte os detalhes em nossos <a href="/docs/pt-br/legal/terms-of-service">termos de uso</a>.</p>
-<h2 id="rag-coleções-e-vetores">RAG (Coleções e Vetores)</h2>
-<p>O custo de indexação e incorporação de documentos do RAG na AIVAX é de <strong>$0,025</strong> por milhão de tokens processados.</p>
-<h2 id="armazenamento">Armazenamento</h2>
-<p>Para manter a integridade e disponibilidade dos seus dados, cobramos uma taxa de armazenamento por hora. O preço varia conforme o plano de assinatura:</p>
+<p>AIVAX usa um saldo de conta pré-pago. Faturas pagas adicionam crédito à conta e registros de uso subtraem desse saldo.</p>
+<p>The backend calculates balance as:</p>
+<pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
+</code></pre>
+<p>Use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para os preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que está visível no código-fonte da API.</p>
+<h2 id="créditos-e-faturas">Créditos e faturas</h2>
+<p>Créditos são representados como faturas.</p>
 <ul>
-<li><strong>Plano free</strong>: 30 MB franquia, sem opção de armazenamento adicional.</li>
-<li><strong>Plano Pro</strong>: 2 GB franquia, $0,50 por GB adicional por mês, cobrado por hora.</li>
-<li><strong>Plano Max</strong>: 20 GB franquia, $0,20 por GB adicional por mês, cobrado por hora.</li>
+<li>Faturas pagas aumentam o saldo utilizável da conta até a data de expiração.</li>
+<li>Faturas de pagamento não pagas são criadas com expiração de um ano.</li>
+<li>Faturas não pagas com mais de três dias são removidas pela limpeza.</li>
+<li>Faturas pagas expiradas não contam mais para o saldo.</li>
+<li>A criação de fatura de pagamento requer pelo menos 3 USD e tem limite de taxa.</li>
 </ul>
-<p><strong>Como funciona a cobrança:</strong>
-Você paga apenas pelo <strong>excedente</strong> da franquia.</p>
+<h2 id="faturamento-de-uso">Faturamento de uso</h2>
+<p>Cada operação faturável grava um ou mais registros de uso. Cada registro de uso contém:</p>
 <ul>
-<li><em>Exemplo:</em> Se estiver no plano Pro você usar 2,20 GB por uma hora, pagará apenas sobre os 0,20 GB excedentes. Se usar 250 MB, o custo é zero.</li>
+<li>Descrição.</li>
+<li>Preço unitário.</li>
+<li>Quantidade.</li>
+<li>Nome opcional do modelo.</li>
+<li>Categoria de uso.</li>
+<li>Recursos como chave de API, gateway ou coleção.</li>
 </ul>
-<p><strong>O que consome armazenamento:</strong></p>
-<ol>
-<li>Memória de longo prazo dos usuários (chats e inferências salvas);</li>
-<li>Cache de descrições de imagens (processamento multi-modal);</li>
-<li>Conteúdo de documentos RAG e seus vetores;</li>
-<li>Armazenamento do bash/shell virtual.</li>
-</ol>
-<p>Logs de sistema são temporários e não geram custos de armazenamento.</p>
-<h2 id="ferramentas-tools">Ferramentas (Tools)</h2>
-<p>As <a href="/docs/pt-br/tools/builtin-tools">ferramentas nativas</a> da AIVAX possuem preços e limites específicos. Consulte a documentação de cada ferramenta.</p>
+<p>O preço unitário final é multiplicado pelo multiplicador de imposto da conta e pelo multiplicador de comissão do plano atual.</p>
+<table>
+<thead>
+<tr>
+<th>Plano</th>
+<th>Multiplicador de comissão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gratuito</td>
+<td>1.25x</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>1.05x</td>
+</tr>
+<tr>
+<td>Máximo</td>
+<td>1.00x</td>
+</tr>
+</tbody>
+</table>
+<h2 id="faturamento-de-inferência">Faturamento de inferência</h2>
+<p>O faturamento de modelo integrado usa a tabela de preços do modelo fornecida pelo backend. O preço pode variar por modelo e por limite de tokens de entrada. O uso pode incluir:</p>
+<ul>
+<li>Tokens de texto de entrada.</li>
+<li>Tokens de entrada em cache, quando o modelo selecionado tem preço para entrada em cache.</li>
+<li>Tokens de áudio de entrada, quando aplicável.</li>
+<li>Tokens de saída.</li>
+</ul>
+<p>Alguns modelos integrados podem ser cobertos por janelas de reserva de modelo de assinatura. Quando um modelo tem um multiplicador de uso de assinatura e a conta ainda tem reserva restante tanto na janela de seis horas quanto na semanal, o uso registrado do modelo pode ser coberto em vez de ser cobrado do saldo.</p>
+<p>As janelas de reserva atuais são:</p>
+<table>
+<thead>
+<tr>
+<th>Plano</th>
+<th>Reserva de seis horas</th>
+<th>Reserva semanal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gratuito</td>
+<td>Nenhum</td>
+<td>Nenhum</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>250 unidades</td>
+<td>3.000 unidades</td>
+</tr>
+<tr>
+<td>Máximo</td>
+<td>1.000 unidades</td>
+<td>15.000 unidades</td>
+</tr>
+</tbody>
+</table>
+<p>Chamadas BYOK usam sua chave de provedor externo, mas a AIVAX ainda aplica limites de requisições BYOK porque a requisição passa pela infraestrutura da AIVAX.</p>
+<h2 id="faturamento-rag">Faturamento RAG</h2>
+<p>O modelo de incorporação padrão é <code>@aivax/data-embedding</code>. Seu preço no backend é:</p>
+<pre><code class="lang-text">$0.015 per 1,000,000 input tokens
+</code></pre>
+<p>Isso se aplica ao indexamento de documentos e ao uso de incorporação de consultas que utilizam o modelo de incorporação padrão. Reordenação, quando ativada, pode adicionar uso separado de reordenação.</p>
+<p>O endpoint lexical independente <a href="/docs/pt-br/rag/reranking">Reranking</a> tem um preço base de $0.0001 por requisição, equivalente a $1 por 10.000 buscas. Esse preço de endpoint não é adicionado à reordenação feita dentro da Busca Semântica. O multiplicador de comissão do plano ainda se aplica quando o registro de uso independente é escrito.</p>
+<h2 id="faturamento-de-armazenamento">Faturamento de armazenamento</h2>
+<p>O armazenamento é verificado antes de operações limitadas por saldo. Se o uso de armazenamento exceder a cota do plano, a requisição pode falhar com <code>402 Payment Required</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Plano</th>
+<th>Armazenamento incluído</th>
+<th>Excesso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gratuito</td>
+<td>30 MB</td>
+<td>Nenhum excesso pago</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>2 GB</td>
+<td>$0.50/GB/mês, cobrado por hora</td>
+</tr>
+<tr>
+<td>Máximo</td>
+<td>20 GB</td>
+<td>$0.20/GB/mês, cobrado por hora</td>
+</tr>
+</tbody>
+</table>
+<p>O excesso de armazenamento é cobrado por hora. O trabalho cobra apenas o uso excedente acima da cota incluída, e somente quando o excesso faturável é maior que 1 MB.</p>
+<p>O armazenamento pode incluir conteúdo e vetores de documentos RAG, itens de memória de longo prazo, cache de descrição de mídia, conteúdo de sessão de chat web e arquivos de shell.</p>
+<h2 id="requisitos-de-saldo">Requisitos de saldo</h2>
+<p>Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também interrompem quando o saldo está zero ou negativo. Alguns inputs de conclusão de chat multimodais requerem um saldo mínimo antes de iniciar a chamada do modelo:</p>
+<table>
+<thead>
+<tr>
+<th>Tipo de entrada</th>
+<th>Saldo mínimo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Imagem ou áudio</td>
+<td>$0.10</td>
+</tr>
+<tr>
+<td>Arquivo ou vídeo</td>
+<td>$0.50</td>
+</tr>
+</tbody>
+</table>
+<p>Se o saldo da conta for muito baixo, a API retorna <code>402 Payment Required</code>.</p>
+<h2 id="planos-e-limites">Planos e limites</h2>
+<p>Os planos afetam tanto o preço quanto a operação:</p>
+<ul>
+<li>Acesso ao modelo.</li>
+<li>Multiplicador de comissão.</li>
+<li>Limites de taxa de requisição e token.</li>
+<li>Limites de requisição BYOK.</li>
+<li>Cotas RAG.</li>
+<li>Limites de ferramentas.</li>
+<li>Cota de armazenamento e preço de excesso.</li>
+<li>Retenção de conversas.</li>
+<li>Janelas de reserva de modelo de assinatura.</li>
+</ul>
+<p>Veja <a href="limits.html">Planos e limites</a> para a matriz técnica de cotas.</p>
 
 </article>
 

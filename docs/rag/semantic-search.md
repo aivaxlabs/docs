@@ -4,12 +4,12 @@ The semantic search API searches one or more collections and returns the most re
 
 Search is performed in stages:
 
-1. Each query term is embedded with the internal `DocumentQuery` task.
-2. Indexed documents were previously embedded with the internal `DocumentRetrieval` task.
+1. Each query term is embedded in query mode.
+2. Documents are embedded in retrieval mode during indexing.
 3. The search prefilters candidates with compact embedding hashes.
 4. Candidate documents are scored with embedding similarity.
-5. The configured reranker can adjust the final order.
-6. Results are filtered by `minScore`, sorted by score, and limited by `top`.
+5. Candidates below `minScore` are removed after embedding similarity is calculated.
+6. The configured reranker can adjust the remaining order before the final `top` limit is applied.
 
 After creating a collection, use its collection ID in the `collections` array when searching.
 
@@ -26,8 +26,8 @@ After creating a collection, use its collection ID in the `collections` array wh
 | `term` | `string` | Required if `terms` is absent | One search term. |
 | `terms` | `string[]` | Required if `term` is absent | One or more search terms. |
 | `top` | `number` | `5` | Maximum number of documents returned. Current validation allows 1 to 128. |
-| `minScore` | `number` | `0.2` | Minimum final relevance score. Current validation allows values from 0.01 to 0.99. |
-| `reranker` | `string` | `lexical` | `lexical`, `smart`, or `none`. |
+| `minScore` | `number` | `0.2` | Minimum embedding-similarity score before reranking. Current validation allows values from 0.01 to 0.99. |
+| `reranker` | `string` | `rrf` | `rrf`, `lexical`, `smart`, or `none`. |
 | `includeReferences` | `boolean` | `false` | Includes related documents with the same reference ID when a matched document has a reference. |
 
 The response includes the matched document ID, collection ID, document name, document content, metadata, score, and referenced documents when reference expansion is enabled.
@@ -41,10 +41,13 @@ Available rerankers:
 | Reranker | Cost | Behavior |
 | --- | --- | --- |
 | `none` | No reranking cost | Uses vector similarity only. |
+| `rrf` | No reranking cost | Fuses the embedding and lexical rank positions. This is the default. |
 | `lexical` | No reranking cost | Applies a local boost based on lexical matches, fuzzy token matches, and term proximity in the document name and content. |
 | `smart` | Reranking cost applies | Uses Cloudflare Workers AI (`@cf/baai/bge-reranker-base`) to rescore candidate documents against the full query. |
 
-The default reranker is `lexical`. To disable reranking, send `"reranker": "none"`. To use the model-based reranker, send `"reranker": "smart"`.
+The default reranker is `rrf`. To disable reranking, send `"reranker": "none"`. To preserve the semantic score and add a conservative lexical boost, use `lexical`. To use the model-based reranker, send `"reranker": "smart"`.
+
+All non-`none` rerankers share the account's [reranking-search limit](/docs/limits#rag-and-collection-limits). The same quota applies to the standalone [Reranking](reranking.md) endpoint.
 
 > [!NOTE]
 > Reranking does not search additional documents. It only reorders candidates already found by the vector search stage.
@@ -142,7 +145,7 @@ Headers:
 | `Authorization` | Bearer token of your API key. | Required |
 | `X-Mcp-Collection-Id` | One or more collection IDs. Use commas for multiple collections. | Required |
 | `X-Mcp-Collection-Name` | Collection name used to generate tool names. | `collection` |
-| `X-Mcp-Reranker` | `lexical`, `smart`, or `none`. | `lexical` |
+| `X-Mcp-Reranker` | `rrf`, `lexical`, `smart`, or `none`. | `rrf` |
 | `X-Mcp-Top-K` | Maximum number of results to return. | `5` |
 | `X-Mcp-Min-Score` | Minimum relevance score greater than 0 and up to 1.0. | `0.4` |
 | `X-Mcp-Use-References` | Current server behavior enables references when this header value is `none`; omit the header to disable references. | disabled |
@@ -161,7 +164,7 @@ Visual Studio Code:
       "url": "https://inference.aivax.net/v1/mcp/collections",
       "headers": {
         "Authorization": "Bearer {your_api_key}",
-        "X-Mcp-Collection-Id": "019b80d5-cee2-7010-ab22-f676271af866",
+        "X-Mcp-Collection-Id": "your-collection-id",
         "X-Mcp-Collection-Name": "my_collection",
         "X-Mcp-Top-K": "5",
         "X-Mcp-Min-Score": "0.4",

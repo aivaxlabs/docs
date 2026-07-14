@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -140,7 +126,7 @@
 <p>A skill has <code>slug</code>, <code>description</code>, <code>instructions</code>, and <code>options</code>. The <code>slug</code> is the technical identifier used by the account and must be 64 characters or fewer, using letters, numbers, underscores, periods, or hyphens. The <code>description</code> is the text that helps the model decide when that skill should be loaded; it needs to explain the usage scenario instead of repeating the name. The <code>instructions</code> are the full content that will be inserted when the skill is activated. In the current runtime path, <code>instructionSources</code> is stored and exported with the skill configuration, but only the inline <code>instructions</code> field is injected when the model activates a skill.</p>
 <p>Write the description as a routing rule. A description like “legal skill” is weak because it doesn’t say when to use it. A better description would be “use when the user asks for analysis, review, or explanation of contractual clauses in simple language.” The instructions, on the other hand, should be operational: explain how to respond, what questions to ask when data is missing, which tools may be useful, what limits must be respected, and the expected final format. The model reads the description to choose the skill and reads the instructions to perform the task.</p>
 <p><code>allowedToolsNames</code> is part of the skill configuration and is intended to associate runtime tool names with a skill, such as <code>web_search</code>, <code>open_url</code>, <code>generate_image</code>, or <code>generate_web_page</code>. In the current runtime path, the general always-visible tool list is the reliable way to keep shared tools visible when the gateway hides tools without a skill.</p>
-<p>Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least <code>slug</code> and <code>instructions</code>; <code>description</code> and <code>options</code> can complement the configuration. The current import loop can process up to 10,001 lines. When importing a skill with an existing <code>slug</code>, AIVAX updates the corresponding skill instead of creating a duplicate.</p>
+<p>Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least <code>slug</code> and <code>instructions</code>; <code>description</code> and <code>options</code> can complement the configuration. When importing a skill with an existing <code>slug</code>, AIVAX updates the corresponding skill instead of creating a duplicate.</p>
 <h2 id="how-to-write-skills">How to write skills?</h2>
 <p>Writing effective skills requires clarity and specificity in the instructions. Here are the main guidelines:</p>
 <h3 id="skill-structure">Skill structure</h3>

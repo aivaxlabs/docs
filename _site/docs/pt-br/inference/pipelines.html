@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../../toc.html">
 
         <meta name="docfx:rel" content="../../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -125,46 +111,46 @@
                 <article data-uid="">
 <h1 id="pipelines-de-ia">Pipelines de IA</h1>
 
-<p>Os pipelines do Gateway de IA são as etapas de processamento que a AIVAX aplica antes e durante a inferência. Eles podem adicionar contexto, reescrever consultas, expor ferramentas, moderar entrada, direcionar modelos, truncar conversas e chamar workers externos.</p>
-<p>A maioria dos pipelines é configurada nos parâmetros do gateway. Opções ao nível de requisição podem sobrescrever alguns parâmetros de inferência em chamadas diretas de <code>chat/completions</code>.</p>
+<p>Os pipelines do Gateway de IA são as etapas de processamento que a AIVAX aplica antes e durante a inferência. Eles podem adicionar contexto, reescrever consultas, expor ferramentas, moderar a entrada, rotear modelos, truncar conversas e chamar trabalhadores externos.</p>
+<p>A maioria dos pipelines é configurada nos parâmetros do gateway. Opções ao nível de requisição podem sobrescrever alguns parâmetros de inferência em chamadas diretas <code>chat/completions</code>.</p>
 <h2 id="rag">RAG</h2>
-<p>RAG vincula <a href="/docs/pt-br/rag/collections">collections</a> a um Gateway de IA. O gateway controla:</p>
+<p>RAG vincula <a href="/docs/pt-br/rag/collections">coleções</a> a um Gateway de IA. O gateway controla:</p>
 <ul>
 <li>Coleções incluídas na recuperação.</li>
 <li>Número máximo de documentos recuperados.</li>
 <li>Pontuação mínima.</li>
-<li>Nome do reranker.</li>
-<li>Se referências de fragmentos são incluídas.</li>
+<li>Nome do reordenador.</li>
+<li>Se as referências de fragmentos estão incluídas.</li>
 <li>Estratégia de consulta.</li>
 </ul>
-<p>Quando um gateway tem coleções de conhecimento e a última mensagem do usuário contém texto, a AIVAX pode recuperar documentos correspondentes antes da chamada ao modelo. Para estratégias de injeção, o contexto recuperado é inserido no início da última mensagem do usuário como um bloco interno de contexto RAG. Se uma coleção vinculada tem seu próprio texto de contexto, esse contexto de coleção é adicionado às instruções do sistema.</p>
+<p>Quando um gateway tem coleções de conhecimento e a mensagem mais recente do usuário contém texto, a AIVAX pode recuperar documentos correspondentes antes da chamada ao modelo. Para estratégias de injeção, o contexto recuperado é inserido no início da última mensagem do usuário. Se uma coleção vinculada tem seu próprio texto de contexto, esse contexto da coleção é adicionado às instruções do sistema.</p>
 <p>Estratégias de consulta:</p>
 <ul>
-<li><code>Plain</code>: Usa a última mensagem do usuário como a consulta de busca.</li>
-<li><code>Concatenate</code>: Junta o número configurado mais recente de mensagens do usuário linha a linha e busca com o texto combinado.</li>
+<li><code>Plain</code>: Usa a mensagem mais recente do usuário como a consulta de busca.</li>
+<li><code>Concatenate</code>: Junta o número configurado mais recente de mensagens do usuário linha por linha e busca com o texto combinado.</li>
 <li><code>UserRewrite</code>: Reescreve mensagens recentes do usuário em uma ou mais consultas de busca usando um modelo resolvedor.</li>
 <li><code>FullRewrite</code>: Reescreve mensagens recentes do usuário e do assistente em uma ou mais consultas de busca usando um modelo resolvedor.</li>
 <li><code>QueryFunction</code>: Adiciona uma função de consulta ao modelo. O modelo decide quando buscar nas coleções vinculadas, e os resultados da busca são retornados como respostas de ferramenta.</li>
 </ul>
-<p>Estratégias de reescrita adicionam custo e latência do modelo resolvedor. Elas são úteis quando os usuários fazem perguntas de acompanhamento, como &quot;e quanto a este caso?&quot;, pois o resolvedor pode transformar a conversa recente em uma consulta de busca mais clara.</p>
-<p>Definir muitos resultados RAG aumenta o uso de tokens de entrada e pode aumentar o custo final da inferência. Comece com uma contagem pequena de resultados e aumente somente quando o modelo não tem evidência suficiente.</p>
+<p>Estratégias de reescrita adicionam custo e latência ao modelo resolvedor. Elas são úteis quando os usuários fazem perguntas de acompanhamento, como &quot;e quanto a este caso?&quot;, pois o resolvedor pode transformar a conversa recente em uma consulta de busca mais clara.</p>
+<p>Definir muitos resultados RAG aumenta o uso de tokens de entrada e pode elevar o custo final da inferência. Comece com uma contagem pequena de resultados e aumente apenas quando o modelo não tem evidência suficiente.</p>
 <h2 id="instruções">Instruções</h2>
-<p>Configurações de instruções moldam o prompt voltado ao provedor:</p>
+<p>As configurações de instruções moldam o prompt voltado ao provedor:</p>
 <ul>
-<li><strong>Instruções de sistema</strong>: Adicionadas ao conjunto de instruções do sistema.</li>
-<li><strong>Fontes remotas de instruções de sistema</strong>: Obtidas a partir de URLs configuradas e adicionadas ao conjunto de instruções do sistema.</li>
-<li><strong>Modelo de prompt do usuário</strong>: Substitui <code>{prompt}</code> pelo texto de cada mensagem do usuário antes de enviá-lo ao modelo.</li>
-<li><strong>Preenchimento do assistente</strong>: Adiciona conteúdo inicial do assistente antes da geração quando o modelo suporta preenchimento.</li>
+<li><strong>System instructions</strong>: Adicionado ao conjunto de instruções do sistema.</li>
+<li><strong>Remote system instruction sources</strong>: Obtido a partir de URLs configuradas e adicionado ao conjunto de instruções do sistema.</li>
+<li><strong>User prompt template</strong>: Substitui <code>{prompt}</code> pelo texto de cada mensagem do usuário antes de enviá-lo ao modelo.</li>
+<li><strong>Assistant prefill</strong>: Adiciona conteúdo inicial do assistente antes da geração quando o modelo suporta preenchimento prévio.</li>
 </ul>
-<p>Fontes remotas de instruções são obtidas como texto com tamanho máximo de resposta de 10 MB. Sua duração de cache é configurável; o padrão é 600 segundos.</p>
-<p>Alguns modelos não suportam preenchimento do assistente, temperatura, sequências de parada ou esforço de raciocínio. A validação integrada de modelo rejeita configurações incompatíveis do gateway quando essas limitações são conhecidas.</p>
+<p>Fontes de instruções remotas são obtidas como texto com tamanho máximo de resposta de 10 MB. Sua duração de cache é configurável; o padrão é 600 segundos.</p>
+<p>Alguns modelos não suportam preenchimento prévio do assistente, temperatura, sequências de parada ou esforço de raciocínio. A validação integrada do modelo rejeita configurações de gateway incompatíveis quando essas limitações são conhecidas.</p>
 <h2 id="habilidades">Habilidades</h2>
-<p>Habilidades são pacotes de instruções sob demanda disponíveis para o modelo. Quando um gateway habilita habilidades, a AIVAX carrega as habilidades da conta configuradas no gateway e pode expor funções internas relacionadas a habilidades.</p>
-<p>Saiba mais sobre <a href="/docs/pt-br/features/skills">skills</a>.</p>
+<p>Habilidades são pacotes de instruções sob demanda disponíveis para o modelo. Quando um gateway habilita habilidades, a AIVAX carrega as habilidades da conta configuradas no gateway e pode expor funções integradas relacionadas a habilidades.</p>
+<p>Saiba mais sobre <a href="/docs/pt-br/features/skills">habilidades</a>.</p>
 <h2 id="pré-processamento-multimodal">Pré-processamento multimodal</h2>
 <p>O pré-processamento multimodal converte o conteúdo de mídia selecionado em texto antes da chamada ao modelo principal. As flags disponíveis são <code>Image</code>, <code>Audio</code>, <code>Video</code>, <code>File</code>, <code>OtherFiles</code> e <code>All</code>.</p>
-<p>Use pré-processamento quando o modelo principal for texto‑first ou quando você quiser que a AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré‑processamento para que o modelo possa inspecioná‑la diretamente.</p>
-<p>Descrições de mídia são armazenadas em cache por hash de conteúdo para reutilização.</p>
+<p>Use o pré-processamento quando o modelo principal for principalmente texto ou quando você quiser que a AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré-processamento para que o modelo possa inspecioná‑la diretamente.</p>
+<p>As descrições de mídia são armazenadas em cache por hash de conteúdo para reutilização.</p>
 <h2 id="parametrização">Parametrização</h2>
 <p>O pipeline de parametrização configura opções de requisição do modelo, como:</p>
 <ul>
@@ -179,33 +165,33 @@
 <li><code>seed</code></li>
 </ul>
 <p>Valores ao nível de requisição podem sobrescrever valores do gateway quando o endpoint suporta o parâmetro. Alguns modelos integrados rejeitam parâmetros específicos, e provedores BYOK podem ter suas próprias restrições.</p>
-<h2 id="truncamento-de-contexto">Truncamento de contexto</h2>
-<p>O pipeline de truncamento de contexto usa uma contagem aproximada de tokens. Quando <code>ContextMaximumSize</code> está definido e a conversa excede o limite, o gateway segue <code>ContextOverflowAction</code>:</p>
+<h2 id="truncação-de-contexto">Truncação de contexto</h2>
+<p>O pipeline de truncação de contexto usa uma contagem aproximada de tokens. Quando <code>ContextMaximumSize</code> está definido e a conversa excede o limite, o gateway segue <code>ContextOverflowAction</code>:</p>
 <ul>
-<li><code>Throw</code>: Retorna um erro em vez de chamar o modelo.</li>
+<li><code>Throw</code>: Retorna um erro ao invés de chamar o modelo.</li>
 <li><code>Truncate</code>: Remove mensagens não‑sistema mais antigas até que a conversa caiba.</li>
 </ul>
-<p>O truncamento preserva mensagens de sistema e mantém pelo menos uma mensagem do usuário quando possível. Se a mensagem do usuário restante ainda exceder o limite, a requisição falha com um erro de tamanho de mensagem.</p>
+<p>A truncação preserva mensagens do sistema e mantém ao menos uma mensagem do usuário quando possível. Se a mensagem de usuário restante ainda exceder o limite, a requisição falha com um erro de tamanho de mensagem.</p>
 <p>No plano gratuito, o contexto de entrada efetivo é limitado a 65 536 tokens mesmo quando um contexto maior está configurado.</p>
-<h2 id="truncamento-de-mensagens-de-ferramenta">Truncamento de mensagens de ferramenta</h2>
+<h2 id="truncação-de-mensagens-de-ferramenta">Truncação de mensagens de ferramenta</h2>
 <p><code>ToolContextCount</code> controla quantas mensagens recentes de resposta de ferramenta mantêm seu conteúdo original. Quando definido para um valor maior que zero, mensagens de ferramenta mais antigas permanecem na conversa, mas seu conteúdo é substituído por:</p>
 <pre><code class="lang-text">[tool response truncated - call this tool again]
 </code></pre>
-<p>Isso pode reduzir o uso de contexto em conversas agentes longas. Também pode prejudicar cadeias onde um resultado antigo de ferramenta permanece importante, portanto use apenas quando o modelo puder chamar a ferramenta novamente com segurança.</p>
+<p>Isso pode reduzir o uso de contexto em conversas agenticas longas. Também pode prejudicar cadeias onde um resultado antigo de ferramenta permanece importante, portanto use apenas quando o modelo puder chamar a ferramenta novamente com segurança.</p>
 <h2 id="ferramentas-do-lado-do-servidor">Ferramentas do lado do servidor</h2>
 <p>Ferramentas do lado do servidor são funções internas executadas pela AIVAX durante a inferência. Elas podem vir de:</p>
 <ul>
-<li>Ferramentas internas.</li>
+<li>Ferramentas integradas.</li>
 <li>Funções de protocolo.</li>
-<li>Fontes remotas de funções de protocolo.</li>
+<li>Fontes de funções de protocolo remotas.</li>
 <li>Fontes MCP.</li>
-<li>RAG QueryFunction.</li>
+<li>QueryFunction RAG.</li>
 <li>Habilidades.</li>
 <li>Ambiente bash opcional.</li>
 </ul>
 <p>Eventos de ferramentas do lado do servidor podem ser transmitidos aos clientes como atualizações <code>servertool</code>.</p>
-<h2 id="ferramentas-internas">Ferramentas internas</h2>
-<p>Ferramentas internas podem ser configuradas em um gateway ou fornecidas por requisição com <code>builtin_tools</code>. As flags de ferramentas internas disponíveis incluem:</p>
+<h2 id="ferramentas-integradas">Ferramentas integradas</h2>
+<p>Ferramentas integradas podem ser configuradas em um gateway ou fornecidas por requisição com <code>builtin_tools</code>. Flags de ferramentas integradas disponíveis incluem:</p>
 <ul>
 <li><code>WebSearch</code></li>
 <li><code>AdvancedWebUsage</code></li>
@@ -219,24 +205,24 @@
 <li><code>XPostsSearch</code></li>
 <li><code>ImageGeneration</code></li>
 </ul>
-<p>Veja <a href="/docs/pt-br/tools/builtin-tools">Ferramentas internas</a>.</p>
+<p>Veja <a href="/docs/pt-br/tools/builtin-tools">Ferramentas integradas</a>.</p>
 <h2 id="mcp-e-funções-de-protocolo">MCP e funções de protocolo</h2>
-<p>Fontes MCP são convertidas em funções internas listando as ferramentas MCP remotas e envolvendo seus esquemas como funções chamáveis pelo modelo. Resultados de ferramentas MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportado.</p>
-<p>Funções de protocolo expõem callbacks HTTP ou URLs de callback da AIVAX como ferramentas chamáveis pelo modelo. Fontes remotas de funções de protocolo são obtidas e armazenadas em cache, depois convertidas em funções internas.</p>
+<p>Ferramentas listadas por uma fonte MCP tornam‑se disponíveis ao modelo com seus esquemas declarados. Resultados de ferramentas MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportado.</p>
+<p>Funções de protocolo expõem callbacks HTTP ou URLs de callback da AIVAX como ferramentas chamáveis pelo modelo. Fontes de funções de protocolo remotas são obtidas e armazenadas em cache antes que suas ferramentas se tornem disponíveis ao modelo.</p>
 <p>Veja <a href="/docs/pt-br/tools/protocol-functions">Funções de protocolo</a> e <a href="/docs/pt-br/tools/mcp">MCP</a>.</p>
 <h2 id="interpretador-de-funções">Interpretador de funções</h2>
-<p>Um manipulador de ferramenta pode adicionar comportamento de chamada de ferramenta para modelos que não produzem chamadas nativas de ferramenta de forma confiável. Neste checkout, os valores configurados ativos são:</p>
+<p>Um manipulador de ferramenta pode adicionar comportamento de chamada de ferramenta para modelos que não produzem chamadas nativas de forma confiável. Valores suportados são:</p>
 <ul>
 <li><code>native</code> ou <code>null</code>: Usa chamada de ferramenta nativa do modelo.</li>
-<li><code>react.v1.selfcall</code>: Usa o manipulador de auto‑chamada estilo ReAct.</li>
+<li><code>react.v1.selfcall</code>: Usa o manipulador de autochamada estilo ReAct.</li>
 </ul>
-<p>Se um nome de manipulador não for reconhecido, a configuração do gateway falha no tempo de inferência.</p>
+<p>Se um nome de manipulador não for reconhecido, a configuração do gateway falha no momento da inferência.</p>
 <h2 id="moderação">Moderação</h2>
 <p>A moderação executa um modelo resolvedor sobre a conversa e pontua categorias para violência, conteúdo sexualmente explícito, conteúdo político, conteúdo perigoso e tentativas de jailbreak. Se os limites configurados forem excedidos, a AIVAX marca as mensagens originais da conversa como não encaminhadas e pede ao modelo que responda que não pode interagir com esse conteúdo.</p>
-<p>Use moderação para política de segurança ampla. Use workers quando a decisão depende de identidade externa, estado da conta ou política específica de negócio.</p>
-<h2 id="workers">Workers</h2>
-<p>Workers são hooks HTTP externos chamados durante a execução do gateway. Eles podem parar um evento, deixá‑lo continuar, reescrever o contexto da mensagem, adicionar ferramentas, adicionar instruções de sistema ou substituir um resultado de ferramenta do lado do servidor.</p>
-<p>Saiba mais sobre <a href="/docs/pt-br/inference/workers">AI Workers</a>.</p>
+<p>Use a moderação para política de segurança abrangente. Use trabalhadores quando a decisão depende de identidade externa, estado da conta ou política específica de negócio.</p>
+<h2 id="trabalhadores">Trabalhadores</h2>
+<p>Trabalhadores são hooks HTTP externos chamados durante a execução do gateway. Eles podem parar um evento, deixá‑lo continuar, reescrever o contexto da mensagem, adicionar ferramentas, adicionar instruções do sistema ou substituir um resultado de ferramenta do lado do servidor.</p>
+<p>Saiba mais sobre <a href="/docs/pt-br/inference/workers">Trabalhadores de IA</a>.</p>
 
 </article>
 

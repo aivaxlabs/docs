@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -211,9 +197,9 @@
 }
 </code></pre>
 <h2 id="request-idempotency">Request idempotency</h2>
-<p>Set <code>idempotency_key</code> when your integration needs repeat calls to update the same stored conversation record instead of creating a new conversation token. AIVAX uses this value as the internal <code>ConversationToken</code> for the AI Gateway context and conversation logging.</p>
+<p>Set <code>idempotency_key</code> when your integration needs repeat calls to update the same stored conversation record instead of creating a new conversation token. AIVAX uses this value to correlate the AI Gateway context and conversation logging.</p>
 <pre><code class="lang-json">{
-    &quot;model&quot;: &quot;0198683a-2b6d-7066-9598-6ea119c219f2&quot;,
+    &quot;model&quot;: &quot;your-model-or-gateway-id&quot;,
     &quot;messages&quot;: [
         {
             &quot;role&quot;: &quot;user&quot;,
@@ -227,7 +213,7 @@
 <h2 id="request-metadata">Request metadata</h2>
 <p>Set <code>metadata</code> to attach string key/value information to the inference request. AIVAX stores this object with the logged conversation and exposes it to gateway events, so it is useful for operational correlation such as an order ID, tenant, workflow, or internal trace key.</p>
 <pre><code class="lang-json">{
-    &quot;model&quot;: &quot;0198683a-2b6d-7066-9598-6ea119c219f2&quot;,
+    &quot;model&quot;: &quot;your-model-or-gateway-id&quot;,
     &quot;messages&quot;: [
         {
             &quot;role&quot;: &quot;user&quot;,
@@ -275,7 +261,7 @@
 <li><code>OtherFiles</code></li>
 <li><code>All</code></li>
 </ul>
-<p>The resolver caches media descriptions by content hash for reuse. <code>Image</code>, <code>Audio</code>, <code>Video</code>, and PDF <code>File</code> pre-processing use auxiliary multimodal inference. <code>OtherFiles</code> uses the internal extraction path for non-PDF files that can be converted to text.</p>
+<p>The resolver caches media descriptions by content hash for reuse. <code>Image</code>, <code>Audio</code>, <code>Video</code>, and PDF <code>File</code> pre-processing use auxiliary multimodal inference. Supported non-PDF files use local text extraction.</p>
 <p>Files and videos require a minimum account balance of $0.50. Images and audio require a minimum account balance of $0.10.</p>
 <p>When a multimodal inference fails, narrow down the problem:</p>
 <ol>
@@ -384,7 +370,7 @@
     &quot;choices&quot;: [],
     &quot;servertool&quot;: {
         &quot;name&quot;: &quot;web_search&quot;,
-        &quot;id&quot;: &quot;call-70944e44-fbc5-4906-9f9f-99559c05db11-0&quot;,
+        &quot;id&quot;: &quot;call-example-id-0&quot;,
         &quot;contents&quot;: &quot;{\&quot;query\&quot;:\&quot;weather forecast today\&quot;,\&quot;_tool_reason\&quot;:\&quot;Searching for today's weather forecast online\&quot;,\&quot;_tool_goal\&quot;:\&quot;I need current weather information to answer accurately.\&quot;}&quot;,
         &quot;state&quot;: &quot;Created&quot;,
         &quot;explanation&quot;: {

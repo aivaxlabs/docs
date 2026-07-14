@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -137,7 +123,7 @@
 <li>Whether chunk references are included.</li>
 <li>Query strategy.</li>
 </ul>
-<p>When a gateway has knowledge collections and the latest user message contains text, AIVAX can retrieve matching documents before the model call. For injection strategies, the retrieved context is inserted at the beginning of the last user message as an internal RAG context block. If a linked collection has its own context text, that collection context is added to system instructions.</p>
+<p>When a gateway has knowledge collections and the latest user message contains text, AIVAX can retrieve matching documents before the model call. For injection strategies, the retrieved context is inserted at the beginning of the last user message. If a linked collection has its own context text, that collection context is added to system instructions.</p>
 <p>Query strategies:</p>
 <ul>
 <li><code>Plain</code>: Uses the latest user message as the search query.</li>
@@ -221,11 +207,11 @@
 </ul>
 <p>See <a href="/docs/tools/builtin-tools">Built-in tools</a>.</p>
 <h2 id="mcp-and-protocol-functions">MCP and protocol functions</h2>
-<p>MCP sources are converted into internal functions by listing the remote MCP tools and wrapping their schemas as model-callable functions. MCP tool results can include text, images, and audio; media results are attached to the conversation as additional messages when supported.</p>
-<p>Protocol functions expose HTTP callbacks or AIVAX callback URLs as model-callable tools. Remote protocol function sources are fetched and cached, then converted to internal functions.</p>
+<p>Tools listed by an MCP source become available to the model with their declared schemas. MCP tool results can include text, images, and audio; media results are attached to the conversation as additional messages when supported.</p>
+<p>Protocol functions expose HTTP callbacks or AIVAX callback URLs as model-callable tools. Remote protocol function sources are fetched and cached before their tools become available to the model.</p>
 <p>See <a href="/docs/tools/protocol-functions">Protocol functions</a> and <a href="/docs/tools/mcp">MCP</a>.</p>
 <h2 id="function-interpreter">Function interpreter</h2>
-<p>A tool handler can add tool-calling behavior for models that do not reliably produce native tool calls. In this checkout, the active configured values are:</p>
+<p>A tool handler can add tool-calling behavior for models that do not reliably produce native tool calls. Supported values are:</p>
 <ul>
 <li><code>native</code> or <code>null</code>: Use native model tool calling.</li>
 <li><code>react.v1.selfcall</code>: Use the ReAct-style self-call handler.</li>

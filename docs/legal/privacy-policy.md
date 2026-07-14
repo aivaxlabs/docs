@@ -66,13 +66,13 @@ AIVAX does not require special categories of sensitive personal data. If the Acc
 | Support | Resolve questions, incidents, and compliance requests | Contract execution / legitimate interest | Retained as needed to resolve the request and maintain business records |
 | Aggregated or Anonymized Data | Capacity planning, reliability, abuse prevention, service improvement | Outside LGPD scope when irreversibly anonymized | Indeterminate while anonymized |
 
-The current code exposes conversation export periods of 2 hours, 1 day, 7 days, and 30 days, capped by the account plan's retention period.
+Conversation export periods are 2 hours, 1 day, 7 days, and 30 days, capped by the account plan's retention period.
 
 ---
 
 ### 5. Conversation Logging and Deletion
 
-Conversation logging is controlled by the account parameter `AllowConversationsLogging`, which is enabled by default in the current implementation. When disabled for an account, the conversation repository does not write conversation records for that account.
+Conversation logging is enabled by default. When an Account Manager disables it, AIVAX does not store new conversation records for that account.
 
 The authenticated Account Manager can list, view, export, and delete stored conversations through the conversations API, subject to authorization and retention windows. Deleting a conversation removes the matching conversation record for that account from production storage.
 

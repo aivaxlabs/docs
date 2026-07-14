@@ -2,7 +2,7 @@
 
 AIVAX has three account plans: **Free**, **Pro**, and **Max**. The current plan is stored on the account and controls model access, commissions, rate limits, RAG quotas, tool limits, storage quota, conversation retention, and subscription-model reserve windows.
 
-For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). This page documents the technical limits implemented by the API.
+For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). This page documents the technical limits of the API.
 
 ## How limits are enforced
 
@@ -79,7 +79,7 @@ Public keys have additional limits independent of the account plan.
 | Per remote address | 100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day |
 | Global per key | 500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day |
 
-Public keys are only accepted on routes marked public by the backend. In this checkout, public routes include RAG semantic search, RAG answer generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and strip server-side tool surfaces. See [Authentication](authentication.md).
+Public keys can be used for RAG semantic search, RAG answer generation, standalone reranking, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](authentication.md).
 
 ## RAG and collection limits
 
@@ -87,11 +87,14 @@ Public keys are only accepted on routes marked public by the backend. In this ch
 | --- | --- | --- | --- |
 | Collections | 5 | Unlimited | Unlimited |
 | Semantic searches | 20/min | 500/min | 3,000/min |
+| Reranking searches | 30/min | 1,000/min | Unlimited |
 | Document insertions | 500/day | 10,000/day | Unlimited |
 | JSONL documents per import request | 1,000 | 10,000 | 1,000,000 |
 | Compound file processing | Not available | 3 files/day | 10 files/day |
 
 The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit.
+
+The reranking limit is shared by the standalone `/api/v1/rank` endpoint and every Semantic Search request that uses `rrf`, `lexical`, or `smart`. Searches with `reranker: "none"` do not consume this quota.
 
 ## Built-in tool limits
 
@@ -105,7 +108,26 @@ The JSONL import endpoint rejects a request when it reaches the plan's per-reque
 | General service actions | 30/day | 5,000/day | 100,000/day |
 | Bash commands | 30/hour | 1,500/hour | 10,000/hour |
 
-General service actions cover service operations wired through the shared `ServicesGeneral` limiter.
+General service actions share the service-action quota shown above.
+
+## Speech generation
+
+Text-to-speech requests use a dedicated plan limit:
+
+| Plan | Text-to-speech requests |
+| --- | --- |
+| Free | 3/min and 15/hour |
+| Pro | 30/min |
+| Max | 300/min |
+
+## Documentation MCP
+
+The authenticated Documentation MCP applies per-account limits to its tools:
+
+| Tool | Limit |
+| --- | --- |
+| Search documentation | 10/min and 400/4h |
+| List models | 30/min and 1,000/day |
 
 ## Batch processing
 

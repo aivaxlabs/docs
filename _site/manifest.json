@@ -772,6 +772,36 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/generations/images.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/generations/images.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/generations/media-descriptions.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/generations/media-descriptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/generations/speech.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/generations/speech.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/getting-started.md",
       "output": {
         ".html": {
@@ -1052,6 +1082,36 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/generations/images.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/generations/images.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/generations/media-descriptions.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/generations/media-descriptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/generations/speech.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/generations/speech.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/pt-br/getting-started.md",
       "output": {
         ".html": {
@@ -1312,23 +1372,20 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/rag/semantic-search.md",
+      "source_relative_path": "docs/pt-br/rag/reranking.md",
       "output": {
         ".html": {
-          "relative_path": "docs/pt-br/rag/semantic-search.html"
+          "relative_path": "docs/pt-br/rag/reranking.html"
         }
       },
       "version": ""
     },
     {
-      "type": "Toc",
-      "source_relative_path": "docs/pt-br/toc.yml",
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/rag/semantic-search.md",
       "output": {
         ".html": {
-          "relative_path": "docs/pt-br/toc.html"
-        },
-        ".json": {
-          "relative_path": "docs/pt-br/toc.json"
+          "relative_path": "docs/pt-br/rag/semantic-search.html"
         }
       },
       "version": ""
@@ -1415,23 +1472,20 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/rag/semantic-search.md",
+      "source_relative_path": "docs/rag/reranking.md",
       "output": {
         ".html": {
-          "relative_path": "docs/rag/semantic-search.html"
+          "relative_path": "docs/rag/reranking.html"
         }
       },
       "version": ""
     },
     {
-      "type": "Toc",
-      "source_relative_path": "docs/toc.yml",
+      "type": "Conceptual",
+      "source_relative_path": "docs/rag/semantic-search.md",
       "output": {
         ".html": {
-          "relative_path": "docs/toc.html"
-        },
-        ".json": {
-          "relative_path": "docs/toc.json"
+          "relative_path": "docs/rag/semantic-search.html"
         }
       },
       "version": ""

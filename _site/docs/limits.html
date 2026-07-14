@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
         <meta name="docfx:rel" content="../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -126,7 +112,7 @@
 <h1 id="plans-and-limits">Plans and Limits</h1>
 
 <p>AIVAX has three account plans: <strong>Free</strong>, <strong>Pro</strong>, and <strong>Max</strong>. The current plan is stored on the account and controls model access, commissions, rate limits, RAG quotas, tool limits, storage quota, conversation retention, and subscription-model reserve windows.</p>
-<p>For commercial subscription prices and plan packaging, use the <a href="https://aivax.net/pricing">AIVAX pricing page</a>. This page documents the technical limits implemented by the API.</p>
+<p>For commercial subscription prices and plan packaging, use the <a href="https://aivax.net/pricing">AIVAX pricing page</a>. This page documents the technical limits of the API.</p>
 <h2 id="how-limits-are-enforced">How limits are enforced</h2>
 <p>Limits are enforced at different layers:</p>
 <ul>
@@ -320,7 +306,7 @@
 </tr>
 </tbody>
 </table>
-<p>Public keys are only accepted on routes marked public by the backend. In this checkout, public routes include RAG semantic search, RAG answer generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and strip server-side tool surfaces. See <a href="authentication.html">Authentication</a>.</p>
+<p>Public keys can be used for RAG semantic search, RAG answer generation, standalone reranking, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See <a href="authentication.html">Authentication</a>.</p>
 <h2 id="rag-and-collection-limits">RAG and collection limits</h2>
 <table>
 <thead>
@@ -345,6 +331,12 @@
 <td>3,000/min</td>
 </tr>
 <tr>
+<td>Reranking searches</td>
+<td>30/min</td>
+<td>1,000/min</td>
+<td>Unlimited</td>
+</tr>
+<tr>
 <td>Document insertions</td>
 <td>500/day</td>
 <td>10,000/day</td>
@@ -365,6 +357,7 @@
 </tbody>
 </table>
 <p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit.</p>
+<p>The reranking limit is shared by the standalone <code>/api/v1/rank</code> endpoint and every Semantic Search request that uses <code>rrf</code>, <code>lexical</code>, or <code>smart</code>. Searches with <code>reranker: &quot;none&quot;</code> do not consume this quota.</p>
 <h2 id="built-in-tool-limits">Built-in tool limits</h2>
 <table>
 <thead>
@@ -420,7 +413,51 @@
 </tr>
 </tbody>
 </table>
-<p>General service actions cover service operations wired through the shared <code>ServicesGeneral</code> limiter.</p>
+<p>General service actions share the service-action quota shown above.</p>
+<h2 id="speech-generation">Speech generation</h2>
+<p>Text-to-speech requests use a dedicated plan limit:</p>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Text-to-speech requests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free</td>
+<td>3/min and 15/hour</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>30/min</td>
+</tr>
+<tr>
+<td>Max</td>
+<td>300/min</td>
+</tr>
+</tbody>
+</table>
+<h2 id="documentation-mcp">Documentation MCP</h2>
+<p>The authenticated Documentation MCP applies per-account limits to its tools:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Search documentation</td>
+<td>10/min and 400/4h</td>
+</tr>
+<tr>
+<td>List models</td>
+<td>30/min and 1,000/day</td>
+</tr>
+</tbody>
+</table>
 <h2 id="batch-processing">Batch processing</h2>
 <p>Batch imports have request-size guards, and workflow processing has a daily plan limit.</p>
 <table>

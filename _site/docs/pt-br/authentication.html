@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -125,145 +111,121 @@
                 <article data-uid="">
 <h1 id="autenticação">Autenticação</h1>
 
-<p>Quando tiver sua conta em mãos, use sua chave de autenticação única para se autenticar na nossa API através do cabeçalho <code>Authorization</code>:</p>
-<pre><code class="lang-bash">curl https://inference.aivax.net/api/v1/information/models.json \
-    -H 'Authorization: Bearer oky_gr5uepj...'
-</code></pre>
-<p>Você também pode enviar o seu token de autorização pelo parâmetro da query <code>?api-key</code>, exemplo:</p>
-<pre><code class="lang-bash">curl https://inference.aivax.net/api/v1/information/models.txt?api-key=oky_gr5uepj...
-</code></pre>
-<p>No cabeçalho <code>Authorization</code>, envie a chave com o esquema <code>Bearer</code>. Quando usar o parâmetro <code>?api-key</code>, informe apenas a chave, sem esquema de autenticação.</p>
-<h2 id="autenticando-hooks">Autenticando hooks</h2>
-<p>Requisições da AIVAX para seus serviços, seja workers de gateways de IA ou chamadas de função server-side, recebem o cabeçalho <code>X-Request-Nonce</code> quando a conta possui uma <a href="https://console.aivax.net/dashboard/account">chave de hook</a> configurada. Esse cabeçalho contém um hash BCrypt derivado da chave de hook definida em sua conta.</p>
-<p>A validação é simples: verifique se o hash em <code>X-Request-Nonce</code> corresponde à chave de hook definida em sua conta.</p>
-<p>Dessa forma, você poderá autenticar se as requisições da AIVAX para seus serviços são genuínas através desse token. Se sua conta não tiver definido uma chave de hook, esse cabeçalho não será enviado.</p>
-<p>Veja os exemplos abaixo para validação da chave de hook:</p>
-<div class="tabGroup" id="tabgroup_1">
-<ul role="tablist">
-<li role="presentation">
-<a href="#tabpanel_1_csharp-sisk" role="tab" aria-controls="tabpanel_1_csharp-sisk" data-tab="csharp-sisk" tabindex="0" aria-selected="true">C# (com Sisk)</a>
-</li>
-<li role="presentation">
-<a href="#tabpanel_1_python-flask" role="tab" aria-controls="tabpanel_1_python-flask" data-tab="python-flask" tabindex="-1">Python (com Flask)</a>
-</li>
-<li role="presentation">
-<a href="#tabpanel_1_js-express" role="tab" aria-controls="tabpanel_1_js-express" data-tab="js-express" tabindex="-1">JavaScript (com Express.js)</a>
-</li>
+<p>AIVAX autentica solicitações de API com chaves de API de conta. O middleware de autenticação aceita chaves de:</p>
+<ul>
+<li><code>Authorization: Bearer &lt;API_KEY&gt;</code></li>
+<li><code>Authorization: Basic &lt;BASE64_USERNAME_COLON_API_KEY&gt;</code></li>
+<li><code>?api-key=&lt;API_KEY&gt;</code></li>
 </ul>
-<section id="tabpanel_1_csharp-sisk" role="tabpanel" data-tab="csharp-sisk">
+<p>Prefira o cabeçalho <code>Authorization</code> para chamadas de servidor para servidor. Use o parâmetro de consulta apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento.</p>
+<h2 id="tipos-de-chave-de-api">Tipos de chave de API</h2>
+<p>AIVAX tem duas famílias de chaves porque os casos de uso voltados para navegador e para servidor têm perfis de risco diferentes. Se o seu código roda no seu servidor, use uma chave privada e mantenha-a fora de bundles de cliente, logs e repositórios públicos. Se o seu código roda em um navegador ou outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e limite o fluxo de trabalho a rotas projetadas para acesso público.</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Prefixo</th>
+<th>Uso pretendido</th>
+<th>Acesso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chave privada</td>
+<td><code>sk-aiv-acc</code></td>
+<td>Integrações do lado do servidor e chamadas de API administrativas.</td>
+<td>APIs de conta autenticadas e inferência compatível com OpenAI.</td>
+</tr>
+<tr>
+<td>Chave pública</td>
+<td><code>pk-aiv-</code></td>
+<td>Chamadas restritas do lado do cliente para rotas explicitamente públicas.</td>
+<td>Rotas públicas de consulta/resposta RAG e chamadas restritas de conclusão de chat.</td>
+</tr>
+</tbody>
+</table>
+<p>Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, reclassificação autônoma, geração de fala, descrições de mídia, geração de imagens e conclusões de chat. Quando uma chave pública chama conclusões de chat:</p>
+<ul>
+<li>O <code>model</code> deve ser um UUID completo do AI Gateway; chamadas diretas de modelo integrado e a pesquisa de slug do gateway são desativadas.</li>
+<li>A pesquisa de slug do gateway está desativada.</li>
+<li>Fontes MCP, funções de protocolo, ferramentas embutidas, Bash, habilidades e opções de sentinela são removidas da solicitação.</li>
+<li>Apenas estes parâmetros de solicitação são aceitos: <code>model</code>, <code>messages</code>, <code>prompt</code>, <code>temperature</code>, <code>top_p</code>, <code>top_k</code>, <code>seed</code>, <code>tools</code>, <code>reasoning_effort</code>, <code>max_completion_tokens</code> e <code>stream</code>.</li>
+<li>Limites de taxa de solicitação e token são aplicados globalmente por chave e por endereço remoto.</li>
+</ul>
+<p>Use chaves privadas para serviços de backend, gerenciamento de contas, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo de trabalho que precise da superfície completa de ferramentas do gateway.</p>
+<p>Para a primeira solicitação do lado do servidor, continue com <a href="getting-started.html">Getting Started</a>. Se você está expondo uma experiência de navegador ou widget para usuários finais, revise <a href="/docs/pt-br/features/chat-clients">Chat Clients</a> antes de decidir se uma chave pública é o limite correto.</p>
+<h2 id="criar-e-listar-chaves">Criar e listar chaves</h2>
+<p>Chaves de API pertencem a uma conta e podem ter um rótulo, expiração e tipo. Uma chave com duração negativa não expira; chaves expiradas são rejeitadas pela autenticação e posteriormente removidas por jobs de limpeza.</p>
+<p>Crie chaves separadas para aplicações separadas. Isso torna a rotação mais segura: se uma integração for comprometida, você pode revogar apenas essa chave em vez de quebrar todos os serviços vinculados à conta. Rótulos e datas de expiração são ferramentas operacionais, não decoração; use-os para identificar quem possui a chave e quando ela deve ser revisada.</p>
+<p>Referência:</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Create%20API%20Key&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<script src="https://inference.aivax.net/apidocs?embed-target=List%20API%20Keys&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="enviar-uma-chave-com-autenticação-bearer">Enviar uma chave com autenticação Bearer</h2>
+<p>Para SDKs compatíveis com OpenAI, passe a chave AIVAX como a chave de API do SDK e defina a URL base para <code>https://inference.aivax.net/v1</code>.</p>
+<pre><code class="lang-python">from openai import OpenAI
 
+client = OpenAI(
+    base_url=&quot;https://inference.aivax.net/v1&quot;,
+    api_key=&quot;sk-aiv-acc...&quot;
+)
+</code></pre>
+<h2 id="enviar-uma-chave-com-autenticação-basic">Enviar uma chave com autenticação Basic</h2>
+<p>Para autenticação Basic, AIVAX decodifica a credencial Basic e usa a parte da senha após os dois pontos como a chave de API.</p>
+<pre><code class="lang-text">username:sk-aiv-acc...
+</code></pre>
+<p>O nome de usuário é ignorado pelo middleware de autenticação.</p>
+<h2 id="autenticação-de-hook">Autenticação de hook</h2>
+<p>AIVAX pode autenticar solicitações de saída para seus serviços, como workers do AI Gateway e funções de protocolo do lado do servidor.</p>
+<p>Esta é a direção reversa da autenticação normal de API. Em uma chamada de API normal, sua aplicação prova que está autorizada a chamar AIVAX enviando uma chave de API. Em um callback de worker ou função de protocolo, AIVAX está chamando seu serviço, então seu serviço precisa de um modo de verificar que a solicitação realmente veio da configuração de conta que você controla. É para isso que serve o <code>X-Request-Nonce</code>.</p>
+<p>Se sua conta tem uma chave de hook, AIVAX envia:</p>
+<pre><code class="lang-text">X-Request-Nonce: &lt;BCrypt hash&gt;
+</code></pre>
+<p>O nonce é um hash BCrypt derivado da chave de hook da conta. Valide o cabeçalho verificando a chave de hook em texto plano armazenada contra o hash. Se a conta não tem chave de hook, o cabeçalho não é enviado.</p>
+<p>Rotacionar a chave de hook invalida segredos de validação existentes de workers e integrações.</p>
+<h3 id="exemplo-c">Exemplo C#</h3>
 <pre><code class="lang-csharp">using BCrypt.Net;
 
-[RoutePrefix(&quot;/api/aivax-protocol-functions&quot;)]
-internal class MyController : Controller
+var nonce = request.Headers[&quot;X-Request-Nonce&quot;];
+var hookKey = Environment.GetEnvironmentVariable(&quot;AIVAX_HOOK_SECRET&quot;);
+
+if (nonce is null || hookKey is null)
 {
-    public MyController()
-    {
-        this.HasRequestHandler(RequestHandler.Create(
-            execute: (req, ctx) =&gt;
-            {
-                // Obtém o nonce enviado da requisição
-                var hash = this.Request.Headers [&quot;X-Request-Nonce&quot;];
-                if (hash == null)
-                {
-                    return new HttpResponse(HttpStatusInformation.Unauthorized);
-                }
-                
-                // Valida o hook usando a biblioteca BCrypt.Net
-                var secretWord = Environment.GetEnvironmentVariable (&quot;AIVAX_HOOK_SECRET&quot;);
-                if (!BCrypt.Net.BCrypt.Verify(secretWord, hash, enhancedEntropy: false))
-                {
-                    return new HttpResponse(HttpStatusInformation.Forbidden);
-                }
-                
-                // Continua a requisição após hook validado
-                return null;
-            }));
-    }
-    ...
+    return Results.Unauthorized();
+}
+
+if (!BCrypt.Net.BCrypt.Verify(hookKey, nonce, enhancedEntropy: false))
+{
+    return Results.Forbid();
 }
 </code></pre>
-</section>
-<section id="tabpanel_1_python-flask" role="tabpanel" data-tab="python-flask" aria-hidden="true" hidden="hidden">
-
-<pre><code class="lang-python">from flask import Flask, request, abort
-import os
+<h3 id="exemplo-python">Exemplo Python</h3>
+<pre><code class="lang-python">import os
 import bcrypt
+from flask import abort, request
 
-app = Flask(__name__)
+nonce = request.headers.get(&quot;X-Request-Nonce&quot;)
+hook_key = os.getenv(&quot;AIVAX_HOOK_SECRET&quot;)
 
-@app.before_request
-def autenticar_token():
-    # 1. Lê o cabeçalho que contém o hash do token
-    token_hash = request.headers.get(&quot;X-Request-Nonce&quot;)
-    if not token_hash:
-        abort(401)
+if nonce is None or hook_key is None:
+    abort(401)
 
-    # 2. Carrega o segredo em texto puro das variáveis de ambiente
-    secret = os.getenv(&quot;AIVAX_HOOK_SECRET&quot;)
-    if secret is None:
-        abort(500)
-
-    # 3. Verifica se o hash recebido corresponde ao segredo
-    if not bcrypt.checkpw(secret.encode(&quot;utf-8&quot;),
-                          token_hash.encode(&quot;utf-8&quot;)):
-        abort(403)
-
-@app.route(&quot;/api/aivax-protocol-functions/some-action&quot;, methods=[&quot;POST&quot;])
-def some_action():
-    return &quot;&quot;, 204
-
-if __name__ == &quot;__main__&quot;:
-    app.run(host=&quot;0.0.0.0&quot;, port=5000)
+if not bcrypt.checkpw(hook_key.encode(&quot;utf-8&quot;), nonce.encode(&quot;utf-8&quot;)):
+    abort(403)
 </code></pre>
-</section>
-<section id="tabpanel_1_js-express" role="tabpanel" data-tab="js-express" aria-hidden="true" hidden="hidden">
+<h3 id="exemplo-javascript">Exemplo JavaScript</h3>
+<pre><code class="lang-javascript">import bcrypt from &quot;bcrypt&quot;;
 
-<pre><code class="lang-javascript">require('dotenv').config()
-const express = require('express')
-const bcrypt = require('bcrypt')
+const nonce = req.header(&quot;X-Request-Nonce&quot;);
+const hookKey = process.env.AIVAX_HOOK_SECRET;
 
-const app = express()
+if (!nonce || !hookKey) {
+  return res.sendStatus(401);
+}
 
-app.use(async (req, res, next) =&gt; {
-  const tokenHash = req.header('X-Request-Nonce')
-  if (!tokenHash) {
-    return res.sendStatus(401)
-  }
-
-  // 2. Carrega o segredo em texto puro das variáveis de ambiente
-  const secret = process.env.AIVAX_HOOK_SECRET
-  if (!secret) {
-    return res.sendStatus(500)
-  }
-
-  try {
-    // 3. Verifica se o hash recebido corresponde ao segredo
-    const match = await bcrypt.compare(secret, tokenHash)
-    if (!match) {
-      return res.sendStatus(403)
-    }
-    
-    next()
-  } catch (err) {
-    return res.sendStatus(500)
-  }
-})
-
-app.post(
-  '/api/aivax-protocol-functions/some-action',
-  (req, res) =&gt; {
-    res.sendStatus(204)
-  }
-)
-
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () =&gt; {
-  console.log(`Server running on port ${PORT}`)
-})
+if (!(await bcrypt.compare(hookKey, nonce))) {
+  return res.sendStatus(403);
+}
 </code></pre>
-</section>
-</div>
 
 </article>
 

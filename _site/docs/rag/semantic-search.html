@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -128,12 +114,12 @@
 <p>The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.</p>
 <p>Search is performed in stages:</p>
 <ol>
-<li>Each query term is embedded with the internal <code>DocumentQuery</code> task.</li>
-<li>Indexed documents were previously embedded with the internal <code>DocumentRetrieval</code> task.</li>
+<li>Each query term is embedded in query mode.</li>
+<li>Documents are embedded in retrieval mode during indexing.</li>
 <li>The search prefilters candidates with compact embedding hashes.</li>
 <li>Candidate documents are scored with embedding similarity.</li>
-<li>The configured reranker can adjust the final order.</li>
-<li>Results are filtered by <code>minScore</code>, sorted by score, and limited by <code>top</code>.</li>
+<li>Candidates below <code>minScore</code> are removed after embedding similarity is calculated.</li>
+<li>The configured reranker can adjust the remaining order before the final <code>top</code> limit is applied.</li>
 </ol>
 <p>After creating a collection, use its collection ID in the <code>collections</code> array when searching.</p>
 <div class="WARNING">
@@ -180,13 +166,13 @@
 <td><code>minScore</code></td>
 <td><code>number</code></td>
 <td><code>0.2</code></td>
-<td>Minimum final relevance score. Current validation allows values from 0.01 to 0.99.</td>
+<td>Minimum embedding-similarity score before reranking. Current validation allows values from 0.01 to 0.99.</td>
 </tr>
 <tr>
 <td><code>reranker</code></td>
 <td><code>string</code></td>
-<td><code>lexical</code></td>
-<td><code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
+<td><code>rrf</code></td>
+<td><code>rrf</code>, <code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
 </tr>
 <tr>
 <td><code>includeReferences</code></td>
@@ -215,6 +201,11 @@
 <td>Uses vector similarity only.</td>
 </tr>
 <tr>
+<td><code>rrf</code></td>
+<td>No reranking cost</td>
+<td>Fuses the embedding and lexical rank positions. This is the default.</td>
+</tr>
+<tr>
 <td><code>lexical</code></td>
 <td>No reranking cost</td>
 <td>Applies a local boost based on lexical matches, fuzzy token matches, and term proximity in the document name and content.</td>
@@ -226,7 +217,8 @@
 </tr>
 </tbody>
 </table>
-<p>The default reranker is <code>lexical</code>. To disable reranking, send <code>&quot;reranker&quot;: &quot;none&quot;</code>. To use the model-based reranker, send <code>&quot;reranker&quot;: &quot;smart&quot;</code>.</p>
+<p>The default reranker is <code>rrf</code>. To disable reranking, send <code>&quot;reranker&quot;: &quot;none&quot;</code>. To preserve the semantic score and add a conservative lexical boost, use <code>lexical</code>. To use the model-based reranker, send <code>&quot;reranker&quot;: &quot;smart&quot;</code>.</p>
+<p>All non-<code>none</code> rerankers share the account's <a href="/docs/limits#rag-and-collection-limits">reranking-search limit</a>. The same quota applies to the standalone <a href="reranking.html">Reranking</a> endpoint.</p>
 <div class="NOTE">
 <h5>Note</h5>
 <p>Reranking does not search additional documents. It only reorders candidates already found by the vector search stage.</p>
@@ -311,8 +303,8 @@ multa
 </tr>
 <tr>
 <td><code>X-Mcp-Reranker</code></td>
-<td><code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
-<td><code>lexical</code></td>
+<td><code>rrf</code>, <code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
+<td><code>rrf</code></td>
 </tr>
 <tr>
 <td><code>X-Mcp-Top-K</code></td>
@@ -350,7 +342,7 @@ multa
       &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/collections&quot;,
       &quot;headers&quot;: {
         &quot;Authorization&quot;: &quot;Bearer {your_api_key}&quot;,
-        &quot;X-Mcp-Collection-Id&quot;: &quot;019b80d5-cee2-7010-ab22-f676271af866&quot;,
+        &quot;X-Mcp-Collection-Id&quot;: &quot;your-collection-id&quot;,
         &quot;X-Mcp-Collection-Name&quot;: &quot;my_collection&quot;,
         &quot;X-Mcp-Top-K&quot;: &quot;5&quot;,
         &quot;X-Mcp-Min-Score&quot;: &quot;0.4&quot;,

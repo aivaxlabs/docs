@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
         <meta name="docfx:rel" content="../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -214,6 +200,7 @@
 <pre><code class="lang-text">$0.015 per 1,000,000 input tokens
 </code></pre>
 <p>This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage.</p>
+<p>The standalone lexical <a href="/docs/rag/reranking">Reranking</a> endpoint has a base price of $0.0001 per request, equivalent to $1 per 10,000 searches. This endpoint price is not added to reranking performed inside Semantic Search. The plan commission multiplier still applies when the standalone usage record is written.</p>
 <h2 id="storage-billing">Storage billing</h2>
 <p>Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with <code>402 Payment Required</code>.</p>
 <table>

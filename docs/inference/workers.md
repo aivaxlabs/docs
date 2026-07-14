@@ -12,7 +12,7 @@ When a configured worker event fires, AIVAX sends a `POST` request to the gatewa
 
 ```json
 {
-    "gatewayId": "019a6afb-5a03-7b83-a1a2-760bd1ecd11c",
+    "gatewayId": "your-gateway-id",
     "moment": "2025-12-29T17:04:39",
     "event": {
         "name": "message.received",

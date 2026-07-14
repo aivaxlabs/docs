@@ -25,7 +25,7 @@ Write the description as a routing rule. A description like “legal skill” is
 
 `allowedToolsNames` is part of the skill configuration and is intended to associate runtime tool names with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. In the current runtime path, the general always-visible tool list is the reliable way to keep shared tools visible when the gateway hides tools without a skill.
 
-Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least `slug` and `instructions`; `description` and `options` can complement the configuration. The current import loop can process up to 10,001 lines. When importing a skill with an existing `slug`, AIVAX updates the corresponding skill instead of creating a duplicate.
+Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least `slug` and `instructions`; `description` and `options` can complement the configuration. When importing a skill with an existing `slug`, AIVAX updates the corresponding skill instead of creating a duplicate.
 
 ## How to write skills?
 

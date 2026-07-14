@@ -1,12 +1,17 @@
-﻿# Server-side functions
+# Protocol Functions
 
-The protocol functions of AIVAX, or _server-side functions_, are an implementation where the model's tool calls occur on the server side. Similar to MCP, but with native authentication support and optimized to work externally.
+Protocol functions are AIVAX server-side tools. They let a model request a named action while AIVAX executes the action from the server by calling your HTTP callback or an internal AIVAX callback URL.
 
-Protocol functions allow taking actions on the AIVAX server side, removing the need to implement the function on the client side and integrating with existing applications and services.
+Use them when an assistant needs a controlled way to interact with your application, such as checking an order, opening a support ticket, validating a coupon, registering a lead, or querying a private service. The model sees the tool name, description, and JSON argument schema. It does not see the callback URL or headers.
 
 <img src="/assets/diagrams/protocol-functions-1.drawio.svg">
 
-These functions expect a **callback** via a URL, and when the model decides to call the function, the callback is accessed with the parameters provided by the assistant itself. The assistant does not know which URL it is calling, as it remains invisible to both the assistant and the user.
+A protocol function has two contracts:
+
+- **The model contract:** the public tool name, description, and JSON Schema that guide the model's tool call.
+- **The callback contract:** the hidden URL and optional headers that AIVAX uses to execute the tool after the model calls it.
+
+This separation keeps implementation details out of the prompt while still giving the model a precise capability to use.
 
 ## When to use protocol functions
 
@@ -16,19 +21,29 @@ If you have many tools, dynamic tools, or a system that already implements Model
 
 A protocol function must have a tool name, a description, a callback URL, and an argument schema. The name helps the model recognize the action; the description explains when to call; the schema limits the argument format. Function names must be valid JavaScript identifiers with at least three characters. The callback URL and authentication details are not visible to the model. This allows creating specialized tools without exposing internal endpoints, provided your service validates the `X-Request-Nonce`, validates received arguments, and applies its own authorization when the call depends on the user.
 
+Use the following rule of thumb:
+
+| Need | Prefer |
+|---|---|
+| One or a few stable HTTP callbacks owned by your app | Protocol functions |
+| A larger tool catalog, standardized discovery, or an existing MCP server | [MCP](/docs/tools/mcp) |
+| Web search, URL reading, code execution, image generation, memory, calendar, or HTTP request tools maintained by AIVAX | [Built-in tools](/docs/tools/builtin-tools) |
+| Event-time policy, message rewriting, dynamic tool injection, or blocking a tool call before execution | [Workers](/docs/inference/workers) |
+| Provider-native tool definitions that your own client will execute | Raw `tools` in an OpenAI-compatible request |
+
 ### Choosing the function name
 
-The function name should be simple and deterministic to what the function does. Avoid names that are hard to guess or that do not reflect the function's role, as the assistant may get confused and not call the function when appropriate.
+The function name should be simple and specific about what the function does. Avoid names that are hard to guess or that do not reflect the function's role, because the assistant may not call the function when it should.
 
-For example, let's think of a function to query a user in an external database. The following names are good examples to consider for the call:
+For example, consider a function that queries a user in an external database. Good names include:
 
 - `search_user`
 - `query_user`
 
-Bad names include:
+Weak names include:
 
-- `search` (not very broad)
-- `query-user-in-database-data` (name too long)
+- `search` (too broad)
+- `query_user_in_database_data` (long and noisy)
 - `pesquisa-usuario` (name not in English)
 - `search user` (name with improper characters)
 
@@ -36,13 +51,19 @@ Having the function name, we can think about the function description.
 
 ### Choosing the function description
 
-The function description should conceptually explain two situations: what it does and when it should be called by the assistant. This description should include the scenarios the assistant should consider calling it and when it should not be called, providing a few call examples (one-shot) and/or making the function's rules explicit.
+The function description should explain what the function does, when the assistant should call it, and when it should not call it. Good descriptions include the expected input, the kind of result returned, and any decision rule the assistant should follow before calling the tool.
+
+For example, a useful description is:
+
+> Use this tool to fetch a customer profile by customer ID when the user asks about account status, recent orders, or support eligibility. Do not call it when the user only provides a name or email; ask for the customer ID first.
+
+That gives the model a clear action, trigger, and limitation. A vague description such as "Search customers" gives the model much less guidance.
 
 ## Defining protocol functions
 
-These functions are defined in the [AI Gateway](/docs/inference/ai-gateway), which allows the creation of intelligent agents that perform actions without human intervention. They follow a simple syntax, expecting the function name, a description of what it does, and the invocation parameters.
+Protocol functions are defined in the [AI Gateway](/docs/inference/ai-gateway). You can declare them directly in the gateway when the list is stable, or provide a remote source that returns the function list when the catalog is managed by another service.
 
-Protocol functions are defined in the AI Gateway configuration.
+The direct form is the simplest option. Use it when the function list changes rarely and belongs to the gateway configuration itself.
 
 Reference:
 
@@ -84,9 +105,15 @@ Reference:
 }
 ```
 
-In the snippet above, you are providing two functions for your AI model: `list_clients` and `view_client`, which will decide which one will be executed during its reasoning. You can also provide a JSON content format for which the model will call your API supplying the provided content.
+In the snippet above, the gateway exposes `list_clients` and `view_client` to the model. The model decides whether to call one of them during generation. If it calls `view_client`, AIVAX validates the arguments against `contentFormat`, then sends the callback request to your service.
 
-You can also define the list of supported functions via an endpoint. Every time the model receives a message, it will query the provided endpoint to obtain a list of functions it can execute.
+## Protocol function sources
+
+Protocol function sources let a gateway load its protocol functions from one or more remote endpoints instead of storing every function inline. In the gateway configuration, `protocolFunctionSources` is an array of URL strings, not an array of source objects. Use sources when the function catalog belongs to another service, changes independently from the gateway, or needs to be shared by multiple gateways.
+
+Each source URL is an HTTP endpoint that returns a JSON object with a `functions` array. AIVAX fetches the source before preparing the inference options, converts each returned definition into a server-side tool, and caches the result for 10 minutes per account and source URL. During the cache window, AIVAX reuses the function definitions instead of making another listing request.
+
+Use inline `protocolFunctions` for stable, gateway-owned tools. Use `protocolFunctionSources` for remotely managed catalogs. You can use both in the same gateway, but function names must remain unique after inline functions, sourced functions, MCP tools, built-in tools, and raw tools are combined.
 
 <img src="/assets/diagrams/protocol-functions-2.drawio.svg">
 
@@ -105,9 +132,9 @@ Define the function listing endpoints in your AI Gateway:
 }
 ```
 
-The function provisioning endpoint must respond following the format:
+The function source endpoint receives a `GET` request. It must return a successful HTTP status and a JSON object in this format:
 
-<div class="request-item post">
+<div class="request-item get">
     <span>GET</span>
     <span>
         https://my-external-api.com/api/scp/listings
@@ -145,7 +172,9 @@ The function provisioning endpoint must respond following the format:
 }
 ```
 
-These functions are cached for 10 minutes before a new request is made to the provided endpoint.
+The returned function objects use the same shape as inline `protocolFunctions`: `name`, `description`, `callbackUrl`, optional `headers`, and `contentFormat`.
+
+If the source endpoint returns a non-success status, AIVAX logs the error and the inference request fails while preparing the tools. Make the source endpoint fast, stable, and small enough to return only the functions the gateway should expose. If the catalog is user- or tenant-specific, use the request nonce and your own authorization rules to decide which functions to return.
 
 ### Handling function calls
 
@@ -157,7 +186,7 @@ Functions are invoked at the provided endpoint in `callbackUrl` via an HTTP POST
     "function": {
         "name": "view_client",
         "content": {
-            "user_id": "3e5a2823-98fa-49a1-831a-0c4c5d33450e"
+            "user_id": "example-user-id"
         }
     },
     "context": {
@@ -174,7 +203,7 @@ The response to this action must return a successful HTTP status (2xx), even for
 
 #### Response format
 
-Successful responses should be textual and will be attached as the function response in whatever way the endpoint returns. There is no JSON format or structure for this response, but it is advisable to give a simple, human‑readable answer so that the assistant can read the action result.
+Successful responses should be textual and will be attached as the function response in whatever way the endpoint returns. There is no JSON format or structure for this response, but it is advisable to give a simple, human-readable answer so that the assistant can read the action result.
 
 Errors can be common, such as not finding a client by ID or a field not being in the desired format. In these cases, respond with an OK status and include a human description of the error in the response body and how the assistant can work around it.
 
@@ -188,7 +217,7 @@ The function response should be written for the model, not for the end user. It 
 
 #### Authentication
 
-Request authentication is done via the `X-Request-Nonce` header sent in the protocol function requests, including listing ones.
+Request authentication is done via the `X-Request-Nonce` header sent in protocol function calls and source-listing requests.
 
 See the [authentication](/docs/authentication) manual to understand how to authenticate reverse requests from AIVAX.
 
@@ -198,7 +227,7 @@ Function calls send `$.context.externalUserId` when the call comes from an ident
 
 #### Security considerations
 
-For the AI model, only the name, description, and format of the function are visible. It cannot see the endpoint the function points to. Moreover, it does not have access to the user tag authenticated in a [chat client](/docs/features/chat-clients).
+For the AI model, only the name, description, and format of the function are visible. It cannot see the endpoint the function points to. It also does not receive the callback headers configured for the function. Treat all callback requests as privileged server-to-server calls: validate the nonce, validate arguments, enforce authorization, and avoid exposing broad write actions unless your application has its own approval rules.
 
 ## Specialist functions
 
@@ -216,7 +245,7 @@ You define specialist functions using the `aivax://` URL scheme, following the e
             {
                 "name": "search_disease",
                 "description": "Use this tool to search for diseases, treatments, and symptoms.",
-                "callbackUrl": "aivax://query-collection?collection-id=0196f5ef-9334-742b-a988-f913bb3be5ba&top=5&min=0.4",
+                "callbackUrl": "aivax://query-collection?collection-id=your-collection-id&top=5&min=0.4",
                 "contentFormat": {
                     "type": "object",
                     "properties": {
@@ -237,17 +266,21 @@ You define specialist functions using the `aivax://` URL scheme, following the e
 
 The above function creates a tool for the AI to query a specific [document collection](/docs/rag/collections), guiding the assistant on what to search in that collection and what to expect from a response. This way, you can link multiple RAG collections for an assistant to retrieve specialist content.
 
-You can customize the description of the JSON Schema properties for specialist functions but not its structure, as our backend expects a specific format to call the functions. Specialist function parameters are supplied in the URL via query parameters.
+You can customize the description of the JSON Schema properties for specialist functions, but their structure is fixed. Specialist function parameters are supplied in the URL via query parameters.
 
 Currently, only one specialist function exists:
+
 - `query-collection`: performs an RAG search on a specified collection.
 
 Query parameters:
+
 - `collection-id`: the UUID of the collection to be searched.
 - `top`: a number indicating how many documents should be returned in the search.
 - `min`: a decimal indicating the minimum similarity score of the search.
+- `refs`: when present, includes referenced parent documents in the RAG result.
 
 Function JSON format:
+
 ```json
 {
     "type": "object",
@@ -262,5 +295,3 @@ Function JSON format:
     ]
 }
 ```
-
-The optional `refs` query parameter controls whether references are included in the RAG result. In the current backend, references are included when the `refs` parameter is present.

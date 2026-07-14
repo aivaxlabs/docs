@@ -66,7 +66,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-The current OpenAI-compatible inference implementation is `chat/completions`. The repository does not expose a `/v1/responses` implementation in this checkout.
+OpenAI-compatible inference uses `/v1/chat/completions`. The `/v1/responses` endpoint is not supported.
 
 ## Recommended production configuration
 
@@ -82,7 +82,7 @@ For RAG, link collections with short, self-contained, well-named documents. Choo
 
 For tools, enable only those with a clear role. Built-in tools cover common capabilities such as web search, opening URLs, code execution, image generation, document generation, page generation, calendar actions, memory, HTTP requests, and X post lookup. External MCP is better when you already have an MCP server with business tools. Protocol functions are useful when you want to expose specific HTTP callbacks to the model without installing a full MCP server.
 
-Use a tool handler only when the selected model needs help producing tool calls. In this checkout, the enabled handler is `react.v1.selfcall`; `native` or no value uses the model's native tool calling.
+Use a tool handler only when the selected model needs help producing tool calls. The available handler is `react.v1.selfcall`; `native` or no value uses the model's native tool calling.
 
 Use workers when an external system must decide something during the inference flow. A worker can block a message, rewrite context, add tools, or replace a server-side tool result. Because the worker is called in the critical path, keep it fast and deterministic.
 

@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="../../toc.html">
 
         <meta name="docfx:rel" content="../../">
 
@@ -81,23 +81,9 @@
         </header>
 
         <main class="container-xxl">
-            <div class="toc-offcanvas">
-                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <nav class="toc" id="toc"></nav>
-                    </div>
-                </div>
-            </div>
 
             <div class="content">
                 <div class="actionbar">
-                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
-                        <i class="bi bi-list"></i>
-                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -127,7 +113,7 @@
 
 <p>AIVAX offers a virtual shell environment that can be used by agent assistants to execute terminal commands during inference. This feature is especially useful for tasks such as data manipulation, API calls, script execution, and workflows that are easier to express as command-line operations.</p>
 <p>The shell environment allows moving selected model tools to the shell side, turning them into CLI commands. This is useful when you have many tools and do not want to expose all of them directly to the model, or when a tool is easier to use through command-line arguments and pipes.</p>
-<p>When enabled in an AI Gateway, the model sees a <code>shell</code> tool with one argument: <code>command</code>. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at <code>/home/workspace</code>. The current backend limits each command to 30 seconds and returns up to 4,096 characters of output to the model.</p>
+<p>When enabled in an AI Gateway, the model sees a <code>shell</code> tool with one argument: <code>command</code>. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at <code>/home/workspace</code>. Each command is limited to 30 seconds and returns up to 4,096 characters of output to the model.</p>
 <h2 id="adapting-tools-for-shell">Adapting tools for shell</h2>
 <p>In the virtual shell interface, standard command-line utilities and registered shell modules are available. This way, you can adapt your tools to return raw or long outputs, and the model can use the shell's text manipulation tools to extract the relevant information, for example:</p>
 <pre><code class="lang-bash">get-users --filter active --format csv | grep &quot;John Doe&quot; | awk -F, '{print $1, $2}'

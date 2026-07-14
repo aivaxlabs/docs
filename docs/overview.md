@@ -48,7 +48,7 @@ AIVAX also exposes collections as MCP tools through `/v1/mcp/collections`. The c
 
 ### Tools
 
-Gateways can enable tools that let the model call platform services or external systems. The codebase includes built-in functions for web search, advanced web search, X/Twitter search, image generation, document or page generation, code execution, memory, calendar, and scheduled activations.
+Gateways can enable tools that let the model call platform services or external systems. Built-in functions cover web search, advanced web search, X/Twitter search, image generation, document or page generation, code execution, memory, calendar, and scheduled activations.
 
 Private keys can use the full gateway tool configuration. Public-key chat-completion calls strip server-side tool surfaces such as MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options.
 
@@ -67,7 +67,7 @@ Use `json_only` only when the caller expects the raw generated JSON instead of t
 
 ### Chat clients and integrations
 
-Chat clients connect a gateway to end users. The backend includes public web-chat session endpoints and integrations for Telegram, Z-API WhatsApp, Evolution API, and Kapso. Chat clients have their own per-session and per-hour limits in addition to account balance checks.
+Chat clients connect a gateway to end users through public web-chat sessions or integrations for Telegram, Z-API WhatsApp, Evolution API, and Kapso. Chat clients have their own per-session and per-hour limits in addition to account balance checks.
 
 ### Workers and hooks
 

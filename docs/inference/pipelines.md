@@ -15,7 +15,7 @@ RAG links [collections](/docs/rag/collections) to an AI Gateway. The gateway con
 - Whether chunk references are included.
 - Query strategy.
 
-When a gateway has knowledge collections and the latest user message contains text, AIVAX can retrieve matching documents before the model call. For injection strategies, the retrieved context is inserted at the beginning of the last user message as an internal RAG context block. If a linked collection has its own context text, that collection context is added to system instructions.
+When a gateway has knowledge collections and the latest user message contains text, AIVAX can retrieve matching documents before the model call. For injection strategies, the retrieved context is inserted at the beginning of the last user message. If a linked collection has its own context text, that collection context is added to system instructions.
 
 Query strategies:
 
@@ -127,15 +127,15 @@ See [Built-in tools](/docs/tools/builtin-tools).
 
 ## MCP and protocol functions
 
-MCP sources are converted into internal functions by listing the remote MCP tools and wrapping their schemas as model-callable functions. MCP tool results can include text, images, and audio; media results are attached to the conversation as additional messages when supported.
+Tools listed by an MCP source become available to the model with their declared schemas. MCP tool results can include text, images, and audio; media results are attached to the conversation as additional messages when supported.
 
-Protocol functions expose HTTP callbacks or AIVAX callback URLs as model-callable tools. Remote protocol function sources are fetched and cached, then converted to internal functions.
+Protocol functions expose HTTP callbacks or AIVAX callback URLs as model-callable tools. Remote protocol function sources are fetched and cached before their tools become available to the model.
 
 See [Protocol functions](/docs/tools/protocol-functions) and [MCP](/docs/tools/mcp).
 
 ## Function interpreter
 
-A tool handler can add tool-calling behavior for models that do not reliably produce native tool calls. In this checkout, the active configured values are:
+A tool handler can add tool-calling behavior for models that do not reliably produce native tool calls. Supported values are:
 
 - `native` or `null`: Use native model tool calling.
 - `react.v1.selfcall`: Use the ReAct-style self-call handler.
