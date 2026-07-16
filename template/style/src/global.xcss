@@ -1,5 +1,5 @@
 :root {
-    --bs-font-sans-serif: "Geist", system-ui, -apple-system, Arial, sans-serif;
+    --bs-font-sans-serif: "General Sans", "Segoe UI", system-ui, sans-serif;
     --bs-font-monospace: "Geist Mono", "Geist Mono Fallback", Consolas, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, "Courier New", ui-monospace, monospace;
     --bs-body-font-size: 14px;
     --bs-link-color: --primary;
@@ -7,39 +7,45 @@
 }
 
 html[data-bs-theme="dark"] {
-    --primary: rgb(215, 165, 248);
-    --primary-opaque: rgba(215, 165, 248, 15%);
-    --bs-link-color-rgb: 215, 165, 248;
-    --bs-code-color: #cd91ff;
+    --primary: #7e2a42;
+    --primary-opaque: #7e2a4233;
+    --bs-body-color: #f1f2ee;
+    --bs-body-bg-rgb: 26, 26, 27;
+    --bs-link-color-rgb: 226, 160, 178;
+    --bs-code-color: #e2a0b2;
     --bs-danger-bg-subtle: #362829;
     --bs-warning-bg-subtle: #332701;
     --bs-info-bg-subtle: #183338;
-    --bs-body-bg: #010102;
-    --bs-body-bg-alt: #0c0e0f;
-    --scrollbar-color-track: #0c0e0f;
-    --scrollbar-color-thumb: #15191b;
-    --bs-border-color: #1a1e20;
-    --article-color: #bfcdcf;
+    --bs-body-bg: #1a1a1b;
+    --bs-body-bg-alt: #292926;
+    --scrollbar-color-track: #1a1a1b;
+    --scrollbar-color-thumb: #454540;
+    --bs-border-color: #383834;
+    --article-color: #bcbcb5;
 
-    --code-block-border: #20262e;
+    --code-block-bg: #151715;
+    --code-block-border: #383834;
 }
 
 html[data-bs-theme="light"] {
-    --primary: rgb(7, 45, 172);
-    --primary-opaque: rgb(7, 45, 172, 15%);
-    --bs-body-color: #000000;
-    --bs-link-color-rgb: 7, 45, 172;
-    --bs-code-color: #5342f0;
+    --primary: #7e2a42;
+    --primary-opaque: #7e2a4244;
+    --bs-body-color: #171713;
+    --bs-body-bg-rgb: 250, 242, 234;
+    --bs-link-color-rgb: 126, 42, 66;
+    --bs-code-color: #7e2a42;
     --bs-danger-bg-subtle: #ffe8ea;
     --bs-warning-bg-subtle: #fff9e5;
     --bs-info-bg-subtle: #eafbff;
-    --bs-body-bg: #fcfcfc;
-    --bs-body-bg-alt: #f0f0f0;
-    --scrollbar-color-track: #d9d9d9;
-    --scrollbar-color-thumb: #bbb;
-    --article-color: #343f41;
+    --bs-body-bg: #faf2ea;
+    --bs-body-bg-alt: #f3e7da;
+    --scrollbar-color-track: #faf2ea;
+    --scrollbar-color-thumb: #dfddd6;
+    --bs-border-color: #dfddd6;
+    --article-color: #61645f;
 
-    --code-block-border: #e6e6e6;
+    --code-block-bg: #fff9f3;
+    --code-block-border: #dfddd6;
 }
 
 .bg-body {

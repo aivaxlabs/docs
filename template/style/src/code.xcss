@@ -30,7 +30,7 @@ pre > code.hljs.has-line-numbers {
 
 html[data-bs-theme="light"] {
     .hljs {
-        background-color: white;
+        background-color: --code-block-bg;
         border-radius: 8px;
         border: 1px solid --code-block-border;
 
@@ -48,13 +48,13 @@ html[data-bs-theme="light"] {
     }
 
     :not(pre) > code {
-        background-color: #f1f1f1;
+        background-color: --bs-body-bg-alt;
     }
 }
 
 html[data-bs-theme="dark"] {
     .hljs {
-        background-color: #0c0e11;
+        background-color: --code-block-bg;
         border-radius: 8px;
         border: 1px solid --code-block-border;
 
@@ -72,7 +72,7 @@ html[data-bs-theme="dark"] {
     }
 
     :not(pre) > code {
-        background-color: #1c2127;
-        color: white;
+        background-color: --bs-body-bg-alt;
+        color: --bs-body-color;
     }
 }

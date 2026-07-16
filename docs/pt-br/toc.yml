@@ -17,25 +17,25 @@
   href: rag/collections.md
 - name: Busca semântica
   href: rag/semantic-search.md
-- name: Re-ranqueamento
+- name: Reclassificação
   href: rag/reranking.md
 - name: Melhores práticas
   href: rag/best-practices.md
 
 - name: Inferência
 
-- name: Portais de IA
+- name: Gateways de IA
   href: inference/ai-gateway.md
 - name: Inferência
   href: inference/inference.md
-- name: Canal de processamento
+- name: Pipeline de processamento
   href: inference/pipelines.md
 - name: Respostas estruturadas
   href: inference/structured-responses.md
 - name: Trabalhadores de IA
   href: inference/workers.md
 
-  - name: Gerações
+- name: Gerações
 
 - name: Geração de fala
   href: generations/speech.md
@@ -50,9 +50,9 @@
   href: tools/builtin-tools.md
 - name: Funções MCP
   href: tools/mcp.md
-- name: MCP de gerenciamento de conta
+- name: Gerenciamento de conta MCP
   href: tools/account-management-mcp.md
-- name: MCP de documentação
+- name: Documentação MCP
   href: tools/documentation-mcp.md
 - name: Funções de protocolo
   href: tools/protocol-functions.md
@@ -70,13 +70,13 @@
 
 - name: Plataforma
 
-- name: Conceitos básicos da plataforma
+- name: Noais da plataforma
   href: platform/basics.md
 - name: Contas e saldo
   href: platform/account-balance.md
-- name: Portal de modelo
+- name: Gateway de modelo
   href: platform/models.md
-- name: Portais de IA
+- name: Gateways de IA
   href: platform/ai-gateways.md
 - name: Coleções RAG
   href: platform/rag-collections.md

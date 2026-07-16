@@ -20,7 +20,7 @@ header.bg-body {
                 font-weight: 500;
 
                 > .active {
-                    color: --primary;
+                    color: rgb(var(--bs-link-color-rgb));
                 }
             }
         }

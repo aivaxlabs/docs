@@ -1391,6 +1391,19 @@
       "version": ""
     },
     {
+      "type": "Toc",
+      "source_relative_path": "docs/pt-br/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/pt-br/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "docs/pt-br/tools/account-management-mcp.md",
       "output": {
@@ -1486,6 +1499,19 @@
       "output": {
         ".html": {
           "relative_path": "docs/rag/semantic-search.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
         }
       },
       "version": ""
