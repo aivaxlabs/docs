@@ -17,8 +17,8 @@
   href: rag/collections.md
 - name: Semantic search
   href: rag/semantic-search.md
-- name: Reranking
-  href: rag/reranking.md
+- name: Reflex
+  href: rag/reflex.md
 - name: Best practices
   href: rag/best-practices.md
 

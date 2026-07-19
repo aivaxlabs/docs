@@ -70,8 +70,6 @@ $0.015 per 1,000,000 input tokens
 
 This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage.
 
-The standalone lexical [Reranking](/docs/rag/reranking) endpoint has a base price of $0.0001 per request, equivalent to $1 per 10,000 searches. This endpoint price is not added to reranking performed inside Semantic Search. The plan commission multiplier still applies when the standalone usage record is written.
-
 ## Storage billing
 
 Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with `402 Payment Required`.

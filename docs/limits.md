@@ -79,7 +79,7 @@ Public keys have additional limits independent of the account plan.
 | Per remote address | 100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day |
 | Global per key | 500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day |
 
-Public keys can be used for RAG semantic search, RAG answer generation, standalone reranking, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](authentication.md).
+Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](authentication.md).
 
 ## RAG and collection limits
 
@@ -87,14 +87,14 @@ Public keys can be used for RAG semantic search, RAG answer generation, standalo
 | --- | --- | --- | --- |
 | Collections | 5 | Unlimited | Unlimited |
 | Semantic searches | 20/min | 500/min | 3,000/min |
-| Reranking searches | 30/min | 1,000/min | Unlimited |
+| Reflex document input tokens | 128,000/min | 1,000,000/min | 50,000,000/min |
 | Document insertions | 500/day | 10,000/day | Unlimited |
 | JSONL documents per import request | 1,000 | 10,000 | 1,000,000 |
 | Compound file processing | Not available | 3 files/day | 10 files/day |
 
 The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit.
 
-The reranking limit is shared by the standalone `/api/v1/rank` endpoint and every Semantic Search request that uses `rrf`, `lexical`, or `smart`. Searches with `reranker: "none"` do not consume this quota.
+The Reflex token limit counts all distinct document tokens sent in a request, including cached document tokens. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](rag/reflex.md) for request limits, cache behavior, and pricing.
 
 ## Built-in tool limits
 

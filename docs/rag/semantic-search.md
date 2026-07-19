@@ -2,6 +2,8 @@
 
 The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.
 
+If you need to search document strings immediately without creating and maintaining a RAG collection, use [Reflex](reflex.md). Reflex is optimized for low latency, ranks results by default, and automatically reuses cached document processing when available.
+
 Search is performed in stages:
 
 1. Each query term is embedded in query mode.
@@ -47,7 +49,7 @@ Available rerankers:
 
 The default reranker is `rrf`. To disable reranking, send `"reranker": "none"`. To preserve the semantic score and add a conservative lexical boost, use `lexical`. To use the model-based reranker, send `"reranker": "smart"`.
 
-All non-`none` rerankers share the account's [reranking-search limit](/docs/limits#rag-and-collection-limits). The same quota applies to the standalone [Reranking](reranking.md) endpoint.
+All non-`none` rerankers share the account's [reranking-search limit](/docs/limits#rag-and-collection-limits).
 
 > [!NOTE]
 > Reranking does not search additional documents. It only reorders candidates already found by the vector search stage.
