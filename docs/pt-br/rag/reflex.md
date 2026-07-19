@@ -1,35 +1,35 @@
 # Reflex
 
-Reflex é uma API de busca de baixa latência para classificar strings de documentos fornecidas diretamente em uma solicitação. Ela combina relevância semântica com um reforço lexical limitado, ajudando termos exatos, ortografias próximas, cobertura de consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.
+Reflex é uma API de busca de baixa latência para classificar strings de documentos fornecidas diretamente em uma requisição. Ela combina relevância semântica com um impulso lexical limitado, ajudando termos exatos, ortografias próximas, cobertura de consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.
 
 Ao contrário do RAG baseado em coleções, o Reflex não exige que você crie, preencha e gerencie uma coleção permanente antes de buscar. Envie a consulta e as strings de documentos atuais; o Reflex as processa imediatamente e reutiliza automaticamente embeddings de documentos em cache quando disponíveis.
 
-Use o Reflex para conjuntos de documentos dinâmicos ou pertencentes a aplicativos que precisam ser pesquisáveis imediatamente. Use [Semantic Search](semantic-search.md) quando os documentos devem viver em coleções RAG gerenciadas, ser compartilhados por múltiplas integrações ou estar anexados a um AI Gateway.
+Use o Reflex para conjuntos de documentos dinâmicos ou pertencentes à aplicação que devem ser pesquisáveis imediatamente. Use [Semantic Search](semantic-search.md) quando os documentos devem permanecer em coleções RAG gerenciadas, ser compartilhados por múltiplas integrações ou estar anexados a um AI Gateway.
 
 ## Request
 
-| Parameter | Type | Required | Description |
+| Parâmetro | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
 | `query` | `string` | Yes | Texto não vazio usado para classificar os documentos. |
-| `documents` | `string[]` | Yes | De um a 1.000 strings de documentos para pesquisar. Strings duplicadas exatas são removidas antes do processamento. |
+| `documents` | `string[]` | Yes | De um a 1.000 strings de documentos para buscar. Strings duplicadas exatas são removidas antes do processamento. |
 | `top_n` | `number` | No | Número máximo de resultados a retornar. O padrão é `5`, ou todos os documentos distintos quando menos de cinco são fornecidos. O máximo é `200` ou o número de documentos distintos, o que for menor. |
-| `min_score` | `number` | No | Pontuação mínima de similaridade semântica de `0` a `1`, aplicada antes do reforço lexical. O padrão é `0`. |
+| `min_score` | `number` | No | Pontuação mínima de similaridade semântica de `0` a `1`, aplicada antes do impulso lexical. O padrão é `0`. |
 
-A resposta identifica a solicitação e o modelo Reflex, então retorna os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um `relevance_score` de `0` a `1`, e seu `index` baseado em zero. Como duplicatas exatas são removidas primeiro, `index` refere‑se à sequência de documentos deduplicada.
+A resposta identifica a requisição e o modelo Reflex, então devolve os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um `relevance_score` de `0` a `1`, e seu `index` baseado em zero. Como duplicatas exatas são removidas primeiro, `index` refere‑se à sequência de documentos deduplicada.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Reflex%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Cache behavior
 
-O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada entre solicitações e entre diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na solicitação não o faz.
+O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada entre requisições e entre diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na requisição não o faz.
 
-A disponibilidade do cache não é permanente. Use o objeto `usage` da resposta para ver como a solicitação atual foi cobrada:
+A disponibilidade do cache não é permanente. Use o objeto `usage` da resposta para ver como a requisição atual foi cobrada:
 
-| Field | Meaning |
+| Campo | Significado |
 | --- | --- |
 | `input_tokens` | Tokens de documento processados como falhas de cache. |
 | `cached_input_tokens` | Tokens de documento servidos a partir do cache. |
-| `total_tokens` | Total de tokens nos documentos distintos da solicitação. |
+| `total_tokens` | Total de tokens entre os documentos distintos na requisição. |
 
 A consulta não está incluída nesses contadores de tokens de documento.
 
@@ -37,9 +37,9 @@ A consulta não está incluída nesses contadores de tokens de documento.
 
 O Reflex tem dois preços de entrada de documento:
 
-| Input type | Base price |
+| Tipo de entrada | Preço base |
 | --- | ---: |
-| Cache hit | US$0.01 por 1 milhão de tokens |
-| Cache miss | US$0.10 por 1 milhão de tokens |
+| Cache miss | US$0.015 por 1 milhão de tokens |
+| Cache hit | US$0.003 por 1 milhão de tokens |
 
 A precificação de acerto de cache se aplica quando o processamento de um documento pode ser reutilizado. A precificação de falha de cache se aplica quando um documento deve ser processado. O [multiplicador de comissão do plano](/docs/pt-br/pricing#usage-billing) da conta é aplicado quando o uso é registrado.

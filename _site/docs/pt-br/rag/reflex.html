@@ -127,17 +127,17 @@
                 <article data-uid="">
 <h1 id="reflex">Reflex</h1>
 
-<p>Reflex é uma API de busca de baixa latência para classificar strings de documentos fornecidas diretamente em uma solicitação. Ela combina relevância semântica com um reforço lexical limitado, ajudando termos exatos, ortografias próximas, cobertura de consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.</p>
+<p>Reflex é uma API de busca de baixa latência para classificar strings de documentos fornecidas diretamente em uma requisição. Ela combina relevância semântica com um impulso lexical limitado, ajudando termos exatos, ortografias próximas, cobertura de consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.</p>
 <p>Ao contrário do RAG baseado em coleções, o Reflex não exige que você crie, preencha e gerencie uma coleção permanente antes de buscar. Envie a consulta e as strings de documentos atuais; o Reflex as processa imediatamente e reutiliza automaticamente embeddings de documentos em cache quando disponíveis.</p>
-<p>Use o Reflex para conjuntos de documentos dinâmicos ou pertencentes a aplicativos que precisam ser pesquisáveis imediatamente. Use <a href="semantic-search.html">Semantic Search</a> quando os documentos devem viver em coleções RAG gerenciadas, ser compartilhados por múltiplas integrações ou estar anexados a um AI Gateway.</p>
+<p>Use o Reflex para conjuntos de documentos dinâmicos ou pertencentes à aplicação que devem ser pesquisáveis imediatamente. Use <a href="semantic-search.html">Semantic Search</a> quando os documentos devem permanecer em coleções RAG gerenciadas, ser compartilhados por múltiplas integrações ou estar anexados a um AI Gateway.</p>
 <h2 id="request">Request</h2>
 <table>
 <thead>
 <tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
+<th>Parâmetro</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
@@ -151,7 +151,7 @@
 <td><code>documents</code></td>
 <td><code>string[]</code></td>
 <td>Yes</td>
-<td>De um a 1.000 strings de documentos para pesquisar. Strings duplicadas exatas são removidas antes do processamento.</td>
+<td>De um a 1.000 strings de documentos para buscar. Strings duplicadas exatas são removidas antes do processamento.</td>
 </tr>
 <tr>
 <td><code>top_n</code></td>
@@ -163,20 +163,20 @@
 <td><code>min_score</code></td>
 <td><code>number</code></td>
 <td>No</td>
-<td>Pontuação mínima de similaridade semântica de <code>0</code> a <code>1</code>, aplicada antes do reforço lexical. O padrão é <code>0</code>.</td>
+<td>Pontuação mínima de similaridade semântica de <code>0</code> a <code>1</code>, aplicada antes do impulso lexical. O padrão é <code>0</code>.</td>
 </tr>
 </tbody>
 </table>
-<p>A resposta identifica a solicitação e o modelo Reflex, então retorna os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um <code>relevance_score</code> de <code>0</code> a <code>1</code>, e seu <code>index</code> baseado em zero. Como duplicatas exatas são removidas primeiro, <code>index</code> refere‑se à sequência de documentos deduplicada.</p>
+<p>A resposta identifica a requisição e o modelo Reflex, então devolve os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um <code>relevance_score</code> de <code>0</code> a <code>1</code>, e seu <code>index</code> baseado em zero. Como duplicatas exatas são removidas primeiro, <code>index</code> refere‑se à sequência de documentos deduplicada.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Reflex%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="cache-behavior">Cache behavior</h2>
-<p>O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada entre solicitações e entre diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na solicitação não o faz.</p>
-<p>A disponibilidade do cache não é permanente. Use o objeto <code>usage</code> da resposta para ver como a solicitação atual foi cobrada:</p>
+<p>O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada entre requisições e entre diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na requisição não o faz.</p>
+<p>A disponibilidade do cache não é permanente. Use o objeto <code>usage</code> da resposta para ver como a requisição atual foi cobrada:</p>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Meaning</th>
+<th>Campo</th>
+<th>Significado</th>
 </tr>
 </thead>
 <tbody>
@@ -190,7 +190,7 @@
 </tr>
 <tr>
 <td><code>total_tokens</code></td>
-<td>Total de tokens nos documentos distintos da solicitação.</td>
+<td>Total de tokens entre os documentos distintos na requisição.</td>
 </tr>
 </tbody>
 </table>
@@ -200,18 +200,18 @@
 <table>
 <thead>
 <tr>
-<th>Input type</th>
-<th style="text-align: right;">Base price</th>
+<th>Tipo de entrada</th>
+<th style="text-align: right;">Preço base</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Cache hit</td>
-<td style="text-align: right;">US$0.01 por 1 milhão de tokens</td>
+<td>Cache miss</td>
+<td style="text-align: right;">US$0.015 por 1 milhão de tokens</td>
 </tr>
 <tr>
-<td>Cache miss</td>
-<td style="text-align: right;">US$0.10 por 1 milhão de tokens</td>
+<td>Cache hit</td>
+<td style="text-align: right;">US$0.003 por 1 milhão de tokens</td>
 </tr>
 </tbody>
 </table>

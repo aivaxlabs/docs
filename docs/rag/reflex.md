@@ -39,7 +39,7 @@ Reflex has two document-input prices:
 
 | Input type | Base price |
 | --- | ---: |
-| Cache hit | US$0.01 per 1 million tokens |
-| Cache miss | US$0.10 per 1 million tokens |
+| Cache miss | US$0.015 per 1 million tokens |
+| Cache hit | US$0.003 per 1 million tokens |
 
 Cache-hit pricing applies when a document's processing can be reused. Cache-miss pricing applies when a document must be processed. The account's [plan commission multiplier](/docs/pricing#usage-billing) is applied when usage is recorded.
