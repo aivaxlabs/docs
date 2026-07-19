@@ -37,9 +37,9 @@ html[data-bs-theme="light"] {
     --bs-danger-bg-subtle: #ffe8ea;
     --bs-warning-bg-subtle: #fff9e5;
     --bs-info-bg-subtle: #eafbff;
-    --bs-body-bg: #faf2ea;
-    --bs-body-bg-alt: #f3e7da;
-    --scrollbar-color-track: #faf2ea;
+    --bs-body-bg: #fff9f3;
+    --bs-body-bg-alt: #faf2ea;
+    --scrollbar-color-track: #fff9f3;
     --scrollbar-color-thumb: #dfddd6;
     --bs-border-color: #dfddd6;
     --article-color: #61645f;

@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Semantic Search | AIVAX </title>
+        <title>Reflex | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Semantic Search | AIVAX ">
+        <meta name="title" content="Reflex | AIVAX ">
 
 
-        <link rel="icon" href="../../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../../public/docfx.min.css">
-        <link rel="stylesheet" href="../../public/main.css">
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../../toc.html">
+        <meta name="docfx:navrel" content="../../../toc.html">
         <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../../">
+        <meta name="docfx:rel" content="../../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/semantic-search.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/rag/reflex.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../../public/docfx.min.js"></script>
+        <script type="module" src="./../../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../../index.html">
-                        <img id="logo" class="svg" src="../../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,271 +125,102 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="semantic-search">Semantic Search</h1>
+<h1 id="reflex">Reflex</h1>
 
-<p>The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.</p>
-<p>If you need to search document strings immediately without creating and maintaining a RAG collection, use <a href="reflex.html">Reflex</a>. Reflex is optimized for low latency, ranks results by default, and automatically reuses cached document processing when available.</p>
-<p>Search is performed in stages:</p>
-<ol>
-<li>Each query term is embedded in query mode.</li>
-<li>Documents are embedded in retrieval mode during indexing.</li>
-<li>The search prefilters candidates with compact embedding hashes.</li>
-<li>Candidate documents are scored with embedding similarity.</li>
-<li>Candidates below <code>minScore</code> are removed after embedding similarity is calculated.</li>
-<li>The configured reranker can adjust the remaining order before the final <code>top</code> limit is applied.</li>
-</ol>
-<p>After creating a collection, use its collection ID in the <code>collections</code> array when searching.</p>
-<div class="WARNING">
-<h5>Warning</h5>
-<p>Semantic search incurs cost. Query embedding cost is based on the search term tokens. The <code>smart</code> reranker also incurs reranking cost based on the query and candidate document tokens.</p>
-</div>
-<script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="request-parameters">Request Parameters</h2>
+<p>Reflex é uma API de busca de baixa latência para classificar strings de documentos fornecidas diretamente em uma solicitação. Ela combina relevância semântica com um reforço lexical limitado, ajudando termos exatos, ortografias próximas, cobertura de consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.</p>
+<p>Ao contrário do RAG baseado em coleções, o Reflex não exige que você crie, preencha e gerencie uma coleção permanente antes de buscar. Envie a consulta e as strings de documentos atuais; o Reflex as processa imediatamente e reutiliza automaticamente embeddings de documentos em cache quando disponíveis.</p>
+<p>Use o Reflex para conjuntos de documentos dinâmicos ou pertencentes a aplicativos que precisam ser pesquisáveis imediatamente. Use <a href="semantic-search.html">Semantic Search</a> quando os documentos devem viver em coleções RAG gerenciadas, ser compartilhados por múltiplas integrações ou estar anexados a um AI Gateway.</p>
+<h2 id="request">Request</h2>
 <table>
 <thead>
 <tr>
 <th>Parameter</th>
 <th>Type</th>
-<th>Default</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>collections</code></td>
-<td><code>string[]</code></td>
-<td>Required</td>
-<td>Collection IDs to search. Each collection must belong to the authenticated account.</td>
-</tr>
-<tr>
-<td><code>term</code></td>
+<td><code>query</code></td>
 <td><code>string</code></td>
-<td>Required if <code>terms</code> is absent</td>
-<td>One search term.</td>
+<td>Yes</td>
+<td>Texto não vazio usado para classificar os documentos.</td>
 </tr>
 <tr>
-<td><code>terms</code></td>
+<td><code>documents</code></td>
 <td><code>string[]</code></td>
-<td>Required if <code>term</code> is absent</td>
-<td>One or more search terms.</td>
+<td>Yes</td>
+<td>De um a 1.000 strings de documentos para pesquisar. Strings duplicadas exatas são removidas antes do processamento.</td>
 </tr>
 <tr>
-<td><code>top</code></td>
+<td><code>top_n</code></td>
 <td><code>number</code></td>
-<td><code>5</code></td>
-<td>Maximum number of documents returned. Current validation allows 1 to 128.</td>
+<td>No</td>
+<td>Número máximo de resultados a retornar. O padrão é <code>5</code>, ou todos os documentos distintos quando menos de cinco são fornecidos. O máximo é <code>200</code> ou o número de documentos distintos, o que for menor.</td>
 </tr>
 <tr>
-<td><code>minScore</code></td>
+<td><code>min_score</code></td>
 <td><code>number</code></td>
-<td><code>0.2</code></td>
-<td>Minimum embedding-similarity score before reranking. Current validation allows values from 0.01 to 0.99.</td>
-</tr>
-<tr>
-<td><code>reranker</code></td>
-<td><code>string</code></td>
-<td><code>rrf</code></td>
-<td><code>rrf</code>, <code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
-</tr>
-<tr>
-<td><code>includeReferences</code></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Includes related documents with the same reference ID when a matched document has a reference.</td>
+<td>No</td>
+<td>Pontuação mínima de similaridade semântica de <code>0</code> a <code>1</code>, aplicada antes do reforço lexical. O padrão é <code>0</code>.</td>
 </tr>
 </tbody>
 </table>
-<p>The response includes the matched document ID, collection ID, document name, document content, metadata, score, and referenced documents when reference expansion is enabled.</p>
-<h2 id="reranking">Reranking</h2>
-<p>AIVAX can apply reranking after vector candidates are found.</p>
-<p>Available rerankers:</p>
+<p>A resposta identifica a solicitação e o modelo Reflex, então retorna os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um <code>relevance_score</code> de <code>0</code> a <code>1</code>, e seu <code>index</code> baseado em zero. Como duplicatas exatas são removidas primeiro, <code>index</code> refere‑se à sequência de documentos deduplicada.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Reflex%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="cache-behavior">Cache behavior</h2>
+<p>O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada entre solicitações e entre diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na solicitação não o faz.</p>
+<p>A disponibilidade do cache não é permanente. Use o objeto <code>usage</code> da resposta para ver como a solicitação atual foi cobrada:</p>
 <table>
 <thead>
 <tr>
-<th>Reranker</th>
-<th>Cost</th>
-<th>Behavior</th>
+<th>Field</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>none</code></td>
-<td>No reranking cost</td>
-<td>Uses vector similarity only.</td>
+<td><code>input_tokens</code></td>
+<td>Tokens de documento processados como falhas de cache.</td>
 </tr>
 <tr>
-<td><code>rrf</code></td>
-<td>No reranking cost</td>
-<td>Fuses the embedding and lexical rank positions. This is the default.</td>
+<td><code>cached_input_tokens</code></td>
+<td>Tokens de documento servidos a partir do cache.</td>
 </tr>
 <tr>
-<td><code>lexical</code></td>
-<td>No reranking cost</td>
-<td>Applies a local boost based on lexical matches, fuzzy token matches, and term proximity in the document name and content.</td>
-</tr>
-<tr>
-<td><code>smart</code></td>
-<td>Reranking cost applies</td>
-<td>Uses Cloudflare Workers AI (<code>@cf/baai/bge-reranker-base</code>) to rescore candidate documents against the full query.</td>
+<td><code>total_tokens</code></td>
+<td>Total de tokens nos documentos distintos da solicitação.</td>
 </tr>
 </tbody>
 </table>
-<p>The default reranker is <code>rrf</code>. To disable reranking, send <code>&quot;reranker&quot;: &quot;none&quot;</code>. To preserve the semantic score and add a conservative lexical boost, use <code>lexical</code>. To use the model-based reranker, send <code>&quot;reranker&quot;: &quot;smart&quot;</code>.</p>
-<p>All non-<code>none</code> rerankers share the account's <a href="/docs/limits#rag-and-collection-limits">reranking-search limit</a>.</p>
-<div class="NOTE">
-<h5>Note</h5>
-<p>Reranking does not search additional documents. It only reorders candidates already found by the vector search stage.</p>
-</div>
-<h2 id="multiple-terms">Multiple Terms</h2>
-<p>Multiple terms work as a ranked union by best match, not as a mandatory intersection.</p>
-<p>Each document is compared against all supplied terms. The document score uses the best match among those terms. A document can rank well by matching one term strongly, even if it does not match the other terms.</p>
-<p>Example:</p>
-<p>Searching for:</p>
-<pre><code class="lang-text">cancelamento
-multa
-reembolso
-</code></pre>
-<p>in the <code>suporte</code> and <code>contratos</code> collections means:</p>
-<pre><code class="lang-text">best support or contract documents that match cancelamento or multa or reembolso
-</code></pre>
-<p>It does not mean:</p>
-<pre><code class="lang-text">documents that match cancelamento and multa and reembolso at the same time
-</code></pre>
-<p>It also does not mean:</p>
-<pre><code class="lang-text">documents that exist in both support and contracts
-</code></pre>
-<p>If the user intent is one composite idea, send that idea as one term:</p>
-<pre><code class="lang-text">cancelamento de assinatura anual sem multa
-</code></pre>
-<p>Use multiple terms when you want to cover synonyms, alternative phrasings, or several acceptable retrieval paths.</p>
-<h2 id="search-quality">Search Quality</h2>
-<p>A complete query usually performs better than a list of disconnected keywords because it preserves the relationship between concepts.</p>
-<p>Prefer:</p>
-<pre><code class="lang-text">como cancelar assinatura anual sem multa
-</code></pre>
-<p>Over:</p>
-<pre><code class="lang-text">cancelamento
-assinatura
-multa
-</code></pre>
-<p>Tune <code>top</code> and <code>minScore</code> together:</p>
-<ul>
-<li>Lower <code>minScore</code> values return more candidates and more noise.</li>
-<li>Higher <code>minScore</code> values reduce noise but may return few or no results.</li>
-<li>Higher <code>top</code> values are useful when the answer must compare several policies, procedures, or source excerpts.</li>
-<li>Lower <code>top</code> values are better for direct FAQ-style answers.</li>
-</ul>
-<p>If search returns poor results:</p>
-<ol>
-<li>Confirm that the documents are indexed.</li>
-<li>Query the collection directly before testing through an AI Gateway.</li>
-<li>Compare short queries, complete questions, and alternative phrasings.</li>
-<li>Check whether the relevant document is too short, too long, or not self-contained.</li>
-<li>Check whether the query language matches the document language.</li>
-<li>If the gateway rewrites questions before searching, test with the plain query path to isolate rewriting issues.</li>
-</ol>
-<h2 id="mcp">MCP</h2>
-<p>You can expose RAG collections as MCP (Model Context Protocol) tools. This lets compatible MCP clients search a collection directly.</p>
-<p>Endpoint:</p>
-<pre><code class="lang-text">https://inference.aivax.net/v1/mcp/collections
-</code></pre>
-<p>Headers:</p>
+<p>A consulta não está incluída nesses contadores de tokens de documento.</p>
+<h2 id="pricing">Pricing</h2>
+<p>O Reflex tem dois preços de entrada de documento:</p>
 <table>
 <thead>
 <tr>
-<th>Header</th>
-<th>Description</th>
-<th>Default</th>
+<th>Input type</th>
+<th style="text-align: right;">Base price</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>Authorization</code></td>
-<td>Bearer token of your API key.</td>
-<td>Required</td>
+<td>Cache hit</td>
+<td style="text-align: right;">US$0.01 por 1 milhão de tokens</td>
 </tr>
 <tr>
-<td><code>X-Mcp-Collection-Id</code></td>
-<td>One or more collection IDs. Use commas for multiple collections.</td>
-<td>Required</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Collection-Name</code></td>
-<td>Collection name used to generate tool names.</td>
-<td><code>collection</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Reranker</code></td>
-<td><code>rrf</code>, <code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
-<td><code>rrf</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Top-K</code></td>
-<td>Maximum number of results to return.</td>
-<td><code>5</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Min-Score</code></td>
-<td>Minimum relevance score greater than 0 and up to 1.0.</td>
-<td><code>0.4</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Use-References</code></td>
-<td>Current server behavior enables references when this header value is <code>none</code>; omit the header to disable references.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Allow-Write</code></td>
-<td>Use <code>yes</code> to expose document write and delete tools.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Naming-Convention</code></td>
-<td><code>default</code> or <code>agent</code>.</td>
-<td><code>default</code></td>
+<td>Cache miss</td>
+<td style="text-align: right;">US$0.10 por 1 milhão de tokens</td>
 </tr>
 </tbody>
 </table>
-<h3 id="configuration-example">Configuration Example</h3>
-<p>Visual Studio Code:</p>
-<pre><code class="lang-json">{
-  &quot;servers&quot;: {
-    &quot;my-rag-collection-mcp&quot;: {
-      &quot;type&quot;: &quot;http&quot;,
-      &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/collections&quot;,
-      &quot;headers&quot;: {
-        &quot;Authorization&quot;: &quot;Bearer {your_api_key}&quot;,
-        &quot;X-Mcp-Collection-Id&quot;: &quot;your-collection-id&quot;,
-        &quot;X-Mcp-Collection-Name&quot;: &quot;my_collection&quot;,
-        &quot;X-Mcp-Top-K&quot;: &quot;5&quot;,
-        &quot;X-Mcp-Min-Score&quot;: &quot;0.4&quot;,
-        &quot;X-Mcp-Use-References&quot;: &quot;none&quot;
-      }
-    }
-  }
-}
-</code></pre>
-<h3 id="generated-tools">Generated Tools</h3>
-<p>With the default naming convention, the read tool is named:</p>
-<pre><code class="lang-text">{collection_name}_search
-</code></pre>
-<p>It accepts:</p>
-<ul>
-<li><code>search_terms</code> (<code>string[]</code>): one or more search terms.</li>
-</ul>
-<p>The MCP read tool enforces two request-shaping limits:</p>
-<ul>
-<li>At most 10 search terms per call.</li>
-<li>At most 500 total characters across all search terms.</li>
-</ul>
-<p>When <code>X-Mcp-Allow-Write</code> is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.</p>
-<p>When <code>X-Mcp-Allow-Write: yes</code> is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.</p>
-<p>Use collection MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to the AI Gateway and let the gateway RAG pipeline retrieve documents automatically.</p>
+<p>A precificação de acerto de cache se aplica quando o processamento de um documento pode ser reutilizado. A precificação de falha de cache se aplica quando um documento deve ser processado. O <a href="/docs/pt-br/pricing#usage-billing">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/semantic-search.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/rag/reflex.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

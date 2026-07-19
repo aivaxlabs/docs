@@ -322,7 +322,7 @@
 </tr>
 </tbody>
 </table>
-<p>Public keys can be used for RAG semantic search, RAG answer generation, standalone reranking, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See <a href="authentication.html">Authentication</a>.</p>
+<p>Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See <a href="authentication.html">Authentication</a>.</p>
 <h2 id="rag-and-collection-limits">RAG and collection limits</h2>
 <table>
 <thead>
@@ -347,10 +347,10 @@
 <td>3,000/min</td>
 </tr>
 <tr>
-<td>Reranking searches</td>
-<td>30/min</td>
-<td>1,000/min</td>
-<td>Unlimited</td>
+<td>Reflex document input tokens</td>
+<td>128,000/min</td>
+<td>1,000,000/min</td>
+<td>50,000,000/min</td>
 </tr>
 <tr>
 <td>Document insertions</td>
@@ -373,7 +373,7 @@
 </tbody>
 </table>
 <p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit.</p>
-<p>The reranking limit is shared by the standalone <code>/api/v1/rank</code> endpoint and every Semantic Search request that uses <code>rrf</code>, <code>lexical</code>, or <code>smart</code>. Searches with <code>reranker: &quot;none&quot;</code> do not consume this quota.</p>
+<p>The Reflex token limit counts all distinct document tokens sent in a request, including cached document tokens. Requests that exceed the plan limit return <code>429 Too Many Requests</code>. See <a href="rag/reflex.html">Reflex</a> for request limits, cache behavior, and pricing.</p>
 <h2 id="built-in-tool-limits">Built-in tool limits</h2>
 <table>
 <thead>
