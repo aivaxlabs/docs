@@ -742,6 +742,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/data-collecting.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/data-collecting.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/features/batch.md",
       "output": {
         ".html": {
@@ -1046,6 +1056,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/authentication.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/data-collecting.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/data-collecting.html"
         }
       },
       "version": ""

@@ -127,11 +127,11 @@
                 <article data-uid="">
 <h1 id="preços">Preços</h1>
 
-<p>AIVAX usa um saldo de conta pré-pago. Faturas pagas adicionam crédito à conta e registros de uso subtraem desse saldo.</p>
-<p>The backend calculates balance as:</p>
+<p>AIVAX usa um saldo de conta pré-pago. Faturas pagas adicionam crédito à conta, e os registros de uso subtraem desse saldo.</p>
+<p>O backend calcula o saldo como:</p>
 <pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
 </code></pre>
-<p>Use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para os preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que está visível no código-fonte da API.</p>
+<p>Use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para os preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que é visível no código-fonte da API.</p>
 <h2 id="créditos-e-faturas">Créditos e faturas</h2>
 <p>Créditos são representados como faturas.</p>
 <ul>
@@ -142,12 +142,12 @@
 <li>A criação de fatura de pagamento requer pelo menos 3 USD e tem limite de taxa.</li>
 </ul>
 <h2 id="faturamento-de-uso">Faturamento de uso</h2>
-<p>Cada operação faturável grava um ou mais registros de uso. Cada registro de uso contém:</p>
+<p>Cada operação faturável grava um ou mais registros de uso. Cada registro de uso tem:</p>
 <ul>
 <li>Descrição.</li>
 <li>Preço unitário.</li>
 <li>Quantidade.</li>
-<li>Nome opcional do modelo.</li>
+<li>Nome do modelo opcional.</li>
 <li>Categoria de uso.</li>
 <li>Recursos como chave de API, gateway ou coleção.</li>
 </ul>
@@ -161,7 +161,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Gratuito</td>
+<td>Free</td>
 <td>1.25x</td>
 </tr>
 <tr>
@@ -169,20 +169,20 @@
 <td>1.05x</td>
 </tr>
 <tr>
-<td>Máximo</td>
+<td>Max</td>
 <td>1.00x</td>
 </tr>
 </tbody>
 </table>
 <h2 id="faturamento-de-inferência">Faturamento de inferência</h2>
-<p>O faturamento de modelo integrado usa a tabela de preços do modelo fornecida pelo backend. O preço pode variar por modelo e por limite de tokens de entrada. O uso pode incluir:</p>
+<p>O faturamento de modelo integrado usa a tabela de preços do modelo do backend. O preço pode variar por modelo e por limite de tokens de entrada. O uso pode incluir:</p>
 <ul>
-<li>Tokens de texto de entrada.</li>
-<li>Tokens de entrada em cache, quando o modelo selecionado tem preço para entrada em cache.</li>
-<li>Tokens de áudio de entrada, quando aplicável.</li>
+<li>Tokens de entrada de texto.</li>
+<li>Tokens de entrada em cache, quando o modelo selecionado tem preço de entrada em cache.</li>
+<li>Tokens de entrada de áudio, quando aplicável.</li>
 <li>Tokens de saída.</li>
 </ul>
-<p>Alguns modelos integrados podem ser cobertos por janelas de reserva de modelo de assinatura. Quando um modelo tem um multiplicador de uso de assinatura e a conta ainda tem reserva restante tanto na janela de seis horas quanto na semanal, o uso registrado do modelo pode ser coberto em vez de ser cobrado do saldo.</p>
+<p>Alguns modelos integrados podem ser cobertos por janelas de reserva de modelo de assinatura. Quando um modelo tem um multiplicador de uso por assinatura e a conta ainda tem reserva restante tanto nas janelas de seis horas quanto nas semanais, o uso registrado do modelo pode ser coberto em vez de ser cobrado do saldo.</p>
 <p>As janelas de reserva atuais são:</p>
 <table>
 <thead>
@@ -194,7 +194,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Gratuito</td>
+<td>Free</td>
 <td>Nenhum</td>
 <td>Nenhum</td>
 </tr>
@@ -204,19 +204,39 @@
 <td>3.000 unidades</td>
 </tr>
 <tr>
-<td>Máximo</td>
+<td>Max</td>
 <td>1.000 unidades</td>
 <td>15.000 unidades</td>
 </tr>
 </tbody>
 </table>
-<p>Chamadas BYOK usam sua chave de provedor externo, mas a AIVAX ainda aplica limites de requisições BYOK porque a requisição passa pela infraestrutura da AIVAX.</p>
+<p>Chamadas BYOK usam sua chave de provedor externo, mas a AIVAX ainda impõe limites de requisição BYOK porque a requisição passa pela infraestrutura da AIVAX.</p>
 <h2 id="faturamento-rag">Faturamento RAG</h2>
 <p>O modelo de incorporação padrão é <code>@aivax/data-embedding</code>. Seu preço no backend é:</p>
 <pre><code class="lang-text">$0.015 per 1,000,000 input tokens
 </code></pre>
-<p>Isso se aplica ao indexamento de documentos e ao uso de incorporação de consultas que utilizam o modelo de incorporação padrão. Reordenação, quando ativada, pode adicionar uso separado de reordenação.</p>
-<p>O endpoint lexical independente <a href="/docs/pt-br/rag/reranking">Reranking</a> tem um preço base de $0.0001 por requisição, equivalente a $1 por 10.000 buscas. Esse preço de endpoint não é adicionado à reordenação feita dentro da Busca Semântica. O multiplicador de comissão do plano ainda se aplica quando o registro de uso independente é escrito.</p>
+<p>Isso se aplica ao indexamento de documentos e ao uso de incorporação de consultas que usa o modelo de incorporação padrão. Reordenação, quando habilitada, pode adicionar uso de reordenação separado.</p>
+<h3 id="reflex">Reflex</h3>
+<p>Reflex tem dois preços de token de entrada:</p>
+<table>
+<thead>
+<tr>
+<th>Tipo de entrada</th>
+<th style="text-align: right;">Preço base</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache miss</td>
+<td style="text-align: right;">US$0.015 per 1 million tokens</td>
+</tr>
+<tr>
+<td>Cache hit</td>
+<td style="text-align: right;">US$0.003 per 1 million tokens</td>
+</tr>
+</tbody>
+</table>
+<p>O preço de acerto em cache se aplica quando o processamento de entrada pode ser reutilizado. O preço de falha em cache se aplica quando a entrada deve ser processada. O <a href="#usage-billing">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. Veja <a href="rag/reflex.html">Reflex</a> para limites de requisição e comportamento de cache.</p>
 <h2 id="faturamento-de-armazenamento">Faturamento de armazenamento</h2>
 <p>O armazenamento é verificado antes de operações limitadas por saldo. Se o uso de armazenamento exceder a cota do plano, a requisição pode falhar com <code>402 Payment Required</code>.</p>
 <table>
@@ -229,26 +249,26 @@
 </thead>
 <tbody>
 <tr>
-<td>Gratuito</td>
+<td>Free</td>
 <td>30 MB</td>
-<td>Nenhum excesso pago</td>
+<td>Sem excesso pago</td>
 </tr>
 <tr>
 <td>Pro</td>
 <td>2 GB</td>
-<td>$0.50/GB/mês, cobrado por hora</td>
+<td>$0.50/GB/month, cobrado por hora</td>
 </tr>
 <tr>
-<td>Máximo</td>
+<td>Max</td>
 <td>20 GB</td>
-<td>$0.20/GB/mês, cobrado por hora</td>
+<td>$0.20/GB/month, cobrado por hora</td>
 </tr>
 </tbody>
 </table>
-<p>O excesso de armazenamento é cobrado por hora. O trabalho cobra apenas o uso excedente acima da cota incluída, e somente quando o excesso faturável é maior que 1 MB.</p>
-<p>O armazenamento pode incluir conteúdo e vetores de documentos RAG, itens de memória de longo prazo, cache de descrição de mídia, conteúdo de sessão de chat web e arquivos de shell.</p>
+<p>O excesso de armazenamento é cobrado por hora. O trabalho cobra apenas o uso excessivo acima da cota incluída, e somente quando o excesso faturável for maior que 1 MB.</p>
+<p>O armazenamento pode incluir conteúdo e vetores de documentos RAG, itens de memória de longo prazo, cache de descrição de mídia, conteúdo de sessões de chat na web e arquivos de shell.</p>
 <h2 id="requisitos-de-saldo">Requisitos de saldo</h2>
-<p>Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também interrompem quando o saldo está zero ou negativo. Alguns inputs de conclusão de chat multimodais requerem um saldo mínimo antes de iniciar a chamada do modelo:</p>
+<p>Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também param quando o saldo está zero ou negativo. Alguns inputs multimodais de conclusão de chat requerem um saldo mínimo antes que a chamada ao modelo inicie:</p>
 <table>
 <thead>
 <tr>
@@ -258,18 +278,18 @@
 </thead>
 <tbody>
 <tr>
-<td>Imagem ou áudio</td>
+<td>Image or audio</td>
 <td>$0.10</td>
 </tr>
 <tr>
-<td>Arquivo ou vídeo</td>
+<td>File or video</td>
 <td>$0.50</td>
 </tr>
 </tbody>
 </table>
 <p>Se o saldo da conta for muito baixo, a API retorna <code>402 Payment Required</code>.</p>
 <h2 id="planos-e-limites">Planos e limites</h2>
-<p>Os planos afetam tanto o preço quanto a operação:</p>
+<p>Planos afetam tanto preço quanto operação:</p>
 <ul>
 <li>Acesso ao modelo.</li>
 <li>Multiplicador de comissão.</li>

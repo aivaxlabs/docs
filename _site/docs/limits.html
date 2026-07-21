@@ -143,7 +143,8 @@
 </ul>
 <p>Reference:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Account%20Balance&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="plan-summary">Plan summary</h2>
+<h2 id="plan-limits">Plan limits</h2>
+<p>An em dash (<code>—</code>) means the plan does not impose a limit. Model, gateway, provider, or endpoint-specific limits may still apply.</p>
 <table>
 <thead>
 <tr>
@@ -154,6 +155,12 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><strong>Inference</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 <tr>
 <td>Model access</td>
 <td>Low-price/basic models</td>
@@ -167,178 +174,52 @@
 <td>1.00x</td>
 </tr>
 <tr>
+<td>Integrated model requests</td>
+<td>20/min and 500/day</td>
+<td>200/min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Integrated model input tokens</td>
+<td>1,000,000/min</td>
+<td>20,000,000/min</td>
+<td>—</td>
+</tr>
+<tr>
 <td>BYOK requests</td>
 <td>30/min</td>
 <td>200/min</td>
-<td>Unlimited</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Maximum context</td>
-<td>65,536 input tokens enforced at runtime</td>
-<td>Model or gateway limit</td>
-<td>Model or gateway limit</td>
+<td>65,536 input tokens</td>
+<td>—</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Subscription model reserve</td>
-<td>None</td>
+<td>Not included</td>
 <td>250 units/6h and 3,000 units/week</td>
 <td>1,000 units/6h and 15,000 units/week</td>
 </tr>
 <tr>
-<td>Storage quota</td>
-<td>30 MB</td>
-<td>2 GB</td>
-<td>20 GB</td>
-</tr>
-<tr>
-<td>Conversation retention</td>
-<td>2 hours</td>
-<td>2 days</td>
-<td>30 days</td>
-</tr>
-<tr>
-<td>Support level</td>
-<td>Email</td>
-<td>Priority</td>
-<td>Dedicated</td>
-</tr>
-</tbody>
-</table>
-<h2 id="integrated-inference">Integrated inference</h2>
-<p>Integrated model requests are rate-limited by request count and input tokens.</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Request limit</th>
-<th>Input-token limit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>20/min and 500/day</td>
-<td>1,000,000/min</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>200/min</td>
-<td>20,000,000/min</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>Unlimited</td>
-<td>Unlimited</td>
-</tr>
-</tbody>
-</table>
-<p>Model rate-limit groups adjust request-count thresholds:</p>
-<table>
-<thead>
-<tr>
-<th>Rate-limit group</th>
-<th>Threshold multiplier</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Common</td>
-<td>1.0x</td>
-</tr>
-<tr>
-<td>Discounted</td>
-<td>0.5x</td>
-</tr>
-<tr>
-<td>Low</td>
-<td>0.3x</td>
-</tr>
-<tr>
-<td>Free</td>
-<td>0.1x</td>
-</tr>
-</tbody>
-</table>
-<p>For example, a Pro account normally has 200 integrated-model requests per minute. With a <code>Discounted</code> model group, the adjusted threshold is 100 requests per minute.</p>
-<h2 id="byok-inference">BYOK inference</h2>
-<p>BYOK means the gateway uses a provider key configured on the gateway instead of an integrated AIVAX model. BYOK still passes through AIVAX infrastructure and is rate-limited by plan:</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>BYOK request limit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
+<td>Text-to-speech requests</td>
+<td>3/min and 15/hour</td>
 <td>30/min</td>
+<td>300/min</td>
 </tr>
 <tr>
-<td>Pro</td>
-<td>200/min</td>
+<td><strong>RAG and collections</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-<tr>
-<td>Max</td>
-<td>Unlimited</td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-api-keys">Public API keys</h2>
-<p>Public keys have additional limits independent of the account plan.</p>
-<table>
-<thead>
-<tr>
-<th>Scope</th>
-<th>Request limits</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Per remote address</td>
-<td>3/5s, 20/min, 300/hour, 1,000/day</td>
-</tr>
-<tr>
-<td>Global per key</td>
-<td>10/5s, 60/min, 1,500/hour, 10,000/day</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>Scope</th>
-<th>Token limits</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Per remote address</td>
-<td>100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day</td>
-</tr>
-<tr>
-<td>Global per key</td>
-<td>500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day</td>
-</tr>
-</tbody>
-</table>
-<p>Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See <a href="authentication.html">Authentication</a>.</p>
-<h2 id="rag-and-collection-limits">RAG and collection limits</h2>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Free</th>
-<th>Pro</th>
-<th>Max</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>Collections</td>
 <td>5</td>
-<td>Unlimited</td>
-<td>Unlimited</td>
+<td>—</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Semantic searches</td>
@@ -347,7 +228,13 @@
 <td>3,000/min</td>
 </tr>
 <tr>
-<td>Reflex document input tokens</td>
+<td>Reranking searches</td>
+<td>30/min</td>
+<td>1,000/min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Reflex input tokens</td>
 <td>128,000/min</td>
 <td>1,000,000/min</td>
 <td>50,000,000/min</td>
@@ -356,7 +243,7 @@
 <td>Document insertions</td>
 <td>500/day</td>
 <td>10,000/day</td>
-<td>Unlimited</td>
+<td>—</td>
 </tr>
 <tr>
 <td>JSONL documents per import request</td>
@@ -370,21 +257,12 @@
 <td>3 files/day</td>
 <td>10 files/day</td>
 </tr>
-</tbody>
-</table>
-<p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit.</p>
-<p>The Reflex token limit counts all distinct document tokens sent in a request, including cached document tokens. Requests that exceed the plan limit return <code>429 Too Many Requests</code>. See <a href="rag/reflex.html">Reflex</a> for request limits, cache behavior, and pricing.</p>
-<h2 id="built-in-tool-limits">Built-in tool limits</h2>
-<table>
-<thead>
 <tr>
-<th>Tool category</th>
-<th>Free</th>
-<th>Pro</th>
-<th>Max</th>
+<td><strong>Built-in tools</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-</thead>
-<tbody>
 <tr>
 <td>Web search</td>
 <td>15/day</td>
@@ -427,70 +305,17 @@
 <td>1,500/hour</td>
 <td>10,000/hour</td>
 </tr>
-</tbody>
-</table>
-<p>General service actions share the service-action quota shown above.</p>
-<h2 id="speech-generation">Speech generation</h2>
-<p>Text-to-speech requests use a dedicated plan limit:</p>
-<table>
-<thead>
 <tr>
-<th>Plan</th>
-<th>Text-to-speech requests</th>
+<td><strong>Batch processing</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>3/min and 15/hour</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>30/min</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>300/min</td>
-</tr>
-</tbody>
-</table>
-<h2 id="documentation-mcp">Documentation MCP</h2>
-<p>The authenticated Documentation MCP applies per-account limits to its tools:</p>
-<table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>Limit</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Search documentation</td>
-<td>10/min and 400/4h</td>
-</tr>
-<tr>
-<td>List models</td>
-<td>30/min and 1,000/day</td>
-</tr>
-</tbody>
-</table>
-<h2 id="batch-processing">Batch processing</h2>
-<p>Batch imports have request-size guards, and workflow processing has a daily plan limit.</p>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>Free</th>
-<th>Pro</th>
-<th>Max</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>Workflow items processed</td>
 <td>500/day</td>
 <td>100,000/day</td>
-<td>Unlimited</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Files per import request</td>
@@ -510,9 +335,109 @@
 <td>10 MB</td>
 <td>10 MB</td>
 </tr>
+<tr>
+<td><strong>Account and support</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Storage quota</td>
+<td>30 MB</td>
+<td>2 GB</td>
+<td>20 GB</td>
+</tr>
+<tr>
+<td>Cost per excess GB</td>
+<td>—</td>
+<td>$0.50/GB/month</td>
+<td>$0.20/GB/month</td>
+</tr>
+<tr>
+<td>Conversation retention</td>
+<td>2 hours</td>
+<td>2 days</td>
+<td>30 days</td>
+</tr>
+<tr>
+<td>Support level</td>
+<td>Email</td>
+<td>Priority</td>
+<td>Dedicated</td>
+</tr>
 </tbody>
 </table>
-<p>Batch is asynchronous. If processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.</p>
+<p>Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:</p>
+<table>
+<thead>
+<tr>
+<th>Rate-limit group</th>
+<th>Threshold multiplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Common</td>
+<td>1.0x</td>
+</tr>
+<tr>
+<td>Discounted</td>
+<td>0.5x</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>0.3x</td>
+</tr>
+<tr>
+<td>Free</td>
+<td>0.1x</td>
+</tr>
+</tbody>
+</table>
+<p>For example, a Pro account normally has 200 integrated-model requests per minute. With a <code>Discounted</code> model group, the adjusted threshold is 100 requests per minute.</p>
+<p>BYOK uses a provider key configured on the gateway instead of an integrated AIVAX model, but requests still pass through AIVAX infrastructure and use the plan's BYOK limit.</p>
+<p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.</p>
+<p>The Reflex limit counts all query and document input tokens reported for a request, including cached input tokens. Requests that exceed the plan limit return <code>429 Too Many Requests</code>. See <a href="rag/reflex.html">Reflex</a> for request limits, cache behavior, and pricing.</p>
+<p>General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.</p>
+<h2 id="public-api-keys">Public API keys</h2>
+<p>Public keys have additional limits independent of the account plan.</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Request limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per remote address</td>
+<td>3/5s, 20/min, 300/hour, 1,000/day</td>
+</tr>
+<tr>
+<td>Global per key</td>
+<td>10/5s, 60/min, 1,500/hour, 10,000/day</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Token limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Per remote address</td>
+<td>100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day</td>
+</tr>
+<tr>
+<td>Global per key</td>
+<td>500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day</td>
+</tr>
+</tbody>
+</table>
+<p>Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See <a href="authentication.html">Authentication</a>.</p>
 
 </article>
 

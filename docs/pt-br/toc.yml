@@ -9,7 +9,9 @@
 - name: Preços
   href: pricing.md
 - name: Planos e limites
-  href: limits.md 
+  href: limits.md
+- name: Coleta de dados
+  href: data-collecting.md
 
 - name: RAG e coleções
 
@@ -17,14 +19,14 @@
   href: rag/collections.md
 - name: Busca semântica
   href: rag/semantic-search.md
-- name: Reclassificação
-  href: rag/reranking.md
+- name: Reflex
+  href: rag/reflex.md
 - name: Melhores práticas
   href: rag/best-practices.md
 
 - name: Inferência
 
-- name: Gateways de IA
+- name: Portais de IA
   href: inference/ai-gateway.md
 - name: Inferência
   href: inference/inference.md
@@ -50,9 +52,9 @@
   href: tools/builtin-tools.md
 - name: Funções MCP
   href: tools/mcp.md
-- name: Gerenciamento de conta MCP
+- name: MCP de gerenciamento de conta
   href: tools/account-management-mcp.md
-- name: Documentação MCP
+- name: MCP de documentação
   href: tools/documentation-mcp.md
 - name: Funções de protocolo
   href: tools/protocol-functions.md
@@ -70,13 +72,13 @@
 
 - name: Plataforma
 
-- name: Noais da plataforma
+- name: Conceitos básicos da plataforma
   href: platform/basics.md
 - name: Contas e saldo
   href: platform/account-balance.md
-- name: Gateway de modelo
+- name: Portal de modelo
   href: platform/models.md
-- name: Gateways de IA
+- name: Portais de IA
   href: platform/ai-gateways.md
 - name: Coleções RAG
   href: platform/rag-collections.md

@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>AIVAX Documentation | AIVAX </title>
+        <title>Data Collecting | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="AIVAX Documentation | AIVAX ">
+        <meta name="title" content="Data Collecting | AIVAX ">
 
 
-        <link rel="icon" href="assets/img/favicon.ico">
-        <link rel="stylesheet" href="public/docfx.min.css">
-        <link rel="stylesheet" href="public/main.css">
+        <link rel="icon" href="../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../public/docfx.min.css">
+        <link rel="stylesheet" href="../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="toc.html">
+        <meta name="docfx:navrel" content="../toc.html">
         <meta name="docfx:tocrel" content="toc.html">
 
-        <meta name="docfx:rel" content="">
+        <meta name="docfx:rel" content="../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/index.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/data-collecting.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./public/docfx.min.js"></script>
+        <script type="module" src="./../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="index.html">
-                        <img id="logo" class="svg" src="assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../index.html">
+                        <img id="logo" class="svg" src="../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,9 +83,23 @@
         </header>
 
         <main class="container-xxl">
+            <div class="toc-offcanvas">
+                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <nav class="toc" id="toc"></nav>
+                    </div>
+                </div>
+            </div>
 
             <div class="content">
                 <div class="actionbar">
+                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+                        <i class="bi bi-list"></i>
+                    </button>
 
                     <nav id="breadcrumb"></nav>
 
@@ -111,31 +125,70 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="aivax-documentation">AIVAX Documentation</h1>
+<h1 id="data-collecting">Data Collecting</h1>
 
-<p>AIVAX is an AI orchestration platform for building assistants on top of hosted or BYOK language models, RAG collections, tools, skills, workers, and chat channels.</p>
-<p>Use these docs to:</p>
+<p>AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and Reflex search data to model development. Document indexing and storage are outside this program. Collected records are detached from the originating account before they are written to the training dataset. The setting is disabled by default and must be enabled by an authorized Account Manager.</p>
+<h2 id="what-changes-when-collection-is-enabled">What changes when collection is enabled</h2>
+<p>While the setting is enabled:</p>
 <ul>
-<li>Make your first OpenAI-compatible inference call.</li>
-<li>Create and protect API keys.</li>
-<li>Understand account balance, plan limits, and usage billing.</li>
-<li>Connect gateways, collections, tools, skills, chat clients, and batch workflows.</li>
+<li>eligible RAG query-embedding usage receives a 10% discount;</li>
+<li>eligible Reflex searches receive a 10% discount;</li>
+<li>RAG reranking remains at its regular price; and</li>
+<li>document indexing, storage, unrelated inference, tools, and other services keep their regular prices.</li>
 </ul>
-<h2 id="start-here">Start here</h2>
+<p>The discount applies only to eligible operations performed while collection is enabled. Disabling collection removes the discount from future operations.</p>
+<h2 id="data-included">Data included</h2>
+<p>Depending on the operation, AIVAX may collect:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Collected data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG semantic search</td>
+<td>Query terms, selected reranker, and the contents and relevance scores of returned documents.</td>
+</tr>
+<tr>
+<td>Reflex</td>
+<td>Query, submitted documents, and ranking results. Unknown response metadata and usage or billing information are not included.</td>
+</tr>
+</tbody>
+</table>
+<p>The dataset does not store the account ID, API key, request ID, collection or document IDs, document names, billing data, or collection timestamp. The account is consulted transiently only to verify that collection is enabled and to apply the eligible search discount. Document indexing and stored collections are never copied into the training dataset by this program; document content is included only when it is submitted to Reflex or returned by a RAG search.</p>
+<p>Enabling this setting does not by itself include unrelated chat completions, conversations, tool calls, or other account resources in the training dataset.</p>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>Account-level anonymization does not inspect or redact the semantic text supplied by the Account Manager. A query or document can still contain names, contact details, secrets, or other identifying information. Do not submit such information to the program unless its collection and training use are authorized.</p>
+</div>
+<h2 id="purpose-and-use">Purpose and use</h2>
+<p>AIVAX may use collected data to develop, train, fine-tune, evaluate, test, and improve models and systems related to embeddings, retrieval, ranking, reranking, and other semantic processing. This may include preparing datasets, annotating or transforming records, measuring quality, and producing aggregated or derived artifacts.</p>
+<p>Access is limited to authorized personnel and service providers that support these purposes under applicable confidentiality and data-protection obligations. AIVAX does not sell collected semantic data or maintain an account-to-record mapping for this dataset.</p>
+<h2 id="account-manager-responsibilities">Account Manager responsibilities</h2>
+<p>Before enabling collection, the Account Manager must:</p>
 <ul>
-<li><a href="docs/overview.html">Overview</a></li>
-<li><a href="docs/getting-started.html">Getting started</a></li>
-<li><a href="docs/authentication.html">Authentication</a></li>
-<li><a href="docs/pricing.html">Pricing</a></li>
-<li><a href="docs/limits.html">Plans and limits</a></li>
-<li><a href="docs/data-collecting.html">Data collecting</a></li>
+<li>have authority to accept these conditions for the account;</li>
+<li>have an appropriate legal basis for AIVAX to use the submitted data for the purposes above;</li>
+<li>provide any notices and obtain any permissions or consents required from end users or other data subjects; and</li>
+<li>avoid submitting credentials, secrets, regulated data, or sensitive personal data unless its collection and use are legally permitted and necessary.</li>
 </ul>
-<p>For generated endpoint details, see the <a href="https://inference.aivax.net/apidocs">AIVAX API reference</a>.</p>
+<h2 id="enabling-disabling-and-deletion">Enabling, disabling, and deletion</h2>
+<p>The Account Manager can control collection in <strong>Dashboard &gt; My account &gt; Semantic data collection</strong>.</p>
+<ul>
+<li>The setting is disabled by default.</li>
+<li>Enabling it authorizes collection of future eligible RAG and Reflex searches.</li>
+<li>Disabling it stops new collection and ends the discount for future operations.</li>
+<li>Disabling it does not automatically delete records collected while consent was active or reverse training already completed.</li>
+</ul>
+<p>Because account identifiers and account-to-record mappings are not stored, AIVAX cannot retrieve or delete training records merely from an account ID. Requests concerning personal data present inside submitted semantic content can be sent to **privacy@aivax.net** or **wm@aivax.net** and must include enough information to locate the content where applicable. Source records are retained only for as long as reasonably necessary for the documented purposes, legal obligations, security, and audit requirements, and may then be deleted or further anonymized. Deletion of source records does not require AIVAX to retrain or destroy models or aggregated artifacts that no longer identify a person, except where required by applicable law.</p>
+<p>See the <a href="/docs/legal/privacy-policy">Privacy Policy</a> and <a href="/docs/legal/terms-of-service">Terms of Use</a> for the governing legal terms.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/index.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/data-collecting.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

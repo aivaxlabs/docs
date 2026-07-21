@@ -9,7 +9,9 @@
 - name: Pricing
   href: pricing.md
 - name: Plans and limits
-  href: limits.md 
+  href: limits.md
+- name: Data collecting
+  href: data-collecting.md
 
 - name: RAG and collections
 

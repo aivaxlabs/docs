@@ -70,6 +70,17 @@ $0.015 per 1,000,000 input tokens
 
 This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage.
 
+### Reflex
+
+Reflex has two input-token prices:
+
+| Input type | Base price |
+| --- | ---: |
+| Cache miss | US$0.015 per 1 million tokens |
+| Cache hit | US$0.003 per 1 million tokens |
+
+Cache-hit pricing applies when input processing can be reused. Cache-miss pricing applies when input must be processed. The account's [plan commission multiplier](#usage-billing) is applied when usage is recorded. See [Reflex](rag/reflex.md) for request limits and cache behavior.
+
 ## Storage billing
 
 Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with `402 Payment Required`.

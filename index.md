@@ -16,5 +16,6 @@ Use these docs to:
 - [Authentication](docs/authentication.md)
 - [Pricing](docs/pricing.md)
 - [Plans and limits](docs/limits.md)
+- [Data collecting](docs/data-collecting.md)
 
 For generated endpoint details, see the [AIVAX API reference](https://inference.aivax.net/apidocs).

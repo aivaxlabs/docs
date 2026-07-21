@@ -127,9 +127,9 @@
                 <article data-uid="">
 <h1 id="reflex">Reflex</h1>
 
-<p>Reflex é uma API de busca de baixa latência para classificar strings de documentos fornecidas diretamente em uma requisição. Ela combina relevância semântica com um impulso lexical limitado, ajudando termos exatos, ortografias próximas, cobertura de consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.</p>
-<p>Ao contrário do RAG baseado em coleções, o Reflex não exige que você crie, preencha e gerencie uma coleção permanente antes de buscar. Envie a consulta e as strings de documentos atuais; o Reflex as processa imediatamente e reutiliza automaticamente embeddings de documentos em cache quando disponíveis.</p>
-<p>Use o Reflex para conjuntos de documentos dinâmicos ou pertencentes à aplicação que devem ser pesquisáveis imediatamente. Use <a href="semantic-search.html">Semantic Search</a> quando os documentos devem permanecer em coleções RAG gerenciadas, ser compartilhados por múltiplas integrações ou estar anexados a um AI Gateway.</p>
+<p>Reflex é uma API de busca de latência baixa para classificar strings de documentos fornecidas diretamente em uma requisição. Ela combina relevância semântica com um impulso lexical limitado, ajudando termos exatos, grafias próximas, cobertura da consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.</p>
+<p>Ao contrário do RAG baseado em coleções, o Reflex não exige que você crie, preencha e gerencie uma coleção permanente antes de pesquisar. Envie a consulta e as strings de documentos atuais; o Reflex as processa imediatamente e reutiliza automaticamente embeddings de documentos em cache quando disponíveis.</p>
+<p>Use o Reflex para conjuntos de documentos dinâmicos ou de propriedade da aplicação que precisam ser pesquisáveis imediatamente. Use <a href="semantic-search.html">Semantic Search</a> quando os documentos devem viver em coleções RAG gerenciadas, serem compartilhados por múltiplas integrações ou serem anexados a um AI Gateway.</p>
 <h2 id="request">Request</h2>
 <table>
 <thead>
@@ -167,10 +167,11 @@
 </tr>
 </tbody>
 </table>
-<p>A resposta identifica a requisição e o modelo Reflex, então devolve os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um <code>relevance_score</code> de <code>0</code> a <code>1</code>, e seu <code>index</code> baseado em zero. Como duplicatas exatas são removidas primeiro, <code>index</code> refere‑se à sequência de documentos deduplicada.</p>
+<p>A resposta identifica a requisição e o modelo Reflex, então devolve os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um <code>relevance_score</code> de <code>0</code> a <code>1</code>, e seu <code>index</code> baseado em zero. Como duplicatas exatas são removidas primeiro, <code>index</code> refere‑se à sequência de documentos desduplicada.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Reflex%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="cache-behavior">Cache behavior</h2>
-<p>O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada entre requisições e entre diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na requisição não o faz.</p>
+<h3 id="comportamento-de-cache">Comportamento de cache</h3>
+<p>O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada em requisições e em diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na requisição não o faz.</p>
 <p>A disponibilidade do cache não é permanente. Use o objeto <code>usage</code> da resposta para ver como a requisição atual foi cobrada:</p>
 <table>
 <thead>
@@ -190,32 +191,14 @@
 </tr>
 <tr>
 <td><code>total_tokens</code></td>
-<td>Total de tokens entre os documentos distintos na requisição.</td>
+<td>Total de tokens nos documentos distintos da requisição.</td>
 </tr>
 </tbody>
 </table>
 <p>A consulta não está incluída nesses contadores de tokens de documento.</p>
 <h2 id="pricing">Pricing</h2>
-<p>O Reflex tem dois preços de entrada de documento:</p>
-<table>
-<thead>
-<tr>
-<th>Tipo de entrada</th>
-<th style="text-align: right;">Preço base</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache miss</td>
-<td style="text-align: right;">US$0.015 por 1 milhão de tokens</td>
-</tr>
-<tr>
-<td>Cache hit</td>
-<td style="text-align: right;">US$0.003 por 1 milhão de tokens</td>
-</tr>
-</tbody>
-</table>
-<p>A precificação de acerto de cache se aplica quando o processamento de um documento pode ser reutilizado. A precificação de falha de cache se aplica quando um documento deve ser processado. O <a href="/docs/pt-br/pricing#usage-billing">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado.</p>
+<h3 id="preços">Preços</h3>
+<p>Veja <a href="../pricing.html#reflex">Preços</a> para os preços atuais de tokens de entrada do Reflex e detalhes de faturamento.</p>
 
 </article>
 
