@@ -25,7 +25,7 @@ Use a gateway when behavior should be stable and centrally managed. A gateway is
 - Skills and tool visibility.
 - Built-in tools, MCP sources, protocol functions, raw tool definitions, and Bash settings.
 - Sampling, reasoning, verbosity, and context controls.
-- Moderation thresholds and worker webhooks.
+- Moderation sensitivity levels, additional rules, and worker webhooks.
 
 Use a direct model call instead when you only need a simple one-off prompt or an internal test where the application owns every option.
 
@@ -103,6 +103,30 @@ Before saving a production gateway, review:
 - Generated integration, MCP, and playground snippets before sharing them.
 - Conversation logs after testing.
 
+## Configure input moderation
+
+Use the **Moderation** tab when the gateway accepts untrusted user input and should refuse categories of requests before they reach the main model.
+
+1. Open the gateway and select **Moderation**.
+2. Optionally add **Additional moderation rules** that describe the gateway's purpose and important allowed or disallowed cases.
+3. Set a sensitivity level from `0` to `10` for each category. Use **Set global value** only when the same sensitivity is appropriate for every category.
+4. Enable **Off-topic subjects** when requests should remain within the purpose established by the conversation and your additional rules.
+5. Save the gateway, then test allowed, borderline, and blocked requests.
+
+Start with lower sensitivity levels and increase them only after reviewing realistic examples. Higher values are more restrictive: level `1` blocks only safeguard score `10`, while level `10` blocks every nonzero score. Level `0` disables the category.
+
+Additional rules do not activate moderation by themselves. Keep at least one category above `0`, and choose the category whose score represents the policy you wrote. For a domain-restricted assistant, this will commonly be **Off-topic subjects**.
+
+To confirm the configuration:
+
+- Send an allowed request that clearly matches the gateway purpose.
+- Continue the same conversation with a natural change of topic that should remain allowed.
+- Send a clearly unrelated request to verify the off-topic level.
+- Test one allowed and one blocked example for every other enabled category.
+- Review conversation and usage logs for unexpected blocks, moderation failures, latency, and moderation usage.
+
+Do not treat moderation as the only security boundary for tools, account data, or write operations. Keep authorization and business rules in the application or a worker. For the score contract, blocking flow, context behavior, and current media/output limitations, see [Moderation in the inference pipeline](/docs/inference/pipelines#moderation).
+
 ## Configure RAG carefully
 
 Attach RAG collections when the assistant must answer from account-owned documents. Choose the query strategy based on the conversation:
@@ -173,6 +197,9 @@ Before using a gateway in production:
 | External provider call fails | Base address, provider API key, model name, provider rate limits, and provider response errors. | Test the provider credentials separately, then update the gateway inference settings. |
 | RAG answers are missing or irrelevant | Attached collections, indexing state, query strategy, reranker, maximum results, minimum score, references, and system instructions. | Test the collection directly, compare `Plain` with rewrite strategies, adjust score/result limits deliberately, then retest through the gateway. |
 | Tool calls are wrong or noisy | Enabled tools, MCP sources, raw tools, skills, always-visible tools, and tool instructions. | Reduce the tool set, use skills to narrow visible tools, and document when each tool should be used. |
+| Allowed requests are blocked by moderation | Enabled category levels, additional rules, the established conversation topic, and whether a high global value made every category restrictive. | Lower the affected category, clarify allowed cases in the additional rules, and retest with the same conversation history. |
+| Unsafe or unrelated requests are not blocked | Whether the relevant category is above `0`, whether additional rules are paired with an enabled category, and whether the request is textual. | Enable the matching category, increase its sensitivity gradually, and remember that attached media contents and generated output are not moderated. |
+| Moderation increases latency or usage | Number of moderated requests, safeguard usage records, retries, and whether moderation is needed on this gateway. | Keep moderation enabled where input gating is required; otherwise disable every category to skip the safeguard inference. |
 | Worker or callback rejects AIVAX | Account hook key, `X-Request-Nonce` validation, callback URL, worker deployment, and timeout behavior. | Update the receiver to validate the current hook key, redeploy or reprovision affected workers, and retry a controlled request. See [Hook authentication](/docs/authentication#hook-authentication). |
 | Users still hit an old configuration | Caller model value, gateway slug, full ID, copied playground URL, cached client configuration, and direct model calls that bypass the gateway. | Update every caller that bypasses or pins the old gateway value. |
 

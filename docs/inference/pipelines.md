@@ -144,11 +144,84 @@ If a handler name is not recognized, gateway configuration fails at inference ti
 
 ## Moderation
 
-Moderation runs a safeguard model over the full textual conversation before the main model runs. It scores the latest user request for violence, sexually explicit content, political content, dangerous content, jailbreak attempts, and off-topic subjects. Additional moderation rules configured on the gateway guide these scores together with the built-in category policies.
+Moderation is an input gate that runs before the main model. When at least one moderation category is enabled, AIVAX sends the available textual conversation to a safeguard model. The safeguard evaluates the latest user request in the context established by the conversation and returns a score from 0 to 10 for every category.
 
-Each category uses a sensitivity level from 0 to 10. Level 0 disables the category, level 1 blocks only safeguard score 10, and level 10 blocks scores 1 through 10. When a category reaches its blocking score, AIVAX does not forward the original conversation to the main model and asks it to return a refusal.
+| Category | Gateway property | What the safeguard evaluates |
+| --- | --- | --- |
+| **Violence and hate speech** | `violenceThreshold` | Violence, hate, extremism, threats, or encouragement of physical harm. |
+| **Sexual and explicit content** | `sexualExplicitThreshold` | Sexually explicit or adult content. |
+| **Political topics** | `politicalThreshold` | Political persuasion, campaigning, manipulation, or highly political content. |
+| **Dangerous content** | `dangerousContentThreshold` | Weapons, explosives, cyber abuse, self-harm, or other dangerous acts and instructions. |
+| **Jailbreak attempts** | `jailbreakThreshold` | Attempts to override instructions, reveal protected instructions, exfiltrate data, or inject prompts. |
+| **Off-topic subjects** | `offTopicThreshold` | How far the latest request is from the purpose and topics established by the conversation. Normal topic evolution receives a low score; unrelated or deliberate redirection receives a high score. |
 
-Moderation currently applies only to input text. It does not analyze generated output or the contents of images, audio, video, or file attachments.
+### Understand sensitivity levels
+
+The value configured in the gateway is a **sensitivity level**, not the safeguard score itself. A higher level lowers the score required to block the input.
+
+| Sensitivity level | Safeguard scores that block |
+| ---: | --- |
+| `0` | Category disabled |
+| `1` | `10` |
+| `3` | `8`–`10` |
+| `5` | `6`–`10` |
+| `8` | `3`–`10` |
+| `10` | `1`–`10` |
+
+For enabled categories, the blocking cutoff is `11 - sensitivity level`. A safeguard score of `0` never blocks. Configure each category independently; the request is blocked when any enabled category reaches its cutoff.
+
+### Add gateway-specific rules
+
+**Additional moderation rules** let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all six scores.
+
+For example:
+
+```text
+Keep the assistant focused on insurance support.
+Treat requests for unrelated financial investments, entertainment, or general trivia as off-topic.
+Allow users to discuss claim accidents when they are asking for coverage or assistance.
+```
+
+Additional rules guide classification; they do not create a separate score or block an input directly. At least one category must have a sensitivity level above `0` for moderation to run. In the example above, enable **Off-topic subjects** so the safeguard score can produce a blocking decision.
+
+Write rules as short policy statements with explicit allowed and disallowed cases. Do not include secrets, credentials, or private operational data because the rules are stored with the gateway configuration and sent to the safeguard model during moderation.
+
+The following gateway fragment enables different sensitivity levels and gives the off-topic classifier domain-specific guidance. The values are an example, not a recommended production baseline:
+
+```json
+{
+  "moderationParameters": {
+    "violenceThreshold": 4,
+    "sexualExplicitThreshold": 4,
+    "politicalThreshold": 2,
+    "dangerousContentThreshold": 6,
+    "jailbreakThreshold": 7,
+    "offTopicThreshold": 6,
+    "additionalRules": "Keep the assistant focused on insurance support. Allow claim and coverage discussions."
+  }
+}
+```
+
+### What happens when an input is blocked
+
+When any enabled category reaches its cutoff:
+
+1. AIVAX marks the original conversation messages as unavailable to the main inference request.
+2. AIVAX replaces them with an instruction identifying the categories that caused the block.
+3. The main model generates a refusal instead of answering the original request.
+
+The refusal is model-generated; moderation does not return a fixed response body. If the safeguard cannot produce a valid moderation result, the request fails before the normal completion is generated.
+
+### Context and current limitations
+
+The safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data so instructions inside the conversation cannot replace the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.
+
+Moderation currently applies only to input text:
+
+- Generated output is not moderated.
+- Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
+- Tool or worker authorization still requires application-level policy; moderation is not an authorization mechanism.
+- Moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage.
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 
