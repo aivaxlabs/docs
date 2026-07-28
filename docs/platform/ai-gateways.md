@@ -83,7 +83,7 @@ The gateway editor is organized by configuration area:
 | **Instructions** | System instructions, remote instruction sources, user prompt template, assistant prefill, stop text, and prefilling behavior. |
 | **Parameters + Tuning** | Temperature, top-p, penalties, reasoning effort, verbosity, max tokens, context length, multimodal preprocessing, and tool-message limits. |
 | **Tools + MCP** | MCP sources, protocol functions, raw tools, built-in tools, Bash environment, web search, memory, image generation, and advanced JSON settings. |
-| **Moderation** | Thresholds for violence/hate, sexual content, politics, dangerous content, and jailbreak attempts. |
+| **Moderation** | Input-text sensitivity levels for violence/hate, sexual content, politics, dangerous content, jailbreak attempts, and off-topic subjects, plus optional additional rules. |
 | **Workers** | External worker URL that can control gateway events before the final action happens. |
 
 Use **Hide disabled steps** when you want to focus on enabled pipeline parts. Leave it off when you are auditing a gateway and need to see which capabilities are intentionally disabled.
@@ -99,7 +99,7 @@ Before saving a production gateway, review:
 - Skills, hidden tools, and always-visible tools.
 - Context length, max tokens, reasoning effort, verbosity, and tool-message limits.
 - Multimodal preprocessing and selected media types.
-- Moderation thresholds and worker URL.
+- Moderation sensitivity levels, additional rules, and worker URL.
 - Generated integration, MCP, and playground snippets before sharing them.
 - Conversation logs after testing.
 

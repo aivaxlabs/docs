@@ -144,7 +144,11 @@ Se um nome de manipulador não for reconhecido, a configuração do gateway falh
 
 ## Moderação
 
-A moderação executa um modelo resolvedor sobre a conversa e pontua categorias para violência, conteúdo sexualmente explícito, conteúdo político, conteúdo perigoso e tentativas de jailbreak. Se os limites configurados forem excedidos, a AIVAX marca as mensagens originais da conversa como não encaminhadas e pede ao modelo que responda que não pode interagir com esse conteúdo.
+A moderação executa um modelo de proteção sobre toda a conversa textual antes do modelo principal. Ela pontua a solicitação mais recente do usuário nas categorias de violência, conteúdo sexualmente explícito, conteúdo político, conteúdo perigoso, tentativas de jailbreak e assuntos off-topic. As regras adicionais de moderação configuradas no gateway orientam essas pontuações em conjunto com as políticas internas das categorias.
+
+Cada categoria usa um nível de sensibilidade de 0 a 10. O nível 0 desativa a categoria, o nível 1 bloqueia apenas a pontuação 10 do safeguard e o nível 10 bloqueia pontuações de 1 a 10. Quando uma categoria atinge a pontuação de bloqueio, a AIVAX não encaminha a conversa original ao modelo principal e solicita uma resposta de recusa.
+
+Atualmente, a moderação se aplica apenas ao texto de entrada. Ela não analisa a saída gerada nem o conteúdo de imagens, áudios, vídeos ou arquivos anexados.
 
 Use a moderação para política de segurança abrangente. Use trabalhadores quando a decisão depende de identidade externa, estado da conta ou política específica de negócio.
 

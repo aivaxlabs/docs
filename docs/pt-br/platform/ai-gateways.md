@@ -83,7 +83,7 @@ O editor do portal está organizado por área de configuração:
 | **Instruções** | Instruções do sistema, fontes de instrução remotas, modelo de prompt do usuário, pré-preenchimento do assistente, texto de parada e comportamento de pré-preenchimento. |
 | **Parâmetros + Ajuste** | Temperatura, top-p, penalidades, esforço de raciocínio, verbosidade, máximo de tokens, tamanho do contexto, pré-processamento multimodal e limites de mensagens de ferramenta. |
 | **Ferramentas + MCP** | Fontes MCP, funções de protocolo, ferramentas brutas, ferramentas integradas, ambiente Bash, busca na web, memória, geração de imagens e configurações avançadas de JSON. |
-| **Moderação** | Limiares para violência/ódio, conteúdo sexual, política, conteúdo perigoso e tentativas de jailbreak. |
+| **Moderação** | Níveis de sensibilidade do texto de entrada para violência/ódio, conteúdo sexual, política, conteúdo perigoso, tentativas de jailbreak e assuntos off-topic, além de regras adicionais opcionais. |
 | **Trabalhadores** | URL de trabalhador externo que pode controlar eventos do portal antes que a ação final ocorra. |
 
 Use **Ocultar etapas desativadas** quando quiser focar nas partes habilitadas do pipeline. Deixe desativado quando estiver auditando um portal e precisar ver quais capacidades estão intencionalmente desativadas.
@@ -99,7 +99,7 @@ Antes de salvar um portal de produção, revise:
 - Habilidades, ferramentas ocultas e ferramentas sempre visíveis.
 - Tamanho do contexto, máximo de tokens, esforço de raciocínio, verbosidade e limites de mensagens de ferramenta.
 - Pré-processamento multimodal e tipos de mídia selecionados.
-- Limiares de moderação e URL de trabalhador.
+- Níveis de sensibilidade de moderação, regras adicionais e URL de trabalhador.
 - Trechos de integração, MCP e playground gerados antes de compartilhá-los.
 - Logs de conversas após os testes.
 

@@ -144,7 +144,11 @@ If a handler name is not recognized, gateway configuration fails at inference ti
 
 ## Moderation
 
-Moderation runs a resolver model over the conversation and scores categories for violence, sexually explicit content, political content, dangerous content, and jailbreak attempts. If configured thresholds are exceeded, AIVAX marks the original conversation messages as not forwarded and asks the model to respond that it cannot engage with that content.
+Moderation runs a safeguard model over the full textual conversation before the main model runs. It scores the latest user request for violence, sexually explicit content, political content, dangerous content, jailbreak attempts, and off-topic subjects. Additional moderation rules configured on the gateway guide these scores together with the built-in category policies.
+
+Each category uses a sensitivity level from 0 to 10. Level 0 disables the category, level 1 blocks only safeguard score 10, and level 10 blocks scores 1 through 10. When a category reaches its blocking score, AIVAX does not forward the original conversation to the main model and asks it to return a refusal.
+
+Moderation currently applies only to input text. It does not analyze generated output or the contents of images, audio, video, or file attachments.
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 
