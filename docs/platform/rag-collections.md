@@ -129,7 +129,7 @@ The playground lets you configure:
 | **Search text** | The query you want to test. Use realistic user wording. |
 | **Minimum score** | Lowest score accepted for returned documents. Higher values reduce noise but can hide useful results. |
 | **Maximum results** | Number of documents to return. More results can improve recall but increase context size. |
-| **Reranker** | `none`, `lexical`, or `smart`. Lexical is a no-cost word-aware reranker; smart uses a specialized reranking model and is priced separately. |
+| **Reranker** | Loaded from the live API catalog. Reflex is the default; `none`, `lexical`, and RAG-only `rrf` remain available alongside provider models. |
 | **Endpoint** | `/query` returns matching documents; `/answer` asks a model to answer using retrieved documents. |
 | **Include chunked references** | Include related chunks that share references when enabled. |
 
@@ -213,7 +213,7 @@ Keep MCP access read-only by default. Do not enable collection write access for 
 | Collection does not appear in the list | Active account, account switcher, and collection limit for the current plan. | Switch to the expected account or create the collection in the correct account. |
 | Documents stay queued | Indexing volume, account balance, daily RAG insertion limits, document size, and background processing time. | Wait for indexing, reduce import size, top up balance, or split imports into smaller batches. |
 | Search returns no documents | Query wording, indexing state, minimum score, collection ID, and whether the right collection is selected. | Lower minimum score temporarily, test broader wording, confirm documents are indexed, and inspect document contents. |
-| Search returns irrelevant documents | Chunk size, document context, tags, references, reranker, score threshold, and query strategy in the gateway. | Split broad documents, improve source text, test lexical or smart reranking, and raise minimum score deliberately. |
+| Search returns irrelevant documents | Chunk size, document context, tags, references, reranker, score threshold, and query strategy in the gateway. | Split broad documents, improve source text, compare the default Reflex model with lexical or another catalog model, and raise minimum score deliberately. |
 | Gateway answer ignores the collection | Gateway RAG tab, attached collection IDs, query strategy, maximum results, minimum score, and prompt instructions. | Test the collection directly in the playground, then retest the same prompt through the gateway. |
 | Import skips records | Existing document names with unchanged content, JSONL format, missing required fields, or file-size/line limits. | Validate the JSONL file, change document text when reindexing is intended, and split large files. |
 | Reset was done by mistake | Whether a JSONL export exists and whether gateways still reference the same collection. | Reimport the latest export into the same collection, wait for indexing, then retest affected gateways. |

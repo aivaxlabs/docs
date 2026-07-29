@@ -1,42 +1,64 @@
 # Reflex
 
-Reflex é uma API de busca de latência baixa para classificar strings de documentos fornecidas diretamente em uma requisição. Ela combina relevância semântica com um impulso lexical limitado, ajudando termos exatos, grafias próximas, cobertura da consulta e proximidade de termos sem permitir que evidências lexicais substituam a pontuação semântica.
+`@aivax/reflex-v1` é o reranker padrão da AIVAX. Ele combina relevância semântica de baixa latência com evidência lexical limitada e armazena em cache o processamento de consultas e documentos dentro de cada conta.
 
-Ao contrário do RAG baseado em coleções, o Reflex não exige que você crie, preencha e gerencie uma coleção permanente antes de pesquisar. Envie a consulta e as strings de documentos atuais; o Reflex as processa imediatamente e reutiliza automaticamente embeddings de documentos em cache quando disponíveis.
+Use o Reflex quando sua aplicação possui um conjunto de documentos dinâmico e se beneficia ao reutilizar consultas ou documentos repetidos. Use [Pesquisa Semântica](semantic-search.md) quando os documentos devem estar em coleções RAG gerenciadas. Veja [Rerankers](reranking.md) para o catálogo completo de modelos e alternativas.
 
-Use o Reflex para conjuntos de documentos dinâmicos ou de propriedade da aplicação que precisam ser pesquisáveis imediatamente. Use [Semantic Search](semantic-search.md) quando os documentos devem viver em coleções RAG gerenciadas, serem compartilhados por múltiplas integrações ou serem anexados a um AI Gateway.
+## Chamar Reflex
 
-## Request
+Envie solicitações para `POST /api/v1/generations/rerank`. Omitir `model` para usar o Reflex por padrão, ou enviar explicitamente `"model": "@aivax/reflex-v1"`.
 
 | Parâmetro | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
-| `query` | `string` | Yes | Texto não vazio usado para classificar os documentos. |
-| `documents` | `string[]` | Yes | De um a 1.000 strings de documentos para buscar. Strings duplicadas exatas são removidas antes do processamento. |
-| `top_n` | `number` | No | Número máximo de resultados a retornar. O padrão é `5`, ou todos os documentos distintos quando menos de cinco são fornecidos. O máximo é `200` ou o número de documentos distintos, o que for menor. |
-| `min_score` | `number` | No | Pontuação mínima de similaridade semântica de `0` a `1`, aplicada antes do impulso lexical. O padrão é `0`. |
+| `model` | `string` | Não | `@aivax/reflex-v1`. |
+| `query` | `string` | Sim | Texto não vazio usado para classificar os documentos. |
+| `documents` | `string[]` | Sim | De um a 10.000 strings de documentos. |
+| `top_n` | `number` | Não | Número máximo de resultados. O padrão é cinco ou a contagem de documentos quando menos de cinco são fornecidos; o Reflex retorna no máximo 200. |
+| `min_score` | `number` | Não | Pontuação final mínima de relevância de `0` a `1`. O padrão é `0`. |
 
-A resposta identifica a requisição e o modelo Reflex, então devolve os resultados classificados e o uso de tokens de documento. Cada resultado contém o texto do documento, um `relevance_score` de `0` a `1`, e seu `index` baseado em zero. Como duplicatas exatas são removidas primeiro, `index` refere‑se à sequência de documentos desduplicada.
+O catálogo declara um contexto de 1.948 tokens e um máximo de 10.000 documentos para o Reflex. A resposta identifica `@aivax/reflex-v1`, devolve resultados em ordem decrescente de relevância e preserva o `index` zero‑based original de cada documento. Strings de documentos duplicadas não são removidas do contrato de resposta; cada ocorrência mantém seu próprio índice de entrada.
 
-<script src="https://inference.aivax.net/apidocs?embed-target=Reflex%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+Exemplo de solicitação usando o modelo padrão:
 
-## Cache behavior
+```json
+{
+  "query": "What is the cancellation period?",
+  "documents": [
+    "Annual plans may be cancelled within 30 days.",
+    "Invoices are issued at the start of each month."
+  ],
+  "top_n": 2,
+  "min_score": 0.2
+}
+```
 
-### Comportamento de cache
+Veja [Rerankers](reranking.md#read-the-response) para a estrutura de resposta comum e os campos `usage`.
 
-O Reflex armazena em cache o processamento de documentos automaticamente dentro da sua conta. Uma string de documento exata pode ser reutilizada em requisições e em diferentes conjuntos de documentos. Alterar o texto cria uma entrada de cache diferente, enquanto mudar apenas sua posição na requisição não o faz.
+<script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-A disponibilidade do cache não é permanente. Use o objeto `usage` da resposta para ver como a requisição atual foi cobrada:
+## Entender cache e uso
+
+O Reflex armazena em cache o processamento de consultas e documentos automaticamente dentro da sua conta. Reutilizar uma consulta ou string de documento exatamente igual pode gerar um acerto de cache em uma solicitação posterior. Alterar o texto cria uma entrada de cache diferente; mudar apenas a posição de um documento não altera sua chave de cache.
+
+A disponibilidade do cache não é permanente. Use o objeto `usage` da resposta para inspecionar a solicitação atual:
 
 | Campo | Significado |
 | --- | --- |
-| `input_tokens` | Tokens de documento processados como falhas de cache. |
-| `cached_input_tokens` | Tokens de documento servidos a partir do cache. |
-| `total_tokens` | Total de tokens nos documentos distintos da requisição. |
+| `input_tokens` | Tokens de consulta e documento processados como falhas de cache. |
+| `cached_input_tokens` | Tokens de consulta e documento servidos a partir do cache. |
+| `total_tokens` | Todos os tokens de entrada de consulta e documento; sempre `input_tokens + cached_input_tokens`. |
+| `cost` | Cobrança final da conta registrada para a solicitação. |
 
-A consulta não está incluída nesses contadores de tokens de documento.
+A resposta pública não separa tokens de consulta dos tokens de documento. Os contadores descrevem a entrada completa processada pelo Reflex.
 
-## Pricing
+## Cobrança, limites e coleta de dados
 
-### Preços
+Falhas e acertos de cache têm preços base diferentes. O `usage.cost` público é o valor final registrado na conta após os ajustes aplicáveis. Veja [Pricing](../pricing.md#reflex) para os preços atuais dos tokens.
 
-Veja [Preços](../pricing.md#reflex) para os preços atuais de tokens de entrada do Reflex e detalhes de faturamento.
+Cada solicitação do Reflex consome a cota de solicitações de reranking da conta e a cota de tokens do Reflex. A cota de tokens conta `total_tokens`, incluindo entrada em cache. Exceder uma cota retorna `429 Too Many Requests`; veja [Plans and Limits](../limits.md).
+
+Quando a configuração opcional de coleta de dados semânticos está ativada, pesquisas diretas elegíveis do Reflex recebem o desconto documentado e podem contribuir com a consulta, documentos enviados e resultados de classificação. Veja [Data Collecting](../data-collecting.md) antes de ativá-la.
+
+## Usar o Reflex com RAG
+
+O Reflex também é o reranker padrão após a AIVAX recuperar candidatos de coleções RAG. O alias de compatibilidade `smart` seleciona o mesmo modelo. Neste fluxo, o Reflex pode melhorar a ordem dos candidatos recuperados, mas não pode recuperar um documento que a etapa de recuperação não selecionou. Se documentos relevantes estiverem continuamente ausentes, ajuste a recuperação, segmentação, formulação da consulta ou a contagem de candidatos antes de ajustar o reranking.

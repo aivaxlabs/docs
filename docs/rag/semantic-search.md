@@ -2,7 +2,7 @@
 
 The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.
 
-If you need to search document strings immediately without creating and maintaining a RAG collection, use [Reflex](reflex.md). Reflex is optimized for low latency, ranks results by default, and automatically reuses cached document processing when available.
+If your application already owns the candidate document strings, use the autonomous [Rerankers](reranking.md) API instead of creating and maintaining a RAG collection.
 
 Search is performed in stages:
 
@@ -16,7 +16,7 @@ Search is performed in stages:
 After creating a collection, use its collection ID in the `collections` array when searching.
 
 > [!WARNING]
-> Semantic search incurs cost. Query embedding cost is based on the search term tokens. The `smart` reranker also incurs reranking cost based on the query and candidate document tokens.
+> Semantic search incurs cost. Query embedding cost is based on the search term tokens. Provider rerankers can add token- or search-unit-based cost for the candidates they process.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -29,25 +29,16 @@ After creating a collection, use its collection ID in the `collections` array wh
 | `terms` | `string[]` | Required if `term` is absent | One or more search terms. |
 | `top` | `number` | `5` | Maximum number of documents returned. Current validation allows 1 to 128. |
 | `minScore` | `number` | `0.2` | Minimum embedding-similarity score before reranking. Current validation allows values from 0.01 to 0.99. |
-| `reranker` | `string` | `rrf` | `rrf`, `lexical`, `smart`, or `none`. |
+| `reranker` | `string` | `@aivax/reflex-v1` | A canonical `@provider/name`, `lexical`, `rrf`, or `none`. The compatibility alias `smart` also selects Reflex. |
 | `includeReferences` | `boolean` | `false` | Includes related documents with the same reference ID when a matched document has a reference. |
 
 The response includes the matched document ID, collection ID, document name, document content, metadata, score, and referenced documents when reference expansion is enabled.
 
 ## Reranking
 
-AIVAX can apply reranking after vector candidates are found.
+AIVAX applies the selected reranker after vector candidates are found. The default is `@aivax/reflex-v1`; the legacy `smart` alias resolves to the same model. Send `"reranker": "none"` to preserve vector-similarity order, `lexical` for local word-aware reranking, or `rrf` to fuse vector and lexical rank positions.
 
-Available rerankers:
-
-| Reranker | Cost | Behavior |
-| --- | --- | --- |
-| `none` | No reranking cost | Uses vector similarity only. |
-| `rrf` | No reranking cost | Fuses the embedding and lexical rank positions. This is the default. |
-| `lexical` | No reranking cost | Applies a local boost based on lexical matches, fuzzy token matches, and term proximity in the document name and content. |
-| `smart` | Reranking cost applies | Uses Cloudflare Workers AI (`@cf/baai/bge-reranker-base`) to rescore candidate documents against the full query. |
-
-The default reranker is `rrf`. To disable reranking, send `"reranker": "none"`. To preserve the semantic score and add a conservative lexical boost, use `lexical`. To use the model-based reranker, send `"reranker": "smart"`.
+Provider models use deterministic `@provider/name` identifiers. Read the live `/api/v1/information/rerankers-models.json` catalog for the available models, prices, autonomous-use capability, and technical limits. See [Rerankers](reranking.md) for the current model list and selection guidance.
 
 All non-`none` rerankers share the account's [reranking-search limit](/docs/limits#rag-and-collection-limits).
 
@@ -147,7 +138,7 @@ Headers:
 | `Authorization` | Bearer token of your API key. | Required |
 | `X-Mcp-Collection-Id` | One or more collection IDs. Use commas for multiple collections. | Required |
 | `X-Mcp-Collection-Name` | Collection name used to generate tool names. | `collection` |
-| `X-Mcp-Reranker` | `rrf`, `lexical`, `smart`, or `none`. | `rrf` |
+| `X-Mcp-Reranker` | A canonical `@provider/name`, `lexical`, `rrf`, `smart`, or `none`. | `@aivax/reflex-v1` |
 | `X-Mcp-Top-K` | Maximum number of results to return. | `5` |
 | `X-Mcp-Min-Score` | Minimum relevance score greater than 0 and up to 1.0. | `0.4` |
 | `X-Mcp-Use-References` | Current server behavior enables references when this header value is `none`; omit the header to disable references. | disabled |

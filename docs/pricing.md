@@ -62,13 +62,15 @@ BYOK calls use your external provider key, but AIVAX still enforces BYOK request
 
 ## RAG billing
 
-The default embedding model is `@aivax/data-embedding`. Its backend price is:
+Embedding price for both search and indexing is **$0.015** per million input tokens.
 
-```text
-$0.015 per 1,000,000 input tokens
-```
+This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage. Provider prices and billing units are exposed by `/api/v1/information/rerankers-models.json`; see [Rerankers](rag/reranking.md).
 
-This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage.
+### Text segmentation
+
+Text segmentation is billed from the total input and output tokens measured for the request is **US$0.30** per million total tokens.
+
+The account's [plan commission multiplier](#usage-billing) is applied when usage is recorded. The final amount appears in `data.usage.cost` in the endpoint response.
 
 ### Reflex
 
@@ -76,8 +78,8 @@ Reflex has two input-token prices:
 
 | Input type | Base price |
 | --- | ---: |
-| Cache miss | US$0.015 per 1 million tokens |
-| Cache hit | US$0.003 per 1 million tokens |
+| Cache miss | **US$0.015** per million tokens |
+| Cache hit | **US$0.003** per million tokens |
 
 Cache-hit pricing applies when input processing can be reused. Cache-miss pricing applies when input must be processed. The account's [plan commission multiplier](#usage-billing) is applied when usage is recorded. See [Reflex](rag/reflex.md) for request limits and cache behavior.
 

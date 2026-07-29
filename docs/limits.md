@@ -39,6 +39,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | **RAG and collections** |  |  |  |
 | Collections | 5 | — | — |
 | Semantic searches | 20/min | 500/min | 3,000/min |
+| Text-segmentation documents | 10/min and 100/day | 300/min | 2,500/min |
 | Reranking searches | 30/min | 1,000/min | — |
 | Reflex input tokens | 128,000/min | 1,000,000/min | 50,000,000/min |
 | Document insertions | 500/day | 10,000/day | — |
@@ -76,7 +77,9 @@ For example, a Pro account normally has 200 integrated-model requests per minute
 
 BYOK uses a provider key configured on the gateway instead of an integrated AIVAX model, but requests still pass through AIVAX infrastructure and use the plan's BYOK limit.
 
-The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.
+The text-segmentation quota counts each item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+
+The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to the autonomous reranking endpoint and to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.
 
 The Reflex limit counts all query and document input tokens reported for a request, including cached input tokens. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](rag/reflex.md) for request limits, cache behavior, and pricing.
 

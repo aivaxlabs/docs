@@ -10,7 +10,7 @@ The data protection law column summarizes the principal frameworks identified in
 
 | Provider | Used for | Data protection law |
 | --- | --- | --- |
-| [Cloudflare](https://www.cloudflare.com/) | Reverse proxy/security where deployed, Workers AI reranking, and embedding services | [EU/UK GDPR, Swiss FADP, and CCPA/CPRA](https://www.cloudflare.com/cloudflare-customer-dpa/) |
+| [Cloudflare](https://www.cloudflare.com/) | Reverse proxy/security where deployed and embedding services | [EU/UK GDPR, Swiss FADP, and CCPA/CPRA](https://www.cloudflare.com/cloudflare-customer-dpa/) |
 | [Hetzner](https://www.hetzner.com/) | Compute infrastructure and hosting | [GDPR and BDSG](https://docs.hetzner.com/general/company-and-policy/data-protection-at-hetzner/) |
 | [netcup](https://www.netcup.com/) | Compute infrastructure and hosting | [GDPR and BDSG](https://www.netcup.com/en/contact/data-privacy) |
 | [Backblaze](https://www.backblaze.com/) | Object and file storage for generated media, uploaded media, generated documents, exposed files, and error artifacts | [EU/UK GDPR and CCPA/CPRA](https://www.backblaze.com/company/privacy) |
@@ -29,10 +29,11 @@ The data protection law column summarizes the principal frameworks identified in
 | --- | --- | --- |
 | [Groq](https://groq.com/) | LLM inference through an OpenAI-compatible endpoint | [EU/UK GDPR, Swiss FADP, CCPA/CPRA, and Saudi PDPL](https://console.groq.com/docs/legal/customer-data-processing-addendum) |
 | [Jina AI](https://jina.ai/) | Embeddings, reranking, and web research | [GDPR and BDSG](https://jina.ai/legal/) |
-| [OpenRouter](https://openrouter.ai/) | Model routing and fallback for many model families and Grok Voice TTS | [GDPR, CCPA/CPRA, and applicable U.S. state privacy laws](https://openrouter.ai/privacy/) |
+| [OpenRouter](https://openrouter.ai/) | Model routing, fallback, and speech synthesis | [GDPR, CCPA/CPRA, and applicable U.S. state privacy laws](https://openrouter.ai/privacy/) |
+| [DeepInfra](https://deepinfra.com/) | AI inference | [GDPR and CCPA/CPRA](https://deepinfra.com/privacy) |
 | [Xiaomi MiMo](https://platform.xiaomimimo.com/) | Xiaomi model inference | [PIPL, EU/UK GDPR, and Swiss FADP](https://privacy.mi.com/all/en_US) |
 | [Inception Labs](https://www.inceptionlabs.ai/) | Mercury model inference | [California Civil Code §§ 1798.83–1798.84 and Nevada Revised Statutes Chapter 603A](https://www.inceptionlabs.ai/docs/privacy-policy) |
-| [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) | Smart reranking and embedding services | [EU/UK GDPR, Swiss FADP, and CCPA/CPRA](https://www.cloudflare.com/cloudflare-customer-dpa/) |
+| [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) | Embedding services | [EU/UK GDPR, Swiss FADP, and CCPA/CPRA](https://www.cloudflare.com/cloudflare-customer-dpa/) |
 
 ## Model Families and Underlying Providers
 
