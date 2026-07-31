@@ -41,6 +41,8 @@
 
 - name: Generations
 
+- name: Text classification
+  href: generations/classification.md
 - name: Speech generation
   href: generations/speech.md
 - name: Media descriptions
@@ -56,6 +58,8 @@
   href: tools/mcp.md
 - name: Account management MCP
   href: tools/account-management-mcp.md
+- name: Web utilities MCP
+  href: tools/web-utilities-mcp.md
 - name: Documentation MCP
   href: tools/documentation-mcp.md
 - name: Protocol functions

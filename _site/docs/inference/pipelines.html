@@ -234,7 +234,124 @@
 </ul>
 <p>If a handler name is not recognized, gateway configuration fails at inference time.</p>
 <h2 id="moderation">Moderation</h2>
-<p>Moderation runs a resolver model over the conversation and scores categories for violence, sexually explicit content, political content, dangerous content, and jailbreak attempts. If configured thresholds are exceeded, AIVAX marks the original conversation messages as not forwarded and asks the model to respond that it cannot engage with that content.</p>
+<p>Moderation is an input gate that runs before the main model. When at least one moderation category is enabled, AIVAX sends the available textual conversation to a safeguard model. The safeguard evaluates the latest user request in the context established by the conversation and returns a score from 0 to 10 for every category.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Gateway property</th>
+<th>What the safeguard evaluates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Violence and hate speech</strong></td>
+<td><code>violenceThreshold</code></td>
+<td>Violence, hate, extremism, threats, or encouragement of physical harm.</td>
+</tr>
+<tr>
+<td><strong>Sexual and explicit content</strong></td>
+<td><code>sexualExplicitThreshold</code></td>
+<td>Sexually explicit or adult content.</td>
+</tr>
+<tr>
+<td><strong>Political topics</strong></td>
+<td><code>politicalThreshold</code></td>
+<td>Political persuasion, campaigning, manipulation, or highly political content.</td>
+</tr>
+<tr>
+<td><strong>Dangerous content</strong></td>
+<td><code>dangerousContentThreshold</code></td>
+<td>Weapons, explosives, cyber abuse, self-harm, or other dangerous acts and instructions.</td>
+</tr>
+<tr>
+<td><strong>Jailbreak attempts</strong></td>
+<td><code>jailbreakThreshold</code></td>
+<td>Attempts to override instructions, reveal protected instructions, exfiltrate data, or inject prompts.</td>
+</tr>
+<tr>
+<td><strong>Off-topic subjects</strong></td>
+<td><code>offTopicThreshold</code></td>
+<td>How far the latest request is from the purpose and topics established by the conversation. Normal topic evolution receives a low score; unrelated or deliberate redirection receives a high score.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="understand-sensitivity-levels">Understand sensitivity levels</h3>
+<p>The value configured in the gateway is a <strong>sensitivity level</strong>, not the safeguard score itself. A higher level lowers the score required to block the input.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Sensitivity level</th>
+<th>Safeguard scores that block</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><code>0</code></td>
+<td>Category disabled</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>1</code></td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>3</code></td>
+<td><code>8</code>–<code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>5</code></td>
+<td><code>6</code>–<code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>8</code></td>
+<td><code>3</code>–<code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>10</code></td>
+<td><code>1</code>–<code>10</code></td>
+</tr>
+</tbody>
+</table>
+<p>For enabled categories, the blocking cutoff is <code>11 - sensitivity level</code>. A safeguard score of <code>0</code> never blocks. Configure each category independently; the request is blocked when any enabled category reaches its cutoff.</p>
+<h3 id="add-gateway-specific-rules">Add gateway-specific rules</h3>
+<p><strong>Additional moderation rules</strong> let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all six scores.</p>
+<p>For example:</p>
+<pre><code class="lang-text">Keep the assistant focused on insurance support.
+Treat requests for unrelated financial investments, entertainment, or general trivia as off-topic.
+Allow users to discuss claim accidents when they are asking for coverage or assistance.
+</code></pre>
+<p>Additional rules guide classification; they do not create a separate score or block an input directly. At least one category must have a sensitivity level above <code>0</code> for moderation to run. In the example above, enable <strong>Off-topic subjects</strong> so the safeguard score can produce a blocking decision.</p>
+<p>Write rules as short policy statements with explicit allowed and disallowed cases. Do not include secrets, credentials, or private operational data because the rules are stored with the gateway configuration and sent to the safeguard model during moderation.</p>
+<p>The following gateway fragment enables different sensitivity levels and gives the off-topic classifier domain-specific guidance. The values are an example, not a recommended production baseline:</p>
+<pre><code class="lang-json">{
+  &quot;moderationParameters&quot;: {
+    &quot;violenceThreshold&quot;: 4,
+    &quot;sexualExplicitThreshold&quot;: 4,
+    &quot;politicalThreshold&quot;: 2,
+    &quot;dangerousContentThreshold&quot;: 6,
+    &quot;jailbreakThreshold&quot;: 7,
+    &quot;offTopicThreshold&quot;: 6,
+    &quot;additionalRules&quot;: &quot;Keep the assistant focused on insurance support. Allow claim and coverage discussions.&quot;
+  }
+}
+</code></pre>
+<h3 id="what-happens-when-an-input-is-blocked">What happens when an input is blocked</h3>
+<p>When any enabled category reaches its cutoff:</p>
+<ol>
+<li>AIVAX marks the original conversation messages as unavailable to the main inference request.</li>
+<li>AIVAX replaces them with an instruction identifying the categories that caused the block.</li>
+<li>The main model generates a refusal instead of answering the original request.</li>
+</ol>
+<p>The refusal is model-generated; moderation does not return a fixed response body. If the safeguard cannot produce a valid moderation result, the request fails before the normal completion is generated.</p>
+<h3 id="context-and-current-limitations">Context and current limitations</h3>
+<p>The safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data so instructions inside the conversation cannot replace the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.</p>
+<p>Moderation currently applies only to input text:</p>
+<ul>
+<li>Generated output is not moderated.</li>
+<li>Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.</li>
+<li>Tool or worker authorization still requires application-level policy; moderation is not an authorization mechanism.</li>
+<li>Moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage.</li>
+</ul>
 <p>Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.</p>
 <h2 id="workers">Workers</h2>
 <p>Workers are external HTTP hooks called during gateway execution. They can stop an event, let it continue, rewrite message context, add tools, add system instructions, or replace a server-side tool result.</p>

@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Pricing | AIVAX </title>
+        <title>Segmenta&#231;&#227;o de Texto | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Pricing | AIVAX ">
+        <meta name="title" content="Segmenta&#231;&#227;o de Texto | AIVAX ">
 
 
-        <link rel="icon" href="../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../public/docfx.min.css">
-        <link rel="stylesheet" href="../public/main.css">
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../">
+        <meta name="docfx:rel" content="../../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/rag/text-segmentation.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../public/docfx.min.js"></script>
+        <script type="module" src="./../../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../index.html">
-                        <img id="logo" class="svg" src="../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,189 +125,108 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="pricing">Pricing</h1>
+<h1 id="segmentação-de-texto">Segmentação de Texto</h1>
 
-<p>AIVAX uses a prepaid account balance. Paid invoices add credit to the account, and usage records subtract from that balance.</p>
-<p>The backend calculates balance as:</p>
-<pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
+<p>A segmentação de texto é um complemento ao embedding. Ela divide documentos de origem em strings semanticamente coesas que podem ser embutidas ou indexadas em uma coleção RAG. O endpoint não cria embeddings nem armazena os documentos enviados.</p>
+<h2 id="segmentar-documentos">Segmentar documentos</h2>
+<p>Autentique-se com uma chave de API privada da AIVAX.</p>
+<div class="request-item post">
+    <span>POST</span>
+    <span>/api/v1/generations/segment</span>
+</div>
+<p>A solicitação aceita:</p>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>documents</code></td>
+<td><code>string[]</code></td>
+<td>Sim</td>
+<td>Strings de documento para segmentar. Cada item é processado independentemente.</td>
+</tr>
+<tr>
+<td><code>sanitize</code></td>
+<td><code>boolean</code></td>
+<td>Não</td>
+<td>Padrão <code>false</code>, que mantém o documento inteiro nos segmentos retornados. Quando <code>true</code>, conteúdo considerado irrelevante para a recuperação RAG pode ser omitido.</td>
+</tr>
+</tbody>
+</table>
+<p>Exemplo de solicitação:</p>
+<pre><code class="lang-json">{
+  &quot;documents&quot;: [
+    &quot;AIVAX indexes documents with embeddings.\nSemantic search retrieves the most relevant passages.\nReranking can refine their order.&quot;
+  ],
+  &quot;sanitize&quot;: false
+}
 </code></pre>
-<p>Use the <a href="https://aivax.net/pricing">AIVAX pricing page</a> for current commercial plan prices. This page documents billing behavior that is visible in the API source.</p>
-<h2 id="credits-and-invoices">Credits and invoices</h2>
-<p>Credits are represented as invoices.</p>
-<ul>
-<li>Paid invoices increase the usable account balance until their expiration date.</li>
-<li>Unpaid payment invoices are created with a one-year expiration.</li>
-<li>Unpaid invoices older than three days are removed by cleanup.</li>
-<li>Expired paid invoices no longer count toward balance.</li>
-<li>Payment invoice creation requires at least 3 USD and is rate-limited.</li>
-</ul>
-<h2 id="usage-billing">Usage billing</h2>
-<p>Every billable operation writes one or more usage records. Each usage record has:</p>
-<ul>
-<li>Description.</li>
-<li>Unit price.</li>
-<li>Quantity.</li>
-<li>Optional model name.</li>
-<li>Usage category.</li>
-<li>Resources such as API key, gateway, or collection.</li>
-</ul>
-<p>The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.</p>
+<p>Antes da segmentação, os finais de linha são normalizados, espaços em branco ao redor são removidos de cada linha e linhas vazias são descartadas. Os segmentos preservam o texto fonte restante e a ordem das linhas.</p>
+<h2 id="ler-a-resposta">Ler a resposta</h2>
+<p>O envelope de resposta padrão contém um resultado para cada documento enviado:</p>
+<pre><code class="lang-json">{
+  &quot;message&quot;: null,
+  &quot;data&quot;: {
+    &quot;result&quot;: [
+      {
+        &quot;index&quot;: 0,
+        &quot;count&quot;: 2,
+        &quot;segments&quot;: [
+          &quot;AIVAX indexes documents with embeddings.\nSemantic search retrieves the most relevant passages.&quot;,
+          &quot;Reranking can refine their order.&quot;
+        ]
+      }
+    ],
+    &quot;usage&quot;: {
+      &quot;total_tokens&quot;: 62,
+      &quot;cost&quot;: 0.00002325
+    }
+  }
+}
+</code></pre>
 <table>
 <thead>
 <tr>
-<th>Plan</th>
-<th>Commission multiplier</th>
+<th>Campo</th>
+<th>Significado</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Free</td>
-<td>1.25x</td>
+<td><code>data.result[].index</code></td>
+<td>Posição baseada em zero do documento fonte em <code>documents</code>. Use este campo para associar resultados às entradas; a ordem do array não é garantida.</td>
 </tr>
 <tr>
-<td>Pro</td>
-<td>1.05x</td>
+<td><code>data.result[].count</code></td>
+<td>Número de segmentos retornados para o documento fonte.</td>
 </tr>
 <tr>
-<td>Max</td>
-<td>1.00x</td>
+<td><code>data.result[].segments</code></td>
+<td>Segmentos de texto semanticamente coesos na ordem original.</td>
+</tr>
+<tr>
+<td><code>data.usage.total_tokens</code></td>
+<td>Total de tokens de entrada e saída medidos em todos os documentos enviados.</td>
+</tr>
+<tr>
+<td><code>data.usage.cost</code></td>
+<td>Custo final registrado para a conta autenticada.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="inference-billing">Inference billing</h2>
-<p>Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:</p>
-<ul>
-<li>Text input tokens.</li>
-<li>Cached input tokens, when the selected model has cached-input pricing.</li>
-<li>Audio input tokens, when applicable.</li>
-<li>Output tokens.</li>
-</ul>
-<p>Some integrated models can be covered by subscription-model reserve windows. When a model has a subscription usage multiplier and the account still has reserve remaining in both the six-hour and weekly windows, the recorded model usage can be covered instead of charged to balance.</p>
-<p>Current reserve windows are:</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Six-hour reserve</th>
-<th>Weekly reserve</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>250 units</td>
-<td>3,000 units</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1,000 units</td>
-<td>15,000 units</td>
-</tr>
-</tbody>
-</table>
-<p>BYOK calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.</p>
-<h2 id="rag-billing">RAG billing</h2>
-<p>Embedding price for both search and indexing is <strong>$0.015</strong> per million input tokens.</p>
-<p>This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage. Provider prices and billing units are exposed by <code>/api/v1/information/rerankers-models.json</code>; see <a href="rag/reranking.html">Rerankers</a>.</p>
-<h3 id="text-segmentation">Text segmentation</h3>
-<p>Text segmentation is billed from the total input and output tokens measured for the request is <strong>US$0.30</strong> per million total tokens.</p>
-<p>The account's <a href="#usage-billing">plan commission multiplier</a> is applied when usage is recorded. The final amount appears in <code>data.usage.cost</code> in the endpoint response.</p>
-<h3 id="reflex">Reflex</h3>
-<p>Reflex has two input-token prices:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th style="text-align: right;">Base price</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache miss</td>
-<td style="text-align: right;"><strong>US$0.015</strong> per million tokens</td>
-</tr>
-<tr>
-<td>Cache hit</td>
-<td style="text-align: right;"><strong>US$0.003</strong> per million tokens</td>
-</tr>
-</tbody>
-</table>
-<p>Cache-hit pricing applies when input processing can be reused. Cache-miss pricing applies when input must be processed. The account's <a href="#usage-billing">plan commission multiplier</a> is applied when usage is recorded. See <a href="rag/reflex.html">Reflex</a> for request limits and cache behavior.</p>
-<h2 id="storage-billing">Storage billing</h2>
-<p>Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with <code>402 Payment Required</code>.</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Included storage</th>
-<th>Overage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>30 MB</td>
-<td>No paid overage</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>2 GB</td>
-<td>$0.50/GB/month, charged hourly</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>20 GB</td>
-<td>$0.20/GB/month, charged hourly</td>
-</tr>
-</tbody>
-</table>
-<p>Storage overage is charged hourly. The job bills only excess usage above the included quota, and only when the billable excess is greater than 1 MB.</p>
-<p>Storage can include RAG document content and vectors, long-term memory items, media description cache, web chat session content, and shell files.</p>
-<h2 id="balance-requirements">Balance requirements</h2>
-<p>Billable routes check balance before running. The generic balance middleware rejects balances below the route minimum; chat clients, integrations, and batch processing also stop when the balance is zero or negative. Some multimodal chat-completion inputs require a minimum balance before the model call starts:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th>Minimum balance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Image or audio</td>
-<td>$0.10</td>
-</tr>
-<tr>
-<td>File or video</td>
-<td>$0.50</td>
-</tr>
-</tbody>
-</table>
-<p>If the account balance is too low, the API returns <code>402 Payment Required</code>.</p>
-<h2 id="plans-and-limits">Plans and limits</h2>
-<p>Plans affect both price and operation:</p>
-<ul>
-<li>Model access.</li>
-<li>Commission multiplier.</li>
-<li>Request and token rate limits.</li>
-<li>BYOK request limits.</li>
-<li>RAG quotas.</li>
-<li>Tool limits.</li>
-<li>Storage quota and overage price.</li>
-<li>Conversation retention.</li>
-<li>Subscription-model reserve windows.</li>
-</ul>
-<p>See <a href="limits.html">Plans and limits</a> for the technical quota matrix.</p>
+<p>O endpoint retorna <code>400 Bad Request</code> para payloads malformados, <code>401 Unauthorized</code> para uma chave de API ausente ou inválida, <code>403 Forbidden</code> para chaves de API públicas, e <code>429 Too Many Requests</code> quando a cota da conta é excedida.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Segment%20text&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/rag/text-segmentation.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

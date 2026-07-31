@@ -127,10 +127,10 @@
                 <article data-uid="">
 <h1 id="reflex">Reflex</h1>
 
-<p>Reflex is a low-latency search API for ranking document strings supplied directly in a request. It combines semantic relevance with a bounded lexical boost, helping exact terms, close spellings, query coverage, and term proximity without allowing lexical evidence to replace the semantic score.</p>
-<p>Unlike collection-based RAG, Reflex does not require you to create, populate, and manage a permanent collection before searching. Send the query and the current document strings; Reflex processes them immediately and automatically reuses cached document embeddings when available.</p>
-<p>Use Reflex for dynamic or application-owned document sets that must be searchable immediately. Use <a href="semantic-search.html">Semantic Search</a> when documents should live in managed RAG collections, be shared by multiple integrations, or be attached to an AI Gateway.</p>
-<h2 id="request">Request</h2>
+<p><code>@aivax/reflex-v1</code> is the default AIVAX reranker. It combines low-latency semantic relevance with bounded lexical evidence and caches query and document processing within each account.</p>
+<p>Use Reflex when your application owns a dynamic document set and benefits from reusing repeated queries or documents. Use <a href="semantic-search.html">Semantic Search</a> when documents should live in managed RAG collections. See <a href="reranking.html">Rerankers</a> for the full model catalog and alternatives.</p>
+<h2 id="call-reflex">Call Reflex</h2>
+<p>Send requests to <code>POST /api/v1/generations/rerank</code>. Omit <code>model</code> to use Reflex by default, or send <code>&quot;model&quot;: &quot;@aivax/reflex-v1&quot;</code> explicitly.</p>
 <table>
 <thead>
 <tr>
@@ -142,6 +142,12 @@
 </thead>
 <tbody>
 <tr>
+<td><code>model</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td><code>@aivax/reflex-v1</code>.</td>
+</tr>
+<tr>
 <td><code>query</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
@@ -151,27 +157,39 @@
 <td><code>documents</code></td>
 <td><code>string[]</code></td>
 <td>Yes</td>
-<td>One to 1,000 document strings to search. Exact duplicate strings are removed before processing.</td>
+<td>One to 10,000 document strings.</td>
 </tr>
 <tr>
 <td><code>top_n</code></td>
 <td><code>number</code></td>
 <td>No</td>
-<td>Maximum number of results to return. The default is <code>5</code>, or all distinct documents when fewer than five are supplied. The maximum is <code>200</code> or the number of distinct documents, whichever is lower.</td>
+<td>Maximum number of results. Defaults to five or the document count when fewer than five are supplied; Reflex returns at most 200.</td>
 </tr>
 <tr>
 <td><code>min_score</code></td>
 <td><code>number</code></td>
 <td>No</td>
-<td>Minimum semantic similarity score from <code>0</code> to <code>1</code>, applied before the lexical boost. The default is <code>0</code>.</td>
+<td>Minimum final relevance score from <code>0</code> through <code>1</code>. Defaults to <code>0</code>.</td>
 </tr>
 </tbody>
 </table>
-<p>The response identifies the request and Reflex model, then returns the ranked results and document-token usage. Each result contains the document text, a <code>relevance_score</code> from <code>0</code> to <code>1</code>, and its zero-based <code>index</code>. Because exact duplicates are removed first, <code>index</code> refers to the deduplicated document sequence.</p>
-<script src="https://inference.aivax.net/apidocs?embed-target=Reflex%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="cache-behavior">Cache behavior</h2>
-<p>Reflex caches document processing automatically within your account. An exact document string can be reused across requests and across different document sets. Changing the text creates a different cache entry, while changing only its position in the request does not.</p>
-<p>Cache availability is not permanent. Use the response's <code>usage</code> object to see how the current request was billed:</p>
+<p>The catalog declares a 1,948-token context and a maximum of 10,000 documents for Reflex. The response identifies <code>@aivax/reflex-v1</code>, returns results in descending relevance order, and preserves each document's original zero-based <code>index</code>. Duplicate document strings are not removed from the response contract; each occurrence keeps its own input index.</p>
+<p>Example request using the default model:</p>
+<pre><code class="lang-json">{
+  &quot;query&quot;: &quot;What is the cancellation period?&quot;,
+  &quot;documents&quot;: [
+    &quot;Annual plans may be cancelled within 30 days.&quot;,
+    &quot;Invoices are issued at the start of each month.&quot;
+  ],
+  &quot;top_n&quot;: 2,
+  &quot;min_score&quot;: 0.2
+}
+</code></pre>
+<p>See <a href="reranking.html#read-the-response">Rerankers</a> for the common response structure and <code>usage</code> fields.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="understand-cache-and-usage">Understand cache and usage</h2>
+<p>Reflex caches query and document processing automatically within your account. Reusing an exact query or document string can produce a cache hit in a later request. Changing the text creates a different cache entry; changing only a document's position does not change its cache key.</p>
+<p>Cache availability is not permanent. Use the response's <code>usage</code> object to inspect the current request:</p>
 <table>
 <thead>
 <tr>
@@ -182,21 +200,29 @@
 <tbody>
 <tr>
 <td><code>input_tokens</code></td>
-<td>Document tokens processed as cache misses.</td>
+<td>Query and document tokens processed as cache misses.</td>
 </tr>
 <tr>
 <td><code>cached_input_tokens</code></td>
-<td>Document tokens served from cache.</td>
+<td>Query and document tokens served from cache.</td>
 </tr>
 <tr>
 <td><code>total_tokens</code></td>
-<td>Total tokens across the distinct documents in the request.</td>
+<td>All query and document input tokens; always <code>input_tokens + cached_input_tokens</code>.</td>
+</tr>
+<tr>
+<td><code>cost</code></td>
+<td>Final account charge recorded for the request.</td>
 </tr>
 </tbody>
 </table>
-<p>The query is not included in these document-token counters.</p>
-<h2 id="pricing">Pricing</h2>
-<p>See <a href="../pricing.html#reflex">Pricing</a> for current Reflex input-token prices and billing details.</p>
+<p>The public response does not split query tokens from document tokens. The counters describe the complete input processed by Reflex.</p>
+<h2 id="billing-limits-and-data-collection">Billing, limits, and data collection</h2>
+<p>Cache misses and cache hits have different base prices. The public <code>usage.cost</code> is the final amount recorded for the account after applicable account adjustments. See <a href="../pricing.html#reflex">Pricing</a> for the current token prices.</p>
+<p>Every Reflex request consumes the account's reranking request quota and Reflex token quota. The token quota counts <code>total_tokens</code>, including cached input. Exceeding a quota returns <code>429 Too Many Requests</code>; see <a href="../limits.html">Plans and Limits</a>.</p>
+<p>When the optional semantic data collection setting is enabled, eligible direct Reflex searches receive the documented discount and may contribute the query, submitted documents, and ranking results. See <a href="../data-collecting.html">Data Collecting</a> before enabling it.</p>
+<h2 id="use-reflex-with-rag">Use Reflex with RAG</h2>
+<p>Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. The compatibility alias <code>smart</code> selects the same model. In this flow, Reflex can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.</p>
 
 </article>
 

@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Reranking | AIVAX </title>
+        <title>Rerankers | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Reranking | AIVAX ">
+        <meta name="title" content="Rerankers | AIVAX ">
 
 
         <link rel="icon" href="../../assets/img/favicon.ico">
@@ -125,46 +125,244 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="reranking">Reranking</h1>
+<h1 id="rerankers">Rerankers</h1>
 
-<p>Use the standalone reranking endpoint when you already have candidate text and need AIVAX to order it against a query. It does not search a collection, create embeddings, or retrieve additional documents. It applies the local lexical reranker to the exact strings supplied by the caller.</p>
-<p>Use <a href="semantic-search.html">Semantic Search</a> instead when AIVAX must find candidates inside a RAG collection. Semantic Search can then apply <code>rrf</code>, <code>lexical</code>, or <code>smart</code> reranking after vector retrieval.</p>
-<h2 id="endpoint">Endpoint</h2>
+<p>Rerankers reorder an existing set of candidate documents for a query. They do not search a collection or recover text that is absent from the input. Use the autonomous reranking endpoint when your application already owns the candidates, or use <a href="semantic-search.html">Semantic Search</a> to retrieve candidates from an AIVAX collection before reranking them.</p>
+<h2 id="rerank-documents-directly">Rerank documents directly</h2>
+<p>Authenticate this request with an AIVAX API key as described in <a href="../authentication.html">Authentication</a>. The endpoint accepts document strings directly, so you do not need to create a RAG collection first.</p>
 <div class="request-item post">
     <span>POST</span>
-    <span>/api/v1/rank</span>
+    <span>/api/v1/generations/rerank</span>
 </div>
-<h2 id="request-limits">Request limits</h2>
+<p>The request accepts:</p>
 <table>
 <thead>
 <tr>
-<th>Limit</th>
-<th style="text-align: right;">Value</th>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Documents per request</td>
-<td style="text-align: right;">1,024</td>
+<td><code>model</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Deterministic <code>@provider/name</code> identifier. Defaults to <code>@aivax/reflex-v1</code>.</td>
 </tr>
 <tr>
-<td>Query plus all document text</td>
-<td style="text-align: right;">32,768 characters</td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Non-empty text used to evaluate relevance.</td>
+</tr>
+<tr>
+<td><code>documents</code></td>
+<td><code>string[]</code></td>
+<td>Yes</td>
+<td>One or more candidate document strings. The selected model's <code>maxDocuments</code> limit applies when declared.</td>
 </tr>
 <tr>
 <td><code>top_n</code></td>
-<td style="text-align: right;">1 through the number of supplied documents</td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Number of ranked documents returned. Defaults to five or the document count when fewer than five are supplied.</td>
+</tr>
+<tr>
+<td><code>min_score</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Minimum final relevance score from <code>0</code> through <code>1</code>. Defaults to <code>0</code>.</td>
 </tr>
 </tbody>
 </table>
-<p><code>query</code> must be a non-empty string. <code>documents</code> must be a non-empty array of strings. When <code>top_n</code> is omitted, the endpoint returns a score for every supplied document.</p>
-<p>The lexical reranker considers exact tokens, fuzzy token matches, term coverage, term proximity, and document length. Results contain the original zero-based <code>index</code> and a normalized <code>relevanceScore</code>; higher scores indicate stronger lexical relevance. The document text is not repeated in the response, so map each result index back to the original <code>documents</code> array.</p>
-<h2 id="billing-and-shared-quota">Billing and shared quota</h2>
-<p>The endpoint records a base usage price of US$0.0001 per request, equivalent to US$1 per 10,000 searches. The account's <a href="/docs/pricing#usage-billing">plan commission multiplier</a> is applied when usage is recorded. This price belongs only to <code>/api/v1/rank</code>; using a local reranker inside Semantic Search does not add this standalone endpoint charge.</p>
-<p>Reranking has a <a href="/docs/limits#rag-and-collection-limits">shared per-account limit</a> across the standalone endpoint and every non-<code>none</code> reranker used by RAG search.</p>
-<p>A Semantic Search request with <code>reranker: &quot;none&quot;</code> does not consume the reranking quota. Other RAG search limits, public-key limits, and model limits remain independent.</p>
+<p>Only entries with <code>autonomousUse: true</code> can be used here. <code>rrf</code> depends on ranks produced during RAG retrieval, and <code>none</code> disables reranking, so neither is accepted by this endpoint. The legacy <code>/api/v1/generations/reflex/rerank</code> route remains an alias; use the generic route for new integrations.</p>
+<p>Example request:</p>
+<pre><code class="lang-json">{
+  &quot;model&quot;: &quot;@qwen/qwen3-reranker-0.6b&quot;,
+  &quot;query&quot;: &quot;How do I cancel an annual subscription?&quot;,
+  &quot;documents&quot;: [
+    &quot;Annual subscriptions can be cancelled from Billing settings.&quot;,
+    &quot;Invoices are generated on the first day of each month.&quot;
+  ],
+  &quot;top_n&quot;: 2,
+  &quot;min_score&quot;: 0.2
+}
+</code></pre>
+<h2 id="read-the-response">Read the response</h2>
+<p>The service applies <code>min_score</code>, returns at most <code>top_n</code> results, and preserves each document's original zero-based <code>index</code>.</p>
+<p>Example response:</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: &quot;req_sgoj6yeyux78bqnbza6f8wi6iy&quot;,
+  &quot;model&quot;: &quot;@qwen/qwen3-reranker-0.6b&quot;,
+  &quot;results&quot;: [
+    {
+      &quot;index&quot;: 0,
+      &quot;relevance_score&quot;: 0.979416906833649,
+      &quot;document&quot;: {
+        &quot;text&quot;: &quot;Annual subscriptions can be cancelled from Billing settings.&quot;
+      }
+    }
+  ],
+  &quot;usage&quot;: {
+    &quot;input_tokens&quot;: 263,
+    &quot;total_tokens&quot;: 263,
+    &quot;request_id&quot;: &quot;RDhp9HavIRUisZ4vToHfTtJZ&quot;,
+    &quot;cost&quot;: 0.0000027615
+  }
+}
+</code></pre>
+<p>Only one document appears because the other candidate did not meet the example's <code>min_score</code>.</p>
+<p><code>usage</code> is normalized by AIVAX, so its fields depend on how the selected model measures consumption:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>When it appears</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_tokens</code></td>
+<td>Token-based models</td>
+<td>Input tokens reported for the execution or inferred when the model does not report them.</td>
+</tr>
+<tr>
+<td><code>cached_input_tokens</code></td>
+<td>Reflex</td>
+<td>Input tokens served from the account-scoped cache.</td>
+</tr>
+<tr>
+<td><code>total_tokens</code></td>
+<td>When token usage is available</td>
+<td>Total measured input tokens. For Reflex, this equals <code>input_tokens + cached_input_tokens</code>.</td>
+</tr>
+<tr>
+<td><code>search_units</code></td>
+<td>Search-unit models</td>
+<td>Search units consumed by the request.</td>
+</tr>
+<tr>
+<td><code>estimated</code></td>
+<td>When AIVAX had to infer token usage</td>
+<td><code>true</code> means the token count was not reported directly.</td>
+</tr>
+<tr>
+<td><code>request_id</code></td>
+<td>When available</td>
+<td>Execution identifier useful when investigating a specific request.</td>
+</tr>
+<tr>
+<td><code>cost</code></td>
+<td>Always</td>
+<td>Final cost recorded against the AIVAX account, after applicable account adjustments.</td>
+</tr>
+</tbody>
+</table>
+<p>For search-unit models, the billing base comes from the exact request cost reported for that execution rather than an inferred token calculation. Costs used internally to calculate the charge are not copied into the public response as additional <code>cost</code> fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Reranking improves ordering only among supplied candidates. If the relevant text is missing from the input, reranking cannot recover it; improve candidate retrieval or use Semantic Search first.</p>
+<h2 id="read-the-live-model-catalog">Read the live model catalog</h2>
+<p>Use the live catalog instead of hardcoding model names, prices, capabilities, or limits:</p>
+<div class="request-item get">
+    <span>GET</span>
+    <span>/api/v1/information/rerankers-models.json</span>
+</div>
+<p>Each item provides <code>name</code>, <code>description</code>, <code>pricingDescription</code>, <code>autonomousUse</code>, <code>technicalInformation.contextSize</code>, <code>technicalInformation.maxDocuments</code>, and <code>isDefault</code>.</p>
+<p><code>contextSize</code> is the declared maximum token context, while <code>maxDocuments</code> is the maximum document count enforced by the public endpoint. A <code>null</code> value means that the catalog does not declare that limit.</p>
+<p>The current catalog includes:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Autonomous</th>
+<th>Declared limits</th>
+<th>Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@aivax/reflex-v1</code></td>
+<td>Yes</td>
+<td>1,948-token context; 10,000 documents</td>
+<td><code>$0.015/mtokens</code> cache miss; <code>$0.003/mtokens</code> cache hit</td>
+</tr>
+<tr>
+<td><code>@jina/reranker-v3</code></td>
+<td>Yes</td>
+<td>131,072-token context</td>
+<td><code>$0.05/mtokens</code></td>
+</tr>
+<tr>
+<td><code>@qwen/qwen3-reranker-0.6b</code></td>
+<td>Yes</td>
+<td>32,768-token context; 1,024 documents</td>
+<td><code>$0.01/mtokens</code></td>
+</tr>
+<tr>
+<td><code>@qwen/qwen3-reranker-4b</code></td>
+<td>Yes</td>
+<td>32,768-token context; 1,024 documents</td>
+<td><code>$0.025/mtokens</code></td>
+</tr>
+<tr>
+<td><code>@qwen/qwen3-reranker-8b</code></td>
+<td>Yes</td>
+<td>32,768-token context; 1,024 documents</td>
+<td><code>$0.05/mtokens</code></td>
+</tr>
+<tr>
+<td><code>@nvidia/llama-nemotron-rerank-vl-1b-v2</code></td>
+<td>Yes</td>
+<td>10,240-token context; 1,024 documents</td>
+<td><code>$0.01/mtokens</code></td>
+</tr>
+<tr>
+<td><code>@cohere/rerank-4-pro</code></td>
+<td>Yes</td>
+<td>32,768-token context; 10,000 documents</td>
+<td><code>$0.0025/search unit</code></td>
+</tr>
+<tr>
+<td><code>@cohere/rerank-4-fast</code></td>
+<td>Yes</td>
+<td>32,768-token context; 10,000 documents</td>
+<td><code>$0.002/search unit</code></td>
+</tr>
+<tr>
+<td><code>@cohere/rerank-3.5</code></td>
+<td>Yes</td>
+<td>4,096-token context; 10,000 documents</td>
+<td><code>$0.001/search unit</code></td>
+</tr>
+<tr>
+<td><code>lexical</code></td>
+<td>Yes</td>
+<td>No catalog limit</td>
+<td>No cost</td>
+</tr>
+<tr>
+<td><code>rrf</code></td>
+<td>No</td>
+<td>RAG only</td>
+<td>No cost</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>No</td>
+<td>RAG only</td>
+<td>No cost</td>
+</tr>
+</tbody>
+</table>
+<p><code>smart</code> remains an accepted compatibility alias for <code>@aivax/reflex-v1</code>, but it is not a separate catalog model. Prefer canonical model names in stored configuration and new integrations.</p>
+<h2 id="choosing-a-reranker">Choosing a reranker</h2>
+<p>Start with Reflex when you want the default model, low latency, and reusable query/document processing. Choose another model when its language coverage, context window, quality, latency, or billing unit better matches the workload. Use <code>lexical</code> for local, no-cost word-aware reranking. Use <code>rrf</code> only after RAG retrieval when you want to fuse vector and lexical rank positions.</p>
+<p>Reranking improves order only among the candidates supplied to it. If the relevant document is missing, improve candidate retrieval, chunking, query formulation, or <code>min_score</code> before comparing rerankers.</p>
+<h2 id="limits-and-failures">Limits and failures</h2>
+<p>The endpoint returns <code>400 Bad Request</code> for unknown or non-autonomous models, invalid <code>top_n</code> or <code>min_score</code>, empty input, or a document count above the model's declared limit. Reflex returns at most 200 results even though it accepts up to 10,000 documents.</p>
+<p>All non-<code>none</code> reranking operations share the account's reranking request quota. Reflex also has a token-rate quota. Exceeding either quota returns <code>429 Too Many Requests</code>; see <a href="../limits.html">Plans and Limits</a>. Capacity and execution failures use generic reranking-service messages and do not identify internal infrastructure.</p>
 
 </article>
 

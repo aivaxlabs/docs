@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Pricing | AIVAX </title>
+        <title>Classifica&#231;&#227;o de Texto | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Pricing | AIVAX ">
+        <meta name="title" content="Classifica&#231;&#227;o de Texto | AIVAX ">
 
 
-        <link rel="icon" href="../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../public/docfx.min.css">
-        <link rel="stylesheet" href="../public/main.css">
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../">
+        <meta name="docfx:rel" content="../../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/generations/classification.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../public/docfx.min.js"></script>
+        <script type="module" src="./../../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../index.html">
-                        <img id="logo" class="svg" src="../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,189 +125,89 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="pricing">Pricing</h1>
+<h1 id="classificação-de-texto">Classificação de Texto</h1>
 
-<p>AIVAX uses a prepaid account balance. Paid invoices add credit to the account, and usage records subtract from that balance.</p>
-<p>The backend calculates balance as:</p>
-<pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
+<p>Use a classificação de texto para ordenar um conjunto fixo de rótulos para um ou mais documentos sem treinar um classificador personalizado. O AIVAX incorpora cada documento e rótulo com o modelo de incorporação padrão, compara seus vetores usando similaridade cosseno e devolve cada rótulo do mais similar ao menos similar para cada documento.</p>
+<p>Antes de chamar este ponto de extremidade, <a href="../authentication.html">crie uma chave de API</a> e certifique‑se de que a conta tenha saldo positivo.</p>
+<h2 id="endpoint">Endpoint</h2>
+<div class="request-item post">
+    <span>POST</span>
+    <span>/api/v1/generations/classify</span>
+</div>
+<h2 id="comportamento-da-solicitação">Comportamento da solicitação</h2>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>documents</code></td>
+<td><code>string[]</code></td>
+<td>Sim</td>
+<td>Um ou mais documentos não vazios para classificar. Os resultados preservam esta ordem e o índice baseado em zero de cada documento.</td>
+</tr>
+<tr>
+<td><code>labels</code></td>
+<td><code>string[]</code></td>
+<td>Sim</td>
+<td>Um ou mais rótulos não vazios. Cada rótulo recebe pontuação para cada documento.</td>
+</tr>
+</tbody>
+</table>
+<p>Documentos e rótulos duplicados são preservados. O ponto de extremidade sempre usa o modelo de incorporação padrão atual e não aceita um parâmetro de modelo, limite de pontuação ou limite de resultados.</p>
+<p>Exemplo de solicitação:</p>
+<pre><code class="lang-json">{
+  &quot;documents&quot;: [
+    &quot;Calculate the compound interest on a principal of $10,000 invested for 5 years at an annual rate of 5%, compounded quarterly&quot;,
+    &quot;Erklären Sie die Unterschiede zwischen Merge-Sort und Quicksort-Algorithmen in Bezug auf Zeitkomplexität, Platzkomplexität und Leistung in der Praxis.&quot;,
+    &quot;Write a poem about the beauty of nature and its healing power on the human soul&quot;
+  ],
+  &quot;labels&quot;: [
+    &quot;Creative writing&quot;,
+    &quot;Complex problem&quot;,
+    &quot;Simple task&quot;
+  ]
+}
 </code></pre>
-<p>Use the <a href="https://aivax.net/pricing">AIVAX pricing page</a> for current commercial plan prices. This page documents billing behavior that is visible in the API source.</p>
-<h2 id="credits-and-invoices">Credits and invoices</h2>
-<p>Credits are represented as invoices.</p>
-<ul>
-<li>Paid invoices increase the usable account balance until their expiration date.</li>
-<li>Unpaid payment invoices are created with a one-year expiration.</li>
-<li>Unpaid invoices older than three days are removed by cleanup.</li>
-<li>Expired paid invoices no longer count toward balance.</li>
-<li>Payment invoice creation requires at least 3 USD and is rate-limited.</li>
-</ul>
-<h2 id="usage-billing">Usage billing</h2>
-<p>Every billable operation writes one or more usage records. Each usage record has:</p>
-<ul>
-<li>Description.</li>
-<li>Unit price.</li>
-<li>Quantity.</li>
-<li>Optional model name.</li>
-<li>Usage category.</li>
-<li>Resources such as API key, gateway, or collection.</li>
-</ul>
-<p>The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Commission multiplier</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>1.25x</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>1.05x</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1.00x</td>
-</tr>
-</tbody>
-</table>
-<h2 id="inference-billing">Inference billing</h2>
-<p>Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:</p>
-<ul>
-<li>Text input tokens.</li>
-<li>Cached input tokens, when the selected model has cached-input pricing.</li>
-<li>Audio input tokens, when applicable.</li>
-<li>Output tokens.</li>
-</ul>
-<p>Some integrated models can be covered by subscription-model reserve windows. When a model has a subscription usage multiplier and the account still has reserve remaining in both the six-hour and weekly windows, the recorded model usage can be covered instead of charged to balance.</p>
-<p>Current reserve windows are:</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Six-hour reserve</th>
-<th>Weekly reserve</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>250 units</td>
-<td>3,000 units</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1,000 units</td>
-<td>15,000 units</td>
-</tr>
-</tbody>
-</table>
-<p>BYOK calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.</p>
-<h2 id="rag-billing">RAG billing</h2>
-<p>Embedding price for both search and indexing is <strong>$0.015</strong> per million input tokens.</p>
-<p>This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage. Provider prices and billing units are exposed by <code>/api/v1/information/rerankers-models.json</code>; see <a href="rag/reranking.html">Rerankers</a>.</p>
-<h3 id="text-segmentation">Text segmentation</h3>
-<p>Text segmentation is billed from the total input and output tokens measured for the request is <strong>US$0.30</strong> per million total tokens.</p>
-<p>The account's <a href="#usage-billing">plan commission multiplier</a> is applied when usage is recorded. The final amount appears in <code>data.usage.cost</code> in the endpoint response.</p>
-<h3 id="reflex">Reflex</h3>
-<p>Reflex has two input-token prices:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th style="text-align: right;">Base price</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache miss</td>
-<td style="text-align: right;"><strong>US$0.015</strong> per million tokens</td>
-</tr>
-<tr>
-<td>Cache hit</td>
-<td style="text-align: right;"><strong>US$0.003</strong> per million tokens</td>
-</tr>
-</tbody>
-</table>
-<p>Cache-hit pricing applies when input processing can be reused. Cache-miss pricing applies when input must be processed. The account's <a href="#usage-billing">plan commission multiplier</a> is applied when usage is recorded. See <a href="rag/reflex.html">Reflex</a> for request limits and cache behavior.</p>
-<h2 id="storage-billing">Storage billing</h2>
-<p>Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with <code>402 Payment Required</code>.</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Included storage</th>
-<th>Overage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>30 MB</td>
-<td>No paid overage</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>2 GB</td>
-<td>$0.50/GB/month, charged hourly</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>20 GB</td>
-<td>$0.20/GB/month, charged hourly</td>
-</tr>
-</tbody>
-</table>
-<p>Storage overage is charged hourly. The job bills only excess usage above the included quota, and only when the billable excess is greater than 1 MB.</p>
-<p>Storage can include RAG document content and vectors, long-term memory items, media description cache, web chat session content, and shell files.</p>
-<h2 id="balance-requirements">Balance requirements</h2>
-<p>Billable routes check balance before running. The generic balance middleware rejects balances below the route minimum; chat clients, integrations, and batch processing also stop when the balance is zero or negative. Some multimodal chat-completion inputs require a minimum balance before the model call starts:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th>Minimum balance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Image or audio</td>
-<td>$0.10</td>
-</tr>
-<tr>
-<td>File or video</td>
-<td>$0.50</td>
-</tr>
-</tbody>
-</table>
-<p>If the account balance is too low, the API returns <code>402 Payment Required</code>.</p>
-<h2 id="plans-and-limits">Plans and limits</h2>
-<p>Plans affect both price and operation:</p>
-<ul>
-<li>Model access.</li>
-<li>Commission multiplier.</li>
-<li>Request and token rate limits.</li>
-<li>BYOK request limits.</li>
-<li>RAG quotas.</li>
-<li>Tool limits.</li>
-<li>Storage quota and overage price.</li>
-<li>Conversation retention.</li>
-<li>Subscription-model reserve windows.</li>
-</ul>
-<p>See <a href="limits.html">Plans and limits</a> for the technical quota matrix.</p>
+<h2 id="ler-a-resposta">Ler a resposta</h2>
+<p><code>results</code> contém um item para cada documento de entrada. Cada array <code>scores</code> contém todos os rótulos fornecidos, ordenados por similaridade cosseno decrescente. Rótulos com pontuações iguais preservam sua ordem original.</p>
+<pre><code class="lang-json">{
+  &quot;results&quot;: [
+    {
+      &quot;index&quot;: 0,
+      &quot;document&quot;: &quot;Calculate the compound interest on a principal of $10,000 invested for 5 years at an annual rate of 5%, compounded quarterly&quot;,
+      &quot;scores&quot;: [
+        {
+          &quot;label&quot;: &quot;Complex problem&quot;,
+          &quot;score&quot;: 0.98828
+        },
+        {
+          &quot;label&quot;: &quot;Simple task&quot;,
+          &quot;score&quot;: 0.45272
+        },
+        {
+          &quot;label&quot;: &quot;Creative writing&quot;,
+          &quot;score&quot;: 0.06823
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>Uma pontuação mede a similaridade de vetores, não uma probabilidade calibrada. Compare pontuações dentro da mesma solicitação e modelo de incorporação ao invés de interpretar um valor como confiança percentual. Pontuações negativas são válidas e permanecem na resposta porque o ponto de extremidade não filtra rótulos.</p>
+<p>O uso de incorporação é cobrado para textos que requerem inferência e está associado à chave de API autenticada. Textos repetidos podem ser servidos a partir do cache de incorporação escopo da conta. Como o ponto de extremidade devolve cada par documento‑rótulo, o tamanho da resposta e o trabalho de comparação aumentam com <code>documents × labels</code>.</p>
+<p>A referência de API embutida contém a solicitação, resposta, autenticação e detalhes de erro mantidos pelo servidor:</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Classify%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/generations/classification.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

@@ -6,7 +6,7 @@
   href: getting-started.md
 - name: Autenticação
   href: authentication.md
-- name: Precificação
+- name: Preços
   href: pricing.md
 - name: Planos e limites
   href: limits.md
@@ -21,7 +21,7 @@
   href: rag/semantic-search.md
 - name: Segmentação de texto
   href: rag/text-segmentation.md
-- name: Re-rankers
+- name: Re-ranqueadores
   href: rag/reranking.md
 - name: Melhores práticas
   href: rag/best-practices.md
@@ -41,22 +41,26 @@
 
 - name: Gerações
 
+- name: Classificação de texto
+  href: generations/classification.md
 - name: Geração de fala
   href: generations/speech.md
 - name: Descrições de mídia
   href: generations/media-descriptions.md
-- name: Geração de imagem
+- name: Geração de imagens
   href: generations/images.md
 
 - name: Ferramentas
 
-- name: Ferramentas integradas
+- name: Ferramentas embutidas
   href: tools/builtin-tools.md
 - name: Funções MCP
   href: tools/mcp.md
 - name: MCP de gerenciamento de conta
   href: tools/account-management-mcp.md
-- name: MCP de documentação
+- name: Utilitários web MCP
+  href: tools/web-utilities-mcp.md
+- name: Documentação MCP
   href: tools/documentation-mcp.md
 - name: Funções de protocolo
   href: tools/protocol-functions.md
@@ -74,7 +78,7 @@
 
 - name: Plataforma
 
-- name: Fundamentos da plataforma
+- name: Conceitos básicos da plataforma
   href: platform/basics.md
 - name: Contas e saldo
   href: platform/account-balance.md
@@ -88,13 +92,13 @@
   href: platform/chat-clients.md
 - name: Lote
   href: platform/batch.md
-- name: Análises
+- name: Analítica
   href: platform/analytics.md
 - name: Conversas
   href: platform/conversations.md
 - name: Habilidades
   href: platform/skills.md
-- name: Logs
+- name: Registros
   href: platform/logs.md
 - name: Memórias
   href: platform/memories.md

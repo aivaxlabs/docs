@@ -782,6 +782,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/generations/classification.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/generations/classification.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/generations/images.md",
       "output": {
         ".html": {
@@ -1096,6 +1106,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/features/skills.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/generations/classification.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/generations/classification.html"
         }
       },
       "version": ""
@@ -1421,6 +1441,16 @@
       "version": ""
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/rag/text-segmentation.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/rag/text-segmentation.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Toc",
       "source_relative_path": "docs/pt-br/toc.yml",
       "output": {
@@ -1495,6 +1525,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/tools/web-utilities-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/tools/web-utilities-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/rag/best-practices.md",
       "output": {
         ".html": {
@@ -1525,10 +1565,30 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/rag/reranking.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/rag/reranking.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/rag/semantic-search.md",
       "output": {
         ".html": {
           "relative_path": "docs/rag/semantic-search.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/rag/text-segmentation.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/rag/text-segmentation.html"
         }
       },
       "version": ""
@@ -1602,6 +1662,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/tools/shell.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/tools/web-utilities-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/tools/web-utilities-mcp.html"
         }
       },
       "version": ""

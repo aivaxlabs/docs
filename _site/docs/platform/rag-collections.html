@@ -336,7 +336,7 @@
 </tr>
 <tr>
 <td><strong>Reranker</strong></td>
-<td><code>none</code>, <code>lexical</code>, or <code>smart</code>. Lexical is a no-cost word-aware reranker; smart uses a specialized reranking model and is priced separately.</td>
+<td>Loaded from the live API catalog. Reflex is the default; <code>none</code>, <code>lexical</code>, and RAG-only <code>rrf</code> remain available alongside provider models.</td>
 </tr>
 <tr>
 <td><strong>Endpoint</strong></td>
@@ -513,7 +513,7 @@
 <tr>
 <td>Search returns irrelevant documents</td>
 <td>Chunk size, document context, tags, references, reranker, score threshold, and query strategy in the gateway.</td>
-<td>Split broad documents, improve source text, test lexical or smart reranking, and raise minimum score deliberately.</td>
+<td>Split broad documents, improve source text, compare the default Reflex model with lexical or another catalog model, and raise minimum score deliberately.</td>
 </tr>
 <tr>
 <td>Gateway answer ignores the collection</td>

@@ -147,7 +147,7 @@
 <li>Skills and tool visibility.</li>
 <li>Built-in tools, MCP sources, protocol functions, raw tool definitions, and Bash settings.</li>
 <li>Sampling, reasoning, verbosity, and context controls.</li>
-<li>Moderation thresholds and worker webhooks.</li>
+<li>Moderation sensitivity levels, additional rules, and worker webhooks.</li>
 </ul>
 <p>Use a direct model call instead when you only need a simple one-off prompt or an internal test where the application owns every option.</p>
 <h2 id="find-and-open-a-gateway">Find and open a gateway</h2>
@@ -271,7 +271,7 @@
 </tr>
 <tr>
 <td><strong>Moderation</strong></td>
-<td>Thresholds for violence/hate, sexual content, politics, dangerous content, and jailbreak attempts.</td>
+<td>Input-text sensitivity levels for violence/hate, sexual content, politics, dangerous content, jailbreak attempts, and off-topic subjects, plus optional additional rules.</td>
 </tr>
 <tr>
 <td><strong>Workers</strong></td>
@@ -290,10 +290,30 @@
 <li>Skills, hidden tools, and always-visible tools.</li>
 <li>Context length, max tokens, reasoning effort, verbosity, and tool-message limits.</li>
 <li>Multimodal preprocessing and selected media types.</li>
-<li>Moderation thresholds and worker URL.</li>
+<li>Moderation sensitivity levels, additional rules, and worker URL.</li>
 <li>Generated integration, MCP, and playground snippets before sharing them.</li>
 <li>Conversation logs after testing.</li>
 </ul>
+<h2 id="configure-input-moderation">Configure input moderation</h2>
+<p>Use the <strong>Moderation</strong> tab when the gateway accepts untrusted user input and should refuse categories of requests before they reach the main model.</p>
+<ol>
+<li>Open the gateway and select <strong>Moderation</strong>.</li>
+<li>Optionally add <strong>Additional moderation rules</strong> that describe the gateway's purpose and important allowed or disallowed cases.</li>
+<li>Set a sensitivity level from <code>0</code> to <code>10</code> for each category. Use <strong>Set global value</strong> only when the same sensitivity is appropriate for every category.</li>
+<li>Enable <strong>Off-topic subjects</strong> when requests should remain within the purpose established by the conversation and your additional rules.</li>
+<li>Save the gateway, then test allowed, borderline, and blocked requests.</li>
+</ol>
+<p>Start with lower sensitivity levels and increase them only after reviewing realistic examples. Higher values are more restrictive: level <code>1</code> blocks only safeguard score <code>10</code>, while level <code>10</code> blocks every nonzero score. Level <code>0</code> disables the category.</p>
+<p>Additional rules do not activate moderation by themselves. Keep at least one category above <code>0</code>, and choose the category whose score represents the policy you wrote. For a domain-restricted assistant, this will commonly be <strong>Off-topic subjects</strong>.</p>
+<p>To confirm the configuration:</p>
+<ul>
+<li>Send an allowed request that clearly matches the gateway purpose.</li>
+<li>Continue the same conversation with a natural change of topic that should remain allowed.</li>
+<li>Send a clearly unrelated request to verify the off-topic level.</li>
+<li>Test one allowed and one blocked example for every other enabled category.</li>
+<li>Review conversation and usage logs for unexpected blocks, moderation failures, latency, and moderation usage.</li>
+</ul>
+<p>Do not treat moderation as the only security boundary for tools, account data, or write operations. Keep authorization and business rules in the application or a worker. For the score contract, blocking flow, context behavior, and current media/output limitations, see <a href="/docs/inference/pipelines#moderation">Moderation in the inference pipeline</a>.</p>
 <h2 id="configure-rag-carefully">Configure RAG carefully</h2>
 <p>Attach RAG collections when the assistant must answer from account-owned documents. Choose the query strategy based on the conversation:</p>
 <ul>
@@ -416,6 +436,21 @@
 <td>Tool calls are wrong or noisy</td>
 <td>Enabled tools, MCP sources, raw tools, skills, always-visible tools, and tool instructions.</td>
 <td>Reduce the tool set, use skills to narrow visible tools, and document when each tool should be used.</td>
+</tr>
+<tr>
+<td>Allowed requests are blocked by moderation</td>
+<td>Enabled category levels, additional rules, the established conversation topic, and whether a high global value made every category restrictive.</td>
+<td>Lower the affected category, clarify allowed cases in the additional rules, and retest with the same conversation history.</td>
+</tr>
+<tr>
+<td>Unsafe or unrelated requests are not blocked</td>
+<td>Whether the relevant category is above <code>0</code>, whether additional rules are paired with an enabled category, and whether the request is textual.</td>
+<td>Enable the matching category, increase its sensitivity gradually, and remember that attached media contents and generated output are not moderated.</td>
+</tr>
+<tr>
+<td>Moderation increases latency or usage</td>
+<td>Number of moderated requests, safeguard usage records, retries, and whether moderation is needed on this gateway.</td>
+<td>Keep moderation enabled where input gating is required; otherwise disable every category to skip the safeguard inference.</td>
 </tr>
 <tr>
 <td>Worker or callback rejects AIVAX</td>

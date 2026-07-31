@@ -128,7 +128,7 @@
 <h1 id="semantic-search">Semantic Search</h1>
 
 <p>The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.</p>
-<p>If you need to search document strings immediately without creating and maintaining a RAG collection, use <a href="reflex.html">Reflex</a>. Reflex is optimized for low latency, ranks results by default, and automatically reuses cached document processing when available.</p>
+<p>If your application already owns the candidate document strings, use the autonomous <a href="reranking.html">Rerankers</a> API instead of creating and maintaining a RAG collection.</p>
 <p>Search is performed in stages:</p>
 <ol>
 <li>Each query term is embedded in query mode.</li>
@@ -141,7 +141,7 @@
 <p>After creating a collection, use its collection ID in the <code>collections</code> array when searching.</p>
 <div class="WARNING">
 <h5>Warning</h5>
-<p>Semantic search incurs cost. Query embedding cost is based on the search term tokens. The <code>smart</code> reranker also incurs reranking cost based on the query and candidate document tokens.</p>
+<p>Semantic search incurs cost. Query embedding cost is based on the search term tokens. Provider rerankers can add token- or search-unit-based cost for the candidates they process.</p>
 </div>
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="request-parameters">Request Parameters</h2>
@@ -188,8 +188,8 @@
 <tr>
 <td><code>reranker</code></td>
 <td><code>string</code></td>
-<td><code>rrf</code></td>
-<td><code>rrf</code>, <code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
+<td><code>@aivax/reflex-v1</code></td>
+<td>A canonical <code>@provider/name</code>, <code>lexical</code>, <code>rrf</code>, or <code>none</code>. The compatibility alias <code>smart</code> also selects Reflex.</td>
 </tr>
 <tr>
 <td><code>includeReferences</code></td>
@@ -201,40 +201,8 @@
 </table>
 <p>The response includes the matched document ID, collection ID, document name, document content, metadata, score, and referenced documents when reference expansion is enabled.</p>
 <h2 id="reranking">Reranking</h2>
-<p>AIVAX can apply reranking after vector candidates are found.</p>
-<p>Available rerankers:</p>
-<table>
-<thead>
-<tr>
-<th>Reranker</th>
-<th>Cost</th>
-<th>Behavior</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>none</code></td>
-<td>No reranking cost</td>
-<td>Uses vector similarity only.</td>
-</tr>
-<tr>
-<td><code>rrf</code></td>
-<td>No reranking cost</td>
-<td>Fuses the embedding and lexical rank positions. This is the default.</td>
-</tr>
-<tr>
-<td><code>lexical</code></td>
-<td>No reranking cost</td>
-<td>Applies a local boost based on lexical matches, fuzzy token matches, and term proximity in the document name and content.</td>
-</tr>
-<tr>
-<td><code>smart</code></td>
-<td>Reranking cost applies</td>
-<td>Uses Cloudflare Workers AI (<code>@cf/baai/bge-reranker-base</code>) to rescore candidate documents against the full query.</td>
-</tr>
-</tbody>
-</table>
-<p>The default reranker is <code>rrf</code>. To disable reranking, send <code>&quot;reranker&quot;: &quot;none&quot;</code>. To preserve the semantic score and add a conservative lexical boost, use <code>lexical</code>. To use the model-based reranker, send <code>&quot;reranker&quot;: &quot;smart&quot;</code>.</p>
+<p>AIVAX applies the selected reranker after vector candidates are found. The default is <code>@aivax/reflex-v1</code>; the legacy <code>smart</code> alias resolves to the same model. Send <code>&quot;reranker&quot;: &quot;none&quot;</code> to preserve vector-similarity order, <code>lexical</code> for local word-aware reranking, or <code>rrf</code> to fuse vector and lexical rank positions.</p>
+<p>Provider models use deterministic <code>@provider/name</code> identifiers. Read the live <code>/api/v1/information/rerankers-models.json</code> catalog for the available models, prices, autonomous-use capability, and technical limits. See <a href="reranking.html">Rerankers</a> for the current model list and selection guidance.</p>
 <p>All non-<code>none</code> rerankers share the account's <a href="/docs/limits#rag-and-collection-limits">reranking-search limit</a>.</p>
 <div class="NOTE">
 <h5>Note</h5>
@@ -320,8 +288,8 @@ multa
 </tr>
 <tr>
 <td><code>X-Mcp-Reranker</code></td>
-<td><code>rrf</code>, <code>lexical</code>, <code>smart</code>, or <code>none</code>.</td>
-<td><code>rrf</code></td>
+<td>A canonical <code>@provider/name</code>, <code>lexical</code>, <code>rrf</code>, <code>smart</code>, or <code>none</code>.</td>
+<td><code>@aivax/reflex-v1</code></td>
 </tr>
 <tr>
 <td><code>X-Mcp-Top-K</code></td>

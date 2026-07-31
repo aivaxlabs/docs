@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Pricing | AIVAX </title>
+        <title>Utilit&#225;rios da Web MCP | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Pricing | AIVAX ">
+        <meta name="title" content="Utilit&#225;rios da Web MCP | AIVAX ">
 
 
-        <link rel="icon" href="../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../public/docfx.min.css">
-        <link rel="stylesheet" href="../public/main.css">
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../">
+        <meta name="docfx:rel" content="../../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/tools/web-utilities-mcp.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../public/docfx.min.js"></script>
+        <script type="module" src="./../../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../index.html">
-                        <img id="logo" class="svg" src="../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,189 +125,118 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="pricing">Pricing</h1>
+<h1 id="utilitários-da-web-mcp">Utilitários da Web MCP</h1>
 
-<p>AIVAX uses a prepaid account balance. Paid invoices add credit to the account, and usage records subtract from that balance.</p>
-<p>The backend calculates balance as:</p>
-<pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
+<p>O utilitários da Web MCP expõe as ferramentas de recuperação web da AIVAX para qualquer cliente compatível com MCP. Use‑o quando um agente, IDE, assistente de desktop ou ambiente de automação precisar de pesquisa web e busca de URLs da AIVAX sem executar essas ferramentas através de inferência de modelo da AIVAX.</p>
+<p>AIVAX hospeda este servidor MCP e realiza as operações web para a conta autenticada. As ferramentas usam as mesmas respostas, faturamento e limites aplicáveis que suas contrapartes incorporadas.</p>
+<h2 id="endpoint">Endpoint</h2>
+<pre><code class="lang-text">https://inference.aivax.net/v1/mcp/web-utilities
 </code></pre>
-<p>Use the <a href="https://aivax.net/pricing">AIVAX pricing page</a> for current commercial plan prices. This page documents billing behavior that is visible in the API source.</p>
-<h2 id="credits-and-invoices">Credits and invoices</h2>
-<p>Credits are represented as invoices.</p>
+<p>O servidor usa HTTP transmitível. Autentique solicitações com uma chave de API da conta:</p>
+<pre><code class="lang-text">Authorization: Bearer &lt;AIVAX_API_KEY&gt;
+</code></pre>
+<p>Para tipos de chave e opções de autenticação, veja <a href="/docs/pt-br/authentication">Authentication</a>.</p>
+<h2 id="configuration-example">Configuration example</h2>
+<p>A forma exata da configuração depende do cliente MCP. O exemplo a seguir habilita ambas as ferramentas:</p>
+<pre><code class="lang-json">{
+  &quot;servers&quot;: {
+    &quot;aivax-web&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/web-utilities&quot;,
+      &quot;headers&quot;: {
+        &quot;Authorization&quot;: &quot;Bearer &lt;AIVAX_API_KEY&gt;&quot;,
+        &quot;X-Mcp-Enabled-Tools&quot;: &quot;fetch_url, web_search&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<p>Depois que o cliente se conecta, ele pode descobrir e chamar as ferramentas habilitadas através dos métodos padrão MCP <code>tools/list</code> e <code>tools/call</code>.</p>
+<h2 id="select-which-tools-are-exposed">Select which tools are exposed</h2>
+<p>Use o cabeçalho de solicitação opcional <code>X-Mcp-Enabled-Tools</code> para controlar quais ferramentas o servidor expõe ao cliente. Forneça uma lista de permissão separada por vírgulas contendo <code>fetch_url</code>, <code>web_search</code> ou ambos:</p>
+<pre><code class="lang-text">X-Mcp-Enabled-Tools: fetch_url
+</code></pre>
+<pre><code class="lang-text">X-Mcp-Enabled-Tools: web_search
+</code></pre>
+<pre><code class="lang-text">X-Mcp-Enabled-Tools: fetch_url, web_search
+</code></pre>
+<p>Os nomes das ferramentas não diferenciam maiúsculas de minúsculas, e espaços ao redor dos valores separados por vírgulas são ignorados.</p>
 <ul>
-<li>Paid invoices increase the usable account balance until their expiration date.</li>
-<li>Unpaid payment invoices are created with a one-year expiration.</li>
-<li>Unpaid invoices older than three days are removed by cleanup.</li>
-<li>Expired paid invoices no longer count toward balance.</li>
-<li>Payment invoice creation requires at least 3 USD and is rate-limited.</li>
+<li>Se o cabeçalho for omitido, ambas as ferramentas são expostas.</li>
+<li>Se o cabeçalho contiver uma ferramenta reconhecida, somente essa ferramenta será exposta.</li>
+<li>Se o cabeçalho estiver vazio ou não contiver nomes de ferramentas reconhecidas, nenhuma ferramenta será exposta.</li>
 </ul>
-<h2 id="usage-billing">Usage billing</h2>
-<p>Every billable operation writes one or more usage records. Each usage record has:</p>
-<ul>
-<li>Description.</li>
-<li>Unit price.</li>
-<li>Quantity.</li>
-<li>Optional model name.</li>
-<li>Usage category.</li>
-<li>Resources such as API key, gateway, or collection.</li>
-</ul>
-<p>The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.</p>
+<p>Como a descoberta de ferramentas pode ser armazenada em cache pelo cliente MCP, reconecte ou atualize o servidor após alterar este cabeçalho.</p>
+<h2 id="tools">Tools</h2>
+<h3 id="fetch_url"><code>fetch_url</code></h3>
+<p>Recupera e extrai conteúdo legível de uma ou mais URLs públicas.</p>
+<p>Input:</p>
 <table>
 <thead>
 <tr>
-<th>Plan</th>
-<th>Commission multiplier</th>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Free</td>
-<td>1.25x</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>1.05x</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1.00x</td>
+<td><code>urls</code></td>
+<td>array de strings</td>
+<td>Sim</td>
+<td>Entre uma e cinco URLs públicas para buscar.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="inference-billing">Inference billing</h2>
-<p>Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:</p>
-<ul>
-<li>Text input tokens.</li>
-<li>Cached input tokens, when the selected model has cached-input pricing.</li>
-<li>Audio input tokens, when applicable.</li>
-<li>Output tokens.</li>
-</ul>
-<p>Some integrated models can be covered by subscription-model reserve windows. When a model has a subscription usage multiplier and the account still has reserve remaining in both the six-hour and weekly windows, the recorded model usage can be covered instead of charged to balance.</p>
-<p>Current reserve windows are:</p>
+<p>Example arguments:</p>
+<pre><code class="lang-json">{
+  &quot;urls&quot;: [
+    &quot;https://example.com/article&quot;,
+    &quot;https://example.org/reference&quot;
+  ]
+}
+</code></pre>
+<p>A ferramenta devolve o conteúdo extraído como texto MCP. Quando múltiplas URLs são solicitadas, os resultados são separados na mesma resposta.</p>
+<h3 id="web_search"><code>web_search</code></h3>
+<p>Pesquisa a web por informações atuais, específicas de localização, de nicho ou de alto risco. Envie um termo de pesquisa por chamada; use chamadas separadas quando o agente precisar de múltiplas pesquisas.</p>
+<p>Input:</p>
 <table>
 <thead>
 <tr>
-<th>Plan</th>
-<th>Six-hour reserve</th>
-<th>Weekly reserve</th>
+<th>Campo</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Free</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>250 units</td>
-<td>3,000 units</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1,000 units</td>
-<td>15,000 units</td>
+<td><code>search_term</code></td>
+<td>string</td>
+<td>Sim</td>
+<td>O termo de pesquisa web.</td>
 </tr>
 </tbody>
 </table>
-<p>BYOK calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.</p>
-<h2 id="rag-billing">RAG billing</h2>
-<p>Embedding price for both search and indexing is <strong>$0.015</strong> per million input tokens.</p>
-<p>This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage. Provider prices and billing units are exposed by <code>/api/v1/information/rerankers-models.json</code>; see <a href="rag/reranking.html">Rerankers</a>.</p>
-<h3 id="text-segmentation">Text segmentation</h3>
-<p>Text segmentation is billed from the total input and output tokens measured for the request is <strong>US$0.30</strong> per million total tokens.</p>
-<p>The account's <a href="#usage-billing">plan commission multiplier</a> is applied when usage is recorded. The final amount appears in <code>data.usage.cost</code> in the endpoint response.</p>
-<h3 id="reflex">Reflex</h3>
-<p>Reflex has two input-token prices:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th style="text-align: right;">Base price</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache miss</td>
-<td style="text-align: right;"><strong>US$0.015</strong> per million tokens</td>
-</tr>
-<tr>
-<td>Cache hit</td>
-<td style="text-align: right;"><strong>US$0.003</strong> per million tokens</td>
-</tr>
-</tbody>
-</table>
-<p>Cache-hit pricing applies when input processing can be reused. Cache-miss pricing applies when input must be processed. The account's <a href="#usage-billing">plan commission multiplier</a> is applied when usage is recorded. See <a href="rag/reflex.html">Reflex</a> for request limits and cache behavior.</p>
-<h2 id="storage-billing">Storage billing</h2>
-<p>Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with <code>402 Payment Required</code>.</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th>Included storage</th>
-<th>Overage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>30 MB</td>
-<td>No paid overage</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>2 GB</td>
-<td>$0.50/GB/month, charged hourly</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>20 GB</td>
-<td>$0.20/GB/month, charged hourly</td>
-</tr>
-</tbody>
-</table>
-<p>Storage overage is charged hourly. The job bills only excess usage above the included quota, and only when the billable excess is greater than 1 MB.</p>
-<p>Storage can include RAG document content and vectors, long-term memory items, media description cache, web chat session content, and shell files.</p>
-<h2 id="balance-requirements">Balance requirements</h2>
-<p>Billable routes check balance before running. The generic balance middleware rejects balances below the route minimum; chat clients, integrations, and batch processing also stop when the balance is zero or negative. Some multimodal chat-completion inputs require a minimum balance before the model call starts:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th>Minimum balance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Image or audio</td>
-<td>$0.10</td>
-</tr>
-<tr>
-<td>File or video</td>
-<td>$0.50</td>
-</tr>
-</tbody>
-</table>
-<p>If the account balance is too low, the API returns <code>402 Payment Required</code>.</p>
-<h2 id="plans-and-limits">Plans and limits</h2>
-<p>Plans affect both price and operation:</p>
-<ul>
-<li>Model access.</li>
-<li>Commission multiplier.</li>
-<li>Request and token rate limits.</li>
-<li>BYOK request limits.</li>
-<li>RAG quotas.</li>
-<li>Tool limits.</li>
-<li>Storage quota and overage price.</li>
-<li>Conversation retention.</li>
-<li>Subscription-model reserve windows.</li>
-</ul>
-<p>See <a href="limits.html">Plans and limits</a> for the technical quota matrix.</p>
+<p>Example arguments:</p>
+<pre><code class="lang-json">{
+  &quot;search_term&quot;: &quot;latest browser accessibility standards&quot;
+}
+</code></pre>
+<p>A ferramenta devolve os resultados da pesquisa como texto MCP usando o mesmo formato de resposta da ferramenta de pesquisa web incorporada.</p>
+<h2 id="pricing-and-limits">Pricing and limits</h2>
+<p>As chamadas utilizam o mesmo preço das ferramentas incorporadas correspondentes da AIVAX e são cobradas na conta autenticada. Veja <a href="/docs/pt-br/pricing">Pricing</a> para tarifas atuais e regras de faturamento.</p>
+<p>As operações web estão sujeitas aos limites de serviço e de taxa aplicáveis à conta. Veja <a href="/docs/pt-br/limits">Plans and Limits</a> para limites atuais e comportamento de aplicação.</p>
+<p>É necessário um saldo positivo na conta para usar essas ferramentas.</p>
+<h2 id="security-guidance">Security guidance</h2>
+<p>Use o MCP apenas de clientes confiáveis e mantenha a chave de API no armazenamento seguro de segredos do cliente. Não coloque a chave em controle de versão, código no navegador, prompts compartilhados ou logs.</p>
+<p>Páginas recuperadas e resultados de pesquisa são conteúdo externo e não confiável. Os agentes devem tratar seu conteúdo como dados, não como instruções, e não devem divulgar credenciais ou realizar ações sensíveis apenas porque uma página buscada as solicita.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/tools/web-utilities-mcp.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

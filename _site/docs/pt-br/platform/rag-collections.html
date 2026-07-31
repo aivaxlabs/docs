@@ -127,31 +127,31 @@
                 <article data-uid="">
 <h1 id="coleções-rag">Coleções RAG</h1>
 
-<p>Use <strong>RAG Collections</strong> para armazenar conhecimento pesquisável que AI Gateways, clientes MCP e chamadas diretas de API RAG podem recuperar posteriormente. Uma coleção é o limite de uma base de conhecimento: ela agrupa documentos, estado de indexação, contexto, tags, testes de busca e histórico de recuperação em um único lugar.</p>
-<p>Esta página é para construtores e operadores que gerenciam bases de conhecimento pelo console AIVAX. Para esquemas de API, formato de importação JSONL e comportamento de recuperação mais profundo, veja <a href="/docs/pt-br/rag/collections">Collections and Documents</a> e <a href="/docs/pt-br/rag/semantic-search">Semantic search</a>.</p>
+<p>Use <strong>Coleções RAG</strong> para armazenar conhecimento pesquisável que os AI Gateways, clientes MCP e chamadas diretas da API RAG podem recuperar posteriormente. Uma coleção é o limite de uma base de conhecimento: ela agrupa documentos, estado de indexação, contexto, tags, testes de busca e histórico de recuperação em um só lugar.</p>
+<p>Esta página é para construtores e operadores que gerenciam bases de conhecimento a partir do console AIVAX. Para esquemas de API, formato de importação JSONL e comportamento de recuperação mais detalhado, veja <a href="/docs/pt-br/rag/collections">Coleções e Documentos</a> e <a href="/docs/pt-br/rag/semantic-search">Busca semântica</a>.</p>
 <h2 id="antes-de-começar">Antes de começar</h2>
-<p>Faça login no <a href="https://console.aivax.net/">AIVAX console</a> e abra <strong>Dashboard &gt; RAG Collections</strong>. Confirme a conta ativa antes de importar, redefinir, excluir ou reindexar uma coleção.</p>
-<p>Antes de mudar uma coleção de produção, identifique:</p>
+<p>Faça login no <a href="https://console.aivax.net/">console AIVAX</a> e abra <strong>Dashboard &gt; Coleções RAG</strong>. Confirme a conta ativa antes de importar, redefinir, excluir ou reindexar uma coleção.</p>
+<p>Antes de alterar uma coleção de produção, identifique:</p>
 <ul>
-<li>Quais AI Gateways, clientes de chat, fluxos de lote, clientes MCP ou aplicações o utilizam.</li>
-<li>Se a mudança afeta documentos fonte, apenas metadados ou vetores gerados.</li>
+<li>Quais AI Gateways, clientes de chat, fluxos de trabalho em lote, clientes MCP ou aplicações a utilizam.</li>
+<li>Se a alteração afeta documentos fonte, apenas metadados ou vetores gerados.</li>
 <li>Se os usuários estão consultando a coleção no momento.</li>
-<li>Se você precisa de uma exportação JSONL antes de fazer a mudança.</li>
+<li>Se você precisa de uma exportação JSONL antes de fazer a alteração.</li>
 <li>Se a operação de importação ou reindexação pode gerar custo de indexação.</li>
 </ul>
 <h2 id="quando-usar-uma-coleção">Quando usar uma coleção</h2>
-<p>Use uma coleção quando um assistente ou aplicação precisar de respostas fundamentadas em conhecimento de propriedade da conta, como manuais de produto, políticas, artigos de suporte, cláusulas contratuais, itens de catálogo, procedimentos operacionais ou informações específicas de locatário.</p>
+<p>Use uma coleção quando um assistente ou aplicação precisar de respostas baseadas em conhecimento próprio da conta, como manuais de produtos, políticas, artigos de suporte, cláusulas contratuais, itens de catálogo, procedimentos operacionais ou informações específicas de locatário.</p>
 <p>Uma coleção é útil quando o conhecimento deve ser:</p>
 <ul>
 <li>Pesquisável por significado semântico, não apenas por palavras‑chave exatas.</li>
-<li>Reutilizada por mais de um gateway ou integração.</li>
-<li>Mantida separadamente das instruções do gateway.</li>
-<li>Exportada, auditada, reimportada ou testada diretamente.</li>
-<li>Observada por meio de pontuações de recuperação e histórico de transações.</li>
+<li>Reutilizado por mais de um gateway ou integração.</li>
+<li>Mantido separadamente das instruções do gateway.</li>
+<li>Exportado, auditado, reimportado ou testado diretamente.</li>
+<li>Observado por meio de pontuações de recuperação e histórico de transações.</li>
 </ul>
-<p>Não coloque todas as fontes em uma única coleção grande por padrão. Prefira coleções separadas quando o conhecimento tem diferentes proprietários, ciclos de vida, idiomas, regras de acesso, ambientes ou expectativas de qualidade.</p>
-<h2 id="entenda-a-lista-de-coleções">Entenda a lista de coleções</h2>
-<p>A página RAG Collections mostra as coleções pertencentes à conta ativa.</p>
+<p>Não coloque todas as fontes em uma única coleção grande por padrão. Prefira coleções separadas quando o conhecimento tiver diferentes proprietários, ciclos de vida, idiomas, regras de acesso, ambientes ou expectativas de qualidade.</p>
+<h2 id="entender-a-lista-de-coleções">Entender a lista de coleções</h2>
+<p>A página Coleções RAG mostra as coleções pertencentes à conta ativa.</p>
 <table>
 <thead>
 <tr>
@@ -161,46 +161,47 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>New collection</strong></td>
+<td><strong>Nova coleção</strong></td>
 <td>Crie uma coleção vazia antes de adicionar documentos.</td>
 </tr>
 <tr>
-<td><strong>Filter columns...</strong></td>
-<td>Pesquise coleções pelo texto visível da tabela.</td>
+<td><strong>Filtrar colunas...</strong></td>
+<td>Pesquise coleções pelo texto visível na tabela.</td>
 </tr>
 <tr>
 <td><strong>Id.</strong></td>
 <td>Forma curta de exibição do ID da coleção. Copie o ID completo ao integrar via API ou MCP.</td>
 </tr>
 <tr>
-<td><strong>Name</strong></td>
+<td><strong>Nome</strong></td>
 <td>Nome amigável da coleção exibido no console.</td>
 </tr>
 <tr>
-<td><strong>Created at</strong></td>
+<td><strong>Criado em</strong></td>
 <td>Data e hora de criação.</td>
 </tr>
 <tr>
-<td><strong>Current state</strong></td>
-<td>Contagens de documentos indexados, em fila e desatualizados como uma barra de status segmentada.</td>
+<td><strong>Estado atual</strong></td>
+<td>Contagens de documentos indexados, enfileirados e desatualizados como barra de status segmentada.</td>
 </tr>
 <tr>
-<td><strong>View</strong></td>
+<td><strong>Visualizar</strong></td>
 <td>Abra os detalhes da coleção, documentos, transações e configurações.</td>
 </tr>
 </tbody>
 </table>
 <p>Crie uma coleção com um nome que identifique seu propósito e ambiente, como <code>Help Center - Production</code> ou <code>Legal Policies - Internal</code>. O console requer um nome com pelo menos três caracteres.</p>
 <h2 id="criar-uma-coleção">Criar uma coleção</h2>
+<p>Para criar uma coleção:</p>
 <ol>
-<li>Selecione <strong>New collection</strong>.</li>
+<li>Selecione <strong>Nova coleção</strong>.</li>
 <li>Insira um nome de coleção orientado ao propósito.</li>
 <li>Confirme o diálogo.</li>
-<li>Abra a nova coleção com <strong>View</strong>.</li>
+<li>Abra a nova coleção com <strong>Visualizar</strong>.</li>
 </ol>
-<p>Confirme que a nova coleção aparece sob a conta ativa esperada e começa com o estado de documento esperado. Para bases de conhecimento de produção, considere criar coleções de staging e produção separadas para que você possa testar importações, fragmentação e qualidade de recuperação antes de mudar a coleção que os gateways ao usam.</p>
-<h2 id="navegar-pelos-documentos">Navegar pelos documentos</h2>
-<p>Abra <strong>View</strong> em uma coleção para acessar o espaço de trabalho da coleção. A guia <strong>Browse documents</strong> é a principal superfície de manutenção.</p>
+<p>Confirme que a nova coleção aparece sob a conta ativa esperada e começa com o estado de documento esperado. Para bases de conhecimento de produção, considere criar coleções de teste e produção separadas para que você possa testar importações, fragmentação e qualidade de recuperação antes de alterar a coleção que os gateways ao usam.</p>
+<h2 id="navegar-documentos">Navegar documentos</h2>
+<p>Abra <strong>Visualizar</strong> em uma coleção para acessar o espaço de trabalho da coleção. A aba <strong>Navegar documentos</strong> é a principal superfície de manutenção.</p>
 <p>Os cartões de resumo mostram:</p>
 <table>
 <thead>
@@ -211,28 +212,28 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Total documents</strong></td>
+<td><strong>Total de documentos</strong></td>
 <td>Número de documentos atualmente armazenados na coleção.</td>
 </tr>
 <tr>
-<td><strong>Query coverage</strong></td>
-<td>Porção das transações RAG registradas que retornaram documentos. Use como um sinal de qualidade, não como garantia completa de relevância.</td>
+<td><strong>Cobertura de consultas</strong></td>
+<td>Porção de transações RAG registradas que retornaram documentos. Use como sinal de qualidade, não como garantia completa de relevância.</td>
 </tr>
 <tr>
-<td><strong>Avg. Performance</strong></td>
+<td><strong>Desempenho médio</strong></td>
 <td>Tempo médio de processamento de recuperação das transações RAG registradas.</td>
 </tr>
 <tr>
-<td><strong>Avg. Score</strong></td>
+<td><strong>Pontuação média</strong></td>
 <td>Pontuação média das transações RAG registradas.</td>
 </tr>
 </tbody>
 </table>
-<p>A tabela de documentos mostra o ID curto de cada documento, hora de atualização, nome, ID de referência, tags, pré‑visualização de conteúdo, estado de indexação e ações. Use a caixa de pesquisa para nome, ID ou texto do conteúdo. Use <strong>Filter state</strong> para focar em todos, indexados ou em fila. Use <strong>Order by</strong> para ordenar por hora de criação, atualização ou indexação em qualquer direção.</p>
-<p>Use esta guia após importações para confirmar que os documentos chegaram, passaram de fila para indexados e parecem fragmentos focados em vez de arquivos fonte inteiros colados em um único documento.</p>
+<p>A tabela de documentos mostra o ID curto de cada documento, horário de atualização, nome, ID de referência, tags, pré‑visualização de conteúdo, estado de indexação e ações. Use a caixa de pesquisa por nome, ID ou texto do conteúdo. Use <strong>Filtrar estado</strong> para focar em todos, indexados ou enfileirados. Use <strong>Ordenar por</strong> para classificar por data de criação, atualização ou indexação em qualquer direção.</p>
+<p>Use esta aba após importações para confirmar que os documentos chegaram, passaram de enfileirados para indexados e parecem fragmentos focados em vez de arquivos fonte completos colados em um único documento.</p>
 <h2 id="adicionar-ou-editar-documentos">Adicionar ou editar documentos</h2>
-<p>Selecione <strong>New document</strong> para criar um documento manualmente, ou <strong>Edit</strong> em uma linha existente para atualizar um documento.</p>
-<p>O editor de documentos tem:</p>
+<p>Selecione <strong>Novo documento</strong> para criar um documento manualmente, ou <strong>Editar</strong> em uma linha existente para atualizar um documento.</p>
+<p>O editor de documentos possui:</p>
 <table>
 <thead>
 <tr>
@@ -242,7 +243,7 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Document name</strong></td>
+<td><strong>Nome do documento</strong></td>
 <td>Nome estável usado para identificar este documento em atualizações posteriores.</td>
 </tr>
 <tr>
@@ -250,31 +251,31 @@
 <td>Rótulos de manutenção para filtragem e organização.</td>
 </tr>
 <tr>
-<td><strong>Reference ID</strong></td>
+<td><strong>ID de referência</strong></td>
 <td>Identificador compartilhado para fragmentos relacionados da mesma fonte.</td>
 </tr>
 <tr>
-<td><strong>Split multiple sections</strong></td>
+<td><strong>Dividir múltiplas seções</strong></td>
 <td>Na criação do documento, dividir texto separado por <code>---</code> em múltiplos documentos.</td>
 </tr>
 <tr>
-<td><strong>Document contents</strong></td>
+<td><strong>Conteúdo do documento</strong></td>
 <td>O texto que será indexado e recuperado.</td>
 </tr>
 <tr>
-<td><strong>Document information</strong></td>
-<td>Contagem aproximada de tokens, custo estimado de indexação, contagem de palavras, caracteres e se.</td>
+<td><strong>Informações do documento</strong></td>
+<td>Contagem aproximada de tokens, custo estimado de indexação, contagem de palavras, caracteres e seções.</td>
 </tr>
 <tr>
-<td><strong>Edit with AI</strong></td>
-<td>Peça ao AIVAX para propor uma edição ao texto do documento antes de salvar.</td>
+<td><strong>Editar com IA</strong></td>
+<td>Peça ao AIVAX para propor uma edição no texto do documento antes de salvar.</td>
 </tr>
 </tbody>
 </table>
-<p>Escreva documentos como fragmentos focados e auto‑contenidos. Um documento recuperado deve conter contexto suficiente para que o modelo o use sem adivinhar o que veio antes ou depois. Se você colar uma página de manual longa, divida-a em seções de tamanho de tópico primeiro. Se editar um documento existente que contém separadores de seção, o console avisa que salvar não o dividirá em múltiplos documentos.</p>
-<p>O texto alterado do documento é enfileirado para indexação. Manutenção apenas de metadados pode evitar reindexação desnecessária quando feita via API. Para o comportamento exato de upsert e nomes de campos JSONL, veja <a href="/docs/pt-br/rag/collections#document-fields">Document fields</a>.</p>
+<p>Escreva documentos como fragmentos focados e autocontidos. Um documento recuperado deve conter contexto suficiente para que o modelo o use sem adivinhar o que veio antes ou depois. Se você colar uma página de manual longa, divida-a em seções temáticas primeiro. Se editar um documento existente que contém separadores de seção, o console avisa que salvar não o dividirá em múltiplos documentos.</p>
+<p>Texto de documento alterado é enfileirado para indexação. Manutenção apenas de metadados pode evitar reindexação desnecessária quando feita via API. Para o comportamento exato de upsert e nomes de campos JSONL, veja <a href="/docs/pt-br/rag/collections#document-fields">Campos do documento</a>.</p>
 <h2 id="importar-documentos">Importar documentos</h2>
-<p>Use <strong>Options</strong> no espaço de trabalho da coleção quando precisar importar ou exportar dados.</p>
+<p>Use <strong>Opções</strong> no espaço de trabalho da coleção quando precisar importar ou exportar dados.</p>
 <table>
 <thead>
 <tr>
@@ -284,32 +285,32 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Import from files</strong></td>
-<td>Envie imagens, áudio, vídeo ou arquivos PDF para que o AIVAX extraia documentos com um algoritmo de OCR/extrção baseado em LLM.</td>
+<td><strong>Importar de arquivos</strong></td>
+<td>Envie imagens, áudio, vídeo ou PDFs para que o AIVAX extraia documentos com algoritmo OCR/extracção baseado em LLM.</td>
 </tr>
 <tr>
-<td><strong>Import from JSONL</strong></td>
+<td><strong>Importar de JSONL</strong></td>
 <td>Envie documentos de texto preparados onde cada linha é um objeto JSON.</td>
 </tr>
 <tr>
-<td><strong>Export to JSONL</strong></td>
+<td><strong>Exportar para JSONL</strong></td>
 <td>Baixe documentos da coleção para backup, migração, revisão ou processamento offline. Trate exportações como dados operacionais sensíveis.</td>
 </tr>
 <tr>
-<td><strong>View MCP code</strong></td>
+<td><strong>Ver código MCP</strong></td>
 <td>Configure a coleção como fonte MCP através do endpoint de coleções MCP.</td>
 </tr>
 </tbody>
 </table>
-<p>Escolha <strong>Import from JSONL</strong> quando sua aplicação ou pipeline de pré‑processamento já preparou fragmentos limpos. O diálogo de importação do console aceita um arquivo <code>.jsonl</code>, explica que documentos existentes inalterados são ignorados e informa um limite de 10 000 documentos e 50 MB por arquivo. Limites de plano e API ainda podem ser aplicados; veja <a href="/docs/pt-br/rag/collections#batch-import-limits">Batch import limits</a>.</p>
-<p>Uma importação JSONL é um upsert. Se <code>docid</code> corresponder a um documento existente e <code>text</code> mudar, o AIVAX atualiza esse documento e o enfileira para reindexação. Exporte primeiro, teste em uma coleção não‑produção quando possível e verifique colisões de <code>docid</code> antes de importar para produção.</p>
-<p>Escolha <strong>Import from files</strong> quando precisar que o AIVAX extraia texto de mídia fonte. O diálogo aceita imagens, áudio, vídeo e arquivos PDF, pede um algoritmo de extração e inclui um campo <strong>Context</strong> para orientar a extração. Use o campo de contexto para descrever o que a fonte contém e o que deve ser preservado, não para adicionar instruções não relacionadas.</p>
-<p>Faça upload apenas de arquivos que você tem permissão para processar com o AIVAX. O texto extraído torna‑se conteúdo da coleção e pode ser recuperado posteriormente por gateways, clientes MCP ou chamadas de API que usem a coleção.</p>
+<p>Escolha <strong>Importar de JSONL</strong> quando sua aplicação ou pipeline de pré‑processamento já preparou fragmentos limpos. O diálogo de importação aceita um arquivo <code>.jsonl</code>, explica que documentos existentes não alterados são ignorados e estabelece um limite de arquivo de 10 000 documentos e 50 MB por arquivo. Limites de plano e API ainda podem ser aplicados; veja <a href="/docs/pt-br/rag/collections#batch-import-limits">Limites de importação em lote</a>.</p>
+<p>Uma importação JSONL é um upsert. Se <code>docid</code> corresponde a um documento existente e <code>text</code> muda, o AIVAX atualiza esse documento e o enfileira para reindexação. Exporte primeiro, teste em uma coleção não‑produção quando possível e verifique colisões de <code>docid</code> antes de importar para produção.</p>
+<p>Escolha <strong>Importar de arquivos</strong> quando precisar que o AIVAX extraia texto de mídia fonte. O diálogo aceita imagens, áudio, vídeo e PDFs, solicita um algoritmo de extração e inclui um campo <strong>Contexto</strong> para orientar a extração. Use o campo de contexto para descrever o que a fonte contém e o que deve ser preservado, não para adicionar instruções não relacionadas.</p>
+<p>Faça upload apenas de arquivos que você tem permissão para processar com o AIVAX. Texto extraído torna‑se conteúdo da coleção e pode ser posteriormente recuperado por gateways, clientes MCP ou chamadas de API que usem a coleção.</p>
 <div class="WARNING">
 <h5>Warning</h5>
-<p>As importações e atualizações de vetores podem consumir créditos. Exporte a coleção primeiro quando precisar de uma cópia de reversão e teste importações em uma coleção não‑produção quando o formato da fonte ou a estratégia de fragmentação for nova.</p>
+<p>Importações e atualizações de vetores podem consumir créditos. Exporte a coleção primeiro quando precisar de uma cópia de reversão e teste importações em uma coleção não‑produção quando o formato da fonte ou a estratégia de fragmentação for nova.</p>
 </div>
-<p>Trate a exportação JSONL da coleção como dados sensíveis: pode conter texto fonte, dados de clientes, procedimentos internos, tags, referências e IDs de documentos. Armazene-a de forma segura e remova informações confidenciais antes de compartilhar fora da equipe que possui a base de conhecimento.</p>
+<p>Trate o JSONL exportado da coleção como dado sensível. Ele pode conter texto fonte, dados de clientes, procedimentos internos, tags, referências e IDs de documentos. Armazene‑o com segurança e remova informações confidenciais antes de compartilhá‑lo fora da equipe que possui a base de conhecimento.</p>
 <h2 id="usar-o-playground">Usar o playground</h2>
 <p>Selecione <strong>Playground</strong> no espaço de trabalho da coleção para testar a recuperação antes de anexar a coleção a um gateway de produção.</p>
 <p>O playground permite configurar:</p>
@@ -322,42 +323,42 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Search text</strong></td>
-<td>A consulta que você deseja testar. Use linguagem realista do usuário.</td>
+<td><strong>Texto de busca</strong></td>
+<td>A consulta que você deseja testar. Use linguagem realista de usuário.</td>
 </tr>
 <tr>
-<td><strong>Minimum score</strong></td>
-<td>Menor pontuação aceita para documentos retornados. Valores mais altos reduzem ruído, mas podem ocultar resultados úteis.</td>
+<td><strong>Pontuação mínima</strong></td>
+<td>Pontuação mais baixa aceita para documentos retornados. Valores mais altos reduzem ruído mas podem ocultar resultados úteis.</td>
 </tr>
 <tr>
-<td><strong>Maximum results</strong></td>
-<td>Número de documentos a retornar. Mais resultados podem melhorar a cobertura, mas aumentam o tamanho do contexto.</td>
+<td><strong>Resultados máximos</strong></td>
+<td>Número de documentos a retornar. Mais resultados podem melhorar o recall mas aumentam o tamanho do contexto.</td>
 </tr>
 <tr>
 <td><strong>Reranker</strong></td>
-<td><code>none</code>, <code>lexical</code> ou <code>smart</code>. Lexical é um reranker sensível a palavras sem custo; smart usa um modelo especializado de reranking e tem preço separado.</td>
+<td>Carregado do catálogo de API ao vivo. Reflex é o padrão; <code>none</code>, <code>lexical</code> e o <code>rrf</code> apenas RAG permanecem disponíveis junto aos modelos do provedor.</td>
 </tr>
 <tr>
 <td><strong>Endpoint</strong></td>
 <td><code>/query</code> retorna documentos correspondentes; <code>/answer</code> pede ao modelo que responda usando documentos recuperados.</td>
 </tr>
 <tr>
-<td><strong>Include chunked references</strong></td>
+<td><strong>Incluir referências fragmentadas</strong></td>
 <td>Inclui fragmentos relacionados que compartilham referências quando habilitado.</td>
 </tr>
 </tbody>
 </table>
-<p>Use o playground como um portão de qualidade:</p>
+<p>Use o playground como um filtro de qualidade:</p>
 <ol>
 <li>Teste perguntas comuns de usuários.</li>
 <li>Confirme que os documentos retornados são relevantes e específicos.</li>
-<li>Compare <code>/query</code> e <code>/answer</code> quando precisar tanto da inspeção da fonte quanto do comportamento de resposta.</li>
+<li>Compare <code>/query</code> e <code>/answer</code> quando precisar tanto de inspeção da fonte quanto do comportamento de resposta.</li>
 <li>Ajuste pontuação, número de resultados, reranker, fragmentação de documentos ou contexto da coleção.</li>
 <li>Anexe a coleção a um <a href="ai-gateways.html">AI Gateway</a> somente depois que a recuperação for consistente.</li>
 </ol>
-<p>A ação <strong>View code</strong> gera um exemplo rápido para o endpoint de playground selecionado. Use a referência de API abaixo como fonte canônica de integração, substitua marcadores de posição e mantenha as chaves de API em variáveis de ambiente antes de compartilhar ou confirmar exemplos.</p>
-<h2 id="configurar-configurações-da-coleção">Configurar configurações da coleção</h2>
-<p>Abra <strong>Settings</strong> para gerenciar metadados ao nível da coleção.</p>
+<p>A ação <strong>Ver código</strong> gera um exemplo rápido para o endpoint de playground selecionado. Use a referência de API abaixo como fonte de integração canônica, substitua marcadores e mantenha chaves de API em variáveis de ambiente antes de compartilhar ou confirmar exemplos.</p>
+<h2 id="configurar-definições-da-coleção">Configurar definições da coleção</h2>
+<p>Abra <strong>Configurações</strong> para gerenciar metadados ao nível da coleção.</p>
 <table>
 <thead>
 <tr>
@@ -367,30 +368,30 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Collection Name</strong></td>
-<td>Nome amigável usado no console e na conscientização da coleção voltada ao modelo.</td>
+<td><strong>Nome da coleção</strong></td>
+<td>Nome amigável usado no console e na conscientização da coleção pelo modelo.</td>
 </tr>
 <tr>
-<td><strong>Collection Context</strong></td>
+<td><strong>Contexto da coleção</strong></td>
 <td>Uma dica que descreve o que a coleção contém para que modelos e operadores entendam seu propósito.</td>
 </tr>
 <tr>
-<td><strong>Generate context from documents</strong></td>
-<td>Peça ao AIVAX para propor contexto e tags da coleção a partir de documentos existentes. Isso pode consumir créditos e analisar o conteúdo armazenado dos documentos. Revise o diff proposto em busca de segredos, dados privados e instruções não intencionais voltadas ao modelo antes de salvar.</td>
+<td><strong>Gerar contexto a partir de documentos</strong></td>
+<td>Peça ao AIVAX para propor contexto e tags da coleção a partir de documentos existentes. Isso pode consumir créditos e analisar o conteúdo armazenado. Revise o diff proposto em busca de segredos, dados privados e instruções não desejadas antes de salvar.</td>
 </tr>
 <tr>
-<td><strong>Collection Tags</strong></td>
+<td><strong>Tags da coleção</strong></td>
 <td>Tags que categorizam a coleção como um todo.</td>
 </tr>
 <tr>
-<td><strong>Save changes</strong></td>
+<td><strong>Salvar alterações</strong></td>
 <td>Persistir nome, contexto e tags editados.</td>
 </tr>
 </tbody>
 </table>
-<p>Um bom contexto de coleção informa ao modelo do que a coleção trata e quais tipos de respostas pode suportar. Mantenha‑o factual e conciso. Não coloque segredos, dados privados de clientes, credenciais ou instruções operacionais ocultas no contexto da coleção.</p>
+<p>Um bom contexto de coleção informa ao modelo do que a coleção trata e que tipo de respostas pode suportar. Mantenha‑o factual e conciso. Não coloque segredos, dados privados de clientes, credenciais ou instruções operacionais ocultas no contexto da coleção.</p>
 <h2 id="usar-configurações-avançadas-com-segurança">Usar configurações avançadas com segurança</h2>
-<p>O menu <strong>Advanced settings</strong> contém ações de manutenção de alto impacto.</p>
+<p>O menu <strong>Configurações avançadas</strong> contém ações de manutenção de alto impacto.</p>
 <table>
 <thead>
 <tr>
@@ -401,33 +402,33 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Update outdated documents</strong></td>
-<td>Marcar vetores desatualizados para que o trabalho de indexação reconstrua embeddings. O console avisa que isso pode gerar custo.</td>
-<td>Quando o comportamento de embedding mudou, documentos mostram estado desatualizado ou a qualidade da recuperação depende de vetores atualizados.</td>
+<td><strong>Atualizar documentos desatualizados</strong></td>
+<td>Marca vetores desatualizados para que o trabalho de indexação reconstrua embeddings. O console avisa que isso pode gerar custo.</td>
+<td>O comportamento de embedding mudou, documentos mostram estado desatualizado ou a qualidade da recuperação depende de vetores atualizados.</td>
 </tr>
 <tr>
-<td><strong>Reset collection</strong></td>
+<td><strong>Redefinir coleção</strong></td>
 <td>Exclui todos os documentos pendentes e indexados, mas mantém o registro e a configuração da coleção.</td>
-<td>Quando você quer manter a estrutura da coleção mas reconstruir seu conteúdo do zero.</td>
+<td>Você quer manter a estrutura da coleção mas reconstruir seu conteúdo do zero.</td>
 </tr>
 <tr>
-<td><strong>Delete collection</strong></td>
+<td><strong>Excluir coleção</strong></td>
 <td>Exclui a coleção e todos os documentos. Isso não pode ser desfeito pelo console.</td>
-<td>Quando a coleção não é mais usada por nenhum gateway, cliente, fluxo de trabalho ou aplicação.</td>
+<td>A coleção não é mais usada por nenhum gateway, cliente, fluxo de trabalho ou aplicação.</td>
 </tr>
 </tbody>
 </table>
 <p>Antes de redefinir ou excluir:</p>
 <ol>
-<li>Exporte a coleção para JSONL se precisar dos documentos mais tarde.</li>
+<li>Exporte a coleção para JSONL se puder precisar dos documentos depois.</li>
 <li>Verifique AI Gateways e integrações que referenciam a coleção.</li>
 <li>Confirme que nenhum tráfego de produção depende dela.</li>
 <li>Prefira testar coleções de substituição antes de mudar coleções de produção.</li>
 <li>Após a mudança, verifique o comportamento do gateway e as transações da coleção.</li>
 </ol>
 <h2 id="revisar-transações-rag">Revisar transações RAG</h2>
-<p>Use a guia <strong>Transactions</strong> para entender como a coleção está realmente sendo pesquisada.</p>
-<p>A guia inclui:</p>
+<p>Use a aba <strong>Transações</strong> para entender como a coleção está sendo realmente pesquisada.</p>
+<p>A aba inclui:</p>
 <table>
 <thead>
 <tr>
@@ -437,53 +438,53 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>View</strong></td>
-<td>Alternar entre as visualizações de transação <code>Recent</code>, <code>Low quality</code> e <code>High quality</code>.</td>
+<td><strong>Visualizar</strong></td>
+<td>Alterna entre visualizações <code>Recentes</code>, <code>Baixa qualidade</code> e <code>Alta qualidade</code>.</td>
 </tr>
 <tr>
-<td><strong>Refresh</strong></td>
-<td>Recarregar a visualização de transação selecionada.</td>
+<td><strong>Atualizar</strong></td>
+<td>Recarrega a visualização de transação selecionada.</td>
 </tr>
 <tr>
-<td><strong>Export JSONL</strong></td>
-<td>Baixar a visualização de transação selecionada para revisão offline.</td>
+<td><strong>Exportar JSONL</strong></td>
+<td>Baixa a visualização de transação selecionada para revisão offline.</td>
 </tr>
 <tr>
 <td><strong>ID</strong></td>
 <td>Identificador da transação.</td>
 </tr>
 <tr>
-<td><strong>Moment</strong></td>
+<td><strong>Momento</strong></td>
 <td>Quando a recuperação ocorreu.</td>
 </tr>
 <tr>
-<td><strong>Original score</strong></td>
-<td>Pontuação inicial de recuperação antes do reranking.</td>
+<td><strong>Pontuação original</strong></td>
+<td>Pontuação de recuperação inicial antes do reranking.</td>
 </tr>
 <tr>
-<td><strong>Reranker score</strong></td>
+<td><strong>Pontuação do reranker</strong></td>
 <td>Pontuação atribuída pelo reranker quando usado.</td>
 </tr>
 <tr>
-<td><strong>Query</strong></td>
+<td><strong>Consulta</strong></td>
 <td>Consulta de busca registrada para a transação.</td>
 </tr>
 <tr>
-<td><strong>Results</strong></td>
+<td><strong>Resultados</strong></td>
 <td>Número de documentos retornados.</td>
 </tr>
 <tr>
-<td><strong>Details</strong></td>
-<td>Abre detalhes de tempo, custo, pontuação, reranker e documentos correspondentes.</td>
+<td><strong>Detalhes</strong></td>
+<td>Abre temporização, custo, pontuação, reranker e detalhes dos documentos correspondentes.</td>
 </tr>
 </tbody>
 </table>
-<p>Use <strong>Low quality</strong> para encontrar consultas que precisam de documentos melhores, limites de pontuação mais baixos, fragmentação diferente, contexto de coleção mais claro ou um reranker diferente. Use <strong>High quality</strong> para identificar exemplos que valem ser reutilizados como testes de regressão. A visibilidade das transações está sujeita à retenção do plano da conta; revise <a href="/docs/pt-br/limits">Plans and limits</a> ao planejar monitoramento ou frequência de exportação.</p>
-<p>O diálogo de detalhes pode mostrar ID da requisição, texto da consulta, tempo de processamento, custo, pontuação original, pontuação do reranker, pontuação final, nome do reranker, IDs de documentos correspondentes, nomes de documentos, pontuações e pré‑visualizações de conteúdo. Trate as transações exportadas como dados operacionais: remova texto de usuário, dados de clientes e identificadores internos antes de compartilhar fora da sua equipe.</p>
+<p>Use <strong>Baixa qualidade</strong> para encontrar consultas que precisam de melhores documentos, limites de pontuação mais baixos, fragmentação diferente, contexto de coleção mais claro ou um reranker diferente. Use <strong>Alta qualidade</strong> para identificar exemplos que valem ser reutilizados como testes de regressão. A visibilidade das transações está sujeita à retenção do plano da conta; revise <a href="/docs/pt-br/limits">Planos e limites</a> ao planejar monitoramento ou frequência de exportação.</p>
+<p>O diálogo de detalhes pode mostrar ID da solicitação, texto da consulta, tempo de processamento, custo, pontuação original, pontuação do reranker, pontuação final, nome do reranker, IDs de documentos correspondentes, nomes dos documentos, pontuações e pré‑visualizações de conteúdo. Trate transações exportadas como dados operacionais: remova texto de usuário, dados de clientes e identificadores internos antes de compartilhar fora da sua equipe.</p>
 <h2 id="usar-coleções-via-mcp">Usar coleções via MCP</h2>
-<p>A ação <strong>View MCP code</strong> gera uma configuração MCP para consultar a coleção através de <code>/v1/mcp/collections</code>. A configuração gerada inclui cabeçalhos da coleção como ID, nome, top‑k, pontuação mínima e comportamento de referência.</p>
-<p>Trechos de código MCP gerados podem incluir a chave de sessão atual do console no cabeçalho <code>Authorization</code>. Substitua‑a por <code>YOUR_AIVAX_API_KEY</code> ou uma variável de ambiente antes de compartilhar, salvar ou confirmar a configuração. Não compartilhe URLs ou trechos de console que incluam valores de <code>api-key</code> ou <code>Authorization</code>. Se uma chave real, URL contendo sessão ou trecho contendo sessão foi exposto, gire ou revogue a credencial afetada.</p>
-<p>Mantenha o acesso MCP somente leitura por padrão. Não habilite acesso de gravação da coleção para assistentes gerais ou clientes não confiáveis. Ferramentas MCP com gravação podem criar, atualizar ou excluir documentos da coleção. Use uma credencial dedicada com o acesso mínimo necessário e gire‑a se for exposta.</p>
+<p>A ação <strong>Ver código MCP</strong> gera uma configuração MCP para consultar a coleção através de <code>/v1/mcp/collections</code>. A configuração gerada inclui cabeçalhos da coleção como ID, nome, top‑k, pontuação mínima e comportamento de referência.</p>
+<p>Trechos MCP gerados podem incluir a chave de sessão do console atual no cabeçalho <code>Authorization</code>. Substitua-a por <code>YOUR_AIVAX_API_KEY</code> ou uma variável de ambiente antes de compartilhar, salvar ou confirmar a configuração. Não compartilhe URLs ou trechos de console que contenham valores <code>api-key</code> ou <code>Authorization</code>. Se uma chave real, URL com sessão ou trecho com sessão foi exposto, rotacione ou revogue a credencial afetada.</p>
+<p>Mantenha o acesso MCP somente leitura por padrão. Não habilite escrita na coleção para assistentes gerais ou clientes não confiáveis. Ferramentas MCP com escrita podem criar, atualizar ou excluir documentos da coleção. Use uma credencial dedicada com o acesso mínimo necessário e rotacione‑a se for exposta.</p>
 <h2 id="solução-de-problemas">Solução de problemas</h2>
 <table>
 <thead>
@@ -496,53 +497,53 @@
 <tbody>
 <tr>
 <td>A coleção não aparece na lista</td>
-<td>Conta ativa, alternador de contas e limite de coleções para o plano atual.</td>
-<td>Mude para a conta esperada ou crie a coleção na conta correta.</td>
+<td>Conta ativa, alternador de conta e limite de coleções para o plano atual.</td>
+<td>Troque para a conta esperada ou crie a coleção na conta correta.</td>
 </tr>
 <tr>
-<td>Documentos permanecem na fila</td>
+<td>Documentos permanecem enfileirados</td>
 <td>Volume de indexação, saldo da conta, limites diários de inserção RAG, tamanho do documento e tempo de processamento em segundo plano.</td>
-<td>Aguarde a indexação, reduza o tamanho da importação, aumente o saldo ou divida as importações em lotes menores.</td>
+<td>Aguarde a indexação, reduza o tamanho da importação, aumente o saldo ou divida a importação em lotes menores.</td>
 </tr>
 <tr>
-<td>A busca não retorna documentos</td>
+<td>Busca não retorna documentos</td>
 <td>Formulação da consulta, estado de indexação, pontuação mínima, ID da coleção e se a coleção correta está selecionada.</td>
-<td>Diminua temporariamente a pontuação mínima, teste uma formulação mais ampla, confirme que os documentos estão indexados e inspecione o conteúdo dos documentos.</td>
+<td>Diminua temporariamente a pontuação mínima, teste formulações mais amplas, confirme que os documentos estão indexados e inspecione o conteúdo dos documentos.</td>
 </tr>
 <tr>
-<td>A busca retorna documentos irrelevantes</td>
-<td>Tamanho dos fragmentos, contexto do documento, tags, referências, reranker, limite de pontuação e estratégia de consulta no gateway.</td>
-<td>Divida documentos amplos, melhore o texto fonte, teste reranking lexical ou smart e aumente deliberadamente a pontuação mínima.</td>
+<td>Busca retorna documentos irrelevantes</td>
+<td>Tamanho do fragmento, contexto do documento, tags, referências, reranker, limite de pontuação e estratégia de consulta no gateway.</td>
+<td>Divida documentos extensos, melhore o texto fonte, compare o modelo padrão Reflex com lexical ou outro modelo do catálogo e aumente deliberadamente a pontuação mínima.</td>
 </tr>
 <tr>
-<td>A resposta do gateway ignora a coleção</td>
-<td>Aba RAG do gateway, IDs de coleções anexadas, estratégia de consulta, máximo de resultados, pontuação mínima e instruções de prompt.</td>
-<td>Teste a coleção diretamente no playground, depois teste novamente o mesmo prompt através do gateway.</td>
+<td>Resposta do gateway ignora a coleção</td>
+<td>Aba RAG do gateway, IDs de coleções anexadas, estratégia de consulta, resultados máximos, pontuação mínima e instruções de prompt.</td>
+<td>Teste a coleção diretamente no playground, depois reteste o mesmo prompt através do gateway.</td>
 </tr>
 <tr>
-<td>Importação ignora registros</td>
-<td>Nomes de documentos existentes com conteúdo inalterado, formato JSONL, campos obrigatórios ausentes ou limites de tamanho/linhas do arquivo.</td>
-<td>Valide o arquivo JSONL, altere o texto do documento quando a reindexação for desejada e divida arquivos grandes.</td>
+<td>Importação pula registros</td>
+<td>Nomes de documentos existentes com conteúdo unchangedado, formato JSONL, campos obrigatórios ausentes ou limites de tamanho/linha do arquivo.</td>
+<td>Valide o arquivo JSONL, altere o texto do documento quando a reindexação for pretendida e divida arquivos grandes.</td>
 </tr>
 <tr>
-<td>Redefinição foi feita por engano</td>
-<td>Se existe uma exportação JSONL e se os gateways ainda referenciam a mesma coleção.</td>
-<td>Reimporte a exportação mais recente na mesma coleção, aguarde a indexação e teste novamente os gateways afetados.</td>
+<td>Redefinição feita por engano</td>
+<td>Se existe exportação JSONL e se os gateways ainda referenciam a mesma coleção.</td>
+<td>Reimporte a exportação mais recente na mesma coleção, aguarde a indexação e reteste os gateways afetados.</td>
 </tr>
 <tr>
-<td>Coleção foi excluída por engano</td>
-<td>Se existe uma exportação JSONL e quais gateways, clientes MCP ou chamadores de API referenciaram o ID da coleção excluída.</td>
-<td>Recrie a coleção, reimporte a exportação mais recente, aguarde a indexação e atualize todas as integrações que usavam o antigo ID da coleção.</td>
+<td>Coleção excluída por engano</td>
+<td>Se existe exportação JSONL e quais gateways, clientes MCP ou chamadores de API referenciavam o ID da coleção excluída.</td>
+<td>Recrie a coleção, reimporte a exportação mais recente, aguarde a indexação e atualize toda integração que usava o antigo ID da coleção.</td>
 </tr>
 <tr>
-<td>Cliente MCP não pode consultar a coleção</td>
+<td>Cliente MCP não consegue consultar a coleção</td>
 <td>Chave de API, cabeçalhos gerados, ID da coleção, pontuação mínima, top‑k e comportamento de referência.</td>
 <td>Substitua credenciais de sessão por uma chave de API privada, verifique os cabeçalhos e teste a mesma consulta no playground do console.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="referência-da-api">Referência da API</h2>
-<p>Crie, inspecione, edite, exporte, redefina, exclua e reindexe coleções através da Collections API:</p>
+<h2 id="referência-de-api">Referência de API</h2>
+<p>Crie, inspecione, edite, exporte, redefina, exclua e reindexe coleções através da API de Coleções:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=List%20Collections&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20Collection&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Collection%20Details&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
@@ -551,25 +552,25 @@
 <script src="https://inference.aivax.net/apidocs?embed-target=Reset%20Collection&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Update%20Collection%20Vectors&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Delete%20Collection&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Revise a atividade de transações RAG através dos endpoints de transação da coleção:</p>
+<p>Reveja a atividade de transações RAG através dos endpoints de transação da coleção:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=List%20Collection%20RAG%20Transactions&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=View%20Collection%20RAG%20Transaction&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Export%20Collection%20RAG%20Transactions&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Gerencie documentos da coleção através da Documents API:</p>
+<p>Gerencie documentos da coleção através da API de Documentos:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Index%20Documents%20(JSONL)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Browse%20Documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Document&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20or%20Update%20Document&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Delete%20Document&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Teste a recuperação através da RAG API:</p>
+<p>Teste a recuperação através da API RAG:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=Answer%20generation&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <p>Documentação relacionada:</p>
 <ul>
-<li><a href="/docs/pt-br/rag/collections">Collections and Documents</a>: comportamento técnico de coleção e documento.</li>
-<li><a href="/docs/pt-br/rag/semantic-search">Semantic search</a>: parâmetros de consulta, reranking, referências e geração de respostas.</li>
-<li><a href="ai-gateways.html">AI Gateways</a>: anexe coleções a configurações de assistente.</li>
-<li><a href="account-balance.html">Account, balance, and multiple accounts</a>: gerencie saldo, limites e chaves de API.</li>
+<li><a href="/docs/pt-br/rag/collections">Coleções e Documentos</a>: comportamento técnico de coleções e documentos.</li>
+<li><a href="/docs/pt-br/rag/semantic-search">Busca semântica</a>: parâmetros de consulta, reranking, referências e geração de respostas.</li>
+<li><a href="ai-gateways.html">AI Gateways</a>: anexar coleções a configurações de assistentes.</li>
+<li><a href="/account-balance.md">Conta, saldo e múltiplas contas</a>: gerenciar saldo, limites e chaves de API.</li>
 </ul>
 
 </article>

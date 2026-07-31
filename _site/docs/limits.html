@@ -228,6 +228,12 @@
 <td>3,000/min</td>
 </tr>
 <tr>
+<td>Text-segmentation documents</td>
+<td>10/min and 100/day</td>
+<td>300/min</td>
+<td>2,500/min</td>
+</tr>
+<tr>
 <td>Reranking searches</td>
 <td>30/min</td>
 <td>1,000/min</td>
@@ -396,7 +402,8 @@
 </table>
 <p>For example, a Pro account normally has 200 integrated-model requests per minute. With a <code>Discounted</code> model group, the adjusted threshold is 100 requests per minute.</p>
 <p>BYOK uses a provider key configured on the gateway instead of an integrated AIVAX model, but requests still pass through AIVAX infrastructure and use the plan's BYOK limit.</p>
-<p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.</p>
+<p>The text-segmentation quota counts each item in the request's <code>documents</code> array, not each HTTP request. A request that would exceed any active window returns <code>429 Too Many Requests</code>.</p>
+<p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to the autonomous reranking endpoint and to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.</p>
 <p>The Reflex limit counts all query and document input tokens reported for a request, including cached input tokens. Requests that exceed the plan limit return <code>429 Too Many Requests</code>. See <a href="rag/reflex.html">Reflex</a> for request limits, cache behavior, and pricing.</p>
 <p>General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.</p>
 <h2 id="public-api-keys">Public API keys</h2>
