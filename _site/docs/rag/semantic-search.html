@@ -128,7 +128,7 @@
 <h1 id="semantic-search">Semantic Search</h1>
 
 <p>The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.</p>
-<p>If your application already owns the candidate document strings, use the autonomous <a href="reranking.html">Rerankers</a> API instead of creating and maintaining a RAG collection.</p>
+<p>If your application already owns the candidate document strings, consider <a href="reflex.html">Reflex</a>: a fast, collection-less RAG search that ranks supplied documents without indexing or storage. Reflex is especially useful for dynamic or request-specific candidate sets and can reuse cached query and document processing. Use managed semantic search when AIVAX should store and search a persistent corpus or when the corpus is too large to submit with every request.</p>
 <p>Search is performed in stages:</p>
 <ol>
 <li>Each query term is embedded in query mode.</li>
@@ -256,103 +256,8 @@ multa
 <li>Check whether the query language matches the document language.</li>
 <li>If the gateway rewrites questions before searching, test with the plain query path to isolate rewriting issues.</li>
 </ol>
-<h2 id="mcp">MCP</h2>
-<p>You can expose RAG collections as MCP (Model Context Protocol) tools. This lets compatible MCP clients search a collection directly.</p>
-<p>Endpoint:</p>
-<pre><code class="lang-text">https://inference.aivax.net/v1/mcp/collections
-</code></pre>
-<p>Headers:</p>
-<table>
-<thead>
-<tr>
-<th>Header</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Authorization</code></td>
-<td>Bearer token of your API key.</td>
-<td>Required</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Collection-Id</code></td>
-<td>One or more collection IDs. Use commas for multiple collections.</td>
-<td>Required</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Collection-Name</code></td>
-<td>Collection name used to generate tool names.</td>
-<td><code>collection</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Reranker</code></td>
-<td>A canonical <code>@provider/name</code>, <code>lexical</code>, <code>rrf</code>, <code>smart</code>, or <code>none</code>.</td>
-<td><code>@aivax/reflex-v1</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Top-K</code></td>
-<td>Maximum number of results to return.</td>
-<td><code>5</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Min-Score</code></td>
-<td>Minimum relevance score greater than 0 and up to 1.0.</td>
-<td><code>0.4</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Use-References</code></td>
-<td>Current server behavior enables references when this header value is <code>none</code>; omit the header to disable references.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Allow-Write</code></td>
-<td>Use <code>yes</code> to expose document write and delete tools.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Naming-Convention</code></td>
-<td><code>default</code> or <code>agent</code>.</td>
-<td><code>default</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="configuration-example">Configuration Example</h3>
-<p>Visual Studio Code:</p>
-<pre><code class="lang-json">{
-  &quot;servers&quot;: {
-    &quot;my-rag-collection-mcp&quot;: {
-      &quot;type&quot;: &quot;http&quot;,
-      &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/collections&quot;,
-      &quot;headers&quot;: {
-        &quot;Authorization&quot;: &quot;Bearer {your_api_key}&quot;,
-        &quot;X-Mcp-Collection-Id&quot;: &quot;your-collection-id&quot;,
-        &quot;X-Mcp-Collection-Name&quot;: &quot;my_collection&quot;,
-        &quot;X-Mcp-Top-K&quot;: &quot;5&quot;,
-        &quot;X-Mcp-Min-Score&quot;: &quot;0.4&quot;,
-        &quot;X-Mcp-Use-References&quot;: &quot;none&quot;
-      }
-    }
-  }
-}
-</code></pre>
-<h3 id="generated-tools">Generated Tools</h3>
-<p>With the default naming convention, the read tool is named:</p>
-<pre><code class="lang-text">{collection_name}_search
-</code></pre>
-<p>It accepts:</p>
-<ul>
-<li><code>search_terms</code> (<code>string[]</code>): one or more search terms.</li>
-</ul>
-<p>The MCP read tool enforces two request-shaping limits:</p>
-<ul>
-<li>At most 10 search terms per call.</li>
-<li>At most 500 total characters across all search terms.</li>
-</ul>
-<p>When <code>X-Mcp-Allow-Write</code> is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.</p>
-<p>When <code>X-Mcp-Allow-Write: yes</code> is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.</p>
-<p>Use collection MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to the AI Gateway and let the gateway RAG pipeline retrieve documents automatically.</p>
+<h2 id="collections-mcp">Collections MCP</h2>
+<p>To expose AIVAX collections as tools for an external MCP client, see <a href="/docs/mcp-utilities/collections-mcp">Collections MCP</a>.</p>
 
 </article>
 

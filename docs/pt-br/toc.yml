@@ -19,16 +19,20 @@
   href: rag/collections.md
 - name: Busca semântica
   href: rag/semantic-search.md
+- name: Reflex
+  href: rag/reflex.md
 - name: Segmentação de texto
   href: rag/text-segmentation.md
-- name: Re-ranqueadores
+- name: Reordenadores
   href: rag/reranking.md
+- name: Classificação de texto
+  href: generations/classification.md
 - name: Melhores práticas
   href: rag/best-practices.md
 
 - name: Inferência
 
-- name: Portais de IA
+- name: Gateways de IA
   href: inference/ai-gateway.md
 - name: Inferência
   href: inference/inference.md
@@ -41,33 +45,16 @@
 
 - name: Gerações
 
-- name: Classificação de texto
-  href: generations/classification.md
 - name: Geração de fala
   href: generations/speech.md
+- name: Transcrições de áudio
+  href: generations/audio-transcriptions.md
 - name: Descrições de mídia
   href: generations/media-descriptions.md
 - name: Geração de imagens
   href: generations/images.md
 
-- name: Ferramentas
-
-- name: Ferramentas embutidas
-  href: tools/builtin-tools.md
-- name: Funções MCP
-  href: tools/mcp.md
-- name: MCP de gerenciamento de conta
-  href: tools/account-management-mcp.md
-- name: Utilitários web MCP
-  href: tools/web-utilities-mcp.md
-- name: Documentação MCP
-  href: tools/documentation-mcp.md
-- name: Funções de protocolo
-  href: tools/protocol-functions.md
-- name: Shell
-  href: tools/shell.md
-
-- name: Recursos
+- name: Recursos e funcionalidades
 
 - name: Habilidades
   href: features/skills.md
@@ -76,32 +63,29 @@
 - name: Lote
   href: features/batch.md
 
-- name: Plataforma
+- name: Ferramentas
 
-- name: Conceitos básicos da plataforma
-  href: platform/basics.md
-- name: Contas e saldo
-  href: platform/account-balance.md
-- name: Portal de modelos
-  href: platform/models.md
-- name: Portais de IA
-  href: platform/ai-gateways.md
-- name: Coleções RAG
-  href: platform/rag-collections.md
-- name: Clientes de chat
-  href: platform/chat-clients.md
-- name: Lote
-  href: platform/batch.md
-- name: Analítica
-  href: platform/analytics.md
-- name: Conversas
-  href: platform/conversations.md
-- name: Habilidades
-  href: platform/skills.md
-- name: Registros
-  href: platform/logs.md
-- name: Memórias
-  href: platform/memories.md
+- name: Ferramentas integradas
+  href: tools/builtin-tools.md
+- name: Funções MCP
+  href: tools/mcp.md
+- name: Funções de protocolo
+  href: tools/protocol-functions.md
+- name: Shell
+  href: tools/shell.md
+
+- name: Utilitários MCP
+
+- name: Coleções MCP
+  href: mcp-utilities/collections-mcp.md
+- name: Documentação MCP
+  href: mcp-utilities/documentation-mcp.md
+- name: Gerenciamento de conta MCP
+  href: mcp-utilities/account-management-mcp.md
+- name: Utilitários web MCP
+  href: mcp-utilities/web-utilities-mcp.md
+- name: Inferência MCP
+  href: mcp-utilities/inference-mcp.md
 
 - name: Documentos legais
 

@@ -54,16 +54,6 @@ client = OpenAI(
 )
 ```
 
-## Send a key with Basic auth
-
-For Basic auth, AIVAX decodes the Basic credential and uses the password portion after the colon as the API key.
-
-```text
-username:sk-aiv-acc...
-```
-
-The username is ignored by the authentication middleware.
-
 ## Hook authentication
 
 AIVAX can authenticate outbound requests to your services, such as AI Gateway workers and server-side protocol functions.

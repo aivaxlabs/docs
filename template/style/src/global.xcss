@@ -25,6 +25,10 @@ html[data-bs-theme="dark"] {
 
     --code-block-bg: #151715;
     --code-block-border: #383834;
+
+    header.bg-body nav.navbar a.navbar-brand>img {
+        filter: invert(1);
+    }
 }
 
 html[data-bs-theme="light"] {

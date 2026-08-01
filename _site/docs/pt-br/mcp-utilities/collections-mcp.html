@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Cole&#231;&#245;es MCP | AIVAX </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="title" content="Cole&#231;&#245;es MCP | AIVAX ">
+
+
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
+
+        <link rel="preconnect" href="https://api.fontshare.com">
+        <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+        
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
+
+        <meta name="docfx:rel" content="../../../">
+
+
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/mcp-utilities/collections-mcp.md/#L1">
+        <meta name="loc:inThisArticle" content="In this article">
+        <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+        <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+        <meta name="loc:tocFilter" content="Filter by title">
+        <meta name="loc:nextArticle" content="Next">
+        <meta name="loc:prevArticle" content="Previous">
+        <meta name="loc:themeLight" content="Light">
+        <meta name="loc:themeDark" content="Dark">
+        <meta name="loc:themeAuto" content="Auto">
+        <meta name="loc:changeTheme" content="Change theme">
+        <meta name="loc:copy" content="Copy">
+        <meta name="loc:downloadPdf" content="Download PDF">
+        
+        <script type="module" src="./../../../public/docfx.min.js"></script>
+        <script>
+            const theme = localStorage.getItem('theme') || 'auto';
+            document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+        </script>
+        
+        <script src="https://unpkg.com/@cypherpotato/el/dist/el.min.js"></script>
+                
+        <script>            
+            function switchLanguage(lang) {
+                const match = window.location.pathname.match(/\/docs\/(?:(pt-br)\/)?(.*)/i);
+                const docPart = match ? match[2] : '';
+                const newPath = lang + docPart;
+                window.location.href = window.location.origin + newPath;
+            }        
+        </script>
+        
+    </head>
+    
+    
+    <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+        <header class="bg-body border-bottom">
+            <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+                <div class="container-xxl flex-nowrap">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
+                        AIVAX
+                    </a>
+                    <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navpanel">
+                        <div id="navbar">
+                            <form class="search" role="search" id="search">
+                                <i class="bi bi-search"></i>
+                                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container-xxl">
+            <div class="toc-offcanvas">
+                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <nav class="toc" id="toc"></nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="actionbar">
+                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <nav id="breadcrumb"></nav>
+
+                    <div id="language-wrapper">
+                        <a class="btn border-0 dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="true" title="Change theme">
+                            <i class="bi bi-globe"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end language-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/')">
+                                    <img src="/assets/flag/usa.png">
+                                    English
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/pt-br/')">
+                                    <img src="/assets/flag/brazil.png">
+                                    Português
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <article data-uid="">
+<h1 id="coleções-mcp">Coleções MCP</h1>
+
+<p>O Collections MCP expõe uma ou mais coleções AIVAX RAG como ferramentas para clientes MCP compatíveis. Use-o quando um modelo externo, agente, IDE ou assistente de desktop deve decidir quando pesquisar em uma base de conhecimento AIVAX.</p>
+<p>Para informações sobre como criar coleções, preparar documentos e melhorar a qualidade da recuperação, veja <a href="/docs/pt-br/rag/collections">Collections and Documents</a> e <a href="/docs/pt-br/rag/semantic-search">Semantic Search</a>.</p>
+<h2 id="endpoint">Endpoint</h2>
+<pre><code class="lang-text">https://inference.aivax.net/v1/mcp/collections
+</code></pre>
+<h2 id="headers">Headers</h2>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Authorization</code></td>
+<td>Token Bearer da sua chave de API.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>X-Mcp-Collection-Id</code></td>
+<td>Um ou mais IDs de coleção. Use vírgulas para múltiplas coleções.</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>X-Mcp-Collection-Name</code></td>
+<td>Nome da coleção usado para gerar nomes de ferramentas.</td>
+<td><code>collection</code></td>
+</tr>
+<tr>
+<td><code>X-Mcp-Reranker</code></td>
+<td>Um <code>@provider/name</code> canônico, <code>lexical</code>, <code>rrf</code>, <code>smart</code> ou <code>none</code>.</td>
+<td><code>@aivax/reflex-v1</code></td>
+</tr>
+<tr>
+<td><code>X-Mcp-Top-K</code></td>
+<td>Número máximo de resultados a retornar.</td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>X-Mcp-Min-Score</code></td>
+<td>Pontuação mínima de relevância maior que 0 e até 1.0.</td>
+<td><code>0.4</code></td>
+</tr>
+<tr>
+<td><code>X-Mcp-Use-References</code></td>
+<td>O comportamento atual do servidor habilita referências quando este cabeçalho tem o valor <code>none</code>; omita o cabeçalho para desabilitar referências.</td>
+<td>disabled</td>
+</tr>
+<tr>
+<td><code>X-Mcp-Allow-Write</code></td>
+<td>Use <code>yes</code> para expor ferramentas de escrita e exclusão de documentos.</td>
+<td>disabled</td>
+</tr>
+<tr>
+<td><code>X-Mcp-Naming-Convention</code></td>
+<td><code>default</code> ou <code>agent</code>.</td>
+<td><code>default</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration-example">Configuration example</h2>
+<p>Visual Studio Code:</p>
+<pre><code class="lang-json">{
+  &quot;servers&quot;: {
+    &quot;my-rag-collection-mcp&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/collections&quot;,
+      &quot;headers&quot;: {
+        &quot;Authorization&quot;: &quot;Bearer &lt;AIVAX_API_KEY&gt;&quot;,
+        &quot;X-Mcp-Collection-Id&quot;: &quot;&lt;COLLECTION_ID&gt;&quot;,
+        &quot;X-Mcp-Collection-Name&quot;: &quot;my_collection&quot;,
+        &quot;X-Mcp-Top-K&quot;: &quot;5&quot;,
+        &quot;X-Mcp-Min-Score&quot;: &quot;0.4&quot;,
+        &quot;X-Mcp-Use-References&quot;: &quot;none&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<h2 id="generated-tools">Generated tools</h2>
+<p>Com a convenção de nomenclatura padrão, a ferramenta de leitura recebe o nome:</p>
+<pre><code class="lang-text">{collection_name}_search
+</code></pre>
+<p>Ela aceita:</p>
+<ul>
+<li><code>search_terms</code> (<code>string[]</code>): um ou mais termos de busca.</li>
+</ul>
+<p>A ferramenta de leitura do MCP impõe dois limites de formatação de requisição:</p>
+<ul>
+<li>No máximo 10 termos de busca por chamada.</li>
+<li>No máximo 500 caracteres no total em todos os termos de busca.</li>
+</ul>
+<p>Quando <code>X-Mcp-Allow-Write</code> está desativado, somente a ferramenta de busca é exposta. Este é o modo recomendado para assistentes que precisam apenas ler uma base de conhecimento.</p>
+<p>Quando <code>X-Mcp-Allow-Write: yes</code> é enviado, o servidor também expõe ferramentas de criação/atualização e exclusão de documentos. Habilite isso apenas para clientes confiáveis, pois um modelo com acesso de escrita pode alterar o conteúdo da coleção.</p>
+<p>Use Collections MCP quando um modelo externo ou cliente MCP deve decidir quando pesquisar. Para um cliente típico de chat AIVAX, costuma ser mais simples anexar a coleção diretamente a um <a href="/docs/pt-br/inference/ai-gateway">AI Gateway</a> e deixar o pipeline RAG do gateway recuperar documentos automaticamente.</p>
+
+</article>
+
+                <div class="contribution d-print-none">
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/mcp-utilities/collections-mcp.md/#L1" class="edit-link">Edit this page</a>
+                </div>
+
+                <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+            </div>
+
+            <div class="affix">
+                <nav id="affix"></nav>
+            </div>
+        </main>
+
+        <div class="container-xxl search-results" id="search-results"></div>
+
+        <footer class="border-top text-secondary">
+            <div class="container-xxl">
+                <div class="flex-fill">
+                    <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+                </div>
+            </div>
+            <script>
+                if (window.location.pathname.startsWith('/docs/')) {
+                    document.getElementById('language-wrapper').style.display = 'block';
+                }
+                
+                function splitText(text, words) {
+                    if (!Array.isArray(words)) return [];
+                    const escapedWords = words.map(word =>
+                        word.replace(/([.*+?^${}()|[\]\\])/g, '\\$1').replace(/\s/g, '\\$&'));
+                        
+                    escapedWords.sort((a, b) => b.length - a.length || b.localeCompare(a, 'en-US', { sensitivity: 'base' }));
+                    const pattern = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+                    const splitResult = text.split(pattern);
+                    const cleanedResult = splitResult.filter(segment => segment !== '');
+                    return cleanedResult;
+                }
+                
+                function runPostHljsFunctions() {
+                    if (!document.querySelector("pre>code")) {
+                        return;
+                    }
+                    if (!document.querySelector(".hljs")) {
+                        setTimeout(runPostHljsFunctions, 100);
+                        return;
+                    }
+                    
+                    function highlightMissingCodeTokens(pre) {
+                        const tokenClasses = [
+                            "HttpResponse", "HttpRequest", "File", "Task",
+                            "Router", "Route", "StringContent", "StreamContent",
+                            "JsonContent", "RegexRoute", "HtmlContent", "CancellationTokenSource",
+                            "HttpContext", "Stream", "MultipartObject", "Thread", "Task", "Encoding",
+                            "HttpKnownHeaderNames", "HttpMethod", "List", "JsonSerializer",
+                            "LogStream", "HttpServer", "RotatingLogPolicy", "StringBuilder",
+                            "Console", "HttpRequestEventSource", "HttpWebSocket", "X509Certificate2",
+                            "AppDomain", "Path", "Directory", "HttpServerConfiguration", "ListeningHost",
+                            "ByteArrayContent", "ForwardingResolver", "IPAddress", "IPEndPoint",
+                            "HttpServerExecutionResult", "ArgumentNullException", "JsonSerializerOptions",
+                            "DbContext"
+                        ];
+                        const tokenValues = [
+                            "RouteMethod", "Guid", "RequestHandlerExecutionMode", "HttpStatusCode",
+                            "HttpStatusInformation", "DateTime", "TimeSpan", "RouterMethod",
+                            "ListeningPort"
+                        ];
+                        const tokenInterfaces = [
+                            "IRequestHandler", "IEnumerable", "ICollection", "IList"
+                        ];
+                        
+                        function runStyles(node) {
+                            if (node.nodeType === 3) {
+                                applyStyles(node);
+                                
+                            } else if (node.nodeType === 1) {
+                                
+                                const prohibitedClasses = ["hljs-comment", "hljs-string"];
+                                
+                                if (! prohibitedClasses.some(cls => node.classList.contains(cls))) {
+                                    for(const child of node.childNodes) {
+                                        runStyles(child);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        function applyStyles(textNode) {
+                            const text = textNode.textContent;
+                            const fragment = [];
+                            
+                            for (const token of splitText(text, [...tokenClasses, ...tokenValues, ...tokenInterfaces])) {
+                                if (tokenClasses.includes(token)) {
+                                    fragment.push(el("span.hljs-meta", token));
+                                    
+                                } else if (tokenValues.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-value", token));
+                                    
+                                } else if (tokenInterfaces.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-interface", token));
+                                    
+                                } else {
+                                    fragment.push(token);
+                                }
+                            }
+                            
+                            textNode.replaceWith(el.fragment(...fragment));
+                        }
+                        
+                        const code = pre.querySelector("code");
+                        if (code && (code.classList.contains("lang-csharp") || code.classList.contains("lang-cs"))) {
+                            runStyles(code);
+                        }
+                    }
+                    
+                    function addLineNumbers(pre) {
+                        const code = pre.querySelector("code");
+                        if (!code) return;
+                        
+                        var lines = (code.textContent.match(/\n/g) || []).length;
+                        
+                        if (lines <= 1) {
+                            return;
+                        }
+                        
+                        const lineElements = [];
+                        for (let i = 1; i <= lines; i++) {
+                            lineElements.push(el("span.hljs-line-number", i + "\n"));
+                        }
+                        
+                        code.prepend(el("div.line-numbers", ...lineElements));
+                        code.classList.add("has-line-numbers");
+                    }
+                                        
+                    document.querySelectorAll("pre").forEach(pre => {
+                        highlightMissingCodeTokens(pre);
+                        addLineNumbers(pre);
+                    });
+                }
+                
+                runPostHljsFunctions();
+            </script>
+        </footer>
+    </body>
+</html>

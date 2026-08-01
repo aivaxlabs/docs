@@ -1,8 +1,13 @@
 # Descrições de Mídia
 
-Use descrições de mídia quando sua aplicação precisa de texto extraído da mídia, mas não necessita de uma resposta separada de conclusão de chat. Cada item de entrada é processado independentemente com o mesmo resolvedor multimodal usado pela inferência AIVAX, e a resposta preserva a ordem de entrada.
+Use descrições de mídia para transformar uma ou mais partes de conteúdo multissensorial em texto sem solicitar uma resposta de chat separada. Cada item é processado de forma independente e a resposta preserva a ordem de entrada.
 
-Isso é útil para transcrição, extração de documentos, análise de imagens e descrição de vídeo antes de enviar o texto resultante para outro sistema. Se você também precisar que um modelo responda a uma pergunta sobre a mídia, use [Inference](/docs/pt-br/inference/inference) com `multimodal_preprocess` em vez disso.
+Esse endpoint é útil para extração de documentos, análise de imagens, descrição de vídeos, transcrição de áudio e descrição de música, som ambiente ou outros artefatos de áudio antes de enviar o texto resultante para outro sistema.
+
+Escolha a API mais especializada quando apropriado:
+
+- Use [Transcrições de Áudio](audio-transcriptions.md) para conversão dedicada de fala para texto a partir de um arquivo de áudio, modelos de transcrição selecionáveis, uma dica opcional de idioma e precificação baseada em duração.
+- Use [Inferência](/docs/pt-br/inference/inference) com `multimodal_preprocess` quando um modelo precisar responder a uma pergunta sobre a mídia após ela ser resolvida.
 
 ## Endpoint
 
@@ -11,30 +16,64 @@ Isso é útil para transcrição, extração de documentos, análise de imagens 
     <span>/api/v1/generations/descriptions</span>
 </div>
 
-A propriedade `input` é um array não vazio de partes de conteúdo multimodal compatíveis com OpenAI:
+A propriedade `input` deve ser um array não vazio de partes de conteúdo multissensorial compatíveis com OpenAI:
 
-| Tipo de conteúdo | Carga útil | Comportamento |
+| Tipo de conteúdo | Payload | Comportamento |
 | --- | --- | --- |
 | `image_url` | `image_url.url` | Produz uma descrição visual detalhada, texto visível e metadados da imagem. |
 | `input_audio` | Base64 `input_audio.data` mais `input_audio.format` | Transcreve fala e descreve música, som ambiente e outros artefatos de áudio. |
 | `video_url` | `video_url.url` | Descreve o conteúdo visual e transcreve fala ou outro áudio. |
 | `file` | `file.filename` mais `file.file_data` | Extrai a estrutura e o texto de PDF, ou usa extração local para outros formatos de documento suportados. |
 
-Todos os tipos de mídia suportados são elegíveis. URLs de arquivos remotos são baixados pela AIVAX antes da resolução e são limitados a 5 MB. A URL deve ser absoluta, segura, publicamente acessível e não deve exigir JavaScript no lado do navegador ou autenticação interativa. Você também pode enviar arquivos como valores `data:<mime-type>;base64,<content>`.
-
-Cada item de resposta tem este formato:
-
 ```json
 {
-    "type": "text",
-    "text": "The textual media description"
+  "input": [
+    {
+      "type": "input_audio",
+      "input_audio": {
+        "data": "UklGRiQAAABXQVZFZm10...",
+        "format": "wav"
+      }
+    },
+    {
+      "type": "file",
+      "file": {
+        "filename": "example.pdf",
+        "file_data": "https://example.com/example.pdf"
+      }
+    }
+  ]
 }
 ```
 
-O resolvedor armazena em cache as descrições por hash de conteúdo para a conta autenticada. Um item repetido pode reutilizar o texto em cache. O processamento de imagens, áudio, vídeo e PDF pode invocar modelos auxiliares integrados e registrar o uso de inferência; arquivos não‑PDF suportados podem usar extração de texto local em vez disso.
+URLs de arquivos remotos são baixados pelo AIVAX antes da resolução e são limitados a 5 MB. A URL deve ser absoluta, segura, publicamente acessível e não deve exigir JavaScript no navegador ou autenticação interativa. Você também pode enviar arquivos como valores `data:<mime-type>;base64,<content>`.
 
-Atualmente não há quota dedicada para descrições de mídia. As chamadas a modelos auxiliares ainda passam pelos limites de taxa de solicitações e tokens do modelo integrado, enquanto acertos de cache e extração local de arquivos não criam uma transação separada de limite de taxa multimodal. Consulte [Plans and limits](/docs/pt-br/limits) para os limites de inferência que podem ser aplicados.
+## Resposta e ordenação
+
+A resposta contém uma parte de conteúdo de texto para cada item de entrada na mesma ordem:
+
+```json
+{
+  "message": null,
+  "data": [
+    {
+      "type": "text",
+      "text": "A primeira descrição da mídia."
+    },
+    {
+      "type": "text",
+      "text": "A segunda descrição da mídia."
+    }
+  ]
+}
+```
+
+Se algum item for inválido ou não puder ser resolvido, a requisição falha ao invés de retornar um array parcial. Proces­se itens não relacionados em requisições separadas quando for necessário sucesso parcial.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Após resolver a mídia, armazene o texto retornado quando sua aplicação precisar de sua própria cópia durável. O cache do resolvedor da AIVAX é uma otimização e não deve substituir os dados de propriedade da aplicação.
+## Cache, uso e limites
+
+O resolvedor armazena em cache as descrições por hash de conteúdo para a conta autenticada. Conteúdo repetido pode reutilizar texto em cache, mas a disponibilidade do cache não é permanente. Armazene o texto retornado quando sua aplicação precisar de uma cópia durável.
+
+Processamento de imagens, áudio, vídeo e PDF pode invocar modelos auxiliares integrados e registrar uso de inferência. Arquivos não PDF suportados podem usar extração de texto local ao invés disso. Não há quota dedicada para descrições de mídia; chamadas a modelos auxiliares ainda passam pelos limites de requisição e token do modelo integrado, enquanto acertos de cache e extração local não criam uma transação de limite de taxa multissensor. separ. Consulte [Planos e limites](/docs/pt-br/limits) para os limites de inferência que podem ser aplicados.

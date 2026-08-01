@@ -1,8 +1,13 @@
 # Media Descriptions
 
-Use media descriptions when your application needs text extracted from media but does not need a separate chat-completion answer. Each input item is processed independently with the same multimodal resolver used by AIVAX inference, and the response preserves input order.
+Use media descriptions to turn one or more multimodal content parts into text without requesting a separate chat-completion answer. Each item is processed independently, and the response preserves input order.
 
-This is useful for transcription, document extraction, image analysis, and video description before sending the resulting text to another system. If you also need a model to answer a question about the media, use [Inference](/docs/inference/inference) with `multimodal_preprocess` instead.
+This endpoint is useful for document extraction, image analysis, video description, audio transcription, and describing music, ambient sound, or other audio artifacts before sending the resulting text to another system.
+
+Choose the more specialized API when appropriate:
+
+- Use [Audio Transcriptions](audio-transcriptions.md) for dedicated speech-to-text from one audio file, selectable transcription models, an optional language hint, and duration-based pricing.
+- Use [Inference](/docs/inference/inference) with `multimodal_preprocess` when a model must answer a question about the media after it is resolved.
 
 ## Endpoint
 
@@ -11,7 +16,7 @@ This is useful for transcription, document extraction, image analysis, and video
     <span>/api/v1/generations/descriptions</span>
 </div>
 
-The `input` property is a non-empty array of OpenAI-compatible multimodal content parts:
+The `input` property must be a non-empty array of OpenAI-compatible multimodal content parts:
 
 | Content type | Payload | Behavior |
 | --- | --- | --- |
@@ -20,21 +25,55 @@ The `input` property is a non-empty array of OpenAI-compatible multimodal conten
 | `video_url` | `video_url.url` | Describes visual content and transcribes speech or other audio. |
 | `file` | `file.filename` plus `file.file_data` | Extracts PDF structure and text, or uses local extraction for other supported document formats. |
 
-All supported media types are eligible. Remote file URLs are downloaded by AIVAX before resolution and are limited to 5 MB. The URL must be absolute, safe, publicly reachable, and must not require browser-side JavaScript or interactive authentication. You can also send files as `data:<mime-type>;base64,<content>` values.
-
-Each response item has this shape:
-
 ```json
 {
-    "type": "text",
-    "text": "The textual media description"
+  "input": [
+    {
+      "type": "input_audio",
+      "input_audio": {
+        "data": "UklGRiQAAABXQVZFZm10...",
+        "format": "wav"
+      }
+    },
+    {
+      "type": "file",
+      "file": {
+        "filename": "example.pdf",
+        "file_data": "https://example.com/example.pdf"
+      }
+    }
+  ]
 }
 ```
 
-The resolver caches descriptions by content hash for the authenticated account. A repeated item can reuse the cached text. Images, audio, video, and PDF processing can invoke auxiliary integrated models and record inference usage; supported non-PDF files can use local text extraction instead.
+Remote file URLs are downloaded by AIVAX before resolution and are limited to 5 MB. The URL must be absolute, safe, publicly reachable, and must not require browser-side JavaScript or interactive authentication. You can also send files as `data:<mime-type>;base64,<content>` values.
 
-There is currently no dedicated media-description quota. Auxiliary model calls still pass through integrated-model request and token rate limits, while cache hits and local file extraction do not create a separate multimodal rate-limit transaction. See [Plans and limits](/docs/limits) for the inference limits that may apply.
+## Response and ordering
+
+The response contains one text content part for each input item in the same order:
+
+```json
+{
+  "message": null,
+  "data": [
+    {
+      "type": "text",
+      "text": "The first media description."
+    },
+    {
+      "type": "text",
+      "text": "The second media description."
+    }
+  ]
+}
+```
+
+If any item is invalid or cannot be resolved, the request fails instead of returning a partial array. Process unrelated items in separate requests when partial success is required.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-After resolving media, store the returned text when your application needs its own durable copy. AIVAX's resolver cache is an optimization and should not replace application-owned data.
+## Caching, usage, and limits
+
+The resolver caches descriptions by content hash for the authenticated account. Repeated content can reuse cached text, but cache availability is not permanent. Store the returned text when your application needs its own durable copy.
+
+Images, audio, video, and PDF processing can invoke auxiliary integrated models and record inference usage. Supported non-PDF files can use local text extraction instead. There is no dedicated media-description quota; auxiliary model calls still pass through integrated-model request and token limits, while cache hits and local extraction do not create a separate multimodal rate-limit transaction. See [Plans and limits](/docs/limits) for the inference limits that may apply.

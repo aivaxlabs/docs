@@ -15,9 +15,9 @@ The request accepts:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `model` | `string` | No | Deterministic `@provider/name` identifier. Defaults to `@aivax/reflex-v1`. |
 | `query` | `string` | Yes | Non-empty text used to evaluate relevance. |
 | `documents` | `string[]` | Yes | One or more candidate document strings. The selected model's `maxDocuments` limit applies when declared. |
+| `model` | `string` | No | Deterministic `@provider/name` identifier. Defaults to `@aivax/reflex-v1`. |
 | `top_n` | `number` | No | Number of ranked documents returned. Defaults to five or the document count when fewer than five are supplied. |
 | `min_score` | `number` | No | Minimum final relevance score from `0` through `1`. Defaults to `0`. |
 
@@ -84,24 +84,13 @@ For search-unit models, the billing base comes from the exact request cost repor
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-## Read the live model catalog
+## Available rerankers
 
-Use the live catalog instead of hardcoding model names, prices, capabilities, or limits:
-
-<div class="request-item get">
-    <span>GET</span>
-    <span>/api/v1/information/rerankers-models.json</span>
-</div>
-
-Each item provides `name`, `description`, `pricingDescription`, `autonomousUse`, `technicalInformation.contextSize`, `technicalInformation.maxDocuments`, and `isDefault`.
-
-`contextSize` is the declared maximum token context, while `maxDocuments` is the maximum document count enforced by the public endpoint. A `null` value means that the catalog does not declare that limit.
-
-The current catalog includes:
+The current reranking catalog includes:
 
 | Name | Autonomous | Declared limits | Pricing |
 | --- | --- | --- | --- |
-| `@aivax/reflex-v1` | Yes | 1,948-token context; 10,000 documents | `$0.015/mtokens` cache miss; `$0.003/mtokens` cache hit |
+| `@aivax/reflex-v1` | Yes | 2,048-token context; 10,000 documents | `$0.015/mtokens` cache miss; `$0.003/mtokens` cache hit |
 | `@jina/reranker-v3` | Yes | 131,072-token context | `$0.05/mtokens` |
 | `@qwen/qwen3-reranker-0.6b` | Yes | 32,768-token context; 1,024 documents | `$0.01/mtokens` |
 | `@qwen/qwen3-reranker-4b` | Yes | 32,768-token context; 1,024 documents | `$0.025/mtokens` |
@@ -114,7 +103,7 @@ The current catalog includes:
 | `rrf` | No | RAG only | No cost |
 | `none` | No | RAG only | No cost |
 
-`smart` remains an accepted compatibility alias for `@aivax/reflex-v1`, but it is not a separate catalog model. Prefer canonical model names in stored configuration and new integrations.
+`smart` is an accepted compatibility alias for `@aivax/reflex-v1`, but it is not a separate catalog model. Prefer canonical model names in stored configuration and new integrations.
 
 ## Choosing a reranker
 

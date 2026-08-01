@@ -127,8 +127,38 @@
                 <article data-uid="">
 <h1 id="reflex">Reflex</h1>
 
-<p><code>@aivax/reflex-v1</code> is the default AIVAX reranker. It combines low-latency semantic relevance with bounded lexical evidence and caches query and document processing within each account.</p>
-<p>Use Reflex when your application owns a dynamic document set and benefits from reusing repeated queries or documents. Use <a href="semantic-search.html">Semantic Search</a> when documents should live in managed RAG collections. See <a href="reranking.html">Rerankers</a> for the full model catalog and alternatives.</p>
+<p>Reflex is AIVAX's fast, collection-less search for RAG. Send a query together with candidate document strings and receive the most relevant items in ranked order—without indexing, storing, or maintaining a RAG collection first.</p>
+<p><code>@aivax/reflex-v1</code> is also the default AIVAX reranker. It combines low-latency semantic relevance with bounded lexical evidence and caches query and document processing within each account.</p>
+<p>Use Reflex when your application already owns the candidate documents, the candidate set changes frequently, or you want a simple retrieval step without collection indexing and storage. Reusing exact queries or documents can reduce processing cost through the account-scoped cache. Because every request sends its candidate set, compare token usage for large or rarely repeated inputs instead of assuming Reflex is always cheaper.</p>
+<p>Use <a href="semantic-search.html">Semantic Search</a> when AIVAX should store, index, and search a persistent knowledge base or narrow a collection that is too large to send with every request. See <a href="reranking.html">Rerankers</a> for the full model catalog and alternatives.</p>
+<h2 id="reflex-or-semantic-search">Reflex or Semantic Search?</h2>
+<table>
+<thead>
+<tr>
+<th>Choose Reflex when...</th>
+<th>Choose Semantic Search when...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Your application already has the candidate document strings.</td>
+<td>Documents should live in managed AIVAX collections.</td>
+</tr>
+<tr>
+<td>You need retrieval immediately, without an indexing step.</td>
+<td>The knowledge base is persistent and searched repeatedly.</td>
+</tr>
+<tr>
+<td>The candidate set is dynamic or request-specific.</td>
+<td>The corpus is too large to submit as candidates on every request.</td>
+</tr>
+<tr>
+<td>You want collection-less RAG with usage-based input-token pricing and automatic cache reuse.</td>
+<td>You want collection filtering, stored metadata, document references, and managed vector retrieval.</td>
+</tr>
+</tbody>
+</table>
+<p>Reflex returns ranked text candidates; it does not generate an answer. Pass the selected documents to your language model or AI Gateway as RAG context.</p>
 <h2 id="call-reflex">Call Reflex</h2>
 <p>Send requests to <code>POST /api/v1/generations/rerank</code>. Omit <code>model</code> to use Reflex by default, or send <code>&quot;model&quot;: &quot;@aivax/reflex-v1&quot;</code> explicitly.</p>
 <table>

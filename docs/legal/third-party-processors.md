@@ -60,7 +60,7 @@ The model catalog also identifies model families or underlying providers that ma
 
 ## Data Handling Notes
 
-By default, AIVAX does not use Account Manager Input Content, Generated Content, or Conversations to train proprietary AIVAX models. Eligible RAG and Reflex search records are used for model development only when an authorized Account Manager enables the optional program described in [Data Collecting](/docs/data-collecting). Document indexing and storage are excluded.
+By default, AIVAX does not use Account Manager Input Content, Generated Content, or Conversations to train proprietary AIVAX models. Eligible anonymized RAG and reranking records are used for model development only when an authorized Account Manager enables the optional program described in [Data Collecting](/docs/data-collecting). Document indexing and storage are excluded.
 
 Third-party providers and aggregators may have their own processing, retention, abuse-monitoring, and model-improvement rules. The selected model, provider, tool, or integration determines which third party receives data for a specific request.
 

@@ -128,20 +128,20 @@
 <h1 id="busca-semântica">Busca Semântica</h1>
 
 <p>A API de busca semântica pesquisa uma ou mais coleções e retorna os documentos indexados mais relevantes para os termos de pesquisa fornecidos.</p>
-<p>Se sua aplicação já possui as strings dos documentos candidatos, use a API autônoma <a href="reranking.html">Rerankers</a> em vez de criar e manter uma coleção RAG.</p>
+<p>Se sua aplicação já possui as strings dos documentos candidatos, considere <a href="reflex.html">Reflex</a>: uma busca RAG rápida, sem coleção, que classifica documentos fornecidos sem indexação ou armazenamento. Reflex é especialmente útil para conjuntos de candidatos dinâmicos ou específicos de requisição e pode reutilizar consultas em cache e processamento de documentos. Use a busca semântica gerenciada quando a AIVAX deve armazenar e pesquisar um corpus persistente ou quando o corpus é grande demais para ser enviado a cada requisição.</p>
 <p>A busca é realizada em etapas:</p>
 <ol>
 <li>Cada termo de consulta é incorporado no modo de consulta.</li>
 <li>Os documentos são incorporados no modo de recuperação durante a indexação.</li>
-<li>A busca pré‑filtra candidatos com hashes de incorporação compactos.</li>
+<li>A busca pré-filtro os candidatos com hashes de incorporação compactos.</li>
 <li>Os documentos candidatos são pontuados com similaridade de incorporação.</li>
 <li>Candidatos abaixo de <code>minScore</code> são removidos após o cálculo da similaridade de incorporação.</li>
-<li>O reranker configurado pode ajustar a ordem restante antes de aplicar o limite final <code>top</code>.</li>
+<li>O reranker configurado pode ajustar a ordem restante antes que o limite final <code>top</code> seja aplicado.</li>
 </ol>
-<p>Depois de criar uma coleção, use seu ID de coleção no array <code>collections</code> ao pesquisar.</p>
+<p>Após criar uma coleção, use seu ID de coleção no array <code>collections</code> ao pesquisar.</p>
 <div class="WARNING">
 <h5>Warning</h5>
-<p>A busca semântica gera custo. O custo de incorporação da consulta é baseado nos tokens do termo de pesquisa. Rerankers de provedores podem adicionar custo baseado em tokens ou unidades de pesquisa para os candidatos que processam.</p>
+<p>Busca semântica tem custo. O custo de incorporação da consulta é baseado nos tokens do termo de pesquisa. Rerankers de provedores podem adicionar custo por token ou por unidade de pesquisa para os candidatos que processam.</p>
 </div>
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="parâmetros-da-solicitação">Parâmetros da Solicitação</h2>
@@ -158,19 +158,19 @@
 <tr>
 <td><code>collections</code></td>
 <td><code>string[]</code></td>
-<td>Obrigatório</td>
+<td>Required</td>
 <td>IDs das coleções a pesquisar. Cada coleção deve pertencer à conta autenticada.</td>
 </tr>
 <tr>
 <td><code>term</code></td>
 <td><code>string</code></td>
-<td>Obrigatório se <code>terms</code> estiver ausente</td>
+<td>Required if <code>terms</code> is absent</td>
 <td>Um termo de pesquisa.</td>
 </tr>
 <tr>
 <td><code>terms</code></td>
 <td><code>string[]</code></td>
-<td>Obrigatório se <code>term</code> estiver ausente</td>
+<td>Required if <code>term</code> is absent</td>
 <td>Um ou mais termos de pesquisa.</td>
 </tr>
 <tr>
@@ -183,13 +183,13 @@
 <td><code>minScore</code></td>
 <td><code>number</code></td>
 <td><code>0.2</code></td>
-<td>Pontuação mínima de similaridade de incorporação antes do reranking. A validação atual permite valores de 0.01 a 0.99.</td>
+<td>Pontuação mínima de similaridade de incorporação antes do reranking. A validação atual permite valores de 0,01 a 0,99.</td>
 </tr>
 <tr>
 <td><code>reranker</code></td>
 <td><code>string</code></td>
 <td><code>@aivax/reflex-v1</code></td>
-<td>Um <code>@provider/name</code> canônico, <code>lexical</code>, <code>rrf</code> ou <code>none</code>. O alias de compatibilidade <code>smart</code> também seleciona Reflex.</td>
+<td>Um <code>@provider/name</code> canonical, <code>lexical</code>, <code>rrf</code> ou <code>none</code>. O alias de compatibilidade <code>smart</code> também seleciona Reflex.</td>
 </tr>
 <tr>
 <td><code>includeReferences</code></td>
@@ -200,18 +200,18 @@
 </tbody>
 </table>
 <p>A resposta inclui o ID do documento correspondido, ID da coleção, nome do documento, conteúdo do documento, metadados, pontuação e documentos referenciados quando a expansão de referência está habilitada.</p>
-<h2 id="reranking">Reranking</h2>
-<p>AIVAX aplica o reranker selecionado após os candidatos vetoriais serem encontrados. O padrão é <code>@aivax/reflex-v1</code>; o alias legado <code>smart</code> resolve para o mesmo modelo. Envie <code>&quot;reranker&quot;: &quot;none&quot;</code> para preservar a ordem de similaridade vetorial, <code>lexical</code> para reranking local sensível a palavras, ou <code>rrf</code> para combinar posições de ranking vetorial e lexical.</p>
+<h2 id="reclassificação">Reclassificação</h2>
+<p>AIVAX aplica o reranker selecionado após os candidatos vetoriais serem encontrados. O padrão é <code>@aivax/reflex-v1</code>; o alias legado <code>smart</code> resolve para o mesmo modelo. Envie <code>&quot;reranker&quot;: &quot;none&quot;</code> para preservar a ordem de similaridade vetorial, <code>lexical</code> para reranking local sensível a palavras, ou <code>rrf</code> para combinar posições de rankeamento vetorial e lexical.</p>
 <p>Modelos de provedores usam identificadores determinísticos <code>@provider/name</code>. Consulte o catálogo ao vivo <code>/api/v1/information/rerankers-models.json</code> para os modelos disponíveis, preços, capacidade de uso autônomo e limites técnicos. Veja <a href="reranking.html">Rerankers</a> para a lista atual de modelos e orientações de seleção.</p>
 <p>Todos os rerankers diferentes de <code>none</code> compartilham o <a href="/docs/pt-br/limits#rag-and-collection-limits">limite de reranking-search</a> da conta.</p>
 <div class="NOTE">
 <h5>Note</h5>
-<p>Reranking não busca documentos adicionais. Ele apenas reordena candidatos já encontrados na etapa de busca vetorial.</p>
+<p>Reranking não pesquisa documentos adicionais. Ele apenas reordena os candidatos já encontrados na etapa de busca vetorial.</p>
 </div>
-<h2 id="termos-múltiplos">Termos Múltiplos</h2>
-<p>Múltiplos termos funcionam como uma união classificada pela melhor correspondência, não como uma interseção obrigatória.</p>
-<p>Cada documento é comparado com todos os termos fornecidos. A pontuação do documento usa a melhor correspondência entre esses termos. Um documento pode ter boa classificação ao corresponder fortemente a um termo, mesmo que não corresponda aos outros termos.</p>
-<p>Searching for:</p>
+<h2 id="múltiplos-termos">Múltiplos Termos</h2>
+<p>Múltiplos termos funcionam como uma união classificada pelo melhor ajuste, não como uma interseção obrigatória.</p>
+<p>Cada documento é comparado com todos os termos fornecidos. A pontuação do documento usa o melhor ajuste entre esses termos. Um documento pode ter boa classificação ao corresponder fortemente a um termo, mesmo que não corresponda aos outros termos.</p>
+<p>Exemplo:</p>
 <pre><code class="lang-text">cancelamento
 multa
 reembolso
@@ -225,12 +225,12 @@ reembolso
 <p>Isso também não significa:</p>
 <pre><code class="lang-text">documentos que existem tanto em suporte quanto em contratos
 </code></pre>
-<p>Se a intenção do usuário for uma ideia composta, envie essa ideia como um único termo:</p>
+<p>Se a intenção do usuário é uma ideia composta, envie essa ideia como um único termo:</p>
 <pre><code class="lang-text">cancelamento de assinatura anual sem multa
 </code></pre>
-<p>Use múltiplos termos quando quiser cobrir sinônimos, frases alternativas ou vários caminhos de recuperação aceitáveis.</p>
+<p>Use múltiplos termos quando quiser cobrir sinônimos, formulações alternativas ou vários caminhos de recuperação aceitáveis.</p>
 <h2 id="qualidade-da-busca">Qualidade da Busca</h2>
-<p>Uma consulta completa geralmente tem melhor desempenho do que uma lista de palavras‑chave desconexas, pois preserva a relação entre os conceitos.</p>
+<p>Uma consulta completa geralmente tem desempenho melhor do que uma lista de palavras‑chave desconectadas, pois preserva a relação entre os conceitos.</p>
 <p>Prefira:</p>
 <pre><code class="lang-text">como cancelar assinatura anual sem multa
 </code></pre>
@@ -243,115 +243,20 @@ multa
 <ul>
 <li>Valores menores de <code>minScore</code> retornam mais candidatos e mais ruído.</li>
 <li>Valores maiores de <code>minScore</code> reduzem o ruído, mas podem retornar poucos ou nenhum resultado.</li>
-<li>Valores maiores de <code>top</code> são úteis quando a resposta deve comparar várias políticas, procedimentos ou trechos de origem.</li>
+<li>Valores maiores de <code>top</code> são úteis quando a resposta deve comparar várias políticas, procedimentos ou trechos de fontes.</li>
 <li>Valores menores de <code>top</code> são melhores para respostas diretas no estilo FAQ.</li>
 </ul>
-<p>Se a busca retornar resultados ruins:</p>
+<p>Se a busca retornar resultados pobres:</p>
 <ol>
 <li>Confirme que os documentos estão indexados.</li>
 <li>Consulte a coleção diretamente antes de testar através de um AI Gateway.</li>
-<li>Compare consultas curtas, perguntas completas e frases alternativas.</li>
-<li>Verifique se o documento relevante é muito curto, muito longo ou não está auto‑contido.</li>
+<li>Compare consultas curtas, perguntas completas e formulações alternativas.</li>
+<li>Verifique se o documento relevante é muito curto, muito longo ou não é autocontido.</li>
 <li>Verifique se o idioma da consulta corresponde ao idioma do documento.</li>
 <li>Se o gateway reescrever perguntas antes da busca, teste com o caminho de consulta simples para isolar problemas de reescrita.</li>
 </ol>
-<h2 id="mcp">MCP</h2>
-<p>Você pode expor coleções RAG como ferramentas MCP (Model Context Protocol). Isso permite que clientes MCP compatíveis pesquisem uma coleção diretamente.</p>
-<p>Endpoint:</p>
-<pre><code class="lang-text">https://inference.aivax.net/v1/mcp/collections
-</code></pre>
-<p>Headers:</p>
-<table>
-<thead>
-<tr>
-<th>Cabeçalho</th>
-<th>Descrição</th>
-<th>Padrão</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Authorization</code></td>
-<td>Token Bearer da sua chave de API.</td>
-<td>Obrigatório</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Collection-Id</code></td>
-<td>Um ou mais IDs de coleção. Use vírgulas para múltiplas coleções.</td>
-<td>Obrigatório</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Collection-Name</code></td>
-<td>Nome da coleção usado para gerar nomes de ferramentas.</td>
-<td><code>collection</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Reranker</code></td>
-<td>Um <code>@provider/name</code> canônico, <code>lexical</code>, <code>rrf</code>, <code>smart</code> ou <code>none</code>.</td>
-<td><code>@aivax/reflex-v1</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Top-K</code></td>
-<td>Número máximo de resultados a retornar.</td>
-<td><code>5</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Min-Score</code></td>
-<td>Pontuação mínima de relevância maior que 0 e até 1.0.</td>
-<td><code>0.4</code></td>
-</tr>
-<tr>
-<td><code>X-Mcp-Use-References</code></td>
-<td>O comportamento atual do servidor habilita referências quando este cabeçalho tem valor <code>none</code>; omita o cabeçalho para desativar referências.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Allow-Write</code></td>
-<td>Use <code>yes</code> para expor ferramentas de escrita e exclusão de documentos.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>X-Mcp-Naming-Convention</code></td>
-<td><code>default</code> ou <code>agent</code>.</td>
-<td><code>default</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="exemplo-de-configuração">Exemplo de Configuração</h3>
-<p>Visual Studio Code:</p>
-<pre><code class="lang-json">{
-  &quot;servers&quot;: {
-    &quot;my-rag-collection-mcp&quot;: {
-      &quot;type&quot;: &quot;http&quot;,
-      &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/collections&quot;,
-      &quot;headers&quot;: {
-        &quot;Authorization&quot;: &quot;Bearer {your_api_key}&quot;,
-        &quot;X-Mcp-Collection-Id&quot;: &quot;your-collection-id&quot;,
-        &quot;X-Mcp-Collection-Name&quot;: &quot;my_collection&quot;,
-        &quot;X-Mcp-Top-K&quot;: &quot;5&quot;,
-        &quot;X-Mcp-Min-Score&quot;: &quot;0.4&quot;,
-        &quot;X-Mcp-Use-References&quot;: &quot;none&quot;
-      }
-    }
-  }
-}
-</code></pre>
-<h3 id="ferramentas-geradas">Ferramentas Geradas</h3>
-<p>Com a convenção de nomes padrão, a ferramenta de leitura é nomeada:</p>
-<pre><code class="lang-text">{collection_name}_search
-</code></pre>
-<p>Ela aceita:</p>
-<ul>
-<li><code>search_terms</code> (<code>string[]</code>): um ou mais termos de pesquisa.</li>
-</ul>
-<p>A ferramenta de leitura MCP impõe dois limites de modelagem de solicitações:</p>
-<ul>
-<li>No máximo 10 termos de pesquisa por chamada.</li>
-<li>No máximo 500 caracteres totais em todos os termos de pesquisa.</li>
-</ul>
-<p>Quando <code>X-Mcp-Allow-Write</code> está desativado, apenas a ferramenta de busca é exposta. Este é o modo recomendado para assistentes que só precisam ler uma base de conhecimento.</p>
-<p>Quando <code>X-Mcp-Allow-Write: yes</code> é enviado, o servidor também expõe ferramentas de criação/atualização e exclusão de documentos. Habilite isso apenas para clientes confiáveis, pois um modelo com acesso de escrita pode alterar o conteúdo da coleção.</p>
-<p>Use MCP de coleção quando um modelo externo ou cliente MCP deve decidir quando buscar. Para um cliente típico de chat AIVAX, costuma ser mais simples anexar a coleção diretamente ao AI Gateway e deixar que o pipeline RAG do gateway recupere documentos automaticamente.</p>
+<h2 id="coleções-mcp">Coleções MCP</h2>
+<p>Para expor coleções AIVAX como ferramentas para um cliente MCP externo, veja <a href="/docs/pt-br/mcp-utilities/collections-mcp">Collections MCP</a>.</p>
 
 </article>
 

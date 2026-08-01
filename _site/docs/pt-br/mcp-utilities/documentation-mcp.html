@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Documenta&#231;&#227;o MCP | AIVAX </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="title" content="Documenta&#231;&#227;o MCP | AIVAX ">
+
+
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
+
+        <link rel="preconnect" href="https://api.fontshare.com">
+        <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+        
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
+
+        <meta name="docfx:rel" content="../../../">
+
+
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/mcp-utilities/documentation-mcp.md/#L1">
+        <meta name="loc:inThisArticle" content="In this article">
+        <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+        <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+        <meta name="loc:tocFilter" content="Filter by title">
+        <meta name="loc:nextArticle" content="Next">
+        <meta name="loc:prevArticle" content="Previous">
+        <meta name="loc:themeLight" content="Light">
+        <meta name="loc:themeDark" content="Dark">
+        <meta name="loc:themeAuto" content="Auto">
+        <meta name="loc:changeTheme" content="Change theme">
+        <meta name="loc:copy" content="Copy">
+        <meta name="loc:downloadPdf" content="Download PDF">
+        
+        <script type="module" src="./../../../public/docfx.min.js"></script>
+        <script>
+            const theme = localStorage.getItem('theme') || 'auto';
+            document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+        </script>
+        
+        <script src="https://unpkg.com/@cypherpotato/el/dist/el.min.js"></script>
+                
+        <script>            
+            function switchLanguage(lang) {
+                const match = window.location.pathname.match(/\/docs\/(?:(pt-br)\/)?(.*)/i);
+                const docPart = match ? match[2] : '';
+                const newPath = lang + docPart;
+                window.location.href = window.location.origin + newPath;
+            }        
+        </script>
+        
+    </head>
+    
+    
+    <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+        <header class="bg-body border-bottom">
+            <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+                <div class="container-xxl flex-nowrap">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
+                        AIVAX
+                    </a>
+                    <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navpanel">
+                        <div id="navbar">
+                            <form class="search" role="search" id="search">
+                                <i class="bi bi-search"></i>
+                                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container-xxl">
+            <div class="toc-offcanvas">
+                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <nav class="toc" id="toc"></nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="actionbar">
+                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <nav id="breadcrumb"></nav>
+
+                    <div id="language-wrapper">
+                        <a class="btn border-0 dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="true" title="Change theme">
+                            <i class="bi bi-globe"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end language-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/')">
+                                    <img src="/assets/flag/usa.png">
+                                    English
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/pt-br/')">
+                                    <img src="/assets/flag/brazil.png">
+                                    Português
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <article data-uid="">
+<h1 id="documentação-mcp">Documentação MCP</h1>
+
+<p>O MCP de documentação da AIVAX expõe a documentação da AIVAX, o conteúdo de referência da API e os metadados do modelo para clientes compatíveis com MCP. Ele foi projetado para assistentes, IDEs, agentes internos e fluxos de trabalho de implementação que precisam do contexto atual da AIVAX antes de responder, escrever código, configurar um gateway ou solucionar problemas de integração.</p>
+<p>Este MCP é orientado à leitura. Não expõe uma ferramenta genérica de invocação de API de conta. Use-o quando um agente precisa entender os recursos da AIVAX, encontrar a rota correta da API, comparar as capacidades do modelo ou basear sua resposta no manual do produto. Use o <a href="/docs/pt-br/mcp-utilities/account-management-mcp">account management MCP</a> apenas quando o cliente também precisar inspecionar ou alterar recursos de conta autenticados por meio de chamadas de API.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Não configure o MCP de documentação junto com o <a href="/docs/pt-br/mcp-utilities/account-management-mcp">account management MCP</a> no mesmo cliente, a menos que você tenha um motivo específico para duplicar ferramentas. O MCP de gerenciamento de conta já inclui funções de busca na documentação, portanto, adicionar ambos os servidores geralmente cria ferramentas de documentação redundantes e pode tornar a seleção de ferramentas menos previsível.</p>
+</div>
+<h2 id="endpoint">Endpoint</h2>
+<pre><code class="lang-text">https://inference.aivax.net/v1/mcp/documentation
+</code></pre>
+<p>Autentique com uma chave de API de conta da AIVAX:</p>
+<pre><code class="lang-text">Authorization: Bearer &lt;AIVAX_PRIVATE_API_KEY&gt;
+</code></pre>
+<p>Para tipos de chave e opções de autenticação, veja <a href="/docs/pt-br/authentication">Authentication</a>.</p>
+<h2 id="exemplo-de-configuração">Exemplo de configuração</h2>
+<p>A configuração exata depende do cliente MCP. Para clientes que aceitam uma entrada de servidor HTTP streamable, configure o endpoint de documentação da AIVAX e passe a chave de API como cabeçalho.</p>
+<pre><code class="lang-json">{
+  &quot;servers&quot;: {
+    &quot;aivax-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://inference.aivax.net/v1/mcp/documentation&quot;,
+      &quot;headers&quot;: {
+        &quot;Authorization&quot;: &quot;Bearer &lt;AIVAX_PRIVATE_API_KEY&gt;&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<p>Após o cliente se conectar, ele pode descobrir as ferramentas expostas pelo servidor. Os nomes das ferramentas são prefixados com <code>aivax_</code> para que permaneçam claros quando o cliente também tem ferramentas de projeto, banco de dados, navegador ou código disponíveis.</p>
+<h2 id="ferramentas-disponíveis">Ferramentas disponíveis</h2>
+<h3 id="aivax_search_documentation"><code>aivax_search_documentation</code></h3>
+<p>Pesquisa a documentação da AIVAX e o conteúdo de referência da API. Use esta ferramenta quando o assistente precisa de contexto do produto antes de responder ou agir.</p>
+<p>A ferramenta aceita:</p>
+<table>
+<thead>
+<tr>
+<th>Argumento</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search_terms</code></td>
+<td><code>string[]</code></td>
+<td>Sim</td>
+<td>Termos de pesquisa para consultar contra a documentação da AIVAX e a referência da API.</td>
+</tr>
+<tr>
+<td><code>search_type</code></td>
+<td><code>string</code></td>
+<td>Não</td>
+<td>Escopo da pesquisa. Use <code>documentation-manual</code>, <code>api-function-reference</code> ou <code>all</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>A pesquisa pode consultar o manual de documentação, a referência de funções da API ou ambos. Ela retorna trechos relevantes da documentação em formato de texto para que o cliente possa usá-los diretamente como contexto. A pesquisa é limitada a 10 termos por chamada e 500 caracteres totais em todos os termos.</p>
+<p>Argumentos de exemplo:</p>
+<pre><code class="lang-json">{
+  &quot;search_terms&quot;: [
+    &quot;AI Gateway MCP headers&quot;,
+    &quot;tool metadata&quot;
+  ],
+  &quot;search_type&quot;: &quot;all&quot;
+}
+</code></pre>
+<p>Use frases mais completas quando a pergunta tiver uma intenção clara, como <code>semantic search reranker settings</code> ou <code>public key chat completion restrictions</code>. Use múltiplos termos quando quiser cobrir conceitos vizinhos, nomes alternativos ou termos prováveis da referência da API.</p>
+<p>As chamadas de pesquisa utilizam as cotas por conta documentadas em <a href="/docs/pt-br/limits#documentation-mcp">Plans and limits</a>.</p>
+<h3 id="aivax_list_models"><code>aivax_list_models</code></h3>
+<p>Lista os modelos de chat integrados da AIVAX e retorna um resumo legível para cada correspondência. Use-a quando o assistente precisa escolher um modelo, explicar se um modelo está disponível no plano atual, comparar capacidades ou entender preços e rotas de provedores.</p>
+<p>A ferramenta aceita:</p>
+<table>
+<thead>
+<tr>
+<th>Argumento</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name_filter</code></td>
+<td><code>string</code></td>
+<td>Não</td>
+<td>Filtro fuzzy opcional para nomes de modelo, como <code>gpt 5</code>, <code>sonnet</code>, <code>qwen coder</code> ou <code>@openai/gpt-5-mini</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>A resposta inclui descrição do modelo, estabilidade, tipo, capacidades, flags, grupo de limite de taxa, modelo de roteamento, multiplicador de assinatura, metadados técnicos, precificação de tokens e provedores. A disponibilidade é avaliada contra o plano da conta autenticada.</p>
+<p>Argumentos de exemplo:</p>
+<pre><code class="lang-json">{
+  &quot;name_filter&quot;: &quot;gemini flash&quot;
+}
+</code></pre>
+<p>As chamadas de listagem de modelos utilizam as cotas por conta documentadas em <a href="/docs/pt-br/limits#documentation-mcp">Plans and limits</a>.</p>
+<h2 id="quando-usá-lo">Quando usá-lo</h2>
+<p>Use o MCP de documentação quando quiser que um assistente responda a perguntas da AIVAX a partir de contexto respaldado por fonte, em vez de memória. Isso é útil em IDEs, ferramentas de suporte, agentes de integração, copilotos de implementação internos e fluxos de trabalho de avaliação onde o assistente deve buscar no manual antes de recomendar uma rota, parâmetro, recurso, modelo ou passo de depuração.</p>
+<p>Também é útil para fluxos de trabalho de construção de agentes. Antes de criar ou editar um <a href="/docs/pt-br/inference/ai-gateway">AI Gateway</a>, um assistente pode buscar o recurso relevante, verificar as capacidades do modelo e então explicar qual configuração deve ser usada e por quê. Por exemplo, pode comparar ferramentas embutidas, funções MCP, funções do lado do servidor, workers, coleções RAG, respostas estruturadas e pré-processamento multimodal antes de sugerir um design.</p>
+<p>Para solução de problemas, o MCP de documentação ajuda o assistente a passar de uma mensagem de erro para o provável limite do produto. Ele pode buscar regras de autenticação, limites de plano, requisitos de equilíbrio multimodal, parâmetros de pesquisa RAG, comportamento do gateway ou restrições de chave pública, e então gerar uma lista de verificação focada que reflita o comportamento da AIVAX.</p>
+<p>Para seleção de modelo, combine <code>aivax_search_documentation</code> com <code>aivax_list_models</code>. Pesquise no manual o requisito de recurso, como chamada de ferramenta, entrada de vídeo, saída estruturada ou contexto longo, depois liste os modelos correspondentes e escolha um que esteja disponível no plano da conta.</p>
+<h2 id="escolhendo-termos-de-pesquisa">Escolhendo termos de pesquisa</h2>
+<p>bons termos de pesquisa devem descrever o objetivo do usuário, não apenas uma palavra‑chave. Prefira:</p>
+<pre><code class="lang-text">public key chat completion restrictions
+semantic search include references
+AI Gateway MCP source headers
+multimodal preprocess video
+</code></pre>
+<p>Em vez de:</p>
+<pre><code class="lang-text">key
+search
+headers
+video
+</code></pre>
+<p>Quando o assistente não souber qual página contém a resposta, use <code>search_type: &quot;all&quot;</code>. Quando precisar de nomes de rotas, corpos de requisição ou comportamento de endpoint, use <code>api-function-reference</code>. Quando precisar de orientação conceitual, trade‑offs ou explicações de fluxo de trabalho, use <code>documentation-manual</code>.</p>
+<h2 id="orientação-de-segurança">Orientação de segurança</h2>
+<p>O MCP de documentação é mais seguro que uma ferramenta de gerenciamento porque é orientado à leitura, mas ainda assim se autentica como uma conta da AIVAX e pode expor a disponibilidade de modelos sensíveis ao plano da conta. Conecte‑o apenas a clientes que devam conhecer os modelos disponíveis da conta e o contexto da documentação.</p>
+<p>Use uma chave de API dedicada para cada cliente MCP. Armazene‑a no mecanismo secreto do cliente ou no armazenamento de configuração local, não no controle de versão. Se um cliente precisar apenas de documentação pública e não necessitar da disponibilidade de modelos específica da conta, prefira vincular diretamente ao site de documentação pública em vez de conectar a um servidor MCP autenticado.</p>
+
+</article>
+
+                <div class="contribution d-print-none">
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/mcp-utilities/documentation-mcp.md/#L1" class="edit-link">Edit this page</a>
+                </div>
+
+                <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+            </div>
+
+            <div class="affix">
+                <nav id="affix"></nav>
+            </div>
+        </main>
+
+        <div class="container-xxl search-results" id="search-results"></div>
+
+        <footer class="border-top text-secondary">
+            <div class="container-xxl">
+                <div class="flex-fill">
+                    <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+                </div>
+            </div>
+            <script>
+                if (window.location.pathname.startsWith('/docs/')) {
+                    document.getElementById('language-wrapper').style.display = 'block';
+                }
+                
+                function splitText(text, words) {
+                    if (!Array.isArray(words)) return [];
+                    const escapedWords = words.map(word =>
+                        word.replace(/([.*+?^${}()|[\]\\])/g, '\\$1').replace(/\s/g, '\\$&'));
+                        
+                    escapedWords.sort((a, b) => b.length - a.length || b.localeCompare(a, 'en-US', { sensitivity: 'base' }));
+                    const pattern = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+                    const splitResult = text.split(pattern);
+                    const cleanedResult = splitResult.filter(segment => segment !== '');
+                    return cleanedResult;
+                }
+                
+                function runPostHljsFunctions() {
+                    if (!document.querySelector("pre>code")) {
+                        return;
+                    }
+                    if (!document.querySelector(".hljs")) {
+                        setTimeout(runPostHljsFunctions, 100);
+                        return;
+                    }
+                    
+                    function highlightMissingCodeTokens(pre) {
+                        const tokenClasses = [
+                            "HttpResponse", "HttpRequest", "File", "Task",
+                            "Router", "Route", "StringContent", "StreamContent",
+                            "JsonContent", "RegexRoute", "HtmlContent", "CancellationTokenSource",
+                            "HttpContext", "Stream", "MultipartObject", "Thread", "Task", "Encoding",
+                            "HttpKnownHeaderNames", "HttpMethod", "List", "JsonSerializer",
+                            "LogStream", "HttpServer", "RotatingLogPolicy", "StringBuilder",
+                            "Console", "HttpRequestEventSource", "HttpWebSocket", "X509Certificate2",
+                            "AppDomain", "Path", "Directory", "HttpServerConfiguration", "ListeningHost",
+                            "ByteArrayContent", "ForwardingResolver", "IPAddress", "IPEndPoint",
+                            "HttpServerExecutionResult", "ArgumentNullException", "JsonSerializerOptions",
+                            "DbContext"
+                        ];
+                        const tokenValues = [
+                            "RouteMethod", "Guid", "RequestHandlerExecutionMode", "HttpStatusCode",
+                            "HttpStatusInformation", "DateTime", "TimeSpan", "RouterMethod",
+                            "ListeningPort"
+                        ];
+                        const tokenInterfaces = [
+                            "IRequestHandler", "IEnumerable", "ICollection", "IList"
+                        ];
+                        
+                        function runStyles(node) {
+                            if (node.nodeType === 3) {
+                                applyStyles(node);
+                                
+                            } else if (node.nodeType === 1) {
+                                
+                                const prohibitedClasses = ["hljs-comment", "hljs-string"];
+                                
+                                if (! prohibitedClasses.some(cls => node.classList.contains(cls))) {
+                                    for(const child of node.childNodes) {
+                                        runStyles(child);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        function applyStyles(textNode) {
+                            const text = textNode.textContent;
+                            const fragment = [];
+                            
+                            for (const token of splitText(text, [...tokenClasses, ...tokenValues, ...tokenInterfaces])) {
+                                if (tokenClasses.includes(token)) {
+                                    fragment.push(el("span.hljs-meta", token));
+                                    
+                                } else if (tokenValues.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-value", token));
+                                    
+                                } else if (tokenInterfaces.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-interface", token));
+                                    
+                                } else {
+                                    fragment.push(token);
+                                }
+                            }
+                            
+                            textNode.replaceWith(el.fragment(...fragment));
+                        }
+                        
+                        const code = pre.querySelector("code");
+                        if (code && (code.classList.contains("lang-csharp") || code.classList.contains("lang-cs"))) {
+                            runStyles(code);
+                        }
+                    }
+                    
+                    function addLineNumbers(pre) {
+                        const code = pre.querySelector("code");
+                        if (!code) return;
+                        
+                        var lines = (code.textContent.match(/\n/g) || []).length;
+                        
+                        if (lines <= 1) {
+                            return;
+                        }
+                        
+                        const lineElements = [];
+                        for (let i = 1; i <= lines; i++) {
+                            lineElements.push(el("span.hljs-line-number", i + "\n"));
+                        }
+                        
+                        code.prepend(el("div.line-numbers", ...lineElements));
+                        code.classList.add("has-line-numbers");
+                    }
+                                        
+                    document.querySelectorAll("pre").forEach(pre => {
+                        highlightMissingCodeTokens(pre);
+                        addLineNumbers(pre);
+                    });
+                }
+                
+                runPostHljsFunctions();
+            </script>
+        </footer>
+    </body>
+</html>

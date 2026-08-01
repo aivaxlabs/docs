@@ -127,19 +127,24 @@
                 <article data-uid="">
 <h1 id="descrições-de-mídia">Descrições de Mídia</h1>
 
-<p>Use descrições de mídia quando sua aplicação precisa de texto extraído da mídia, mas não necessita de uma resposta separada de conclusão de chat. Cada item de entrada é processado independentemente com o mesmo resolvedor multimodal usado pela inferência AIVAX, e a resposta preserva a ordem de entrada.</p>
-<p>Isso é útil para transcrição, extração de documentos, análise de imagens e descrição de vídeo antes de enviar o texto resultante para outro sistema. Se você também precisar que um modelo responda a uma pergunta sobre a mídia, use <a href="/docs/pt-br/inference/inference">Inference</a> com <code>multimodal_preprocess</code> em vez disso.</p>
+<p>Use descrições de mídia para transformar uma ou mais partes de conteúdo multissensorial em texto sem solicitar uma resposta de chat separada. Cada item é processado de forma independente e a resposta preserva a ordem de entrada.</p>
+<p>Esse endpoint é útil para extração de documentos, análise de imagens, descrição de vídeos, transcrição de áudio e descrição de música, som ambiente ou outros artefatos de áudio antes de enviar o texto resultante para outro sistema.</p>
+<p>Escolha a API mais especializada quando apropriado:</p>
+<ul>
+<li>Use <a href="audio-transcriptions.html">Transcrições de Áudio</a> para conversão dedicada de fala para texto a partir de um arquivo de áudio, modelos de transcrição selecionáveis, uma dica opcional de idioma e precificação baseada em duração.</li>
+<li>Use <a href="/docs/pt-br/inference/inference">Inferência</a> com <code>multimodal_preprocess</code> quando um modelo precisar responder a uma pergunta sobre a mídia após ela ser resolvida.</li>
+</ul>
 <h2 id="endpoint">Endpoint</h2>
 <div class="request-item post">
     <span>POST</span>
     <span>/api/v1/generations/descriptions</span>
 </div>
-<p>A propriedade <code>input</code> é um array não vazio de partes de conteúdo multimodal compatíveis com OpenAI:</p>
+<p>A propriedade <code>input</code> deve ser um array não vazio de partes de conteúdo multissensorial compatíveis com OpenAI:</p>
 <table>
 <thead>
 <tr>
 <th>Tipo de conteúdo</th>
-<th>Carga útil</th>
+<th>Payload</th>
 <th>Comportamento</th>
 </tr>
 </thead>
@@ -166,17 +171,47 @@
 </tr>
 </tbody>
 </table>
-<p>Todos os tipos de mídia suportados são elegíveis. URLs de arquivos remotos são baixados pela AIVAX antes da resolução e são limitados a 5 MB. A URL deve ser absoluta, segura, publicamente acessível e não deve exigir JavaScript no lado do navegador ou autenticação interativa. Você também pode enviar arquivos como valores <code>data:&lt;mime-type&gt;;base64,&lt;content&gt;</code>.</p>
-<p>Cada item de resposta tem este formato:</p>
 <pre><code class="lang-json">{
-    &quot;type&quot;: &quot;text&quot;,
-    &quot;text&quot;: &quot;The textual media description&quot;
+  &quot;input&quot;: [
+    {
+      &quot;type&quot;: &quot;input_audio&quot;,
+      &quot;input_audio&quot;: {
+        &quot;data&quot;: &quot;UklGRiQAAABXQVZFZm10...&quot;,
+        &quot;format&quot;: &quot;wav&quot;
+      }
+    },
+    {
+      &quot;type&quot;: &quot;file&quot;,
+      &quot;file&quot;: {
+        &quot;filename&quot;: &quot;example.pdf&quot;,
+        &quot;file_data&quot;: &quot;https://example.com/example.pdf&quot;
+      }
+    }
+  ]
 }
 </code></pre>
-<p>O resolvedor armazena em cache as descrições por hash de conteúdo para a conta autenticada. Um item repetido pode reutilizar o texto em cache. O processamento de imagens, áudio, vídeo e PDF pode invocar modelos auxiliares integrados e registrar o uso de inferência; arquivos não‑PDF suportados podem usar extração de texto local em vez disso.</p>
-<p>Atualmente não há quota dedicada para descrições de mídia. As chamadas a modelos auxiliares ainda passam pelos limites de taxa de solicitações e tokens do modelo integrado, enquanto acertos de cache e extração local de arquivos não criam uma transação separada de limite de taxa multimodal. Consulte <a href="/docs/pt-br/limits">Plans and limits</a> para os limites de inferência que podem ser aplicados.</p>
+<p>URLs de arquivos remotos são baixados pelo AIVAX antes da resolução e são limitados a 5 MB. A URL deve ser absoluta, segura, publicamente acessível e não deve exigir JavaScript no navegador ou autenticação interativa. Você também pode enviar arquivos como valores <code>data:&lt;mime-type&gt;;base64,&lt;content&gt;</code>.</p>
+<h2 id="resposta-e-ordenação">Resposta e ordenação</h2>
+<p>A resposta contém uma parte de conteúdo de texto para cada item de entrada na mesma ordem:</p>
+<pre><code class="lang-json">{
+  &quot;message&quot;: null,
+  &quot;data&quot;: [
+    {
+      &quot;type&quot;: &quot;text&quot;,
+      &quot;text&quot;: &quot;A primeira descrição da mídia.&quot;
+    },
+    {
+      &quot;type&quot;: &quot;text&quot;,
+      &quot;text&quot;: &quot;A segunda descrição da mídia.&quot;
+    }
+  ]
+}
+</code></pre>
+<p>Se algum item for inválido ou não puder ser resolvido, a requisição falha ao invés de retornar um array parcial. Proces­se itens não relacionados em requisições separadas quando for necessário sucesso parcial.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Após resolver a mídia, armazene o texto retornado quando sua aplicação precisar de sua própria cópia durável. O cache do resolvedor da AIVAX é uma otimização e não deve substituir os dados de propriedade da aplicação.</p>
+<h2 id="cache-uso-e-limites">Cache, uso e limites</h2>
+<p>O resolvedor armazena em cache as descrições por hash de conteúdo para a conta autenticada. Conteúdo repetido pode reutilizar texto em cache, mas a disponibilidade do cache não é permanente. Armazene o texto retornado quando sua aplicação precisar de uma cópia durável.</p>
+<p>Processamento de imagens, áudio, vídeo e PDF pode invocar modelos auxiliares integrados e registrar uso de inferência. Arquivos não PDF suportados podem usar extração de texto local ao invés disso. Não há quota dedicada para descrições de mídia; chamadas a modelos auxiliares ainda passam pelos limites de requisição e token do modelo integrado, enquanto acertos de cache e extração local não criam uma transação de limite de taxa multissensor. separ. Consulte <a href="/docs/pt-br/limits">Planos e limites</a> para os limites de inferência que podem ser aplicados.</p>
 
 </article>
 

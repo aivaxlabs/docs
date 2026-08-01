@@ -185,11 +185,6 @@ client = OpenAI(
     api_key=&quot;sk-aiv-acc...&quot;
 )
 </code></pre>
-<h2 id="send-a-key-with-basic-auth">Send a key with Basic auth</h2>
-<p>For Basic auth, AIVAX decodes the Basic credential and uses the password portion after the colon as the API key.</p>
-<pre><code class="lang-text">username:sk-aiv-acc...
-</code></pre>
-<p>The username is ignored by the authentication middleware.</p>
 <h2 id="hook-authentication">Hook authentication</h2>
 <p>AIVAX can authenticate outbound requests to your services, such as AI Gateway workers and server-side protocol functions.</p>
 <p>This is the reverse direction of normal API authentication. In a normal API call, your application proves it is allowed to call AIVAX by sending an API key. In a worker or protocol-function callback, AIVAX is calling your service, so your service needs a way to verify that the request really came from the account configuration you control. That is what <code>X-Request-Nonce</code> is for.</p>

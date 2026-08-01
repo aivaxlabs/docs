@@ -8,7 +8,7 @@ Collections can be searched directly through the RAG API or attached to an AI Ga
 
 Use collections to group documents that belong to the same knowledge base, product, tenant, language, or operational purpose.
 
-A collection is the container you create before adding searchable knowledge. Think of it as the boundary for a knowledge base: a support collection can hold help-center answers, a legal collection can hold contract clauses, and a product collection can hold descriptions, policies, and troubleshooting notes. Later, you can search the collection directly with the [Semantic Search](semantic-search.md) API, expose it as an MCP tool, or attach it to an [AI Gateway](/docs/inference/ai-gateway) so retrieved documents are placed into the model context automatically.
+A collection is the container you create before adding searchable knowledge. Think of it as the boundary for a knowledge base: a support collection can hold help-center answers, a legal collection can hold contract clauses, and a product collection can hold descriptions, policies, and troubleshooting notes. Later, you can search the collection directly with the [Semantic Search](semantic-search.md) API, expose it through [Collections MCP](/docs/mcp-utilities/collections-mcp), or attach it to an [AI Gateway](/docs/inference/ai-gateway) so retrieved documents are placed into the model context automatically.
 
 Each collection has:
 

@@ -11,6 +11,16 @@
       }
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "AGENTS.md",
+      "output": {
+        ".html": {
+          "relative_path": "AGENTS.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "Resource",
       "source_relative_path": "assets/diagrams/mcp-1.drawio.svg",
       "output": {
@@ -782,10 +792,10 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/generations/classification.md",
+      "source_relative_path": "docs/generations/audio-transcriptions.md",
       "output": {
         ".html": {
-          "relative_path": "docs/generations/classification.html"
+          "relative_path": "docs/generations/audio-transcriptions.html"
         }
       },
       "version": ""
@@ -922,130 +932,60 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/mcp-utilities/account-management-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/mcp-utilities/account-management-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/mcp-utilities/collections-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/mcp-utilities/collections-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/mcp-utilities/documentation-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/mcp-utilities/documentation-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/mcp-utilities/inference-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/mcp-utilities/inference-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/mcp-utilities/web-utilities-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/mcp-utilities/web-utilities-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/overview.md",
       "output": {
         ".html": {
           "relative_path": "docs/overview.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/account-balance.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/account-balance.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/ai-gateways.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/ai-gateways.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/analytics.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/analytics.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/basics.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/basics.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/batch.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/batch.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/chat-clients.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/chat-clients.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/conversations.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/conversations.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/logs.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/logs.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/memories.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/memories.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/models.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/models.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/rag-collections.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/rag-collections.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/platform/skills.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/platform/skills.html"
         }
       },
       "version": ""
@@ -1112,10 +1052,10 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/generations/classification.md",
+      "source_relative_path": "docs/pt-br/generations/audio-transcriptions.md",
       "output": {
         ".html": {
-          "relative_path": "docs/pt-br/generations/classification.html"
+          "relative_path": "docs/pt-br/generations/audio-transcriptions.html"
         }
       },
       "version": ""
@@ -1252,130 +1192,60 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/mcp-utilities/account-management-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/mcp-utilities/account-management-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/mcp-utilities/collections-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/mcp-utilities/collections-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/mcp-utilities/documentation-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/mcp-utilities/documentation-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/mcp-utilities/inference-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/mcp-utilities/inference-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/mcp-utilities/web-utilities-mcp.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/mcp-utilities/web-utilities-mcp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/pt-br/overview.md",
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/overview.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/account-balance.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/account-balance.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/ai-gateways.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/ai-gateways.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/analytics.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/analytics.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/basics.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/basics.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/batch.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/batch.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/chat-clients.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/chat-clients.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/conversations.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/conversations.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/logs.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/logs.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/memories.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/memories.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/models.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/models.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/rag-collections.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/rag-collections.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/platform/skills.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/platform/skills.html"
         }
       },
       "version": ""
@@ -1396,6 +1266,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/rag/best-practices.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/rag/classification.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/rag/classification.html"
         }
       },
       "version": ""
@@ -1465,30 +1345,10 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/tools/account-management-mcp.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/tools/account-management-mcp.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
       "source_relative_path": "docs/pt-br/tools/builtin-tools.md",
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/tools/builtin-tools.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/tools/documentation-mcp.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/pt-br/tools/documentation-mcp.html"
         }
       },
       "version": ""
@@ -1525,20 +1385,20 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/pt-br/tools/web-utilities-mcp.md",
+      "source_relative_path": "docs/rag/best-practices.md",
       "output": {
         ".html": {
-          "relative_path": "docs/pt-br/tools/web-utilities-mcp.html"
+          "relative_path": "docs/rag/best-practices.html"
         }
       },
       "version": ""
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/rag/best-practices.md",
+      "source_relative_path": "docs/rag/classification.md",
       "output": {
         ".html": {
-          "relative_path": "docs/rag/best-practices.html"
+          "relative_path": "docs/rag/classification.html"
         }
       },
       "version": ""
@@ -1608,30 +1468,10 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "docs/tools/account-management-mcp.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/tools/account-management-mcp.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
       "source_relative_path": "docs/tools/builtin-tools.md",
       "output": {
         ".html": {
           "relative_path": "docs/tools/builtin-tools.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/tools/documentation-mcp.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/tools/documentation-mcp.html"
         }
       },
       "version": ""
@@ -1662,16 +1502,6 @@
       "output": {
         ".html": {
           "relative_path": "docs/tools/shell.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "docs/tools/web-utilities-mcp.md",
-      "output": {
-        ".html": {
-          "relative_path": "docs/tools/web-utilities-mcp.html"
         }
       },
       "version": ""

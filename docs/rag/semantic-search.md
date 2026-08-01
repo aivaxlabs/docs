@@ -2,7 +2,7 @@
 
 The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.
 
-If your application already owns the candidate document strings, use the autonomous [Rerankers](reranking.md) API instead of creating and maintaining a RAG collection.
+If your application already owns the candidate document strings, consider [Reflex](reflex.md): a fast, collection-less RAG search that ranks supplied documents without indexing or storage. Reflex is especially useful for dynamic or request-specific candidate sets and can reuse cached query and document processing. Use managed semantic search when AIVAX should store and search a persistent corpus or when the corpus is too large to submit with every request.
 
 Search is performed in stages:
 
@@ -121,72 +121,6 @@ If search returns poor results:
 5. Check whether the query language matches the document language.
 6. If the gateway rewrites questions before searching, test with the plain query path to isolate rewriting issues.
 
-## MCP
+## Collections MCP
 
-You can expose RAG collections as MCP (Model Context Protocol) tools. This lets compatible MCP clients search a collection directly.
-
-Endpoint:
-
-```text
-https://inference.aivax.net/v1/mcp/collections
-```
-
-Headers:
-
-| Header | Description | Default |
-| --- | --- | --- |
-| `Authorization` | Bearer token of your API key. | Required |
-| `X-Mcp-Collection-Id` | One or more collection IDs. Use commas for multiple collections. | Required |
-| `X-Mcp-Collection-Name` | Collection name used to generate tool names. | `collection` |
-| `X-Mcp-Reranker` | A canonical `@provider/name`, `lexical`, `rrf`, `smart`, or `none`. | `@aivax/reflex-v1` |
-| `X-Mcp-Top-K` | Maximum number of results to return. | `5` |
-| `X-Mcp-Min-Score` | Minimum relevance score greater than 0 and up to 1.0. | `0.4` |
-| `X-Mcp-Use-References` | Current server behavior enables references when this header value is `none`; omit the header to disable references. | disabled |
-| `X-Mcp-Allow-Write` | Use `yes` to expose document write and delete tools. | disabled |
-| `X-Mcp-Naming-Convention` | `default` or `agent`. | `default` |
-
-### Configuration Example
-
-Visual Studio Code:
-
-```json
-{
-  "servers": {
-    "my-rag-collection-mcp": {
-      "type": "http",
-      "url": "https://inference.aivax.net/v1/mcp/collections",
-      "headers": {
-        "Authorization": "Bearer {your_api_key}",
-        "X-Mcp-Collection-Id": "your-collection-id",
-        "X-Mcp-Collection-Name": "my_collection",
-        "X-Mcp-Top-K": "5",
-        "X-Mcp-Min-Score": "0.4",
-        "X-Mcp-Use-References": "none"
-      }
-    }
-  }
-}
-```
-
-### Generated Tools
-
-With the default naming convention, the read tool is named:
-
-```text
-{collection_name}_search
-```
-
-It accepts:
-
-- `search_terms` (`string[]`): one or more search terms.
-
-The MCP read tool enforces two request-shaping limits:
-
-- At most 10 search terms per call.
-- At most 500 total characters across all search terms.
-
-When `X-Mcp-Allow-Write` is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.
-
-When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
-
-Use collection MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to the AI Gateway and let the gateway RAG pipeline retrieve documents automatically.
+To expose AIVAX collections as tools for an external MCP client, see [Collections MCP](/docs/mcp-utilities/collections-mcp).

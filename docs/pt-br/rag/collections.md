@@ -1,71 +1,137 @@
-﻿# Coleções e Documentos
+# Coleções e Documentos
 
-A AIVAX fornece um serviço autônomo de RAG (Retrieval-Augmented Generation) que permite usar documentos em conversas de chat. As coleções são grupos de documentos que possuem informações que serão obtidas posteriormente, armazenados de forma persistente em um banco de dados de similaridade.
+AIVAX fornece um serviço RAG (Retrieval-Augmented Generation) para armazenar documentos e recuperá-los posteriormente por meio de busca semântica. Uma coleção é um grupo de documentos pertencente a uma conta. Cada documento armazena texto, tags opcionais, uma referência opcional, metadados opcionais e os vetores gerados pelo trabalho de indexação.
+
+Coleções podem ser pesquisadas diretamente através da API RAG ou anexadas a um AI Gateway para que documentos recuperados sejam injetados no contexto do modelo.
 
 ## Coleções
 
-As coleções permitem você enviar, salvar, gerenciar e consultar semanticamente por documentos armazenadas nela. Você pode associar uma coleção à um gateway de IA ou consultar diretamente nela através da API.
+Use coleções para agrupar documentos que pertencem à mesma base de conhecimento, produto, locatário, idioma ou propósito operacional.
 
-Pela interface da AIVAX, é possível enviar lotes de documentos e criar documentos com chunking, e associá-los como um documento só no resultado da incorporação.
+Uma coleção é o contêiner que você cria antes de adicionar conhecimento pesquisável. Pense nela como o limite de uma base de conhecimento: uma coleção de suporte pode conter respostas do centro de ajuda, uma coleção jurídica pode conter cláusulas contratuais e uma coleção de produto pode conter descrições, políticas e notas de solução de problemas. Mais tarde, você pode pesquisar a coleção diretamente com a API de [Busca Semântica](semantic-search.md), expô-la através de [Collections MCP](/docs/pt-br/mcp-utilities/collections-mcp) ou anexá-la a um [AI Gateway](/docs/pt-br/inference/ai-gateway) para que documentos recuperados sejam inseridos automaticamente no contexto do modelo.
 
-### Custos e limites
+Cada coleção tem:
 
-Não há um limite de quantos documentos podem ser indexados em coleções. Preços de consulta e [armazenamento](/docs/pt-br/pricing) podem ocorrer na conta.
+- Um ID de coleção único.
+- Um nome.
+- Contexto opcional e tags contextuais.
+- Um conjunto de documentos.
+- Estatísticas de uso baseadas em transações RAG.
 
-O custo de pesquisa e indexação é calculado em cima dos tokens do conteúdo de cada documento quando ele é indexado ou modificado. O conteúdo é tokenizado de acordo com o modelo usado na indexação.
+O plano Gratuito atualmente permite até 5 coleções. Pro e Max não definem um limite de contagem de coleções na configuração do plano atual.
 
 ## Documentos
 
-Um documento representa um pedaço de um conhecimento. É um trecho limitado, autosuficiente e que faça sentido de forma isolada. Um documento é o componente que é indexado pelo modelo interno para ser recuperado posteriormente através de um termo de busca semântico.
+Um documento é a unidade que é indexada e recuperada. Deve ser suficientemente pequeno para corresponder a uma pergunta específica e suficientemente completo para ser útil por si só.
 
-Considere um manual sobre um carro: ele não é um documento mas sim vários documentos. Cada um destes documentos fala, de forma isolada, sobre um determinado assunto sobre esse carro, de forma que esse documento não dependa de um contexto ou informação externa para fazer sentido.
+Esta é a parte que mais afeta a qualidade do RAG. Um documento não deve ser "tudo que você sabe" sobre uma fonte; deve ser um pedaço de conhecimento que pode ficar sozinho quando o modelo o lê posteriormente. Se um usuário perguntar sobre taxas de cancelamento, o documento recuperado já deve conter a regra, produto, condição e exceção relevantes. Se a resposta só fizer sentido quando o modelo também vê a página anterior, o documento provavelmente depende demais do contexto ao redor.
 
-Um bom documento de RAG deve ser pequeno o suficiente para ser recuperado com precisão e completo o suficiente para responder uma pergunta sem depender de páginas vizinhas. Evite transformar capítulos inteiros em um único documento, porque textos longos diluem a pontuação semântica e aumentam a chance de o modelo receber contexto demais. Também evite documentos curtos demais, como uma frase solta sem título, porque eles podem perder a informação necessária para o usuário entender a resposta. Como regra prática, escreva documentos com título claro, assunto único, linguagem parecida com a pergunta do usuário e conteúdo que possa ser citado diretamente na resposta.
+Um bom documento geralmente tem:
 
-Use `docid` como identificador estável. Se você reenviar uma linha com o mesmo `docid` e texto diferente, o documento será atualizado e reindexado. Se alterar apenas `__meta`, os metadados podem ser atualizados sem reindexar o conteúdo. Use `__tags` para organização operacional, filtros e manutenção da base. Use `__ref` quando vários documentos representam partes do mesmo item lógico, como seções de uma política, trechos de um mesmo contrato ou fragmentos de um produto. Use `__meta` para dados auxiliares que sua aplicação precisa preservar, como origem, versão, categoria interna, autor, URL canônica ou data de publicação.
+- Um nome estável.
+- Texto focado.
+- Tags opcionais para filtragem ou manutenção.
+- Metadados opcionais para dados específicos da aplicação.
+- Um ID de referência opcional quando o documento é um fragmento de um item lógico maior.
 
-O `__ref` não força a expansão de referências em toda busca automaticamente. Ele cria o vínculo entre documentos, mas a consulta precisa solicitar referências para que documentos com o mesmo ID de referência sejam incluídos junto com o trecho encontrado. Na API de busca, use `includeReferences`; em gateways, habilite o uso de referências na base de conhecimento; no MCP de coleções, siga o comportamento documentado em [Busca semântica](/docs/pt-br/rag/semantic-search). Sem essa configuração, o documento encontrado ainda pode aparecer normalmente, mas os documentos relacionados por `__ref` não serão adicionados automaticamente à resposta.
+Por exemplo, um manual de carro não deve ser indexado como um único documento. Indexe documentos separados para tópicos como iniciar o veículo, verificar a pressão dos pneus, emparelhar Bluetooth e substituir um farol. Cada documento deve incluir contexto suficiente para ser lido de forma independente. Para orientações mais amplas de fragmentação, veja [Melhores Práticas para RAG](best-practices.md); para o comportamento de consultas após a indexação, veja [Busca Semântica](semantic-search.md).
 
-Ao importar documentos gerados a partir de arquivos grandes, revise o resultado do chunking antes de considerar a coleção pronta. PDFs, planilhas e páginas web podem produzir trechos com cabeçalhos repetidos, rodapés, tabelas quebradas ou textos sem contexto. Esses ruídos prejudicam tanto a busca quanto a resposta final. Quando possível, normalize o conteúdo antes de indexar: remova menus, repetições e disclaimers irrelevantes; inclua título e subtítulo no início do documento; mantenha unidades de informação juntas; e use tags para separar produtos, idiomas, versões ou públicos.
+## Campos de Documento
 
-### Enviar documentos em lote
+Ao importar documentos em JSONL, cada linha representa um documento que pode ser criado ou atualizado. O campo importante é `docid`: é o nome estável que a AIVAX usa para reconhecer o mesmo documento em importações futuras. Se você enviar o mesmo `docid` novamente com texto diferente, o documento existente será atualizado e reindexado. Se você precisar apenas preservar dados extras da aplicação, use `__meta` em vez de misturar esses dados no texto pesquisável.
 
-Para enviar uma lista em massa de documentos para uma coleção, estruture-os seguindo o formato [JSONL](https://jsonlines.org/). A estrutura é composta pelas propriedades:
+O endpoint de importação JSONL aceita um objeto JSON por linha:
 
-| Propriedade | Tipo | Descrição |
-| ----------- | ---- | --------- |
-| `docid` | `string` | Especifica o nome do documento. Útil para depuração e identificação. |
-| `text`  | `string` | O conteúdo "cru" do documento que será indexado. |
-| `__ref` | `string` | Opcional. Especifica um ID de referência do documento. |
-| `__tags` | `string[]` | Opcional. Especifica um array de tags do documento. Útil para gestão de documentos. |
-| `__meta` | `object` | Opcional. Metadados adicionais do documento. Alterações apenas em `__meta` atualizam os metadados sem reindexar o conteúdo. |
+| Propriedade | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `docid` | `string` | Sim | Nome estável do documento. Documentos existentes são correspondidos por esse valor. |
+| `text` | `string` | Sim | Conteúdo de texto a indexar semanticamente. |
+| `__ref` | `string` | Não | ID de referência usado para agrupar fragmentos relacionados. Comprimento máximo armazenado é 64 caracteres. |
+| `__tags` | `string[]` | Não | Tags para filtragem, navegação e manutenção. |
+| `__meta` | `object` | Não | Metadados retornados com detalhes do documento e resultados de busca. Metadados não são o texto semântico usado para embeddings. |
 
-A **referência** de um documento é um ID que pode ser especificado em vários documentos que precisam estar vinculados em uma busca quando um dos mesmos for correspondido em uma busca de similaridade. Por exemplo, se uma busca encontrar um documento que possui um ID de referência, e a consulta estiver configurada para incluir referências, os outros documentos da mesma coleção que compartilham o mesmo ID de referência do documento correspondido também serão incluídos na resposta da busca.
+O nome do documento deve ser não vazio e é limitado pela API a 256 caracteres. O conteúdo armazenado do documento é obrigatório e não pode ser vazio.
 
-O limite de linhas por requisição depende do plano da conta: Free aceita até 1.000 linhas, Pro até 10.000 linhas e Max até 1.000.000 linhas. Para comparar diferenças entre planos, consulte [a página de preços da AIVAX](https://aivax.net/pricing). Se precisar enviar mais documentos, separe o envio em mais requisições.
+## Inserções e Reindexação
+
+Documentos são correspondidos pelo nome (`docid` em JSONL, `Name` na API de documento único).
+
+Quando um documento é criado, ele é colocado na fila para indexação. Quando o texto de um documento existente muda, o documento é enfileirado novamente e seus vetores são regenerados pelo indexador de fundo. Quando apenas `__meta` muda, os metadados são atualizados sem reindexar o texto do documento.
+
+Valores de referência e tags são armazenados com o documento. Na API de documento único, referência, tags ou metadados alterados podem atualizar um documento existente sem reindexar quando o texto permanece inalterado. No endpoint de importação JSONL, texto alterado coloca na fila de reindexação, alterações apenas de metadados atualizam os metadados sem reindexar, e texto alterado também pode atualizar referência, tags e metadados.
+
+## Referências
+
+Use `__ref` quando múltiplos documentos representam partes da mesma fonte lógica, como:
+
+- Seções do mesmo contrato.
+- Cláusulas da mesma política.
+- Fragmentos do mesmo PDF.
+- Fragmentos de produto que devem ser mostrados juntos.
+
+Quando a expansão de referência de busca está habilitada, se um fragmento corresponder, outros documentos na mesma coleção com a mesma referência podem ser incluídos na resposta.
+
+## Limites de Importação em Lote
+
+A importação em lote é enviada como um arquivo JSONL no campo multipart `documents`.
+
+Use a importação em lote quando você já tem muitos documentos preparados fora do AIVAX, como fragmentos gerados a partir de PDFs, catálogos de produtos, políticas ou artigos do centro de ajuda. Se você está criando ou atualizando um documento a partir de um fluxo de aplicação, o endpoint de documento único abaixo costuma ser mais fácil. Se você está preparando uma grande base de conhecimento, importe em lotes, aguarde a indexação e então teste a recuperação através da [Busca Semântica](semantic-search.md) antes de anexar a coleção a um gateway de produção.
+
+Os atuais limites efetivos de linhas JSONL por requisição são:
+
+| Plano | Máximo de linhas JSONL por requisição |
+| --- | --- |
+| Gratuito | 999 |
+| Pro | 9.999 |
+| Max | 999.999 |
+
+Limites diários de inserções RAG são separados do limite de linhas por requisição:
+
+| Plano | Inserções RAG por dia |
+| --- | --- |
+| Gratuito | 500 |
+| Pro | 10.000 |
+| Max | Não limitado pela configuração atual do plano |
+
+Se sua importação exceder o limite de requisição, divida em vários arquivos. Se sua conta atingir o limite diário de inserções, aguarde o período de taxa ser redefinido ou faça upgrade do plano.
 
 > [!WARNING]
-> Esse endpoint gera custo calculado em cima dos tokens do conteúdo de cada documento.
+> A indexação gera custo com base nos tokens de texto do documento quando documentos são criados ou quando seu texto muda.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Index%20Documents%20(JSONL)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-### Gerenciamento de Documentos
+## Gerenciamento de Documento
 
-#### Criar ou modificar documento
+### Criar ou atualizar documento
 
-Esse endpoint cria ou modifica um documento a partir do seu nome. Quando um documento é modificado, seus vetores de indexação são resetados e o documento entra na fila para ser reindexado. O custo é gerado apenas quando o documento é de fato alterado.
+Este endpoint é útil quando sua aplicação gerencia documentos um de cada vez. Por exemplo, uma tela de admin pode salvar uma entrada de FAQ, uma cláusula de política ou uma nota de produto diretamente em uma coleção. A AIVAX corresponde o documento pelo nome: texto alterado coloca na fila de reindexação, enquanto alterações apenas de metadados atualizam os metadados sem reindexar o conteúdo.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20or%20Update%20Document&r=https%3A%2F%2Finference.aivax.net%2Fapidocs%23CreateorUpdateDocument"></script>
 
-#### Listar documentos
+### Listar documentos
 
-Lista todos os documentos disponíveis em uma coleção. Suporta filtro por nome, tag, referência ou conteúdo.
+O endpoint de navegação ajuda a inspecionar o que já está dentro de uma coleção. Use-o quando precisar verificar uma importação, encontrar um documento pelo nome, revisar documentos enfileirados versus indexados, ou filtrar conteúdo antes de decidir atualizar, excluir ou reimportar parte da base de conhecimento.
 
 Filtros suportados:
-- `-t "tag"`: filtra documentos que possuem essa tag.
-- `-r "reference"`: filtra documentos que possuem esse ID de referência.
-- `-c "content"`: filtra documentos que possuem esse trecho em seu conteúdo.
-- `-n "name"`: filtra documentos que possuem esse trecho em seu nome.
-- `in "id"`: filtra documentos por ID.
+
+- `-t "tag"`: documentos contendo a tag.
+- `-r "reference"`: documentos com o ID de referência exato.
+- `-c "content"`: documentos cujo conteúdo contém o trecho de texto.
+- `-n "name"`: documentos cujo nome contém o trecho de texto.
+- `-i "id"`: documentos cujo ID contém o texto fornecido.
+
+Estados suportados:
+
+- `queued`: documentos aguardando indexação.
+- `indexed`: documentos já indexados.
+
+Valores de ordenação suportados:
+
+- `created_at_asce`
+- `created_at_desc`
+- `updated_at_asce`
+- `updated_at_desc`
+- `indexed_at_asce`
+- `indexed_at_desc`
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Browse%20Documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>

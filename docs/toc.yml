@@ -19,10 +19,14 @@
   href: rag/collections.md
 - name: Semantic search
   href: rag/semantic-search.md
+- name: Reflex
+  href: rag/reflex.md
 - name: Text segmentation
   href: rag/text-segmentation.md
 - name: Rerankers
   href: rag/reranking.md
+- name: Text classification
+  href: generations/classification.md
 - name: Best practices
   href: rag/best-practices.md
 
@@ -41,33 +45,16 @@
 
 - name: Generations
 
-- name: Text classification
-  href: generations/classification.md
 - name: Speech generation
   href: generations/speech.md
+- name: Audio transcriptions
+  href: generations/audio-transcriptions.md
 - name: Media descriptions
   href: generations/media-descriptions.md
 - name: Image generation
   href: generations/images.md
 
-- name: Tools
-
-- name: Built-in tools
-  href: tools/builtin-tools.md
-- name: MCP functions
-  href: tools/mcp.md
-- name: Account management MCP
-  href: tools/account-management-mcp.md
-- name: Web utilities MCP
-  href: tools/web-utilities-mcp.md
-- name: Documentation MCP
-  href: tools/documentation-mcp.md
-- name: Protocol functions
-  href: tools/protocol-functions.md
-- name: Shell
-  href: tools/shell.md
-
-- name: Resources
+- name: Resources and features
 
 - name: Skills
   href: features/skills.md
@@ -76,32 +63,29 @@
 - name: Batch
   href: features/batch.md
 
-- name: Platform
+- name: Tools
 
-- name: Platform basics
-  href: platform/basics.md
-- name: Accounts and balance
-  href: platform/account-balance.md
-- name: Model gateway
-  href: platform/models.md
-- name: AI Gateways
-  href: platform/ai-gateways.md
-- name: RAG Collections
-  href: platform/rag-collections.md
-- name: Chat Clients
-  href: platform/chat-clients.md
-- name: Batch
-  href: platform/batch.md
-- name: Analytics
-  href: platform/analytics.md
-- name: Conversations
-  href: platform/conversations.md
-- name: Skills
-  href: platform/skills.md
-- name: Logs
-  href: platform/logs.md
-- name: Memories
-  href: platform/memories.md
+- name: Built-in tools
+  href: tools/builtin-tools.md
+- name: MCP functions
+  href: tools/mcp.md
+- name: Protocol functions
+  href: tools/protocol-functions.md
+- name: Shell
+  href: tools/shell.md
+
+- name: MCP Utilities
+
+- name: Collections MCP
+  href: mcp-utilities/collections-mcp.md
+- name: Documentation MCP
+  href: mcp-utilities/documentation-mcp.md
+- name: Account management MCP
+  href: mcp-utilities/account-management-mcp.md
+- name: Web utilities MCP
+  href: mcp-utilities/web-utilities-mcp.md
+- name: Inference MCP
+  href: mcp-utilities/inference-mcp.md
 
 - name: Legal documents
 

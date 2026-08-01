@@ -127,15 +127,15 @@
                 <article data-uid="">
 <h1 id="autenticação">Autenticação</h1>
 
-<p>AIVAX autentica solicitações de API com chaves de API de conta. O middleware de autenticação aceita chaves de:</p>
+<p>AIVAX autentica solicitações de API com chaves de API da conta. O middleware de autenticação aceita chaves de:</p>
 <ul>
 <li><code>Authorization: Bearer &lt;API_KEY&gt;</code></li>
 <li><code>Authorization: Basic &lt;BASE64_USERNAME_COLON_API_KEY&gt;</code></li>
 <li><code>?api-key=&lt;API_KEY&gt;</code></li>
 </ul>
-<p>Prefira o cabeçalho <code>Authorization</code> para chamadas de servidor para servidor. Use o parâmetro de consulta apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento.</p>
+<p>Prefira o cabeçalho <code>Authorization</code> para chamadas servidor‑para‑servidor. Use o parâmetro de consulta apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento.</p>
 <h2 id="tipos-de-chave-de-api">Tipos de chave de API</h2>
-<p>AIVAX tem duas famílias de chaves porque os casos de uso voltados para navegador e para servidor têm perfis de risco diferentes. Se o seu código roda no seu servidor, use uma chave privada e mantenha-a fora de bundles de cliente, logs e repositórios públicos. Se o seu código roda em um navegador ou outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e limite o fluxo de trabalho a rotas projetadas para acesso público.</p>
+<p>AIVAX tem duas famílias de chaves porque casos de uso voltados para navegador e para servidor têm perfis de risco diferentes. Se seu código roda no seu servidor, use uma chave privada e mantenha‑a fora de pacotes de cliente, logs e repositórios públicos. Se seu código roda em um navegador ou outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e limite o fluxo de trabalho a rotas projetadas para acesso público.</p>
 <table>
 <thead>
 <tr>
@@ -156,24 +156,24 @@
 <td>Chave pública</td>
 <td><code>pk-aiv-</code></td>
 <td>Chamadas restritas do lado do cliente para rotas explicitamente públicas.</td>
-<td>Rotas públicas de consulta/resposta RAG e chamadas restritas de conclusão de chat.</td>
+<td>Rotas públicas de consulta/resposta RAG e chamadas de conclusão de chat restritas.</td>
 </tr>
 </tbody>
 </table>
-<p>Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, reclassificação autônoma, geração de fala, descrições de mídia, geração de imagens e conclusões de chat. Quando uma chave pública chama conclusões de chat:</p>
+<p>Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e conclusões de chat. Quando uma chave pública invoca conclusões de chat:</p>
 <ul>
 <li>O <code>model</code> deve ser um UUID completo do AI Gateway; chamadas diretas de modelo integrado e a pesquisa de slug do gateway são desativadas.</li>
 <li>A pesquisa de slug do gateway está desativada.</li>
-<li>Fontes MCP, funções de protocolo, ferramentas embutidas, Bash, habilidades e opções de sentinela são removidas da solicitação.</li>
+<li>Fontes MCP, funções de protocolo, ferramentas integradas, Bash, habilidades e opções de sentinela são removidas da solicitação.</li>
 <li>Apenas estes parâmetros de solicitação são aceitos: <code>model</code>, <code>messages</code>, <code>prompt</code>, <code>temperature</code>, <code>top_p</code>, <code>top_k</code>, <code>seed</code>, <code>tools</code>, <code>reasoning_effort</code>, <code>max_completion_tokens</code> e <code>stream</code>.</li>
-<li>Limites de taxa de solicitação e token são aplicados globalmente por chave e por endereço remoto.</li>
+<li>Limites de taxa de solicitações e tokens são aplicados globalmente por chave e por endereço remoto.</li>
 </ul>
-<p>Use chaves privadas para serviços de backend, gerenciamento de contas, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo de trabalho que precise da superfície completa de ferramentas do gateway.</p>
-<p>Para a primeira solicitação do lado do servidor, continue com <a href="getting-started.html">Getting Started</a>. Se você está expondo uma experiência de navegador ou widget para usuários finais, revise <a href="/docs/pt-br/features/chat-clients">Chat Clients</a> antes de decidir se uma chave pública é o limite correto.</p>
+<p>Use chaves privadas para serviços de backend, gerenciamento de conta, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo de trabalho que necessite da superfície completa de ferramentas do gateway.</p>
+<p>Para a primeira solicitação do lado do servidor, continue com <a href="getting-started.html">Getting Started</a>. Se você estiver expondo uma experiência de navegador ou widget para usuários finais, revise <a href="/docs/pt-br/features/chat-clients">Chat Clients</a> antes de decidir se uma chave pública é o limite correto.</p>
 <h2 id="criar-e-listar-chaves">Criar e listar chaves</h2>
-<p>Chaves de API pertencem a uma conta e podem ter um rótulo, expiração e tipo. Uma chave com duração negativa não expira; chaves expiradas são rejeitadas pela autenticação e posteriormente removidas por jobs de limpeza.</p>
-<p>Crie chaves separadas para aplicações separadas. Isso torna a rotação mais segura: se uma integração for comprometida, você pode revogar apenas essa chave em vez de quebrar todos os serviços vinculados à conta. Rótulos e datas de expiração são ferramentas operacionais, não decoração; use-os para identificar quem possui a chave e quando ela deve ser revisada.</p>
-<p>Referência:</p>
+<p>Chaves de API pertencem a uma conta e podem ter um rótulo, data de expiração e tipo. Uma chave com duração negativa não expira; chaves expiradas são rejeitadas pela autenticação e posteriormente removidas por jobs de limpeza.</p>
+<p>Crie chaves separadas para aplicações separadas. Isso torna a rotação mais segura: se uma integração for comprometida, você pode revogar apenas essa chave em vez de quebrar todos os serviços vinculados à conta. Rótulos e datas de expiração são ferramentas operacionais, não decoração; use‑os para identificar quem possui a chave e quando ela deve ser revisada.</p>
+<p>Reference:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20API%20Key&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <script src="https://inference.aivax.net/apidocs?embed-target=List%20API%20Keys&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="enviar-uma-chave-com-autenticação-bearer">Enviar uma chave com autenticação Bearer</h2>
@@ -185,19 +185,14 @@ client = OpenAI(
     api_key=&quot;sk-aiv-acc...&quot;
 )
 </code></pre>
-<h2 id="enviar-uma-chave-com-autenticação-basic">Enviar uma chave com autenticação Basic</h2>
-<p>Para autenticação Basic, AIVAX decodifica a credencial Basic e usa a parte da senha após os dois pontos como a chave de API.</p>
-<pre><code class="lang-text">username:sk-aiv-acc...
-</code></pre>
-<p>O nome de usuário é ignorado pelo middleware de autenticação.</p>
 <h2 id="autenticação-de-hook">Autenticação de hook</h2>
 <p>AIVAX pode autenticar solicitações de saída para seus serviços, como workers do AI Gateway e funções de protocolo do lado do servidor.</p>
-<p>Esta é a direção reversa da autenticação normal de API. Em uma chamada de API normal, sua aplicação prova que está autorizada a chamar AIVAX enviando uma chave de API. Em um callback de worker ou função de protocolo, AIVAX está chamando seu serviço, então seu serviço precisa de um modo de verificar que a solicitação realmente veio da configuração de conta que você controla. É para isso que serve o <code>X-Request-Nonce</code>.</p>
-<p>Se sua conta tem uma chave de hook, AIVAX envia:</p>
+<p>Esta é a direção reversa da autenticação normal de API. Em uma chamada normal de API, sua aplicação prova que tem permissão para chamar a AIVAX enviando uma chave de API. Em um callback de worker ou função de protocolo, a AIVAX está chamando seu serviço, então seu serviço precisa de uma forma de verificar que a solicitação realmente veio da configuração de conta que você controla. É para isso que serve o <code>X-Request-Nonce</code>.</p>
+<p>Se sua conta tem uma chave de hook, a AIVAX envia:</p>
 <pre><code class="lang-text">X-Request-Nonce: &lt;BCrypt hash&gt;
 </code></pre>
-<p>O nonce é um hash BCrypt derivado da chave de hook da conta. Valide o cabeçalho verificando a chave de hook em texto plano armazenada contra o hash. Se a conta não tem chave de hook, o cabeçalho não é enviado.</p>
-<p>Rotacionar a chave de hook invalida segredos de validação existentes de workers e integrações.</p>
+<p>O nonce é um hash BCrypt derivado da chave de hook da conta. Valide o cabeçalho verificando a chave de hook em texto plano armazenada contra o hash. Se a conta não tiver chave de hook, o cabeçalho não é enviado.</p>
+<p>Rotacionar a chave de hook invalida segredos de validação de workers e integrações existentes.</p>
 <h3 id="exemplo-c">Exemplo C#</h3>
 <pre><code class="lang-csharp">using BCrypt.Net;
 

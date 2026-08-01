@@ -1,8 +1,23 @@
 # Reflex
 
-`@aivax/reflex-v1` is the default AIVAX reranker. It combines low-latency semantic relevance with bounded lexical evidence and caches query and document processing within each account.
+Reflex is AIVAX's fast, collection-less search for RAG. Send a query together with candidate document strings and receive the most relevant items in ranked order—without indexing, storing, or maintaining a RAG collection first.
 
-Use Reflex when your application owns a dynamic document set and benefits from reusing repeated queries or documents. Use [Semantic Search](semantic-search.md) when documents should live in managed RAG collections. See [Rerankers](reranking.md) for the full model catalog and alternatives.
+`@aivax/reflex-v1` is also the default AIVAX reranker. It combines low-latency semantic relevance with bounded lexical evidence and caches query and document processing within each account.
+
+Use Reflex when your application already owns the candidate documents, the candidate set changes frequently, or you want a simple retrieval step without collection indexing and storage. Reusing exact queries or documents can reduce processing cost through the account-scoped cache. Because every request sends its candidate set, compare token usage for large or rarely repeated inputs instead of assuming Reflex is always cheaper.
+
+Use [Semantic Search](semantic-search.md) when AIVAX should store, index, and search a persistent knowledge base or narrow a collection that is too large to send with every request. See [Rerankers](reranking.md) for the full model catalog and alternatives.
+
+## Reflex or Semantic Search?
+
+| Choose Reflex when... | Choose Semantic Search when... |
+| --- | --- |
+| Your application already has the candidate document strings. | Documents should live in managed AIVAX collections. |
+| You need retrieval immediately, without an indexing step. | The knowledge base is persistent and searched repeatedly. |
+| The candidate set is dynamic or request-specific. | The corpus is too large to submit as candidates on every request. |
+| You want collection-less RAG with usage-based input-token pricing and automatic cache reuse. | You want collection filtering, stored metadata, document references, and managed vector retrieval. |
+
+Reflex returns ranked text candidates; it does not generate an answer. Pass the selected documents to your language model or AI Gateway as RAG context.
 
 ## Call Reflex
 

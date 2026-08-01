@@ -86,51 +86,6 @@ Use a tool handler only when the selected model needs help producing tool calls.
 
 Use workers when an external system must decide something during the inference flow. A worker can block a message, rewrite context, add tools, or replace a server-side tool result. Because the worker is called in the critical path, keep it fast and deterministic.
 
-## Using with MCP
+## Inference MCP
 
-You can expose an AI Gateway as an MCP tool. This allows another MCP-capable client or model to call the gateway as a sub-agent.
-
-Configure the MCP server URL as:
-
-```text
-https://inference.aivax.net/v1/mcp/inference
-```
-
-Set these HTTP headers:
-
-| Header | Description | Required |
-|---|---|---|
-| `Authorization` | Bearer token for your AIVAX API key. | Yes |
-| `X-Mcp-Model-Name` | Integrated model tag, gateway full ID, or gateway slug. | Yes |
-| `X-Mcp-Tool-Name` | Base tool name. AIVAX converts it to identifier format and exposes `invoke_{tool_name}`. | No, defaults to `ai_model` |
-| `X-Mcp-Tool-Description` | Description shown to the MCP client. | No |
-| `X-Mcp-Tool-Title` | Friendly title shown to the MCP client. | No |
-| `X-Mcp-User` | External user ID stored in the inference context. | No |
-
-### Configuration example
-
-```json
-{
-    "servers": {
-        "my-ai-gateway-mcp": {
-            "type": "http",
-            "url": "https://inference.aivax.net/v1/mcp/inference",
-            "headers": {
-                "Authorization": "Bearer YOUR_AIVAX_API_KEY",
-                "X-Mcp-Model-Name": "my-gateway:50c3",
-                "X-Mcp-Tool-Name": "data_assistant",
-                "X-Mcp-Tool-Description": "Use this tool to invoke the specialized assistant for data analysis.",
-                "X-Mcp-Tool-Title": "Data Analysis Assistant"
-            }
-        }
-    }
-}
-```
-
-The generated MCP tool accepts one argument:
-
-| Parameter | Type | Description |
-|---|---|---|
-| `prompt` | string | Prompt sent to the configured model or gateway. |
-
-The MCP tool returns the gateway response as text and shares the same inference billing and rate-limit path as the underlying chat completion.
+To expose an integrated model or AI Gateway as a tool for an external MCP client, see [Inference MCP](/docs/mcp-utilities/inference-mcp).
