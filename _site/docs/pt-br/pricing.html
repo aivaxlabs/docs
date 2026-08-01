@@ -216,7 +216,7 @@
 <p>Isso se aplica ao uso de indexação de documentos e incorporação de consultas que usa o modelo de incorporação padrão. Reranking, quando habilitado, pode adicionar uso separado de reranking. Preços dos provedores e unidades de faturamento são expostos por <code>/api/v1/information/rerankers-models.json</code>; veja <a href="rag/reranking.html">Rerankers</a>.</p>
 <h3 id="segmentação-de-texto">Segmentação de texto</h3>
 <p>A segmentação de texto é cobrada a partir do total de tokens de entrada e saída medidos para a requisição, sendo <strong>US$0.30</strong> por milhão de tokens totais.</p>
-<p>O <a href="#usage-billing">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. O valor final aparece em <code>data.usage.cost</code> na resposta do endpoint.</p>
+<p>O <a href="#faturamento-de-uso">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. O valor final aparece em <code>data.usage.cost</code> na resposta do endpoint.</p>
 <h3 id="reflex">Reflex</h3>
 <p>Reflex tem dois preços de token de entrada:</p>
 <table>
@@ -237,7 +237,7 @@
 </tr>
 </tbody>
 </table>
-<p>O preço para acerto de cache (cache-hit) se aplica quando o processamento de entrada pode ser reutilizado. O preço para falha de cache (cache-miss) se aplica quando a entrada deve ser processada. O <a href="#usage-billing">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. Veja <a href="rag/reflex.html">Reflex</a> para limites de requisição e comportamento de cache.</p>
+<p>O preço para acerto de cache (cache-hit) se aplica quando o processamento de entrada pode ser reutilizado. O preço para falha de cache (cache-miss) se aplica quando a entrada deve ser processada. O <a href="#faturamento-de-uso">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. Veja <a href="rag/reflex.html">Reflex</a> para limites de requisição e comportamento de cache.</p>
 <h2 id="faturamento-de-armazenamento">Faturamento de armazenamento</h2>
 <p>O armazenamento é verificado antes de operações limitadas por saldo. Se o uso de armazenamento exceder a cota do plano, a requisição pode falhar com <code>402 Payment Required</code>.</p>
 <table>

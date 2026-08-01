@@ -70,7 +70,7 @@ Isso se aplica ao uso de indexação de documentos e incorporação de consultas
 
 A segmentação de texto é cobrada a partir do total de tokens de entrada e saída medidos para a requisição, sendo **US$0.30** por milhão de tokens totais.
 
-O [multiplicador de comissão do plano](#usage-billing) da conta é aplicado quando o uso é registrado. O valor final aparece em `data.usage.cost` na resposta do endpoint.
+O [multiplicador de comissão do plano](#faturamento-de-uso) da conta é aplicado quando o uso é registrado. O valor final aparece em `data.usage.cost` na resposta do endpoint.
 
 ### Reflex
 
@@ -81,7 +81,7 @@ Reflex tem dois preços de token de entrada:
 | Cache miss | **US$0.015** por milhão de tokens |
 | Cache hit | **US$0.003** por milhão de tokens |
 
-O preço para acerto de cache (cache-hit) se aplica quando o processamento de entrada pode ser reutilizado. O preço para falha de cache (cache-miss) se aplica quando a entrada deve ser processada. O [multiplicador de comissão do plano](#usage-billing) da conta é aplicado quando o uso é registrado. Veja [Reflex](rag/reflex.md) para limites de requisição e comportamento de cache.
+O preço para acerto de cache (cache-hit) se aplica quando o processamento de entrada pode ser reutilizado. O preço para falha de cache (cache-miss) se aplica quando a entrada deve ser processada. O [multiplicador de comissão do plano](#faturamento-de-uso) da conta é aplicado quando o uso é registrado. Veja [Reflex](rag/reflex.md) para limites de requisição e comportamento de cache.
 
 ## Faturamento de armazenamento
 

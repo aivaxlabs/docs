@@ -26,7 +26,7 @@
 - name: Rerankers
   href: rag/reranking.md
 - name: Text classification
-  href: generations/classification.md
+  href: rag/classification.md
 - name: Best practices
   href: rag/best-practices.md
 

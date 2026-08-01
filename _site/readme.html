@@ -121,13 +121,6 @@
 <li>Run <code>build.ps1</code> only when the translation pipeline is intentionally needed.</li>
 <li>Run <code>docfx serve</code> after a build to preview the generated site.</li>
 </ol>
-<div class="WARNING">
-<h5>Warning</h5>
-<p>Do not use DocFX 2.78.0 or later. That version changes the documentation navigation layout. See the <a href="https://github.com/dotnet/docfx/issues/10424">tracking issue</a>.</p>
-<p>Prefer DocFX 2.76.0:</p>
-<pre><code class="lang-text">dotnet tool install -g docfx --version 2.76.0
-</code></pre>
-</div>
 <p>Generated static files are written to <code>_site/</code>.</p>
 <h2 id="contribute">Contribute</h2>
 <p>Keep documentation changes focused and edit source files, not generated output.</p>

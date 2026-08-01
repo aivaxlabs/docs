@@ -10,15 +10,6 @@ Use the project scripts when possible:
 2. Run `build.ps1` only when the translation pipeline is intentionally needed.
 3. Run `docfx serve` after a build to preview the generated site.
 
-> [!WARNING]
-> Do not use DocFX 2.78.0 or later. That version changes the documentation navigation layout. See the [tracking issue](https://github.com/dotnet/docfx/issues/10424).
->
-> Prefer DocFX 2.76.0:
->
-> ```text
-> dotnet tool install -g docfx --version 2.76.0
-> ```
-
 Generated static files are written to `_site/`.
 
 ## Contribute

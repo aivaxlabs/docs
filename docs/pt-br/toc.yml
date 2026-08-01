@@ -26,13 +26,13 @@
 - name: Reordenadores
   href: rag/reranking.md
 - name: Classificação de texto
-  href: generations/classification.md
+  href: rag/classification.md
 - name: Melhores práticas
   href: rag/best-practices.md
 
 - name: Inferência
 
-- name: Gateways de IA
+- name: Portais de IA
   href: inference/ai-gateway.md
 - name: Inferência
   href: inference/inference.md
@@ -65,7 +65,7 @@
 
 - name: Ferramentas
 
-- name: Ferramentas integradas
+- name: Ferramentas embutidas
   href: tools/builtin-tools.md
 - name: Funções MCP
   href: tools/mcp.md
