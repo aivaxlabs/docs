@@ -67,7 +67,7 @@
 
 - name: Ferramentas
 
-- name: Ferramentas embutidas
+- name: Ferramentas integradas
   href: tools/builtin-tools.md
 - name: Funções MCP
   href: tools/mcp.md

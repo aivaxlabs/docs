@@ -28,7 +28,7 @@ Reference URLs are fetched and normalized by AIVAX before generation. Use public
 
 ## Billing and limits
 
-The endpoint uses the same image-generation service and [daily plan quota](/docs/limits#built-in-tool-limits) as the built-in image tool. Each prompt consumes one image-generation operation from the quota; `count` controls how many images that operation requests and affects provider cost.
+The endpoint uses the same image-generation service and [daily plan quota](/docs/limits#plan-limits) as the built-in image tool. Each prompt consumes one image-generation operation from the quota; `count` controls how many images that operation requests and affects provider cost.
 
 Generated images are stored by AIVAX and returned as URLs. Download or copy them to application-owned storage if you require a separate retention policy.
 

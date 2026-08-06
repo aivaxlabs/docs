@@ -70,7 +70,7 @@ Example arguments:
 
 Use more complete phrases when the question has a clear intent, such as `semantic search reranker settings` or `public key chat completion restrictions`. Use multiple terms when you want to cover neighboring concepts, alternate names, or likely API-reference terms.
 
-Search calls use the per-account quotas documented in [Plans and limits](/docs/limits#documentation-mcp).
+Search calls use the per-account quotas documented in [Plans and limits](/docs/limits#plan-limits).
 
 ### `aivax_list_models`
 
@@ -92,7 +92,7 @@ Example arguments:
 }
 ```
 
-Model listing calls use the per-account quotas documented in [Plans and limits](/docs/limits#documentation-mcp).
+Model listing calls use the per-account quotas documented in [Plans and limits](/docs/limits#plan-limits).
 
 ## When to use it
 

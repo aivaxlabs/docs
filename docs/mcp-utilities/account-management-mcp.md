@@ -93,7 +93,7 @@ This helps answer questions like "why does the assistant fail when users ask abo
 
 The account management MCP is also useful for maintaining RAG systems. An assistant can inspect collection-related API behavior, search the AIVAX documentation for retrieval guidance, and help compare gateway configuration with the intended retrieval flow.
 
-Use it to investigate weak retrieval, missing citations, irrelevant chunks, overly broad searches, low-quality documents, or cases where a gateway should use a collection but does not. A RAG maintenance assistant can suggest better query phrasing, chunking changes, collection organization, reranker settings, `top` and `minScore` adjustments, or when to expose a collection through [collection MCP](/docs/rag/semantic-search#mcp).
+Use it to investigate weak retrieval, missing citations, irrelevant chunks, overly broad searches, low-quality documents, or cases where a gateway should use a collection but does not. A RAG maintenance assistant can suggest better query phrasing, chunking changes, collection organization, reranker settings, `top` and `minScore` adjustments, or when to expose a collection through [collection MCP](/docs/rag/semantic-search#collections-mcp).
 
 The best workflow is iterative: inspect a failing answer, identify which context should have been retrieved, test or review the retrieval path, update documents or gateway settings, then re-check the same conversation pattern.
 
@@ -103,4 +103,4 @@ Treat this MCP server as an administrative integration. A private key connected 
 
 Use a dedicated API key for each MCP client or automation. Label it clearly, set an expiration when possible, and rotate it if the client is shared, compromised, or no longer needed. Store the key in the MCP client's secret mechanism or local configuration store, not in source control.
 
-Do not connect the account management MCP to untrusted agents, public chat clients, or user-controlled browser sessions. If a workflow only needs retrieval from a RAG collection, use the [collection MCP](/docs/rag/semantic-search#mcp) with read-only configuration. If a gateway needs to call your external tools during inference, configure [MCP functions](/docs/tools/mcp) or [server-side functions](/docs/tools/protocol-functions) instead.
+Do not connect the account management MCP to untrusted agents, public chat clients, or user-controlled browser sessions. If a workflow only needs retrieval from a RAG collection, use the [collection MCP](/docs/rag/semantic-search#collections-mcp) with read-only configuration. If a gateway needs to call your external tools during inference, configure [MCP functions](/docs/tools/mcp) or [server-side functions](/docs/tools/protocol-functions) instead.

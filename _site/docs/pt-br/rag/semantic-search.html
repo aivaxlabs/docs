@@ -127,21 +127,21 @@
                 <article data-uid="">
 <h1 id="busca-semântica">Busca Semântica</h1>
 
-<p>A API de busca semântica pesquisa uma ou mais coleções e retorna os documentos indexados mais relevantes para os termos de pesquisa fornecidos.</p>
-<p>Se sua aplicação já possui as strings dos documentos candidatos, considere <a href="reflex.html">Reflex</a>: uma busca RAG rápida, sem coleção, que classifica documentos fornecidos sem indexação ou armazenamento. Reflex é especialmente útil para conjuntos de candidatos dinâmicos ou específicos de requisição e pode reutilizar consultas em cache e processamento de documentos. Use a busca semântica gerenciada quando a AIVAX deve armazenar e pesquisar um corpus persistente ou quando o corpus é grande demais para ser enviado a cada requisição.</p>
+<p>A API de busca semântica procura em uma ou mais coleções e retorna os documentos indexados mais relevantes para os termos de busca fornecidos.</p>
+<p>Se sua aplicação já possui as strings dos documentos candidatos, considere <a href="reflex.html">Reflex</a>: uma busca RAG rápida, sem necessidade de coleção, que classifica os documentos fornecidos sem indexação ou armazenamento. O Reflex é especialmente útil para conjuntos de candidatos dinâmicos ou específicos de requisição e pode reutilizar consultas e processamento de documentos em cache. Use a busca semântica gerenciada quando a AIVAX deve armazenar e buscar um corpus persistente ou quando o corpus é grande demais para ser enviado a cada requisição.</p>
 <p>A busca é realizada em etapas:</p>
 <ol>
 <li>Cada termo de consulta é incorporado no modo de consulta.</li>
-<li>Os documentos são incorporados no modo de recuperação durante a indexação.</li>
-<li>A busca pré-filtro os candidatos com hashes de incorporação compactos.</li>
-<li>Os documentos candidatos são pontuados com similaridade de incorporação.</li>
+<li>Documentos são incorporados no modo de recuperação durante a indexação.</li>
+<li>A busca pré‑filtra candidatos com hashes de incorporação compactos.</li>
+<li>Documentos candidatos são pontuados com similaridade de incorporação.</li>
 <li>Candidatos abaixo de <code>minScore</code> são removidos após o cálculo da similaridade de incorporação.</li>
-<li>O reranker configurado pode ajustar a ordem restante antes que o limite final <code>top</code> seja aplicado.</li>
+<li>O reranker configurado pode ajustar a ordem restante antes de aplicar o limite final <code>top</code>.</li>
 </ol>
-<p>Após criar uma coleção, use seu ID de coleção no array <code>collections</code> ao pesquisar.</p>
+<p>Após criar uma coleção, use seu ID de coleção no array <code>collections</code> ao buscar.</p>
 <div class="WARNING">
 <h5>Warning</h5>
-<p>Busca semântica tem custo. O custo de incorporação da consulta é baseado nos tokens do termo de pesquisa. Rerankers de provedores podem adicionar custo por token ou por unidade de pesquisa para os candidatos que processam.</p>
+<p>A busca semântica tem custo. O custo da incorporação da consulta baseia‑se nos tokens do termo de busca. Rerankers de provedores podem adicionar custo por token ou por unidade de busca para os candidatos que processam.</p>
 </div>
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="parâmetros-da-solicitação">Parâmetros da Solicitação</h2>
@@ -159,19 +159,19 @@
 <td><code>collections</code></td>
 <td><code>string[]</code></td>
 <td>Required</td>
-<td>IDs das coleções a pesquisar. Cada coleção deve pertencer à conta autenticada.</td>
+<td>IDs das coleções a serem pesquisadas. Cada coleção deve pertencer à conta autenticada.</td>
 </tr>
 <tr>
 <td><code>term</code></td>
 <td><code>string</code></td>
 <td>Required if <code>terms</code> is absent</td>
-<td>Um termo de pesquisa.</td>
+<td>Um termo de busca.</td>
 </tr>
 <tr>
 <td><code>terms</code></td>
 <td><code>string[]</code></td>
 <td>Required if <code>term</code> is absent</td>
-<td>Um ou mais termos de pesquisa.</td>
+<td>Um ou mais termos de busca.</td>
 </tr>
 <tr>
 <td><code>top</code></td>
@@ -183,13 +183,13 @@
 <td><code>minScore</code></td>
 <td><code>number</code></td>
 <td><code>0.2</code></td>
-<td>Pontuação mínima de similaridade de incorporação antes do reranking. A validação atual permite valores de 0,01 a 0,99.</td>
+<td>Pontuação mínima de similaridade de incorporação antes do reranking. A validação atual permite valores de 0.01 a 0.99.</td>
 </tr>
 <tr>
 <td><code>reranker</code></td>
 <td><code>string</code></td>
 <td><code>@aivax/reflex-v1</code></td>
-<td>Um <code>@provider/name</code> canonical, <code>lexical</code>, <code>rrf</code> ou <code>none</code>. O alias de compatibilidade <code>smart</code> também seleciona Reflex.</td>
+<td>Um <code>@provider/name</code> can, <code>lexical</code>, <code>rrf</code> ou <code>none</code>. O alias de compatibilidade <code>smart</code> também seleciona o Reflex.</td>
 </tr>
 <tr>
 <td><code>includeReferences</code></td>
@@ -200,18 +200,19 @@
 </tbody>
 </table>
 <p>A resposta inclui o ID do documento correspondido, ID da coleção, nome do documento, conteúdo do documento, metadados, pontuação e documentos referenciados quando a expansão de referência está habilitada.</p>
-<h2 id="reclassificação">Reclassificação</h2>
-<p>AIVAX aplica o reranker selecionado após os candidatos vetoriais serem encontrados. O padrão é <code>@aivax/reflex-v1</code>; o alias legado <code>smart</code> resolve para o mesmo modelo. Envie <code>&quot;reranker&quot;: &quot;none&quot;</code> para preservar a ordem de similaridade vetorial, <code>lexical</code> para reranking local sensível a palavras, ou <code>rrf</code> para combinar posições de rankeamento vetorial e lexical.</p>
+<h2 id="reranking">Reranking</h2>
+<p>A AIVAX aplica o reranker selecionado após os candidatos vetoriais serem encontrados. O padrão é <code>@aivax/reflex-v1</code>; o alias legado <code>smart</code> resolve para o mesmo modelo. Envie <code>&quot;reranker&quot;: &quot;none&quot;</code> para preservar a ordem de similaridade vetorial, <code>lexical</code> para reranking local sensível a palavras ou <code>rrf</code> para fundir posições de classificação vetorial e lexical.</p>
 <p>Modelos de provedores usam identificadores determinísticos <code>@provider/name</code>. Consulte o catálogo ao vivo <code>/api/v1/information/rerankers-models.json</code> para os modelos disponíveis, preços, capacidade de uso autônomo e limites técnicos. Veja <a href="reranking.html">Rerankers</a> para a lista atual de modelos e orientações de seleção.</p>
-<p>Todos os rerankers diferentes de <code>none</code> compartilham o <a href="/docs/pt-br/limits#rag-and-collection-limits">limite de reranking-search</a> da conta.</p>
+<p>Todos os rerankers diferentes de <code>none</code> compartilham o <a href="/docs/pt-br/limits#plan-limits">limite de reranking-search</a> da conta.</p>
 <div class="NOTE">
 <h5>Note</h5>
-<p>Reranking não pesquisa documentos adicionais. Ele apenas reordena os candidatos já encontrados na etapa de busca vetorial.</p>
+<p>O reranking não busca documentos adicionais. Ele apenas reordena candidatos já encontrados na etapa de busca vetorial.</p>
 </div>
-<h2 id="múltiplos-termos">Múltiplos Termos</h2>
-<p>Múltiplos termos funcionam como uma união classificada pelo melhor ajuste, não como uma interseção obrigatória.</p>
-<p>Cada documento é comparado com todos os termos fornecidos. A pontuação do documento usa o melhor ajuste entre esses termos. Um documento pode ter boa classificação ao corresponder fortemente a um termo, mesmo que não corresponda aos outros termos.</p>
+<h2 id="termos-múltiplos">Termos Múltiplos</h2>
+<p>Termos múltiplos funcionam como uma união classificada pelo melhor ajuste, não como uma interseção obrigatória.</p>
+<p>Cada documento é comparado com todos os termos fornecidos. A pontuação do documento usa o melhor ajuste entre esses termos. Um documento pode obter boa classificação ao corresponder fortemente a um termo, mesmo que não corresponda aos outros termos.</p>
 <p>Exemplo:</p>
+<p>Procurando por:</p>
 <pre><code class="lang-text">cancelamento
 multa
 reembolso
@@ -219,18 +220,18 @@ reembolso
 <p>nas coleções <code>suporte</code> e <code>contratos</code> significa:</p>
 <pre><code class="lang-text">melhores documentos de suporte ou contrato que correspondam a cancelamento ou multa ou reembolso
 </code></pre>
-<p>Isso não significa:</p>
+<p>Não significa:</p>
 <pre><code class="lang-text">documentos que correspondam a cancelamento e multa e reembolso ao mesmo tempo
 </code></pre>
-<p>Isso também não significa:</p>
-<pre><code class="lang-text">documentos que existem tanto em suporte quanto em contratos
+<p>Nem significa:</p>
+<pre><code class="lang-text">documentos que existam tanto em suporte quanto em contratos
 </code></pre>
-<p>Se a intenção do usuário é uma ideia composta, envie essa ideia como um único termo:</p>
+<p>Se a intenção do usuário for uma ideia composta, envie essa ideia como um único termo:</p>
 <pre><code class="lang-text">cancelamento de assinatura anual sem multa
 </code></pre>
-<p>Use múltiplos termos quando quiser cobrir sinônimos, formulações alternativas ou vários caminhos de recuperação aceitáveis.</p>
+<p>Use termos múltiplos quando quiser cobrir sinônimos, formulações alternativas ou vários caminhos de recuperação aceitáveis.</p>
 <h2 id="qualidade-da-busca">Qualidade da Busca</h2>
-<p>Uma consulta completa geralmente tem desempenho melhor do que uma lista de palavras‑chave desconectadas, pois preserva a relação entre os conceitos.</p>
+<p>Uma consulta completa geralmente tem desempenho melhor que uma lista de palavras‑chave desconexas porque preserva a relação entre os conceitos.</p>
 <p>Prefira:</p>
 <pre><code class="lang-text">como cancelar assinatura anual sem multa
 </code></pre>
@@ -243,20 +244,20 @@ multa
 <ul>
 <li>Valores menores de <code>minScore</code> retornam mais candidatos e mais ruído.</li>
 <li>Valores maiores de <code>minScore</code> reduzem o ruído, mas podem retornar poucos ou nenhum resultado.</li>
-<li>Valores maiores de <code>top</code> são úteis quando a resposta deve comparar várias políticas, procedimentos ou trechos de fontes.</li>
+<li>Valores maiores de <code>top</code> são úteis quando a resposta precisa comparar várias políticas, procedimentos ou trechos de origem.</li>
 <li>Valores menores de <code>top</code> são melhores para respostas diretas no estilo FAQ.</li>
 </ul>
-<p>Se a busca retornar resultados pobres:</p>
+<p>Se a busca retornar resultados insatisfatórios:</p>
 <ol>
 <li>Confirme que os documentos estão indexados.</li>
 <li>Consulte a coleção diretamente antes de testar através de um AI Gateway.</li>
 <li>Compare consultas curtas, perguntas completas e formulações alternativas.</li>
-<li>Verifique se o documento relevante é muito curto, muito longo ou não é autocontido.</li>
+<li>Verifique se o documento relevante é muito curto, muito longo ou não está auto‑contido.</li>
 <li>Verifique se o idioma da consulta corresponde ao idioma do documento.</li>
 <li>Se o gateway reescrever perguntas antes da busca, teste com o caminho de consulta simples para isolar problemas de reescrita.</li>
 </ol>
-<h2 id="coleções-mcp">Coleções MCP</h2>
-<p>Para expor coleções AIVAX como ferramentas para um cliente MCP externo, veja <a href="/docs/pt-br/mcp-utilities/collections-mcp">Collections MCP</a>.</p>
+<h2 id="mcp-de-coleções">MCP de Coleções</h2>
+<p>Para expor coleções da AIVAX como ferramentas para um cliente MCP externo, veja <a href="/docs/pt-br/mcp-utilities/collections-mcp">Collections MCP</a>.</p>
 
 </article>
 

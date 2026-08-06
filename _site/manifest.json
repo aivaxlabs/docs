@@ -1,5 +1,5 @@
 {
-  "source_base_path": "C:/Code/www/docs-docfx",
+  "source_base_path": "C:/Code/repos/OpenIndexer/OpenIndexer.Alpha2/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -882,6 +882,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/inference/voice-session.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/inference/voice-session.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/inference/workers.md",
       "output": {
         ".html": {
@@ -1136,6 +1146,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/inference/structured-responses.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/inference/voice-session.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/inference/voice-session.html"
         }
       },
       "version": ""

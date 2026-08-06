@@ -203,7 +203,7 @@
 <h2 id="reranking">Reranking</h2>
 <p>AIVAX applies the selected reranker after vector candidates are found. The default is <code>@aivax/reflex-v1</code>; the legacy <code>smart</code> alias resolves to the same model. Send <code>&quot;reranker&quot;: &quot;none&quot;</code> to preserve vector-similarity order, <code>lexical</code> for local word-aware reranking, or <code>rrf</code> to fuse vector and lexical rank positions.</p>
 <p>Provider models use deterministic <code>@provider/name</code> identifiers. Read the live <code>/api/v1/information/rerankers-models.json</code> catalog for the available models, prices, autonomous-use capability, and technical limits. See <a href="reranking.html">Rerankers</a> for the current model list and selection guidance.</p>
-<p>All non-<code>none</code> rerankers share the account's <a href="/docs/limits#rag-and-collection-limits">reranking-search limit</a>.</p>
+<p>All non-<code>none</code> rerankers share the account's <a href="/docs/limits#plan-limits">reranking-search limit</a>.</p>
 <div class="NOTE">
 <h5>Note</h5>
 <p>Reranking does not search additional documents. It only reorders candidates already found by the vector search stage.</p>

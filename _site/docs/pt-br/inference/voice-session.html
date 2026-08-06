@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Sess&#227;o de Voz | AIVAX </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="title" content="Sess&#227;o de Voz | AIVAX ">
+
+
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
+
+        <link rel="preconnect" href="https://api.fontshare.com">
+        <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+        
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
+
+        <meta name="docfx:rel" content="../../../">
+
+
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/inference/voice-session.md/#L1">
+        <meta name="loc:inThisArticle" content="In this article">
+        <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+        <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+        <meta name="loc:tocFilter" content="Filter by title">
+        <meta name="loc:nextArticle" content="Next">
+        <meta name="loc:prevArticle" content="Previous">
+        <meta name="loc:themeLight" content="Light">
+        <meta name="loc:themeDark" content="Dark">
+        <meta name="loc:themeAuto" content="Auto">
+        <meta name="loc:changeTheme" content="Change theme">
+        <meta name="loc:copy" content="Copy">
+        <meta name="loc:downloadPdf" content="Download PDF">
+        
+        <script type="module" src="./../../../public/docfx.min.js"></script>
+        <script>
+            const theme = localStorage.getItem('theme') || 'auto';
+            document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+        </script>
+        
+        <script src="https://unpkg.com/@cypherpotato/el/dist/el.min.js"></script>
+                
+        <script>            
+            function switchLanguage(lang) {
+                const match = window.location.pathname.match(/\/docs\/(?:(pt-br)\/)?(.*)/i);
+                const docPart = match ? match[2] : '';
+                const newPath = lang + docPart;
+                window.location.href = window.location.origin + newPath;
+            }        
+        </script>
+        
+    </head>
+    
+    
+    <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+        <header class="bg-body border-bottom">
+            <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+                <div class="container-xxl flex-nowrap">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
+                        AIVAX
+                    </a>
+                    <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navpanel">
+                        <div id="navbar">
+                            <form class="search" role="search" id="search">
+                                <i class="bi bi-search"></i>
+                                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container-xxl">
+            <div class="toc-offcanvas">
+                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <nav class="toc" id="toc"></nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="actionbar">
+                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <nav id="breadcrumb"></nav>
+
+                    <div id="language-wrapper">
+                        <a class="btn border-0 dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="true" title="Change theme">
+                            <i class="bi bi-globe"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end language-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/')">
+                                    <img src="/assets/flag/usa.png">
+                                    English
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/pt-br/')">
+                                    <img src="/assets/flag/brazil.png">
+                                    Português
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <article data-uid="">
+<h1 id="sessão-de-voz">Sessão de Voz</h1>
+
+<p>Sessão de Voz é a API de conversação por voz em tempo real e com estado da AIVAX. Um WebSocket autenticado transporta áudio do microfone, eventos de detecção de fala, transcrições, turnos de IA, segmentos WAV sintetizados, interrupções e chamadas de ferramentas executadas pelo cliente durante a vida da conversação. O agente também pode encerrar a chamada diretamente através da ferramenta <code>end_call</code> fornecida pelo servidor.</p>
+<p>Use a Sessão de Voz quando o usuário deve poder falar naturalmente, ouvir o assistente assim que o áudio estiver pronto e interromper uma resposta falando novamente. A AIVAX possui o pipeline de fala‑para‑texto, inferência conversacional, histórico de turnos, detecção de atividade de voz no servidor, segmentação de respostas e texto‑para‑fala.</p>
+<p>Use os endpoints independentes <a href="/docs/pt-br/generations/audio-transcriptions">Audio Transcriptions</a> e <a href="/docs/pt-br/generations/speech">Speech Generation</a> quando sua aplicação processa gravações completas ou já tem o texto final. Use a <a href="/docs/pt-br/inference/inference">Inference</a> regular quando a interação for primeiro texto ou sua aplicação precisar orquestrar cada etapa de forma independente.</p>
+<h2 id="o-que-uma-sessão-faz">O que uma sessão faz</h2>
+<p>Após a atualização do WebSocket, o cliente envia uma mensagem de configuração. A AIVAX valida a configuração e cria imediatamente o primeiro turno do assistente, que produz uma saudação curta baseada no Gateway de IA selecionado e no contexto opcional da sessão.</p>
+<p>Para o restante da conexão:</p>
+<ol>
+<li>O cliente envia continuamente quadros PCM mono, incluindo o silêncio entre falas.</li>
+<li>A AIVAX detecta quando a fala começa e para.</li>
+<li>Quando a fala para, a AIVAX transcreve a fala capturada.</li>
+<li>A AIVAX adiciona a transcrição à conversa da sessão e inicia uma resposta de IA.</li>
+<li>Segmentos WAV sintetizados são enviados assim que ficam disponíveis.</li>
+<li>Se o usuário começar a falar enquanto o assistente está respondendo, a AIVAX cancela essa resposta e começa a capturar a nova fala.</li>
+<li>O cliente relata a conclusão da reprodução ou o corte exato da reprodução para que a conversa retenha apenas o conteúdo do assistente que o usuário realmente ouviu.</li>
+<li>Quando a conversa termina ou o chamador pede para desligar, o agente pode invocar <code>end_call</code> e a AIVAX fecha o WebSocket do servidor aproximadamente 200 ms depois.</li>
+</ol>
+<p>O estado da conversa existe apenas para o WebSocket ativo. Fechar a conexão, incluindo um <code>end_call</code> do lado do servidor, encerra a sessão. Reconectar cria uma nova sessão e uma nova saudação; o protocolo não retoma uma sessão desconectada.</p>
+<h2 id="quando-usar-a-sessão-de-voz">Quando usar a Sessão de Voz</h2>
+<p>A Sessão de Voz é adequada para:</p>
+<ul>
+<li>assistentes conversacionais com microfone e reprodução por alto-falante;</li>
+<li>suporte mãos‑livres, tutoriais, intake e fluxos guiados;</li>
+<li>respostas de baixa latência que devem começar a tocar antes que a resposta completa seja sintetizada;</li>
+<li>conversas onde os usuários podem interromper o assistente naturalmente;</li>
+<li>agentes de voz que expõem ferramentas de propriedade da aplicação e retornam seus resultados pela mesma conexão.</li>
+</ul>
+<p>Prefira outra API quando:</p>
+<ul>
+<li>precisar apenas de transcrição, sem resposta de IA;</li>
+<li>precisar sintetizar um texto conhecido uma única vez;</li>
+<li>o cliente envia gravações completas de forma assíncrona;</li>
+<li>precisar escolher o modelo de fala‑para‑texto ou texto‑para‑fala de forma independente;</li>
+<li>a única fronteira de autenticação disponível for uma chave pública de navegador.</li>
+</ul>
+<h2 id="endpoint-e-autenticação">Endpoint e autenticação</h2>
+<div class="request-item get">
+    <span>GET</span>
+    <span>/api/v1/voice-session</span>
+</div>
+<p>Abra o endpoint de produção como:</p>
+<pre><code class="lang-text">wss://inference.aivax.net/api/v1/voice-session
+</code></pre>
+<p>A requisição HTTP deve ser uma atualização de WebSocket autenticada com uma chave de API <strong>privada</strong>. Chaves de API públicas não podem abrir sessões de voz.</p>
+<p>Autenticação preferencial:</p>
+<pre><code class="lang-http">Authorization: Bearer &lt;AIVAX_API_KEY&gt;
+</code></pre>
+<p>O parâmetro de consulta padrão <code>?api-key=&lt;AIVAX_API_KEY&gt;</code> também é aceito, mas use‑o somente quando a biblioteca de WebSocket não puder definir cabeçalhos. Strings de consulta são comumente retidas pelo histórico do navegador, proxies reversos, logs de acesso e sistemas de monitoramento.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>JavaScript do navegador não pode adicionar um cabeçalho <code>Authorization</code> ao construtor nativo <code>WebSocket</code>, e uma chave de API privada nunca deve ser enviada a um navegador ou pacote móvel. Para um cliente final, encerre a conexão do navegador no seu backend e deixe esse backend abrir o WebSocket autenticado da AIVAX. Não contorne essa fronteira colocando uma chave privada na URL enviada ao navegador.</p>
+</div>
+<p>A conexão pode falhar antes da atualização com:</p>
+<ul>
+<li><code>400 Bad Request</code> quando a requisição não é uma atualização de WebSocket válida;</li>
+<li><code>401 Unauthorized</code> quando a chave está ausente ou inválida;</li>
+<li>um erro de API quando uma chave pública é usada.</li>
+</ul>
+<p>A AIVAX envia a mensagem de texto simples <code>keep-alive</code> a cada 10 segundos para manter a conexão ativa. Isso é uma mensagem de texto de aplicação, não um evento JSON ou quadro de controle ping do WebSocket. Os clientes devem ignorá‑la antes de analisar as mensagens do servidor como JSON.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Open%20voice%20session&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="visão-geral-do-protocolo">Visão geral do protocolo</h2>
+<p>Eventos de aplicação em ambas as direções são mensagens de texto JSON UTF‑8 do WebSocket. A única mensagem de aplicação não‑JSON é o heartbeat de texto simples <code>keep-alive</code> do servidor, enviado a cada 10 segundos; descarte‑o antes da análise JSON. O áudio é codificado em base64 dentro dos eventos JSON, e o protocolo não aceita mensagens binárias do WebSocket.</p>
+<p>Uma sessão típica segue este cronograma:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Etapa</th>
+<th>Direção</th>
+<th>Evento</th>
+<th>Observações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>Cliente → AIVAX</td>
+<td>Atualização de WebSocket</td>
+<td>Autenticar com uma chave de API privada.</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>Cliente → AIVAX</td>
+<td><code>session_start</code></td>
+<td>Configurar e iniciar a sessão.</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.created</code></td>
+<td>Iniciar a saudação inicial.</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.inference_started</code></td>
+<td>Começar a gerar a saudação.</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.tts_started</code></td>
+<td>Iniciar a síntese de fala.</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>AIVAX → Cliente</td>
+<td><code>output_audio</code></td>
+<td>Receber um ou mais segmentos WAV.</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.inference_done</code></td>
+<td>Concluir a geração da saudação.</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.done</code></td>
+<td>Concluir a resposta.</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td>Cliente → AIVAX</td>
+<td><code>output_audio_buffer.playback_completed</code></td>
+<td>Confirmar que a reprodução terminou.</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td>Cliente → AIVAX</td>
+<td><code>input_audio_buffer.append</code></td>
+<td>Enviar continuamente quadros PCM.</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td>AIVAX → Cliente</td>
+<td><code>input_audio_buffer.possible_speech</code></td>
+<td>Reportar um sinal precoce de fala.</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td>AIVAX → Cliente</td>
+<td><code>input_audio_buffer.speech_started</code></td>
+<td>Confirmar que a fala começou.</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td>AIVAX → Cliente</td>
+<td><code>input_audio_buffer.speech_stopped</code></td>
+<td>Reportar que a fala parou.</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td>AIVAX → Cliente</td>
+<td><code>input_audio_buffer.stt_started</code></td>
+<td>Iniciar a transcrição.</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td>AIVAX → Cliente</td>
+<td><code>input_audio_buffer.stt_done</code></td>
+<td>Retornar a transcrição.</td>
+</tr>
+<tr>
+<td style="text-align: right;">16</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.created</code></td>
+<td>Iniciar o turno de resposta.</td>
+</tr>
+<tr>
+<td style="text-align: right;">17</td>
+<td>AIVAX → Cliente</td>
+<td><code>output_audio</code></td>
+<td>Transmitir a resposta sintetizada.</td>
+</tr>
+<tr>
+<td style="text-align: right;">18</td>
+<td>AIVAX → Cliente</td>
+<td><code>response.done</code></td>
+<td>Concluir a resposta.</td>
+</tr>
+<tr>
+<td style="text-align: right;">19</td>
+<td>Cliente → AIVAX</td>
+<td><code>output_audio_buffer.playback_completed</code></td>
+<td>Confirmar que a reprodução terminou.</td>
+</tr>
+</tbody>
+</table>
+<p>O servidor pode enviar o heartbeat de texto simples <code>keep-alive</code> entre qualquer dessas etapas. Não faz parte da sequência numerada de eventos e deve ser descartado antes da análise JSON.</p>
+<p><code>possible_speech</code> é um sinal precoce e pode ser seguido por fala confirmada ou silêncio. Não interrompa a reprodução atual nesse evento. Um <code>speech_started</code> confirmado é o limite de interrupção.</p>
+<h2 id="iniciar-a-sessão">Iniciar a sessão</h2>
+<p>A primeira mensagem do WebSocket deve ser a configuração da sessão. Nenhum áudio ou outro evento pode ser enviado antes disso.</p>
+<p>O envelope recomendado é:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;session_start&quot;,
+    &quot;session&quot;: {
+        &quot;voice&quot;: &quot;Eve&quot;,
+        &quot;gateway&quot;: &quot;support-assistant&quot;,
+        &quot;language&quot;: null,
+        &quot;reasoning_effort&quot;: &quot;minimal&quot;,
+        &quot;context&quot;: &quot;The caller is using the account recovery screen.&quot;,
+        &quot;tools&quot;: []
+    }
+}
+</code></pre>
+<p>Para compatibilidade, a primeira mensagem também pode conter as propriedades de configuração diretamente, sem <code>event_type</code> e <code>session</code>. Clientes novos devem usar o envelope explícito <code>session_start</code>.</p>
+<h3 id="propriedades-de-configuração">Propriedades de configuração</h3>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Tipo</th>
+<th>Obrigatório</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>voice</code></td>
+<td><code>string</code></td>
+<td>Sim</td>
+<td>Voz usada para cada resposta sintetizada na sessão. A correspondência não diferencia maiúsculas de minúsculas.</td>
+</tr>
+<tr>
+<td><code>gateway</code></td>
+<td><code>string</code></td>
+<td>Não</td>
+<td>Slug ou identificador do Gateway de IA usado como configuração do agente. Quando omitido, a AIVAX usa o padrão atual da Sessão de Voz. A Sessão de Voz substitui o modelo principal do gateway por um modelo otimizado para conversação de baixa latência.</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>string</code> ou <code>null</code></td>
+<td>Não</td>
+<td>Dica de idioma encaminhada para a transcrição de fala, como <code>en</code>, <code>pt</code> ou <code>pt-BR</code>. Quando nulo, vazio ou omitido, a AIVAX usa <code>auto</code> para que o modelo de transcrição detecte o idioma falado.</td>
+</tr>
+<tr>
+<td><code>reasoning_effort</code></td>
+<td><code>string</code></td>
+<td>Não</td>
+<td><code>minimal</code>, <code>low</code>, <code>medium</code> ou <code>high</code>. O padrão é <code>minimal</code>. Esforço maior pode aumentar a latência da resposta e o uso.</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td><code>string</code></td>
+<td>Não</td>
+<td>Contexto adicional ao nível da sessão fornecido ao agente. Use para fatos relevantes e não secretos sobre esta chamada ou jornada do usuário.</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td><code>array</code></td>
+<td>Não</td>
+<td>Definições de ferramentas compatíveis com OpenAI. O cliente executa essas ferramentas e retorna eventos <code>tool_result</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>A Sessão de Voz não executa o modelo principal configurado do gateway. Ela preserva o gateway como configuração do agente e substitui seu modelo principal por um modelo gerenciado pela AIVAX otimizado para baixa latência. Não dependa da identidade, capacidades ou comportamento específico do modelo principal do gateway ao projetar uma integração de voz.</p>
+</div>
+<p>Vozes suportadas:</p>
+<p><code>Carina</code>, <code>Zagan</code>, <code>Helix</code>, <code>Orion</code>, <code>Luna</code>, <code>Iris</code>, <code>Altair</code>, <code>Zenith</code>, <code>Perseus</code>, <code>Helios</code>, <code>Lux</code>, <code>Kepler</code>, <code>Rigel</code>, <code>Cosmo</code>, <code>Celeste</code>, <code>Ursa</code>, <code>Sirius</code>, <code>Lumen</code>, <code>Castor</code>, <code>Naksh</code>, <code>Atlas</code>, <code>Ara</code>, <code>Eve</code>, <code>Leo</code>, <code>Rex</code> e <code>Sal</code>.</p>
+<p>Se a primeira mensagem não for JSON válido, não contiver uma configuração válida, nomear uma voz ou esforço de raciocínio não suportados, ou referenciar um gateway indisponível, a AIVAX envia um evento <code>error</code> e fecha a conexão. Esteja pronto para receber eventos de resposta imediatamente após uma configuração válida, pois a saudação inicial começa automaticamente; não há um evento separado <code>session.ready</code>.</p>
+<h2 id="enviar-áudio-do-microfone-em-tempo-real">Enviar áudio do microfone em tempo real</h2>
+<p>O evento de entrada recomendado é <code>input_audio_buffer.append</code>:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio_buffer.append&quot;,
+    &quot;audio&quot;: {
+        &quot;sequence&quot;: 42,
+        &quot;format&quot;: &quot;pcm_s16le&quot;,
+        &quot;sample_rate&quot;: 16000,
+        &quot;channels&quot;: 1,
+        &quot;data&quot;: &quot;&lt;BASE64_PCM_FRAME&gt;&quot;
+    }
+}
+</code></pre>
+<p>A propriedade pode ser nomeada <code>audio</code> ou <code>input_audio</code>; use <code>audio</code> em novas integrações.</p>
+<h3 id="contrato-de-quadro-de-áudio">Contrato de quadro de áudio</h3>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Valor exigido</th>
+<th>Observações</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sequence</code></td>
+<td>Inteiro crescente</td>
+<td>Deve ser maior que todo <code>enviado anteriormente nesta conexão WebSocket. Comece em</code>0` e incremente uma vez por quadro. Não reinicie entre falas.</td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td><code>pcm_s16le</code></td>
+<td>PCM bruto assinado de 16 bits little‑endian. Não inclua cabeçalho WAV.</td>
+</tr>
+<tr>
+<td><code>sample_rate</code></td>
+<td><code>16000</code></td>
+<td>Reamostra a entrada do microfone antes de enviá‑la.</td>
+</tr>
+<tr>
+<td><code>channels</code></td>
+<td><code>1</code></td>
+<td>Converta entrada estéreo para mono.</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td>String base64 não vazia</td>
+<td>Após decodificação, a contagem de bytes deve ser par porque cada amostra ocupa dois bytes.</td>
+</tr>
+</tbody>
+</table>
+<p>Envie quadros continuamente enquanto a captura do microfone está ativa, incluindo silêncio. Não espere o usuário terminar de falar e não envie um evento “commit” do lado do cliente: a AIVAX detecta o limite da fala e a confirma automaticamente.</p>
+<p>Um quadro de 32 ms contém 512 amostras, ou 1 024 bytes antes da codificação base64. Esse é um tamanho de quadro prático porque oferece entrega em tempo real suave sem enviar mensagens excessivamente pequenas. Outros tamanhos de quadros não vazios e pares são aceitos e armazenados em buffer entre mensagens.</p>
+<p>Mantenha um único produtor de quadros de microfone ou serialize o acesso ao so. Se dois produtores assíncronos entrarem em competição, seus valores <code>sequence</code> podem chegar fora de ordem e causar <code>invalid_audio_frame</code>.</p>
+<h3 id="capturando-o-formato-pcm-correto">Capturando o formato PCM correto</h3>
+<p>A saída do <code>MediaRecorder</code> do navegador normalmente é WebM/Opus comprimido, não PCM bruto, e não pode ser enviada diretamente. Capture amostras através de um audio worklet ou API de áudio nativa, então:</p>
+<ol>
+<li>converta para um canal;</li>
+<li>reamostra para 16 000 Hz;</li>
+<li>limite cada amostra ponto flutuante a <code>[-1, 1]</code>;</li>
+<li>converta para PCM assinada de 16 bits little‑endian;</li>
+<li>codifique em base64 os bytes resultantes;</li>
+<li>envie quadros em ordem de sequência monotonicamente crescente.</li>
+</ol>
+<p>Não rotule áudio comprimido como <code>pcm_s16le</code>; o quadro pode passar na validação básica de forma, mas produzirá detecção de fala e transcrição inutilizáveis.</p>
+<h2 id="eventos-de-detecção-de-fala-e-transcrição">Eventos de detecção de fala e transcrição</h2>
+<p>A AIVAX envia os seguintes eventos enquanto processa entrada em tempo real.</p>
+<h3 id="input_audio_bufferpossible_speech"><code>input_audio_buffer.possible_speech</code></h3>
+<p>Um sinal precoce e tentativo de atividade de voz:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio_buffer.possible_speech&quot;,
+    &quot;sequence&quot;: 42,
+    &quot;probability&quot;: 0.72
+}
+</code></pre>
+<p>Use apenas para feedback sutil de UI, como mudar o indicador de microfone. Não é um limite de fala confirmado e não deve limpar a reprodução do assistente.</p>
+<h3 id="input_audio_bufferspeech_started"><code>input_audio_buffer.speech_started</code></h3>
+<p>Fala confirmada:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio_buffer.speech_started&quot;,
+    &quot;sequence&quot;: 48,
+    &quot;probability&quot;: 0.91
+}
+</code></pre>
+<p>Neste ponto, trate o usuário como interrompendo qualquer resposta ativa. A AIVAX cancela o turno ativo e, quando aplicável, segue com <code>response.cancelled</code> e <code>output_audio_cancelled</code>. Pare a reprodução imediatamente quando o evento de cancelamento chegar; não continue reproduzindo segmentos já enfileirados.</p>
+<h3 id="input_audio_bufferspeech_stopped"><code>input_audio_buffer.speech_stopped</code></h3>
+<p>A fala atual terminou e foi confirmada para transcrição:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio_buffer.speech_stopped&quot;,
+    &quot;sequence&quot;: 77,
+    &quot;probability&quot;: 0.12
+}
+</code></pre>
+<p>O cliente não precisa enviar outro evento para confirmar o buffer.</p>
+<h3 id="input_audio_bufferstt_started"><code>input_audio_buffer.stt_started</code></h3>
+<p>A transcrição começou para a fala confirmada:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio_buffer.stt_started&quot;,
+    &quot;sequence&quot;: 77
+}
+</code></pre>
+<p>Use este evento para um estado “transcrevendo”. Não inicie uma resposta de IA localmente.</p>
+<h3 id="input_audio_bufferstt_done"><code>input_audio_buffer.stt_done</code></h3>
+<p>Transcrição concluída:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio_buffer.stt_done&quot;,
+    &quot;sequence&quot;: 77,
+    &quot;transcript&quot;: &quot;Can you help me reset my password?&quot;
+}
+</code></pre>
+<p>Exiba ou registre a transcrição se seu produto exigir. Quando a transcrição não está vazia, a AIVAX a adiciona automaticamente à conversa e inicia a próxima resposta. Uma transcrição vazia não cria um turno de resposta.</p>
+<p>O <code>sequence</code> nesses eventos identifica o quadro de áudio cliente mais recente envolvido no limite detectado. Não é a mesma sequência da sequência de eventos de resposta ordenados descrita abaixo.</p>
+<h2 id="receber-e-reproduzir-respostas-do-assistente">Receber e reproduzir respostas do assistente</h2>
+<p>Cada resposta pertence a um <code>turn_id</code> numérico e a um <code>response_id</code> string.</p>
+<ul>
+<li><code>turn_id</code> identifica a tentativa de geração do lado do servidor dentro desta conexão.</li>
+<li><code>response_id</code> identifica a resposta reproduzível do assistente e é a chave que o cliente deve usar para filas de reprodução, reconhecimentos de conclusão e truncamento.</li>
+<li><code>sequence</code> aparece em payloads de resposta ordenados como <code>output_audio</code> e <code>tool_call</code>. Começa em <code>0</code> para cada turno de resposta e aumenta nesses payloads.</li>
+</ul>
+<p>Eventos de ciclo de vida podem ser intercalados com trabalho de áudio. Use <code>response_id</code> para correlação e preserve a ordem de chegada do WebSocket. Para payloads que carregam <code>sequence</code>, verifique se os valores aumentam dentro da resposta. Payloads de áudio e chamada de ferramenta compartilham esse contador, portanto um salto entre dois valores de sequência de áudio pode representar um <code>tool_call</code>; não espere outro evento de áudio para preenchê‑lo.</p>
+<h3 id="responsecreated"><code>response.created</code></h3>
+<p>Um turno de resposta foi criado:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.created&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<p>Crie o estado de resposta do cliente e a fila de reprodução aqui.</p>
+<h3 id="responseinference_started"><code>response.inference_started</code></h3>
+<p>O agente começou a gerar a resposta:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.inference_started&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<h3 id="responseinference_done"><code>response.inference_done</code></h3>
+<p>O fluxo de inferência terminou. A síntese de áudio ainda pode estar finalizando, portanto isso não é um sinal de reprodução concluída:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.inference_done&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<h3 id="responsetts_started"><code>response.tts_started</code></h3>
+<p>A AIVAX começou a sintetizar áudio reproduzível:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.tts_started&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<p>Quando <code>kind</code> é <code>tool_preamble</code>, o áudio explica uma ação de ferramenta futura em vez de entregar a resposta final.</p>
+<h3 id="output_audio"><code>output_audio</code></h3>
+<p>Um segmento WAV reproduzível está pronto:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;output_audio&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+    &quot;sequence&quot;: 0,
+    &quot;output_audio&quot;: {
+        &quot;data&quot;: &quot;&lt;BASE64_WAV_DATA&gt;&quot;,
+        &quot;format&quot;: &quot;wav&quot;,
+        &quot;duration_ms&quot;: 1380
+    }
+}
+</code></pre>
+<p>Decodifique <code>output_audio.data</code> de base64 e enfileire o arquivo WAV completo. Cada evento é um segmento WAV reproduzível de forma independente; não concatene strings base64 nem presuma que um evento contém a resposta completa. Preserve a ordem de chegada do WebSocket e verifique se <code>sequence</code> aumenta para o mesmo <code>response_id</code>.</p>
+<p><code>duration_ms</code> é a duração do segmento calculada pelo servidor e é útil para contabilidade de reprodução. Para truncamento preciso, prefira a posição real reproduzida pelo player de mídia e use durações apenas como fallback.</p>
+<p>Um evento <code>output_audio</code> pode incluir:</p>
+<pre><code class="lang-json">{
+    &quot;kind&quot;: &quot;tool_preamble&quot;
+}
+</code></pre>
+<p>Áudio de pré‑ámbulo de ferramenta pertence à mesma linha de tempo de reprodução ordenada. Inclua sua duração reproduzida ao relatar <code>audio_end_ms</code>, embora a AIVAX exclua esse pré‑ámbulo ao decidir quais frases de resposta permanecem no histórico da conversa.</p>
+<h3 id="responsetts_done"><code>response.tts_done</code></h3>
+<p>A AIVAX concluiu a fase de síntese de pré‑ámbulo de ferramenta:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.tts_done&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+    &quot;kind&quot;: &quot;tool_preamble&quot;
+}
+</code></pre>
+<p>Este evento é atualmente emitido para uma resposta de ferramenta do cliente. Use <code>response.done</code>, não <code>response.tts_done</code>, como limite geral do ciclo de vida da resposta.</p>
+<h3 id="responsedone"><code>response.done</code></h3>
+<p>A AIVAX terminou de produzir eventos para esta resposta:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.done&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<p><code>response.done</code> significa que o servidor não adicionará mais conteúdo a essa resposta. Não <strong>significa</strong> que o usuário ouviu todo o áudio enfileirado. Continue a reprodução, então envie <code>output_audio_buffer.playback_completed</code> após o segmento final realmente terminar.</p>
+<h2 id="confirmar-reprodução">Confirmar reprodução</h2>
+<p>Quando todo o áudio enfileirado para uma resposta foi reproduzido com sucesso, envie:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;output_audio_buffer.playback_completed&quot;,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<p>Envie uma vez por <code>response_id</code> concluído, após a reprodução — não quando <code>response.done</code> chega e não apenas quando todos os arquivos WAV foram baixados. Isso permite que a AIVAX descarte o rastreamento temporário de reprodução para essa resposta.</p>
+<p>Não envie este evento para uma resposta que foi cancelada antes da reprodução concluir. Relate o corte real com <code>conversation.item.truncate</code> em vez disso.</p>
+<h2 id="lidar-com-interrupções-e-truncamento">Lidar com interrupções e truncamento</h2>
+<p>A Sessão de Voz suporta barge‑in: o usuário pode falar sobre uma resposta ativa do assistente.</p>
+<p>Quando a fala confirmada interrompe uma resposta, a AIVAX envia:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;response.cancelled&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<p>e:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;output_audio_cancelled&quot;,
+    &quot;turn_id&quot;: 3,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+}
+</code></pre>
+<p>Ao receber <code>output_audio_cancelled</code>:</p>
+<ol>
+<li>pare o áudio atualmente reproduzido para esse <code>response_id</code> imediatamente;</li>
+<li>descarte todo segmento enfileirado mas não reproduzido para essa resposta;</li>
+<li>meça quantos milissegundos da linha de tempo da resposta foram realmente ouvidos;</li>
+<li>envie <code>conversation.item.truncate</code> com esse corte.</li>
+</ol>
+<p>Evento recomendado:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;conversation.item.truncate&quot;,
+    &quot;truncate&quot;: {
+        &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+        &quot;audio_end_ms&quot;: 1840
+    }
+}
+</code></pre>
+<p>A forma plana também é aceita:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;conversation.item.truncate&quot;,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+    &quot;audio_end_ms&quot;: 1840
+}
+</code></pre>
+<p><code>audio_end_ms</code> é o tempo de reprodução decorrido não‑negativo desde o início da linha de tempo de áudio da resposta, incluindo qualquer pré‑ámbulo de ferramenta que foi reproduzido. Não é tempo de relógio real nem a duração apenas do segmento WAV atual.</p>
+<p>A AIVAX reconhece a atualização:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;conversation.item.truncated&quot;,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+    &quot;audio_end_ms&quot;: 1840
+}
+</code></pre>
+<p>Por que o truncamento importa: o áudio pode ser gerado e adicionado ao turno do assistente antes que o usuário o ouça. Relatar o corte real impede que frases não ouvidas influenciem respostas posteriores como se tivessem sido faladas. Se a reprodução nunca começou, envie <code>audio_end_ms: 0</code>.</p>
+<p>Um player robusto deve manter, por <code>response_id</code>:</p>
+<ul>
+<li>duração concluída de segmentos totalmente reproduzidos;</li>
+<li>posição de reprodução do segmento atual;</li>
+<li>se a resposta foi cancelada;</li>
+<li>segmentos enfileirados indexados por <code>sequence</code>;</li>
+<li>a maior sequência contígua já consumida.</li>
+</ul>
+<p>Calcule o corte como a duração do segmento concluído mais a posição real dentro do segmento interrompido.</p>
+<h2 id="ferramentas-executadas-pelo-cliente">Ferramentas executadas pelo cliente</h2>
+<p>A configuração opcional <code>tools</code> permite que o modelo solicite uma ação que seu cliente ou backend possui. As definições usam o formato de ferramenta de função do OpenAI:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;session_start&quot;,
+    &quot;session&quot;: {
+        &quot;voice&quot;: &quot;Eve&quot;,
+        &quot;gateway&quot;: &quot;support-assistant&quot;,
+        &quot;tools&quot;: [
+            {
+                &quot;type&quot;: &quot;function&quot;,
+                &quot;function&quot;: {
+                    &quot;name&quot;: &quot;lookup_order&quot;,
+                    &quot;description&quot;: &quot;Look up an order visible to the authenticated caller.&quot;,
+                    &quot;parameters&quot;: {
+                        &quot;type&quot;: &quot;object&quot;,
+                        &quot;properties&quot;: {
+                            &quot;order_number&quot;: {
+                                &quot;type&quot;: &quot;string&quot;,
+                                &quot;description&quot;: &quot;The order number provided by the caller.&quot;
+                            }
+                        },
+                        &quot;required&quot;: [&quot;order_number&quot;],
+                        &quot;additionalProperties&quot;: false
+                    }
+                }
+            }
+        ]
+    }
+}
+</code></pre>
+<p>Quando o modelo seleciona uma ferramenta do cliente, a AIVAX pode primeiro enviar áudio de pré‑ámbulo de ferramenta, então envia:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;tool_call&quot;,
+    &quot;turn_id&quot;: 4,
+    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+    &quot;sequence&quot;: 1,
+    &quot;tool_call&quot;: {
+        &quot;id&quot;: &quot;&lt;TOOL_CALL_ID&gt;&quot;,
+        &quot;name&quot;: &quot;lookup_order&quot;,
+        &quot;content&quot;: {
+            &quot;order_number&quot;: &quot;A-1042&quot;
+        }
+    }
+}
+</code></pre>
+<p>Trate <code>content</code> como saída de modelo não confiável, mesmo que seja baseada no seu esquema. Valide tipos, valores permitidos, autorização do usuário e regras de negócio antes de executar a ação. Ignore ou remova <code>_tool_reason</code> e <code>_tool_goal</code> antes da validação estrita de esquema se sua aplicação não os definir; são metadados conversacionais usados para explicar a ação.</p>
+<p>Retorne o resultado como string:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;tool_result&quot;,
+    &quot;tool_result&quot;: {
+        &quot;id&quot;: &quot;&lt;TOOL_CALL_ID&gt;&quot;,
+        &quot;result&quot;: &quot;{\&quot;status\&quot;:\&quot;shipped\&quot;,\&quot;estimated_delivery\&quot;:\&quot;2026-08-08\&quot;}&quot;
+    }
+}
+</code></pre>
+<p>Regras importantes para ferramentas:</p>
+<ul>
+<li>ecoar exatamente o <code>tool_call.id</code> em <code>tool_result.id</code>;</li>
+<li>enviar um resultado para cada chamada de ferramenta pendente;</li>
+<li>quando várias chamadas são emitidas, a AIVAX aguarda todos os resultados chegarem antes de iniciar a resposta de acompanhamento;</li>
+<li><code>result</code> deve ser uma string; serialize dados estruturados para JSON primeiro;</li>
+<li>mantenha os resultados concisos e exclua segredos que o modelo não precise;</li>
+<li>retorne falhas de aplicação como uma string de resultado clara para que o modelo possa explicar ou se recuperar delas;</li>
+<li>não tente novamente a mesma ferramenta com efeitos colaterais após reconexão;</li>
+<li>se o usuário começar a falar, chamadas de ferramenta pendentes podem ser canceladas e resultados posteriores podem ser rejeitados como <code>unknown_tool_call</code>.</li>
+</ul>
+<p>A resposta contendo a solicitação de ferramenta ainda termina com <code>response.done</code>. A resposta de acompanhamento após todos os resultados de ferramenta é uma nova resposta com um novo <code>turn_id</code> e <code>response_id</code>.</p>
+<h2 id="encerramento-de-chamada-do-lado-do-servidor">Encerramento de chamada do lado do servidor</h2>
+<p>Cada Sessão de Voz fornece automaticamente ao agente uma ferramenta <code>end_call</code> além das ferramentas do cliente configuradas em <code>session.tools</code>. Use as instruções do gateway ou o contexto da sessão para dizer ao agente quando encerrar a chamada é apropriado, por exemplo, após o chamador dizer adeus ou pedir explicitamente para desligar.</p>
+<p><code>end_call</code> é executado inteiramente pela AIVAX:</p>
+<ul>
+<li>os clientes não devem adicioná‑la a <code>session.tools</code>;</li>
+<li>a AIVAX não emite um evento <code>tool_call</code> para ela;</li>
+<li>os clientes não enviam um <code>tool_result</code> para ela;</li>
+<li>o servidor fecha o WebSocket aproximadamente 200 ms depois que o agente a invoca.</li>
+</ul>
+<p>Trate isso como um fechamento remoto normal. Pare a captura do microfone e a reprodução e limpe o estado escopo da sessão no manipulador de fechamento do WebSocket. O pequeno atraso é apenas uma margem de término ordenado; não dependa de outro evento de resposta ou segmento de áudio final chegando antes do fechamento.</p>
+<h2 id="entrada-wav-completa">Entrada WAV completa</h2>
+<p><code>input_audio</code> é um caminho de compatibilidade para clientes que já possuem uma gravação WAV completa:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;input_audio&quot;,
+    &quot;input_audio&quot;: {
+        &quot;format&quot;: &quot;wav&quot;,
+        &quot;data&quot;: &quot;&lt;BASE64_WAV_FILE&gt;&quot;
+    }
+}
+</code></pre>
+<p>O payload decodificado deve ser um arquivo RIFF/WAVE válido com no máximo 75 MB. A AIVAX transcreve como uma única fala e inicia automaticamente uma resposta.</p>
+<p>Use este caminho apenas para gravações completas. Ele não fornece limites de fala em tempo real no servidor e usa <code>sequence: 0</code> nos eventos de ciclo de vida de transcrição. Não o misture com uma fala em tempo real ativa. Prefira <code>input_audio_buffer.append</code> para conversas interativas, menor latência percebida e comportamento de barge‑in.</p>
+<h2 id="referência-de-eventos-clienteparaservidor">Referência de eventos cliente‑para‑servidor</h2>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Quando enviar</th>
+<th>Payload obrigatório</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>session_start</code></td>
+<td>Exatamente uma vez, como a primeira mensagem do WebSocket.</td>
+<td><code>session.voice</code>; opcional <code>gateway</code>, <code>language</code>, <code>reasoning_effort</code>, <code>context</code> e <code>tools</code>.</td>
+</tr>
+<tr>
+<td><code>input_audio_buffer.append</code></td>
+<td>Continuamente enquanto a captura de microfone em tempo real está ativa.</td>
+<td><code>audio.sequence</code>, <code>format</code>, <code>sample_rate</code>, <code>channels</code> e <code>data</code> base64.</td>
+</tr>
+<tr>
+<td><code>input_audio</code></td>
+<td>Uma vez por fala WAV legada completa.</td>
+<td><code>input_audio.format: &quot;wav&quot;</code> e <code>data</code> base64.</td>
+</tr>
+<tr>
+<td><code>output_audio_buffer.playback_completed</code></td>
+<td>Após o segmento de áudio final de uma resposta realmente terminar de reproduzir.</td>
+<td><code>response_id</code>.</td>
+</tr>
+<tr>
+<td><code>conversation.item.truncate</code></td>
+<td>Após reprodução cancelada ou interrompida.</td>
+<td><code>response_id</code> e <code>audio_end_ms</code> decorrido.</td>
+</tr>
+<tr>
+<td><code>tool_result</code></td>
+<td>Após executar uma chamada de ferramenta pendente do cliente.</td>
+<td><code>tool_result.id</code> correspondente e <code>result</code> string.</td>
+</tr>
+</tbody>
+</table>
+<p>Não há evento cliente para confirmar um buffer de entrada em tempo real, solicitar a saudação inicial, criar manualmente uma resposta normal ou cancelar uma resposta. Limites de fala e interrupção conduzem essas ações automaticamente.</p>
+<h2 id="referência-de-eventos-servidorparacliente">Referência de eventos servidor‑para‑cliente</h2>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Significado</th>
+<th>Ação importante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>input_audio_buffer.possible_speech</code></td>
+<td>Atividade de voz tentativa.</td>
+<td>Atualizar UI apenas; não interromper a reprodução.</td>
+</tr>
+<tr>
+<td><code>input_audio_buffer.speech_started</code></td>
+<td>Fala do usuário confirmada.</td>
+<td>Marcar microfone ativo e esperar cancelamento da resposta.</td>
+</tr>
+<tr>
+<td><code>input_audio_buffer.speech_stopped</code></td>
+<td>Fala confirmada.</td>
+<td>Mostrar estado de processamento; não enviar evento de commit.</td>
+</tr>
+<tr>
+<td><code>input_audio_buffer.stt_started</code></td>
+<td>Transcrição iniciada.</td>
+<td>Opcionalmente mostrar “transcrevendo”.</td>
+</tr>
+<tr>
+<td><code>input_audio_buffer.stt_done</code></td>
+<td>Transcrição disponível.</td>
+<td>Exibir a transcrição; a AIVAX inicia a resposta automaticamente quando não vazia.</td>
+</tr>
+<tr>
+<td><code>response.created</code></td>
+<td>Nova identidade de resposta alocada.</td>
+<td>Criar estado e fila de reprodução.</td>
+</tr>
+<tr>
+<td><code>response.inference_started</code></td>
+<td>Geração de agente iniciada.</td>
+<td>Opcionalmente mostrar “pensando”.</td>
+</tr>
+<tr>
+<td><code>response.inference_done</code></td>
+<td>Geração de agente concluída.</td>
+<td>Não tratar como conclusão de áudio.</td>
+</tr>
+<tr>
+<td><code>response.tts_started</code></td>
+<td>Síntese de áudio iniciada.</td>
+<td>Preparar o player; inspecionar <code>kind</code> opcional.</td>
+</tr>
+<tr>
+<td><code>output_audio</code></td>
+<td>Um segmento WAV completo.</td>
+<td>Decodificar, ordenar por <code>sequence</code>, enfileirar e reproduzir.</td>
+</tr>
+<tr>
+<td><code>response.tts_done</code></td>
+<td>Síntese de pré‑ámbulo de ferramenta concluída.</td>
+<td>Informacional; aguardar <code>response.done</code>.</td>
+</tr>
+<tr>
+<td><code>tool_call</code></td>
+<td>Ação solicitada pelo cliente.</td>
+<td>Validar, autorizar, executar e enviar <code>tool_result</code>.</td>
+</tr>
+<tr>
+<td><code>response.done</code></td>
+<td>Servidor terminou de produzir esta resposta.</td>
+<td>Finalizar fila de reprodução, então reconhecer conclusão.</td>
+</tr>
+<tr>
+<td><code>response.cancelled</code></td>
+<td>Geração ativa foi cancelada por fala.</td>
+<td>Parar trabalho de UI relacionado à resposta.</td>
+</tr>
+<tr>
+<td><code>output_audio_cancelled</code></td>
+<td>Reprodução enfileirada está obsoleta.</td>
+<td>Parar/limpar áudio e relatar truncamento.</td>
+</tr>
+<tr>
+<td><code>conversation.item.truncated</code></td>
+<td>Corte de reprodução registrado.</td>
+<td>Liberar registro de truncamento.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Erro de sessão, evento, transcrição ou turno.</td>
+<td>Inspecionar <code>error.code</code>; decidir se continua ou reconecta.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="eventos-de-erro">Eventos de erro</h2>
+<p>Erros usam este envelope:</p>
+<pre><code class="lang-json">{
+    &quot;event_type&quot;: &quot;error&quot;,
+    &quot;error&quot;: {
+        &quot;code&quot;: &quot;invalid_audio_frame&quot;,
+        &quot;message&quot;: &quot;Realtime audio must be mono PCM signed 16-bit little-endian at 16000 Hz.&quot;
+    }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Causa</th>
+<th>Recuperação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>invalid_session</code></td>
+<td>A primeira mensagem não é um objeto de configuração válido.</td>
+<td>Corrija o handshake e reconecte; a AIVAX fecha esta conexão.</td>
+</tr>
+<tr>
+<td><code>invalid_reasoning_effort</code></td>
+<td>Esforço de raciocínio não suportado.</td>
+<td>Use <code>minimal</code>, <code>low</code>, <code>medium</code> ou <code>high</code>, então reconecte.</td>
+</tr>
+<tr>
+<td><code>invalid_voice</code></td>
+<td>Voz não suportada.</td>
+<td>Selecione uma voz listada, então reconecte.</td>
+</tr>
+<tr>
+<td><code>gateway_unavailable</code></td>
+<td>O gateway solicitado não pode ser resolvido para a conta.</td>
+<td>Verifique o identificador do gateway e acesso, então reconecte.</td>
+</tr>
+<tr>
+<td><code>invalid_event</code></td>
+<td>Uma mensagem pós‑handshake não é um objeto JSON.</td>
+<td>Corrija a serialização; a sessão pode continuar.</td>
+</tr>
+<tr>
+<td><code>unsupported_event</code></td>
+<td><code>event_type</code> desconhecido ou ausente.</td>
+<td>Envie um dos eventos de cliente documentados.</td>
+</tr>
+<tr>
+<td><code>invalid_audio_frame</code></td>
+<td>Base64, formato, taxa de amostragem, canais, contagem de bytes ou sequência não crescente inválidos.</td>
+<td>Corrija captura/ordenação antes de enviar mais quadros em tempo real.</td>
+</tr>
+<tr>
+<td><code>invalid_audio</code></td>
+<td>Payload WAV completo ausente ou inválido, ou payload acima de 75 MB.</td>
+<td>Envie um arquivo RIFF/WAVE válido ou use PCM em tempo real.</td>
+</tr>
+<tr>
+<td><code>unsupported_audio_format</code></td>
+<td>Entrada de arquivo completo não declarada como WAV.</td>
+<td>Converta para WAV ou use PCM em tempo real.</td>
+</tr>
+<tr>
+<td><code>transcription_failed</code></td>
+<td>A fala confirmada não pôde ser transcrita.</td>
+<td>Mantenha a conexão aberta; informe o usuário e capture uma nova fala.</td>
+</tr>
+<tr>
+<td><code>invalid_tool_result</code></td>
+<td>Objeto <code>tool_result</code> ausente.</td>
+<td>Envie o envelope documentado.</td>
+</tr>
+<tr>
+<td><code>unknown_tool_call</code></td>
+<td>O ID não está pendente, já foi respondido ou foi cancelado.</td>
+<td>Não reenvie; reconcilie o estado pendente do cliente.</td>
+</tr>
+<tr>
+<td><code>turn_failed</code></td>
+<td>A resposta atual de IA ou fala não pôde ser concluída.</td>
+<td>Mantenha a conexão aberta quando possível e permita outra fala; reconecte após falhas repetidas.</td>
+</tr>
+</tbody>
+</table>
+<p>Erros de configuração são terminais porque ocorrem antes da sessão iniciar. Erros de eventos em tempo de execução são normalmente recuperáveis e não exigem fechar o socket por si só. Fechamento de transporte, falha de autenticação ou falhas repetidas de turno devem mover o cliente para um estado desconectado.</p>
+<h2 id="integração-nodejs-de-referência">Integração Node.js de referência</h2>
+<p>O exemplo a seguir demonstra a máquina de estados do protocolo com o pacote <code>ws</code>. Ele intencionalmente deixa a captura de microfone e a reprodução de áudio específicas da plataforma para funções adaptadoras; essas partes diferem substancialmente entre navegadores, aplicações desktop, sistemas telefônicos e runtimes móveis.</p>
+<pre><code class="lang-javascript">import WebSocket from &quot;ws&quot;;
+
+const apiKey = process.env.AIVAX_API_KEY;
+if (!apiKey) {
+    throw new Error(&quot;Set AIVAX_API_KEY to a private account API key.&quot;);
+}
+
+const socket = new WebSocket(
+    &quot;wss://inference.aivax.net/api/v1/voice-session&quot;,
+    { headers: { Authorization: `Bearer ${apiKey}` } }
+);
+
+let inputSequence = 0;
+const responses = new Map();
+const pendingTools = new Map();
+
+socket.on(&quot;open&quot;, () =&gt; {
+    send({
+        event_type: &quot;session_start&quot;,
+        session: {
+            voice: &quot;Eve&quot;,
+            gateway: &quot;support-assistant&quot;,
+            language: null,
+            reasoning_effort: &quot;minimal&quot;,
+            context: &quot;The caller is using the account recovery screen.&quot;,
+            tools: []
+        }
+    });
+
+    startPcmCapture((pcmS16le) =&gt; {
+        send({
+            event_type: &quot;input_audio_buffer.append&quot;,
+            audio: {
+                sequence: inputSequence++,
+                format: &quot;pcm_s16le&quot;,
+                sample_rate: 16000,
+                channels: 1,
+                data: Buffer.from(pcmS16le).toString(&quot;base64&quot;)
+            }
+        });
+    });
+});
+
+socket.on(&quot;message&quot;, async (raw, isBinary) =&gt; {
+    if (isBinary) {
+        console.error(&quot;Unexpected binary WebSocket message&quot;);
+        return;
+    }
+
+    const message = raw.toString(&quot;utf8&quot;);
+    if (message === &quot;keep-alive&quot;) {
+        return;
+    }
+
+    const event = JSON.parse(message);
+
+    switch (event.event_type) {
+        case &quot;response.created&quot;:
+            responses.set(event.response_id, {
+                lastSequence: -1,
+                playedMs: 0,
+                cancelled: false,
+                serverDone: false,
+                playback: Promise.resolve()
+            });
+            break;
+
+        case &quot;output_audio&quot;: {
+            const state = responses.get(event.response_id);
+            if (!state || state.cancelled) break;
+            if (event.sequence &lt;= state.lastSequence) {
+                throw new Error(&quot;Non-increasing response sequence&quot;);
+            }
+
+            state.lastSequence = event.sequence;
+            const wav = Buffer.from(event.output_audio.data, &quot;base64&quot;);
+            const durationMs = event.output_audio.duration_ms;
+            state.playback = state.playback.then(async () =&gt; {
+                if (state.cancelled) return;
+                await playWav(event.response_id, wav);
+                state.playedMs += durationMs;
+            });
+            break;
+        }
+
+        case &quot;response.done&quot;: {
+            const state = responses.get(event.response_id);
+            if (!state) break;
+
+            state.serverDone = true;
+            await state.playback;
+            await acknowledgeIfPlaybackFinished(event.response_id);
+            break;
+        }
+
+        case &quot;output_audio_cancelled&quot;: {
+            const state = responses.get(event.response_id);
+            if (!state) break;
+
+            state.cancelled = true;
+            const audioEndMs = await stopPlaybackAndGetElapsedMs(event.response_id);
+            send({
+                event_type: &quot;conversation.item.truncate&quot;,
+                truncate: {
+                    response_id: event.response_id,
+                    audio_end_ms: Math.max(0, Math.round(audioEndMs))
+                }
+            });
+            break;
+        }
+
+        case &quot;tool_call&quot;: {
+            const state = responses.get(event.response_id);
+            if (state) {
+                if (event.sequence &lt;= state.lastSequence) {
+                    throw new Error(&quot;Non-increasing response sequence&quot;);
+                }
+                state.lastSequence = event.sequence;
+            }
+
+            pendingTools.set(event.tool_call.id, event.tool_call);
+            try {
+                const result = await executeAuthorizedTool(
+                    event.tool_call.name,
+                    event.tool_call.content
+                );
+                send({
+                    event_type: &quot;tool_result&quot;,
+                    tool_result: {
+                        id: event.tool_call.id,
+                        result: typeof result === &quot;string&quot;
+                            ? result
+                            : JSON.stringify(result)
+                    }
+                });
+            } finally {
+                pendingTools.delete(event.tool_call.id);
+            }
+            break;
+        }
+
+        case &quot;input_audio_buffer.stt_done&quot;:
+            console.log(&quot;User:&quot;, event.transcript);
+            break;
+
+        case &quot;error&quot;:
+            console.error(`Voice Session ${event.error.code}: ${event.error.message}`);
+            break;
+    }
+});
+
+socket.on(&quot;close&quot;, () =&gt; {
+    stopPcmCapture();
+    stopAllPlayback();
+    responses.clear();
+    pendingTools.clear();
+});
+
+socket.on(&quot;error&quot;, (error) =&gt; {
+    console.error(&quot;Voice Session transport error:&quot;, error);
+});
+
+function send(event) {
+    if (socket.readyState !== WebSocket.OPEN) return;
+    socket.send(JSON.stringify(event));
+}
+
+async function acknowledgeIfPlaybackFinished(responseId) {
+    const state = responses.get(responseId);
+    if (!state || state.cancelled || !state.serverDone) return;
+    if (isResponsePlaying(responseId)) return;
+
+    send({
+        event_type: &quot;output_audio_buffer.playback_completed&quot;,
+        response_id: responseId
+    });
+    responses.delete(responseId);
+}
+</code></pre>
+<p>Se adaptadores devem preservar estes invariantes:</p>
+<ul>
+<li><code>startPcmCapture</code> emite PCM mono s16le exatamente a 16 kHz;</li>
+<li>apenas um caminho atribui e envia <code>inputSequence</code>;</li>
+<li>cada resposta encadeia a reprodução através de sua promessa <code>playback</code> para que callbacks de mensagem não reproduzam segmentos simultaneamente;</li>
+<li><code>lastSequence</code> avança tanto para payloads de áudio quanto de chamada de ferramenta porque compartilham uma sequência de resposta;</li>
+<li><code>playWav</code> resolve após o segmento realmente ter sido reproduzido, não após ter sido enfileirado;</li>
+<li><code>stopPlaybackAndGetElapsedMs</code> retorna o tempo decorrido ao longo da linha de tempo completa da resposta;</li>
+<li><code>executeAuthorizedTool</code> valida argumentos e aplica a autorização do usuário atual;</li>
+<li>o fechamento do socket, incluindo o fechamento iniciado por <code>end_call</code>, encerra captura, reprodução e trabalho pendente da aplicação.</li>
+</ul>
+<p>O exemplo serializa a reprodução aguardando cada segmento WAV. Uma UI de produção pode usar um worker de reprodução dedicado, mas deve manter a mesma ordenação, cancelamento e semânticas de conclusão.</p>
+<h2 id="reconexão-e-orientações-de-ciclo-de-vida">Reconexão e orientações de ciclo de vida</h2>
+<p>Trate o WebSocket como um recurso com escopo de sessão:</p>
+<ul>
+<li>abra‑o somente quando a experiência de voz estiver ativa;</li>
+<li>envie a configuração imediatamente após <code>open</code>;</li>
+<li>inicie quadros de microfone somente depois que a configuração foi enviada;</li>
+<li>pare a captura do microfone antes de fechar intencionalmente o socket;</li>
+<li>limpe filas de áudio e chamadas de ferramenta pendentes quando o socket fechar;</li>
+<li>trate um fechamento de servidor após <code>end_call</code> como término de sessão intencional, não como falha de reconexão automática;</li>
+<li>use backoff exponencial com jitter para falhas de transporte inesperadas;</li>
+<li>não reproduza automaticamente quadros de áudio ou resultados de ferramentas da conexão anterior;</li>
+<li>informe ao usuário que uma reconexão inicia uma nova conversa;</li>
+<li>crie uma nova sequência de entrada começando em <code>0</code> somente para o novo WebSocket.</li>
+</ul>
+<p>Não tente novamente erros de configuração terminais sem mudar a configuração. Para falhas de rede transitórias, limite as tentativas e forneça um controle de reconexão explícito para que o usuário não fique preso em um loop invisível.</p>
+<h2 id="checklist-de-produção">Checklist de produção</h2>
+<p>Antes de enviar, verifique se a integração:</p>
+<ul>
+<li>mantém a chave de API privada em um backend confiável;</li>
+<li>envia a configuração como a primeira e única mensagem <code>session_start</code>;</li>
+<li>ignora o heartbeat de texto simples <code>keep-alive</code> antes de analisar eventos JSON;</li>
+<li>captura PCM mono s16le verdadeiro a 16 kHz;</li>
+<li>mantém <code>sequence</code> de entrada estritamente crescente durante toda a conexão;</li>
+<li>continua enviando silêncio para que limites de fala do servidor possam ser concluídos;</li>
+<li>decodifica cada evento <code>output_audio</code> como um arquivo WAV independente;</li>
+<li>ordena payloads de resposta por seu <code>sequence</code> escopo de resposta;</li>
+<li>separa filas de reprodução por <code>response_id</code>;</li>
+<li>não confunde <code>response.done</code> com conclusão de reprodução;</li>
+<li>envia a conclusão da reprodução somente após o usuário ouvir o segmento final;</li>
+<li>para o áudio imediatamente ao receber <code>output_audio_cancelled</code>;</li>
+<li>relata o corte real da reprodução através de <code>conversation.item.truncate</code>;</li>
+<li>valida e autoriza cada chamada de ferramenta do cliente;</li>
+<li>retorna cada resultado de ferramenta pendente com o ID exato da chamada;</li>
+<li>trata <code>error</code>, <code>error</code> de socket e <code>close</code> de socket de forma independente;</li>
+<li>limpa o estado da sessão ao desconectar em vez de reproduzir trabalho antigo;</li>
+<li>evita registrar chaves de API, áudio bruto do microfone, transcrições ou resultados de ferramentas, a menos que o produto tenha uma política explícita de retenção e privacidade.</li>
+</ul>
+
+</article>
+
+                <div class="contribution d-print-none">
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/inference/voice-session.md/#L1" class="edit-link">Edit this page</a>
+                </div>
+
+                <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+            </div>
+
+            <div class="affix">
+                <nav id="affix"></nav>
+            </div>
+        </main>
+
+        <div class="container-xxl search-results" id="search-results"></div>
+
+        <footer class="border-top text-secondary">
+            <div class="container-xxl">
+                <div class="flex-fill">
+                    <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+                </div>
+            </div>
+            <script>
+                if (window.location.pathname.startsWith('/docs/')) {
+                    document.getElementById('language-wrapper').style.display = 'block';
+                }
+                
+                function splitText(text, words) {
+                    if (!Array.isArray(words)) return [];
+                    const escapedWords = words.map(word =>
+                        word.replace(/([.*+?^${}()|[\]\\])/g, '\\$1').replace(/\s/g, '\\$&'));
+                        
+                    escapedWords.sort((a, b) => b.length - a.length || b.localeCompare(a, 'en-US', { sensitivity: 'base' }));
+                    const pattern = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+                    const splitResult = text.split(pattern);
+                    const cleanedResult = splitResult.filter(segment => segment !== '');
+                    return cleanedResult;
+                }
+                
+                function runPostHljsFunctions() {
+                    if (!document.querySelector("pre>code")) {
+                        return;
+                    }
+                    if (!document.querySelector(".hljs")) {
+                        setTimeout(runPostHljsFunctions, 100);
+                        return;
+                    }
+                    
+                    function highlightMissingCodeTokens(pre) {
+                        const tokenClasses = [
+                            "HttpResponse", "HttpRequest", "File", "Task",
+                            "Router", "Route", "StringContent", "StreamContent",
+                            "JsonContent", "RegexRoute", "HtmlContent", "CancellationTokenSource",
+                            "HttpContext", "Stream", "MultipartObject", "Thread", "Task", "Encoding",
+                            "HttpKnownHeaderNames", "HttpMethod", "List", "JsonSerializer",
+                            "LogStream", "HttpServer", "RotatingLogPolicy", "StringBuilder",
+                            "Console", "HttpRequestEventSource", "HttpWebSocket", "X509Certificate2",
+                            "AppDomain", "Path", "Directory", "HttpServerConfiguration", "ListeningHost",
+                            "ByteArrayContent", "ForwardingResolver", "IPAddress", "IPEndPoint",
+                            "HttpServerExecutionResult", "ArgumentNullException", "JsonSerializerOptions",
+                            "DbContext"
+                        ];
+                        const tokenValues = [
+                            "RouteMethod", "Guid", "RequestHandlerExecutionMode", "HttpStatusCode",
+                            "HttpStatusInformation", "DateTime", "TimeSpan", "RouterMethod",
+                            "ListeningPort"
+                        ];
+                        const tokenInterfaces = [
+                            "IRequestHandler", "IEnumerable", "ICollection", "IList"
+                        ];
+                        
+                        function runStyles(node) {
+                            if (node.nodeType === 3) {
+                                applyStyles(node);
+                                
+                            } else if (node.nodeType === 1) {
+                                
+                                const prohibitedClasses = ["hljs-comment", "hljs-string"];
+                                
+                                if (! prohibitedClasses.some(cls => node.classList.contains(cls))) {
+                                    for(const child of node.childNodes) {
+                                        runStyles(child);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        function applyStyles(textNode) {
+                            const text = textNode.textContent;
+                            const fragment = [];
+                            
+                            for (const token of splitText(text, [...tokenClasses, ...tokenValues, ...tokenInterfaces])) {
+                                if (tokenClasses.includes(token)) {
+                                    fragment.push(el("span.hljs-meta", token));
+                                    
+                                } else if (tokenValues.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-value", token));
+                                    
+                                } else if (tokenInterfaces.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-interface", token));
+                                    
+                                } else {
+                                    fragment.push(token);
+                                }
+                            }
+                            
+                            textNode.replaceWith(el.fragment(...fragment));
+                        }
+                        
+                        const code = pre.querySelector("code");
+                        if (code && (code.classList.contains("lang-csharp") || code.classList.contains("lang-cs"))) {
+                            runStyles(code);
+                        }
+                    }
+                    
+                    function addLineNumbers(pre) {
+                        const code = pre.querySelector("code");
+                        if (!code) return;
+                        
+                        var lines = (code.textContent.match(/\n/g) || []).length;
+                        
+                        if (lines <= 1) {
+                            return;
+                        }
+                        
+                        const lineElements = [];
+                        for (let i = 1; i <= lines; i++) {
+                            lineElements.push(el("span.hljs-line-number", i + "\n"));
+                        }
+                        
+                        code.prepend(el("div.line-numbers", ...lineElements));
+                        code.classList.add("has-line-numbers");
+                    }
+                                        
+                    document.querySelectorAll("pre").forEach(pre => {
+                        highlightMissingCodeTokens(pre);
+                        addLineNumbers(pre);
+                    });
+                }
+                
+                runPostHljsFunctions();
+            </script>
+        </footer>
+    </body>
+</html>

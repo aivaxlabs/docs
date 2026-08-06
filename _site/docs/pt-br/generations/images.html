@@ -127,15 +127,15 @@
                 <article data-uid="">
 <h1 id="geração-de-imagens">Geração de Imagens</h1>
 
-<p>Use a geração de imagens quando sua aplicação precisa de uma ou mais imagens a partir de um prompt de texto sem solicitar a um modelo de chat que chame a ferramenta de imagem integrada. Uma solicitação pode conter um prompt ou um array de prompts, e a AIVAX devolve as URLs das imagens geradas agrupadas pelo prompt que as produziu.</p>
+<p>Use a geração de imagens quando sua aplicação precisar de uma ou mais imagens a partir de um prompt de texto sem solicitar que um modelo de chat chame a ferramenta de imagem embutida. Uma requisição pode conter um prompt ou um array de prompts, e o AIVAX retorna as URLs das imagens geradas agrupadas pelo prompt que as produziu.</p>
 <h2 id="endpoint">Endpoint</h2>
 <div class="request-item post">
     <span>POST</span>
     <span>/api/v1/generations/images</span>
 </div>
 <h2 id="escolha-um-modelo">Escolha um modelo</h2>
-<p><code>model</code> é obrigatório e deve corresponder a um modelo exposto por <code>/api/v1/information/image-models.json</code>. Os nomes dos modelos são comparados sem diferenciar maiúsculas de minúsculas. A lista de modelos também expõe sinalizadores de capacidade, incluindo se um modelo suporta imagens de referência.</p>
-<p>Os campos da solicitação são:</p>
+<p><code>model</code> é obrigatório e deve corresponder a um modelo exposto por <code>/api/v1/information/image-models.json</code>. Os nomes dos modelos são comparados sem distinção entre maiúsculas e minúsculas. A lista de modelos também expõe indicadores de capacidade, incluindo se um modelo suporta imagens de referência.</p>
+<p>Os campos da requisição são:</p>
 <table>
 <thead>
 <tr>
@@ -173,12 +173,12 @@
 </tbody>
 </table>
 <p>Por exemplo, dois prompts com <code>count: 4</code> solicitam oito imagens no total. A resposta mantém cada prompt ao lado de seu próprio array <code>images</code> para que o chamador não precise inferir a qual URL cada entrada pertence.</p>
-<p>As URLs de referência são buscadas e normalizadas pela AIVAX antes da geração. Use URLs de imagens publicamente acessíveis com tipo de conteúdo de imagem. Cada referência é limitada pelo caminho de busca de mídia, e imagens não suportadas ou inacessíveis não podem ser usadas pelo provedor.</p>
+<p>As URLs de referência são buscadas e normalizadas pelo AIVAX antes da geração. Use URLs de imagens publicamente acessíveis com tipo de conteúdo de imagem. Cada referência é limitada pelo caminho de busca de mídia, e imagens não suportadas ou inacessíveis não são utilizáveis pelo provedor.</p>
 <h2 id="cobrança-e-limites">Cobrança e limites</h2>
-<p>O endpoint usa o mesmo serviço de geração de imagens e a <a href="/docs/pt-br/limits#built-in-tool-limits">cota do plano diário</a> da ferramenta de imagem integrada. Cada prompt consome uma operação de geração de imagens da cota; <code>count</code> controla quantas imagens essa operação solicita e afeta o custo do provedor.</p>
-<p>Imagens geradas são armazenadas pela AIVAX e retornadas como URLs. Baixe ou copie-as para armazenamento próprio da aplicação se precisar de uma política de retenção separada.</p>
+<p>O endpoint usa o mesmo serviço de geração de imagens e a <a href="/docs/pt-br/limits#plan-limits">cota diária do plano</a> da ferramenta de imagem embutida. Cada prompt consome uma operação de geração de imagens da cota; <code>count</code> controla quantas imagens essa operação solicita e afeta o custo do provedor.</p>
+<p>As imagens geradas são armazenadas pelo AIVAX e retornadas como URLs. Baixe ou copie-as para um armazenamento próprio da aplicação se precisar de uma política de retenção separada.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20images&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Para geração de imagens orientada por modelo dentro de uma conversa, habilite a ferramenta integrada de Geração de Imagens. O endpoint direto é melhor quando sua aplicação já sabe que uma imagem deve ser criada e deseja um formato de resposta previsível.</p>
+<p>Para geração de imagens dirigida por modelo dentro de uma conversa, habilite a ferramenta embutida de Geração de Imagens. O endpoint direto é melhor quando sua aplicação já sabe que uma imagem deve ser criada e deseja um formato de resposta previsível.</p>
 
 </article>
 

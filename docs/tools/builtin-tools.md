@@ -162,7 +162,7 @@ This function has a cost. The cost varies by the image generation model used. Im
 
 You can also enable the generation of explicit and adult images in image generation. When this feature is enabled, the model will be allowed to generate adult material. For this to happen, the model must also “agree” to generate such content. Some models have a lower security filter than others. For example, Gemini models have the lowest security filter, making them a viable option for role‑play and generating such material.
 
-You are always responsible for the [material you generate](/docs/legal/terms-of-service.md) and the generated material must be compatible with our terms of service.
+You are always responsible for the [material you generate](/docs/legal/terms-of-service) and the generated material must be compatible with our terms of service.
 
 The available image generation models are:
 - `gpt-image-2`

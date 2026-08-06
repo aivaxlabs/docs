@@ -40,7 +40,7 @@ AIVAX applies the selected reranker after vector candidates are found. The defau
 
 Provider models use deterministic `@provider/name` identifiers. Read the live `/api/v1/information/rerankers-models.json` catalog for the available models, prices, autonomous-use capability, and technical limits. See [Rerankers](reranking.md) for the current model list and selection guidance.
 
-All non-`none` rerankers share the account's [reranking-search limit](/docs/limits#rag-and-collection-limits).
+All non-`none` rerankers share the account's [reranking-search limit](/docs/limits#plan-limits).
 
 > [!NOTE]
 > Reranking does not search additional documents. It only reorders candidates already found by the vector search stage.

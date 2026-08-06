@@ -15,7 +15,7 @@ function isDirectory(filePath) {
 function enumerateMdFiles(dir) {
     const files = fs.readdirSync(dir);
     let mdFiles = [];
-    
+
     for (const file of files) {
         const filePath = path.join(dir, file);
 
@@ -39,7 +39,7 @@ async function runInference(text) {
         console.error("GROQ_API_KEY environment variable is not set.");
         process.exit(1);
     }
-    
+
     const response = await fetch('https://inference.aivax.net/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -67,7 +67,7 @@ async function runInference(text) {
 
         } else {
             console.error("Failed to translate the markdown file.");
-            console.error(await response.text());
+            console.error(resJson);
             process.exit(1);
         }
     }
@@ -115,7 +115,7 @@ ${text}
         const fileName = mdFile.replace(targetDir, '');
 
         for (const [langName, langCode] of Object.entries(translations)) {
-            
+
             const prompt = getPrompt(langName, fileName, fileContents);
             const translationPath = path.join(targetDir, langCode, fileName);
             const translationDir = path.dirname(translationPath);
@@ -123,7 +123,7 @@ ${text}
             if (fs.existsSync(translationPath)) {
                 continue;
             }
-            
+
             const translated = (await runInference(prompt))
                 .replace(/\]\(\/docs\//g, `](/docs/${langCode}/`)
                 .replace(/\]\(https:\/\/docs\.aivax\.net\/docs\//g, `](https://docs.aivax.net/docs/${langCode}/`);
@@ -138,7 +138,7 @@ ${text}
             translatedCount++;
         }
     }
-    
+
     if (translatedCount == 0) {
         console.log("No files to translate.");
     } else {

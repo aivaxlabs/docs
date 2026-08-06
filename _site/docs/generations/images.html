@@ -175,7 +175,7 @@
 <p>For example, two prompts with <code>count: 4</code> request eight images in total. The response keeps each prompt beside its own <code>images</code> array so the caller does not need to infer which URL belongs to which input.</p>
 <p>Reference URLs are fetched and normalized by AIVAX before generation. Use publicly reachable image URLs with an image content type. Each reference is limited by the media-fetch path, and unsupported or inaccessible images are not usable by the provider.</p>
 <h2 id="billing-and-limits">Billing and limits</h2>
-<p>The endpoint uses the same image-generation service and <a href="/docs/limits#built-in-tool-limits">daily plan quota</a> as the built-in image tool. Each prompt consumes one image-generation operation from the quota; <code>count</code> controls how many images that operation requests and affects provider cost.</p>
+<p>The endpoint uses the same image-generation service and <a href="/docs/limits#plan-limits">daily plan quota</a> as the built-in image tool. Each prompt consumes one image-generation operation from the quota; <code>count</code> controls how many images that operation requests and affects provider cost.</p>
 <p>Generated images are stored by AIVAX and returned as URLs. Download or copy them to application-owned storage if you require a separate retention policy.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20images&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <p>For model-driven image generation inside a conversation, enable the Image Generation built-in tool instead. The direct endpoint is better when your application already knows that an image must be created and wants a predictable response shape.</p>
