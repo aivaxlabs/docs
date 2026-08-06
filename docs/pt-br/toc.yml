@@ -36,6 +36,8 @@
   href: inference/ai-gateway.md
 - name: Inferência
   href: inference/inference.md
+- name: Sessão de voz
+  href: inference/voice-session.md
 - name: Pipeline de processamento
   href: inference/pipelines.md
 - name: Respostas estruturadas
