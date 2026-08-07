@@ -35,13 +35,14 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | BYOK requests | 30/min | 200/min | — |
 | Maximum context | 65,536 input tokens | — | — |
 | Subscription model reserve | Not included | 250 units/6h and 3,000 units/week | 1,000 units/6h and 15,000 units/week |
-| Text-to-speech requests | 3/min and 15/hour | 30/min | 300/min |
+| Text-to-speech and audio-transcription requests | 3/min and 15/hour | 30/min | 300/min |
 | **RAG and collections** |  |  |  |
 | Collections | 5 | — | — |
 | Semantic searches | 20/min | 500/min | 3,000/min |
+| Text-classification documents | 30/min and 300/day | 1,000/min | 10,000/min |
 | Text-segmentation documents | 10/min and 100/day | 300/min | 2,500/min |
 | Reranking searches | 30/min | 1,000/min | — |
-| Reflex input tokens | 128,000/min | 1,000,000/min | 50,000,000/min |
+| Reflex processing time | 30 minutes/day | 6 hours/day | — |
 | Document insertions | 500/day | 10,000/day | — |
 | JSONL documents per import request | 1,000 | 10,000 | 1,000,000 |
 | Compound file processing | Not available | 3 files/day | 10 files/day |
@@ -56,8 +57,8 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | **Batch processing** |  |  |  |
 | Workflow items processed | 500/day | 100,000/day | — |
 | Files per import request | 1,000 | 1,000 | 1,000 |
-| Total import size | 100 MB/request | 100 MB/request | 100 MB/request |
-| Single imported file size | 10 MB | 10 MB | 10 MB |
+| Total import size | 100 MiB/request | 100 MiB/request | 100 MiB/request |
+| Single imported file size | 10 MiB | 10 MiB | 10 MiB |
 | **Account and support** |  |  |  |
 | Storage quota | 30 MB | 2 GB | 20 GB |
 | Cost per excess GB | — | $0.50/GB/month | $0.20/GB/month |
@@ -77,11 +78,13 @@ For example, a Pro account normally has 200 integrated-model requests per minute
 
 BYOK uses a provider key configured on the gateway instead of an integrated AIVAX model, but requests still pass through AIVAX infrastructure and use the plan's BYOK limit.
 
-The text-segmentation quota counts each item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+Text-classification and text-segmentation quotas each count every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`. Text classification uses the default embedding model and is billed for the embedding work performed.
+
+Text-to-speech and standalone audio transcription share the same plan request quota. Voice sessions consume that quota when they start speech synthesis; their transcription and conversational inference are metered as part of the session and do not have a separate plan quota.
 
 The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to the autonomous reranking endpoint and to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.
 
-The Reflex limit counts all query and document input tokens reported for a request, including cached input tokens. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](rag/reflex.md) for request limits, cache behavior, and pricing.
+The Reflex limit counts the time spent processing Reflex requests. It applies to the autonomous reranking endpoint and RAG searches that use Reflex; cached input does not consume the quota separately. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](rag/reflex.md) for request limits, cache behavior, and pricing.
 
 General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.
 

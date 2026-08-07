@@ -3,9 +3,15 @@ article {
     --bs-table-color: --article-color;
     padding-bottom: 200px;
 
+    b,
+    strong {
+        font-weight: 500;
+    }
+
     p,
-    li {
-        line-height: 1.75;
+    li,
+    td {
+        line-height: 1.6;
     }
 
     h1,
@@ -17,7 +23,6 @@ article {
     h1 {
         margin-bottom: 1em;
         font-size: 1.8em;
-        font-weight: 300;
 
         & :first-child {
             font-size: 2.35em;
@@ -27,7 +32,6 @@ article {
     h2 {
         margin-block: 3.75em 1.25em;
         font-size: 1.5em;
-        font-weight: 300;
 
         padding-top: 1.5em;
         border-top: 1px solid --bs-border-color;

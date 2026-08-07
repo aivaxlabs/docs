@@ -39,6 +39,42 @@ The final unit price is multiplied by the account tax multiplier and the current
 | Pro | 1.05x |
 | Max | 1.00x |
 
+## Pricing list
+
+| Service | Pricing |
+| ------- | ------------ |
+| **Account** |
+| Storage | - Free Plan: **30 MB** included, no expansion<br>- Pro Plan: **2 GB** included, **$0.50/GB/month** for excess, billed hourly<br>- Max Plan: **20 GB** included, **$0.20/GB/month** for excess, billed hourly |
+| **Inference** |
+| Moderation | - Input: **$0.10/M tokens**<br>- Cache: **$0.0375/M tokens**<br>- Output: **$0.30/M tokens**<br>- Context size: 16K tokens |
+| **RAG and collections** |
+| Collections | Text embedding: **$0.015/M tokens** |
+| Semantic search | Query: **$0.015/M tokens** |
+| RAG responses | ~**$0.50/M tokens** (3) |
+| Text segmentation | **$0.30/M tokens** |
+| Text classification | **$0.015/M tokens** |
+| Reflex | - Cache miss: **$0.015/M tokens**<br>- Cache hit: **$0.003/M tokens** |
+| **Voice and speech** |
+| Voice Sessions | **$0.05/minute** |
+| **Internet access** |
+| Web search | **$5/1k searches** |
+| X (Twitter) search | **$5/1k searches** |
+| Advanced web search | ~**$0.75/M tokens** (1) |
+| Fetch and OCR extraction | - Free Plan: **1,000 PU/day free**, **$0.15/1k PUs**<br>- Pro Plan: **10,000 PU/day free**, **$0.05/1k PUs**<br>- Max Plan: **50,000 PU/day free**, **$0.02/1k PUs** (2) |
+| **Media generation** |
+| Image generation | Varies by model |
+| Speech-to-text | Varies by model |
+| Text-to-speech | Varies by model |
+| Media descriptions | **~$1.50/mtokens** (2) |
+| **Other tools** |
+| Memory and calendar | No cost |
+| Advanced requests | No cost |
+| Document generation | No cost |
+| Web page generation | No cost |
+
+- <small>(1) Advanced internet search pricing applies to an external model connected to internet and search tools; the price varies based on the number of interactions performed by the agent.</small>
+- <small>(2) Pricing for text extraction from media applies to a small omni-modal model, subject to availability.</small>
+- <small>(3) Pricing for RAG response generation does not include the cost of query embedding; the price varies based on the summarization model.</small>
 ## Inference billing
 
 Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:
@@ -48,54 +84,7 @@ Integrated model billing uses the model's pricing table from the backend. Pricin
 - Audio input tokens, when applicable.
 - Output tokens.
 
-Some integrated models can be covered by subscription-model reserve windows. When a model has a subscription usage multiplier and the account still has reserve remaining in both the six-hour and weekly windows, the recorded model usage can be covered instead of charged to balance.
-
-Current reserve windows are:
-
-| Plan | Six-hour reserve | Weekly reserve |
-| --- | --- | --- |
-| Free | None | None |
-| Pro | 250 units | 3,000 units |
-| Max | 1,000 units | 15,000 units |
-
-BYOK calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.
-
-## RAG billing
-
-Embedding price for both search and indexing is **$0.015** per million input tokens.
-
-This applies to document indexing and query embedding usage that uses the default embedding model. Reranking, when enabled, can add separate reranking usage. Provider prices and billing units are exposed by `/api/v1/information/rerankers-models.json`; see [Rerankers](rag/reranking.md).
-
-### Text segmentation
-
-Text segmentation is billed from the total input and output tokens measured for the request is **US$0.30** per million total tokens.
-
-The account's [plan commission multiplier](#usage-billing) is applied when usage is recorded. The final amount appears in `data.usage.cost` in the endpoint response.
-
-### Reflex
-
-Reflex has two input-token prices:
-
-| Input type | Base price |
-| --- | ---: |
-| Cache miss | **US$0.015** per million tokens |
-| Cache hit | **US$0.003** per million tokens |
-
-Cache-hit pricing applies when input processing can be reused. Cache-miss pricing applies when input must be processed. The account's [plan commission multiplier](#usage-billing) is applied when usage is recorded. See [Reflex](rag/reflex.md) for request limits and cache behavior.
-
-## Storage billing
-
-Storage is checked before balance-gated operations. If storage usage exceeds the plan quota, the request can fail with `402 Payment Required`.
-
-| Plan | Included storage | Overage |
-| --- | --- | --- |
-| Free | 30 MB | No paid overage |
-| Pro | 2 GB | $0.50/GB/month, charged hourly |
-| Max | 20 GB | $0.20/GB/month, charged hourly |
-
-Storage overage is charged hourly. The job bills only excess usage above the included quota, and only when the billable excess is greater than 1 MB.
-
-Storage can include RAG document content and vectors, long-term memory items, media description cache, web chat session content, and shell files.
+BYOK (Bring-Your-Own-Key) calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.
 
 ## Balance requirements
 

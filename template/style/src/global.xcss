@@ -1,7 +1,7 @@
 :root {
     --bs-font-sans-serif: "General Sans", "Segoe UI", system-ui, sans-serif;
     --bs-font-monospace: "Geist Mono", "Geist Mono Fallback", Consolas, SFMono-Regular, Roboto Mono, Menlo, Monaco, Liberation Mono, DejaVu Sans Mono, "Courier New", ui-monospace, monospace;
-    --bs-body-font-size: 14px;
+    --bs-body-font-size: 15px;
     --bs-link-color: --primary;
     --bs-transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
@@ -21,7 +21,7 @@ html[data-bs-theme="dark"] {
     --scrollbar-color-track: #1a1a1b;
     --scrollbar-color-thumb: #454540;
     --bs-border-color: #383834;
-    --article-color: #bcbcb5;
+    --article-color: #ecece6;
 
     --code-block-bg: #151715;
     --code-block-border: #383834;
@@ -41,12 +41,12 @@ html[data-bs-theme="light"] {
     --bs-danger-bg-subtle: #ffe8ea;
     --bs-warning-bg-subtle: #fff9e5;
     --bs-info-bg-subtle: #eafbff;
-    --bs-body-bg: #fff9f3;
-    --bs-body-bg-alt: #faf2ea;
+    --bs-body-bg: #fffdfa;
+    --bs-body-bg-alt: #fbf8f5;
     --scrollbar-color-track: #fff9f3;
     --scrollbar-color-thumb: #dfddd6;
     --bs-border-color: #dfddd6;
-    --article-color: #61645f;
+    --article-color: #2d302b;
 
     --code-block-bg: #fff9f3;
     --code-block-border: #dfddd6;

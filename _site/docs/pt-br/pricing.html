@@ -131,15 +131,15 @@
 <p>O backend calcula o saldo como:</p>
 <pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
 </code></pre>
-<p>Use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para os preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que está visível na fonte da API.</p>
+<p>Use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para os preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que é visível no código-fonte da API.</p>
 <h2 id="créditos-e-faturas">Créditos e faturas</h2>
 <p>Créditos são representados como faturas.</p>
 <ul>
-<li>Faturas pagas aumentam o saldo utilizável da conta até a data de validade.</li>
-<li>Faturas de pagamento não pagas são criadas com validade de um ano.</li>
+<li>Faturas pagas aumentam o saldo utilizável da conta até a data de expiração.</li>
+<li>Faturas de pagamento não pagas são criadas com expiração de um ano.</li>
 <li>Faturas não pagas com mais de três dias são removidas pela limpeza.</li>
 <li>Faturas pagas expiradas não contam mais para o saldo.</li>
-<li>A criação de fatura de pagamento requer pelo menos 3 USD e tem limite de taxa.</li>
+<li>A criação de fatura de pagamento requer ao menos 3 USD e tem limite de taxa.</li>
 </ul>
 <h2 id="faturamento-de-uso">Faturamento de uso</h2>
 <p>Cada operação faturável grava um ou mais registros de uso. Cada registro de uso contém:</p>
@@ -161,7 +161,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Free</td>
+<td>Gratuito</td>
 <td>1.25x</td>
 </tr>
 <tr>
@@ -174,6 +174,134 @@
 </tr>
 </tbody>
 </table>
+<h2 id="lista-de-preços">Lista de preços</h2>
+<table>
+<thead>
+<tr>
+<th>Serviço</th>
+<th>Preço</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Conta</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Armazenamento</td>
+<td>- Plano Gratuito: <strong>30 MB</strong> incluídos, sem expansão<br>- Plano Pro: <strong>2 GB</strong> incluídos, <strong>$0.50/GB/mês</strong> para excedente, cobrado por hora<br>- Plano Max: <strong>20 GB</strong> incluídos, <strong>$0.20/GB/mês</strong> para excedente, cobrado por hora</td>
+</tr>
+<tr>
+<td><strong>Inferência</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Moderação</td>
+<td>- Entrada: <strong>$0.10/M tokens</strong><br>- Cache: <strong>$0.0375/M tokens</strong><br>- Saída: <strong>$0.30/M tokens</strong><br>- Tamanho do contexto: 16K tokens</td>
+</tr>
+<tr>
+<td><strong>RAG e coleções</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Coleções</td>
+<td>Incorporação de texto: <strong>$0.015/M tokens</strong></td>
+</tr>
+<tr>
+<td>Busca semântica</td>
+<td>Consulta: <strong>$0.015/M tokens</strong></td>
+</tr>
+<tr>
+<td>Respostas RAG</td>
+<td>~<strong>$0.50/M tokens</strong> (3)</td>
+</tr>
+<tr>
+<td>Segmentação de texto</td>
+<td><strong>$0.30/M tokens</strong></td>
+</tr>
+<tr>
+<td>Classificação de texto</td>
+<td><strong>$0.015/M tokens</strong></td>
+</tr>
+<tr>
+<td>Reflex</td>
+<td>- Falha de cache: <strong>$0.015/M tokens</strong><br>- Acerto de cache: <strong>$0.003/M tokens</strong></td>
+</tr>
+<tr>
+<td><strong>Voz e fala</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Sessões de voz</td>
+<td><strong>$0.05/minuto</strong></td>
+</tr>
+<tr>
+<td><strong>Acesso à internet</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Busca na web</td>
+<td><strong>$5/1k buscas</strong></td>
+</tr>
+<tr>
+<td>Busca no X (Twitter)</td>
+<td><strong>$5/1k buscas</strong></td>
+</tr>
+<tr>
+<td>Busca avançada na web</td>
+<td>~<strong>$0.75/M tokens</strong> (1)</td>
+</tr>
+<tr>
+<td>Busca e extração OCR</td>
+<td>- Plano Gratuito: <strong>1.000 PU/dia gratuito</strong>, <strong>$0.15/1k PUs</strong><br>- Plano Pro: <strong>10.000 PU/dia gratuito</strong>, <strong>$0.05/1k PUs</strong><br>- Plano Max: <strong>50.000 PU/dia gratuito</strong>, <strong>$0.02/1k PUs</strong> (2)</td>
+</tr>
+<tr>
+<td><strong>Geração de mídia</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Geração de imagem</td>
+<td>Varia por modelo</td>
+</tr>
+<tr>
+<td>Conversão fala‑texto</td>
+<td>Varia por modelo</td>
+</tr>
+<tr>
+<td>Conversão texto‑fala</td>
+<td>Varia por modelo</td>
+</tr>
+<tr>
+<td>Descrições de mídia</td>
+<td><strong>~$1.50/mtokens</strong> (2)</td>
+</tr>
+<tr>
+<td><strong>Outras ferramentas</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>Memória e calendário</td>
+<td>Sem custo</td>
+</tr>
+<tr>
+<td>Solicitações avançadas</td>
+<td>Sem custo</td>
+</tr>
+<tr>
+<td>Geração de documentos</td>
+<td>Sem custo</td>
+</tr>
+<tr>
+<td>Geração de página web</td>
+<td>Sem custo</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><small>(1) O preço da busca avançada na internet se aplica a um modelo externo conectado à internet e às ferramentas de busca; o preço varia com base no número de interações realizadas pelo agente.</small></li>
+<li><small>(2) O preço da extração de texto de mídia se aplica a um pequeno modelo omni‑modal, sujeito à disponibilidade.</small></li>
+<li><small>(3) O preço da geração de resposta RAG não inclui o custo da incorporação da consulta; o preço varia com base no modelo de sumarização.</small></li>
+</ul>
 <h2 id="faturamento-de-inferência">Faturamento de inferência</h2>
 <p>O faturamento de modelo integrado usa a tabela de preços do modelo do backend. O preço pode variar por modelo e por limite de tokens de entrada. O uso pode incluir:</p>
 <ul>
@@ -182,94 +310,9 @@
 <li>Tokens de entrada de áudio, quando aplicável.</li>
 <li>Tokens de saída.</li>
 </ul>
-<p>Alguns modelos integrados podem ser cobertos por janelas de reserva de modelo de assinatura. Quando um modelo tem um multiplicador de uso de assinatura e a conta ainda tem reserva restante tanto nas janelas de seis horas quanto nas semanais, o uso registrado do modelo pode ser coberto ao invés de ser cobrado do saldo.</p>
-<p>As janelas de reserva atuais são:</p>
-<table>
-<thead>
-<tr>
-<th>Plano</th>
-<th>Reserva de seis horas</th>
-<th>Reserva semanal</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>Nenhum</td>
-<td>Nenhum</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>250 unidades</td>
-<td>3.000 unidades</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1.000 unidades</td>
-<td>15.000 unidades</td>
-</tr>
-</tbody>
-</table>
-<p>Chamadas BYOK usam sua chave de provedor externo, mas a AIVAX ainda impõe limites de requisição BYOK porque a requisição passa pela infraestrutura da AIVAX.</p>
-<h2 id="faturamento-rag">Faturamento RAG</h2>
-<p>O preço de incorporação para busca e indexação é <strong>$0.015</strong> por milhão de tokens de entrada.</p>
-<p>Isso se aplica ao uso de indexação de documentos e incorporação de consultas que usa o modelo de incorporação padrão. Reranking, quando habilitado, pode adicionar uso separado de reranking. Preços dos provedores e unidades de faturamento são expostos por <code>/api/v1/information/rerankers-models.json</code>; veja <a href="rag/reranking.html">Rerankers</a>.</p>
-<h3 id="segmentação-de-texto">Segmentação de texto</h3>
-<p>A segmentação de texto é cobrada a partir do total de tokens de entrada e saída medidos para a requisição, sendo <strong>US$0.30</strong> por milhão de tokens totais.</p>
-<p>O <a href="#faturamento-de-uso">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. O valor final aparece em <code>data.usage.cost</code> na resposta do endpoint.</p>
-<h3 id="reflex">Reflex</h3>
-<p>Reflex tem dois preços de token de entrada:</p>
-<table>
-<thead>
-<tr>
-<th>Tipo de entrada</th>
-<th style="text-align: right;">Preço base</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache miss</td>
-<td style="text-align: right;"><strong>US$0.015</strong> por milhão de tokens</td>
-</tr>
-<tr>
-<td>Cache hit</td>
-<td style="text-align: right;"><strong>US$0.003</strong> por milhão de tokens</td>
-</tr>
-</tbody>
-</table>
-<p>O preço para acerto de cache (cache-hit) se aplica quando o processamento de entrada pode ser reutilizado. O preço para falha de cache (cache-miss) se aplica quando a entrada deve ser processada. O <a href="#faturamento-de-uso">multiplicador de comissão do plano</a> da conta é aplicado quando o uso é registrado. Veja <a href="rag/reflex.html">Reflex</a> para limites de requisição e comportamento de cache.</p>
-<h2 id="faturamento-de-armazenamento">Faturamento de armazenamento</h2>
-<p>O armazenamento é verificado antes de operações limitadas por saldo. Se o uso de armazenamento exceder a cota do plano, a requisição pode falhar com <code>402 Payment Required</code>.</p>
-<table>
-<thead>
-<tr>
-<th>Plano</th>
-<th>Armazenamento incluído</th>
-<th>Excesso</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td>30 MB</td>
-<td>Sem excesso pago</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td>2 GB</td>
-<td>$0.50/GB/mês, cobrado por hora</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>20 GB</td>
-<td>$0.20/GB/mês, cobrado por hora</td>
-</tr>
-</tbody>
-</table>
-<p>O excesso de armazenamento é cobrado por hora. O trabalho cobra apenas o uso excessivo acima da cota incluída, e somente quando o excesso faturável for maior que 1 MB.</p>
-<p>O armazenamento pode incluir conteúdo e vetores de documentos RAG, itens de memória de longo prazo, cache de descrição de mídia, conteúdo de sessões de chat web e arquivos de shell.</p>
+<p>Chamadas BYOK (Bring-Your-Own-Key) usam sua chave de provedor externo, mas a AIVAX ainda impõe limites de solicitação BYOK porque a solicitação passa pela infraestrutura da AIVAX.</p>
 <h2 id="requisitos-de-saldo">Requisitos de saldo</h2>
-<p>Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também param quando o saldo está zero ou negativo. Alguns tipos de entrada de conclusão de chat multimodal exigem um saldo mínimo antes de iniciar a chamada ao modelo:</p>
+<p>Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também param quando o saldo é zero ou negativo. Algumas entradas multimodais de conclusão de chat exigem um saldo mínimo antes de iniciar a chamada ao modelo:</p>
 <table>
 <thead>
 <tr>
@@ -279,11 +322,11 @@
 </thead>
 <tbody>
 <tr>
-<td>Image or audio</td>
+<td>Imagem ou áudio</td>
 <td>$0.10</td>
 </tr>
 <tr>
-<td>File or video</td>
+<td>Arquivo ou vídeo</td>
 <td>$0.50</td>
 </tr>
 </tbody>
@@ -294,15 +337,15 @@
 <ul>
 <li>Acesso ao modelo.</li>
 <li>Multiplicador de comissão.</li>
-<li>Limites de taxa de requisição e token.</li>
-<li>Limites de requisição BYOK.</li>
+<li>Limites de taxa de solicitações e tokens.</li>
+<li>Limites de solicitações BYOK.</li>
 <li>Cotas RAG.</li>
 <li>Limites de ferramentas.</li>
-<li>Cota de armazenamento e preço de excesso.</li>
+<li>Cota de armazenamento e preço de excedente.</li>
 <li>Retenção de conversas.</li>
-<li>Janelas de reserva de modelo de assinatura.</li>
+<li>Janelas de reserva do modelo de assinatura.</li>
 </ul>
-<p>Veja <a href="limits.html">Planos e limites</a> para a matriz técnica de cotas.</p>
+<p>Consulte <a href="limits.html">Planos e limites</a> para a matriz técnica de cotas.</p>
 
 </article>
 

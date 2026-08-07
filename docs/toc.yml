@@ -19,14 +19,14 @@
   href: rag/collections.md
 - name: Semantic search
   href: rag/semantic-search.md
-- name: Reflex
-  href: rag/reflex.md
 - name: Text segmentation
   href: rag/text-segmentation.md
-- name: Rerankers
-  href: rag/reranking.md
 - name: Text classification
   href: rag/classification.md
+- name: Rerankers
+  href: rag/reranking.md
+- name: Reflex
+  href: rag/reflex.md
 - name: Best practices
   href: rag/best-practices.md
 
