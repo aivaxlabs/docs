@@ -204,7 +204,7 @@
 <td>1,000 units/6h and 15,000 units/week</td>
 </tr>
 <tr>
-<td>Text-to-speech and audio-transcription requests</td>
+<td>Standalone text-to-speech and audio-transcription requests</td>
 <td>3/min and 15/hour</td>
 <td>30/min</td>
 <td>300/min</td>
@@ -409,7 +409,7 @@
 <p>For example, a Pro account normally has 200 integrated-model requests per minute. With a <code>Discounted</code> model group, the adjusted threshold is 100 requests per minute.</p>
 <p>BYOK uses a provider key configured on the gateway instead of an integrated AIVAX model, but requests still pass through AIVAX infrastructure and use the plan's BYOK limit.</p>
 <p>Text-classification and text-segmentation quotas each count every item in the request's <code>documents</code> array, not each HTTP request. A request that would exceed any active window returns <code>429 Too Many Requests</code>. Text classification uses the default embedding model and is billed for the embedding work performed.</p>
-<p>Text-to-speech and standalone audio transcription share the same plan request quota. Voice sessions consume that quota when they start speech synthesis; their transcription and conversational inference are metered as part of the session and do not have a separate plan quota.</p>
+<p>Standalone text-to-speech and audio transcription share the same plan request quota. Voice Sessions use the selected  realtime model and are subject to applicable model access, balance, and inference limits instead of this standalone request quota. Input transcription is not currently supported inside Voice Sessions.</p>
 <p>The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to the autonomous reranking endpoint and to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.</p>
 <p>The Reflex limit counts the time spent processing Reflex requests. It applies to the autonomous reranking endpoint and RAG searches that use Reflex; cached input does not consume the quota separately. Requests that exceed the plan limit return <code>429 Too Many Requests</code>. See <a href="rag/reflex.html">Reflex</a> for request limits, cache behavior, and pricing.</p>
 <p>General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.</p>

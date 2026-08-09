@@ -127,1075 +127,166 @@
                 <article data-uid="">
 <h1 id="voice-session">Voice Session</h1>
 
-<p>Voice Session is AIVAX's realtime, stateful voice conversation API. One authenticated WebSocket carries microphone audio, speech-detection events, transcriptions, AI turns, synthesized WAV segments, interruptions, and client-executed tool calls for the lifetime of the conversation. The agent can also end the call directly through the server-provided <code>end_call</code> tool.</p>
-<p>Use Voice Session when the user should be able to speak naturally, hear the assistant as soon as audio is ready, and interrupt an answer by speaking again. AIVAX owns the speech-to-text, conversational inference, turn history, server-side voice activity detection, response segmentation, and text-to-speech pipeline.</p>
-<p>Use the standalone <a href="/docs/generations/audio-transcriptions">Audio Transcriptions</a> and <a href="/docs/generations/speech">Speech Generation</a> endpoints instead when your application processes complete recordings or already has the final text. Use regular <a href="/docs/inference/inference">Inference</a> when the interaction is text-first or your application needs to orchestrate every stage independently.</p>
-<h2 id="what-a-session-does">What a session does</h2>
-<p>After the WebSocket upgrade, the client sends one configuration message. AIVAX validates the configuration and immediately creates the first assistant turn, which produces a short greeting based on the selected AI Gateway and optional session context.</p>
-<p>For the rest of the connection:</p>
-<ol>
-<li>The client continuously sends mono PCM frames, including the silence between utterances.</li>
-<li>AIVAX detects when speech starts and stops.</li>
-<li>When speech stops, AIVAX transcribes the captured utterance.</li>
-<li>AIVAX adds the transcript to the session conversation and starts an AI response.</li>
-<li>Synthesized WAV segments are sent as soon as they become available.</li>
-<li>If the user starts speaking while the assistant is responding, AIVAX cancels that response and starts capturing the new utterance.</li>
-<li>The client reports playback completion or the exact playback cutoff so the conversation retains only the assistant content the user actually heard.</li>
-<li>When the conversation is complete or the caller asks to hang up, the agent can invoke <code>end_call</code> and AIVAX closes the WebSocket from the server approximately 200 ms later.</li>
-</ol>
-<p>The conversation state exists only for the active WebSocket. Closing the connection, including a server-side <code>end_call</code>, ends the session. Reconnecting creates a new session and a new greeting; the protocol does not resume a disconnected session.</p>
-<h2 id="when-to-use-voice-session">When to use Voice Session</h2>
-<p>Voice Session is a good fit for:</p>
-<ul>
-<li>conversational assistants with microphone and speaker playback;</li>
-<li>hands-free support, tutoring, intake, and guided workflows;</li>
-<li>low-latency answers that should begin playing before the full answer is synthesized;</li>
-<li>conversations where users can interrupt the assistant naturally;</li>
-<li>voice agents that expose application-owned tools and return their results over the same connection.</li>
-</ul>
-<p>Prefer another API when:</p>
-<ul>
-<li>you need transcription only, without an AI response;</li>
-<li>you need to synthesize known text once;</li>
-<li>the client uploads complete recordings asynchronously;</li>
-<li>you need to choose the speech-to-text or text-to-speech model independently;</li>
-<li>a public browser key is your only available authentication boundary.</li>
-</ul>
-<h2 id="endpoint-and-authentication">Endpoint and authentication</h2>
-<div class="request-item get">
-    <span>GET</span>
-    <span>/api/v1/voice-session</span>
-</div>
-<p>Open the production endpoint as:</p>
+<p>Voice Session is AIVAX's low-latency, stateful voice API. It keeps the authenticated AIVAX WebSocket endpoint while connecting to a realtime inference service. Events follow the OpenAI-compatible GA Realtime JSON protocol after the connection is upgraded.</p>
+<p>Use Voice Session for natural spoken conversations with streaming audio, assistant speech transcripts, server voice activity detection (VAD), interruptions, and tool calls. Use <a href="/docs/generations/audio-transcriptions">Audio Transcriptions</a> for transcription-only workloads or <a href="/docs/generations/speech">Speech Generation</a> when the text to synthesize is already known.</p>
+<h2 id="connect-securely">Connect securely</h2>
+<p>Open a WebSocket upgrade request to:</p>
 <pre><code class="lang-text">wss://inference.aivax.net/api/v1/voice-session
 </code></pre>
-<p>The HTTP request must be a WebSocket upgrade authenticated with a <strong>private</strong> account API key. Public API keys cannot open voice sessions.</p>
-<p>Preferred authentication:</p>
+<p>Authenticate the upgrade with a <strong>private</strong> account API key:</p>
 <pre><code class="lang-http">Authorization: Bearer &lt;AIVAX_API_KEY&gt;
 </code></pre>
-<p>The standard <code>?api-key=&lt;AIVAX_API_KEY&gt;</code> query parameter is also accepted, but use it only when the WebSocket library cannot set headers. Query strings are commonly retained by browser history, reverse proxies, access logs, and monitoring systems.</p>
+<p>The <code>?api-key=&lt;AIVAX_API_KEY&gt;</code> query parameter is also accepted when the WebSocket client cannot set headers, but headers are preferred because URLs are commonly retained in logs and monitoring systems. Public API keys cannot open Voice Sessions.</p>
 <div class="WARNING">
 <h5>Warning</h5>
-<p>Browser JavaScript cannot add an <code>Authorization</code> header to the native <code>WebSocket</code> constructor, and a private API key must never be shipped to a browser or mobile bundle. For an end-user client, terminate the browser connection at your backend and let that backend open the authenticated AIVAX WebSocket. Do not work around this boundary by placing a private key in the URL sent to the browser.</p>
+<p>Never place a private API key in browser JavaScript, a mobile application bundle, or a browser-visible WebSocket URL. Browsers also cannot add an <code>Authorization</code> header through the native <code>WebSocket</code> constructor. Terminate the end-user connection at your backend, then let that trusted backend open and relay the authenticated AIVAX WebSocket.</p>
 </div>
-<p>The connection can fail before the upgrade with:</p>
-<ul>
-<li><code>400 Bad Request</code> when the request is not a valid WebSocket upgrade;</li>
-<li><code>401 Unauthorized</code> when the key is missing or invalid;</li>
-<li>an API error when a public key is used.</li>
-</ul>
-<p>AIVAX sends the plain-text <code>keep-alive</code> message every 10 seconds to keep the connection active. This is an application text message, not a JSON event or WebSocket ping control frame. Clients must ignore it before parsing server messages as JSON.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Open%20voice%20session&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="protocol-at-a-glance">Protocol at a glance</h2>
-<p>Application events in both directions are UTF-8 JSON WebSocket text messages. The only non-JSON application message is the server's plain-text <code>keep-alive</code> heartbeat, sent every 10 seconds; discard it before JSON parsing. Audio is base64-encoded inside JSON events, and the protocol does not accept binary WebSocket messages.</p>
-<p>A typical session follows this timeline:</p>
+<h2 id="migrate-to-ga-realtime-events">Migrate to GA Realtime events</h2>
+<p>After the WebSocket upgrade, exchange OpenAI-compatible GA Realtime JSON events directly. Do not send the legacy <code>session_start</code> envelope or depend on the former AIVAX-specific STT, TTS, WAV-segment, or playback-confirmation events.</p>
+<p>The main migration changes are:</p>
 <table>
 <thead>
 <tr>
-<th style="text-align: right;">Step</th>
-<th>Direction</th>
-<th>Event</th>
-<th>Notes</th>
+<th>Legacy integration</th>
+<th>GA Realtime integration</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: right;">1</td>
-<td>Client → AIVAX</td>
-<td>WebSocket upgrade</td>
-<td>Authenticate with a private API key.</td>
+<td>Custom session-start message</td>
+<td><code>session.update</code></td>
 </tr>
 <tr>
-<td style="text-align: right;">2</td>
-<td>Client → AIVAX</td>
-<td><code>session_start</code></td>
-<td>Configure and start the session.</td>
+<td>Custom STT and VAD events</td>
+<td>Native <code>input_audio_buffer.speech_*</code> events; caller transcription is currently unavailable</td>
 </tr>
 <tr>
-<td style="text-align: right;">3</td>
-<td>AIVAX → Client</td>
-<td><code>response.created</code></td>
-<td>Start the initial greeting.</td>
+<td>WAV response segments</td>
+<td>Base64 PCM in <code>response.output_audio.delta</code></td>
 </tr>
 <tr>
-<td style="text-align: right;">4</td>
-<td>AIVAX → Client</td>
-<td><code>response.inference_started</code></td>
-<td>Begin generating the greeting.</td>
+<td>Custom playback confirmation</td>
+<td>Native cancel and conversation-item truncation events</td>
 </tr>
 <tr>
-<td style="text-align: right;">5</td>
-<td>AIVAX → Client</td>
-<td><code>response.tts_started</code></td>
-<td>Begin speech synthesis.</td>
+<td>Custom tool-call envelopes</td>
+<td>Native function-call items and function-call outputs</td>
 </tr>
 <tr>
-<td style="text-align: right;">6</td>
-<td>AIVAX → Client</td>
-<td><code>output_audio</code></td>
-<td>Receive one or more WAV segments.</td>
-</tr>
-<tr>
-<td style="text-align: right;">7</td>
-<td>AIVAX → Client</td>
-<td><code>response.inference_done</code></td>
-<td>Finish generating the greeting.</td>
-</tr>
-<tr>
-<td style="text-align: right;">8</td>
-<td>AIVAX → Client</td>
-<td><code>response.done</code></td>
-<td>Finish the response.</td>
-</tr>
-<tr>
-<td style="text-align: right;">9</td>
-<td>Client → AIVAX</td>
-<td><code>output_audio_buffer.playback_completed</code></td>
-<td>Confirm that playback finished.</td>
-</tr>
-<tr>
-<td style="text-align: right;">10</td>
-<td>Client → AIVAX</td>
-<td><code>input_audio_buffer.append</code></td>
-<td>Continuously send PCM frames.</td>
-</tr>
-<tr>
-<td style="text-align: right;">11</td>
-<td>AIVAX → Client</td>
-<td><code>input_audio_buffer.possible_speech</code></td>
-<td>Report an early speech signal.</td>
-</tr>
-<tr>
-<td style="text-align: right;">12</td>
-<td>AIVAX → Client</td>
-<td><code>input_audio_buffer.speech_started</code></td>
-<td>Confirm that speech started.</td>
-</tr>
-<tr>
-<td style="text-align: right;">13</td>
-<td>AIVAX → Client</td>
-<td><code>input_audio_buffer.speech_stopped</code></td>
-<td>Report that speech stopped.</td>
-</tr>
-<tr>
-<td style="text-align: right;">14</td>
-<td>AIVAX → Client</td>
-<td><code>input_audio_buffer.stt_started</code></td>
-<td>Begin transcription.</td>
-</tr>
-<tr>
-<td style="text-align: right;">15</td>
-<td>AIVAX → Client</td>
-<td><code>input_audio_buffer.stt_done</code></td>
-<td>Return the transcript.</td>
-</tr>
-<tr>
-<td style="text-align: right;">16</td>
-<td>AIVAX → Client</td>
-<td><code>response.created</code></td>
-<td>Start the answer turn.</td>
-</tr>
-<tr>
-<td style="text-align: right;">17</td>
-<td>AIVAX → Client</td>
-<td><code>output_audio</code></td>
-<td>Stream the synthesized answer.</td>
-</tr>
-<tr>
-<td style="text-align: right;">18</td>
-<td>AIVAX → Client</td>
-<td><code>response.done</code></td>
-<td>Finish the response.</td>
-</tr>
-<tr>
-<td style="text-align: right;">19</td>
-<td>Client → AIVAX</td>
-<td><code>output_audio_buffer.playback_completed</code></td>
-<td>Confirm that playback finished.</td>
+<td>Flat per-minute charge</td>
+<td>Selected model's text, audio, and image token rates</td>
 </tr>
 </tbody>
 </table>
-<p>The server can send the plain-text <code>keep-alive</code> heartbeat between any of these steps. It is not part of the numbered event sequence and must be discarded before JSON parsing.</p>
-<p><code>possible_speech</code> is an early signal and can be followed by either confirmed speech or silence. Do not stop current playback on that event. A confirmed <code>speech_started</code> is the interruption boundary.</p>
-<h2 id="start-the-session">Start the session</h2>
-<p>The first WebSocket message must be the session configuration. No audio or other event may be sent before it.</p>
-<p>The recommended envelope is:</p>
+<p>Use the <code>type</code> property to route every event. Audio remains base64-encoded inside JSON text messages; do not send binary WebSocket frames.</p>
+<h2 id="configure-the-session">Configure the session</h2>
+<p>Send <code>session.update</code> as the first client event. AIVAX supports the GA Realtime session fields and adds two optional selectors:</p>
+<ul>
+<li><code>gateway</code>: an AI Gateway slug available to the authenticated account;</li>
+<li><code>model</code>: <code>gpt-realtime-2.1</code> or <code>gpt-realtime-2.1-mini</code>.</li>
+</ul>
+<p>The selector supplied in the event determines the AIVAX configuration used for the session. Configure the output voice at <code>session.audio.output.voice</code> and reasoning effort at <code>session.reasoning.effort</code>.</p>
 <pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;session_start&quot;,
-    &quot;session&quot;: {
-        &quot;voice&quot;: &quot;Eve&quot;,
-        &quot;gateway&quot;: &quot;support-assistant&quot;,
-        &quot;language&quot;: null,
-        &quot;reasoning_effort&quot;: &quot;minimal&quot;,
-        &quot;context&quot;: &quot;The caller is using the account recovery screen.&quot;,
-        &quot;tools&quot;: []
-    }
-}
-</code></pre>
-<p>For compatibility, the first message can also contain the configuration properties directly, without <code>event_type</code> and <code>session</code>. New clients should use the explicit <code>session_start</code> envelope.</p>
-<h3 id="configuration-properties">Configuration properties</h3>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>voice</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Voice used for every synthesized response in the session. Matching is case-insensitive.</td>
-</tr>
-<tr>
-<td><code>gateway</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>AI Gateway slug or identifier used as the agent configuration. When omitted, AIVAX uses the current Voice Session default. Voice Session replaces the gateway's primary model with a model optimized for low-latency conversation.</td>
-</tr>
-<tr>
-<td><code>language</code></td>
-<td><code>string</code> or <code>null</code></td>
-<td>No</td>
-<td>Language hint forwarded to speech transcription, such as <code>en</code>, <code>pt</code>, or <code>pt-BR</code>. When null, empty, or omitted, AIVAX uses <code>auto</code> so the transcription model detects the spoken language.</td>
-</tr>
-<tr>
-<td><code>reasoning_effort</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td><code>minimal</code>, <code>low</code>, <code>medium</code>, or <code>high</code>. The default is <code>minimal</code>. Higher effort can increase response latency and usage.</td>
-</tr>
-<tr>
-<td><code>context</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Additional session-level context supplied to the agent. Use it for relevant, non-secret facts about this call or user journey.</td>
-</tr>
-<tr>
-<td><code>tools</code></td>
-<td><code>array</code></td>
-<td>No</td>
-<td>OpenAI-compatible client tool definitions. The client executes these tools and returns <code>tool_result</code> events.</td>
-</tr>
-</tbody>
-</table>
-<div class="IMPORTANT">
-<h5>Important</h5>
-<p>Voice Session does not run the gateway's configured primary model. It preserves the gateway as the agent configuration and replaces its primary model with an AIVAX-managed model optimized for low latency. Do not rely on the gateway's primary model identity, capabilities, or model-specific behavior when designing a voice integration.</p>
-</div>
-<p>Supported voices:</p>
-<p><code>Carina</code>, <code>Zagan</code>, <code>Helix</code>, <code>Orion</code>, <code>Luna</code>, <code>Iris</code>, <code>Altair</code>, <code>Zenith</code>, <code>Perseus</code>, <code>Helios</code>, <code>Lux</code>, <code>Kepler</code>, <code>Rigel</code>, <code>Cosmo</code>, <code>Celeste</code>, <code>Ursa</code>, <code>Sirius</code>, <code>Lumen</code>, <code>Castor</code>, <code>Naksh</code>, <code>Atlas</code>, <code>Ara</code>, <code>Eve</code>, <code>Leo</code>, <code>Rex</code>, and <code>Sal</code>.</p>
-<p>If the first message is not valid JSON, does not contain a valid configuration, names an unsupported voice or reasoning effort, or references an unavailable gateway, AIVAX sends an <code>error</code> event and closes the connection. Be ready to receive response events immediately after a valid configuration because the initial greeting starts automatically; there is no separate <code>session.ready</code> event.</p>
-<h2 id="send-realtime-microphone-audio">Send realtime microphone audio</h2>
-<p>The recommended input event is <code>input_audio_buffer.append</code>:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio_buffer.append&quot;,
+  &quot;type&quot;: &quot;session.update&quot;,
+  &quot;session&quot;: {
+    &quot;type&quot;: &quot;realtime&quot;,
+    &quot;gateway&quot;: &quot;&lt;GATEWAY_SLUG&gt;&quot;,
+    &quot;model&quot;: &quot;gpt-realtime-2.1&quot;,
+    &quot;instructions&quot;: &quot;Help the caller complete the requested task.&quot;,
     &quot;audio&quot;: {
-        &quot;sequence&quot;: 42,
-        &quot;format&quot;: &quot;pcm_s16le&quot;,
-        &quot;sample_rate&quot;: 16000,
-        &quot;channels&quot;: 1,
-        &quot;data&quot;: &quot;&lt;BASE64_PCM_FRAME&gt;&quot;
+      &quot;input&quot;: {
+        &quot;format&quot;: {
+          &quot;type&quot;: &quot;audio/pcm&quot;,
+          &quot;rate&quot;: 24000
+        },
+        &quot;turn_detection&quot;: {
+          &quot;type&quot;: &quot;server_vad&quot;
+        }
+      },
+      &quot;output&quot;: {
+        &quot;format&quot;: {
+          &quot;type&quot;: &quot;audio/pcm&quot;,
+          &quot;rate&quot;: 24000
+        },
+        &quot;voice&quot;: &quot;marin&quot;
+      }
+    },
+    &quot;reasoning&quot;: {
+      &quot;effort&quot;: &quot;low&quot;
     }
+  }
 }
 </code></pre>
-<p>The property can be named <code>audio</code> or <code>input_audio</code>; use <code>audio</code> in new integrations.</p>
-<h3 id="audio-frame-contract">Audio frame contract</h3>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Required value</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>sequence</code></td>
-<td>Increasing integer</td>
-<td>Must be greater than every previously sent realtime audio sequence in this WebSocket. Start at <code>0</code> and increment once per frame. Do not reset it between utterances.</td>
-</tr>
-<tr>
-<td><code>format</code></td>
-<td><code>pcm_s16le</code></td>
-<td>Raw signed 16-bit little-endian PCM. Do not include a WAV header.</td>
-</tr>
-<tr>
-<td><code>sample_rate</code></td>
-<td><code>16000</code></td>
-<td>Resample microphone input before sending it.</td>
-</tr>
-<tr>
-<td><code>channels</code></td>
-<td><code>1</code></td>
-<td>Downmix stereo input to mono.</td>
-</tr>
-<tr>
-<td><code>data</code></td>
-<td>Non-empty base64 string</td>
-<td>After decoding, the byte count must be even because each sample occupies two bytes.</td>
-</tr>
-</tbody>
-</table>
-<p>Send frames continuously while microphone capture is active, including silence. Do not wait for the user to finish speaking and do not send a client-side “commit” event: AIVAX detects the utterance boundary and commits it automatically.</p>
-<p>A 32 ms frame contains 512 samples, or 1,024 bytes before base64 encoding. This is a practical frame size because it gives smooth realtime delivery without sending excessively small messages. Other non-empty, even frame sizes are accepted and buffered across messages.</p>
-<p>Keep a single producer for microphone frames or serialize access to the socket. If two asynchronous producers race, their <code>sequence</code> values can arrive out of order and cause <code>invalid_audio_frame</code>.</p>
-<h3 id="capturing-the-correct-pcm-format">Capturing the correct PCM format</h3>
-<p>Browser <code>MediaRecorder</code> output is normally compressed WebM/Opus, not raw PCM, and cannot be sent directly. Capture samples through an audio worklet or native audio API, then:</p>
+<p>Choose the model based on the experience you need:</p>
+<ul>
+<li><code>gpt-realtime-2.1</code> for the highest-quality realtime conversations;</li>
+<li><code>gpt-realtime-2.1-mini</code> for lower-cost, lighter-weight realtime workloads.</li>
+</ul>
+<p>You can also provide standard GA Realtime instructions, tools, and turn-detection settings in the same update. Input-transcription sessions are not currently supported, so do not configure <code>audio.input.transcription</code> or depend on <code>conversation.item.input_audio_transcription.*</code> events. Wait for the server's session confirmation event before treating the configuration as active. A voice cannot be changed after the session has already produced audio; reconnect to select a different voice.</p>
+<h2 id="stream-microphone-audio">Stream microphone audio</h2>
+<p>Capture raw mono signed 16-bit little-endian PCM (<code>s16le</code>) at 24,000 Hz, base64-encode each chunk in chronological byte order, and append it to the input buffer:</p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;input_audio_buffer.append&quot;,
+  &quot;audio&quot;: &quot;&lt;BASE64_PCM_24KHZ_AUDIO&gt;&quot;
+}
+</code></pre>
+<p>Send small chunks continuously for low latency. Do not add WAV, RIFF, or other container headers to each chunk. If automatic turn detection is enabled, server VAD determines when the user starts and stops speaking and creates responses according to the session configuration.</p>
+<p>If turn detection is disabled, control the turn explicitly with the native buffer events:</p>
 <ol>
-<li>downmix to one channel;</li>
-<li>resample to 16,000 Hz;</li>
-<li>clamp each floating-point sample to <code>[-1, 1]</code>;</li>
-<li>convert it to signed 16-bit little-endian;</li>
-<li>base64-encode the resulting bytes;</li>
-<li>send frames in monotonically increasing sequence order.</li>
+<li>Send one or more <code>input_audio_buffer.append</code> events.</li>
+<li>Send <code>input_audio_buffer.commit</code> when the utterance is complete.</li>
+<li>Send <code>response.create</code> to request the assistant response.</li>
 </ol>
-<p>Do not label compressed audio as <code>pcm_s16le</code>; the frame can pass basic shape validation but produce unusable speech detection and transcription.</p>
-<h2 id="speech-detection-and-transcription-events">Speech detection and transcription events</h2>
-<p>AIVAX sends the following events while processing realtime input.</p>
-<h3 id="input_audio_bufferpossible_speech"><code>input_audio_buffer.possible_speech</code></h3>
-<p>An early, tentative voice-activity signal:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio_buffer.possible_speech&quot;,
-    &quot;sequence&quot;: 42,
-    &quot;probability&quot;: 0.72
-}
-</code></pre>
-<p>Use it only for subtle UI feedback, such as changing a microphone indicator. It is not a committed speech boundary and must not clear assistant playback.</p>
-<h3 id="input_audio_bufferspeech_started"><code>input_audio_buffer.speech_started</code></h3>
-<p>Speech has been confirmed:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio_buffer.speech_started&quot;,
-    &quot;sequence&quot;: 48,
-    &quot;probability&quot;: 0.91
-}
-</code></pre>
-<p>At this point, treat the user as interrupting any active answer. AIVAX cancels the active turn and, when applicable, follows with <code>response.cancelled</code> and <code>output_audio_cancelled</code>. Stop playback immediately when the cancellation event arrives; do not continue playing already queued segments.</p>
-<h3 id="input_audio_bufferspeech_stopped"><code>input_audio_buffer.speech_stopped</code></h3>
-<p>The current utterance has ended and was committed for transcription:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio_buffer.speech_stopped&quot;,
-    &quot;sequence&quot;: 77,
-    &quot;probability&quot;: 0.12
-}
-</code></pre>
-<p>The client does not need to send another event to commit the buffer.</p>
-<h3 id="input_audio_bufferstt_started"><code>input_audio_buffer.stt_started</code></h3>
-<p>Transcription has started for the committed utterance:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio_buffer.stt_started&quot;,
-    &quot;sequence&quot;: 77
-}
-</code></pre>
-<p>Use this event for a “transcribing” state. Do not start an AI response locally.</p>
-<h3 id="input_audio_bufferstt_done"><code>input_audio_buffer.stt_done</code></h3>
-<p>Transcription finished:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio_buffer.stt_done&quot;,
-    &quot;sequence&quot;: 77,
-    &quot;transcript&quot;: &quot;Can you help me reset my password?&quot;
-}
-</code></pre>
-<p>Display or log the transcript if your product requires it. When the transcript is non-empty, AIVAX automatically adds it to the conversation and starts the next response. An empty transcript does not create a response turn.</p>
-<p>The <code>sequence</code> on these events identifies the most recent client audio frame involved in the detected boundary. It is not the same sequence as the ordered response-event sequence described below.</p>
-<h2 id="receive-and-play-assistant-responses">Receive and play assistant responses</h2>
-<p>Every response belongs to a numeric <code>turn_id</code> and a string <code>response_id</code>.</p>
+<p>Use <code>input_audio_buffer.clear</code> to discard buffered audio that should not become a conversation turn.</p>
+<h2 id="receive-transcripts-and-audio">Receive transcripts and audio</h2>
+<p>Handle the native GA Realtime event stream rather than assuming one fixed sequence. In particular:</p>
 <ul>
-<li><code>turn_id</code> identifies the server-side generation attempt within this connection.</li>
-<li><code>response_id</code> identifies the playable assistant response and is the key the client should use for playback queues, completion acknowledgements, and truncation.</li>
-<li><code>sequence</code> appears on ordered response payloads such as <code>output_audio</code> and <code>tool_call</code>. It starts at <code>0</code> for each response turn and increases across those payloads.</li>
+<li><code>input_audio_buffer.speech_started</code> and <code>input_audio_buffer.speech_stopped</code> report server-VAD boundaries;</li>
+<li><code>conversation.item.input_audio_transcription.*</code> events are not currently emitted because input-transcription sessions are not supported;</li>
+<li><code>response.output_audio_transcript.delta</code> and <code>response.output_audio_transcript.done</code> provide the assistant's spoken transcript;</li>
+<li><code>response.output_audio.delta</code> carries a base64 PCM audio chunk;</li>
+<li><code>response.output_audio.done</code> marks the end of an output-audio stream;</li>
+<li><code>response.done</code> reports the final response status and usage;</li>
+<li><code>error</code> reports a request or session error.</li>
 </ul>
-<p>Lifecycle events can be interleaved with audio work. Use <code>response_id</code> for correlation and preserve WebSocket arrival order. For payloads that carry <code>sequence</code>, verify that values increase within the response. Audio and tool-call payloads share this counter, so a gap between two audio sequence values can represent a <code>tool_call</code>; do not wait for another audio event to fill it.</p>
-<h3 id="responsecreated"><code>response.created</code></h3>
-<p>A response turn was created:</p>
+<p>Decode each <code>response.output_audio.delta</code> value as raw mono signed 16-bit little-endian PCM at 24,000 Hz and queue the samples for gapless playback:</p>
 <pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.created&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
+  &quot;type&quot;: &quot;response.output_audio.delta&quot;,
+  &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
+  &quot;item_id&quot;: &quot;&lt;ITEM_ID&gt;&quot;,
+  &quot;output_index&quot;: 0,
+  &quot;content_index&quot;: 0,
+  &quot;delta&quot;: &quot;&lt;BASE64_PCM_24KHZ_AUDIO&gt;&quot;
 }
 </code></pre>
-<p>Create the client-side response state and playback queue here.</p>
-<h3 id="responseinference_started"><code>response.inference_started</code></h3>
-<p>The agent has started generating the response:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.inference_started&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<h3 id="responseinference_done"><code>response.inference_done</code></h3>
-<p>The inference stream has finished. Audio synthesis can still be finishing, so this is not a playback-complete signal:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.inference_done&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<h3 id="responsetts_started"><code>response.tts_started</code></h3>
-<p>AIVAX started synthesizing playable audio:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.tts_started&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<p>When <code>kind</code> is <code>tool_preamble</code>, the audio explains an upcoming tool action rather than delivering the final answer.</p>
-<h3 id="output_audio"><code>output_audio</code></h3>
-<p>A playable WAV segment is ready:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;output_audio&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
-    &quot;sequence&quot;: 0,
-    &quot;output_audio&quot;: {
-        &quot;data&quot;: &quot;&lt;BASE64_WAV_DATA&gt;&quot;,
-        &quot;format&quot;: &quot;wav&quot;,
-        &quot;duration_ms&quot;: 1380
-    }
-}
-</code></pre>
-<p>Decode <code>output_audio.data</code> from base64 and enqueue the complete WAV file. Each event is an independently playable WAV segment; do not concatenate base64 strings or assume that one event contains the full answer. Preserve WebSocket arrival order and verify that <code>sequence</code> increases for the same <code>response_id</code>.</p>
-<p><code>duration_ms</code> is the server-calculated segment duration and is useful for playback accounting. For accurate truncation, prefer the media player's actual played position and use durations only as a fallback.</p>
-<p>An <code>output_audio</code> event can include:</p>
-<pre><code class="lang-json">{
-    &quot;kind&quot;: &quot;tool_preamble&quot;
-}
-</code></pre>
-<p>Tool preamble audio belongs in the same ordered playback timeline. Include its played duration when reporting <code>audio_end_ms</code>, even though AIVAX excludes that preamble when deciding which answer sentences remain in conversation history.</p>
-<h3 id="responsetts_done"><code>response.tts_done</code></h3>
-<p>AIVAX finished the tool-preamble synthesis phase:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.tts_done&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
-    &quot;kind&quot;: &quot;tool_preamble&quot;
-}
-</code></pre>
-<p>This event is currently emitted for a client-tool response. Use <code>response.done</code>, not <code>response.tts_done</code>, as the general response lifecycle boundary.</p>
-<h3 id="responsedone"><code>response.done</code></h3>
-<p>AIVAX has finished producing events for this response:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.done&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<p><code>response.done</code> means the server will not add more content to that response. It does <strong>not</strong> mean the user has heard all queued audio. Continue playback, then send <code>output_audio_buffer.playback_completed</code> after the final segment actually ends.</p>
-<h2 id="confirm-playback">Confirm playback</h2>
-<p>When all queued audio for a response has played successfully, send:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;output_audio_buffer.playback_completed&quot;,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<p>Send it once per completed <code>response_id</code>, after playback—not when <code>response.done</code> arrives and not merely when all WAV files have been downloaded. This lets AIVAX discard temporary playback tracking for that response.</p>
-<p>Do not send this event for a response that was cancelled before playback completed. Report the actual cutoff with <code>conversation.item.truncate</code> instead.</p>
-<h2 id="handle-interruptions-and-truncation">Handle interruptions and truncation</h2>
-<p>Voice Session supports barge-in: the user can speak over an active assistant response.</p>
-<p>When confirmed speech interrupts a response, AIVAX sends:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;response.cancelled&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<p>and:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;output_audio_cancelled&quot;,
-    &quot;turn_id&quot;: 3,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;
-}
-</code></pre>
-<p>On <code>output_audio_cancelled</code>:</p>
+<p>Event fields can evolve with the GA Realtime protocol. Route by <code>type</code>, retain the identifiers needed to correlate responses and items, and ignore unknown event types or fields that your client does not use.</p>
+<h2 id="handle-interruptions">Handle interruptions</h2>
+<p>When the caller speaks over the assistant:</p>
 <ol>
-<li>stop the currently playing audio for that <code>response_id</code> immediately;</li>
-<li>discard every queued but unplayed segment for that response;</li>
-<li>measure how many milliseconds from the response timeline were actually heard;</li>
-<li>send <code>conversation.item.truncate</code> with that cutoff.</li>
+<li>Stop or duck local playback when the confirmed <code>input_audio_buffer.speech_started</code> event arrives.</li>
+<li>Send <code>response.cancel</code> if a response is still being generated.</li>
+<li>Send the native conversation-item truncation event with the assistant item identifier and the amount of audio that was actually played.</li>
 </ol>
-<p>Recommended event:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;conversation.item.truncate&quot;,
-    &quot;truncate&quot;: {
-        &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
-        &quot;audio_end_ms&quot;: 1840
-    }
-}
-</code></pre>
-<p>The flat equivalent is also accepted:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;conversation.item.truncate&quot;,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
-    &quot;audio_end_ms&quot;: 1840
-}
-</code></pre>
-<p><code>audio_end_ms</code> is the non-negative elapsed playback time from the beginning of the response audio timeline, including any tool preamble that was played. It is not wall-clock time and not the duration of only the current WAV segment.</p>
-<p>AIVAX acknowledges the update:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;conversation.item.truncated&quot;,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
-    &quot;audio_end_ms&quot;: 1840
-}
-</code></pre>
-<p>Why truncation matters: audio can be generated and added to the assistant turn before the user hears it. Reporting the actual cutoff prevents unheard sentences from influencing later answers as though they had been spoken. If playback never started, send <code>audio_end_ms: 0</code>.</p>
-<p>A robust player should maintain, per <code>response_id</code>:</p>
-<ul>
-<li>completed duration of fully played segments;</li>
-<li>current segment playback position;</li>
-<li>whether the response has been cancelled;</li>
-<li>queued segments keyed by <code>sequence</code>;</li>
-<li>the highest contiguous sequence already consumed.</li>
-</ul>
-<p>Calculate the cutoff as completed segment duration plus the actual position inside the interrupted segment.</p>
-<h2 id="client-executed-tools">Client-executed tools</h2>
-<p>The optional <code>tools</code> configuration lets the model request an action that your client or backend owns. Definitions use the OpenAI function-tool shape:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;session_start&quot;,
-    &quot;session&quot;: {
-        &quot;voice&quot;: &quot;Eve&quot;,
-        &quot;gateway&quot;: &quot;support-assistant&quot;,
-        &quot;tools&quot;: [
-            {
-                &quot;type&quot;: &quot;function&quot;,
-                &quot;function&quot;: {
-                    &quot;name&quot;: &quot;lookup_order&quot;,
-                    &quot;description&quot;: &quot;Look up an order visible to the authenticated caller.&quot;,
-                    &quot;parameters&quot;: {
-                        &quot;type&quot;: &quot;object&quot;,
-                        &quot;properties&quot;: {
-                            &quot;order_number&quot;: {
-                                &quot;type&quot;: &quot;string&quot;,
-                                &quot;description&quot;: &quot;The order number provided by the caller.&quot;
-                            }
-                        },
-                        &quot;required&quot;: [&quot;order_number&quot;],
-                        &quot;additionalProperties&quot;: false
-                    }
-                }
-            }
-        ]
-    }
-}
-</code></pre>
-<p>When the model selects a client tool, AIVAX can first send tool-preamble audio, then sends:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;tool_call&quot;,
-    &quot;turn_id&quot;: 4,
-    &quot;response_id&quot;: &quot;&lt;RESPONSE_ID&gt;&quot;,
-    &quot;sequence&quot;: 1,
-    &quot;tool_call&quot;: {
-        &quot;id&quot;: &quot;&lt;TOOL_CALL_ID&gt;&quot;,
-        &quot;name&quot;: &quot;lookup_order&quot;,
-        &quot;content&quot;: {
-            &quot;order_number&quot;: &quot;A-1042&quot;
-        }
-    }
-}
-</code></pre>
-<p>Treat <code>content</code> as untrusted model output even though it is based on your schema. Validate types, allowed values, user authorization, and business rules before executing the action. Ignore or remove <code>_tool_reason</code> and <code>_tool_goal</code> before strict schema validation if your application does not define them; they are conversational metadata used to explain the action.</p>
-<p>Return the result as a string:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;tool_result&quot;,
-    &quot;tool_result&quot;: {
-        &quot;id&quot;: &quot;&lt;TOOL_CALL_ID&gt;&quot;,
-        &quot;result&quot;: &quot;{\&quot;status\&quot;:\&quot;shipped\&quot;,\&quot;estimated_delivery\&quot;:\&quot;2026-08-08\&quot;}&quot;
-    }
-}
-</code></pre>
-<p>Important tool rules:</p>
-<ul>
-<li>echo the exact <code>tool_call.id</code> in <code>tool_result.id</code>;</li>
-<li>send one result for every outstanding tool call;</li>
-<li>when several calls are emitted, AIVAX waits until all results arrive before starting the follow-up answer;</li>
-<li><code>result</code> must be a string; serialize structured data to JSON first;</li>
-<li>keep results concise and exclude secrets the model does not need;</li>
-<li>return application failures as a clear result string so the model can explain or recover from them;</li>
-<li>do not retry the same side-effecting tool blindly after reconnecting;</li>
-<li>if the user starts speaking, pending tool calls can be cancelled and later results can be rejected as <code>unknown_tool_call</code>.</li>
-</ul>
-<p>The response containing the tool request still ends with <code>response.done</code>. The follow-up answer after all tool results is a new response with a new <code>turn_id</code> and <code>response_id</code>.</p>
-<h2 id="server-side-call-termination">Server-side call termination</h2>
-<p>Every Voice Session automatically gives the agent an <code>end_call</code> tool in addition to the client tools configured in <code>session.tools</code>. Use the gateway instructions or session context to tell the agent when ending a call is appropriate, for example after the caller says goodbye or explicitly asks to hang up.</p>
-<p><code>end_call</code> is executed entirely by AIVAX:</p>
-<ul>
-<li>clients must not add it to <code>session.tools</code>;</li>
-<li>AIVAX does not emit a <code>tool_call</code> event for it;</li>
-<li>clients do not send a <code>tool_result</code> for it;</li>
-<li>the server closes the WebSocket approximately 200 ms after the agent invokes it.</li>
-</ul>
-<p>Treat this as a normal remote close. Stop microphone capture and playback and clear session-scoped state in the WebSocket close handler. The short delay is only an orderly termination margin; do not rely on another response event or final audio segment arriving before closure.</p>
-<h2 id="complete-file-wav-input">Complete-file WAV input</h2>
-<p><code>input_audio</code> is a compatibility path for clients that already have a complete WAV recording:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;input_audio&quot;,
-    &quot;input_audio&quot;: {
-        &quot;format&quot;: &quot;wav&quot;,
-        &quot;data&quot;: &quot;&lt;BASE64_WAV_FILE&gt;&quot;
-    }
-}
-</code></pre>
-<p>The decoded payload must be a valid RIFF/WAVE file no larger than 75 MB. AIVAX transcribes it as one utterance and starts a response automatically.</p>
-<p>Use this path only for complete recordings. It does not provide realtime server-side speech boundaries and uses <code>sequence: 0</code> in transcription lifecycle events. Do not mix it with an active realtime utterance. Prefer <code>input_audio_buffer.append</code> for interactive conversations, lower perceived latency, and barge-in behavior.</p>
-<h2 id="client-to-server-event-reference">Client-to-server event reference</h2>
-<table>
-<thead>
-<tr>
-<th>Event</th>
-<th>When to send</th>
-<th>Required payload</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>session_start</code></td>
-<td>Exactly once, as the first WebSocket message.</td>
-<td><code>session.voice</code>; optional <code>gateway</code>, <code>language</code>, <code>reasoning_effort</code>, <code>context</code>, and <code>tools</code>.</td>
-</tr>
-<tr>
-<td><code>input_audio_buffer.append</code></td>
-<td>Continuously while realtime microphone capture is active.</td>
-<td><code>audio.sequence</code>, <code>format</code>, <code>sample_rate</code>, <code>channels</code>, and base64 <code>data</code>.</td>
-</tr>
-<tr>
-<td><code>input_audio</code></td>
-<td>Once per complete legacy WAV utterance.</td>
-<td><code>input_audio.format: &quot;wav&quot;</code> and base64 <code>data</code>.</td>
-</tr>
-<tr>
-<td><code>output_audio_buffer.playback_completed</code></td>
-<td>After the final audio segment for one response actually finishes playing.</td>
-<td><code>response_id</code>.</td>
-</tr>
-<tr>
-<td><code>conversation.item.truncate</code></td>
-<td>After cancelled or otherwise interrupted playback.</td>
-<td><code>response_id</code> and elapsed <code>audio_end_ms</code>.</td>
-</tr>
-<tr>
-<td><code>tool_result</code></td>
-<td>After executing one outstanding client tool call.</td>
-<td>Matching <code>tool_result.id</code> and string <code>result</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>There is no client event to commit a realtime input buffer, request the initial greeting, manually create a normal response, or cancel a response. Speech boundaries and interruption drive those actions automatically.</p>
-<h2 id="server-to-client-event-reference">Server-to-client event reference</h2>
-<table>
-<thead>
-<tr>
-<th>Event</th>
-<th>Meaning</th>
-<th>Important action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>input_audio_buffer.possible_speech</code></td>
-<td>Tentative voice activity.</td>
-<td>Update UI only; do not interrupt playback.</td>
-</tr>
-<tr>
-<td><code>input_audio_buffer.speech_started</code></td>
-<td>Confirmed user speech.</td>
-<td>Mark microphone active and expect active response cancellation.</td>
-</tr>
-<tr>
-<td><code>input_audio_buffer.speech_stopped</code></td>
-<td>Utterance committed.</td>
-<td>Show a processing state; send no commit event.</td>
-</tr>
-<tr>
-<td><code>input_audio_buffer.stt_started</code></td>
-<td>Transcription started.</td>
-<td>Optionally show “transcribing”.</td>
-</tr>
-<tr>
-<td><code>input_audio_buffer.stt_done</code></td>
-<td>Transcript available.</td>
-<td>Display the transcript; AIVAX starts the response automatically when non-empty.</td>
-</tr>
-<tr>
-<td><code>response.created</code></td>
-<td>New response identity allocated.</td>
-<td>Create response and playback state.</td>
-</tr>
-<tr>
-<td><code>response.inference_started</code></td>
-<td>Agent generation started.</td>
-<td>Optionally show “thinking”.</td>
-</tr>
-<tr>
-<td><code>response.inference_done</code></td>
-<td>Agent generation ended.</td>
-<td>Do not treat as audio completion.</td>
-</tr>
-<tr>
-<td><code>response.tts_started</code></td>
-<td>Audio synthesis started.</td>
-<td>Prepare the player; inspect optional <code>kind</code>.</td>
-</tr>
-<tr>
-<td><code>output_audio</code></td>
-<td>One complete WAV segment.</td>
-<td>Decode, order by <code>sequence</code>, enqueue, and play.</td>
-</tr>
-<tr>
-<td><code>response.tts_done</code></td>
-<td>Tool-preamble synthesis ended.</td>
-<td>Informational; wait for <code>response.done</code>.</td>
-</tr>
-<tr>
-<td><code>tool_call</code></td>
-<td>Client action requested.</td>
-<td>Validate, authorize, execute, and send <code>tool_result</code>.</td>
-</tr>
-<tr>
-<td><code>response.done</code></td>
-<td>Server finished producing this response.</td>
-<td>Finish queued playback, then acknowledge completion.</td>
-</tr>
-<tr>
-<td><code>response.cancelled</code></td>
-<td>Active generation was cancelled by speech.</td>
-<td>Stop response-related UI work.</td>
-</tr>
-<tr>
-<td><code>output_audio_cancelled</code></td>
-<td>Queued playback is obsolete.</td>
-<td>Stop/clear audio and report truncation.</td>
-</tr>
-<tr>
-<td><code>conversation.item.truncated</code></td>
-<td>Playback cutoff was recorded.</td>
-<td>Release truncation bookkeeping.</td>
-</tr>
-<tr>
-<td><code>error</code></td>
-<td>Session, event, transcription, or turn error.</td>
-<td>Inspect <code>error.code</code>; decide whether to continue or reconnect.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="error-events">Error events</h2>
-<p>Errors use this envelope:</p>
-<pre><code class="lang-json">{
-    &quot;event_type&quot;: &quot;error&quot;,
-    &quot;error&quot;: {
-        &quot;code&quot;: &quot;invalid_audio_frame&quot;,
-        &quot;message&quot;: &quot;Realtime audio must be mono PCM signed 16-bit little-endian at 16000 Hz.&quot;
-    }
-}
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Cause</th>
-<th>Recovery</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>invalid_session</code></td>
-<td>The first message is not a valid configuration object.</td>
-<td>Fix the handshake and reconnect; AIVAX closes this connection.</td>
-</tr>
-<tr>
-<td><code>invalid_reasoning_effort</code></td>
-<td>Unsupported reasoning effort.</td>
-<td>Use <code>minimal</code>, <code>low</code>, <code>medium</code>, or <code>high</code>, then reconnect.</td>
-</tr>
-<tr>
-<td><code>invalid_voice</code></td>
-<td>Unsupported voice.</td>
-<td>Select a listed voice, then reconnect.</td>
-</tr>
-<tr>
-<td><code>gateway_unavailable</code></td>
-<td>The requested gateway cannot be resolved for the account.</td>
-<td>Check the gateway identifier and access, then reconnect.</td>
-</tr>
-<tr>
-<td><code>invalid_event</code></td>
-<td>A post-handshake message is not a JSON object.</td>
-<td>Fix serialization; the session can continue.</td>
-</tr>
-<tr>
-<td><code>unsupported_event</code></td>
-<td>Unknown or missing <code>event_type</code>.</td>
-<td>Send one of the documented client events.</td>
-</tr>
-<tr>
-<td><code>invalid_audio_frame</code></td>
-<td>Invalid base64, format, sample rate, channels, byte count, or non-increasing sequence.</td>
-<td>Fix capture/ordering before sending more realtime frames.</td>
-</tr>
-<tr>
-<td><code>invalid_audio</code></td>
-<td>Missing or invalid complete WAV payload, or payload over 75 MB.</td>
-<td>Send a valid RIFF/WAVE file or use realtime PCM.</td>
-</tr>
-<tr>
-<td><code>unsupported_audio_format</code></td>
-<td>Complete-file input is not declared as WAV.</td>
-<td>Convert it to WAV or use realtime PCM.</td>
-</tr>
-<tr>
-<td><code>transcription_failed</code></td>
-<td>The committed utterance could not be transcribed.</td>
-<td>Keep the connection open; tell the user and capture a new utterance.</td>
-</tr>
-<tr>
-<td><code>invalid_tool_result</code></td>
-<td>Missing <code>tool_result</code> object.</td>
-<td>Send the documented envelope.</td>
-</tr>
-<tr>
-<td><code>unknown_tool_call</code></td>
-<td>The ID is not outstanding, was already answered, or was cancelled.</td>
-<td>Do not resend it; reconcile client pending-call state.</td>
-</tr>
-<tr>
-<td><code>turn_failed</code></td>
-<td>The current AI or speech response could not complete.</td>
-<td>Keep the connection open when possible and allow another utterance; reconnect after repeated failures.</td>
-</tr>
-</tbody>
-</table>
-<p>Configuration errors are terminal because they occur before the session starts. Runtime event errors are normally recoverable and do not by themselves require closing the socket. Transport closure, authentication failure, or repeated turn failures should move the client to a disconnected state.</p>
-<h2 id="reference-nodejs-integration">Reference Node.js integration</h2>
-<p>The following example demonstrates the protocol state machine with the <code>ws</code> package. It intentionally leaves microphone capture and platform-specific audio playback behind adapter functions; those parts differ substantially between browsers, desktop applications, telephony systems, and mobile runtimes.</p>
-<pre><code class="lang-javascript">import WebSocket from &quot;ws&quot;;
-
-const apiKey = process.env.AIVAX_API_KEY;
-if (!apiKey) {
-    throw new Error(&quot;Set AIVAX_API_KEY to a private account API key.&quot;);
-}
-
-const socket = new WebSocket(
-    &quot;wss://inference.aivax.net/api/v1/voice-session&quot;,
-    { headers: { Authorization: `Bearer ${apiKey}` } }
-);
-
-let inputSequence = 0;
-const responses = new Map();
-const pendingTools = new Map();
-
-socket.on(&quot;open&quot;, () =&gt; {
-    send({
-        event_type: &quot;session_start&quot;,
-        session: {
-            voice: &quot;Eve&quot;,
-            gateway: &quot;support-assistant&quot;,
-            language: null,
-            reasoning_effort: &quot;minimal&quot;,
-            context: &quot;The caller is using the account recovery screen.&quot;,
-            tools: []
-        }
-    });
-
-    startPcmCapture((pcmS16le) =&gt; {
-        send({
-            event_type: &quot;input_audio_buffer.append&quot;,
-            audio: {
-                sequence: inputSequence++,
-                format: &quot;pcm_s16le&quot;,
-                sample_rate: 16000,
-                channels: 1,
-                data: Buffer.from(pcmS16le).toString(&quot;base64&quot;)
-            }
-        });
-    });
-});
-
-socket.on(&quot;message&quot;, async (raw, isBinary) =&gt; {
-    if (isBinary) {
-        console.error(&quot;Unexpected binary WebSocket message&quot;);
-        return;
-    }
-
-    const message = raw.toString(&quot;utf8&quot;);
-    if (message === &quot;keep-alive&quot;) {
-        return;
-    }
-
-    const event = JSON.parse(message);
-
-    switch (event.event_type) {
-        case &quot;response.created&quot;:
-            responses.set(event.response_id, {
-                lastSequence: -1,
-                playedMs: 0,
-                cancelled: false,
-                serverDone: false,
-                playback: Promise.resolve()
-            });
-            break;
-
-        case &quot;output_audio&quot;: {
-            const state = responses.get(event.response_id);
-            if (!state || state.cancelled) break;
-            if (event.sequence &lt;= state.lastSequence) {
-                throw new Error(&quot;Non-increasing response sequence&quot;);
-            }
-
-            state.lastSequence = event.sequence;
-            const wav = Buffer.from(event.output_audio.data, &quot;base64&quot;);
-            const durationMs = event.output_audio.duration_ms;
-            state.playback = state.playback.then(async () =&gt; {
-                if (state.cancelled) return;
-                await playWav(event.response_id, wav);
-                state.playedMs += durationMs;
-            });
-            break;
-        }
-
-        case &quot;response.done&quot;: {
-            const state = responses.get(event.response_id);
-            if (!state) break;
-
-            state.serverDone = true;
-            await state.playback;
-            await acknowledgeIfPlaybackFinished(event.response_id);
-            break;
-        }
-
-        case &quot;output_audio_cancelled&quot;: {
-            const state = responses.get(event.response_id);
-            if (!state) break;
-
-            state.cancelled = true;
-            const audioEndMs = await stopPlaybackAndGetElapsedMs(event.response_id);
-            send({
-                event_type: &quot;conversation.item.truncate&quot;,
-                truncate: {
-                    response_id: event.response_id,
-                    audio_end_ms: Math.max(0, Math.round(audioEndMs))
-                }
-            });
-            break;
-        }
-
-        case &quot;tool_call&quot;: {
-            const state = responses.get(event.response_id);
-            if (state) {
-                if (event.sequence &lt;= state.lastSequence) {
-                    throw new Error(&quot;Non-increasing response sequence&quot;);
-                }
-                state.lastSequence = event.sequence;
-            }
-
-            pendingTools.set(event.tool_call.id, event.tool_call);
-            try {
-                const result = await executeAuthorizedTool(
-                    event.tool_call.name,
-                    event.tool_call.content
-                );
-                send({
-                    event_type: &quot;tool_result&quot;,
-                    tool_result: {
-                        id: event.tool_call.id,
-                        result: typeof result === &quot;string&quot;
-                            ? result
-                            : JSON.stringify(result)
-                    }
-                });
-            } finally {
-                pendingTools.delete(event.tool_call.id);
-            }
-            break;
-        }
-
-        case &quot;input_audio_buffer.stt_done&quot;:
-            console.log(&quot;User:&quot;, event.transcript);
-            break;
-
-        case &quot;error&quot;:
-            console.error(`Voice Session ${event.error.code}: ${event.error.message}`);
-            break;
-    }
-});
-
-socket.on(&quot;close&quot;, () =&gt; {
-    stopPcmCapture();
-    stopAllPlayback();
-    responses.clear();
-    pendingTools.clear();
-});
-
-socket.on(&quot;error&quot;, (error) =&gt; {
-    console.error(&quot;Voice Session transport error:&quot;, error);
-});
-
-function send(event) {
-    if (socket.readyState !== WebSocket.OPEN) return;
-    socket.send(JSON.stringify(event));
-}
-
-async function acknowledgeIfPlaybackFinished(responseId) {
-    const state = responses.get(responseId);
-    if (!state || state.cancelled || !state.serverDone) return;
-    if (isResponsePlaying(responseId)) return;
-
-    send({
-        event_type: &quot;output_audio_buffer.playback_completed&quot;,
-        response_id: responseId
-    });
-    responses.delete(responseId);
-}
-</code></pre>
-<p>Your adapters must preserve these invariants:</p>
-<ul>
-<li><code>startPcmCapture</code> emits mono PCM s16le at exactly 16 kHz;</li>
-<li>only one path assigns and sends <code>inputSequence</code>;</li>
-<li>each response chains playback through its <code>playback</code> promise so message callbacks cannot play segments concurrently;</li>
-<li><code>lastSequence</code> advances for both audio and tool-call payloads because they share one response sequence;</li>
-<li><code>playWav</code> resolves after the segment has actually played, not after it was queued;</li>
-<li><code>stopPlaybackAndGetElapsedMs</code> returns elapsed time across the full response timeline;</li>
-<li><code>executeAuthorizedTool</code> validates arguments and applies the current user's authorization;</li>
-<li>socket closure, including closure initiated by <code>end_call</code>, stops capture, playback, and pending application work.</li>
-</ul>
-<p>The sample serializes playback by awaiting each WAV segment. A production UI can use a dedicated playback worker, but it must retain the same ordering, cancellation, and completion semantics.</p>
-<h2 id="reconnection-and-lifecycle-guidance">Reconnection and lifecycle guidance</h2>
-<p>Treat the WebSocket as a session-scoped resource:</p>
-<ul>
-<li>open it only when the voice experience is active;</li>
-<li>send configuration immediately after <code>open</code>;</li>
-<li>start microphone frames only after configuration has been sent;</li>
-<li>stop microphone capture before intentionally closing the socket;</li>
-<li>clear audio queues and pending tool calls when the socket closes;</li>
-<li>treat a server close after <code>end_call</code> as an intentional session end rather than an automatic-reconnect failure;</li>
-<li>use exponential backoff with jitter for unexpected transport failures;</li>
-<li>do not automatically replay audio frames or tool results from the previous connection;</li>
-<li>show the user that a reconnect starts a new conversation;</li>
-<li>create a new input sequence beginning at <code>0</code> only for the new WebSocket.</li>
-</ul>
-<p>Do not retry terminal configuration errors without changing the configuration. For transient network failures, cap retries and provide an explicit reconnect control so the user is not trapped in an invisible loop.</p>
-<h2 id="production-checklist">Production checklist</h2>
-<p>Before shipping, verify that the integration:</p>
-<ul>
-<li>keeps the private API key on a trusted backend;</li>
-<li>sends the configuration as the first and only session-start message;</li>
-<li>ignores the plain-text <code>keep-alive</code> heartbeat before parsing JSON events;</li>
-<li>captures true mono PCM s16le at 16 kHz;</li>
-<li>keeps input <code>sequence</code> strictly increasing for the whole connection;</li>
-<li>continues sending silence so server-side speech boundaries can complete;</li>
-<li>decodes each <code>output_audio</code> event as an independent WAV file;</li>
-<li>orders response payloads by their response-scoped <code>sequence</code>;</li>
-<li>separates playback queues by <code>response_id</code>;</li>
-<li>does not confuse <code>response.done</code> with playback completion;</li>
-<li>sends playback completion only after the user hears the final segment;</li>
-<li>stops audio immediately on <code>output_audio_cancelled</code>;</li>
-<li>reports the actual playback cutoff through <code>conversation.item.truncate</code>;</li>
-<li>validates and authorizes every client tool call;</li>
-<li>returns every outstanding tool result with the exact call ID;</li>
-<li>handles <code>error</code>, socket <code>error</code>, and socket <code>close</code> independently;</li>
-<li>clears session state on disconnect instead of replaying stale work;</li>
-<li>avoids logging API keys, raw microphone audio, transcripts, or tool results unless the product has an explicit retention and privacy policy.</li>
-</ul>
+<p>Cancellation stops generation; truncation keeps the server conversation aligned with what the caller heard. Track played audio duration in the client rather than assuming every received chunk reached the speaker. Treat already-finished response races as normal and make cancel handling idempotent.</p>
+<h2 id="use-tools">Use tools</h2>
+<p>Declare client tools through the standard GA Realtime <code>tools</code> session field. Handle <code>response.function_call_arguments.done</code> using its <code>response_id</code>, <code>call_id</code>, <code>name</code>, and JSON-encoded <code>arguments</code>. Execute each requested function, add one native <code>function_call_output</code> conversation item per <code>call_id</code>, then send a single <code>response.create</code> after the originating <code>response.done</code> and every call from that response has an output.</p>
+<p>Tools configured as AIVAX server <code>InternalFunctions</code> execute within AIVAX and require no client action. Client-defined tools continue to be returned normally and remain the client's responsibility.</p>
+<p>Your tool handler should validate arguments, preserve call identifiers, enforce timeouts, and return a useful error result when execution fails. Do not wait for a client tool result that is being executed as an AIVAX server function.</p>
+<h2 id="billing-and-limits">Billing and limits</h2>
+<p>Voice Sessions are not billed at a flat per-minute price. Usage is metered using the selected realtime model's text, audio, and image token rates, as applicable. The final <code>response.done</code> event includes response usage that clients can record for observability; account billing remains authoritative.</p>
+<p>Model access, account balance, and applicable inference limits still apply. See <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>.</p>
+<h2 id="disconnect-gracefully">Disconnect gracefully</h2>
+<p>A Voice Session lasts only for the active WebSocket. It is not resumable after disconnecting.</p>
+<p>For a normal shutdown:</p>
+<ol>
+<li>Stop microphone capture and stop sending audio.</li>
+<li>Let any response or required tool-result exchange finish, or cancel it explicitly.</li>
+<li>Stop and drain local playback as appropriate for the product experience.</li>
+<li>Close the WebSocket with a normal close code.</li>
+<li>Release audio devices, playback queues, pending calls, and session state.</li>
+</ol>
+<p>Handle peer closure, network loss, authentication failure, model errors, and server shutdown as terminal session outcomes. Reconnecting starts a new session: open a new authenticated WebSocket, send a new <code>session.update</code>, and rebuild any application context your experience requires. Use bounded retry with backoff for transient failures, but do not automatically retry authentication or configuration errors.</p>
 
 </article>
 
