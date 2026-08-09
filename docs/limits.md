@@ -35,7 +35,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | BYOK requests | 30/min | 200/min | — |
 | Maximum context | 65,536 input tokens | — | — |
 | Subscription model reserve | Not included | 250 units/6h and 3,000 units/week | 1,000 units/6h and 15,000 units/week |
-| Text-to-speech and audio-transcription requests | 3/min and 15/hour | 30/min | 300/min |
+| Standalone text-to-speech and audio-transcription requests | 3/min and 15/hour | 30/min | 300/min |
 | **RAG and collections** |  |  |  |
 | Collections | 5 | — | — |
 | Semantic searches | 20/min | 500/min | 3,000/min |
@@ -80,7 +80,7 @@ BYOK uses a provider key configured on the gateway instead of an integrated AIVA
 
 Text-classification and text-segmentation quotas each count every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`. Text classification uses the default embedding model and is billed for the embedding work performed.
 
-Text-to-speech and standalone audio transcription share the same plan request quota. Voice sessions consume that quota when they start speech synthesis; their transcription and conversational inference are metered as part of the session and do not have a separate plan quota.
+Standalone text-to-speech and audio transcription share the same plan request quota. Voice Sessions use the selected  realtime model and are subject to applicable model access, balance, and inference limits instead of this standalone request quota. Input transcription is not currently supported inside Voice Sessions.
 
 The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to the autonomous reranking endpoint and to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.
 

@@ -55,7 +55,7 @@ The final unit price is multiplied by the account tax multiplier and the current
 | Text classification | **$0.015/M tokens** |
 | Reflex | - Cache miss: **$0.015/M tokens**<br>- Cache hit: **$0.003/M tokens** |
 | **Voice and speech** |
-| Voice Sessions | **$0.05/minute** |
+| Voice Sessions | Selected realtime model's pricing rates |
 | **Internet access** |
 | Web search | **$5/1k searches** |
 | X (Twitter) search | **$5/1k searches** |
@@ -82,7 +82,8 @@ Integrated model billing uses the model's pricing table from the backend. Pricin
 - Text input tokens.
 - Cached input tokens, when the selected model has cached-input pricing.
 - Audio input tokens, when applicable.
-- Output tokens.
+- Image input tokens, when applicable.
+- Output tokens, including audio output tokens when applicable.
 
 BYOK (Bring-Your-Own-Key) calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.
 
