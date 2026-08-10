@@ -1,4 +1,9 @@
 {
+  "404.html": {
+    "href": "404.html",
+    "title": "Page not found | AIVAX",
+    "summary": "Page not found The page you requested does not exist or may have moved. Go to the documentation home page Read the getting started guide Browse the documentation overview"
+  },
   "AGENTS.html": {
     "href": "AGENTS.html",
     "title": "Project Guidelines | AIVAX",
