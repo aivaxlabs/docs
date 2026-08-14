@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Pricing | AIVAX </title>
+        <title>Media Injector | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Pricing | AIVAX ">
+        <meta name="title" content="Media Injector | AIVAX ">
 
 
-        <link rel="icon" href="../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../public/docfx.min.css">
-        <link rel="stylesheet" href="../public/main.css">
+        <link rel="icon" href="../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../toc.html">
-        <meta name="docfx:tocrel" content="toc.html">
+        <meta name="docfx:navrel" content="../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../">
+        <meta name="docfx:rel" content="../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/media-injector.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../public/docfx.min.js"></script>
+        <script type="module" src="./../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../index.html">
-                        <img id="logo" class="svg" src="../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../index.html">
+                        <img id="logo" class="svg" src="../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,244 +125,94 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="pricing">Pricing</h1>
+<h1 id="media-injector">Media Injector</h1>
 
-<p>AIVAX uses a prepaid account balance. Paid invoices add credit to the account, and usage records subtract from that balance.</p>
-<p>The backend calculates balance as:</p>
-<pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
+<p>Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the source, identifies materially useful knowledge, writes concise factual documents in the source's predominant language, and queues those documents for semantic indexing.</p>
+<p>Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, use <a href="collections.html#document-fields">Create or Update Document or JSONL import</a> instead; those paths are more predictable and avoid the additional processing needed to interpret a source file.</p>
+<h2 id="when-to-use-it">When to use it</h2>
+<p>Media Injector is useful for:</p>
+<ul>
+<li>PDFs such as reports, manuals, and policies that contain several independent topics.</li>
+<li>Images or scanned pages whose visible content should become searchable knowledge.</li>
+<li>Audio and video whose material facts should be available through RAG.</li>
+</ul>
+<p>It is not a general file-storage feature and does not preserve the source as one searchable document. The output is a set of generated RAG documents. Review those documents after processing when wording, coverage, legal fidelity, or sensitive-data handling is important.</p>
+<p>Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use <a href="text-segmentation.html">Text Segmentation</a> when you only need cohesive source-text segments returned to your application without creating collection documents.</p>
+<h2 id="how-ingestion-works">How ingestion works</h2>
+<p>In the AIVAX dashboard:</p>
+<ol>
+<li>Open the target collection and choose <strong>Import from files</strong>.</li>
+<li>Select one or more source files.</li>
+<li>Optionally provide processing context. The same context is applied to every selected file.</li>
+<li>Confirm the import. The dashboard uploads the files sequentially, and a separate job is created for each file after all of its chunks have reached AIVAX.</li>
+<li>Follow the jobs under <strong>Batch &gt; Media Processing</strong>.</li>
+<li>After each job completes, review the generated documents and wait for their indexing state before testing <a href="semantic-search.html">Semantic Search</a>.</li>
+</ol>
+<p>A job can be <code>queued</code>, <code>processing</code>, <code>completed</code>, <code>failed</code>, or <code>cancelled</code>. The dashboard reports the source file, elapsed time, number of documents produced, and current cost. Failed or cancelled jobs may be retried when their recoverable uploaded data is still available.</p>
+<p>Audio and video larger than 20 MiB are divided into time-based segments for processing. Other individual files must not exceed 20 MiB. Segmentation is automatic and does not change the original file name shown for the job.</p>
+<h2 id="define-processing-context">Define processing context</h2>
+<p>Processing context is an optional instruction that helps Media Injector decide which facts are most valuable for your knowledge base. It is considered together with the source, but it is not treated as a factual source and cannot add facts that are absent from the file.</p>
+<p>Good context describes:</p>
+<ul>
+<li>The source's identity and purpose.</li>
+<li>The audience that will search the collection.</li>
+<li>The topics, products, jurisdictions, periods, or fields that matter.</li>
+<li>Ambiguous labels or internal terminology that the source itself establishes.</li>
+<li>Content that should be deprioritized, such as repeated headers or administrative boilerplate.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="lang-text">This is the 2026 support policy for Acme Cloud customers in Brazil. Prioritize eligibility rules, deadlines, plan differences, exceptions, and the steps a support agent must communicate. Ignore repeated page headers and signature blocks.
 </code></pre>
-<p>Use the <a href="https://aivax.net/pricing">AIVAX pricing page</a> for current commercial plan prices. This page documents billing behavior that is visible in the API source.</p>
-<h2 id="credits-and-invoices">Credits and invoices</h2>
-<p>Credits are represented as invoices.</p>
-<ul>
-<li>Paid invoices increase the usable account balance until their expiration date.</li>
-<li>Unpaid payment invoices are created with a one-year expiration.</li>
-<li>Unpaid invoices older than three days are removed by cleanup.</li>
-<li>Expired paid invoices no longer count toward balance.</li>
-<li>Payment invoice creation requires at least 3 USD and is rate-limited.</li>
-</ul>
-<h2 id="usage-billing">Usage billing</h2>
-<p>Every billable operation writes one or more usage records. Each usage record has:</p>
-<ul>
-<li>Description.</li>
-<li>Unit price.</li>
-<li>Quantity.</li>
-<li>Optional model name.</li>
-<li>Usage category.</li>
-<li>Resources such as API key, gateway, or collection.</li>
-</ul>
-<p>The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.</p>
-<h3 id="per-request-consumed-credits">Per-request consumed credits</h3>
-<p>When a request reports usage, AIVAX includes the total credits charged for that request in the response header:</p>
-<pre><code class="lang-text">Consumed-Credits: 0.005
-</code></pre>
-<p>The value is a decimal number of credits, formatted with a period as the decimal separator. It is the total for the complete request, including all billable operations performed while processing it. A tracked operation that has no charge can return <code>Consumed-Credits: 0</code>.</p>
-<p>If the header is absent, the request did not report a usage total. Do not treat an absent header as <code>0</code>. This header reports only the current request's consumption; use the account balance APIs to obtain the account's available balance or broader billing history.</p>
+<p>Avoid asking the mechanism to infer conclusions, supply missing information, or use outside knowledge. For example, do not instruct it to decide whether a contract is legally enforceable or to calculate values the source does not report.</p>
+<p>Processing context is different from a collection's context. Processing context guides this import only. Collection context describes the knowledge base to an AI Gateway when the collection is used later. Put source-specific ingestion guidance here; keep durable collection-wide guidance in the collection settings.</p>
+<h2 id="accepted-source-types">Accepted source types</h2>
+<p>The dashboard accepts four source groups for Media Injector:</p>
 <table>
 <thead>
 <tr>
-<th>Plan</th>
-<th>Commission multiplier</th>
+<th>Source group</th>
+<th>Processing behavior</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Free</td>
-<td>1.25x</td>
+<td>PDF documents</td>
+<td>Reads document structure, text, and relevant visual content.</td>
 </tr>
 <tr>
-<td>Pro</td>
-<td>1.05x</td>
+<td>Images</td>
+<td>Interprets visible text and content to produce textual RAG documents.</td>
 </tr>
 <tr>
-<td>Max</td>
-<td>1.00x</td>
+<td>Audio</td>
+<td>Interprets spoken and other relevant audible content; large files are segmented automatically.</td>
+</tr>
+<tr>
+<td>Video</td>
+<td>Interprets relevant visual and audible content; large files are segmented automatically.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="pricing-list">Pricing list</h2>
-<table>
-<thead>
-<tr>
-<th>Service</th>
-<th>Pricing</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Account</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Storage</td>
-<td>- Free Plan: <strong>30 MB</strong> included, no expansion<br>- Pro Plan: <strong>2 GB</strong> included, <strong>$0.50/GB/month</strong> for excess, billed hourly<br>- Max Plan: <strong>20 GB</strong> included, <strong>$0.20/GB/month</strong> for excess, billed hourly</td>
-</tr>
-<tr>
-<td><strong>Inference</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Moderation</td>
-<td>- Input: <strong>$0.10/M tokens</strong><br>- Cache: <strong>$0.0375/M tokens</strong><br>- Output: <strong>$0.30/M tokens</strong><br>- Context size: 16K tokens</td>
-</tr>
-<tr>
-<td><strong>RAG and collections</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Collections</td>
-<td>Text embedding: <strong>$0.015/M tokens</strong></td>
-</tr>
-<tr>
-<td>Media Injector</td>
-<td>- PDFs and images, up to 272K input tokens: input <strong>$0.30/M tokens</strong>, cached input <strong>$0.03/M tokens</strong>, output <strong>$1.80/M tokens</strong><br>- PDFs and images, above 272K input tokens: input <strong>$0.60/M tokens</strong>, cached input <strong>$0.06/M tokens</strong>, output <strong>$3.60/M tokens</strong><br>- Audio, up to 256K input tokens: input/media <strong>$0.60/M tokens</strong>, cached input <strong>$0.12/M tokens</strong>, output <strong>$3.00/M tokens</strong><br>- Audio, above 256K input tokens: input/media <strong>$1.20/M tokens</strong>, cached input <strong>$0.24/M tokens</strong>, output <strong>$6.00/M tokens</strong><br>- Video: input/media <strong>$0.45/M tokens</strong>, cached input <strong>$0.045/M tokens</strong>, output <strong>$3.75/M tokens</strong> (4)</td>
-</tr>
-<tr>
-<td>Semantic search</td>
-<td>Query: <strong>$0.015/M tokens</strong></td>
-</tr>
-<tr>
-<td>RAG responses</td>
-<td>~<strong>$0.50/M tokens</strong> (3)</td>
-</tr>
-<tr>
-<td>Text segmentation</td>
-<td><strong>$0.30/M tokens</strong></td>
-</tr>
-<tr>
-<td>Text classification</td>
-<td><strong>$0.015/M tokens</strong></td>
-</tr>
-<tr>
-<td>Reflex</td>
-<td>- Cache miss: <strong>$0.015/M tokens</strong><br>- Cache hit: <strong>$0.003/M tokens</strong></td>
-</tr>
-<tr>
-<td><strong>Voice and speech</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Voice Sessions</td>
-<td>Selected realtime model's pricing rates</td>
-</tr>
-<tr>
-<td><strong>Internet access</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Web search</td>
-<td><strong>$5/1k searches</strong></td>
-</tr>
-<tr>
-<td>X (Twitter) search</td>
-<td><strong>$5/1k searches</strong></td>
-</tr>
-<tr>
-<td>Advanced web search</td>
-<td>~<strong>$0.75/M tokens</strong> (1)</td>
-</tr>
-<tr>
-<td>Fetch and OCR extraction</td>
-<td>- Free Plan: <strong>1,000 PU/day free</strong>, <strong>$0.15/1k PUs</strong><br>- Pro Plan: <strong>10,000 PU/day free</strong>, <strong>$0.05/1k PUs</strong><br>- Max Plan: <strong>50,000 PU/day free</strong>, <strong>$0.02/1k PUs</strong> (2)</td>
-</tr>
-<tr>
-<td><strong>Media generation</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Image generation</td>
-<td>Varies by model</td>
-</tr>
-<tr>
-<td>Speech-to-text</td>
-<td>Varies by model</td>
-</tr>
-<tr>
-<td>Text-to-speech</td>
-<td>Varies by model</td>
-</tr>
-<tr>
-<td>Media descriptions</td>
-<td><strong>~$1.50/mtokens</strong> (2)</td>
-</tr>
-<tr>
-<td><strong>Other tools</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Memory and calendar</td>
-<td>No cost</td>
-</tr>
-<tr>
-<td>Advanced requests</td>
-<td>No cost</td>
-</tr>
-<tr>
-<td>Document generation</td>
-<td>No cost</td>
-</tr>
-<tr>
-<td>Web page generation</td>
-<td>No cost</td>
-</tr>
-</tbody>
-</table>
+<p>Use the original, accurate file extension because AIVAX uses it to identify the media type. A mislabeled extension can select the wrong processing path or make the job fail. Container and codec support can vary; if an audio or video file fails, convert it to a common format and retry.</p>
+<h2 id="generated-documents">Generated documents</h2>
+<p>Each generated item is designed to be a useful knowledge unit rather than a page-by-page transcription. Media Injector:</p>
 <ul>
-<li><small>(1) Advanced internet search pricing applies to an external model connected to internet and search tools; the price varies based on the number of interactions performed by the agent.</small></li>
-<li><small>(2) Pricing for text extraction from media applies to a small omni-modal model, subject to availability.</small></li>
-<li><small>(3) Pricing for RAG response generation does not include the cost of query embedding; the price varies based on the summarization model.</small></li>
-<li><small>(4) Media Injector is billed for the aggregate input, cached input, output, and media usage produced while creating RAG documents. The source file, optional context, and generated content can all affect token usage. Standard account tax and plan commission multipliers still apply.</small></li>
+<li>Prioritizes source identity, scope, principal facts, relationships, exceptions, and material distinctions.</li>
+<li>Combines closely related facts instead of creating one document per label, table cell, or repeated value.</li>
+<li>Ignores decorative text, pagination, repeated summaries, and incidental metadata unless they change meaning.</li>
+<li>Preserves the source's language, terminology, displayed dates, and number formats.</li>
+<li>Stops when the source has no materially new knowledge to add.</li>
 </ul>
-<h2 id="inference-billing">Inference billing</h2>
-<p>Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:</p>
-<ul>
-<li>Text input tokens.</li>
-<li>Cached input tokens, when the selected model has cached-input pricing.</li>
-<li>Audio input tokens, when applicable.</li>
-<li>Image input tokens, when applicable.</li>
-<li>Output tokens, including audio output tokens when applicable.</li>
-</ul>
-<p>BYOK (Bring-Your-Own-Key) calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.</p>
-<h2 id="balance-requirements">Balance requirements</h2>
-<p>Billable routes check balance before running. The generic balance middleware rejects balances below the route minimum; chat clients, integrations, and batch processing also stop when the balance is zero or negative. Some multimodal chat-completion inputs require a minimum balance before the model call starts:</p>
-<table>
-<thead>
-<tr>
-<th>Input type</th>
-<th>Minimum balance</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Image or audio</td>
-<td>$0.10</td>
-</tr>
-<tr>
-<td>File or video</td>
-<td>$0.50</td>
-</tr>
-</tbody>
-</table>
-<p>If the account balance is too low, the API returns <code>402 Payment Required</code>.</p>
-<h2 id="plans-and-limits">Plans and limits</h2>
-<p>Plans affect both price and operation:</p>
-<ul>
-<li>Model access.</li>
-<li>Commission multiplier.</li>
-<li>Request and token rate limits.</li>
-<li>BYOK request limits.</li>
-<li>RAG quotas.</li>
-<li>Tool limits.</li>
-<li>Storage quota and overage price.</li>
-<li>Conversation retention.</li>
-<li>Subscription-model reserve windows.</li>
-</ul>
-<p>See <a href="limits.html">Plans and limits</a> for the technical quota matrix.</p>
+<p>Generated documents are tagged so they can be identified as automatically produced content. They are then indexed like other collection documents and incur the collection's normal text-embedding cost in addition to Media Injector processing.</p>
+<p>For retrieval-quality guidance after ingestion, see <a href="best-practices.html">Best Practices for RAG</a>. In particular, inspect documents generated from tables, scans, and sources with repeated layouts before relying on them in production.</p>
+<h2 id="usage-pricing-and-limits">Usage, pricing, and limits</h2>
+<p>Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See <a href="../pricing.html#pricing-list">Pricing</a> for the final rates.</p>
+<p>Media Injector is available on Pro and Max. The daily file limits are listed in <a href="../limits.html#plan-limits">Plans and Limits</a>. Uploading requires at least $5 in available account balance, and processing stops if the account cannot cover usage.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pricing.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/media-injector.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

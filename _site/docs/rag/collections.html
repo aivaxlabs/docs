@@ -212,6 +212,10 @@
 <li>Product fragments that should be shown together.</li>
 </ul>
 <p>When search reference expansion is enabled, if one chunk matches, other documents in the same collection with the same reference can be included in the response.</p>
+<h2 id="media-file-import">Media File Import</h2>
+<p>The AIVAX dashboard can upload a source file and process it into RAG documents with <a href="media-injector.html">Media Injector</a>. Use it when you have a source file but do not already have focused, self-contained document text prepared for direct or JSONL import.</p>
+<p>The original file name is normalized to Unicode NFC and preserved during upload, including accented letters, non-Latin scripts, typographic punctuation, and other Unicode characters. You do not need to rename a file to an ASCII-only name before importing it.</p>
+<p>A Media Injector job is created only after every file chunk has uploaded and the dashboard successfully completes the upload. You can then follow it under <strong>Batch &gt; Media Processing</strong>. If no job appears, the upload did not reach its completion step; retry the upload and check the error shown by the dashboard.</p>
 <h2 id="batch-import-limits">Batch Import Limits</h2>
 <p>Batch import is sent as a JSONL file in the <code>documents</code> multipart field.</p>
 <p>Use batch import when you already have many documents prepared outside AIVAX, such as chunks generated from PDFs, product catalogs, policies, or help-center articles. If you are creating or updating one document from an application flow, the single-document endpoint below is usually easier. If you are preparing a large knowledge base, import in batches, wait for indexing, and then test retrieval through <a href="semantic-search.html">Semantic Search</a> before attaching the collection to a production gateway.</p>

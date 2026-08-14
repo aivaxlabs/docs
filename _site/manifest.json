@@ -1,5 +1,5 @@
 {
-  "source_base_path": "C:/Code/repos/OpenIndexer/docs",
+  "source_base_path": "C:/Code/www/docs-docfx",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -1439,6 +1439,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/rag/collections.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/rag/media-injector.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/rag/media-injector.html"
         }
       },
       "version": ""

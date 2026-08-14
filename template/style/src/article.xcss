@@ -29,6 +29,10 @@ article {
         }
     }
 
+    iframe.sisk-embed-target {
+        border-color: --bs-body-bg-alt;
+    }
+
     h2 {
         margin-block: 3.75em 1.25em;
         font-size: 1.5em;
