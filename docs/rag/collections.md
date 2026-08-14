@@ -71,6 +71,12 @@ Use `__ref` when multiple documents represent parts of the same logical source, 
 
 When search reference expansion is enabled, if one chunk matches, other documents in the same collection with the same reference can be included in the response.
 
+## Media File Import
+
+The AIVAX dashboard can upload a source file and process it into RAG documents. The original file name is normalized to Unicode NFC and preserved during upload, including accented letters, non-Latin scripts, typographic punctuation, and other Unicode characters. You do not need to rename a file to an ASCII-only name before importing it.
+
+A media processing job is created only after every file chunk has uploaded and the dashboard successfully completes the upload. You can then follow it under **Batch > Media Processing**. If no job appears, the upload did not reach its completion step; retry the upload and check the error shown by the dashboard.
+
 ## Batch Import Limits
 
 Batch import is sent as a JSONL file in the `documents` multipart field.
