@@ -61,6 +61,7 @@ If the header is absent, the request did not report a usage total. Do not treat 
 | Moderation | - Input: **$0.10/M tokens**<br>- Cache: **$0.0375/M tokens**<br>- Output: **$0.30/M tokens**<br>- Context size: 16K tokens |
 | **RAG and collections** |
 | Collections | Text embedding: **$0.015/M tokens** |
+| Media Injector | - PDFs and images, up to 272K input tokens: input **$0.30/M tokens**, cached input **$0.03/M tokens**, output **$1.80/M tokens**<br>- PDFs and images, above 272K input tokens: input **$0.60/M tokens**, cached input **$0.06/M tokens**, output **$3.60/M tokens**<br>- Audio, up to 256K input tokens: input/media **$0.60/M tokens**, cached input **$0.12/M tokens**, output **$3.00/M tokens**<br>- Audio, above 256K input tokens: input/media **$1.20/M tokens**, cached input **$0.24/M tokens**, output **$6.00/M tokens**<br>- Video: input/media **$0.45/M tokens**, cached input **$0.045/M tokens**, output **$3.75/M tokens** (4) |
 | Semantic search | Query: **$0.015/M tokens** |
 | RAG responses | ~**$0.50/M tokens** (3) |
 | Text segmentation | **$0.30/M tokens** |
@@ -87,6 +88,7 @@ If the header is absent, the request did not report a usage total. Do not treat 
 - <small>(1) Advanced internet search pricing applies to an external model connected to internet and search tools; the price varies based on the number of interactions performed by the agent.</small>
 - <small>(2) Pricing for text extraction from media applies to a small omni-modal model, subject to availability.</small>
 - <small>(3) Pricing for RAG response generation does not include the cost of query embedding; the price varies based on the summarization model.</small>
+- <small>(4) Media Injector is billed for the aggregate input, cached input, output, and media usage produced while creating RAG documents. The source file, optional context, and generated content can all affect token usage. Standard account tax and plan commission multipliers still apply.</small>
 ## Inference billing
 
 Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:

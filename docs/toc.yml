@@ -17,6 +17,8 @@
 
 - name: Collections
   href: rag/collections.md
+- name: Media Injector
+  href: rag/media-injector.md
 - name: Semantic search
   href: rag/semantic-search.md
 - name: Text segmentation
