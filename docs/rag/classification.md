@@ -25,7 +25,7 @@ Example request:
 ```json
 {
   "documents": [
-    "Calculate the compound interest on a principal of $10,000 invested for 5 years at an annual rate of 5%, compounded quarterly",
+    "Compare the total cost of two loans for a principal of $10,000 over 5 years at different annual rates",
     "Erklären Sie die Unterschiede zwischen Merge-Sort und Quicksort-Algorithmen in Bezug auf Zeitkomplexität, Platzkomplexität und Leistung in der Praxis.",
     "Write a poem about the beauty of nature and its healing power on the human soul"
   ],
@@ -46,7 +46,7 @@ Example request:
   "results": [
     {
       "index": 0,
-      "document": "Calculate the compound interest on a principal of $10,000 invested for 5 years at an annual rate of 5%, compounded quarterly",
+      "document": "Compare the total cost of two loans for a principal of $10,000 over 5 years at different annual rates",
       "scores": [
         {
           "label": "Complex problem",
