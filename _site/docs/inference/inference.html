@@ -152,7 +152,7 @@
                 {
                     &quot;type&quot;: &quot;image_url&quot;,
                     &quot;image_url&quot;: {
-                        &quot;url&quot;: &quot;https://example.com/receipt.png&quot;,
+                        &quot;url&quot;: &quot;data:image/png;base64,&lt;BASE64_PNG_CONTENT&gt;&quot;,
                         &quot;detail&quot;: &quot;auto&quot;
                     }
                 },
@@ -167,7 +167,7 @@
                     &quot;type&quot;: &quot;file&quot;,
                     &quot;file&quot;: {
                         &quot;filename&quot;: &quot;document.pdf&quot;,
-                        &quot;file_data&quot;: &quot;https://bitcoin.org/bitcoin.pdf&quot;
+                        &quot;file_data&quot;: &quot;data:application/pdf;base64,&lt;BASE64_PDF_CONTENT&gt;&quot;
                     }
                 }
             ]
@@ -183,7 +183,7 @@
 <li><code>input_audio</code>: Audio content. <code>input_audio.data</code> is base64 audio data, and <code>input_audio.format</code> names the format.</li>
 <li><code>file</code>: File content. <code>file.filename</code> names the file, and <code>file.file_data</code> can be an external URL or a base64 data URL.</li>
 </ul>
-<p>For video input, send a <code>video_url</code> content part. Use a publicly reachable URL when possible, especially for large videos:</p>
+<p>For video input, send a <code>video_url</code> content part. The following example uses a base64 Data URL; prefer a publicly reachable URL for large videos:</p>
 <pre><code class="lang-json">{
     &quot;model&quot;: &quot;@google/gemini-3-flash&quot;,
     &quot;messages&quot;: [
@@ -197,7 +197,7 @@
                 {
                     &quot;type&quot;: &quot;video_url&quot;,
                     &quot;video_url&quot;: {
-                        &quot;url&quot;: &quot;https://example.com/factory-inspection.mp4&quot;
+                        &quot;url&quot;: &quot;data:video/mp4;base64,&lt;BASE64_MP4_CONTENT&gt;&quot;
                     }
                 }
             ]

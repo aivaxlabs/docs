@@ -33,7 +33,7 @@ AIVAX accepts OpenAI-compatible message content parts for text, images, audio, v
                 {
                     "type": "image_url",
                     "image_url": {
-                        "url": "https://example.com/receipt.png",
+                        "url": "data:image/png;base64,<BASE64_PNG_CONTENT>",
                         "detail": "auto"
                     }
                 },
@@ -48,7 +48,7 @@ AIVAX accepts OpenAI-compatible message content parts for text, images, audio, v
                     "type": "file",
                     "file": {
                         "filename": "document.pdf",
-                        "file_data": "https://bitcoin.org/bitcoin.pdf"
+                        "file_data": "data:application/pdf;base64,<BASE64_PDF_CONTENT>"
                     }
                 }
             ]
@@ -65,7 +65,7 @@ Supported content part mappings:
 - `input_audio`: Audio content. `input_audio.data` is base64 audio data, and `input_audio.format` names the format.
 - `file`: File content. `file.filename` names the file, and `file.file_data` can be an external URL or a base64 data URL.
 
-For video input, send a `video_url` content part. Use a publicly reachable URL when possible, especially for large videos:
+For video input, send a `video_url` content part. The following example uses a base64 Data URL; prefer a publicly reachable URL for large videos:
 
 ```json
 {
@@ -81,7 +81,7 @@ For video input, send a `video_url` content part. Use a publicly reachable URL w
                 {
                     "type": "video_url",
                     "video_url": {
-                        "url": "https://example.com/factory-inspection.mp4"
+                        "url": "data:video/mp4;base64,<BASE64_MP4_CONTENT>"
                     }
                 }
             ]

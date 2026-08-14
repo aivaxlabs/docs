@@ -152,6 +152,12 @@
 <li>Resources such as API key, gateway, or collection.</li>
 </ul>
 <p>The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.</p>
+<h3 id="per-request-consumed-credits">Per-request consumed credits</h3>
+<p>When a request reports usage, AIVAX includes the total credits charged for that request in the response header:</p>
+<pre><code class="lang-text">Consumed-Credits: 0.005
+</code></pre>
+<p>The value is a decimal number of credits, formatted with a period as the decimal separator. It is the total for the complete request, including all billable operations performed while processing it. A tracked operation that has no charge can return <code>Consumed-Credits: 0</code>.</p>
+<p>If the header is absent, the request did not report a usage total. Do not treat an absent header as <code>0</code>. This header reports only the current request's consumption; use the account balance APIs to obtain the account's available balance or broader billing history.</p>
 <table>
 <thead>
 <tr>

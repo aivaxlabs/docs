@@ -33,6 +33,18 @@ Every billable operation writes one or more usage records. Each usage record has
 
 The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.
 
+### Per-request consumed credits
+
+When a request reports usage, AIVAX includes the total credits charged for that request in the response header:
+
+```text
+Consumed-Credits: 0.005
+```
+
+The value is a decimal number of credits, formatted with a period as the decimal separator. It is the total for the complete request, including all billable operations performed while processing it. A tracked operation that has no charge can return `Consumed-Credits: 0`.
+
+If the header is absent, the request did not report a usage total. Do not treat an absent header as `0`. This header reports only the current request's consumption; use the account balance APIs to obtain the account's available balance or broader billing history.
+
 | Plan | Commission multiplier |
 | --- | --- |
 | Free | 1.25x |
