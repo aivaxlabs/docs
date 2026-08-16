@@ -38,8 +38,8 @@
   href: inference/ai-gateway.md
 - name: Inference
   href: inference/inference.md
-- name: Agentic Validations
-  href: inference/agentic-validations.md
+- name: Agentic Tests
+  href: inference/agentic-tests.md
 - name: Voice Session
   href: inference/voice-session.md
 - name: Processing pipeline

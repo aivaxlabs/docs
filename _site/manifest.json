@@ -852,6 +852,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/inference/agentic-tests.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/inference/agentic-tests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/inference/ai-gateway.md",
       "output": {
         ".html": {
@@ -1122,6 +1132,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/inference/agentic-tests.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/inference/agentic-tests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/pt-br/inference/ai-gateway.md",
       "output": {
         ".html": {
@@ -1316,6 +1336,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/rag/collections.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/rag/media-injector.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/rag/media-injector.html"
         }
       },
       "version": ""

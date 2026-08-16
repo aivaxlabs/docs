@@ -68,7 +68,7 @@ The public response does not split query tokens from document tokens. The counte
 
 ## Billing, limits, and data collection
 
-Cache misses and cache hits have different base prices. The public `usage.cost` is the final amount recorded for the account after applicable account adjustments. See [Pricing](../pricing.md#reflex) for the current token prices.
+Cache misses and cache hits have different base prices. The public `usage.cost` is the final amount recorded for the account after applicable account adjustments. See [Pricing](../pricing.md#pricing-list) for the current token prices.
 
 Every Reflex request consumes the account's reranking request quota and Reflex token quota. The token quota counts `total_tokens`, including cached input. Exceeding a quota returns `429 Too Many Requests`; see [Plans and Limits](../limits.md).
 

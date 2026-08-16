@@ -248,7 +248,7 @@
 </table>
 <p>The public response does not split query tokens from document tokens. The counters describe the complete input processed by Reflex.</p>
 <h2 id="billing-limits-and-data-collection">Billing, limits, and data collection</h2>
-<p>Cache misses and cache hits have different base prices. The public <code>usage.cost</code> is the final amount recorded for the account after applicable account adjustments. See <a href="../pricing.html#reflex">Pricing</a> for the current token prices.</p>
+<p>Cache misses and cache hits have different base prices. The public <code>usage.cost</code> is the final amount recorded for the account after applicable account adjustments. See <a href="../pricing.html#pricing-list">Pricing</a> for the current token prices.</p>
 <p>Every Reflex request consumes the account's reranking request quota and Reflex token quota. The token quota counts <code>total_tokens</code>, including cached input. Exceeding a quota returns <code>429 Too Many Requests</code>; see <a href="../limits.html">Plans and Limits</a>.</p>
 <p>When the optional semantic data collection setting is enabled, eligible direct Reflex searches receive the documented discount and may contribute the query, submitted documents, and ranking results. See <a href="../data-collecting.html">Data Collecting</a> before enabling it.</p>
 <h2 id="use-reflex-with-rag">Use Reflex with RAG</h2>
