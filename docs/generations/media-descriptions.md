@@ -23,7 +23,7 @@ The `input` property must be a non-empty array of OpenAI-compatible multimodal c
 | `image_url` | `image_url.url` | Produces a detailed visual description, visible text, and image metadata. |
 | `input_audio` | Base64 `input_audio.data` plus `input_audio.format` | Transcribes speech and describes music, ambient sound, and other audio artifacts. |
 | `video_url` | `video_url.url` | Describes visual content and transcribes speech or other audio. |
-| `file` | `file.filename` plus `file.file_data` | Extracts PDF structure and text, or uses local extraction for other supported document formats. |
+| `file` | `file.filename` plus `file.file_data` | Extracts the structure and text of PDF files. Other file formats are not supported by this endpoint. |
 
 ```json
 {
@@ -50,19 +50,35 @@ Remote file URLs are downloaded by AIVAX before resolution and are limited to 5 
 
 ## Response and ordering
 
-The response contains one text content part for each input item in the same order:
+The response contains one resolver-generated JSON object for each input item in the same order. The object shape depends on the content type. For example, an image and a PDF produce objects like these:
 
 ```json
 {
   "message": null,
   "data": [
     {
-      "type": "text",
-      "text": "The first media description."
+      "foregroundSubjects": [
+        {
+          "description": "A person standing beside a table.",
+          "position": "center"
+        }
+      ],
+      "backgroundSubjects": [],
+      "parsedText": [],
+      "imageData": {
+        "format": "JPEG",
+        "hasTransparency": false,
+        "isUnsafe": false
+      }
     },
     {
-      "type": "text",
-      "text": "The second media description."
+      "textContent": "The extracted PDF text.",
+      "sections": [],
+      "fileData": {
+        "format": "PDF",
+        "language": "English",
+        "isUnsafe": false
+      }
     }
   ]
 }
@@ -72,8 +88,8 @@ If any item is invalid or cannot be resolved, the request fails instead of retur
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-## Caching, usage, and limits
+## Usage and limits
 
-The resolver caches descriptions by content hash for the authenticated account. Repeated content can reuse cached text, but cache availability is not permanent. Store the returned text when your application needs its own durable copy.
+Image, audio, video, and PDF processing can invoke auxiliary integrated models and record inference usage. This endpoint does not provide a cache guarantee: repeated requests for the same content may invoke processing again. There is no dedicated media-description quota; requests are subject to the applicable inference request and token limits. See [Plans and limits](/docs/limits) for the limits that may apply.
 
-Images, audio, video, and PDF processing can invoke auxiliary integrated models and record inference usage. Supported non-PDF files can use local text extraction instead. There is no dedicated media-description quota; auxiliary model calls still pass through integrated-model request and token limits, while cache hits and local extraction do not create a separate multimodal rate-limit transaction. See [Plans and limits](/docs/limits) for the inference limits that may apply.
+A `402 Payment Required` response means that the account either does not have a positive balance or has exceeded its storage quota.

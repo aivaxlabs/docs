@@ -127,19 +127,19 @@
                 <article data-uid="">
 <h1 id="descrições-de-mídia">Descrições de Mídia</h1>
 
-<p>Use descrições de mídia para transformar uma ou mais partes de conteúdo multissensorial em texto sem solicitar uma resposta de chat separada. Cada item é processado de forma independente e a resposta preserva a ordem de entrada.</p>
-<p>Esse endpoint é útil para extração de documentos, análise de imagens, descrição de vídeos, transcrição de áudio e descrição de música, som ambiente ou outros artefatos de áudio antes de enviar o texto resultante para outro sistema.</p>
+<p>Use descrições de mídia para transformar uma ou mais partes de conteúdo multimodal em texto sem solicitar uma resposta de conclusão de chat separada. Cada item é processado de forma independente, e a resposta preserva a ordem de entrada.</p>
+<p>Este endpoint é útil para extração de documentos, análise de imagens, descrição de vídeos, transcrição de áudio e descrição de música, som ambiente ou outros artefatos de áudio antes de enviar o texto resultante para outro sistema.</p>
 <p>Escolha a API mais especializada quando apropriado:</p>
 <ul>
-<li>Use <a href="audio-transcriptions.html">Transcrições de Áudio</a> para conversão dedicada de fala para texto a partir de um arquivo de áudio, modelos de transcrição selecionáveis, uma dica opcional de idioma e precificação baseada em duração.</li>
-<li>Use <a href="/docs/pt-br/inference/inference">Inferência</a> com <code>multimodal_preprocess</code> quando um modelo precisar responder a uma pergunta sobre a mídia após ela ser resolvida.</li>
+<li>Use <a href="audio-transcriptions.html">Transcrições de Áudio</a> para conversão dedicada de fala para texto a partir de um arquivo de áudio, modelos de transcrição selecionáveis, uma dica opcional de idioma e preço baseado em duração.</li>
+<li>Use <a href="/docs/pt-br/inference/inference">Inferência</a> com <code>multimodal_preprocess</code> quando um modelo deve responder a uma pergunta sobre a mídia após ela ser resolvida.</li>
 </ul>
 <h2 id="endpoint">Endpoint</h2>
 <div class="request-item post">
     <span>POST</span>
     <span>/api/v1/generations/descriptions</span>
 </div>
-<p>A propriedade <code>input</code> deve ser um array não vazio de partes de conteúdo multissensorial compatíveis com OpenAI:</p>
+<p>A propriedade <code>input</code> deve ser um array não vazio de partes de conteúdo multimodal compatíveis com OpenAI:</p>
 <table>
 <thead>
 <tr>
@@ -162,12 +162,12 @@
 <tr>
 <td><code>video_url</code></td>
 <td><code>video_url.url</code></td>
-<td>Descreve o conteúdo visual e transcreve fala ou outro áudio.</td>
+<td>Descreve conteúdo visual e transcreve fala ou outro áudio.</td>
 </tr>
 <tr>
 <td><code>file</code></td>
 <td><code>file.filename</code> mais <code>file.file_data</code></td>
-<td>Extrai a estrutura e o texto de PDF, ou usa extração local para outros formatos de documento suportados.</td>
+<td>Extrai a estrutura e o texto de arquivos PDF. Outros formatos de arquivo não são suportados por este endpoint.</td>
 </tr>
 </tbody>
 </table>
@@ -190,28 +190,44 @@
   ]
 }
 </code></pre>
-<p>URLs de arquivos remotos são baixados pelo AIVAX antes da resolução e são limitados a 5 MB. A URL deve ser absoluta, segura, publicamente acessível e não deve exigir JavaScript no navegador ou autenticação interativa. Você também pode enviar arquivos como valores <code>data:&lt;mime-type&gt;;base64,&lt;content&gt;</code>.</p>
+<p>URLs de arquivos remotos são baixadas pelo AIVAX antes da resolução e são limitadas a 5 MB. A URL deve ser absoluta, segura, publicamente acessível e não pode exigir JavaScript do lado do navegador ou autenticação interativa. Você também pode enviar arquivos como valores <code>data:&lt;mime-type&gt;;base64,&lt;content&gt;</code>.</p>
 <h2 id="resposta-e-ordenação">Resposta e ordenação</h2>
-<p>A resposta contém uma parte de conteúdo de texto para cada item de entrada na mesma ordem:</p>
+<p>A resposta contém um objeto JSON gerado pelo resolvedor para cada item de entrada na mesma ordem. O formato do objeto depende do tipo de conteúdo. Por exemplo, uma imagem e um PDF produzem objetos como estes:</p>
 <pre><code class="lang-json">{
   &quot;message&quot;: null,
   &quot;data&quot;: [
     {
-      &quot;type&quot;: &quot;text&quot;,
-      &quot;text&quot;: &quot;A primeira descrição da mídia.&quot;
+      &quot;foregroundSubjects&quot;: [
+        {
+          &quot;description&quot;: &quot;Uma pessoa de pé ao lado de uma mesa.&quot;,
+          &quot;position&quot;: &quot;centro&quot;
+        }
+      ],
+      &quot;backgroundSubjects&quot;: [],
+      &quot;parsedText&quot;: [],
+      &quot;imageData&quot;: {
+        &quot;format&quot;: &quot;JPEG&quot;,
+        &quot;hasTransparency&quot;: false,
+        &quot;isUnsafe&quot;: false
+      }
     },
     {
-      &quot;type&quot;: &quot;text&quot;,
-      &quot;text&quot;: &quot;A segunda descrição da mídia.&quot;
+      &quot;textContent&quot;: &quot;O texto extraído do PDF.&quot;,
+      &quot;sections&quot;: [],
+      &quot;fileData&quot;: {
+        &quot;format&quot;: &quot;PDF&quot;,
+        &quot;language&quot;: &quot;Inglês&quot;,
+        &quot;isUnsafe&quot;: false
+      }
     }
   ]
 }
 </code></pre>
-<p>Se algum item for inválido ou não puder ser resolvido, a requisição falha ao invés de retornar um array parcial. Proces­se itens não relacionados em requisições separadas quando for necessário sucesso parcial.</p>
+<p>Se algum item for inválido ou não puder ser resolvido, a requisição falha em vez de retornar um array parcial. Processe itens não relacionados em requisições separadas quando for necessário sucesso parcial.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="cache-uso-e-limites">Cache, uso e limites</h2>
-<p>O resolvedor armazena em cache as descrições por hash de conteúdo para a conta autenticada. Conteúdo repetido pode reutilizar texto em cache, mas a disponibilidade do cache não é permanente. Armazene o texto retornado quando sua aplicação precisar de uma cópia durável.</p>
-<p>Processamento de imagens, áudio, vídeo e PDF pode invocar modelos auxiliares integrados e registrar uso de inferência. Arquivos não PDF suportados podem usar extração de texto local ao invés disso. Não há quota dedicada para descrições de mídia; chamadas a modelos auxiliares ainda passam pelos limites de requisição e token do modelo integrado, enquanto acertos de cache e extração local não criam uma transação de limite de taxa multissensor. separ. Consulte <a href="/docs/pt-br/limits">Planos e limites</a> para os limites de inferência que podem ser aplicados.</p>
+<h2 id="uso-e-limites">Uso e limites</h2>
+<p>Processamento de imagem, áudio, vídeo e PDF pode invocar modelos auxiliares integrados e registrar uso de inferência. Este endpoint não oferece garantia de cache: requisições repetidas para o mesmo conteúdo podem invocar o processamento novamente. Não há cota dedicada para descrições de mídia; as requisições estão sujeitas aos limites aplicáveis de requisições e tokens de inferência. Veja <a href="/docs/pt-br/limits">Planos e limites</a> para os limites que podem ser aplicados.</p>
+<p>Uma resposta <code>402 Payment Required</code> indica que a conta ou não tem saldo positivo ou excedeu sua cota de armazenamento.</p>
 
 </article>
 

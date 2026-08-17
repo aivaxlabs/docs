@@ -11,7 +11,7 @@ Open **Agentic Tests** in the AIVAX dashboard to create and manage reusable test
 - the AI Gateway under test;
 - a goal that describes the expected conversational outcome and is shared with the simulated user and judge;
 - optional validation criteria used only by the judge;
-- optional starting messages and an external user identifier;
+- optional starting messages, external resources, and an external user identifier;
 - simulated-user sampling, turn limits, exit behavior, and evaluation thresholds;
 - an optional recurring schedule;
 - failure and recovery notification settings.
@@ -31,6 +31,25 @@ Use **Validation criteria** for optional requirements that should affect only th
 Keeping these criteria separate prevents the simulated user from unnaturally steering the conversation toward the checks that the judge will apply.
 
 Use **Start messages** when the scenario requires an established context, such as a customer objection, a prior assistant response, or a specific point in an existing flow. Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
+
+Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide up to 16 objects with a `type` and non-empty `data` value. `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
+
+```json
+{
+  "resources": [
+    {
+      "type": "Text",
+      "data": "The customer has a 14-day refund window."
+    },
+    {
+      "type": "RemoteResource",
+      "data": "https://example.com/refund-policy"
+    }
+  ]
+}
+```
+
+Remote content can change between test runs and contributes to usage. Use only trusted, publicly reachable URLs whose content is appropriate for the test.
 
 A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.
 
@@ -77,6 +96,7 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 | Setting | Default | Accepted values | Description |
 | --- | ---: | --- | --- |
 | `validation_criteria` | `null` | String, message part, or list of message parts | Optional requirements supplied only to the judge. They do not guide the simulated user or the gateway under test. |
+| `resources` | `[]` | Up to 16 `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
 | `profile` | `medium` | `low`, `medium`, `high` | Selects the capability and price tier used by the simulated user and judge. It does not replace the model configured on the gateway under test. |
 | `max_turns` | `10` | `2`–`64` | Maximum number of simulated-user turns before the run ends. |
 | `minimum_turns` | `1` | `1`–`63`, less than `max_turns` | First turn when the simulated user may receive the option to end the conversation. |
@@ -97,9 +117,9 @@ Use the direct generation endpoint when an application needs to run an ephemeral
 
 Authenticate with a private AIVAX API key, send `Accept: text/event-stream`, and keep the key on a trusted backend. Do not expose a private key in browser code or a distributed application bundle.
 
-<script src="https://inference.aivax.net/apidocs?embed-target=Evaluate%20Tests&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<script src="https://inference.aivax.net/apidocs?embed-target=Evaluate%20Agentic%20Test&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-The request accepts the same core evaluation settings as a persistent test. Use `model` for the AI Gateway slug, `goal` for the desired outcome shared with the simulated user and judge, `validation_criteria` for optional judge-only requirements, `minimum_turns` and `allow_user_exit` to control when the simulated user sees its exit option, `judge_start_turn` to schedule judge evaluation, `start` for optional initial messages, and `external_user_id` for an identity forwarded to gateway inference.
+The request accepts the same core evaluation settings as a persistent test. Use `model` for the AI Gateway slug, `goal` for the desired outcome shared with the simulated user and judge, `validation_criteria` for optional judge-only requirements, `minimum_turns` and `allow_user_exit` to control when the simulated user sees its exit option, `judge_start_turn` to schedule judge evaluation, `start` for optional initial messages, `resources` for additional `Text` or `RemoteResource` context, and `external_user_id` for an identity forwarded to gateway inference.
 
 Every Server-Sent Events message contains this envelope:
 

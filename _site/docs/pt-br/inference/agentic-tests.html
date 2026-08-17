@@ -127,95 +127,176 @@
                 <article data-uid="">
 <h1 id="testes-agentes">Testes Agentes</h1>
 
-<p>Testes Agentes avaliam como um Gateway de IA se comporta ao longo de uma conversa completa e orientada a objetivo, em vez de pontuar uma única resposta isolada. O AIVAX simula a próxima mensagem do usuário, envia cada turno ao gateway selecionado e usa um juiz independente para determinar se a conversa atingiu seu objetivo, permanece recuperável ou se afastou persistentemente do resultado esperado.</p>
-<p>Use Testes Agentes para criar verificações de regressão repetíveis para suporte, vendas, integração, uso de ferramentas, RAG e outros fluxos de agente de múltiplas interações. Como um teste roda através do Gateway de IA configurado, ele exercita o modelo, instruções, ferramentas, habilidades, conhecimento e configurações de inferência do gateway em conjunto.</p>
+<p>Testes Agentes avaliam como um Gateway de IA se comporta ao longo de uma conversa completa e orientada a um objetivo, em vez de avaliar uma resposta isolada. O AIVAX simula a próxima mensagem do usuário, envia cada turno ao gateway selecionado e usa um juiz independente para determinar se a conversa atingiu seu objetivo, permanece recuperável ou se desviou persistentemente do resultado esperado.</p>
+<p>Use Testes Agentes para criar verificações de regressão repetíveis para suporte, vendas, integração, uso de ferramentas, RAG e outros fluxos de agente multi‑turno. Como um teste passa pelo Gateway de IA configurado, ele exercita o modelo, instruções, ferramentas, habilidades, conhecimento e configurações de inferência do gateway em conjunto.</p>
 <h2 id="testes-persistentes-no-painel">Testes persistentes no painel</h2>
-<p>Abra <strong>Agentic Tests</strong> no painel do AIVAX para criar e gerenciar casos de teste reutilizáveis. Um teste armazena:</p>
+<p>Abra <strong>Testes Agentes</strong> no painel do AIVAX para criar e gerenciar casos de teste reutilizáveis. Um teste armazena:</p>
 <ul>
-<li>o gateway de IA em teste;</li>
+<li>o Gateway de IA em teste;</li>
 <li>um objetivo que descreve o resultado conversacional esperado e é compartilhado com o usuário simulado e o juiz;</li>
 <li>critérios de validação opcionais usados apenas pelo juiz;</li>
-<li>mensagens iniciais opcionais e um identificador de usuário externo;</li>
+<li>mensagens iniciais opcionais, recursos externos e um identificador de usuário externo;</li>
 <li>amostragem do usuário simulado, limites de turnos, comportamento de saída e limites de avaliação;</li>
 <li>um agendamento recorrente opcional;</li>
 <li>configurações de notificação de falha e recuperação.</li>
 </ul>
-<p>A definição do teste é reutilizável. Cada execução cria uma corrida separada, de modo que alterar um teste mais tarde não substitui o histórico já coletado para corridas anteriores.</p>
+<p>A definição do teste é reutilizável. Cada execução cria uma corrida separada, de modo que alterar um teste posteriormente não substitui o histórico já coletado das execuções anteriores.</p>
 <h3 id="crie-um-teste-útil">Crie um teste útil</h3>
-<p>Escreva o objetivo como um resultado observável em vez de instruções para o assistente. O objetivo é compartilhado tanto com o usuário simulado, que o persegue, quanto com o juiz, que o avalia. Por exemplo:</p>
+<p>Escreva o objetivo como um resultado observável em vez de como instruções para o assistente. O objetivo é compartilhado tanto com o usuário simulado, que o persegue, quanto com o juiz, que o avalia. Por exemplo:</p>
 <blockquote>
-<p>Identifique o tamanho da equipe do cliente, recomende o plano correto, explique por que ele se encaixa e forneça o próximo passo de inscrição.</p>
+<p>Identificar o tamanho da equipe do cliente, recomendar o plano correto, explicar por que ele se encaixa e fornecer o próximo passo de inscrição.</p>
 </blockquote>
-<p>Use <strong>Validation criteria</strong> para requisitos opcionais que devem afetar apenas a avaliação do juiz, não o comportamento do usuário simulado. Por exemplo:</p>
+<p>Use <strong>Critérios de validação</strong> para requisitos opcionais que devem afetar apenas a avaliação do juiz, não o comportamento do usuário simulado. Por exemplo:</p>
 <blockquote>
 <p>A recomendação deve nomear o plano selecionado e conectá‑lo ao tamanho de equipe declarado. A resposta final deve incluir um passo direto de inscrição.</p>
 </blockquote>
 <p>Manter esses critérios separados impede que o usuário simulado direcione artificialmente a conversa para as verificações que o juiz aplicará.</p>
-<p>Use <strong>Start messages</strong> quando o cenário exigir um contexto já estabelecido, como uma objeção do cliente, uma resposta anterior do assistente ou um ponto específico em um fluxo existente. Use <code>external_user_id</code> quando o comportamento do gateway depender de uma identidade da sua própria aplicação. O valor é encaminhado para a inferência do gateway em cada execução desse teste.</p>
-<p>Um teste focado geralmente fornece resultados mais acionáveis do que um cenário amplo. Separe objetivos não relacionados em testes diferentes para que uma falha identifique o comportamento que regrediu.</p>
-<h3 id="execute-e-inspecione-um-teste">Execute e inspecione um teste</h3>
-<p>Selecione <strong>Run test</strong> para enfileirar uma execução. As corridas podem estar <code>pending</code>, <code>running</code>, <code>succeeded</code>, <code>failed</code> ou <code>cancelled</code>. A simultaneidade ao nível de conta depende do plano atual:</p>
+<p>Use <strong>Mensagens iniciais</strong> quando o cenário exigir um contexto estabelecido, como uma objeção do cliente, uma resposta anterior do assistente ou um ponto específico em um fluxo existente. Use <code>external_user_id</code> quando o comportamento do gateway depender de uma identidade da sua própria aplicação. O valor é repassado para a inferência do gateway em cada execução desse teste.</p>
+<p>Use <code>resources</code> para fornecer ao usuário simulado e ao juiz um contexto compartilhado que não pertence à conversa inicial. Forneça até 16 objetos com um <code>type</code> e um valor <code>data</code> não vazio. <code>Text</code> usa <code>data</code> como contexto literal; <code>RemoteResource</code> recupera o conteúdo da URL em <code>data</code>. Por exemplo:</p>
+<pre><code class="lang-json">{
+  &quot;resources&quot;: [
+    {
+      &quot;type&quot;: &quot;Text&quot;,
+      &quot;data&quot;: &quot;O cliente tem uma janela de reembolso de 14 dias.&quot;
+    },
+    {
+      &quot;type&quot;: &quot;RemoteResource&quot;,
+      &quot;data&quot;: &quot;https://example.com/refund-policy&quot;
+    }
+  ]
+}
+</code></pre>
+<p>O conteúdo remoto pode mudar entre execuções de teste e contribui para o uso. Use apenas URLs públicas e confiáveis cujo conteúdo seja adequado ao teste.</p>
+<p>Um teste focado costuma gerar resultados mais acionáveis do que um cenário amplo. Separe objetivos não relacionados em testes diferentes para que uma falha identifique o comportamento que regrediu.</p>
+<h3 id="executar-e-inspecionar-um-teste">Executar e inspecionar um teste</h3>
+<p>Selecione <strong>Run test</strong> para enfileirar uma execução. As execuções podem estar <code>pending</code>, <code>running</code>, <code>succeeded</code>, <code>failed</code> ou <code>cancelled</code>. A simultaneidade ao nível da conta depende do plano atual:</p>
 <table>
 <thead>
 <tr>
 <th>Plano</th>
-<th>Execuções simultâneas por conta</th>
+<th style="text-align: right;">Execuções simultâneas por conta</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Free</td>
-<td>1</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr>
 <td>Pro</td>
-<td>4</td>
+<td style="text-align: right;">4</td>
 </tr>
 <tr>
 <td>Max</td>
-<td>8</td>
+<td style="text-align: right;">8</td>
 </tr>
 </tbody>
 </table>
-<p>Uma corrida processa sua conversa sequencialmente, enquanto corridas elegíveis da mesma conta podem ser executadas simultaneamente. Cada turno verifica se a conta pode continuar operando. Uma corrida pode falhar se o saldo for esgotado ou a inferência não puder continuar, e uma corrida pendente ou em execução pode ser cancelada pelo painel.</p>
-<p>O inspetor de corrida retém:</p>
+<p>Uma execução processa sua conversa sequencialmente, enquanto execuções elegíveis da mesma conta podem ser executadas simultaneamente. Cada turno verifica se a conta pode continuar operando. Uma execução pode falhar se o saldo for esgotado ou a inferência não puder continuar, e uma execução pendente ou em andamento pode ser cancelada pelo painel.</p>
+<p>O inspetor de execução retém:</p>
 <ul>
 <li>mensagens do usuário simulado, assistente e juiz em ordem cronológica;</li>
 <li>um timestamp preciso para cada mensagem retida;</li>
 <li>uso de tokens de prompt, prompt em cache e conclusão por mensagem;</li>
-<li>toda opinião do juiz, incluindo seu raciocínio, pontuação, estado e valores de trajetória;</li>
-<li>o resultado final da avaliação, informações de falha e custo total cobrado para a execução.</li>
+<li>cada opinião do juiz, incluindo seu raciocínio, pontuação, estado e valores de trajetória;</li>
+<li>o resultado final da avaliação, informações de falha e custo total cobrado pela execução.</li>
 </ul>
-<p>Use as opiniões do juiz para identificar o turno em que a conversa melhorou, ficou em risco, teve sucesso ou entrou em perda persistente. O detalhe da corrida também pode ser exportado como JSON para revisão offline.</p>
-<h3 id="agende-testes-recorrentes">Agende testes recorrentes</h3>
+<p>Use as opiniões do juiz para identificar o turno em que a conversa melhorou, ficou em risco, teve sucesso ou entrou em perda persistente. O detalhe da execução também pode ser exportado como JSON para revisão offline.</p>
+<h3 id="agendar-testes-recorrentes">Agendar testes recorrentes</h3>
 <p>Um teste pode ser executado automaticamente a partir de uma expressão cron padrão de cinco campos. O intervalo mínimo suportado é de cinco minutos. Por exemplo, <code>*/15 * * * *</code> executa a cada 15 minutos.</p>
-<p>Desative o agendamento quando quiser preservar a definição do teste sem criar novas execuções agendadas. Execuções manuais permanecem disponíveis na página do teste.</p>
+<p>Desative o agendamento quando quiser preservar a definição do teste sem criar novas execuções agendadas. Execuções manuais permanecem disponíveis a partir da página do teste.</p>
 <h3 id="notificações-de-falha-e-recuperação">Notificações de falha e recuperação</h3>
-<p>Habilite notificações de falha quando falhas repetidas na execução devem alertar o proprietário da conta. <strong>Notification threshold</strong> controla quantas execuções consecutivas no estado <code>failed</code> são necessárias antes que o AIVAX envie um alerta. O padrão é <code>1</code>.</p>
-<p>Quando <strong>Recovery notification</strong> está habilitada, o AIVAX também notifica a conta após uma corrida concluir com sucesso após falhas consecutivas suficientes para atingir o limiar configurado. Uma corrida concluída com sucesso reinicia o contador de falhas consecutivas.</p>
+<p>Habilite notificações de falha quando falhas repetidas de execução devem alertar o proprietário da conta. <strong>Notification threshold</strong> controla quantas execuções consecutivas no estado <code>failed</code> são necessárias antes que o AIVAX envie um alerta. O padrão é <code>1</code>.</p>
+<p>Quando <strong>Recovery notification</strong> está habilitado, o AIVAX também notifica a conta após uma execução concluir com sucesso após falhas consecutivas suficientes para atingir o limite configurado. Uma execução concluída com sucesso reinicia o contador de falhas consecutivas.</p>
 <h3 id="retenção">Retenção</h3>
-<p>Corridas bem‑sucedidas e falhas são retidas por um mês. Corridas canceladas são retidas por um dia. Exporte qualquer resultado que precise permanecer disponível além desses períodos.</p>
+<p>Execuções bem‑sucedidas e falhas são retidas por um mês. Execuções canceladas são retidas por um dia. Exporte qualquer resultado que precise permanecer disponível além desses períodos.</p>
 <h2 id="configurações-de-avaliação">Configurações de avaliação</h2>
-<p>| Configuração | Padrão | Valores aceitos | Descrição |
-| --- | ---: --- --- |
-| <code>validation_criteria</code> | <code>null</code> | String, parte da mensagem ou lista de partes de mensagem | Requisitos opcionais fornecidos apenas ao juiz. Eles não orientam o usuário simulado nem o gateway em teste. |
-| <code>profile</code> | <code>medium</code> | <code>low</code>, <code>medium</code>, <code>high</code> | Seleciona a capacidade e a faixa de preço usadas pelo usuário simulado e pelo juiz. Não substitui o modelo configurado no gateway em teste. |
-| <code>max_turns</code> | <code>10</code> | <code>2</code>–<code>64</code> | Número máximo de turnos do usuário simulado antes que a corrida termine. |
-| <code>minimum_turns</code> | <code>1</code> | <code>1</code>–<code>63</code>, menor que <code>max_turns</code> | Primeiro turno em que o usuário simulado pode receber a opção de encerrar a conversa. |
-| <code>allow_user_exit</code> | <code>true</code> | Boolean | Quando habilitado, o prompt do usuário simulado expõe o token de saída da conversa a partir de <code>minimum_turns</code>. Quando desabilitado, essa opção é omitida de todo prompt do usuário simulado. |
-| <code>judge_start_turn</code> | <code>1</code> | <code>1</code>–<code>63</code>, menor que <code>max_turns</code> | Primeiro turno avaliado pelo juiz. O último turno é sempre avaliado. |
-| <code>loss_threshold</code> | <code>0.2</code> | <code>0.01</code>–<code>0.99</code> | Limite usado para identificar uma trajetória persistentemente malsucedida. |
-| <code>base_threshold</code> | <code>0.9</code> | <code>0.01</code>–<code>0.99</code> | Pontuação igual ou superior à qual o objetivo é considerado alcançado. Deve ser maior que <code>loss_threshold</code>, com mais de <code>0.1</code> entre eles. |
-| <code>user_sampling.top_k</code> | <code>0.4</code> | <code>0</code>–<code>2</code> | Controla quantas características de comunicação amostradas guiam o usuário simulado. Valores mais altos aumentam a variação. |
-| <code>user_sampling.max_decay</code> | <code>0.02</code> | <code>0</code>–<code>1</code> | Controla como as características amostradas do usuário podem mudar entre turnos. |</p>
-<p>Reduza <code>max_turns</code> para verificações de regressão rápidas e limitadas. Aumente para fluxos que naturalmente requerem descoberta ou várias chamadas de ferramenta. <code>minimum_turns</code> e <code>judge_start_turn</code> devem ser menores que <code>max_turns</code>; caso contrário, são independentes. Adie <code>judge_start_turn</code> quando se espera esclarecimento precoce e pontuações intermediárias não são úteis. Desative <code>allow_user_exit</code> quando apenas o juiz ou o orçamento de turnos deve encerrar o teste; <code>minimum_turns</code> controla apenas quando o usuário simulado vê sua opção de saída e não atrasa as decisões do juiz. Mantenha uma grande diferença entre os limites de perda e sucesso, a menos que a política tenha sido calibrada contra conversas representativas.</p>
-<p>Testes Agentes cobram a inferência do gateway selecionado mais o uso do usuário simulado e do juiz nas taxas do perfil selecionado. Consulte <a href="../pricing.html#agentic-tests">Pricing</a> para as taxas atuais.</p>
+<table>
+<thead>
+<tr>
+<th>Configuração</th>
+<th style="text-align: right;">Padrão</th>
+<th>Valores aceitos</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validation_criteria</code></td>
+<td style="text-align: right;"><code>null</code></td>
+<td>String, parte da mensagem ou lista de partes de mensagem</td>
+<td>Requisitos opcionais fornecidos apenas ao juiz. Eles não orientam o usuário simulado nem o gateway em teste.</td>
+</tr>
+<tr>
+<td><code>resources</code></td>
+<td style="text-align: right;"><code>[]</code></td>
+<td>Até 16 objetos <code>{ &quot;type&quot;, &quot;data&quot; }</code></td>
+<td>Contexto adicional fornecido ao usuário simulado e ao juiz. Use <code>Text</code> para <code>data</code> literal ou <code>RemoteResource</code> para conteúdo recuperado da URL em <code>data</code>.</td>
+</tr>
+<tr>
+<td><code>profile</code></td>
+<td style="text-align: right;"><code>medium</code></td>
+<td><code>low</code>, <code>medium</code>, <code>high</code></td>
+<td>Seleciona a capacidade e o nível de preço usados pelo usuário simulado e pelo juiz. Não substitui o modelo configurado no gateway em teste.</td>
+</tr>
+<tr>
+<td><code>max_turns</code></td>
+<td style="text-align: right;"><code>10</code></td>
+<td><code>2</code>–<code>64</code></td>
+<td>Número máximo de turnos do usuário simulado antes que a execução termine.</td>
+</tr>
+<tr>
+<td><code>minimum_turns</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td><code>1</code>–<code>63</code>, menor que <code>max_turns</code></td>
+<td>Primeiro turno em que o usuário simulado pode receber a opção de encerrar a conversa.</td>
+</tr>
+<tr>
+<td><code>allow_user_exit</code></td>
+<td style="text-align: right;"><code>true</code></td>
+<td>Boolean</td>
+<td>Quando habilitado, o prompt do usuário simulado expõe o token de saída da conversa a partir de <code>minimum_turns</code>. Quando desativado, essa opção é omitida de todo prompt do usuário simulado.</td>
+</tr>
+<tr>
+<td><code>judge_start_turn</code></td>
+<td style="text-align: right;"><code>1</code></td>
+<td><code>1</code>–<code>63</code>, menor que <code>max_turns</code></td>
+<td>Primeiro turno avaliado pelo juiz. O turno final é sempre avaliado.</td>
+</tr>
+<tr>
+<td><code>loss_threshold</code></td>
+<td style="text-align: right;"><code>0.2</code></td>
+<td><code>0.01</code>–<code>0.99</code></td>
+<td>Limite usado para identificar uma trajetória persistentemente malsucedida.</td>
+</tr>
+<tr>
+<td><code>base_threshold</code></td>
+<td style="text-align: right;"><code>0.9</code></td>
+<td><code>0.01</code>–<code>0.99</code></td>
+<td>Pontuação em ou acima da qual o objetivo é considerado alcançado. Deve ser maior que <code>loss_threshold</code>, com pelo menos <code>0.1</code> de diferença entre eles.</td>
+</tr>
+<tr>
+<td><code>user_sampling.top_k</code></td>
+<td style="text-align: right;"><code>0.4</code></td>
+<td><code>0</code>–<code>2</code></td>
+<td>Controla quantas características de comunicação amostradas guiam o usuário simulado. Valores maiores aumentam a variação.</td>
+</tr>
+<tr>
+<td><code>user_sampling.max_decay</code></td>
+<td style="text-align: right;"><code>0.02</code></td>
+<td><code>0</code>–<code>1</code></td>
+<td>Controla quanto as características amostradas do usuário podem mudar entre turnos.</td>
+</tr>
+</tbody>
+</table>
+<p>Reduza <code>max_turns</code> para verificações de regressão rápidas e limitadas. Aumente para fluxos que naturalmente exigem descoberta ou várias chamadas de ferramenta. <code>minimum_turns</code> e <code>judge_start_turn</code> devem ser menores que <code>max_turns</code>; são independentes. Atrase <code>judge_start_turn</code> quando for esperada uma clarificação precoce e pontuações intermediárias não forem úteis. Desative <code>allow_user_exit</code> quando apenas o juiz ou o orçamento de turnos deve encerrar o teste; <code>minimum_turns</code> controla apenas quando o usuário simulado vê sua opção de saída e não atrasa as decisões do juiz. Mantenha uma grande diferença entre os limites de perda e sucesso, a menos que a política tenha sido calibrada contra conversas representativas.</p>
+<p>Testes Agentes cobram a inferência do gateway selecionado mais o uso do usuário simulado e do juiz nas taxas do perfil selecionado. Veja <a href="../pricing.html#agentic-tests">Pricing</a> para as taxas atuais.</p>
 <h2 id="execução-direta-da-api">Execução direta da API</h2>
-<p>Use o endpoint de geração direta quando um aplicativo precisar executar um teste efêmero e consumir seus eventos imediatamente. Uma execução direta <strong>não</strong> cria um caso de teste persistente nem uma corrida no painel.</p>
-<p>Autentique‑se com uma chave de API privada do AIVAX, envie <code>Accept: text/event-stream</code> e mantenha a chave em um backend confiável. Não exponha uma chave privada em código de navegador ou em um pacote de aplicativo distribuído.</p>
-<script src="https://inference.aivax.net/apidocs?embed-target=Evaluate%20Tests&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>A solicitação aceita as mesmas configurações principais de avaliação de um teste persistente. Use <code>model</code> para o slug do Gateway de IA, <code>goal</code> para o resultado desejado compartilhado com o usuário simulado e o juiz, <code>validation_criteria</code> para requisitos opcionais apenas do juiz, <code>minimum_turns</code> e <code>allow_user_exit</code> para controlar quando o usuário simulado vê sua opção de saída, <code>judge_start_turn</code> para agendar a avaliação do juiz, <code>start</code> para mensagens iniciais opcionais e <code>external_user_id</code> para uma identidade encaminhada à inferência do gateway.</p>
-<p>Cada mensagem de Server‑Sent Events contém este envelope:</p>
+<p>Use o endpoint de geração direta quando uma aplicação precisar executar um teste efêmero e consumir seus eventos imediatamente. Uma execução direta <strong>não</strong> cria um caso de teste persistente nem uma execução no painel.</p>
+<p>Autentique‑se com uma chave de API privada do AIVAX, envie <code>Accept: text/event-stream</code> e mantenha a chave em um backend confiável. Não exponha uma chave privada em código de navegador ou em um pacote de aplicação distribuído.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Evaluate%20Agentic%20Test&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<p>A solicitação aceita as mesmas configurações centrais de avaliação de um teste persistente. Use <code>model</code> para o slug do Gateway de IA, <code>goal</code> para o resultado desejado compartilhado com o usuário simulado e o juiz, <code>validation_criteria</code> para requisitos opcionais apenas do juiz, <code>minimum_turns</code> e <code>allow_user_exit</code> para controlar quando o usuário simulado vê sua opção de saída, <code>judge_start_turn</code> para agendar a avaliação do juiz, <code>start</code> para mensagens iniciais opcionais, <code>resources</code> para contexto adicional <code>Text</code> ou <code>RemoteResource</code>, e <code>external_user_id</code> para uma identidade repassada à inferência do gateway.</p>
+<p>Cada mensagem Server‑Sent Events contém este envelope:</p>
 <pre><code class="lang-json">{
   &quot;timestamp&quot;: 1786329000000,
   &quot;event&quot;: {
@@ -227,7 +308,7 @@
   }
 }
 </code></pre>
-<p>Roteie as mensagens por <code>event.type</code> e concatene os blocos de conteúdo transmitidos em ordem. Os exemplos abaixo mostram o objeto <code>event</code> dentro do envelope SSE.</p>
+<p>Roteie mensagens por <code>event.type</code> e concatene blocos de conteúdo transmitidos em ordem. Os exemplos abaixo mostram o objeto <code>event</code> dentro do envelope SSE.</p>
 <ul>
 <li><p><strong><code>chat.start</code></strong> — Inicia um turno e relata seu número e o orçamento de turnos restante.</p>
 <pre><code class="lang-json">{
@@ -250,7 +331,7 @@
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;chat.user_message.reasoning&quot;,
   &quot;data&quot;: {
-    &quot;reasoning_content&quot;: &quot;Okay, the user is&quot;
+    &quot;reasoning_content&quot;: &quot;Okay, o usuário está&quot;
   }
 }
 </code></pre>
@@ -259,7 +340,7 @@
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;chat.user_message.content&quot;,
   &quot;data&quot;: {
-    &quot;content&quot;: &quot;Can you explain the refund policy?&quot;
+    &quot;content&quot;: &quot;Você pode explicar a política de reembolso?&quot;
   }
 }
 </code></pre>
@@ -291,7 +372,7 @@
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;chat.assistant_message.reasoning&quot;,
   &quot;data&quot;: {
-    &quot;reasoning_content&quot;: &quot;I should answer with the applicable policy and next steps.&quot;
+    &quot;reasoning_content&quot;: &quot;Devo responder com a política aplicável e os próximos passos.&quot;
   }
 }
 </code></pre>
@@ -300,7 +381,7 @@
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;chat.assistant_message.content&quot;,
   &quot;data&quot;: {
-    &quot;content&quot;: &quot;Refunds are available within 30 days.&quot;
+    &quot;content&quot;: &quot;Reembolsos estão disponíveis dentro de 30 dias.&quot;
   }
 }
 </code></pre>
@@ -319,12 +400,12 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.judge.turn_analysis_result_ready</code></strong> — Retorna o raciocínio do juiz, pontuação normalizada, estado atual, medições de trajetória e decisão de continuação. <code>score</code> varia de <code>0.001</code> a <code>0.999</code>; <code>pass</code> é falso apenas após ser estabelecida uma perda persistente.</p>
+<li><p><strong><code>chat.judge.turn_analysis_result_ready</code></strong> — Retorna o raciocínio do juiz, pontuação normalizada, estado atual, medições de trajetória e decisão de continuação. <code>score</code> varia de <code>0.001</code> a <code>0.999</code>; <code>pass</code> é falso somente após uma perda persistente ser estabelecida.</p>
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;chat.judge.turn_analysis_result_ready&quot;,
   &quot;data&quot;: {
     &quot;result&quot;: {
-      &quot;reasoning&quot;: &quot;The response satisfied the requested outcome and validation criteria.&quot;,
+      &quot;reasoning&quot;: &quot;A resposta atendeu ao resultado solicitado e aos critérios de validação.&quot;,
       &quot;score&quot;: 0.92,
       &quot;pass&quot;: true,
       &quot;should_continue&quot;: false,
@@ -345,7 +426,7 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>usage_updated</code></strong> — Relata uso de tokens de prompt, prompt em cache e conclusão. <code>role</code> é <code>user</code>, <code>assistant</code> ou <code>judge</code> dependendo da inferência que gerou o uso.</p>
+<li><p><strong><code>usage_updated</code></strong> — Relata uso de tokens de prompt, prompt em cache e conclusão. <code>role</code> é <code>user</code>, <code>assistant</code> ou <code>judge</code> dependendo da inferência que produziu o uso.</p>
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;usage_updated&quot;,
   &quot;data&quot;: {
@@ -359,18 +440,18 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>unhandled_error</code></strong> — Relata um erro de inferência, seu escopo e se a operação será tentada novamente. <code>scope</code> é <code>user_inference</code>, <code>gateway_inference</code> ou <code>judge_analysis</code>.</p>
+<li><p><strong><code>unhandled_error</code></strong> — Relata um erro de inferência, seu escopo e se a operação será reintentada. <code>scope</code> é <code>user_inference</code>, <code>gateway_inference</code> ou <code>judge_analysis</code>.</p>
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;unhandled_error&quot;,
   &quot;data&quot;: {
-    &quot;error&quot;: &quot;The inference provider is temporarily unavailable.&quot;,
+    &quot;error&quot;: &quot;O provedor de inferência está temporariamente indisponível.&quot;,
     &quot;scope&quot;: &quot;gateway_inference&quot;,
     &quot;will_retry&quot;: true
   }
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.validation.end</code></strong> — Relata o resultado final e encerra a avaliação. O nome legado do evento é mantido para compatibilidade. <code>score</code> é incluído quando o resultado final segue uma avaliação do juiz, mas pode estar ausente quando o orçamento de turnos se esgota.</p>
+<li><p><strong><code>chat.validation.end</code></strong> — Relata o resultado final e encerra a avaliação. O nome legado do evento é preservado para compatibilidade. <code>score</code> está incluído quando o resultado final segue uma avaliação do juiz, mas pode estar ausente quando o orçamento de turnos se esgota.</p>
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;chat.validation.end&quot;,
   &quot;data&quot;: {
@@ -386,7 +467,7 @@
 </code></pre>
 </li>
 </ul>
-<p>O estado do juiz pode ser <code>active</code>, <code>at_risk</code>, <code>success</code> ou <code>loss</code>. Um turno fraco não falha imediatamente uma conversa recuperável: a pontuação baixa e a trajetória acumulada devem permanecer iguais ou abaixo do limite de perda configurado para as avaliações consecutivas exigidas.</p>
+<p>O estado do juiz pode ser <code>active</code>, <code>at_risk</code>, <code>success</code> ou <code>loss</code>. Um turno fraco não falha imediatamente uma conversa recuperável: a pontuação baixa e a trajetória cumulativa devem permanecer em ou abaixo do limite de perda configurado para as avaliações consecutivas necessárias.</p>
 <p>Os resultados finais são:</p>
 <table>
 <thead>
@@ -398,11 +479,11 @@
 <tbody>
 <tr>
 <td><code>success</code></td>
-<td>O juiz alcançou <code>base_threshold</code>, ou o usuário simulado declarou o objetivo concluído.</td>
+<td>O juiz atingiu <code>base_threshold</code>, ou o usuário simulado declarou o objetivo concluído.</td>
 </tr>
 <tr>
 <td><code>loss</code></td>
-<td>A pontuação e a trajetória acumulada permaneceram iguais ou abaixo de <code>loss_threshold</code> nas avaliações consecutivas exigidas.</td>
+<td>A pontuação e a trajetória cumulativa permaneceram em ou abaixo de <code>loss_threshold</code> durante as avaliações consecutivas necessárias.</td>
 </tr>
 <tr>
 <td><code>incomplete</code></td>
@@ -410,7 +491,7 @@
 </tr>
 </tbody>
 </table>
-<p>Uma chave ausente ou inválida devolve <code>401 Unauthorized</code>; uma chave de API pública devolve <code>403 Forbidden</code>; saldo insuficiente devolve <code>402 Payment Required</code>; e campos malformados, slugs de gateway indisponíveis ou combinações de limites inválidas devolvem <code>400 Bad Request</code>. Uma falha de inferência pode chegar como um evento SSE após o início da transmissão.</p>
+<p>Uma chave ausente ou inválida retorna <code>401 Unauthorized</code>; uma chave de API pública retorna <code>403 Forbidden</code>; saldo insuficiente retorna <code>402 Payment Required</code>; e campos malformados, slugs de gateway indisponíveis ou combinações de limites inválidas retornam <code>400 Bad Request</code>. Uma falha de inferência pode, em vez disso, chegar como um evento SSE após o início da transmissão.</p>
 
 </article>
 
