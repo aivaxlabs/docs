@@ -168,6 +168,88 @@
 </code></pre>
 <p>Remote content can change between test runs and contributes to usage. Use only trusted, publicly reachable URLs whose content is appropriate for the test.</p>
 <p>A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.</p>
+<h3 id="validation-hooks">Validation hooks</h3>
+<p>Persisted Agentic Tests may call external validation hooks during a run. Configure the <code>hooks</code> array when creating or updating a test:</p>
+<pre><code class="lang-json">{
+  &quot;hooks&quot;: [
+    {
+      &quot;event&quot;: &quot;before-test&quot;,
+      &quot;url&quot;: &quot;https://validator.example/hooks/agentic-tests&quot;
+    },
+    {
+      &quot;event&quot;: &quot;after-test&quot;,
+      &quot;url&quot;: &quot;https://validator.example/hooks/agentic-tests&quot;
+    },
+    {
+      &quot;event&quot;: &quot;before-inference&quot;,
+      &quot;url&quot;: &quot;https://validator.example/hooks/gateway&quot;
+    },
+    {
+      &quot;event&quot;: &quot;after-inference&quot;,
+      &quot;url&quot;: &quot;https://validator.example/hooks/gateway&quot;
+    },
+    {
+      &quot;event&quot;: &quot;context-changed&quot;,
+      &quot;url&quot;: &quot;https://validator.example/hooks/agentic-tests&quot;
+    }
+  ]
+}
+</code></pre>
+<p>The supported events are:</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>When it is sent</th>
+<th>Event data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>before-test</code></td>
+<td>Before the first simulated turn.</td>
+<td><code>gateway</code>, <code>goal</code>, and <code>metadata</code>.</td>
+</tr>
+<tr>
+<td><code>after-test</code></td>
+<td>After the test reaches a normal terminal outcome and before the final event is emitted.</td>
+<td>The final outcome, reason, state, turn number, score, conversation delta, and loss streak.</td>
+</tr>
+<tr>
+<td><code>before-inference</code></td>
+<td>Once before the primary gateway inference of each turn.</td>
+<td><code>turn_number</code> and the current <code>messages</code> array.</td>
+</tr>
+<tr>
+<td><code>after-inference</code></td>
+<td>Once after the primary gateway inference of each turn.</td>
+<td><code>turn_number</code> and the current <code>messages</code> array.</td>
+</tr>
+<tr>
+<td><code>context-changed</code></td>
+<td>Once per turn after the gateway response has completed.</td>
+<td><code>turn_number</code> and the current <code>messages</code> array.</td>
+</tr>
+</tbody>
+</table>
+<p><code>before-inference</code> and <code>after-inference</code> are available only when the test targets an AI Gateway. Hooks are supported for persisted dashboard tests and scheduled runs; the direct SSE validation endpoint does not accept <code>hooks</code>.</p>
+<p>Each hook receives a worker-compatible JSON envelope:</p>
+<pre><code class="lang-json">{
+  &quot;testId&quot;: &quot;01900000-0000-7000-8000-000000000001&quot;,
+  &quot;runId&quot;: &quot;01900000-0000-7000-8000-000000000002&quot;,
+  &quot;gatewayId&quot;: &quot;01900000-0000-7000-8000-000000000003&quot;,
+  &quot;moment&quot;: &quot;2026-08-16T03:00:00Z&quot;,
+  &quot;event&quot;: {
+    &quot;name&quot;: &quot;before-inference&quot;,
+    &quot;data&quot;: {
+      &quot;turn_number&quot;: 1,
+      &quot;messages&quot;: []
+    }
+  }
+}
+</code></pre>
+<p>The hook URL must be an absolute HTTP or HTTPS URL without embedded credentials and must not resolve to localhost, loopback, private, link-local, or other blocked local addresses. When the account has a hook key, AIVAX also sends <code>X-Request-Nonce</code>; validate it before trusting the payload. Hook requests use <code>POST</code> with <code>Content-Type: application/json</code>.</p>
+<p>Hook responses follow the worker convention: any <code>2xx</code> response continues the run; a non-<code>2xx</code> response or HTTP request failure interrupts it immediately. The response body does not select another action. The interrupted run is stored as <code>failed</code>, emits a terminal result with <code>reason: &quot;validation_hook_interrupted&quot;</code>, and includes hook call audit entries in the run <code>result.hooks</code> array. Audit entries contain the event, URL, timestamp, status or error, whether execution continued, and up to 4,000 characters of the response body.</p>
 <h3 id="run-and-inspect-a-test">Run and inspect a test</h3>
 <p>Select <strong>Run test</strong> to queue an execution. Runs can be <code>pending</code>, <code>running</code>, <code>succeeded</code>, <code>failed</code>, or <code>cancelled</code>. Account-level concurrency depends on the current plan:</p>
 <table>
@@ -232,6 +314,12 @@
 <td style="text-align: right;"><code>[]</code></td>
 <td>Up to 16 <code>{ &quot;type&quot;, &quot;data&quot; }</code> objects</td>
 <td>Additional context supplied to the simulated user and judge. Use <code>Text</code> for literal <code>data</code> or <code>RemoteResource</code> for content retrieved from the URL in <code>data</code>.</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td style="text-align: right;"><code>[]</code></td>
+<td>Up to 16 <code>{ &quot;event&quot;, &quot;url&quot; }</code> objects</td>
+<td>External callbacks for persisted runs. Supported events are <code>before-test</code>, <code>after-test</code>, <code>before-inference</code>, <code>after-inference</code>, and <code>context-changed</code>; <code>before-inference</code> and <code>after-inference</code> require an AI Gateway.</td>
 </tr>
 <tr>
 <td><code>profile</code></td>

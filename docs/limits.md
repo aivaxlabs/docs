@@ -45,7 +45,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Reflex processing time | 30 minutes/day | 6 hours/day | — |
 | Document insertions | 500/day | 10,000/day | — |
 | JSONL documents per import request | 1,000 | 10,000 | 1,000,000 |
-| Media Injector | Not available | 3 files/day | 10 files/day |
+| Media Injector | 2 files/day | 30 files/day | 1,000 files/day |
 | **Built-in tools** |  |  |  |
 | Web search | 15/day | 1,000/day | 10,000/day |
 | X/Twitter search | Not available | 1,000/day | 10,000/day |
@@ -53,7 +53,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Document and web page generation | 5/day | 1,000/day | 50,000/day |
 | Image generation and editing | 5/day | 500/day | 5,000/day |
 | General service actions | 30/day | 5,000/day | 100,000/day |
-| Bash commands | 30/hour | 1,500/hour | 10,000/hour |
+| Bash commands | 300/hour | 30,000/hour | — |
 | **Batch processing** |  |  |  |
 | Workflow items processed | 500/day | 100,000/day | — |
 | Files per import request | 1,000 | 1,000 | 1,000 |

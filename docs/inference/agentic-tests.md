@@ -53,6 +53,71 @@ Remote content can change between test runs and contributes to usage. Use only t
 
 A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.
 
+### Validation hooks
+
+Persisted Agentic Tests may call external validation hooks during a run. Configure the `hooks` array when creating or updating a test:
+
+```json
+{
+  "hooks": [
+    {
+      "event": "before-test",
+      "url": "https://validator.example/hooks/agentic-tests"
+    },
+    {
+      "event": "after-test",
+      "url": "https://validator.example/hooks/agentic-tests"
+    },
+    {
+      "event": "before-inference",
+      "url": "https://validator.example/hooks/gateway"
+    },
+    {
+      "event": "after-inference",
+      "url": "https://validator.example/hooks/gateway"
+    },
+    {
+      "event": "context-changed",
+      "url": "https://validator.example/hooks/agentic-tests"
+    }
+  ]
+}
+```
+
+The supported events are:
+
+| Event | When it is sent | Event data |
+|---|---|---|
+| `before-test` | Before the first simulated turn. | `gateway`, `goal`, and `metadata`. |
+| `after-test` | After the test reaches a normal terminal outcome and before the final event is emitted. | The final outcome, reason, state, turn number, score, conversation delta, and loss streak. |
+| `before-inference` | Once before the primary gateway inference of each turn. | `turn_number` and the current `messages` array. |
+| `after-inference` | Once after the primary gateway inference of each turn. | `turn_number` and the current `messages` array. |
+| `context-changed` | Once per turn after the gateway response has completed. | `turn_number` and the current `messages` array. |
+
+`before-inference` and `after-inference` are available only when the test targets an AI Gateway. Hooks are supported for persisted dashboard tests and scheduled runs; the direct SSE validation endpoint does not accept `hooks`.
+
+Each hook receives a worker-compatible JSON envelope:
+
+```json
+{
+  "testId": "01900000-0000-7000-8000-000000000001",
+  "runId": "01900000-0000-7000-8000-000000000002",
+  "gatewayId": "01900000-0000-7000-8000-000000000003",
+  "moment": "2026-08-16T03:00:00Z",
+  "event": {
+    "name": "before-inference",
+    "data": {
+      "turn_number": 1,
+      "messages": []
+    }
+  }
+}
+```
+
+The hook URL must be an absolute HTTP or HTTPS URL without embedded credentials and must not resolve to localhost, loopback, private, link-local, or other blocked local addresses. When the account has a hook key, AIVAX also sends `X-Request-Nonce`; validate it before trusting the payload. Hook requests use `POST` with `Content-Type: application/json`.
+
+Hook responses follow the worker convention: any `2xx` response continues the run; a non-`2xx` response or HTTP request failure interrupts it immediately. The response body does not select another action. The interrupted run is stored as `failed`, emits a terminal result with `reason: "validation_hook_interrupted"`, and includes hook call audit entries in the run `result.hooks` array. Audit entries contain the event, URL, timestamp, status or error, whether execution continued, and up to 4,000 characters of the response body.
+
 ### Run and inspect a test
 
 Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Account-level concurrency depends on the current plan:
@@ -97,6 +162,7 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 | --- | ---: | --- | --- |
 | `validation_criteria` | `null` | String, message part, or list of message parts | Optional requirements supplied only to the judge. They do not guide the simulated user or the gateway under test. |
 | `resources` | `[]` | Up to 16 `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
+| `hooks` | `[]` | Up to 16 `{ "event", "url" }` objects | External callbacks for persisted runs. Supported events are `before-test`, `after-test`, `before-inference`, `after-inference`, and `context-changed`; `before-inference` and `after-inference` require an AI Gateway. |
 | `profile` | `medium` | `low`, `medium`, `high` | Selects the capability and price tier used by the simulated user and judge. It does not replace the model configured on the gateway under test. |
 | `max_turns` | `10` | `2`–`64` | Maximum number of simulated-user turns before the run ends. |
 | `minimum_turns` | `1` | `1`–`63`, less than `max_turns` | First turn when the simulated user may receive the option to end the conversation. |
