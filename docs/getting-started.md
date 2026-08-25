@@ -76,8 +76,6 @@ Replace `<MODEL_OR_GATEWAY_ID>` with an integrated model name or a gateway ID av
 
 This request is intentionally small: one user message, one model or gateway, and one response. After it works, you can add the product pieces one at a time. For structured JSON output, see [Structured Responses](inference/structured-responses.md). To retrieve knowledge from documents before answering, create a [RAG collection](rag/collections.md) and attach it to a gateway. To let the model call external systems, compare [Built-in Tools](tools/builtin-tools.md), [MCP](tools/mcp.md), and [Protocol Functions](tools/protocol-functions.md).
 
-### Long-running inference
-
 For normal requests, keep using `https://inference.aivax.net/v1`.
 
 If an inference call can run for longer than the Cloudflare proxy timeout, or if your client receives HTTP `524` errors while waiting for long completions, use the direct inference host instead:

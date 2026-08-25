@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Gera&#231;&#227;o de Voz | AIVAX </title>
+        <title>Gera&#231;&#227;o de Fala | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Gera&#231;&#227;o de Voz | AIVAX ">
+        <meta name="title" content="Gera&#231;&#227;o de Fala | AIVAX ">
 
 
         <link rel="icon" href="../../../assets/img/favicon.ico">
@@ -125,95 +125,16 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="geração-de-voz">Geração de Voz</h1>
+<h1 id="geração-de-fala">Geração de Fala</h1>
 
-<p>Use a geração de voz quando sua aplicação já possui o texto final e precisa de áudio reproduzível sem executar uma conclusão de chat. AIVAX envia o texto para o modelo de texto‑para‑voz selecionado, converte o resultado para WAV ou MP4, registra o uso do modelo e devolve áudio binário ou base64 dentro do envelope padrão de resposta JSON.</p>
-<p>Antes de chamar este endpoint, <a href="/docs/pt-br/authentication">crie uma chave de API</a> e certifique‑se de que a conta tem saldo positivo. O nome do modelo identifica o mecanismo de voz; <code>voice</code> é específico do provedor, portanto use uma voz suportada pelo modelo selecionado.</p>
-<h2 id="endpoint">Endpoint</h2>
-<div class="request-item post">
-    <span>POST</span>
-    <span>/api/v1/generations/speech</span>
-</div>
-<p>Nomes de modelos suportados são:</p>
-<table>
-<thead>
-<tr>
-<th>Modelo</th>
-<th>Modelo de base</th>
-<th>Voz padrão quando omitida</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Gpt4oTts</code></td>
-<td><code>gpt-4o-mini-tts</code></td>
-<td><code>nova</code></td>
-</tr>
-<tr>
-<td><code>ElevenMultilingualV2</code></td>
-<td><code>eleven-multilingual-v2</code></td>
-<td><code>nova</code></td>
-</tr>
-<tr>
-<td><code>ElevenV3</code></td>
-<td><code>eleven-v3</code></td>
-<td><code>nova</code></td>
-</tr>
-<tr>
-<td><code>GrokVoice</code></td>
-<td><code>x-ai/grok-voice-tts-1.0</code></td>
-<td><code>Eve</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="comportamento-da-solicitação">Comportamento da solicitação</h2>
-<table>
-<thead>
-<tr>
-<th>Propriedade</th>
-<th>Tipo</th>
-<th>Padrão</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>model</code></td>
-<td><code>string</code></td>
-<td>Obrigatório</td>
-<td>Um dos nomes de modelo suportados acima. A correspondência não diferencia maiúsculas de minúsculas.</td>
-</tr>
-<tr>
-<td><code>input</code></td>
-<td><code>string</code></td>
-<td>Obrigatório</td>
-<td>Texto não vazio a ser sintetizado.</td>
-</tr>
-<tr>
-<td><code>voice</code></td>
-<td><code>string</code></td>
-<td>Padrão do modelo</td>
-<td>Nome da voz específico do provedor.</td>
-</tr>
-<tr>
-<td><code>format</code></td>
-<td><code>string</code></td>
-<td><code>wav</code></td>
-<td>Contêiner de saída: <code>wav</code> ou <code>mp4</code>.</td>
-</tr>
-<tr>
-<td><code>raw</code></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Retorna áudio binário quando <code>true</code>; retorna JSON base64 quando <code>false</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Quando <code>raw</code> é <code>true</code>, o tipo de conteúdo da resposta é <code>audio/wav</code> ou <code>audio/mp4</code>, e o nome do arquivo é exposto através de <code>Content-Disposition</code>. Quando <code>raw</code> é <code>false</code>, <code>data.format</code>, <code>data.mimeType</code> e <code>data.data</code> descrevem o áudio gerado; <code>data.data</code> contém o valor base64.</p>
-<p>O endpoint registra os custos de texto‑para‑voz retornados pelo modelo selecionado e associa o uso à chave de API autenticada. O multiplicador de comissão de plano normal <a href="/docs/pt-br/pricing#usage-billing">/docs/pricing#usage-billing</a> se aplica. Atualmente não há cota de plano dedicada para geração de voz; limites de solicitação ao nível de autenticação ainda se aplicam a chaves de API públicas.</p>
-<p>A referência de API incorporada abaixo contém os exemplos de solicitação e resposta usados pela documentação do servidor:</p>
+<p>Use a Geração de Fala quando sua aplicação já possui o texto final e precisa de áudio reproduzível sem executar uma conclusão de chat. Selecione um modelo de fala e voz disponíveis, então entregue o áudio gerado na forma mais adequada ao consumidor.</p>
+<p>Autentique solicitações com uma chave de API AIVAX. Consulte <a href="/docs/pt-br/authentication">Autenticação</a> para orientações de autorização.</p>
+<h2 id="gerar-fala">Gerar fala</h2>
+<p>Escreva um texto pronto para ser falado em voz alta, incluindo pontuação e formatação que comuniquem pausas ou ênfase. Teste a voz selecionada com conteúdo representativo antes de usá-la em produção, especialmente para nomes, abreviações ou termos especializados.</p>
+<p>A referência incorporada é a fonte de verdade para modelos e vozes disponíveis, opções de solicitação, formatos de saída e campos de resposta.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20speech&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Depois de receber o JSON base64, decodifique <code>data.data</code> usando o formato em <code>data.format</code>. Se o consumidor puder transmitir ou salvar o corpo HTTP diretamente, defina <code>raw</code> como <code>true</code> para evitar a sobrecarga do base64.</p>
+<h2 id="preços-limites-e-erros">Preços, limites e erros</h2>
+<p>Para preços, disponibilidade e limites de conta atuais, veja <a href="/docs/pt-br/pricing">Preços</a> e <a href="/docs/pt-br/limits">Planos e Limites</a>. Revise os erros de validação relatados antes de tentar novamente uma solicitação falhada.</p>
 
 </article>
 

@@ -127,93 +127,14 @@
                 <article data-uid="">
 <h1 id="speech-generation">Speech Generation</h1>
 
-<p>Use speech generation when your application already has the final text and needs playable audio without running a chat completion. AIVAX sends the text to the selected text-to-speech model, converts the result to WAV or MP4, records the model usage, and returns either binary audio or base64 inside the standard JSON response envelope.</p>
-<p>Before calling this endpoint, <a href="/docs/authentication">create an API key</a> and make sure the account has a positive balance. The model name identifies the speech engine; <code>voice</code> is provider-specific, so use a voice supported by the selected model.</p>
-<h2 id="endpoint">Endpoint</h2>
-<div class="request-item post">
-    <span>POST</span>
-    <span>/api/v1/generations/speech</span>
-</div>
-<p>Supported model names are:</p>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Backing model</th>
-<th>Default voice when omitted</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Gpt4oTts</code></td>
-<td><code>gpt-4o-mini-tts</code></td>
-<td><code>nova</code></td>
-</tr>
-<tr>
-<td><code>ElevenMultilingualV2</code></td>
-<td><code>eleven-multilingual-v2</code></td>
-<td><code>nova</code></td>
-</tr>
-<tr>
-<td><code>ElevenV3</code></td>
-<td><code>eleven-v3</code></td>
-<td><code>nova</code></td>
-</tr>
-<tr>
-<td><code>GrokVoice</code></td>
-<td><code>x-ai/grok-voice-tts-1.0</code></td>
-<td><code>Eve</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="request-behavior">Request behavior</h2>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>model</code></td>
-<td><code>string</code></td>
-<td>Required</td>
-<td>One of the supported model names above. Matching is case-insensitive.</td>
-</tr>
-<tr>
-<td><code>input</code></td>
-<td><code>string</code></td>
-<td>Required</td>
-<td>Non-empty text to synthesize.</td>
-</tr>
-<tr>
-<td><code>voice</code></td>
-<td><code>string</code></td>
-<td>Model default</td>
-<td>Provider-specific voice name.</td>
-</tr>
-<tr>
-<td><code>format</code></td>
-<td><code>string</code></td>
-<td><code>wav</code></td>
-<td>Output container: <code>wav</code> or <code>mp4</code>.</td>
-</tr>
-<tr>
-<td><code>raw</code></td>
-<td><code>boolean</code></td>
-<td><code>false</code></td>
-<td>Returns binary audio when <code>true</code>; returns base64 JSON when <code>false</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>When <code>raw</code> is <code>true</code>, the response content type is <code>audio/wav</code> or <code>audio/mp4</code>, and the filename is exposed through <code>Content-Disposition</code>. When <code>raw</code> is <code>false</code>, <code>data.format</code>, <code>data.mimeType</code>, and <code>data.data</code> describe the generated audio; <code>data.data</code> is the base64 value.</p>
-<p>The endpoint records the text-to-speech costs returned by the selected model and associates the usage with the authenticated API key. The normal <a href="/docs/pricing#usage-billing">plan commission multiplier</a> applies. There is currently no dedicated speech-generation plan quota; authentication-level request limits still apply to public API keys.</p>
-<p>The embedded API reference below contains the request and response examples used by the server documentation:</p>
+<p>Use Speech Generation when your application already has final text and needs playable audio without running a chat completion. Select an available speech model and voice, then deliver the generated audio in the form best suited to the consumer.</p>
+<p>Authenticate requests with an AIVAX API key. See <a href="/docs/authentication">Authentication</a> for authorization guidance.</p>
+<h2 id="generate-speech">Generate speech</h2>
+<p>Write text that is ready to be spoken aloud, including punctuation and formatting that communicate pauses or emphasis. Test the selected voice with representative content before using it in production, especially for names, abbreviations, or specialized terms.</p>
+<p>The embedded reference is the source of truth for available models and voices, request options, output formats, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20speech&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>After receiving base64 JSON, decode <code>data.data</code> using the format in <code>data.format</code>. If the consumer can stream or save the HTTP body directly, set <code>raw</code> to <code>true</code> to avoid base64 overhead.</p>
+<h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>
+<p>For current pricing, availability, and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>. Review reported validation errors before retrying a failed request.</p>
 
 </article>
 

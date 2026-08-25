@@ -127,85 +127,17 @@
                 <article data-uid="">
 <h1 id="audio-transcriptions">Audio Transcriptions</h1>
 
-<p>Use audio transcriptions to convert speech from one audio file into text. The dedicated endpoint accepts base64-encoded audio, lets you select an available speech-to-text model, and returns the transcription in the standard AIVAX JSON envelope.</p>
-<p>Use <a href="media-descriptions.html">Media Descriptions</a> instead when you need to process several media items in one request, describe non-speech audio, analyze images or video, or extract text from documents.</p>
-<h2 id="endpoint">Endpoint</h2>
-<div class="request-item post">
-    <span>POST</span>
-    <span>/api/v1/generations/audio/transcriptions</span>
-</div>
-<h2 id="request">Request</h2>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>input_audio</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td>Contains the base64 audio and its format.</td>
-</tr>
-<tr>
-<td><code>input_audio.data</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Raw base64-encoded audio content. Do not include a data-URL prefix.</td>
-</tr>
-<tr>
-<td><code>input_audio.format</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>One of <code>wav</code>, <code>mp3</code>, <code>m4a</code>, <code>flac</code>, <code>ogg</code>, <code>webm</code>, or <code>aac</code>.</td>
-</tr>
-<tr>
-<td><code>model</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Speech-to-text model identifier. When omitted, AIVAX uses the current default model.</td>
-</tr>
-<tr>
-<td><code>language</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Language hint passed to the selected model. Omit it to allow automatic detection when the model supports it.</td>
-</tr>
-</tbody>
-</table>
-<p>The decoded audio file must not be empty or exceed 75 MB. The declared format must match audio that AIVAX can decode.</p>
-<pre><code class="lang-json">{
-  &quot;model&quot;: &quot;x-ai/grok-stt-1.0&quot;,
-  &quot;input_audio&quot;: {
-    &quot;data&quot;: &quot;UklGRiQAAABXQVZFZm10...&quot;,
-    &quot;format&quot;: &quot;wav&quot;
-  },
-  &quot;language&quot;: &quot;en&quot;
-}
-</code></pre>
-<p>The available models, default selection, supported formats, and duration-based prices are published by the audio transcription model catalog:</p>
+<p>Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. Send the audio in a supported request form and use the returned transcription in the next stage of your workflow.</p>
+<p>Authenticate requests with an AIVAX API key. See <a href="/docs/authentication">Authentication</a> for authorization guidance.</p>
+<h2 id="choose-a-transcription-model">Choose a transcription model</h2>
+<p>Query the available transcription models for the authenticated account before selecting one. Availability can vary by account configuration, so do not hard-code a catalog in your application.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Audio%20Transcription%20Models&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="response">Response</h2>
-<p>A successful request returns AIVAX's stable transcription contract inside <code>data</code>. The response does not expose provider-specific fields. <code>usage.cost</code> is the final amount charged in USD, including the account's applicable multiplier, and <code>usage.process_time</code> is the processing time in seconds.</p>
-<pre><code class="lang-json">{
-  &quot;message&quot;: null,
-  &quot;data&quot;: {
-    &quot;text&quot;: &quot;Transcribed speech.&quot;,
-    &quot;usage&quot;: {
-      &quot;cost&quot;: 0.000028,
-      &quot;process_time&quot;: 1.234
-    }
-  }
-}
-</code></pre>
+<h2 id="transcribe-audio">Transcribe audio</h2>
+<p>Provide audio that is accessible to AIVAX and preserve the original language context when it matters to your use case. Review the returned text before using it in user-visible or irreversible actions: noisy recordings, multiple speakers, specialized vocabulary, and poor microphone quality can affect transcription quality.</p>
+<p>The embedded reference is the source of truth for accepted request forms, options, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Transcribe%20audio&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="billing-and-errors">Billing and errors</h2>
-<p>Transcription is billed by audio duration at the selected model's published rate. AIVAX measures the decoded file and rounds its duration up to the next whole second for usage accounting.</p>
-<p>A request can fail when the model is unavailable, the base64 or format is invalid, the audio cannot be decoded, the account has no positive balance, or a request limit is exceeded. Check the model catalog at runtime instead of hard-coding the available model list or default model.</p>
+<h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>
+<p>For current availability, pricing, and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>. Correct invalid or inaccessible audio before retrying a failed request.</p>
 
 </article>
 

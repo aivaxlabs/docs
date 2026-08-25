@@ -2,7 +2,7 @@
 
 AIVAX uses third-party services for specific operations such as infrastructure, object storage, email delivery, payment processing, web search, AI inference, reranking, and image generation. The providers involved in a request depend on the selected model, gateway, tool, and integration.
 
-This page is a technical inventory, not legal advice. Provider policies may change, and Account Managers should review the provider terms that apply to their selected models and tools before sending personal, confidential, regulated, or sensitive data.
+This page is a disclosed technical inventory, not legal advice. It does not list every provider that may be available through model catalogs or aggregators. Provider policies may change, and Account Managers should review the provider terms that apply to their selected models and tools before sending personal, confidential, regulated, or sensitive data.
 
 The data protection law column summarizes the principal frameworks identified in each provider's current privacy policy or data processing addendum. Applicability may vary by contracting entity, data subject location, and processing region.
 

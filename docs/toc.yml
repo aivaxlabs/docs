@@ -57,6 +57,8 @@
   href: generations/audio-transcriptions.md
 - name: Media descriptions
   href: generations/media-descriptions.md
+- name: Teach Skill
+  href: generations/teach-skill.md
 - name: Image generation
   href: generations/images.md
 

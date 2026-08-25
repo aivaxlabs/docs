@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Rerankers | AIVAX </title>
+        <title>Reordenadores | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Rerankers | AIVAX ">
+        <meta name="title" content="Reordenadores | AIVAX ">
 
 
         <link rel="icon" href="../../../assets/img/favicon.ico">
@@ -125,236 +125,18 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="rerankers">Rerankers</h1>
+<h1 id="reordenadores">Reordenadores</h1>
 
-<p>Rerankers reordenam um conjunto existente de documentos candidatos para uma consulta. Eles não pesquisam uma coleção nem recuperam texto que está ausente da entrada. Use o endpoint de reranking autônomo quando sua aplicação já possui os candidatos, ou use <a href="semantic-search.html">Semantic Search</a> para recuperar candidatos de uma coleção AIVAX antes de rerankear.</p>
-<h2 id="rerank-documents-directly">Rerank documents directly</h2>
-<p>Autentique esta requisição com uma chave de API AIVAX conforme descrito em <a href="../authentication.html">Authentication</a>. O endpoint aceita strings de documentos diretamente, portanto você não precisa criar uma coleção RAG primeiro.</p>
-<div class="request-item post">
-    <span>POST</span>
-    <span>/api/v1/generations/rerank</span>
-</div>
-<p>A requisição aceita:</p>
-<table>
-<thead>
-<tr>
-<th>Parâmetro</th>
-<th>Tipo</th>
-<th>Obrigatório</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>Sim</td>
-<td>Texto não vazio usado para avaliar a relevância.</td>
-</tr>
-<tr>
-<td><code>documents</code></td>
-<td><code>string[]</code></td>
-<td>Sim</td>
-<td>Uma ou mais strings de documentos candidatos. O limite <code>maxDocuments</code> do modelo selecionado se aplica quando declarado.</td>
-</tr>
-<tr>
-<td><code>model</code></td>
-<td><code>string</code></td>
-<td>Não</td>
-<td>Identificador determinístico <code>@provider/name</code>. O padrão é <code>@aivax/reflex-v1</code>.</td>
-</tr>
-<tr>
-<td><code>top_n</code></td>
-<td><code>number</code></td>
-<td>Não</td>
-<td>Número de documentos classificados retornados. O padrão é cinco ou a contagem de documentos quando menos de cinco são fornecidos.</td>
-</tr>
-<tr>
-<td><code>min_score</code></td>
-<td><code>number</code></td>
-<td>Não</td>
-<td>Pontuação mínima de relevância final de <code>0</code> a <code>1</code>. O padrão é <code>0</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Somente entradas com <code>autonomousUse: true</code> podem ser usadas aqui. <code>rrf</code> depende de classificações produzidas durante a recuperação RAG, e <code>none</code> desativa o reranking, portanto nenhum deles é aceito por este endpoint. A rota legada <code>/api/v1/generations/reflex/rerank</code> continua como um alias; use a rota genérica para novas integrações.</p>
-<p>Exemplo de requisição:</p>
-<pre><code class="lang-json">{
-  &quot;model&quot;: &quot;@qwen/qwen3-reranker-0.6b&quot;,
-  &quot;query&quot;: &quot;Como cancelo uma assinatura anual?&quot;,
-  &quot;documents&quot;: [
-    &quot;Assinaturas anuais podem ser canceladas nas configurações de faturamento.&quot;,
-    &quot;Faturas são geradas no primeiro dia de cada mês.&quot;
-  ],
-  &quot;top_n&quot;: 2,
-  &quot;min_score&quot;: 0.2
-}
-</code></pre>
-<h2 id="read-the-response">Read the response</h2>
-<p>O serviço aplica <code>min_score</code>, retorna no máximo <code>top_n</code> resultados e preserva o <code>index</code> original baseado em zero de cada documento.</p>
-<p>Exemplo de resposta:</p>
-<pre><code class="lang-json">{
-  &quot;id&quot;: &quot;req_sgoj6yeyux78bqnbza6f8wi6iy&quot;,
-  &quot;model&quot;: &quot;@qwen/qwen3-reranker-0.6b&quot;,
-  &quot;results&quot;: [
-    {
-      &quot;index&quot;: 0,
-      &quot;relevance_score&quot;: 0.979416906833649,
-      &quot;document&quot;: {
-        &quot;text&quot;: &quot;Assinaturas anuais podem ser canceladas nas configurações de faturamento.&quot;
-      }
-    }
-  ],
-  &quot;usage&quot;: {
-    &quot;input_tokens&quot;: 263,
-    &quot;total_tokens&quot;: 263,
-    &quot;request_id&quot;: &quot;RDhp9HavIRUisZ4vToHfTtJZ&quot;,
-    &quot;cost&quot;: 0.0000027615
-  }
-}
-</code></pre>
-<p>Aparece apenas um documento porque o outro candidato não atendeu ao <code>min_score</code> do exemplo.</p>
-<p><code>usage</code> é normalizado pela AIVAX, portanto seus campos dependem de como o modelo selecionado mede o consumo:</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Quando aparece</th>
-<th>Significado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>input_tokens</code></td>
-<td>Modelos baseados em tokens</td>
-<td>Tokens de entrada relatados para a execução ou inferidos quando o modelo não os relata.</td>
-</tr>
-<tr>
-<td><code>cached_input_tokens</code></td>
-<td>Reflex</td>
-<td>Tokens de entrada servidos a partir do cache escopo da conta.</td>
-</tr>
-<tr>
-<td><code>total_tokens</code></td>
-<td>Quando o uso de tokens está disponível</td>
-<td>Total de tokens de entrada medidos. Para Reflex, isso equivale a <code>input_tokens + cached_input_tokens</code>.</td>
-</tr>
-<tr>
-<td><code>search_units</code></td>
-<td>Modelos de unidade de busca</td>
-<td>Unidades de busca consumidas pela requisição.</td>
-</tr>
-<tr>
-<td><code>estimated</code></td>
-<td>Quando a AIVAX precisou inferir o uso de tokens</td>
-<td><code>true</code> significa que a contagem de tokens não foi relatada diretamente.</td>
-</tr>
-<tr>
-<td><code>request_id</code></td>
-<td>Quando disponível</td>
-<td>Identificador da execução útil ao investigar uma requisição específica.</td>
-</tr>
-<tr>
-<td><code>cost</code></td>
-<td>Sempre</td>
-<td>Custo final registrado na conta AIVAX, após ajustes de conta aplicáveis.</td>
-</tr>
-</tbody>
-</table>
-<p>Para modelos de unidade de busca, a base de faturamento vem do custo exato da requisição relatado para essa execução, em vez de um cálculo inferido de tokens. Custos usados internamente para calcular a cobrança não são copiados na resposta pública como campos <code>cost</code> adicionais.</p>
+<p>Os reordenadores reorganizam um conjunto existente de documentos candidatos para uma consulta. Eles não pesquisam uma coleção nem recuperam texto que está ausente da entrada. Use a API de reordenação autônoma quando sua aplicação já possui os candidatos ou use <a href="semantic-search.html">Semantic Search</a> para recuperar candidatos de uma coleção AIVAX antes de reordená-los.</p>
+<h2 id="reordenar-documentos-diretamente">Reordenar documentos diretamente</h2>
+<p>Autentique-se com uma chave de API AIVAX e envie uma consulta com as strings dos documentos candidatos. A API devolve os candidatos em ordem de relevância, com a posição de entrada necessária para associar cada resultado aos dados da sua aplicação.</p>
+<p>Use a reordenação direta quando os candidatos são dinâmicos, vêm de outro sistema de busca ou não precisam ser armazenados em uma coleção AIVAX. Use a busca semântica gerenciada quando a AIVAX deve recuperar candidatos de um corpus persistente.</p>
+<p>Para a solicitação, resposta, autenticação e contrato de erro suportados, consulte a Referência da API:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="available-rerankers">Available rerankers</h2>
-<p>O catálogo atual de reranking inclui:</p>
-<table>
-<thead>
-<tr>
-<th>Nome</th>
-<th>Autônomo</th>
-<th>Limites declarados</th>
-<th>Preços</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>@aivax/reflex-v1</code></td>
-<td>Sim</td>
-<td>Contexto de 2.048 tokens; 10.000 documentos</td>
-<td><code>$0.015/mtokens</code> cache miss; <code>$0.003/mtokens</code> cache hit</td>
-</tr>
-<tr>
-<td><code>@jina/reranker-v3</code></td>
-<td>Sim</td>
-<td>Contexto de 131.072 tokens</td>
-<td><code>$0.05/mtokens</code></td>
-</tr>
-<tr>
-<td><code>@qwen/qwen3-reranker-0.6b</code></td>
-<td>Sim</td>
-<td>Contexto de 32.768 tokens; 1.024 documentos</td>
-<td><code>$0.01/mtokens</code></td>
-</tr>
-<tr>
-<td><code>@qwen/qwen3-reranker-4b</code></td>
-<td>Sim</td>
-<td>Contexto de 32.768 tokens; 1.024 documentos</td>
-<td><code>$0.025/mtokens</code></td>
-</tr>
-<tr>
-<td><code>@qwen/qwen3-reranker-8b</code></td>
-<td>Sim</td>
-<td>Contexto de 32.768 tokens; 1.024 documentos</td>
-<td><code>$0.05/mtokens</code></td>
-</tr>
-<tr>
-<td><code>@nvidia/llama-nemotron-rerank-vl-1b-v2</code></td>
-<td>Sim</td>
-<td>Contexto de 10.240 tokens; 1.024 documentos</td>
-<td><code>$0.01/mtokens</code></td>
-</tr>
-<tr>
-<td><code>@cohere/rerank-4-pro</code></td>
-<td>Sim</td>
-<td>Contexto de 32.768 tokens; 10.000 documentos</td>
-<td><code>$0.0025/search unit</code></td>
-</tr>
-<tr>
-<td><code>@cohere/rerank-4-fast</code></td>
-<td>Sim</td>
-<td>Contexto de 32.768 tokens; 10.000 documentos</td>
-<td><code>$0.002/search unit</code></td>
-</tr>
-<tr>
-<td><code>@cohere/rerank-3.5</code></td>
-<td>Sim</td>
-<td>Contexto de 4.096 tokens; 10.000 documentos</td>
-<td><code>$0.001/search unit</code></td>
-</tr>
-<tr>
-<td><code>lexical</code></td>
-<td>Sim</td>
-<td>Sem limite de catálogo</td>
-<td>Sem custo</td>
-</tr>
-<tr>
-<td><code>rrf</code></td>
-<td>Não</td>
-<td>Apenas RAG</td>
-<td>Sem custo</td>
-</tr>
-<tr>
-<td><code>none</code></td>
-<td>Não</td>
-<td>Apenas RAG</td>
-<td>Sem custo</td>
-</tr>
-</tbody>
-</table>
-<p><code>smart</code> é um alias de compatibilidade aceito para <code>@aivax/reflex-v1</code>, mas não é um modelo de catálogo separado. Prefira nomes de modelo canônicos na configuração armazenada e em novas integrações.</p>
-<h2 id="choosing-a-reranker">Choosing a reranker</h2>
-<p>Comece com Reflex quando quiser o modelo padrão, baixa latência e processamento reutilizável de consultas/documentos. Escolha outro modelo quando sua cobertura de linguagem, janela de contexto, qualidade, latência ou unidade de faturamento combinar melhor com a carga de trabalho. Use <code>lexical</code> para reranking local, sem custo e consciente de palavras. Use <code>rrf</code> somente após a recuperação RAG quando quiser combinar posições de classificação vetorial e lexical.</p>
-<h2 id="limits-and-failures">Limits and failures</h2>
-<p>O endpoint retorna <code>400 Bad Request</code> para modelos desconhecidos ou não autônomos, <code>top_n</code> ou <code>min_score</code> inválidos, entrada vazia ou contagem de documentos acima do limite declarado do modelo. Reflex retorna no máximo 200 resultados, embora aceite até 10.000 documentos.</p>
-<p>Todas as operações de reranking que não sejam <code>none</code> compartilham a cota de requisições de reranking da conta. Reflex também tem uma cota de taxa de tokens. Exceder qualquer cota retorna <code>429 Too Many Requests</code>; veja <a href="../limits.html">Plans and Limits</a>. Falhas de capacidade e execução usam mensagens genéricas de serviço de reranking e não identificam a infraestrutura interna.</p>
+<h2 id="escolhendo-um-reordenador">Escolhendo um reordenador</h2>
+<p>Comece com o reordenador padrão, a menos que você tenha um motivo mensurado para selecionar outra opção disponível. Avalie mudanças usando consultas representativas, idiomas, comprimentos de documentos e julgamentos de relevância do seu próprio workload.</p>
+<p>A reordenação melhora a ordem apenas entre os candidatos fornecidos a ela. Se o documento relevante estiver ausente, melhore a recuperação de candidatos, segmentação, formulação da consulta ou a quantidade de candidatos antes de comparar os reordenadores.</p>
+<p>Para a disponibilidade atual, opções suportadas e limites de conta, consulte a Referência da API e <a href="../limits.html">Plans and Limits</a>.</p>
 
 </article>
 

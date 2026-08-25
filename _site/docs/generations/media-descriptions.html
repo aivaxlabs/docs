@@ -127,107 +127,15 @@
                 <article data-uid="">
 <h1 id="media-descriptions">Media Descriptions</h1>
 
-<p>Use media descriptions to turn one or more multimodal content parts into text without requesting a separate chat-completion answer. Each item is processed independently, and the response preserves input order.</p>
-<p>This endpoint is useful for document extraction, image analysis, video description, audio transcription, and describing music, ambient sound, or other audio artifacts before sending the resulting text to another system.</p>
-<p>Choose the more specialized API when appropriate:</p>
-<ul>
-<li>Use <a href="audio-transcriptions.html">Audio Transcriptions</a> for dedicated speech-to-text from one audio file, selectable transcription models, an optional language hint, and duration-based pricing.</li>
-<li>Use <a href="/docs/inference/inference">Inference</a> with <code>multimodal_preprocess</code> when a model must answer a question about the media after it is resolved.</li>
-</ul>
-<h2 id="endpoint">Endpoint</h2>
-<div class="request-item post">
-    <span>POST</span>
-    <span>/api/v1/generations/descriptions</span>
-</div>
-<p>The <code>input</code> property must be a non-empty array of OpenAI-compatible multimodal content parts:</p>
-<table>
-<thead>
-<tr>
-<th>Content type</th>
-<th>Payload</th>
-<th>Behavior</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>image_url</code></td>
-<td><code>image_url.url</code></td>
-<td>Produces a detailed visual description, visible text, and image metadata.</td>
-</tr>
-<tr>
-<td><code>input_audio</code></td>
-<td>Base64 <code>input_audio.data</code> plus <code>input_audio.format</code></td>
-<td>Transcribes speech and describes music, ambient sound, and other audio artifacts.</td>
-</tr>
-<tr>
-<td><code>video_url</code></td>
-<td><code>video_url.url</code></td>
-<td>Describes visual content and transcribes speech or other audio.</td>
-</tr>
-<tr>
-<td><code>file</code></td>
-<td><code>file.filename</code> plus <code>file.file_data</code></td>
-<td>Extracts the structure and text of PDF files. Other file formats are not supported by this endpoint.</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="lang-json">{
-  &quot;input&quot;: [
-    {
-      &quot;type&quot;: &quot;input_audio&quot;,
-      &quot;input_audio&quot;: {
-        &quot;data&quot;: &quot;UklGRiQAAABXQVZFZm10...&quot;,
-        &quot;format&quot;: &quot;wav&quot;
-      }
-    },
-    {
-      &quot;type&quot;: &quot;file&quot;,
-      &quot;file&quot;: {
-        &quot;filename&quot;: &quot;example.pdf&quot;,
-        &quot;file_data&quot;: &quot;https://example.com/example.pdf&quot;
-      }
-    }
-  ]
-}
-</code></pre>
-<p>Remote file URLs are downloaded by AIVAX before resolution and are limited to 5 MB. The URL must be absolute, safe, publicly reachable, and must not require browser-side JavaScript or interactive authentication. You can also send files as <code>data:&lt;mime-type&gt;;base64,&lt;content&gt;</code> values.</p>
-<h2 id="response-and-ordering">Response and ordering</h2>
-<p>The response contains one resolver-generated JSON object for each input item in the same order. The object shape depends on the content type. For example, an image and a PDF produce objects like these:</p>
-<pre><code class="lang-json">{
-  &quot;message&quot;: null,
-  &quot;data&quot;: [
-    {
-      &quot;foregroundSubjects&quot;: [
-        {
-          &quot;description&quot;: &quot;A person standing beside a table.&quot;,
-          &quot;position&quot;: &quot;center&quot;
-        }
-      ],
-      &quot;backgroundSubjects&quot;: [],
-      &quot;parsedText&quot;: [],
-      &quot;imageData&quot;: {
-        &quot;format&quot;: &quot;JPEG&quot;,
-        &quot;hasTransparency&quot;: false,
-        &quot;isUnsafe&quot;: false
-      }
-    },
-    {
-      &quot;textContent&quot;: &quot;The extracted PDF text.&quot;,
-      &quot;sections&quot;: [],
-      &quot;fileData&quot;: {
-        &quot;format&quot;: &quot;PDF&quot;,
-        &quot;language&quot;: &quot;English&quot;,
-        &quot;isUnsafe&quot;: false
-      }
-    }
-  ]
-}
-</code></pre>
-<p>If any item is invalid or cannot be resolved, the request fails instead of returning a partial array. Process unrelated items in separate requests when partial success is required.</p>
+<p>Use Media Descriptions when an application needs structured information from audio, images, video, or PDF content. It is useful for preparing media for search, moderation review, accessibility workflows, and downstream automation.</p>
+<p>Choose the more specialized API when the task is limited to a single medium, such as <a href="/docs/generations/audio-transcriptions">Audio Transcriptions</a> for speech-to-text.</p>
+<h2 id="describe-media">Describe media</h2>
+<p>Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. Each submitted item is handled independently, so preserve input order when correlating results with the original media.</p>
+<p>For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.</p>
+<p>The embedded reference is the source of truth for accepted media forms, request options, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="usage-and-limits">Usage and limits</h2>
-<p>Image, audio, video, and PDF processing can invoke auxiliary integrated models and record inference usage. This endpoint does not provide a cache guarantee: repeated requests for the same content may invoke processing again. There is no dedicated media-description quota; requests are subject to the applicable inference request and token limits. See <a href="/docs/limits">Plans and limits</a> for the limits that may apply.</p>
-<p>A <code>402 Payment Required</code> response means that the account either does not have a positive balance or has exceeded its storage quota.</p>
+<h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>
+<p>For current pricing, media availability, and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>. Correct inaccessible media or invalid content before retrying.</p>
 
 </article>
 

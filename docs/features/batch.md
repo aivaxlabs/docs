@@ -1,12 +1,12 @@
 ﻿# Batch
 
-Batch is AIVAX's feature for running the same AI workflow over many independent items. It turns a list of inputs into a background‑processed queue, with fixed instructions, defined model, structured output, optional validation, progress metrics, cost per item, retries, and result export.
+Batch is AIVAX's feature for running the same AI workflow over many independent items. It turns a list of inputs into a background-processed queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
 
 Use Batch when you have dozens, hundreds, or thousands of records that need to undergo the same reasoning: classifying leads, extracting fields from text, enriching records, summarizing short documents, evaluating responses, moderating content, generating structured data, or invoking built-in tools for each line of a list.
 
 ## What Batch solves
 
-Processing many items with AI usually requires a queue, concurrency control, pausing for balance or limits, error handling, retries, JSON validation, cost tracking, and result export. Batch consolidates these parts in AIVAX.
+Processing many items with AI usually requires a queue, error handling, retries, JSON validation, and result export. Batch consolidates these parts in AIVAX.
 
 In practice, it mainly solves:
 
@@ -15,7 +15,7 @@ In practice, it mainly solves:
 - **Structured output:** each item can be required to return an object compatible with a JSON Schema.
 - **Correction and validation:** AIVAX tries to reprocess invalid responses and can run a second validation step.
 - **Operation at scale:** jobs can be started, paused, resumed, monitored, filtered, cleaned, resent for retry, and exported.
-- **Operational control:** the UI shows progress, failures, confidence, cost, and job events.
+- **Operational control:** the UI shows progress, failures, confidence, and job events.
 
 ## When to use
 
@@ -28,9 +28,9 @@ Batch is a good choice when:
 - response time can be asynchronous;
 - you want to track errors and retry only the problematic items;
 - you want to use built-in tools, such as web search, for each item;
-- you need to measure cost, confidence, and success rate per run.
+- you need to measure confidence and success rate per run.
 
-Do **not** use Batch for real‑time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](/docs/rag/collections). For a single immediate response to a user, use [inference](/docs/inference/inference).
+Do **not** use Batch for real‐time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](/docs/rag/collections). For a single immediate response to a user, use [inference](/docs/inference/inference).
 
 ## Concepts
 
@@ -43,10 +43,8 @@ The workflow is the processing recipe. It defines how future items will be handl
 - model;
 - expected result schema;
 - enabled built-in tools;
-- reasoning effort, when the model supports it;
-- validation instructions;
-- consecutive error limit before pausing, from 1 to 100;
-- maximum retries per item, from 0 to 10.
+- validation instructions; and
+- retry and error-handling behavior.
 
 Changing a workflow affects subsequent jobs and items processed with that configuration. Use separate workflows when the instruction, schema, model, or validation rules change in a significant way.
 
@@ -54,26 +52,13 @@ Changing a workflow affects subsequent jobs and items processed with that config
 
 A job is a concrete execution created from a workflow. It groups the items of a workload, maintains state, events, and metrics.
 
-A job can be:
-
-- `Active`: processing pending items;
-- `Paused`: stopped manually or paused due to limit, balance, temporary unavailability, or many consecutive errors;
-- `Finished`: completed because all items were processed or because it was terminated.
+A job represents the workload while it is prepared, processed, paused, or completed. See the embedded API Reference for supported job states.
 
 ### Item
 
 An item is a row from the imported list. Each row becomes an independent input sent to the model with the workflow's instructions.
 
-An item can end as:
-
-- `Finished`: processed successfully;
-- `Refused`: the model rejected the input;
-- `ExecutionError`: there was an execution or inference error;
-- `ValidationError`: the response did not pass the schema or validation;
-- `Cancelled`: the item was cancelled/removed;
-- `Pending`: still awaiting processing.
-
-Each item can also record priority, output, confidence, cost, and validation details.
+Each item records its processing outcome, output, confidence, and validation details. See the embedded API Reference for supported item states.
 
 ## How to use in the console
 
@@ -84,9 +69,9 @@ In the AIVAX console, go to **Batch**.
 In **Workflows**, create a workflow and configure:
 
 1. **Basic:** set a title, the processing instruction, and the JSON Schema of the result.
-2. **Model:** choose an integrated model available in the account, the reasoning effort, and the built-in tools the model may use.
-3. **Validation:** enable a second validation pass when the response needs to be checked against business rules.
-4. **Handling:** adjust the consecutive error limit and the maximum retries per item.
+2. **Behavior:** choose the supported assistant capabilities for the workflow.
+3. **Validation:** enable validation when the response needs to be checked against business rules.
+4. **Handling:** configure the workflow's error-handling behavior.
 
 Write the instruction as a general rule, not as a single question. The imported item will be the variable input.
 
@@ -139,7 +124,6 @@ With the items imported, start the job. The job screen lets you monitor:
 
 - overall progress;
 - pending, completed, and failed items;
-- cost already charged and projected cost;
 - average confidence;
 - job events;
 - most recent processed items;
@@ -153,8 +137,8 @@ Use the list filters to find items with execution error, validation error, refus
 - retry only execution errors;
 - retry only validation errors;
 - retry completed items with low confidence;
-- remove pending, completed, error, or all non‑running items;
-- open an individual item to review input, output, state, confidence, and cost.
+- remove pending, completed, error, or all non‐running items;
+- open an individual item to review input, output, state, and confidence.
 
 ### Export results
 
@@ -176,7 +160,7 @@ Create a workflow when you want to save the processing rule that future jobs wil
 
 ### Create job
 
-Create a job when you have a concrete workload to run through an existing workflow. Jobs are created paused on purpose: this gives your system a chance to import and inspect items before spending credits on processing.
+Create a job when you have a concrete workload to run through an existing workflow. Jobs are created paused so you can import and inspect items before processing.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -188,17 +172,15 @@ Import items after the job exists. Each imported item becomes one independent un
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Import%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Set `mode` to `lines`, `files`, `zip`, or `text`. If omitted, the API uses `lines`.
-
-In `lines` mode, empty lines are skipped and each non-empty line becomes a pending item. The uploaded file field is `items`; `documents` is also accepted as an alias. In `files` and `zip` modes, only plain-text files are accepted. The current limits are 1,000 files or ZIP entries per request, 10 MB per file or ZIP entry, and 100 MB total imported content.
+Choose the import format that matches the source data. See the embedded API Reference for supported import modes, fields, and current constraints.
 
 ### Start, pause, or finish
 
-Start the job only after the item list looks correct. Pause it when you need to stop spending temporarily, investigate errors, or adjust operations around balance and limits. Finish it when the job should be terminated rather than resumed.
+Start the job only after the item list looks correct. Pause it to investigate errors or adjust the workflow, and finish it when the job should be terminated rather than resumed.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Edit%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Use `Paused` to pause and `Finished` to terminate.
+See the embedded API Reference for the supported job states.
 
 ### Monitor
 
@@ -210,13 +192,7 @@ To list items:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=List%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Useful filters:
-
-- `state=Pending`, `Finished`, `Refused`, `ExecutionError`, `ValidationError` or `Cancelled`;
-- `confidence=high` for confidence ≥ 80%;
-- `confidence=low` for confidence < 30%;
-- `filter=text` to search in the input;
-- `limit=100` to adjust the list size within the allowed limit.
+Use the list endpoint to filter items by state, confidence, or input text. See the embedded API Reference for supported filters.
 
 ### Retry and clean
 
@@ -224,27 +200,13 @@ Retries are best used after you understand the failure shape. Retry execution er
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Retry%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Retry modes:
+Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior.
 
-- `errors`;
-- `execution-error`;
-- `validation-error`;
-- `low-confidence`.
-
-Retry changes matching, non-running items back to `Pending`. If at least one item is retried and the job is not already active, the job is started automatically.
-
-To remove non‑running items:
+To remove non‐running items:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Remove%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Removal modes:
-
-- `pending`;
-- `finished`;
-- `errors`;
-- `all`.
-
-Removal only deletes non-running items. The `errors` mode includes `ExecutionError`, `ValidationError`, and `Refused`.
+Use the removal endpoint only for items that are no longer useful. See the embedded API Reference for supported removal options.
 
 ### Export
 
@@ -252,21 +214,11 @@ Export is the handoff point from AIVAX back into your own workflow. Use it after
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Export%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Use `state=all`, `finished`, `errors` or a specific item state. Pending items are not exported. You can also combine with `confidence=high` or `confidence=low`.
+Use the export endpoint to select the completed results that your review or downstream process needs. See the embedded API Reference for supported export filters.
 
-## Costs, limits, and automatic pauses
+## Availability
 
-Each processed item generates inference cost according to the model used. If validation is enabled, validation runs a second model call and can also incur cost. Enabled built-in tools in the workflow may generate costs or consume their own limits.
-
-A job can pause automatically when:
-
-- the account has no available balance;
-- the plan’s processing limit has been reached;
-- the inference provider is temporarily unavailable;
-- the job accumulates many consecutive errors;
-- the user manually pauses the job.
-
-When the pause occurs due to temporary unavailability or a recoverable limit, AIVAX may automatically resume the job later. When the pause is due to lack of balance, add balance before resuming manually or wait for automatic resumption.
+Review [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits) before processing a large workload.
 
 ## Best practices
 
@@ -277,5 +229,5 @@ When the pause occurs due to temporary unavailability or a recoverable limit, AI
 - Keep validation enabled for sensitive tasks such as legal, financial extraction, or data that feeds automations.
 - Use `maxRetries` to fix occasional failures, but investigate repeated errors in the prompt or schema.
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
-- Retry low‑confidence items separately; low confidence does not mean error, but indicates the response deserves review.
+- Retry low‐confidence items separately; low confidence does not mean error, but indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.

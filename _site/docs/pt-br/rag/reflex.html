@@ -127,132 +127,44 @@
                 <article data-uid="">
 <h1 id="reflex">Reflex</h1>
 
-<p>Reflex é a busca rápida e sem coleção da AIVAX para RAG. Envie uma consulta junto com strings de documentos candidatos e receba os itens mais relevantes em ordem classificada — sem indexação, armazenamento ou manutenção de uma coleção RAG primeiro.</p>
-<p><code>@aivax/reflex-v1</code> também é o reranker padrão da AIVAX. Ele combina relevância semântica de baixa latência com evidência lexical limitada e armazena em cache o processamento de consultas e documentos dentro de cada conta.</p>
-<p>Use o Reflex quando sua aplicação já possui os documentos candidatos, o conjunto de candidatos muda com frequência ou você deseja uma etapa de recuperação simples sem indexação e armazenamento de coleção. Reutilizar consultas ou documentos exatos pode reduzir o custo de processamento através do cache escopo de conta. Como cada solicitação envia seu conjunto de candidatos, compare o uso de tokens para entradas grandes ou raramente repetidas ao invés de assumir que o Reflex é sempre mais barato.</p>
-<p>Use a <a href="semantic-search.html">Busca Semântica</a> quando a AIVAX deve armazenar, indexar e pesquisar um base de conhecimento persistente ou restringir uma coleção que é grande demais para ser enviada a cada solicitação. Veja <a href="reranking.html">Rerankers</a> para o catálogo completo de modelos e alternativas.</p>
-<h2 id="reflex-ou-busca-semântica">Reflex ou Busca Semântica?</h2>
+<p>Reflex é a busca sem coleção da AIVAX para RAG. Envie uma consulta junto com strings de documentos candidatos e receba os itens mais relevantes em ordem classificada — sem indexação, armazenamento ou manutenção de uma coleção RAG primeiro.</p>
+<p>Use o Reflex quando sua aplicação já possui os documentos candidatos, o conjunto de candidatos muda com frequência, ou você deseja uma etapa de recuperação sem indexação e armazenamento de coleção. Use <a href="semantic-search.html">Pesquisa Semântica</a> quando a AIVAX deve armazenar, indexar e pesquisar uma base de conhecimento persistente ou restringir um corpus que é grande demais para ser enviado como candidatos em cada requisição.</p>
+<h2 id="reflex-ou-pesquisa-semântica">Reflex ou Pesquisa Semântica?</h2>
 <table>
 <thead>
 <tr>
 <th>Quando escolher Reflex...</th>
-<th>Quando escolher Busca Semântica...</th>
+<th>Quando escolher Pesquisa Semântica...</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Sua aplicação já possui as strings dos documentos candidatos.</td>
-<td>Os documentos devem viver em coleções gerenciadas da AIVAX.</td>
+<td>Sua aplicação já tem as strings dos documentos candidatos.</td>
+<td>Os documentos devem residir em coleções gerenciadas da AIVAX.</td>
 </tr>
 <tr>
-<td>Você precisa de recuperação imediatamente, sem etapa de indexação.</td>
+<td>Você precisa de recuperação imediata, sem etapa de indexação.</td>
 <td>A base de conhecimento é persistente e pesquisada repetidamente.</td>
 </tr>
 <tr>
-<td>O conjunto de candidatos é dinâmico ou específico da solicitação.</td>
-<td>O corpus é grande demais para ser enviado como candidatos a cada solicitação.</td>
+<td>O conjunto de candidatos é dinâmico ou específico por requisição.</td>
+<td>O corpus é grande demais para ser enviado como candidatos em cada requisição.</td>
 </tr>
 <tr>
-<td>Você quer RAG sem coleção com precificação baseada em tokens de entrada e reutilização automática de cache.</td>
-<td>Você quer filtragem de coleção, metadados armazenados, referências de documentos e recuperação vetorial gerenciada.</td>
+<td>Você deseja classificação sem coleção.</td>
+<td>Você deseja filtragem de coleção, metadados armazenados, referências de documentos e recuperação gerenciada.</td>
 </tr>
 </tbody>
 </table>
 <p>Reflex devolve candidatos de texto classificados; ele não gera uma resposta. Passe os documentos selecionados para seu modelo de linguagem ou AI Gateway como contexto RAG.</p>
-<h2 id="chamar-reflex">Chamar Reflex</h2>
-<p>Envie solicitações para <code>POST /api/v1/generations/rerank</code>. Omitir <code>model</code> para usar o Reflex por padrão, ou enviar <code>&quot;model&quot;: &quot;@aivax/reflex-v1&quot;</code> explicitamente.</p>
-<table>
-<thead>
-<tr>
-<th>Parâmetro</th>
-<th>Tipo</th>
-<th>Obrigatório</th>
-<th>Descrição</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>model</code></td>
-<td><code>string</code></td>
-<td>Não</td>
-<td><code>@aivax/reflex-v1</code>.</td>
-</tr>
-<tr>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>Sim</td>
-<td>Texto não vazio usado para classificar os documentos.</td>
-</tr>
-<tr>
-<td><code>documents</code></td>
-<td><code>string[]</code></td>
-<td>Sim</td>
-<td>De um a 10 000 strings de documentos.</td>
-</tr>
-<tr>
-<td><code>top_n</code></td>
-<td><code>number</code></td>
-<td>Não</td>
-<td>Número máximo de resultados. O padrão é cinco ou a contagem de documentos quando menos de cinco são fornecidos; o Reflex retorna no máximo 200.</td>
-</tr>
-<tr>
-<td><code>min_score</code></td>
-<td><code>number</code></td>
-<td>Não</td>
-<td>Pontuação mínima de relevância final de <code>0</code> a <code>1</code>. O padrão é <code>0</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>O catálogo declara um contexto de 1 948 tokens e um máximo de 10 000 documentos para o Reflex. A resposta identifica <code>@aivax/reflex-v1</code>, devolve resultados em ordem decrescente de relevância e preserva o <code>index</code> original baseado em zero de cada documento. Strings de documentos duplicadas não são removidas do contrato de resposta; cada ocorrência mantém seu próprio índice de entrada.</p>
-<p>Exemplo de solicitação usando o modelo padrão:</p>
-<pre><code class="lang-json">{
-  &quot;query&quot;: &quot;Qual é o período de cancelamento?&quot;,
-  &quot;documents&quot;: [
-    &quot;Planos anuais podem ser cancelados dentro de 30 dias.&quot;,
-    &quot;Faturas são emitidas no início de cada mês.&quot;
-  ],
-  &quot;top_n&quot;: 2,
-  &quot;min_score&quot;: 0.2
-}
-</code></pre>
-<p>Veja <a href="reranking.html#read-the-response">Rerankers</a> para a estrutura de resposta comum e campos <code>usage</code>.</p>
+<h2 id="usar-reflex">Usar Reflex</h2>
+<p>Chame a API de reclassificação com uma consulta e os documentos candidatos que sua aplicação deseja comparar. Os resultados são retornados em ordem de relevância e mantêm a posição de entrada necessária para associá‑los aos dados da sua aplicação.</p>
+<p>Use documentos candidatos concisos e focados. A reclassificação pode melhorar a ordem deles, mas não pode recuperar informações que não foram incluídas nos candidatos. Se o documento esperado estiver consistentemente ausente, melhore a seleção de candidatos, a fragmentação ou a formulação da consulta antes de ajustar o ranker.</p>
+<p>Para a solicitação, resposta, autenticação e contrato de erro suportados, use a Referência da API:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="entender-cache-e-uso">Entender cache e uso</h2>
-<p>Reflex armazena em cache o processamento de consultas e documentos automaticamente dentro da sua conta. Reutilizar uma consulta ou string de documento exata pode gerar um acerto de cache em uma solicitação posterior. Alterar o texto cria uma entrada de cache diferente; mudar apenas a posição de um documento não altera sua chave de cache.</p>
-<p>A disponibilidade do cache não é permanente. Use o objeto <code>usage</code> da resposta para inspecionar a solicitação atual:</p>
-<table>
-<thead>
-<tr>
-<th>Campo</th>
-<th>Significado</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>input_tokens</code></td>
-<td>Tokens de consulta e documento processados como falhas de cache.</td>
-</tr>
-<tr>
-<td><code>cached_input_tokens</code></td>
-<td>Tokens de consulta e documento servidos a partir do cache.</td>
-</tr>
-<tr>
-<td><code>total_tokens</code></td>
-<td>Todos os tokens de entrada de consulta e documento; sempre <code>input_tokens + cached_input_tokens</code>.</td>
-</tr>
-<tr>
-<td><code>cost</code></td>
-<td>Cobrança final da conta registrada para a solicitação.</td>
-</tr>
-</tbody>
-</table>
-<p>A resposta pública não separa tokens de consulta de tokens de documento. Os contadores descrevem a entrada completa processada pelo Reflex.</p>
-<h2 id="faturamento-limites-e-coleta-de-dados">Faturamento, limites e coleta de dados</h2>
-<p>Falhas de cache e acertos de cache têm preços base diferentes. O <code>usage.cost</code> público é o valor final registrado para a conta após os ajustes aplicáveis. Consulte <a href="../pricing.html#pricing-list">Pricing</a> para os preços atuais de tokens.</p>
-<p>Cada solicitação ao Reflex consome a cota de solicitações de reranking da conta e a cota de tokens do Reflex. A cota de tokens conta <code>total_tokens</code>, incluindo entrada em cache. Exceder a cota retorna <code>429 Too Many Requests</code>; veja <a href="../limits.html">Plans and Limits</a>.</p>
-<p>Quando a configuração opcional de coleta de dados semânticos está habilitada, buscas diretas elegíveis no Reflex recebem o desconto documentado e podem contribuir com a consulta, documentos enviados e resultados de classificação. Consulte <a href="../data-collecting.html">Data Collecting</a> antes de habilitar.</p>
 <h2 id="usar-reflex-com-rag">Usar Reflex com RAG</h2>
-<p>Reflex também é o reranker padrão após a AIVAX recuperar candidatos de coleções RAG. O alias de compatibilidade <code>smart</code> seleciona o mesmo modelo. Nesse fluxo, o Reflex pode melhorar a ordem dos candidatos recuperados, mas não pode recuperar um documento que a etapa de recuperação não selecionou. Se documentos relevantes estiverem consistentemente ausentes, ajuste a recuperação, fragmentação, formulação da consulta ou contagem de candidatos antes de afinar o reranking.</p>
+<p>Reflex também é o reclassificador padrão após a AIVAX recuperar candidatos de coleções RAG. Nesse fluxo, ele pode melhorar a ordem dos candidatos recuperados, mas não pode recuperar um documento que a etapa de recuperação não selecionou. Se documentos relevantes estiverem consistentemente ausentes, ajuste a recuperação, a fragmentação, a formulação da consulta ou a contagem de candidatos antes de ajustar a reclassificação.</p>
+<p>Para disponibilidade atual do serviço e limites de conta, veja <a href="../limits.html">Planos e Limites</a>.</p>
 
 </article>
 

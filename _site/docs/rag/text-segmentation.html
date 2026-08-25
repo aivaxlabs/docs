@@ -127,101 +127,14 @@
                 <article data-uid="">
 <h1 id="text-segmentation">Text Segmentation</h1>
 
-<p>Text segmentation is a companion to embedding. It divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG collection. The endpoint does not create embeddings or store the submitted documents.</p>
-<h2 id="segment-documents">Segment documents</h2>
-<p>Authenticate with a private AIVAX API key.</p>
-<div class="request-item post">
-    <span>POST</span>
-    <span>/api/v1/generations/segment</span>
-</div>
-<p>The request accepts:</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>documents</code></td>
-<td><code>string[]</code></td>
-<td>Yes</td>
-<td>Document strings to segment. Each item is processed independently.</td>
-</tr>
-<tr>
-<td><code>sanitize</code></td>
-<td><code>boolean</code></td>
-<td>No</td>
-<td>Defaults to <code>false</code>, which keeps the entire document in the returned segments. When <code>true</code>, content judged irrelevant to RAG retrieval may be omitted.</td>
-</tr>
-</tbody>
-</table>
-<p>Example request:</p>
-<pre><code class="lang-json">{
-  &quot;documents&quot;: [
-    &quot;AIVAX indexes documents with embeddings.\nSemantic search retrieves the most relevant passages.\nReranking can refine their order.&quot;
-  ],
-  &quot;sanitize&quot;: false
-}
-</code></pre>
-<p>Before segmentation, line endings are normalized, surrounding whitespace is removed from each line, and empty lines are discarded. Segments preserve the remaining source text and line order.</p>
-<h2 id="read-the-response">Read the response</h2>
-<p>The standard response envelope contains one result for each submitted document:</p>
-<pre><code class="lang-json">{
-  &quot;message&quot;: null,
-  &quot;data&quot;: {
-    &quot;result&quot;: [
-      {
-        &quot;index&quot;: 0,
-        &quot;count&quot;: 2,
-        &quot;segments&quot;: [
-          &quot;AIVAX indexes documents with embeddings.\nSemantic search retrieves the most relevant passages.&quot;,
-          &quot;Reranking can refine their order.&quot;
-        ]
-      }
-    ],
-    &quot;usage&quot;: {
-      &quot;total_tokens&quot;: 62,
-      &quot;cost&quot;: 0.00002325
-    }
-  }
-}
-</code></pre>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>data.result[].index</code></td>
-<td>Zero-based position of the source document in <code>documents</code>. Use this field to associate results with inputs; array order is not guaranteed.</td>
-</tr>
-<tr>
-<td><code>data.result[].count</code></td>
-<td>Number of segments returned for the source document.</td>
-</tr>
-<tr>
-<td><code>data.result[].segments</code></td>
-<td>Semantically cohesive text segments in source order.</td>
-</tr>
-<tr>
-<td><code>data.usage.total_tokens</code></td>
-<td>Total input and output tokens measured across all submitted documents.</td>
-</tr>
-<tr>
-<td><code>data.usage.cost</code></td>
-<td>Final cost recorded for the authenticated account.</td>
-</tr>
-</tbody>
-</table>
-<p>The endpoint returns <code>400 Bad Request</code> for malformed payloads, <code>401 Unauthorized</code> for a missing or invalid API key, <code>403 Forbidden</code> for public API keys, and <code>429 Too Many Requests</code> when the account quota is exceeded.</p>
+<p>Text segmentation divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG collection. It returns segments to your application; it does not create embeddings or store submitted documents.</p>
+<p>Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see <a href="media-injector.html">Media Injector</a>.</p>
+<h2 id="prepare-source-text">Prepare source text</h2>
+<p>Supply complete source text whenever possible. Segments are most useful when the source has clear headings, paragraphs, and complete statements. Review results from tables, OCR, transcripts, or documents with repeated headers before indexing them.</p>
+<p>Use sanitization only when omitted content is genuinely irrelevant to retrieval. When exact source wording, legal fidelity, or full traceability matters, retain and review the source text instead.</p>
+<p>For the supported request, response, authentication, and error contract, use the API Reference:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Segment%20text&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<p>For current service availability and account limits, see <a href="../limits.html">Plans and Limits</a>.</p>
 
 </article>
 

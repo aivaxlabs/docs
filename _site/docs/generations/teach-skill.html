@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Clientes de Chat | AIVAX </title>
+        <title>Teach Skill | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Clientes de Chat | AIVAX ">
+        <meta name="title" content="Teach Skill | AIVAX ">
 
 
-        <link rel="icon" href="../../../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../../../public/docfx.min.css">
-        <link rel="stylesheet" href="../../../public/main.css">
+        <link rel="icon" href="../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:navrel" content="../../toc.html">
         <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../../../">
+        <meta name="docfx:rel" content="../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/features/chat-clients.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/generations/teach-skill.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../../../public/docfx.min.js"></script>
+        <script type="module" src="./../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../../../index.html">
-                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../index.html">
+                        <img id="logo" class="svg" src="../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,37 +125,22 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="clientes-de-chat">Clientes de Chat</h1>
+<h1 id="teach-skill">Teach Skill</h1>
 
-<p>Um cliente de chat fornece uma interface de usuário através de um <a href="/docs/pt-br/inference/ai-gateway">Portal de IA</a> que permite ao usuário conversar com seu assistente. Um cliente de chat é integrado à inferência do portal de IA e suporta pensamento profundo, pesquisa, conversa em texto e envio de imagens. Recursos de áudio dependem da integração e da configuração do cliente.</p>
-<p>Você pode personalizar a interface do cliente de chat com CSS, JavaScript personalizado, cores, rótulos, botões de sugestão, origens de quadro, modos de entrada e o idioma usado pelos recursos de chat.</p>
-<h2 id="como-o-cliente-de-chat-funciona">Como o cliente de chat funciona</h2>
-<p>Um cliente de chat é uma camada de sessão sobre um Portal de IA. O portal define o comportamento do assistente; o cliente de chat define como um usuário final conversa com ele, como a sessão é identificada, quanto tempo dura, quais limites são aplicados, quais recursos visuais aparecem e como as mensagens entram e saem por canais externos. Essa separação é importante: você pode usar o mesmo portal em uma API interna, um widget web, Telegram e WhatsApp, mas cada canal terá suas próprias regras para identidade, anexos, formatação, comandos e entrega de mensagens.</p>
-<p>Cada sessão mantém um histórico de mensagens, contexto adicional, metadados, token de conversa e um identificador externo opcional. Quando você cria uma sessão com um <code>tag</code>, a AIVAX tenta reutilizar a sessão ativa para esse <code>tag</code> em vez de criar uma nova conversa. Isso permite que o usuário retorne ao widget ou envie outra mensagem pelo mesmo canal sem perder o contexto imediatamente. Quando a sessão não tem <code>tag</code>, ela funciona como uma conversa independente controlada pelo token de acesso gerado na criação.</p>
-<p>O <code>tag</code> também serve como ponto de conexão entre o cliente de chat, memória, calendário, workers e integrações. Ferramentas como memória precisam de um identificador estável para saber a quem uma preferência ou informação persistente pertence. Workers recebem <code>externalUserId</code> para aplicar regras por usuário, por canal ou por conta externa. As integrações do WhatsApp e Telegram usam o ID da conversa, número de telefone ou usuário para recuperar a sessão correta. Portanto, escolha um <code>tag</code> estável, não sensível e único por usuário ou conversa.</p>
-<h2 id="criando-uma-sessão-de-chat">Criando uma sessão de chat</h2>
-<p>Uma sessão de chat é onde você cria uma conversa entre seu cliente de chat e o usuário. Você pode chamar esse endpoint fornecendo contexto adicional para a conversa, como nome do usuário, localização, etc.</p>
-<p>Uma sessão pode ser identificada com um <code>tag</code> estável e não sensível para que o cliente possa continuar a conversa adequada. Consulte a Referência de API incorporada para o comportamento e configuração de sessão suportados.</p>
-<p>Reference:</p>
-<script src="https://inference.aivax.net/apidocs?embed-target=Create%20Web%20Chat%20Session&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Ao criar uma sessão, use <code>extraContext</code> para informações que ajudam o assistente nessa conversa, mas não devem se tornar memória permanente: nome exibido, plano do cliente, idioma preferido, página de referência, produto que o usuário está visualizando, número do pedido ou estado atual do fluxo. Não use este campo para segredos, tokens internos ou dados que o modelo não deve ver. O contexto adicional vai para a inferência e pode influenciar respostas, ferramentas e workers.</p>
-<p>Você também pode fornecer <code>contextLocation</code>, uma URL que a AIVAX carrega durante a geração da resposta e anexa ao contexto da sessão. Use-a para contexto controlado pelo servidor que pode mudar ao longo do tempo, e certifique-se de que a URL seja acessível pela AIVAX.</p>
-<p>O chat web aceita mensagens de texto e anexos. Imagens, arquivos, vídeos e áudio são materializados antes da inferência; tipos suportados de imagem, arquivo, vídeo e áudio podem ser encaminhados como conteúdo multimodal quando o modelo selecionado e a configuração do portal os suportam. O áudio também pode ser sintetizado como resposta quando a configuração de síntese de áudio do cliente de chat está ativa. Quando um canal não pode incorporar um anexo, a AIVAX converte o conteúdo não suportado em um aviso de anexo textual para que o assistente possa responder claramente.</p>
-<h2 id="sessões-de-integração">Sessões de integração</h2>
-<p>A AAX fornece integrações para clientes de chat via Telegram e WhatsApp, incluindo <a href="https://www.z-api.io/">Z-Api</a>, Evolution API e Kapso. Cada conversa em um aplicativo é uma sessão individual, identificada pelo ID da conversa, ID do chat ou número de telefone do usuário, dependendo do provedor. As sessões de integração têm duração padrão de três horas, a menos que os parâmetros da integração especifiquem outro valor.</p>
-<p>Essas sessões obedecem às regras originais do cliente de chat. Além disso, sessões de chat nessas integrações têm dois comandos especiais:</p>
-<ul>
-<li><code>/reset</code>: limpa o contexto da sessão atual.</li>
-<li><code>/usage</code>: quando <code>debug</code> está ativo no cliente de chat, exibe o uso atual do chat em tokens.</li>
-</ul>
-<p>As integrações tratam o canal como a origem das mensagens, mas a inferência continua a ser realizada pelo Portal de IA associado ao cliente de chat. No Telegram, a conversa recebe instruções adicionais sobre formatação e comportamento esperado do canal. No WhatsApp, cada provedor tem seus próprios detalhes de webhook, download de mídia e envio de resposta; Z-Api, Evolution API e Kapso são caminhos diferentes para o mesmo objetivo operacional. Em todos os casos, as mensagens do usuário entram na sessão, são materializadas como mensagens compatíveis com inferência, e a resposta do assistente é enviada de volta via o mensageiro da integração.</p>
-<p>Use o Telegram quando precisar de um bot simples com usuários identificáveis por chat e comandos fáceis de testar. Use o WhatsApp quando o canal principal de suporte do usuário já for o telefone e a conversa precisar acontecer em um aplicativo diário. Use o widget web quando quiser incorporar o assistente em um site, produto, centro de suporte ou painel. A escolha do canal não deve alterar o conteúdo essencial do portal, mas pode exigir ajustes de tom, tamanho da resposta, formatação e tolerância a anexos.</p>
-<p>Antes de abrir um canal ao público, revise a configuração do cliente de chat e explique o comportamento da memória aos usuários quando aplicável. Quando uma integração não responde como esperado, primeiro verifique o portal e a configuração da integração associados, depois tente novamente com uma mensagem simples antes de investigar capacidades opcionais.</p>
+<p>Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Submit tutorial videos showing a workflow, then review and refine the returned Markdown before using it as an account skill.</p>
+<p>Teach Skill works best when the relevant actions, screens, and spoken guidance are clear. Do not include credentials, personal data, or other information that should not become part of the resulting instructions.</p>
+<h2 id="create-a-skill-draft">Create a skill draft</h2>
+<p>Organize recordings in the order in which the procedure should be understood. The response uses the standard JSON envelope. <code>data.resultText</code> contains a structured Markdown draft that can include front matter, steps, notes, and assumptions when the recording leaves required context implicit. <code>data.usage.processedUnits</code> reports the processed usage units for the request.</p>
+<p>A generated draft is not automatically published as an account skill. Validate every step, remove recording-specific details, and confirm prerequisites before saving it. See <a href="/docs/features/skills">Skills</a> for skill structure and activation guidance.</p>
+<p>The embedded reference is the source of truth for accepted video input and response behavior.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Teach%20skill&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>
+<p>For current availability and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>. Correct invalid or inaccessible video content before retrying a failed request.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/features/chat-clients.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/generations/teach-skill.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

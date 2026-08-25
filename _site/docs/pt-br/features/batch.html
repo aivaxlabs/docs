@@ -127,81 +127,65 @@
                 <article data-uid="">
 <h1 id="batch">Batch</h1>
 
-<p>Batch é o recurso da AIVAX para executar o mesmo fluxo de IA sobre muitos itens independentes. Ele transforma uma lista de entradas em uma fila processada em segundo plano, com instruções fixas, modelo definido, saída estruturada, validação opcional, métricas de progresso, custo por item, retentativas e exportação dos resultados.</p>
-<p>Use Batch quando você tem dezenas, centenas ou milhares de registros que precisam passar pelo mesmo raciocínio: classificar leads, extrair campos em textos, enriquecer cadastros, resumir documentos curtos, avaliar respostas, moderar conteúdo, gerar dados estruturados ou chamar ferramentas embutidas para cada linha de uma lista.</p>
+<p>Batch é o recurso da AIVAX para executar o mesmo fluxo de trabalho de IA em muitos itens independentes. Ele transforma uma lista de entradas em uma fila processada em segundo plano com instruções fixas, saída estruturada, validação opcional, acompanhamento de progresso, tentativas de nova execução e exportação de resultados.</p>
+<p>Use o Batch quando você tem dezenas, centenas ou milhares de registros que precisam passar pelo mesmo raciocínio: classificar leads, extrair campos de texto, enriquecer registros, resumir documentos curtos, avaliar respostas, moderar conteúdo, gerar dados estruturados ou invocar ferramentas internas para cada linha de uma lista.</p>
 <h2 id="o-que-o-batch-resolve">O que o Batch resolve</h2>
-<p>Processar muitos itens com IA costuma exigir fila, controle de concorrência, pausa por saldo ou limite, tratamento de erros, retentativa, validação de JSON, rastreamento de custo e exportação do resultado. Batch concentra essas partes na AIVAX.</p>
+<p>Processar muitos itens com IA normalmente requer uma fila, tratamento de erros, novasativas, validação JSON e exportação de resultados. O Batch consolida essas partes na AIVAX.</p>
 <p>Na prática, ele resolve principalmente:</p>
 <ul>
-<li><strong>Processamento repetível:</strong> a mesma instrução, modelo e schema são aplicados a todos os itens.</li>
-<li><strong>Execução assíncrona:</strong> o trabalho continua em segundo plano, sem manter uma requisição aberta.</li>
-<li><strong>Saída estruturada:</strong> cada item pode ser obrigado a retornar um objeto compatível com um JSON Schema.</li>
+<li><strong>Processamento repetível:</strong> a mesma instrução, modelo e esquema são aplicados a todos os itens.</li>
+<li><strong>Execução assíncrona:</strong> o trabalho continua em segundo plano, sem manter a solicitação aberta.</li>
+<li><strong>Saída estruturada:</strong> cada item pode ser exigido a retornar um objeto compatível com um JSON Schema.</li>
 <li><strong>Correção e validação:</strong> a AIVAX tenta reprocessar respostas inválidas e pode executar uma segunda etapa de validação.</li>
-<li><strong>Operação em escala:</strong> jobs podem ser iniciados, pausados, retomados, monitorados, filtrados, limpos, reenviados para retentativa e exportados.</li>
-<li><strong>Controle operacional:</strong> a tela mostra progresso, falhas, confiança, custo e eventos do job.</li>
+<li><strong>Operação em escala:</strong> os jobs podem ser iniciados, pausados, retomados, monitorados, filtrados, limpos, reenviados para tentativa e exportados.</li>
+<li><strong>Controle operacional:</strong> a UI mostra progresso, falhas, confiança e eventos do job.</li>
 </ul>
 <h2 id="quando-usar">Quando usar</h2>
-<p>Use Batch quando os itens podem ser processados de forma independente e não precisam compartilhar memória entre si. Bons exemplos são uma linha por cliente, URL, produto, ticket, mensagem, documento curto, trecho de contrato ou registro bruto.</p>
-<p>Batch é uma boa escolha quando:</p>
+<p>Use o Batch quando os itens puderem ser processados independentemente e não precisarem compartilhar memória. Bons exemplos são uma linha por cliente, URL, produto, ticket, mensagem, documento curto, trecho de contrato ou registro bruto.</p>
+<p>O Batch é uma boa escolha quando:</p>
 <ul>
-<li>o mesmo prompt vale para todos os itens;</li>
-<li>você precisa de resultado tabular ou JSON para consumir depois;</li>
+<li>o mesmo prompt se aplica a todos os itens;</li>
+<li>você precisa de resultados tabulares ou JSON para consumo posterior;</li>
 <li>o tempo de resposta pode ser assíncrono;</li>
-<li>você quer acompanhar erros e retentar apenas os itens problemáticos;</li>
-<li>você quer usar ferramentas embutidas, como pesquisa web, para cada item;</li>
-<li>você precisa medir custo, confiança e taxa de sucesso por execução.</li>
+<li>você quer rastrear erros e tentar novamente apenas os itens problemáticos;</li>
+<li>você quer usar ferramentas internas, como busca web, para cada item;</li>
+<li>você precisa medir confiança e taxa de sucesso por execução.</li>
 </ul>
-<p>Não use Batch para conversas em tempo real, fluxos em que um item depende da resposta do item anterior, indexação de documentos para RAG ou tarefas puramente determinísticas que não precisam de um modelo de IA. Para indexar conhecimento pesquisável, use <a href="/docs/pt-br/rag/collections">coleções de RAG</a>. Para uma única resposta imediata ao usuário, use <a href="/docs/pt-br/inference/inference">inferência</a>.</p>
+<p>Não <strong>use</strong> o Batch para conversas em tempo real, fluxos onde um item depende da resposta do item anterior, indexação de documentos para RAG ou tarefas puramente determinísticas que não requerem um modelo de IA. Para indexar conhecimento pesquisável, use <a href="/docs/pt-br/rag/collections">RAG collections</a>. Para uma única resposta imediata a um usuário, use <a href="/docs/pt-br/inference/inference">inference</a>.</p>
 <h2 id="conceitos">Conceitos</h2>
 <h3 id="workflow">Workflow</h3>
-<p>O workflow é a receita do processamento. Ele define como os itens futuros serão tratados:</p>
+<p>O workflow é a receita de processamento. Ele define como os itens futuros serão tratados:</p>
 <ul>
 <li>título;</li>
 <li>instruções de processamento;</li>
 <li>modelo;</li>
-<li>schema esperado do resultado;</li>
-<li>ferramentas embutidas habilitadas;</li>
-<li>esforço de raciocínio, quando o modelo suporta;</li>
-<li>instruções de validação;</li>
-<li>limite de erros consecutivos antes de pausar;</li>
-<li>número máximo de retentativas por item.</li>
+<li>esquema de resultado esperado;</li>
+<li>ferramentas internas habilitadas;</li>
+<li>instruções de validação; e</li>
+<li>comportamento de tentativa e tratamento de erros.</li>
 </ul>
-<p>Alterar um workflow afeta os próximos jobs e itens processados com aquela configuração. Use workflows separados quando a instrução, o schema, o modelo ou as regras de validação mudarem de forma relevante.</p>
+<p>Alterar um workflow afeta jobs subsequentes e itens processados com essa configuração. Use workflows separados quando a instrução, esquema, modelo ou regras de validação mudarem de forma significativa.</p>
 <h3 id="job">Job</h3>
-<p>O job é uma execução concreta criada a partir de um workflow. Ele agrupa os itens de uma carga de trabalho, mantém estado, eventos e métricas.</p>
-<p>Um job pode estar:</p>
-<ul>
-<li><code>Active</code>: processando itens pendentes;</li>
-<li><code>Paused</code>: parado manualmente ou pausado por limite, saldo, indisponibilidade temporária ou muitos erros consecutivos;</li>
-<li><code>Finished</code>: concluído porque todos os itens foram processados ou porque foi encerrado.</li>
-</ul>
+<p>Um job é uma execução concreta criada a partir de um workflow. Ele agrupa os itens de uma carga de trabalho, mantém estado, eventos e métricas.</p>
+<p>Um job representa a carga de trabalho enquanto está sendo preparado, processado, pausado ou concluído. Consulte a Referência de API embutida para os estados de job suportados.</p>
 <h3 id="item">Item</h3>
-<p>O item é uma linha da lista importada. Cada linha vira uma entrada independente enviada ao modelo com as instruções do workflow.</p>
-<p>Um item pode terminar como:</p>
-<ul>
-<li><code>Finished</code>: processado com sucesso;</li>
-<li><code>Refused</code>: o modelo recusou a entrada;</li>
-<li><code>ExecutionError</code>: houve erro de execução ou inferência;</li>
-<li><code>ValidationError</code>: a resposta não passou no schema ou na validação;</li>
-<li><code>Cancelled</code>: o item foi cancelado/removido;</li>
-<li><code>Pending</code>: ainda aguarda processamento.</li>
-</ul>
-<p>Cada item também pode registrar prioridade, saída, confiança, custo e detalhes de validação.</p>
+<p>Um item é uma linha da lista importada. Cada linha se torna uma entrada independente enviada ao modelo com as instruções do workflow.</p>
+<p>Cada item registra seu resultado de processamento, saída, confiança e detalhes de validação. Consulte a Referência de API embutida para os estados de item suportados.</p>
 <h2 id="como-usar-no-console">Como usar no console</h2>
-<p>No console da AIVAX, acesse <strong>Batch</strong>.</p>
+<p>No console da AIVAX, vá para <strong>Batch</strong>.</p>
 <h3 id="criar-um-workflow">Criar um workflow</h3>
 <p>Em <strong>Workflows</strong>, crie um workflow e configure:</p>
 <ol>
-<li><strong>Basic:</strong> defina um título, a instrução do processamento e o JSON Schema do resultado.</li>
-<li><strong>Model:</strong> escolha um modelo integrado disponível na conta, o esforço de raciocínio e as ferramentas embutidas que o modelo pode usar.</li>
-<li><strong>Validation:</strong> habilite uma segunda passagem de validação quando a resposta precisar ser conferida contra regras de negócio.</li>
-<li><strong>Handling:</strong> ajuste o limite de erros consecutivos e o máximo de retentativas por item.</li>
+<li><strong>Básico:</strong> defina um título, a instrução de processamento e o JSON Schema do resultado.</li>
+<li><strong>Comportamento:</strong> escolha as capacidades de assistente suportadas para o workflow.</li>
+<li><strong>Validação:</strong> habilite a validação quando a resposta precisar ser verificada contra regras de negócio.</li>
+<li><strong>Manipulação:</strong> configure o comportamento de tratamento de erros do workflow.</li>
 </ol>
-<p>Escreva a instrução como uma regra geral, não como uma pergunta única. O item importado será a entrada variável.</p>
+<p>Escreva a instrução como uma regra geral, não como uma única pergunta. O item importado será a variável de entrada.</p>
 <p>Exemplo de instrução:</p>
-<pre><code class="lang-text">Classifique a empresa informada na entrada. Retorne o setor provável, uma justificativa curta e sinais encontrados no texto. Se a entrada não tiver informação suficiente, use setor &quot;Indefinido&quot;.
+<pre><code class="lang-text">Classify the company provided in the input. Return the likely sector, a short justification, and signals found in the text. If the input does not contain enough information, use sector &quot;Undefined&quot;.
 </code></pre>
-<p>Exemplo de schema:</p>
+<p>Exemplo de esquema:</p>
 <pre><code class="lang-json">{
   &quot;type&quot;: &quot;object&quot;,
   &quot;properties&quot;: {
@@ -217,103 +201,90 @@
 }
 </code></pre>
 <h3 id="criar-e-executar-um-job">Criar e executar um job</h3>
-<p>Depois de criar o workflow, crie um job para a carga que deseja processar. Importe uma lista em que cada linha é um item.</p>
-<p>As linhas podem ser texto simples, CSV delimitado, URLs, IDs, JSON compacto ou qualquer formato que a instrução saiba interpretar. Para entradas estruturadas, prefira JSONL: um objeto JSON por linha.</p>
-<p>Exemplo:</p>
-<pre><code class="lang-jsonl">{&quot;name&quot;:&quot;Empresa A&quot;,&quot;description&quot;:&quot;Marketplace B2B para autopeças&quot;}
-{&quot;name&quot;:&quot;Empresa B&quot;,&quot;description&quot;:&quot;Escritório especializado em contratos trabalhistas&quot;}
-{&quot;name&quot;:&quot;Empresa C&quot;,&quot;description&quot;:&quot;Rede regional de farmácias&quot;}
-</code></pre>
-<p>Com os itens importados, inicie o job. A tela do job permite acompanhar:</p>
+<p>Depois de criar o workflow, crie um job para a carga que deseja processar. Novos jobs são criados no estado <code>Paused</code> para que você possa importar e inspecionar a carga antes de iniciar o processamento.</p>
+<p>Você pode importar itens em quatro modos:</p>
 <ul>
-<li>visão geral de progresso;</li>
-<li>itens pendentes, concluídos e com falha;</li>
-<li>custo já cobrado e custo previsto;</li>
+<li><code>lines</code>: lê um arquivo de texto enviado e importa cada linha não vazia como um item.</li>
+<li><code>files</code>: importa cada arquivo de texto simples enviado como um item.</li>
+<li><code>zip</code>: importa cada entrada de texto simples em um arquivo ZIP enviado como um item.</li>
+<li><code>text</code>: importa o campo de texto enviado como um único item.</li>
+</ul>
+<p>Linhas podem ser texto simples, CSV delimitado, URLs, IDs, JSON compacto ou qualquer formato que a instrução saiba interpretar. Para entradas estruturadas baseadas em linhas, prefira JSONL: um objeto JSON por linha.</p>
+<p>Exemplo:</p>
+<pre><code class="lang-jsonl">{&quot;name&quot;:&quot;Company A&quot;,&quot;description&quot;:&quot;B2B auto-parts marketplace&quot;}
+{&quot;name&quot;:&quot;Company B&quot;,&quot;description&quot;:&quot;Office specializing in employment contracts&quot;}
+{&quot;name&quot;:&quot;Company C&quot;,&quot;description&quot;:&quot;Regional pharmacy chain&quot;}
+</code></pre>
+<p>Com os itens importados, inicie o job. A tela do job permite monitorar:</p>
+<ul>
+<li>progresso geral;</li>
+<li>itens pendentes, concluídos e falhados;</li>
 <li>confiança média;</li>
 <li>eventos do job;</li>
-<li>últimos itens processados;</li>
+<li>itens processados mais recentes;</li>
 <li>lista completa de itens com filtros por estado e confiança.</li>
 </ul>
-<h3 id="operar-itens-com-falha">Operar itens com falha</h3>
-<p>Use os filtros da lista para encontrar itens com erro de execução, erro de validação, recusa ou baixa confiança. Depois, você pode:</p>
+<h3 id="operar-em-itens-falhados">Operar em itens falhados</h3>
+<p>Use os filtros de lista para encontrar itens com erro de execução, erro de validação, recusa ou baixa confiança. Então você pode:</p>
 <ul>
-<li>retentar todos os erros;</li>
-<li>retentar apenas erros de execução;</li>
-<li>retentar apenas erros de validação;</li>
-<li>retentar itens concluídos com baixa confiança;</li>
-<li>remover pendentes, concluídos, erros ou todos os itens não em execução;</li>
-<li>abrir um item individual para revisar entrada, saída, estado, confiança e custo.</li>
+<li>tentar novamente todos os erros;</li>
+<li>tentar novamente apenas erros de execução;</li>
+<li>tentar novamente apenas erros de validação;</li>
+<li>tentar novamente itens concluídos com baixa confiança;</li>
+<li>remover itens pendentes, concluídos, com erro ou todos os itens não em execução;</li>
+<li>abrir um item individual para revisar entrada, saída, estado e confiança.</li>
 </ul>
 <h3 id="exportar-resultados">Exportar resultados</h3>
-<p>Quando o job terminar, exporte os resultados em JSONL. Cada linha exportada contém metadados, entrada original e saída. Use essa exportação para importar em uma planilha, banco de dados, pipeline de dados ou etapa manual de revisão.</p>
-<h2 id="como-usar-pela-api">Como usar pela API</h2>
-<p>Use a API quando quiser integrar Batch ao seu sistema interno, pipeline de dados ou automação. A autenticação segue o mesmo padrão da API da AIVAX.</p>
+<p>Quando o job terminar, exporte os resultados em JSONL. Cada linha exportada contém metadados, a entrada original e a saída. Use essa exportação para importar para uma planilha, banco de dados, pipeline de dados ou etapa de revisão manual.</p>
+<h2 id="como-usar-via-api">Como usar via API</h2>
+<p>Use a API quando quiser integrar o Batch ao seu sistema interno, pipeline de dados ou automação. A autenticação segue o mesmo padrão da API da AIVAX.</p>
+<p>O fluxo da API é o mesmo do fluxo do console, apenas expresso como operações separadas. Primeiro crie o workflow, que é a receita reutilizável. Depois crie um job, importe os itens e inicie o job quando a carga estiver pronta. Após o início do processamento, use os endpoints de listagem, tentativa, limpeza e exportação para operar o job sem perder o rastreamento dos registros individuais.</p>
+<p>Se ainda estiver decidindo se o Batch é o recurso certo, compare-o com <a href="/docs/pt-br/rag/collections">RAG collections</a> e <a href="/docs/pt-br/inference/inference">direct inference</a>. O Batch é para raciocínio repetido sobre itens independentes. As coleções RAG são para conhecimento pesquisável que deve ser recuperado posteriormente. A inferência direta é para uma resposta imediata.</p>
 <h3 id="criar-workflow">Criar workflow</h3>
+<p>Crie um workflow quando quiser salvar a regra de processamento que jobs jobs futuros reutilizarão. É aqui que você define a instrução, modelo, esquema de saída, comportamento de validação, tentativas e ferramentas habilitadas. Um bom workflow lê como uma política para cada item, não como um prompt de uso único para um único registro.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20Batch%20Workflow&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h3 id="criar-job">Criar job</h3>
+<p>Crie um job quando tiver uma carga de trabalho concreta para executar através de um workflow existente. Jobs são criados pausados para que você possa importar e inspecionar os itens antes do processamento.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <p>Jobs são criados pausados. Importe os itens antes de iniciar.</p>
 <h3 id="importar-itens">Importar itens</h3>
+<p>Importe itens após o job existir. Cada item importado se torna uma unidade de trabalho independente, então escolha o modo que melhor corresponde aos seus dados de origem: uma linha por registro, um arquivo por registro, uma entrada ZIP por registro ou um texto enviado como um único registro.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Import%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Linhas vazias são ignoradas. Cada linha não vazia vira um item pendente.</p>
-<h3 id="iniciar-pausar-ou-finalizar">Iniciar, pausar ou finalizar</h3>
+<p>Escolha o formato de importação que corresponde aos dados de origem. Consulte a Referência de API embutida para os modos de importação suportados, campos e restrições atuais.</p>
+<h3 id="iniciar-pausar-ou-concluir">Iniciar, pausar ou concluir</h3>
+<p>Inicie o job apenas depois que a lista de itens parecer correta. Pausá‑lo para investigar erros ou ajustar o workflow, e conclua‑lo quando o job deve ser encerrado em vez de retomado.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Edit%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Use <code>Paused</code> para pausar e <code>Finished</code> para encerrar.</p>
+<p>Consulte a Referência de API embutida para os estados de job suportados.</p>
 <h3 id="monitorar">Monitorar</h3>
+<p>O monitoramento é como você decide se o workflow está saudável. A visualização do job mostra o estado geral; a lista de itens indica onde o trabalho está travando, quais itens falharam na validação e quais resultados de baixa confiança merecem revisão humana.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=View%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <p>Para listar itens:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=List%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Filtros úteis:</p>
-<ul>
-<li><code>state=Pending</code>, <code>Finished</code>, <code>Refused</code>, <code>ExecutionError</code>, <code>ValidationError</code> ou <code>Cancelled</code>;</li>
-<li><code>confidence=high</code> para confiança maior ou igual a 80%;</li>
-<li><code>confidence=low</code> para confiança menor que 30%;</li>
-<li><code>filter=texto</code> para buscar no input;</li>
-<li><code>limit=100</code> para ajustar o tamanho da lista dentro do limite permitido.</li>
-</ul>
-<h3 id="retentar-e-limpar">Retentar e limpar</h3>
+<p>Use o endpoint de listagem para filtrar itens por estado, confiança ou texto de entrada. Consulte a Referência de API embutida para os filtros suportados.</p>
+<h3 id="tentativa-e-limpeza">Tentativa e limpeza</h3>
+<p>Tentativas são melhor usadas depois que você entende o padrão de falha. Tente novamente erros de execução quando o provedor ou a solicitação falhar, erros de validação quando a resposta puder ser regenerada para o formato esperado, e resultados de baixa confiança quando o item teve sucesso mas merece outra tentativa de modelo. Endpoints de limpeza servem para remover itens não em execução de um job quando eles não são mais úteis.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Retry%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Modos de retentativa:</p>
-<ul>
-<li><code>errors</code>;</li>
-<li><code>execution-error</code>;</li>
-<li><code>validation-error</code>;</li>
-<li><code>low-confidence</code>.</li>
-</ul>
+<p>Use o endpoint de tentativa após revisar o padrão de falha. Consulte a Referência de API embutida para as opções de tentativa suportadas e o comportamento resultante do job.</p>
 <p>Para remover itens não em execução:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Remove%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Modos de remoção:</p>
-<ul>
-<li><code>pending</code>;</li>
-<li><code>finished</code>;</li>
-<li><code>errors</code>;</li>
-<li><code>all</code>.</li>
-</ul>
+<p>Use o endpoint de remoção apenas para itens que não são mais úteis. Consulte a Referência de API embutida para as opções de remoção suportadas.</p>
 <h3 id="exportar">Exportar</h3>
+<p>Exportar é o ponto de entrega da AIVAX de volta ao seu próprio workflow. Use após o job terminar, ou exporte apenas um subconjunto quando um processo de revisão precisar primeiro dos itens concluídos e depois dos erros. O formato JSONL é conveniente para planilhas, bancos de dados, filas e ferramentas de auditoria manual porque cada linha permanece vinculada à entrada original e à sua saída gerada.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Export%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<p>Use <code>state=all</code>, <code>finished</code>, <code>errors</code> ou um estado específico. Também é possível combinar com <code>confidence=high</code> ou <code>confidence=low</code>.</p>
-<h2 id="custos-limites-e-pausas-automáticas">Custos, limites e pausas automáticas</h2>
-<p>Cada item processado gera custo de inferência de acordo com o modelo usado. Se a validação estiver habilitada, a validação executa uma segunda chamada de modelo e também pode gerar custo. Ferramentas embutidas habilitadas no workflow podem gerar custos ou consumir limites próprios.</p>
-<p>O job pode pausar automaticamente quando:</p>
+<p>Use o endpoint de exportação para selecionar os resultados concluídos que sua revisão ou processo subsequente necessita. Consulte a Referência de API embutida para os filtros de exportação suportados.</p>
+<h2 id="disponibilidade">Disponibilidade</h2>
+<p>Revise <a href="/docs/pt-br/pricing">Pricing</a> e <a href="/docs/pt-br/limits">Plans and Limits</a> antes de processar uma carga de trabalho grande.</p>
+<h2 id="melhores-práticas">Melhores práticas</h2>
 <ul>
-<li>a conta não tem saldo disponível;</li>
-<li>o limite de processamento do plano foi atingido;</li>
-<li>o provedor de inferência está temporariamente indisponível;</li>
-<li>o job acumula muitos erros consecutivos;</li>
-<li>o usuário pausa manualmente o job.</li>
-</ul>
-<p>Quando a pausa acontece por indisponibilidade temporária ou limite recuperável, a AIVAX pode retomar o job automaticamente depois. Quando a pausa acontece por falta de saldo, adicione saldo antes de retomar manualmente ou aguarde a retomada automática.</p>
-<h2 id="boas-práticas">Boas práticas</h2>
-<ul>
-<li>Teste o workflow com poucos itens antes de importar uma lista grande.</li>
-<li>Use schemas restritivos com <code>required</code> e <code>additionalProperties: false</code> quando a saída será consumida por sistema.</li>
+<li>Teste o workflow com alguns itens antes de importar uma lista grande.</li>
+<li>Use esquemas restritivos com <code>required</code> e <code>additionalProperties: false</code> quando a saída for consumida por um sistema.</li>
 <li>Inclua exemplos de entrada e saída na instrução quando o formato for ambíguo.</li>
 <li>Prefira uma linha por item; se precisar enviar objetos complexos, use JSONL.</li>
-<li>Mantenha a validação habilitada para tarefas sensíveis, como extração jurídica, financeira ou dados que entram em automações.</li>
-<li>Use <code>maxRetries</code> para corrigir falhas ocasionais, mas investigue erros repetidos no prompt ou no schema.</li>
-<li>Use <code>errorStopThreshold</code> baixo em workflows novos para evitar gastar em lote com uma configuração errada.</li>
-<li>Retente itens de baixa confiança separadamente; confiança baixa não significa erro, mas indica que a resposta merece revisão.</li>
-<li>Exporte resultados por estado quando houver revisão manual, por exemplo primeiro <code>finished</code>, depois <code>errors</code>.</li>
+<li>Mantenha a validação habilitada para tarefas sensíveis como extração jurídica, financeira ou dados que alimentam automações.</li>
+<li>Use <code>maxRetries</code> para corrigir falhas ocasionais, mas investigue erros recorrentes no prompt ou esquema.</li>
+<li>Defina um <code>errorStopThreshold</code> baixo em novos workflows para evitar gastar em um lote com configuração errada.</li>
+<li>Tente novamente itens de baixa confiança separadamente; baixa confiança não significa erro, mas indica que a resposta merece revisão.</li>
+<li>Exporte resultados por estado quando for necessária revisão manual, por exemplo, primeiro <code>finished</code>, depois <code>errors</code>.</li>
 </ul>
 
 </article>

@@ -25,7 +25,7 @@
   href: rag/text-segmentation.md
 - name: Classificação de texto
   href: rag/classification.md
-- name: Re-rankers
+- name: Reclassificadores
   href: rag/reranking.md
 - name: Reflex
   href: rag/reflex.md
@@ -38,7 +38,7 @@
   href: inference/ai-gateway.md
 - name: Inferência
   href: inference/inference.md
-- name: Testes de agentes
+- name: Testes de Agente
   href: inference/agentic-tests.md
 - name: Sessão de voz
   href: inference/voice-session.md
@@ -57,6 +57,8 @@
   href: generations/audio-transcriptions.md
 - name: Descrições de mídia
   href: generations/media-descriptions.md
+- name: Ensinar habilidade
+  href: generations/teach-skill.md
 - name: Geração de imagens
   href: generations/images.md
 
