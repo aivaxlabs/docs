@@ -1,22 +1,37 @@
 # Overview
 
-AIVAX is an AI orchestration platform for serving AI assistants through a single account, API surface, and billing wallet. It combines OpenAI-compatible inference, AI gateways, RAG collections, tools, skills, chat clients, workers, and batch processing.
+AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account, API surface, and billing wallet. It combines hosted and bring-your-own-key (BYOK) models with reusable assistant configuration, knowledge retrieval, tools, text and media processing, user-facing channels, background jobs, and conversational evaluation.
 
-Most application integrations start with an **AI Gateway**. A gateway chooses the model, system instructions, RAG collections, tools, structured output behavior, moderation settings, workers, and chat-channel behavior used for a request.
+You do not need every product for every application. Start with direct inference for one response, then add the products that solve a specific reuse, knowledge, integration, scale, or quality requirement.
 
-## Core services
+## Choose the right starting point
 
-### OpenAI-compatible inference
+| Goal | Start with | Why |
+| --- | --- | --- |
+| Generate or analyze text in one request | [Inference](inference/inference.md) | Call a hosted or BYOK model through the OpenAI-compatible API without creating reusable assistant configuration. |
+| Reuse instructions, knowledge, tools, and model settings | [AI Gateway](inference/ai-gateway.md) | Give your application one stable assistant runtime that can evolve without rebuilding every request. |
+| Search your own documents or generate grounded answers | [RAG collections](rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
+| Reorder candidates your application already retrieved | [Rerankers](rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
+| Publish an assistant to end users | [Chat clients](features/chat-clients.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
+| Process many independent records | [Batch](features/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
+| Test a complete assistant conversation | [Agentic Tests](inference/agentic-tests.md) | Simulate a goal-oriented user and judge the gateway across multiple turns. |
+| Build a low-latency two-way voice experience | [Voice Sessions](inference/voice-session.md) | Stream user and assistant audio in an interactive session instead of combining separate audio jobs. |
 
-AIVAX exposes OpenAI-compatible model listing and chat completion endpoints. You can call hosted AIVAX models directly or call an AI Gateway by its model identifier.
+## Build the assistant runtime
 
-The main production base URL is:
+### Inference and AI Gateways
+
+AIVAX exposes OpenAI-compatible model listing and chat completion endpoints. Use a **direct model call** for exploration, one-off generation, or configuration that does not need to be reused. Use an **AI Gateway** when the same model, instructions, RAG collections, skills, tools, moderation, or output behavior should serve multiple calls or users.
+
+Most production assistants use a gateway because the application can keep calling one identifier while the assistant configuration changes independently. Gateways can use integrated AIVAX models or external OpenAI-compatible providers.
+
+Production API base URL:
 
 ```text
 https://inference.aivax.net
 ```
 
-Use `/v1` as the OpenAI SDK base path:
+OpenAI-compatible SDK base URL:
 
 ```text
 https://inference.aivax.net/v1
@@ -26,72 +41,77 @@ Reference:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-### AI Gateways
+### Knowledge, retrieval, and reranking
 
-An AI Gateway is the configured runtime for an assistant. In the source model it stores:
+A [RAG collection](rag/collections.md) is a semantic knowledge library. Add documents, test them with [Semantic Search](rag/semantic-search.md), and then attach the collection to an AI Gateway when the assistant should answer from that knowledge. AIVAX can also generate grounded answers directly from collections and expose collection search through [Collections MCP](mcp-utilities/collections-mcp.md).
 
-- Provider or integrated model selection.
-- System instruction and optional prompt templates.
-- RAG collection links and query strategy.
-- Built-in tools, protocol functions, MCP sources, and Bash options.
-- JSON schema and JSON Healing settings.
-- Worker script source and moderation settings.
-- Context limits, truncation behavior, reasoning effort, verbosity, and routing settings.
+Reranking is a separate step: it receives a query and candidate documents, then returns the candidates in a more relevant order. Use a collection for managed storage and retrieval; use the standalone [reranking](rag/reranking.md) generation when your application already owns the candidates.
 
-Gateway slugs are convenient for private keys. Public-key chat completions must use the full gateway UUID and cannot call integrated models directly.
+### Skills and tools
 
-### RAG collections
+[Skills](features/skills.md) package reusable instructions and operating knowledge. Use a skill when the assistant needs to know **how** to perform a task. Use RAG when it needs to retrieve **facts or source material** that may grow or change independently.
 
-Collections store documents that are indexed with embeddings and searched during inference or through collection endpoints. Plan limits control collection count, search rate, insertion rate, and JSONL import size.
+Tools let the assistant take action or retrieve live information. Choose among:
 
-AIVAX also exposes collections as MCP tools through `/v1/mcp/collections`. The collection MCP endpoint reads configuration from headers such as collection IDs, tool name, top-k, minimum score, reranker, and whether write tools are allowed.
+- [Built-in tools](tools/builtin-tools.md) for capabilities provided by AIVAX.
+- [MCP](tools/mcp.md) for Model Context Protocol servers and reusable tool ecosystems.
+- [Protocol functions](tools/protocol-functions.md) for HTTP functions defined by your application.
+- [Shell](tools/shell.md) for controlled command execution when the use case requires it.
 
-### Tools
+Keep the tool surface as small as the assistant's job allows. Each additional tool expands cost, latency, permissions, and failure paths.
 
-Gateways can enable tools that let the model call platform services or external systems. Built-in functions cover web search, advanced web search, X/Twitter search, image generation, document or page generation, code execution, memory, calendar, and scheduled activations.
+## Process text, documents, and media
 
-Private keys can use the full gateway tool configuration. Public-key chat-completion calls strip server-side tool surfaces such as MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options.
+AIVAX includes focused generation products for work that does not need a full chat conversation:
 
-### Skills
+- [Text classification](rag/classification.md) assigns labels to one or more documents.
+- [Text segmentation](rag/text-segmentation.md) splits long content into useful chunks for indexing or downstream processing.
+- [Media descriptions](generations/media-descriptions.md) convert images, audio, video, and files into text that another model or workflow can use.
+- [Image generation](generations/images.md) creates or edits images.
+- [Speech generation](generations/speech.md) turns text into audio.
+- [Audio transcription](generations/audio-transcriptions.md) turns audio into text.
 
-Skills are reusable instruction bundles attached to a gateway. They are loaded into the model context when selected by the assistant and can restrict or expose tool behavior.
+Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request. Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage. For large independent input sets, run the appropriate operation through [Batch](features/batch.md).
 
-### Structured output
+For interactive two-way audio, use [Voice Sessions](inference/voice-session.md) instead of manually chaining transcription, text inference, and speech generation.
 
-AIVAX supports two structured-output paths:
+## Deliver, scale, and evaluate
 
-- `response_schema`: AIVAX validates generated JSON against the schema and enables JSON Healing.
-- `response_format` with `json_schema`: A provider-compatible schema path; AIVAX can also apply JSON Healing when account settings allow it.
+### Chat clients
 
-Use `json_only` only when the caller expects the raw generated JSON instead of the normal chat-completion envelope.
+A [chat client](features/chat-clients.md) connects an AI Gateway to an end-user channel. It owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
 
-### Chat clients and integrations
+Use a chat client for a browser widget or supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
 
-Chat clients connect a gateway to end users through public web-chat sessions or integrations for Telegram, Z-API WhatsApp, Evolution API, and Kapso. Chat clients have their own per-session and per-hour limits in addition to account balance checks.
+### Batch
 
-### Workers and hooks
+[Batch](features/batch.md) applies one workflow to dozens or thousands of independent records. A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job imports items, processes them in the background, exposes per-item progress and cost, and exports results.
 
-Workers are account-owned hooks that can interrupt or modify gateway events. Requests from AIVAX to your service may include `X-Request-Nonce`, a BCrypt hash derived from the account hook key. Validate it before trusting the request.
+Do not use Batch when one item depends on another or when a user needs an immediate answer. Use direct inference for one synchronous result and RAG for searchable knowledge.
 
-### Batch processing
+### Agentic Tests
 
-Batch workflows process independent items asynchronously with a workflow instruction, model, schema, and optional tools. The plan controls how many batch workflow items can be processed per day.
+[Agentic Tests](inference/agentic-tests.md) evaluates the configured behavior of an AI Gateway across a bounded conversation. A simulated user pursues a goal while an independent judge evaluates progress. Use persisted tests for reusable, scheduled regression coverage or an ephemeral evaluation for one immediate run.
 
-## How requests are checked
+A completed test run is not automatically a successful behavior result. Review the run outcome, judge result, retained conversation, usage, and cost together.
 
-Authenticated API requests pass through account-key middleware. The middleware resolves the account and key, stores both in request context, and adds account headers to the response. Endpoints that spend money or require storage also check balance and storage quota before continuing.
+## Operate and connect AIVAX
 
-For chat completions, the runtime then checks:
+AIVAX records conversations and usage so you can trace behavior, attribute cost, and diagnose failures. The dashboard and account APIs expose account balance, usage, conversations, gateway resources, collection transactions, Batch items, and Agentic Test runs. Start with [Pricing](pricing.md) and [Plans and limits](limits.md) before enabling a high-volume or media-heavy workflow.
 
-1. Whether the selected model is available to the account plan.
-2. Integrated-model request and input-token rate limits, or BYOK request limits.
-3. The Free-plan context cap.
-4. Tool and modality requirements.
-5. Balance and storage requirements, including additional minimum balance checks for image/audio/file/video inputs.
+AIVAX also provides MCP utilities for compatible agents:
+
+- [Account management MCP](mcp-utilities/account-management-mcp.md)
+- [Collections MCP](mcp-utilities/collections-mcp.md)
+- [Documentation MCP](mcp-utilities/documentation-mcp.md)
+- [Web utilities MCP](mcp-utilities/web-utilities-mcp.md)
+- [Inference MCP](mcp-utilities/inference-mcp.md)
+
+These utilities expose existing AIVAX capabilities through MCP; they do not replace the underlying account, collection, or inference products.
 
 ## Next steps
 
-- [Getting started](getting-started.md)
-- [Authentication](authentication.md)
-- [Pricing](pricing.md)
-- [Plans and limits](limits.md)
+1. Follow [Getting Started](getting-started.md) to make and verify your first chat completion.
+2. Read [Authentication](authentication.md) before choosing private keys, public keys, or chat sessions for an application boundary.
+3. Review [Pricing](pricing.md) and [Plans and limits](limits.md) before increasing traffic or processing large collections, media, tests, or Batch jobs.
+4. Move reusable assistant behavior into an [AI Gateway](inference/ai-gateway.md), then add RAG, skills, tools, and a chat client only when the use case requires them.
