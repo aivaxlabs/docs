@@ -18,7 +18,7 @@ Each collection has:
 - A set of documents.
 - Usage statistics based on RAG transactions.
 
-The Free plan currently allows up to 5 collections. Pro and Max do not define a collection-count limit in the current plan configuration.
+Collection availability and account limits depend on the current account configuration. See [Plans and limits](../limits.md) before creating collections for production use.
 
 ## Documents
 

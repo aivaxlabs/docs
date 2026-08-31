@@ -278,13 +278,13 @@
 <li><code>All</code></li>
 </ul>
 <p>The resolver caches media descriptions by content hash for reuse. <code>Image</code>, <code>Audio</code>, <code>Video</code>, and PDF <code>File</code> pre-processing use auxiliary multimodal inference. Supported non-PDF files use local text extraction.</p>
-<p>Files and videos require a minimum account balance of $0.50. Images and audio require a minimum account balance of $0.10.</p>
+<p>Multimodal inputs can have account requirements. Review <a href="../pricing.html">Pricing</a> and <a href="../limits.html">Plans and limits</a> before using them in production.</p>
 <p>When a multimodal inference fails, narrow down the problem:</p>
 <ol>
 <li>Test a simple text message with the same model.</li>
 <li>Test one small attachment.</li>
 <li>Test the same attachment with <code>multimodal_preprocess</code>.</li>
-<li>Review the URL, format, size, balance requirement, and model modality support.</li>
+<li>Review the URL, format, size, and model modality support.</li>
 </ol>
 <h2 id="structured-responses">Structured responses</h2>
 <p>AIVAX supports structured responses through <code>response_schema</code>, <code>response_format</code>, and <code>json_only</code>.</p>

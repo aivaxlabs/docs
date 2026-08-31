@@ -140,7 +140,7 @@
 <li>A set of documents.</li>
 <li>Usage statistics based on RAG transactions.</li>
 </ul>
-<p>The Free plan currently allows up to 5 collections. Pro and Max do not define a collection-count limit in the current plan configuration.</p>
+<p>Collection availability and account limits depend on the current account configuration. See <a href="../limits.html">Plans and limits</a> before creating collections for production use.</p>
 <h2 id="documents">Documents</h2>
 <p>A document is the unit that gets indexed and retrieved. It should be small enough to match a specific question and complete enough to be useful on its own.</p>
 <p>This is the part that most affects RAG quality. A document should not be &quot;everything you know&quot; about a source; it should be one piece of knowledge that can stand alone when the model reads it later. If a user asks about cancellation fees, the retrieved document should already contain the relevant rule, product, condition, and exception. If the answer only makes sense when the model also sees the previous page, the document is probably too dependent on surrounding context.</p>

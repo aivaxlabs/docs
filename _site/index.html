@@ -113,24 +113,39 @@
                 <article data-uid="">
 <h1 id="aivax-documentation">AIVAX Documentation</h1>
 
-<p>AIVAX is an AI orchestration platform for building assistants on top of hosted or BYOK language models, RAG collections, tools, skills, workers, and chat channels.</p>
-<p>Use these docs to:</p>
+<p>AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account and API surface. Use hosted or bring-your-own-key (BYOK) models, then add reusable instructions, knowledge, tools, media, user channels, and background processing as your product grows.</p>
+<h2 id="choose-where-to-start">Choose where to start</h2>
 <ul>
-<li>Make your first OpenAI-compatible inference call.</li>
-<li>Create and protect API keys.</li>
-<li>Understand account balance, plan limits, and usage billing.</li>
-<li>Connect gateways, collections, tools, skills, chat clients, and batch workflows.</li>
+<li><strong>Make your first model call:</strong> follow <a href="docs/getting-started.html">Getting Started</a> for a minimal OpenAI-compatible chat completion.</li>
+<li><strong>Understand the platform:</strong> read the <a href="docs/overview.html">Overview</a> to choose between direct inference, AI Gateways, RAG, generations, Batch, and other products.</li>
+<li><strong>Prepare a production integration:</strong> review <a href="docs/authentication.html">Authentication</a>, <a href="docs/pricing.html">Pricing</a>, and <a href="docs/limits.html">Plans and limits</a>.</li>
 </ul>
-<h2 id="start-here">Start here</h2>
+<h2 id="build-an-ai-application">Build an AI application</h2>
 <ul>
-<li><a href="docs/overview.html">Overview</a></li>
-<li><a href="docs/getting-started.html">Getting started</a></li>
-<li><a href="docs/authentication.html">Authentication</a></li>
-<li><a href="docs/pricing.html">Pricing</a></li>
-<li><a href="docs/limits.html">Plans and limits</a></li>
-<li><a href="docs/data-collecting.html">Data collecting</a></li>
+<li><a href="docs/inference/inference.html">Inference</a> — generate responses with hosted or BYOK models through an OpenAI-compatible API.</li>
+<li><a href="docs/inference/ai-gateway.html">AI Gateways</a> — reuse a model, instructions, RAG, skills, tools, moderation, and inference settings as one assistant runtime.</li>
+<li><a href="docs/rag/collections.html">RAG collections</a> — index your own knowledge for semantic search and grounded answers.</li>
+<li><a href="docs/rag/reranking.html">Rerankers</a> — reorder candidate documents by relevance, with or without a managed collection.</li>
+<li><a href="docs/features/skills.html">Skills</a> — package reusable instructions and operating knowledge for AI Gateways.</li>
+<li><a href="docs/tools/builtin-tools.html">Tools</a> and <a href="docs/tools/mcp.html">MCP</a> — connect assistants to AIVAX capabilities and external systems.</li>
+<li><a href="docs/features/chat-clients.html">Chat clients</a> — publish a gateway through web chat or supported messaging integrations.</li>
 </ul>
-<p>For generated endpoint details, see the <a href="https://inference.aivax.net/apidocs">AIVAX API reference</a>.</p>
+<h2 id="process-text-and-media">Process text and media</h2>
+<ul>
+<li><a href="docs/rag/classification.html">Text classification</a> and <a href="docs/rag/text-segmentation.html">text segmentation</a> — prepare documents for routing, analysis, and retrieval.</li>
+<li><a href="docs/generations/images.html">Image generation</a> — create or edit images from text and reference images.</li>
+<li><a href="docs/generations/speech.html">Speech generation</a> and <a href="docs/generations/audio-transcriptions.html">audio transcription</a> — convert between text and audio.</li>
+<li><a href="docs/generations/media-descriptions.html">Media descriptions</a> — turn images, audio, video, or files into text for downstream processing.</li>
+<li><a href="docs/inference/voice-session.html">Voice Sessions</a> — build low-latency, two-way voice experiences.</li>
+</ul>
+<h2 id="operate-at-scale-and-improve-quality">Operate at scale and improve quality</h2>
+<ul>
+<li><a href="docs/features/batch.html">Batch</a> — run the same AI workflow over many independent items in the background.</li>
+<li><a href="docs/inference/agentic-tests.html">Agentic Tests</a> — evaluate complete, goal-oriented conversations and track repeatable gateway regressions.</li>
+<li><a href="docs/inference/structured-responses.html">Structured responses</a> — validate generated JSON against an application contract.</li>
+<li><a href="docs/mcp-utilities/account-management-mcp.html">MCP utilities</a> — expose account, collection, documentation, web, and inference capabilities to compatible agents.</li>
+</ul>
+<p>For endpoint schemas and generated request details, use the <a href="https://inference.aivax.net/apidocs">AIVAX API reference</a>.</p>
 
 </article>
 

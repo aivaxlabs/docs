@@ -182,14 +182,14 @@ Available pre-processing flags are:
 
 The resolver caches media descriptions by content hash for reuse. `Image`, `Audio`, `Video`, and PDF `File` pre-processing use auxiliary multimodal inference. Supported non-PDF files use local text extraction.
 
-Files and videos require a minimum account balance of $0.50. Images and audio require a minimum account balance of $0.10.
+Multimodal inputs can have account requirements. Review [Pricing](../pricing.md) and [Plans and limits](../limits.md) before using them in production.
 
 When a multimodal inference fails, narrow down the problem:
 
 1. Test a simple text message with the same model.
 2. Test one small attachment.
 3. Test the same attachment with `multimodal_preprocess`.
-4. Review the URL, format, size, balance requirement, and model modality support.
+4. Review the URL, format, size, and model modality support.
 
 ## Structured responses
 

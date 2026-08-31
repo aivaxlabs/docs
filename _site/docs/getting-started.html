@@ -127,132 +127,132 @@
                 <article data-uid="">
 <h1 id="getting-started">Getting Started</h1>
 
-<p>This guide shows the shortest path from an AIVAX account to a first OpenAI-compatible chat completion.</p>
+<p>This guide takes you from an AIVAX account to a verified OpenAI-compatible chat completion. The example uses Python and a private API key from a server-side environment.</p>
+<p>By the end, you will have confirmed that your key and selected model or AI Gateway can complete a request.</p>
 <h2 id="before-you-begin">Before you begin</h2>
 <p>You need:</p>
 <ul>
-<li>An AIVAX account.</li>
-<li>A private API key from the account dashboard or API key endpoint.</li>
-<li>Enough account balance for the operation. Some routes only require the balance not to be negative, while chat clients, integrations, batch processing, and multimodal inputs can require a strictly positive or minimum balance.</li>
-<li>Either a hosted model name or an AI Gateway ID.</li>
+<li>An AIVAX account with dashboard access and permission to create a private API key.</li>
+<li>Python 3.8 or later with <code>pip</code> available.</li>
 </ul>
+<p>For pricing and operational limits, see <a href="pricing.html">Pricing</a> and <a href="limits.html">Plans and limits</a>.</p>
 <p>Production API base URL:</p>
 <pre><code class="lang-text">https://inference.aivax.net
 </code></pre>
 <p>OpenAI-compatible SDK base URL:</p>
 <pre><code class="lang-text">https://inference.aivax.net/v1
 </code></pre>
-<h2 id="1-create-an-api-key">1. Create an API key</h2>
-<p>Use a <strong>private</strong> API key for server-side calls. Private keys are generated with the <code>sk-aiv-acc</code> prefix and can call authenticated account APIs and OpenAI-compatible inference endpoints.</p>
-<p>Public keys use the <code>pk-aiv-</code> prefix. They are intended for restricted client-side use on public routes, such as public RAG query/answer routes and restricted chat completions. They cannot call account-management endpoints.</p>
-<p>For most first integrations, start with a private key from a backend service. It gives you the complete account surface: model listing, chat completions, AI Gateways, RAG collections, batch workflows, and administrative APIs. Public keys are useful later, when you intentionally expose a restricted capability to a browser or another client-side environment.</p>
-<p>See <a href="authentication.html">Authentication</a> for key types, accepted auth schemes, and hook validation. If the next thing you want to build is an end-user widget instead of a backend integration, also read <a href="features/chat-clients.html">Chat Clients</a>, because chat sessions solve identity, conversation history, attachments, and per-user limits more directly than a raw public key.</p>
-<h2 id="2-find-a-model-or-gateway-id">2. Find a model or gateway ID</h2>
-<p>You can call either:</p>
+<h2 id="1-create-a-private-api-key">1. Create a private API key</h2>
+<p>Create a <strong>private</strong> key from the API Keys area of the AIVAX dashboard. Copy the key when it is shown and store it as a secret; do not paste the real value into the code below.</p>
+<p>Private keys are intended for trusted server-side applications. Public keys are restricted credentials for intentionally exposed client-side routes and are not a substitute for a backend key.</p>
+<p>If you are building a public web widget or messaging experience, review <a href="features/chat-clients.html">Chat clients</a> before exposing any credential. Chat sessions provide a clearer boundary for user identity, conversation history, and attachments.</p>
+<p>See <a href="authentication.html">Authentication</a> for supported authentication schemes, private and public key behavior, and secret-handling guidance.</p>
+<h2 id="2-install-the-openai-sdk">2. Install the OpenAI SDK</h2>
+<p>Install the SDK in the Python environment you will use for this example:</p>
+<pre><code class="lang-bash">python -m pip install openai
+</code></pre>
+<p>Keep the key outside your source file. For example, set an environment variable named <code>AIVAX_API_KEY</code> using the secret-management method appropriate for your shell or deployment platform.</p>
+<h2 id="3-choose-a-model-or-ai-gateway">3. Choose a model or AI Gateway</h2>
+<p>The <code>model</code> field can identify:</p>
 <ul>
-<li>A hosted model name returned by the model listing endpoint.</li>
-<li>A gateway identifier from your account.</li>
+<li>A hosted model returned by the model listing endpoint.</li>
+<li>An AI Gateway available to your account.</li>
 </ul>
-<p>Gateway slugs are supported for private keys. Public-key chat completions must use the full gateway UUID and cannot call integrated models directly.</p>
-<p>Use a hosted model name when you only need a direct model call. Use an AI Gateway when you want reusable behavior: instructions, RAG collections, built-in tools, workers, MCP servers, protocol functions, skills, moderation, or provider settings. A gateway becomes the stable &quot;assistant configuration&quot; your application can call repeatedly without rebuilding the same options in every request.</p>
-<p>If you are still exploring, list models first and make one direct call. When the prompt, tools, or retrieval rules start becoming part of the product, move that configuration into an <a href="inference/ai-gateway.html">AI Gateway</a>.</p>
+<p>Use a <strong>hosted model</strong> for a direct, one-off call or early experiment. Use an <strong>AI Gateway</strong> when you want to reuse the same model, instructions, RAG collections, skills, tools, moderation, and output settings across requests or users.</p>
+<p>Gateway slugs are supported with private keys. Public-key chat completions must use the full gateway UUID and cannot call integrated models directly.</p>
 <p>Reference:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="3-make-a-chat-completion-request">3. Make a chat-completion request</h2>
-<p>Install the OpenAI SDK for your language, then point it to AIVAX:</p>
-<pre><code class="lang-python">from openai import OpenAI
+<p>Copy one model name or gateway identifier that is available to your account. You will use it as <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> in the next step.</p>
+<h2 id="4-make-the-first-request">4. Make the first request</h2>
+<p>Create a file named <code>quickstart.py</code> with the following code:</p>
+<pre><code class="lang-python">import os
+
+from openai import OpenAI
 
 client = OpenAI(
     base_url=&quot;https://inference.aivax.net/v1&quot;,
-    api_key=&quot;sk-aiv-acc...&quot;
+    api_key=os.environ[&quot;AIVAX_API_KEY&quot;],
 )
 
 response = client.chat.completions.create(
     model=&quot;&lt;MODEL_OR_GATEWAY_ID&gt;&quot;,
     messages=[
         {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a one-sentence welcome message.&quot;}
-    ]
+    ],
 )
 
 print(response.choices[0].message.content)
 </code></pre>
-<p>Replace <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> with an integrated model name or a gateway ID available to your account.</p>
-<p>This request is intentionally small: one user message, one model or gateway, and one response. After it works, you can add the product pieces one at a time. For structured JSON output, see <a href="inference/structured-responses.html">Structured Responses</a>. To retrieve knowledge from documents before answering, create a <a href="rag/collections.html">RAG collection</a> and attach it to a gateway. To let the model call external systems, compare <a href="tools/builtin-tools.html">Built-in Tools</a>, <a href="tools/mcp.html">MCP</a>, and <a href="tools/protocol-functions.html">Protocol Functions</a>.</p>
-<p>For normal requests, keep using <code>https://inference.aivax.net/v1</code>.</p>
-<p>If an inference call can run for longer than the Cloudflare proxy timeout, or if your client receives HTTP <code>524</code> errors while waiting for long completions, use the direct inference host instead:</p>
-<pre><code class="lang-text">https://direct.inference.aivax.net/v1
+<p>Replace <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> with the exact hosted model name or gateway identifier selected in the previous step. Do not replace <code>AIVAX_API_KEY</code> with the key itself; the code reads the secret from the environment.</p>
+<p>Run the file:</p>
+<pre><code class="lang-bash">python quickstart.py
 </code></pre>
-<p>This host exposes only the OpenAI-compatible inference paths needed for model listing and chat completions. Use the same API key, model value, request body, and SDK configuration, changing only the base URL:</p>
-<pre><code class="lang-python">client = OpenAI(
-    base_url=&quot;https://direct.inference.aivax.net/v1&quot;,
-    api_key=&quot;sk-aiv-acc...&quot;
-)
-</code></pre>
+<p>A successful request prints one generated sentence and exits without an API error.</p>
 <p>Reference:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="4-confirm-billing-and-limits">4. Confirm billing and limits</h2>
-<p>After a successful request, usage is recorded against the authenticated account and the API key resource. Integrated model usage is charged from account balance unless it is covered by a subscription-model reserve window.</p>
-<p>Checking balance after the first call is a good sanity step because it confirms that authentication, model access, usage tracking, and billing all resolved under the expected account. The balance endpoint also returns plan and limit information, which is useful before enabling higher-volume features such as RAG imports, chat clients, or batch processing.</p>
-<p>Reference:</p>
-<script src="https://inference.aivax.net/apidocs?embed-target=Get%20Account%20Balance&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="error-formats">Error formats</h2>
-<p>AIVAX uses two response shapes:</p>
+<h2 id="5-confirm-the-integration">5. Confirm the integration</h2>
+<p>Confirm that the generated response matches the prompt and comes from the model or AI Gateway selected in the previous step. This verifies the endpoint, credential, and model selection used by your application.</p>
+<p>Before increasing traffic or processing large inputs, review <a href="pricing.html">Pricing</a> and <a href="limits.html">Plans and limits</a>.</p>
+<h2 id="troubleshoot-the-first-request">Troubleshoot the first request</h2>
+<p>AIVAX uses two response styles:</p>
 <ul>
-<li>OpenAI-compatible endpoints return an OpenAI-style <code>error</code> object with <code>message</code>, <code>type</code>, <code>param</code>, and <code>code</code>.</li>
-<li>Administrative endpoints return <code>{&quot;error&quot;: &quot;...&quot;, &quot;details&quot;: null}</code> for errors and <code>{&quot;message&quot;: &quot;...&quot;, &quot;data&quot;: ...}</code> for successful results.</li>
+<li>OpenAI-compatible endpoints return an OpenAI-style <code>error</code> object.</li>
+<li>Account and administrative endpoints return an AIVAX response envelope with an error or a successful <code>data</code> value.</li>
 </ul>
-<p>Common failures:</p>
 <table>
 <thead>
 <tr>
 <th>Status</th>
-<th>Likely cause</th>
+<th>What to check</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>401 Unauthorized</code></td>
-<td>Missing, malformed, expired, or unknown API key.</td>
+<td><code>400 Bad Request</code></td>
+<td>Confirm the model or gateway identifier and remove unsupported parameters from the request.</td>
 </tr>
 <tr>
-<td><code>403 Forbidden</code></td>
-<td>A public key tried to call a non-public route, or the resource is not allowed.</td>
+<td><code>401 Unauthorized</code></td>
+<td>Confirm that the private key is present, complete, active, and sent through the SDK configuration.</td>
 </tr>
 <tr>
 <td><code>402 Payment Required</code></td>
-<td>Balance is insufficient or the account exceeded storage quota.</td>
+<td>Review <a href="pricing.html">Pricing</a> and confirm that the account is ready for a billable request.</td>
+</tr>
+<tr>
+<td><code>403 Forbidden</code></td>
+<td>Confirm that the key type, model, or selected resource allows this operation.</td>
 </tr>
 <tr>
 <td><code>429 Too Many Requests</code></td>
-<td>A rate limit was reached.</td>
-</tr>
-<tr>
-<td><code>400 Bad Request</code></td>
-<td>Invalid request body, unsupported parameter, missing model, invalid schema, or invalid tool configuration.</td>
+<td>Retry later and review <a href="limits.html">Plans and limits</a> before increasing request volume.</td>
 </tr>
 </tbody>
 </table>
-<p>For streaming chat completions, handle normal SSE chunks, optional <code>servertool</code> chunks, final usage metadata, <code>[DONE]</code>, and streaming error chunks.</p>
-<h2 id="troubleshooting-checklist">Troubleshooting checklist</h2>
-<p>When a request fails, verify in this order:</p>
+<p>If the request still fails, verify in this order:</p>
 <ol>
-<li>Base URL is <code>https://inference.aivax.net/v1</code> for OpenAI SDK calls.</li>
-<li>The key is sent as <code>Authorization: Bearer &lt;KEY&gt;</code>, Basic auth, or the <code>api-key</code> query parameter.</li>
-<li>The account has enough balance and storage quota.</li>
-<li>The model or gateway ID exists and is allowed by the current plan.</li>
-<li>The request is under the plan's request, token, RAG, tool, or batch limits.</li>
-<li>Public-key calls use only allowed chat-completion parameters and full gateway UUIDs.</li>
-<li>Tool, RAG, worker, or schema configuration is isolated by testing the same prompt without that feature.</li>
+<li><code>base_url</code> is <code>https://inference.aivax.net/v1</code>.</li>
+<li><code>AIVAX_API_KEY</code> is available to the Python process and contains a private key.</li>
+<li>The selected model or gateway exists and is available to the account.</li>
+<li>For a gateway, test a plain prompt before adding RAG, tools, media, or structured output so you can isolate configuration problems.</li>
 </ol>
-<h2 id="next-steps">Next steps</h2>
+<p>For completions that can exceed the standard proxy timeout, use the direct inference SDK base URL:</p>
+<pre><code class="lang-text">https://direct.inference.aivax.net/v1
+</code></pre>
+<p>The direct host exposes the OpenAI-compatible model listing and chat completion paths. Keep the same API key, model value, request body, and SDK usage; change only the base URL. Use it when a request receives HTTP <code>524</code> while waiting for a long completion, not as a general fallback for authentication or request errors.</p>
+<h2 id="choose-the-next-product">Choose the next product</h2>
+<p>Once the minimal request works, add one capability at a time:</p>
 <ul>
-<li><a href="authentication.html">Authentication</a>: understand private keys, public keys, and reverse hook validation.</li>
-<li><a href="limits.html">Plans and limits</a>: check request limits, context limits, RAG limits, tool limits, and batch limits before opening a workflow to users.</li>
-<li><a href="pricing.html">Pricing</a>: understand how credits, usage, storage, and minimum-balance checks work.</li>
-<li><a href="inference/ai-gateway.html">AI Gateways</a>: move from a direct model call to a reusable assistant configuration.</li>
-<li><a href="rag/collections.html">RAG collections</a>: store documents and retrieve them during inference.</li>
-<li><a href="features/batch.html">Batch</a>: run the same AI workflow over many independent records.</li>
+<li><a href="inference/ai-gateway.html">AI Gateways</a> — make the assistant configuration reusable across requests and users.</li>
+<li><a href="inference/structured-responses.html">Structured responses</a> — require generated JSON to follow an application schema.</li>
+<li><a href="rag/collections.html">RAG collections</a> — index your documents, test retrieval, and attach grounded knowledge to a gateway.</li>
+<li><a href="tools/builtin-tools.html">Built-in tools</a>, <a href="tools/mcp.html">MCP</a>, or <a href="tools/protocol-functions.html">Protocol functions</a> — let the assistant retrieve live information or take action.</li>
+<li><a href="features/chat-clients.html">Chat clients</a> — deliver a gateway through web chat or supported messaging channels.</li>
+<li><a href="overview.html#process-text-documents-and-media">Text and media products</a> — classify or segment documents, generate images or speech, transcribe audio, and describe media.</li>
+<li><a href="features/batch.html">Batch</a> — apply the same workflow to many independent records asynchronously.</li>
+<li><a href="inference/agentic-tests.html">Agentic Tests</a> — evaluate a complete gateway conversation before and after configuration changes.</li>
 </ul>
+<p>Before increasing traffic or processing large inputs, review <a href="pricing.html">Pricing</a> and <a href="limits.html">Plans and limits</a>.</p>
 
 </article>
 

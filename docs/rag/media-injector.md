@@ -29,7 +29,7 @@ In the AIVAX dashboard:
 
 A job can be `queued`, `processing`, `completed`, `failed`, or `cancelled`. The dashboard reports the source file, elapsed time, number of documents produced, and current cost. Failed or cancelled jobs may be retried when their recoverable uploaded data is still available.
 
-Audio and video larger than 20 MiB are divided into time-based segments for processing. Other individual files must not exceed 20 MiB. Segmentation is automatic and does not change the original file name shown for the job.
+Audio and video can be divided into time-based segments for processing. Segmentation is automatic and does not change the original file name shown for the job. See [Plans and limits](../limits.md) for current upload limits.
 
 ## Define processing context
 
@@ -84,4 +84,4 @@ For retrieval-quality guidance after ingestion, see [Best Practices for RAG](bes
 
 Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See [Pricing](../pricing.md#pricing-list) for the final rates.
 
-Media Injector is available on all plans. The daily file limits are listed in [Plans and Limits](../limits.md#plan-limits). Uploading requires at least $5 in available account balance, and processing stops if the account cannot cover usage.
+Media Injector availability and operational limits depend on the account configuration. See [Pricing](../pricing.md) and [Plans and limits](../limits.md) before uploading files in production.
