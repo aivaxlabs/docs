@@ -127,132 +127,156 @@
                 <article data-uid="">
 <h1 id="começando">Começando</h1>
 
-<p>Este guia mostra o caminho mais curto de uma conta AIVAX até a primeira conclusão de chat compatível com OpenAI.</p>
+<p>Este guia leva você de uma conta AIVAX a uma conclusão de chat compatível com OpenAI verificada. O exemplo usa Python e uma chave de API privada de um ambiente do lado do servidor.</p>
+<p>Até o final, você terá confirmado que sua chave e o modelo ou AI Gateway selecionado podem concluir uma solicitação.</p>
 <h2 id="antes-de-começar">Antes de começar</h2>
 <p>Você precisa:</p>
 <ul>
-<li>Uma conta AIVAX.</li>
-<li>Uma chave de API privada do painel da conta ou do endpoint de chave de API.</li>
-<li>Saldo suficiente na conta para a operação. Algumas rotas exigem apenas que o saldo não seja negativo, enquanto clientes de chat, integrações, processamento em lote e entradas multimodais podem exigir um saldo estritamente positivo ou mínimo.</li>
-<li>Um nome de modelo hospedado ou um ID de AI Gateway.</li>
+<li>Uma conta AIVAX com acesso ao painel e permissão para criar uma chave de API privada.</li>
+<li>Python 3.8 ou superior com <code>pip</code> disponível.</li>
 </ul>
-<p>URL base da API de produção:</p>
+<p>Para preços e limites operacionais, veja <a href="pricing.html">Preços</a> e <a href="limits.html">Planos e limites</a>.</p>
+<p>Production API base URL:</p>
 <pre><code class="lang-text">https://inference.aivax.net
 </code></pre>
-<p>URL base do SDK compatível com OpenAI:</p>
+<p>OpenAI-compatible SDK base URL:</p>
 <pre><code class="lang-text">https://inference.aivax.net/v1
 </code></pre>
-<h2 id="1-crie-uma-chave-de-api">1. Crie uma chave de API</h2>
-<p>Use uma chave de API <strong>privada</strong> para chamadas do lado do servidor. Chaves privadas são geradas com o prefixo <code>sk-aiv-acc</code> e podem chamar APIs de conta autenticadas e endpoints de inferência compatíveis com OpenAI.</p>
-<p>Chaves públicas usam o prefixo <code>pk-aiv-</code>. Elas são destinadas ao uso restrito do lado do cliente em rotas públicas, como rotas públicas de consulta/resposta RAG e conclusões de chat restritas. Elas não podem chamar endpoints de gerenciamento de conta.</p>
-<p>Para a maioria das primeiras integrações, comece com uma chave privada de um serviço de back‑end. Ela fornece a superfície completa da conta: listagem de modelos, conclusões de chat, AI Gateways, coleções RAG, fluxos de trabalho em lote e APIs administrativas. Chaves públicas são úteis mais tarde, quando você expõe intencionalmente uma capacidade restrita a um navegador ou outro ambiente do lado do cliente.</p>
-<p>Veja <a href="authentication.html">Authentication</a> para tipos de chave, esquemas de autenticação aceitos e validação de hooks. Se a próxima coisa que você deseja construir for um widget de usuário final em vez de uma integração de back‑end, também leia <a href="features/chat-clients.html">Chat Clients</a>, pois sessões de chat resolvem identidade, histórico de conversa, anexos e limites por usuário de forma mais direta que uma chave pública bruta.</p>
-<h2 id="2-encontre-um-modelo-ou-id-de-gateway">2. Encontre um modelo ou ID de gateway</h2>
-<p>Você pode chamar:</p>
+<h2 id="1-crie-uma-chave-de-api-privada">1. Crie uma chave de API privada</h2>
+<p>Crie uma chave <strong>privada</strong> a partir da área de Chaves de API do painel AIVAX. Copie a chave quando ela for exibida e armazene-a como um segredo; não cole o valor real no código abaixo.</p>
+<p>Chaves privadas são destinadas a aplicações confiáveis do lado do servidor. Chaves públicas são credenciais restritas para rotas do lado do cliente intencionalmente expostas e não são substitutas de uma chave de backend.</p>
+<p>Se você estiver construindo um widget web público ou experiência de mensagens, revise <a href="features/chat-clients.html">Chat clients</a> antes de expor qualquer credencial. As sessões de chat fornecem um limite mais claro para a identidade do usuário, histórico de conversas e anexos.</p>
+<p>Veja <a href="authentication.html">Authentication</a> para esquemas de autenticação suportados, comportamento de chaves privadas e públicas, e orientações sobre manipulação de segredos.</p>
+<h2 id="2-instale-o-sdk-openai">2. Instale o SDK OpenAI</h2>
+<p>Instale o SDK no ambiente Python que você usará para este exemplo:</p>
+<pre><code class="lang-bash">python -m pip install openai
+</code></pre>
+<p>Mantenha a chave fora do seu arquivo fonte. Por exemplo, defina uma variável de ambiente chamada <code>AIVAX_API_KEY</code> usando o método de gerenciamento de segredos adequado ao seu shell ou plataforma de implantação.</p>
+<h2 id="3-escolha-um-modelo-ou-ai-gateway">3. Escolha um modelo ou AI Gateway</h2>
+<p>O campo <code>model</code> pode identificar:</p>
 <ul>
-<li>Um nome de modelo hospedado retornado pelo endpoint de listagem de modelos.</li>
-<li>Um identificador de gateway da sua conta.</li>
+<li>Um modelo hospedado retornado pelo endpoint de listagem de modelos.</li>
+<li>Um AI Gateway disponível na sua conta.</li>
 </ul>
-<p>Slugs de gateway são suportados para chaves privadas. Conclusões de chat com chave pública devem usar o UUID completo do gateway e não podem chamar modelos integrados diretamente.</p>
-<p>Use um nome de modelo hospedado quando precisar apenas de uma chamada direta ao modelo. Use um AI Gateway quando quiser comportamento reutilizável: instruções, coleções RAG, ferramentas integradas, workers, servidores MCP, funções de protocolo, habilidades, moderação ou configurações de provedor. Um gateway torna‑se a “configuração de assistente” estável que sua aplicação pode chamar repetidamente sem reconstruir as mesmas opções a cada requisição.</p>
-<p>Se ainda estiver explorando, liste os modelos primeiro e faça uma chamada direta. Quando o prompt, ferramentas ou regras de recuperação começarem a fazer parte do produto, mova essa configuração para um <a href="inference/ai-gateway.html">AI Gateway</a>.</p>
-<p>Reference:</p>
+<p>Use um <strong>modelo hospedado</strong> para uma chamada direta, única ou experimento inicial. Use um <strong>AI Gateway</strong> quando quiser reutilizar o mesmo modelo, instruções, coleções RAG, habilidades, ferramentas, moderação e configurações de saída em várias solicitações ou usuários.</p>
+<p>Slugs de gateway são suportados com chaves privadas. Compleções de chat com chave pública devem usar o UUID completo do gateway e não podem chamar modelos integrados diretamente.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="3-faça-uma-solicitação-de-conclusão-de-chat">3. Faça uma solicitação de conclusão de chat</h2>
-<p>Instale o SDK OpenAI para sua linguagem e, em seguida, aponte‑o para a AIVAX:</p>
-<pre><code class="lang-python">from openai import OpenAI
+<p>Copie um nome de modelo ou identificador de gateway que esteja disponível na sua conta. Você o usará como <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> na próxima etapa.</p>
+<h2 id="4-faça-a-primeira-solicitação">4. Faça a primeira solicitação</h2>
+<p>Crie um arquivo chamado <code>quickstart.py</code> com o seguinte código:</p>
+<pre><code class="lang-python">import os
+
+from openai import OpenAI
 
 client = OpenAI(
     base_url=&quot;https://inference.aivax.net/v1&quot;,
-    api_key=&quot;sk-aiv-acc...&quot;
+    api_key=os.environ[&quot;AIVAX_API_KEY&quot;],
 )
 
 response = client.chat.completions.create(
     model=&quot;&lt;MODEL_OR_GATEWAY_ID&gt;&quot;,
     messages=[
         {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a one-sentence welcome message.&quot;}
-    ]
+    ],
 )
 
 print(response.choices[0].message.content)
 </code></pre>
-<p>Substitua <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> por um nome de modelo integrado ou um ID de gateway disponível na sua conta.</p>
-<p>Esta requisição é intencionalmente pequena: uma mensagem de usuário, um modelo ou gateway e uma resposta. Depois que funcionar, você pode adicionar os componentes do produto um a um. Para saída JSON estruturada, veja <a href="inference/structured-responses.html">Structured Responses</a>. Para recuperar conhecimento de documentos antes de responder, crie uma <a href="rag/collections.html">RAG collection</a> e anexe‑a a um gateway. Para permitir que o modelo chame sistemas externos, compare <a href="tools/builtin-tools.html">Built-in Tools</a>, <a href="tools/mcp.html">MCP</a> e <a href="tools/protocol-functions.html">Protocol Functions</a>.</p>
-<p>Para requisições normais, continue usando <code>https://inference.aivax.net/v1</code>.</p>
-<p>Se uma chamada de inferência puder durar mais que o tempo limite do proxy Cloudflare, ou se seu cliente receber erros HTTP <code>524</code> enquanto aguarda conclusões longas, use o host de inferência direto:</p>
-<pre><code class="lang-text">https://direct.inference.aivax.net/v1
+<p>Substitua <code>&lt;MODEL_OR_GATEWAY_ID&gt;</code> pelo nome exato do modelo hospedado ou identificador de gateway selecionado na etapa anterior. Não substitua <code>AIVAX_API_KEY</code> pela própria chave; o código lê o segredo do ambiente.</p>
+<p>Execute o arquivo:</p>
+<pre><code class="lang-bash">python quickstart.py
 </code></pre>
-<p>Esse host expõe apenas os caminhos de inferência compatíveis com OpenAI necessários para listagem de modelos e conclusões de chat. Use a mesma chave de API, valor de modelo, corpo da requisição e configuração do SDK, alterando apenas a URL base:</p>
-<pre><code class="lang-python">client = OpenAI(
-    base_url=&quot;https://direct.inference.aivax.net/v1&quot;,
-    api_key=&quot;sk-aiv-acc...&quot;
-)
-</code></pre>
-<p>Reference:</p>
+<p>Uma solicitação bem-sucedida imprime uma frase gerada e sai sem erro de API.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="4-confirme-faturamento-e-limites">4. Confirme faturamento e limites</h2>
-<p>Após uma requisição bem‑sucedida, o uso é registrado contra a conta autenticada e o recurso da chave de API. O uso de modelo integrado é cobrado do saldo da conta, a menos que esteja coberto por uma janela de reserva de modelo de assinatura.</p>
-<p>Verificar o saldo após a primeira chamada é um bom passo de sanidade, pois confirma que autenticação, acesso ao modelo, rastreamento de uso e faturamento foram resolvidos sob a conta esperada. O endpoint de saldo também retorna informações de plano e limite, o que é útil antes de ativar recursos de maior volume, como importações RAG, clientes de chat ou processamento em lote.</p>
-<p>Reference:</p>
-<script src="https://inference.aivax.net/apidocs?embed-target=Get%20Account%20Balance&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-<h2 id="formatos-de-erro">Formatos de erro</h2>
-<p>AIVAX usa duas formas de resposta:</p>
+<h2 id="5-confirme-a-integração">5. Confirme a integração</h2>
+<p>Confirme que a resposta gerada corresponde ao prompt e vem do modelo ou AI Gateway selecionado na etapa anterior. Isso verifica o endpoint, credencial e seleção de modelo usados pela sua aplicação.</p>
+<p>Antes de aumentar o tráfego ou processar entradas grandes, revise <a href="pricing.html">Preços</a> e <a href="limits.html">Planos e limites</a>.</p>
+<h2 id="solucionar-problemas-da-primeira-solicitação">Solucionar problemas da primeira solicitação</h2>
+<p>AIVAX usa dois estilos de resposta:</p>
 <ul>
-<li>Endpoints compatíveis com OpenAI retornam um objeto <code>error</code> no estilo OpenAI com <code>message</code>, <code>type</code>, <code>param</code> e <code>code</code>.</li>
-<li>Endpoints administrativos retornam <code>{&quot;error&quot;: &quot;...&quot;, &quot;details&quot;: null}</code> para erros e <code>{&quot;message&quot;: &quot;...&quot;, &quot;data&quot;: ...}</code> para resultados bem‑sucedidos.</li>
+<li>Endpoints compatíveis com OpenAI retornam um objeto <code>error</code> no estilo OpenAI.</li>
+<li>Endpoints de conta e administrativos retornam um envelope de resposta AIVAX com um erro ou um valor <code>data</code> bem-sucedido.</li>
 </ul>
-<p>Falhas comuns:</p>
 <table>
 <thead>
 <tr>
 <th>Status</th>
-<th>Causa provável</th>
+<th>O que verificar</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>401 Unauthorized</code></td>
-<td>Chave de API ausente, malformada, expirada ou desconhecida.</td>
+<td><code>400 Bad Request</code></td>
+<td>Confirme o identificador do modelo ou gateway e remova parâmetros não suportados da solicitação.</td>
 </tr>
 <tr>
-<td><code>403 Forbidden</code></td>
-<td>Uma chave pública tentou chamar uma rota não‑pública, ou o recurso não é permitido.</td>
+<td><code>401 Unauthorized</code></td>
+<td>Confirme que a chave privada está presente, completa, ativa e enviada através da configuração do SDK.</td>
 </tr>
 <tr>
 <td><code>402 Payment Required</code></td>
-<td>Saldo insuficiente ou a conta excedeu a cota de armazenamento.</td>
+<td>Revise <a href="pricing.html">Preços</a> e confirme que a conta está pronta para uma solicitação paga.</td>
+</tr>
+<tr>
+<td><code>403 Forbidden</code></td>
+<td>Confirme que o tipo de chave, modelo ou recurso selecionado permite esta operação.</td>
 </tr>
 <tr>
 <td><code>429 Too Many Requests</code></td>
-<td>Um limite de taxa foi alcançado.</td>
-</tr>
-<tr>
-<td><code>400 Bad Request</code></td>
-<td>Corpo da requisição inválido, parâmetro não suportado, modelo ausente, esquema inválido ou configuração de ferramenta inválida.</td>
+<td>Tente novamente mais tarde e revise <a href="limits.html">Planos e limites</a> antes de aumentar o volume de solicitações.</td>
 </tr>
 </tbody>
 </table>
-<p>Para conclusões de chat em streaming, manipule blocos SSE normais, blocos opcionais <code>servertool</code>, metadados finais de uso, <code>[DONE]</code> e blocos de erro de streaming.</p>
-<h2 id="lista-de-verificação-de-solução-de-problemas">Lista de verificação de solução de problemas</h2>
-<p>Quando uma requisição falhar, verifique na seguinte ordem:</p>
+<p>Se a solicitação ainda falhar, verifique nesta ordem:</p>
 <ol>
-<li>A URL base é <code>https://inference.aivax.net/v1</code> para chamadas do SDK OpenAI.</li>
-<li>A chave é enviada como <code>Authorization: Bearer &lt;KEY&gt;</code>, autenticação Basic ou o parâmetro de consulta <code>api-key</code>.</li>
-<li>A conta tem saldo e cota de armazenamento suficientes.</li>
-<li>O modelo ou ID de gateway existe e é permitido pelo plano atual.</li>
-<li>A requisição está dentro dos limites de requisições, tokens, RAG, ferramentas ou lote do plano.</li>
-<li>Chamadas com chave pública usam apenas parâmetros de conclusão de chat permitidos e UUIDs completos de gateway.</li>
-<li>Ferramenta, RAG, worker ou configuração de esquema são isolados testando o mesmo prompt sem esse recurso.</li>
+<li><code>base_url</code> é <code>https://inference.aivax.net/v1</code>.</li>
+<li><code>AIVAX_API_KEY</code> está disponível para o processo Python e contém uma chave privada.</li>
+<li>O modelo ou gateway selecionado existe e está disponível para a conta.</li>
+<li>Para um gateway, teste um prompt simples antes de adicionar RAG, ferramentas, mídia ou saída estruturada, para que você possa isolar problemas de configuração.</li>
 </ol>
-<h2 id="próximos-passos">Próximos passos</h2>
+<h2 id="inferência-de-longa-duração">Inferência de longa duração</h2>
+<p>A maioria das aplicações deve usar a URL base padrão do SDK, <code>https://inference.aivax.net/v1</code>. Contudo, uma solicitação que realiza raciocínio extendido, usa várias ferramentas, processa um contexto grande ou aguarda um modelo upstream lento pode permanecer aberta mais tempo que o proxy padrão permite. Se essa solicitação terminar com HTTP <code>524</code> enquanto a AIVAX ainda a processa, use o host de inferência direta:</p>
+<pre><code class="lang-text">https://direct.inference.aivax.net/v1
+</code></pre>
+<p>O host direto contorna o caminho padrão do proxy enquanto preserva o mesmo contrato de solicitação e resposta síncrona compatível com OpenAI. Ele não transforma a solicitação em um trabalho em segundo plano: mantenha a conexão do cliente aberta até que a conclusão termine e configure um timeout do cliente que cubra o tempo de processamento esperado.</p>
+<p>Use a mesma chave de API privada, identificador de modelo ou AI Gateway, mensagens e parâmetros de solicitação. Altere a URL base do SDK e o timeout:</p>
+<pre><code class="lang-python">import os
+
+from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://direct.inference.aivax.net/v1&quot;,
+    api_key=os.environ[&quot;AIVAX_API_KEY&quot;],
+    timeout=300.0,
+)
+
+response = client.chat.completions.create(
+    model=&quot;&lt;MODEL_OR_GATEWAY_ID&gt;&quot;,
+    messages=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;Analyze this case carefully and provide a detailed recommendation.&quot;,
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+</code></pre>
+<p>O host direto suporta listagem de modelos e completações de chat compatíveis com OpenAI em <code>/v1/models</code> e <code>/v1/chat/completions</code>, incluindo seus aliases <code>/api/v1</code>. Ele também suporta rotas de geração, consulta, resposta e classificação da AIVAX. O gerenciamento de contas, gerenciamento de AI Gateway e outras APIs administrativas não são expostas por este host; continue usando <code>https://inference.aivax.net</code> para elas.</p>
+<p>Use o host direto especificamente para inferência que pode durar mais que o proxy padrão. Ele não é um fallback para respostas <code>400</code>, <code>401</code>, <code>402</code>, <code>403</code> ou <code>429</code>, e mudar de host não altera autenticação, faturamento, disponibilidade de modelo ou limites da conta. Para cargas de trabalho que não precisam de uma conexão síncrona aberta, considere <a href="features/batch.html">Batch</a> em vez disso.</p>
+<h2 id="escolha-o-próximo-produto">Escolha o próximo produto</h2>
+<p>Depois que a solicitação mínima funcionar, adicione uma capacidade de cada vez:</p>
 <ul>
-<li><a href="authentication.html">Authentication</a>: entenda chaves privadas, chaves públicas e validação reversa de hooks.</li>
-<li><a href="limits.html">Plans and limits</a>: verifique limites de requisição, limites de contexto, limites RAG, limites de ferramentas e limites de lote antes de abrir um fluxo de trabalho para usuários.</li>
-<li><a href="pricing.html">Pricing</a>: entenda como funcionam créditos, uso, armazenamento e verificações de saldo mínimo.</li>
-<li><a href="inference/ai-gateway.html">AI Gateways</a>: passe de uma chamada direta ao modelo para uma configuração de assistente reutilizável.</li>
-<li><a href="rag/collections.html">RAG collections</a>: armazene documentos e recupere‑os durante a inferência.</li>
-<li><a href="features/batch.html">Batch</a>: execute o mesmo fluxo de trabalho de IA sobre muitos registros independentes.</li>
+<li><a href="inference/ai-gateway.html">AI Gateways</a> — torne a configuração do assistente reutilizável em solicitações e usuários.</li>
+<li><a href="inference/structured-responses.html">Structured responses</a> — exija que o JSON gerado siga um esquema de aplicação.</li>
+<li><a href="rag/collections.html">RAG collections</a> — indexe seus documentos, teste a recuperação e anexe conhecimento fundamentado a um gateway.</li>
+<li><a href="tools/builtin-tools.html">Built-in tools</a>, <a href="tools/mcp.html">MCP</a> ou <a href="tools/protocol-functions.html">Protocol functions</a> — permita que o assistente recupere informações ao vivo ou execute ações.</li>
+<li><a href="features/chat-clients.html">Chat clients</a> — entregue um gateway via chat web ou canais de mensagem suportados.</li>
+<li><a href="overview.html#process-text-documents-and-media">Text and media products</a> — classifique ou segmente documentos, gere imagens ou fala, transcreva áudio e descreva mídia.</li>
+<li><a href="features/batch.html">Batch</a> — aplique o mesmo fluxo de trabalho a muitos registros independentes de forma assíncrona.</li>
+<li><a href="inference/agentic-tests.html">Agentic Tests</a> — avalie uma conversa completa de gateway antes e depois de mudanças de configuração.</li>
 </ul>
+<p>Antes de aumentar o tráfego ou processar entradas grandes, revise <a href="pricing.html">Preços</a> e <a href="limits.html">Planos e limites</a>.</p>
 
 </article>
 

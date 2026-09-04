@@ -137,6 +137,63 @@
     </span>
 </div>
 <p>The endpoint also has the API alias <code>/api/v1/chat/completions</code>.</p>
+<h2 id="provider-routing">Provider routing</h2>
+<p>Some integrated models are available through more than one provider. Provider routing lets AIVAX choose among those providers without changing the model requested by your application. This differs from model routing, which can select a different model based on request complexity.</p>
+<p>AIVAX considers providers that are currently available and compatible with the request. If only one provider is eligible, the routing preference does not change the result. Provider routing applies only to integrated AIVAX models; a bring-your-own-key gateway uses the provider endpoint configured in that gateway.</p>
+<p>Available routing preferences are:</p>
+<table>
+<thead>
+<tr>
+<th>Preference</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Balanced</code></td>
+<td>Balances price, speed, and quality. This is the default.</td>
+</tr>
+<tr>
+<td><code>Cheapest</code></td>
+<td>Selects the provider with the lowest applicable input and output token price.</td>
+</tr>
+<tr>
+<td><code>Fastest</code></td>
+<td>Prioritizes the provider with the highest available throughput.</td>
+</tr>
+<tr>
+<td><code>Quality</code></td>
+<td>Selects the provider that AIVAX ranks highest for quality, without optimizing for price or speed.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configure-routing-in-an-ai-gateway">Configure routing in an AI Gateway</h3>
+<p>Use an AI Gateway when the same routing preference should apply to every request. In the gateway editor, select an integrated model, open <strong>Routing preference</strong>, choose the preferred strategy, and save the gateway.</p>
+<p>The equivalent gateway configuration uses <code>parameters.routingOption</code>:</p>
+<pre><code class="lang-json">{
+    &quot;name&quot;: &quot;Cost-optimized assistant&quot;,
+    &quot;parameters&quot;: {
+        &quot;baseAddress&quot;: &quot;@integrated&quot;,
+        &quot;modelName&quot;: &quot;YOUR_INTEGRATED_MODEL&quot;,
+        &quot;routingOption&quot;: &quot;Cheapest&quot;
+    }
+}
+</code></pre>
+<p>After saving, call the gateway normally by using its ID or slug as <code>model</code>. AIVAX applies the stored routing preference while preserving the gateway's instructions, tools, RAG configuration, and other settings. See <a href="/docs/inference/ai-gateway">AI Gateway</a> for the complete gateway workflow.</p>
+<h3 id="override-routing-in-chatcompletions">Override routing in <code>chat/completions</code></h3>
+<p>Use <code>routing_preset</code> to choose a provider strategy for one request. The override works with a direct integrated model or an AI Gateway that uses an integrated model:</p>
+<pre><code class="lang-json">{
+    &quot;model&quot;: &quot;YOUR_INTEGRATED_MODEL_OR_GATEWAY_ID&quot;,
+    &quot;messages&quot;: [
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;Summarize this incident report.&quot;
+        }
+    ],
+    &quot;routing_preset&quot;: &quot;Fastest&quot;
+}
+</code></pre>
+<p>The accepted values are <code>Balanced</code>, <code>Cheapest</code>, <code>Fastest</code>, and <code>Quality</code>. The request value overrides the gateway's saved <code>routingOption</code> for that request only; it does not update the gateway. Because <code>routing_preset</code> is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK. Request-level routing overrides require a private API key.</p>
 <h2 id="input-and-multimodality">Input and multimodality</h2>
 <p>AIVAX accepts OpenAI-compatible message content parts for text, images, audio, videos, and files. The selected model must support the modality unless you ask AIVAX to pre-process the media into text.</p>
 <pre><code class="lang-json">{

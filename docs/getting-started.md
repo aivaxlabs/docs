@@ -128,13 +128,45 @@ If the request still fails, verify in this order:
 3. The selected model or gateway exists and is available to the account.
 4. For a gateway, test a plain prompt before adding RAG, tools, media, or structured output so you can isolate configuration problems.
 
-For completions that can exceed the standard proxy timeout, use the direct inference SDK base URL:
+## Long-running inference
+
+Most applications should use the standard SDK base URL, `https://inference.aivax.net/v1`. However, a request that performs extended reasoning, uses several tools, processes a large context, or waits for a slow upstream model can remain open longer than the standard proxy allows. If that request ends with HTTP `524` while AIVAX is still processing it, use the direct inference host:
 
 ```text
 https://direct.inference.aivax.net/v1
 ```
 
-The direct host exposes the OpenAI-compatible model listing and chat completion paths. Keep the same API key, model value, request body, and SDK usage; change only the base URL. Use it when a request receives HTTP `524` while waiting for a long completion, not as a general fallback for authentication or request errors.
+The direct host bypasses the standard proxy path while preserving the same synchronous OpenAI-compatible request and response contract. It does not turn the request into a background job: keep the client connection open until the completion finishes, and configure a client timeout that covers the expected processing time.
+
+Use the same private API key, model or AI Gateway identifier, messages, and request parameters. Change the SDK base URL and timeout:
+
+```python
+import os
+
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://direct.inference.aivax.net/v1",
+    api_key=os.environ["AIVAX_API_KEY"],
+    timeout=300.0,
+)
+
+response = client.chat.completions.create(
+    model="<MODEL_OR_GATEWAY_ID>",
+    messages=[
+        {
+            "role": "user",
+            "content": "Analyze this case carefully and provide a detailed recommendation.",
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+The direct host supports OpenAI-compatible model listing and chat completions at `/v1/models` and `/v1/chat/completions`, including their `/api/v1` aliases. It also supports AIVAX generation, query, answer, and ranking routes. Account management, AI Gateway management, and other administrative APIs are not exposed through this host; continue to use `https://inference.aivax.net` for them.
+
+Use the direct host specifically for inference that can outlast the standard proxy. It is not a fallback for `400`, `401`, `402`, `403`, or `429` responses, and changing hosts does not change authentication, billing, model availability, or account limits. For workloads that do not need an open synchronous connection, consider [Batch](features/batch.md) instead.
 
 ## Choose the next product
 
