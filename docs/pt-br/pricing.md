@@ -1,131 +1,113 @@
 # Preços
 
-AIVAX usa um saldo de conta pré-pago. Faturas pagas adicionam crédito à conta, e registros de uso subtraem desse saldo.
+Os preços de uso do serviço são listados abaixo em USD. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam com o modelo usado e o trabalho realizado.
 
-O backend calcula o saldo como:
+Consulte [preço de assinatura](https://aivax.net/pricing) para preços dos planos mensais e [Planos e limites](limits.md) para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:
+- Gratuito: **+25%** nos impostos de inferência;
+- Pro: **+5%** nos impostos de inferência;
+- Max: **0%** nos impostos de inferência.
 
-```text
-balance = paid, unexpired invoice total - usage total
-```
+BYOK não são afetados pelos impostos de inferência.
 
-Use a [página de preços da AIVAX](https://aivax.net/pricing) para preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que é visível no código‑fonte da API.
+## Inferência e Moderação
 
-## Créditos e faturas
+Taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo entrada, entrada em cache e uso de saída; seu preço por PU varia com o modelo e provedor usados.
 
-Créditos são representados como faturas.
+| Description | Pricing |
+| --- | ---: |
+| Inferência de modelo de IA e Gateway de IA | Taxas do modelo e provedor selecionados |
+| Moderação de entrada | Preço variável por PU; separado da cobrança principal de inferência |
 
-- Faturas pagas aumentam o saldo utilizável da conta até a data de expiração.
-- Faturas de pagamento não pagas são criadas com expiração de um ano.
-- Faturas não pagas com mais de três dias são removidas pela limpeza.
-- Faturas pagas expiradas não contam mais para o saldo.
-- A criação de fatura de pagamento requer pelo menos 3 USD e tem limite de taxa.
+## Testes de Agente
 
-## Faturamento de uso
+Cada teste inclui as cobranças de inferência do modelo selecionado ou do Gateway de IA, mais o uso de usuário simulado e juiz nas taxas do perfil selecionado.
 
-Cada operação faturável grava um ou mais registros de uso. Cada registro de uso contém:
+| Description | Pricing |
+| --- | ---: |
+| Modelo ou Gateway de IA em teste | Taxas de inferência regulares |
+| Perfil baixo - usuário simulado | Input **$0.25/M tokens**; cache **$0.025/M tokens**; output **$1.50/M tokens** |
+| Perfil baixo - juiz | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$2.50/M tokens** |
+| Perfil médio - usuário simulado | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| Perfil médio - juiz | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| Perfil alto - usuário simulado | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| Perfil alto - juiz | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
 
-- Descrição.
-- Preço unitário.
-- Quantidade.
-- Nome do modelo opcional.
-- Categoria de uso.
-- Recursos como chave de API, gateway ou coleção.
+## RAG e Coleções
 
-O preço unitário final é multiplicado pelo multiplicador de imposto da conta e pelo multiplicador de comissão do plano atual.
+Indexação e busca são cobradas por uso de tokens. Respostas RAG geradas são cobradas separadamente da incorporação de consulta, e seu preço varia com o modelo de sumarização.
 
-### Créditos consumidos por solicitação
+| Description | Pricing |
+| --- | ---: |
+| Incorporação de texto da coleção | **$0.015/M tokens** |
+| Busca semântica - falha no cache de consulta | **$0.015/M tokens** |
+| Busca semântica - acerto no cache de consulta | Zero |
+| Geração de resposta RAG | **~$0.50/M tokens**, excluindo taxas de consulta |
+| Reflex - falha no cache | **$0.015/M tokens** |
+| Reflex - acerto no cache | **$0.003/M tokens** |
 
-Quando uma solicitação relata uso, a AIVAX inclui o total de créditos cobrados por aquela solicitação no cabeçalho da resposta:
+## Injetor de Mídia
 
-```text
-Consumed-Credits: 0.005
-```
+Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, saída e uso de mídia. O arquivo fonte, o contexto opcional e o conteúdo gerado afetam o total. As taxas dependem do tipo de mídia e do volume de tokens de entrada.
 
-O valor é um número decimal de créditos, formatado com ponto como separador decimal. É o total da solicitação completa, incluindo todas as operações faturáveis realizadas durante o seu processamento. Uma operação rastreada que não tem custo pode retornar `Consumed-Credits: 0`.
+| Description | Pricing |
+| --- | ---: |
+| PDFs e imagens - até 272K tokens de entrada | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$1.80/M tokens** |
+| PDFs e imagens - acima de 272K tokens de entrada | Input **$0.60/M tokens**; cache **$0.06/M tokens**; output **$3.60/M tokens** |
+| Áudio - até 256K tokens de entrada | Input/media **$0.60/M tokens**; cache **$0.12/M tokens**; output **$3.00/M tokens** |
+| Áudio - acima de 256K tokens de entrada | Input/media **$1.20/M tokens**; cache **$0.24/M tokens**; output **$6.00/M tokens** |
+| Vídeo | Input/media **$0.45/M tokens**; cache **$0.045/M tokens**; output **$3.75/M tokens** |
 
-Se o cabeçalho estiver ausente, a solicitação não relatou um total de uso. Não trate um cabeçalho ausente como `0`. Este cabeçalho relata apenas o consumo da solicitação atual; use as APIs de saldo da conta para obter o saldo disponível ou o histórico de faturamento mais amplo.
+## Ferramentas de Texto
 
-| Plano | Multiplicador de comissão |
-| --- | --- |
-| Gratuito | 1,25x |
-| Pro | 1,05x |
-| Max | 1,00x |
+Segmentação e classificação de texto são cobradas por uso de tokens.
 
-## Lista de preços
+| Description | Pricing |
+| --- | ---: |
+| Segmentação de texto | **$0.30/M tokens** |
+| Classificação de texto | **$0.015/M tokens** |
 
-| Serviço | Preço |
-| ------- | ------------ |
-| **Conta** |
-| Armazenamento | - Plano Gratuito: **30 MB** incluídos, sem expansão<br>- Plano Pro: **2 GB** incluídos, **$0,50/GB/mês** para excesso, cobrado por hora<br>- Plano Max: **20 GB** incluídos, **$0,20/GB/mês** para excesso, cobrado por hora |
-| **Inferência** |
-| Moderação | - Entrada: **$0,10/M tokens**<br>- Cache: **$0,0375/M tokens**<br>- Saída: **$0,30/M tokens**<br>- Tamanho do contexto: 16 K tokens |
-| <a id="agentic-tests"></a><a id="agentic-validations"></a>Testes Agentes | - Modelo selecionado ou Gateway de IA: suas taxas de inferência regulares<br>- Perfil `low` — usuário simulado: entrada **$0,25/M tokens**, entrada em cache **$0,025/M tokens**, saída **$1,50/M tokens**; juiz: entrada **$0,30/M tokens**, entrada em cache **$0,03/M tokens**, saída **$2,50/M tokens**<br>- Perfil `medium` (padrão) — usuário e juiz simulados, cada um: entrada **$0,75/M tokens**, entrada em cache **$0,075/M tokens**, saída **$3,75/M tokens**<br>- Perfil `high` — usuário simulado: entrada **$0,75/M tokens**, entrada em cache **$0,075/M tokens**, saída **$3,75/M tokens**; juiz: entrada **$1,25/M tokens**, entrada em cache **$0,15/M tokens**, saída **$4,25/M tokens** |
-| **RAG e coleções** |
-| Coleções | Incorporação de texto: **$0,015/M tokens** |
-| Injetor de mídia | - PDFs e imagens, até 272 K tokens de entrada: entrada **$0,30/M tokens**, entrada em cache **$0,03/M tokens**, saída **$1,80/M tokens**<br>- PDFs e imagens, acima de 272 K tokens de entrada: entrada **$0,60/M tokens**, entrada em cache **$0,06/M tokens**, saída **$3,60/M tokens**<br>- Áudio, até 256 K tokens de entrada: entrada/mídia **$0,60/M tokens**, entrada em cache **$0,12/M tokens**, saída **$3,00/M tokens**<br>- Áudio, acima de 256 K tokens de entrada: entrada/mídia **$1,20/M tokens**, entrada em cache **$0,24/M tokens**, saída **$6,00/M tokens**<br>- Vídeo: entrada/mídia **$0,45/M tokens**, entrada em cache **$0,045/M tokens**, saída **$3,75/M tokens** (4) |
-| Busca semântica | Consulta: **$0,015/M tokens** |
-| Respostas RAG | ~**$0,50/M tokens** (3) |
-| Segmentação de texto | **$0,30/M tokens** |
-| Classificação de texto | **$0,015/M tokens** |
-| Reflexão | - Falha de cache: **$0,015/M tokens**<br>- Acerto de cache: **$0,003/M tokens** |
-| **Voz e fala** |
+## Voz e Mídia
+
+Taxas de geração e transcrição dependem do modelo selecionado. O preço de descrições de mídia é aproximado e depende do modelo de processamento disponível.
+
+| Description | Pricing |
+| --- | ---: |
 | Sessões de voz | Taxas do modelo em tempo real selecionado |
-| **Acesso à Internet** |
-| Busca na web | **$5/1k buscas** |
-| Busca no X (Twitter) | **$5/1k buscas** |
-| Busca avançada na web | ~**$0,75/M tokens** (1) |
-| Busca e extração OCR | - Plano Gratuito: **1 000 PU/dia gratuitos**, **$0,15/1k PUs**<br>- Plano Pro: **10 000 PU/dia gratuitos**, **$0,05/1k PUs**<br>- Plano Max: **50 000 PU/dia gratuitos**, **$0,02/1k PUs** (2) |
-| **Geração de mídia** |
-| Geração de imagens | Varia por modelo |
-| Conversão de fala para texto | Varia por modelo |
-| Conversão de texto para fala | Varia por modelo |
-| Descrições de mídia | **~$1,50/mtokens** (2) |
-| **Outras ferramentas** |
-| Memória e calendário | Sem custo |
-| Solicitações avançadas | Sem custo |
-| Geração de documentos | Sem custo |
-| Geração de páginas web | Sem custo |
+| Fala para texto | Varia de acordo com o modelo |
+| Texto para fala | Varia de acordo com o modelo |
+| Geração de imagem | Varia de acordo com o modelo |
+| Descrições de mídia | **~$1.50/M tokens** |
 
-- <small>(1) O preço de busca avançada na Internet aplica‑se a um modelo externo conectado à Internet e às ferramentas de busca; o preço varia conforme o número de interações realizadas pelo agente.</small>
-- <small>(2) O preço para extração de texto a partir de mídia aplica‑se a um pequeno modelo omni‑modal, sujeito à disponibilidade.</small>
-- <small>(3) O preço para geração de resposta RAG não inclui o custo da incorporação da consulta; o preço varia conforme o modelo de sumarização.</small>
-- <small>(4) O Injetor de mídia é cobrado pelo total de entrada, entrada em cache, saída e uso de mídia produzidos ao criar documentos RAG. O arquivo fonte, o contexto opcional e o conteúdo gerado podem afetar o uso de tokens. Os multiplicadores de imposto da conta e de comissão do plano ainda se aplicam.</small>
+## Busca na Web, OCR e Busca
 
-## Faturamento de inferência
+Buscas na Web e X são cobradas por busca. Busca avançada na web é cobrada por uso de tokens e varia com o modelo e o número de interações. Busca e extração de OCR utilizam Unidades de Processamento (PUs), com uma quota diária gratuita por plano. Essas quotas e taxas de PU não se aplicam à moderação.
 
-O faturamento de modelo integrado usa a tabela de preços do modelo do backend. O preço pode variar por modelo e por limite de tokens de entrada. O uso pode incluir:
+| Description | Pricing |
+| --- | ---: |
+| Busca na Web | **$5/1k searches** |
+| Busca X (Twitter) | **$5/1k searches** |
+| Busca avançada na web | **~$0.75/M tokens** |
+| Busca e extração de OCR - Gratuito | **1,000 PUs/day free**, then **$0.15/1k PUs** |
+| Busca e extração de OCR - Pro | **10,000 PUs/day free**, then **$0.05/1k PUs** |
+| Busca e extração de OCR - Max | **50,000 PUs/day free**, then **$0.02/1k PUs** |
 
-- Tokens de entrada de texto.
-- Tokens de entrada em cache, quando o modelo selecionado tem preço de entrada em cache.
-- Tokens de entrada de áudio, quando aplicável.
-- Tokens de entrada de imagem, quando aplicável.
-- Tokens de saída, incluindo tokens de saída de áudio quando aplicável.
+## Armazenamento
 
-Chamadas BYOK (Bring-Your-Own-Key) usam sua chave de provedor externo, mas a AIVAX ainda impõe limites de solicitações BYOK porque a requisição passa pela infraestrutura da AIVAX.
+Cada plano inclui armazenamento. Excedentes dos planos Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.
 
-## Requisitos de saldo
+| Description | Pricing |
+| --- | ---: |
+| Armazenamento gratuito | **30 MB incluídos**; sem expansão |
+| Armazenamento Pro | **2 GB incluídos**; excedente **$0.50/GB/mês** |
+| Armazenamento Max | **20 GB incluídos**; excedente **$0.20/GB/mês** |
 
-Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também interrompem quando o saldo está zero ou negativo. Algumas entradas de chat‑completação multimodais exigem um saldo mínimo antes que a chamada ao modelo comece:
+## Outras Ferramentas
 
-| Tipo de entrada | Saldo mínimo |
-| --- | --- |
-| Imagem ou áudio | $0,10 |
-| Arquivo ou vídeo | $0,50 |
+As ferramentas a seguir não têm cobrança separada. A inferência do modelo usada para invocá-las ainda é cobrada à sua taxa regular.
 
-Se o saldo da conta for muito baixo, a API retorna `402 Payment Required`.
-
-## Planos e limites
-
-Os planos afetam tanto preço quanto operação:
-
-- Acesso ao modelo.
-- Multiplicador de comissão.
-- Limites de taxa de solicitações e tokens.
-- Limites de solicitações BYOK.
-- Cotas RAG.
-- Limites de ferramentas.
-- Cota de armazenamento e preço de excesso.
-- Retenção de conversas.
-- Janelas de reserva do modelo de assinatura.
-
-Consulte [Planos e limites](limits.md) para a matriz técnica de cotas.
+| Description | Pricing |
+| --- | ---: |
+| Memória e calendário | Sem cobrança separada |
+| Solicitações avançadas | Sem cobrança separada |
+| Geração de documento | Sem cobrança separada |
+| Geração de página web | Sem cobrança separada |

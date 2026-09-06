@@ -127,241 +127,282 @@
                 <article data-uid="">
 <h1 id="preços">Preços</h1>
 
-<p>AIVAX usa um saldo de conta pré-pago. Faturas pagas adicionam crédito à conta, e registros de uso subtraem desse saldo.</p>
-<p>O backend calcula o saldo como:</p>
-<pre><code class="lang-text">balance = paid, unexpired invoice total - usage total
-</code></pre>
-<p>Use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a> para preços atuais dos planos comerciais. Esta página documenta o comportamento de faturamento que é visível no código‑fonte da API.</p>
-<h2 id="créditos-e-faturas">Créditos e faturas</h2>
-<p>Créditos são representados como faturas.</p>
+<p>Os preços de uso do serviço são listados abaixo em USD. <strong>M</strong> significa um milhão de tokens; <strong>1k</strong> significa mil unidades. Preços aproximados (<code>~</code>) variam com o modelo usado e o trabalho realizado.</p>
+<p>Consulte <a href="https://aivax.net/pricing">preço de assinatura</a> para preços dos planos mensais e <a href="limits.html">Planos e limites</a> para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:</p>
 <ul>
-<li>Faturas pagas aumentam o saldo utilizável da conta até a data de expiração.</li>
-<li>Faturas de pagamento não pagas são criadas com expiração de um ano.</li>
-<li>Faturas não pagas com mais de três dias são removidas pela limpeza.</li>
-<li>Faturas pagas expiradas não contam mais para o saldo.</li>
-<li>A criação de fatura de pagamento requer pelo menos 3 USD e tem limite de taxa.</li>
+<li>Gratuito: <strong>+25%</strong> nos impostos de inferência;</li>
+<li>Pro: <strong>+5%</strong> nos impostos de inferência;</li>
+<li>Max: <strong>0%</strong> nos impostos de inferência.</li>
 </ul>
-<h2 id="faturamento-de-uso">Faturamento de uso</h2>
-<p>Cada operação faturável grava um ou mais registros de uso. Cada registro de uso contém:</p>
-<ul>
-<li>Descrição.</li>
-<li>Preço unitário.</li>
-<li>Quantidade.</li>
-<li>Nome do modelo opcional.</li>
-<li>Categoria de uso.</li>
-<li>Recursos como chave de API, gateway ou coleção.</li>
-</ul>
-<p>O preço unitário final é multiplicado pelo multiplicador de imposto da conta e pelo multiplicador de comissão do plano atual.</p>
-<h3 id="créditos-consumidos-por-solicitação">Créditos consumidos por solicitação</h3>
-<p>Quando uma solicitação relata uso, a AIVAX inclui o total de créditos cobrados por aquela solicitação no cabeçalho da resposta:</p>
-<pre><code class="lang-text">Consumed-Credits: 0.005
-</code></pre>
-<p>O valor é um número decimal de créditos, formatado com ponto como separador decimal. É o total da solicitação completa, incluindo todas as operações faturáveis realizadas durante o seu processamento. Uma operação rastreada que não tem custo pode retornar <code>Consumed-Credits: 0</code>.</p>
-<p>Se o cabeçalho estiver ausente, a solicitação não relatou um total de uso. Não trate um cabeçalho ausente como <code>0</code>. Este cabeçalho relata apenas o consumo da solicitação atual; use as APIs de saldo da conta para obter o saldo disponível ou o histórico de faturamento mais amplo.</p>
+<p>BYOK não são afetados pelos impostos de inferência.</p>
+<h2 id="inferência-e-moderação">Inferência e Moderação</h2>
+<p>Taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo entrada, entrada em cache e uso de saída; seu preço por PU varia com o modelo e provedor usados.</p>
 <table>
 <thead>
 <tr>
-<th>Plano</th>
-<th>Multiplicador de comissão</th>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Gratuito</td>
-<td>1,25x</td>
+<td>Inferência de modelo de IA e Gateway de IA</td>
+<td style="text-align: right;">Taxas do modelo e provedor selecionados</td>
 </tr>
 <tr>
-<td>Pro</td>
-<td>1,05x</td>
-</tr>
-<tr>
-<td>Max</td>
-<td>1,00x</td>
+<td>Moderação de entrada</td>
+<td style="text-align: right;">Preço variável por PU; separado da cobrança principal de inferência</td>
 </tr>
 </tbody>
 </table>
-<h2 id="lista-de-preços">Lista de preços</h2>
+<h2 id="testes-de-agente">Testes de Agente</h2>
+<p>Cada teste inclui as cobranças de inferência do modelo selecionado ou do Gateway de IA, mais o uso de usuário simulado e juiz nas taxas do perfil selecionado.</p>
 <table>
 <thead>
 <tr>
-<th>Serviço</th>
-<th>Preço</th>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Conta</strong></td>
-<td></td>
+<td>Modelo ou Gateway de IA em teste</td>
+<td style="text-align: right;">Taxas de inferência regulares</td>
 </tr>
 <tr>
-<td>Armazenamento</td>
-<td>- Plano Gratuito: <strong>30 MB</strong> incluídos, sem expansão<br>- Plano Pro: <strong>2 GB</strong> incluídos, <strong>$0,50/GB/mês</strong> para excesso, cobrado por hora<br>- Plano Max: <strong>20 GB</strong> incluídos, <strong>$0,20/GB/mês</strong> para excesso, cobrado por hora</td>
+<td>Perfil baixo - usuário simulado</td>
+<td style="text-align: right;">Input <strong>$0.25/M tokens</strong>; cache <strong>$0.025/M tokens</strong>; output <strong>$1.50/M tokens</strong></td>
 </tr>
 <tr>
-<td><strong>Inferência</strong></td>
-<td></td>
+<td>Perfil baixo - juiz</td>
+<td style="text-align: right;">Input <strong>$0.30/M tokens</strong>; cache <strong>$0.03/M tokens</strong>; output <strong>$2.50/M tokens</strong></td>
 </tr>
 <tr>
-<td>Moderação</td>
-<td>- Entrada: <strong>$0,10/M tokens</strong><br>- Cache: <strong>$0,0375/M tokens</strong><br>- Saída: <strong>$0,30/M tokens</strong><br>- Tamanho do contexto: 16 K tokens</td>
+<td>Perfil médio - usuário simulado</td>
+<td style="text-align: right;">Input <strong>$0.75/M tokens</strong>; cache <strong>$0.075/M tokens</strong>; output <strong>$3.75/M tokens</strong></td>
 </tr>
 <tr>
-<td><a id="agentic-tests"></a><a id="agentic-validations"></a>Testes Agentes</td>
-<td>- Modelo selecionado ou Gateway de IA: suas taxas de inferência regulares<br>- Perfil <code>low</code> — usuário simulado: entrada <strong>$0,25/M tokens</strong>, entrada em cache <strong>$0,025/M tokens</strong>, saída <strong>$1,50/M tokens</strong>; juiz: entrada <strong>$0,30/M tokens</strong>, entrada em cache <strong>$0,03/M tokens</strong>, saída <strong>$2,50/M tokens</strong><br>- Perfil <code>medium</code> (padrão) — usuário e juiz simulados, cada um: entrada <strong>$0,75/M tokens</strong>, entrada em cache <strong>$0,075/M tokens</strong>, saída <strong>$3,75/M tokens</strong><br>- Perfil <code>high</code> — usuário simulado: entrada <strong>$0,75/M tokens</strong>, entrada em cache <strong>$0,075/M tokens</strong>, saída <strong>$3,75/M tokens</strong>; juiz: entrada <strong>$1,25/M tokens</strong>, entrada em cache <strong>$0,15/M tokens</strong>, saída <strong>$4,25/M tokens</strong></td>
+<td>Perfil médio - juiz</td>
+<td style="text-align: right;">Input <strong>$0.75/M tokens</strong>; cache <strong>$0.075/M tokens</strong>; output <strong>$3.75/M tokens</strong></td>
 </tr>
 <tr>
-<td><strong>RAG e coleções</strong></td>
-<td></td>
+<td>Perfil alto - usuário simulado</td>
+<td style="text-align: right;">Input <strong>$0.75/M tokens</strong>; cache <strong>$0.075/M tokens</strong>; output <strong>$3.75/M tokens</strong></td>
 </tr>
 <tr>
-<td>Coleções</td>
-<td>Incorporação de texto: <strong>$0,015/M tokens</strong></td>
+<td>Perfil alto - juiz</td>
+<td style="text-align: right;">Input <strong>$1.25/M tokens</strong>; cache <strong>$0.15/M tokens</strong>; output <strong>$4.25/M tokens</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="rag-e-coleções">RAG e Coleções</h2>
+<p>Indexação e busca são cobradas por uso de tokens. Respostas RAG geradas são cobradas separadamente da incorporação de consulta, e seu preço varia com o modelo de sumarização.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incorporação de texto da coleção</td>
+<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
 </tr>
 <tr>
-<td>Injetor de mídia</td>
-<td>- PDFs e imagens, até 272 K tokens de entrada: entrada <strong>$0,30/M tokens</strong>, entrada em cache <strong>$0,03/M tokens</strong>, saída <strong>$1,80/M tokens</strong><br>- PDFs e imagens, acima de 272 K tokens de entrada: entrada <strong>$0,60/M tokens</strong>, entrada em cache <strong>$0,06/M tokens</strong>, saída <strong>$3,60/M tokens</strong><br>- Áudio, até 256 K tokens de entrada: entrada/mídia <strong>$0,60/M tokens</strong>, entrada em cache <strong>$0,12/M tokens</strong>, saída <strong>$3,00/M tokens</strong><br>- Áudio, acima de 256 K tokens de entrada: entrada/mídia <strong>$1,20/M tokens</strong>, entrada em cache <strong>$0,24/M tokens</strong>, saída <strong>$6,00/M tokens</strong><br>- Vídeo: entrada/mídia <strong>$0,45/M tokens</strong>, entrada em cache <strong>$0,045/M tokens</strong>, saída <strong>$3,75/M tokens</strong> (4)</td>
+<td>Busca semântica - falha no cache de consulta</td>
+<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
 </tr>
 <tr>
-<td>Busca semântica</td>
-<td>Consulta: <strong>$0,015/M tokens</strong></td>
+<td>Busca semântica - acerto no cache de consulta</td>
+<td style="text-align: right;">Zero</td>
 </tr>
 <tr>
-<td>Respostas RAG</td>
-<td>~<strong>$0,50/M tokens</strong> (3)</td>
+<td>Geração de resposta RAG</td>
+<td style="text-align: right;"><strong>~$0.50/M tokens</strong>, excluindo taxas de consulta</td>
 </tr>
+<tr>
+<td>Reflex - falha no cache</td>
+<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
+</tr>
+<tr>
+<td>Reflex - acerto no cache</td>
+<td style="text-align: right;"><strong>$0.003/M tokens</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="injetor-de-mídia">Injetor de Mídia</h2>
+<p>Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, saída e uso de mídia. O arquivo fonte, o contexto opcional e o conteúdo gerado afetam o total. As taxas dependem do tipo de mídia e do volume de tokens de entrada.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDFs e imagens - até 272K tokens de entrada</td>
+<td style="text-align: right;">Input <strong>$0.30/M tokens</strong>; cache <strong>$0.03/M tokens</strong>; output <strong>$1.80/M tokens</strong></td>
+</tr>
+<tr>
+<td>PDFs e imagens - acima de 272K tokens de entrada</td>
+<td style="text-align: right;">Input <strong>$0.60/M tokens</strong>; cache <strong>$0.06/M tokens</strong>; output <strong>$3.60/M tokens</strong></td>
+</tr>
+<tr>
+<td>Áudio - até 256K tokens de entrada</td>
+<td style="text-align: right;">Input/media <strong>$0.60/M tokens</strong>; cache <strong>$0.12/M tokens</strong>; output <strong>$3.00/M tokens</strong></td>
+</tr>
+<tr>
+<td>Áudio - acima de 256K tokens de entrada</td>
+<td style="text-align: right;">Input/media <strong>$1.20/M tokens</strong>; cache <strong>$0.24/M tokens</strong>; output <strong>$6.00/M tokens</strong></td>
+</tr>
+<tr>
+<td>Vídeo</td>
+<td style="text-align: right;">Input/media <strong>$0.45/M tokens</strong>; cache <strong>$0.045/M tokens</strong>; output <strong>$3.75/M tokens</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ferramentas-de-texto">Ferramentas de Texto</h2>
+<p>Segmentação e classificação de texto são cobradas por uso de tokens.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>Segmentação de texto</td>
-<td><strong>$0,30/M tokens</strong></td>
+<td style="text-align: right;"><strong>$0.30/M tokens</strong></td>
 </tr>
 <tr>
 <td>Classificação de texto</td>
-<td><strong>$0,015/M tokens</strong></td>
-</tr>
-<tr>
-<td>Reflexão</td>
-<td>- Falha de cache: <strong>$0,015/M tokens</strong><br>- Acerto de cache: <strong>$0,003/M tokens</strong></td>
-</tr>
-<tr>
-<td><strong>Voz e fala</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Sessões de voz</td>
-<td>Taxas do modelo em tempo real selecionado</td>
-</tr>
-<tr>
-<td><strong>Acesso à Internet</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Busca na web</td>
-<td><strong>$5/1k buscas</strong></td>
-</tr>
-<tr>
-<td>Busca no X (Twitter)</td>
-<td><strong>$5/1k buscas</strong></td>
-</tr>
-<tr>
-<td>Busca avançada na web</td>
-<td>~<strong>$0,75/M tokens</strong> (1)</td>
-</tr>
-<tr>
-<td>Busca e extração OCR</td>
-<td>- Plano Gratuito: <strong>1 000 PU/dia gratuitos</strong>, <strong>$0,15/1k PUs</strong><br>- Plano Pro: <strong>10 000 PU/dia gratuitos</strong>, <strong>$0,05/1k PUs</strong><br>- Plano Max: <strong>50 000 PU/dia gratuitos</strong>, <strong>$0,02/1k PUs</strong> (2)</td>
-</tr>
-<tr>
-<td><strong>Geração de mídia</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Geração de imagens</td>
-<td>Varia por modelo</td>
-</tr>
-<tr>
-<td>Conversão de fala para texto</td>
-<td>Varia por modelo</td>
-</tr>
-<tr>
-<td>Conversão de texto para fala</td>
-<td>Varia por modelo</td>
-</tr>
-<tr>
-<td>Descrições de mídia</td>
-<td><strong>~$1,50/mtokens</strong> (2)</td>
-</tr>
-<tr>
-<td><strong>Outras ferramentas</strong></td>
-<td></td>
-</tr>
-<tr>
-<td>Memória e calendário</td>
-<td>Sem custo</td>
-</tr>
-<tr>
-<td>Solicitações avançadas</td>
-<td>Sem custo</td>
-</tr>
-<tr>
-<td>Geração de documentos</td>
-<td>Sem custo</td>
-</tr>
-<tr>
-<td>Geração de páginas web</td>
-<td>Sem custo</td>
+<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li><small>(1) O preço de busca avançada na Internet aplica‑se a um modelo externo conectado à Internet e às ferramentas de busca; o preço varia conforme o número de interações realizadas pelo agente.</small></li>
-<li><small>(2) O preço para extração de texto a partir de mídia aplica‑se a um pequeno modelo omni‑modal, sujeito à disponibilidade.</small></li>
-<li><small>(3) O preço para geração de resposta RAG não inclui o custo da incorporação da consulta; o preço varia conforme o modelo de sumarização.</small></li>
-<li><small>(4) O Injetor de mídia é cobrado pelo total de entrada, entrada em cache, saída e uso de mídia produzidos ao criar documentos RAG. O arquivo fonte, o contexto opcional e o conteúdo gerado podem afetar o uso de tokens. Os multiplicadores de imposto da conta e de comissão do plano ainda se aplicam.</small></li>
-</ul>
-<h2 id="faturamento-de-inferência">Faturamento de inferência</h2>
-<p>O faturamento de modelo integrado usa a tabela de preços do modelo do backend. O preço pode variar por modelo e por limite de tokens de entrada. O uso pode incluir:</p>
-<ul>
-<li>Tokens de entrada de texto.</li>
-<li>Tokens de entrada em cache, quando o modelo selecionado tem preço de entrada em cache.</li>
-<li>Tokens de entrada de áudio, quando aplicável.</li>
-<li>Tokens de entrada de imagem, quando aplicável.</li>
-<li>Tokens de saída, incluindo tokens de saída de áudio quando aplicável.</li>
-</ul>
-<p>Chamadas BYOK (Bring-Your-Own-Key) usam sua chave de provedor externo, mas a AIVAX ainda impõe limites de solicitações BYOK porque a requisição passa pela infraestrutura da AIVAX.</p>
-<h2 id="requisitos-de-saldo">Requisitos de saldo</h2>
-<p>Rotas faturáveis verificam o saldo antes de executar. O middleware genérico de saldo rejeita saldos abaixo do mínimo da rota; clientes de chat, integrações e processamento em lote também interrompem quando o saldo está zero ou negativo. Algumas entradas de chat‑completação multimodais exigem um saldo mínimo antes que a chamada ao modelo comece:</p>
+<h2 id="voz-e-mídia">Voz e Mídia</h2>
+<p>Taxas de geração e transcrição dependem do modelo selecionado. O preço de descrições de mídia é aproximado e depende do modelo de processamento disponível.</p>
 <table>
 <thead>
 <tr>
-<th>Tipo de entrada</th>
-<th>Saldo mínimo</th>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Imagem ou áudio</td>
-<td>$0,10</td>
+<td>Sessões de voz</td>
+<td style="text-align: right;">Taxas do modelo em tempo real selecionado</td>
 </tr>
 <tr>
-<td>Arquivo ou vídeo</td>
-<td>$0,50</td>
+<td>Fala para texto</td>
+<td style="text-align: right;">Varia de acordo com o modelo</td>
+</tr>
+<tr>
+<td>Texto para fala</td>
+<td style="text-align: right;">Varia de acordo com o modelo</td>
+</tr>
+<tr>
+<td>Geração de imagem</td>
+<td style="text-align: right;">Varia de acordo com o modelo</td>
+</tr>
+<tr>
+<td>Descrições de mídia</td>
+<td style="text-align: right;"><strong>~$1.50/M tokens</strong></td>
 </tr>
 </tbody>
 </table>
-<p>Se o saldo da conta for muito baixo, a API retorna <code>402 Payment Required</code>.</p>
-<h2 id="planos-e-limites">Planos e limites</h2>
-<p>Os planos afetam tanto preço quanto operação:</p>
-<ul>
-<li>Acesso ao modelo.</li>
-<li>Multiplicador de comissão.</li>
-<li>Limites de taxa de solicitações e tokens.</li>
-<li>Limites de solicitações BYOK.</li>
-<li>Cotas RAG.</li>
-<li>Limites de ferramentas.</li>
-<li>Cota de armazenamento e preço de excesso.</li>
-<li>Retenção de conversas.</li>
-<li>Janelas de reserva do modelo de assinatura.</li>
-</ul>
-<p>Consulte <a href="limits.html">Planos e limites</a> para a matriz técnica de cotas.</p>
+<h2 id="busca-na-web-ocr-e-busca">Busca na Web, OCR e Busca</h2>
+<p>Buscas na Web e X são cobradas por busca. Busca avançada na web é cobrada por uso de tokens e varia com o modelo e o número de interações. Busca e extração de OCR utilizam Unidades de Processamento (PUs), com uma quota diária gratuita por plano. Essas quotas e taxas de PU não se aplicam à moderação.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Busca na Web</td>
+<td style="text-align: right;"><strong>$5/1k searches</strong></td>
+</tr>
+<tr>
+<td>Busca X (Twitter)</td>
+<td style="text-align: right;"><strong>$5/1k searches</strong></td>
+</tr>
+<tr>
+<td>Busca avançada na web</td>
+<td style="text-align: right;"><strong>~$0.75/M tokens</strong></td>
+</tr>
+<tr>
+<td>Busca e extração de OCR - Gratuito</td>
+<td style="text-align: right;"><strong>1,000 PUs/day free</strong>, then <strong>$0.15/1k PUs</strong></td>
+</tr>
+<tr>
+<td>Busca e extração de OCR - Pro</td>
+<td style="text-align: right;"><strong>10,000 PUs/day free</strong>, then <strong>$0.05/1k PUs</strong></td>
+</tr>
+<tr>
+<td>Busca e extração de OCR - Max</td>
+<td style="text-align: right;"><strong>50,000 PUs/day free</strong>, then <strong>$0.02/1k PUs</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="armazenamento">Armazenamento</h2>
+<p>Cada plano inclui armazenamento. Excedentes dos planos Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Armazenamento gratuito</td>
+<td style="text-align: right;"><strong>30 MB incluídos</strong>; sem expansão</td>
+</tr>
+<tr>
+<td>Armazenamento Pro</td>
+<td style="text-align: right;"><strong>2 GB incluídos</strong>; excedente <strong>$0.50/GB/mês</strong></td>
+</tr>
+<tr>
+<td>Armazenamento Max</td>
+<td style="text-align: right;"><strong>20 GB incluídos</strong>; excedente <strong>$0.20/GB/mês</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="outras-ferramentas">Outras Ferramentas</h2>
+<p>As ferramentas a seguir não têm cobrança separada. A inferência do modelo usada para invocá-las ainda é cobrada à sua taxa regular.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th style="text-align: right;">Pricing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memória e calendário</td>
+<td style="text-align: right;">Sem cobrança separada</td>
+</tr>
+<tr>
+<td>Solicitações avançadas</td>
+<td style="text-align: right;">Sem cobrança separada</td>
+</tr>
+<tr>
+<td>Geração de documento</td>
+<td style="text-align: right;">Sem cobrança separada</td>
+</tr>
+<tr>
+<td>Geração de página web</td>
+<td style="text-align: right;">Sem cobrança separada</td>
+</tr>
+</tbody>
+</table>
 
 </article>
 

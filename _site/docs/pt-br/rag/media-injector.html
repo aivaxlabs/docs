@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Media Injector | AIVAX </title>
+        <title>Injetor de M&#237;dia | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Media Injector | AIVAX ">
+        <meta name="title" content="Injetor de M&#237;dia | AIVAX ">
 
 
         <link rel="icon" href="../../../assets/img/favicon.ico">
@@ -125,48 +125,47 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="media-injector">Media Injector</h1>
+<h1 id="injetor-de-mídia">Injetor de Mídia</h1>
 
-<p>Media Injector transforma um arquivo de origem em documentos focados e autônomos dentro de uma coleção RAG da AIVAX. Ele examina a origem, identifica conhecimento materialmente útil, escreve documentos factuais concisos no idioma predominante da origem e coloca esses documentos em fila para indexação semântica.</p>
-<p>Use o Media Injector quando você tem um arquivo cujo conhecimento útil ainda não foi dividido em texto pronto para recuperação. Se você já possui strings de documentos limpas, use <a href="collections.html#document-fields">Create or Update Document or JSONL import</a> em vez disso; esses caminhos são mais previsíveis e evitam o processamento adicional necessário para interpretar um arquivo de origem.</p>
+<p>O Injetor de Mídia transforma um arquivo de origem em documentos focados e autônomos dentro de uma coleção RAG da AIVAX. Ele examina a origem, identifica conhecimento materialmente útil, redige documentos factuais concisos no idioma predominante da origem e coloca esses documentos em fila para indexação semântica.</p>
+<p>Use o Injetor de Mídia quando você tem um arquivo cujo conhecimento útil ainda não foi dividido em texto pronto para recuperação. Se já possuir strings de documento limpas, use <a href="collections.html#document-fields">Create or Update Document or JSONL import</a> em vez disso; esses caminhos são mais previsíveis e evitam o processamento adicional necessário para interpretar um arquivo de origem.</p>
 <h2 id="quando-usar">Quando usar</h2>
-<p>Media Injector é útil para:</p>
+<p>O Injetor de Mídia é útil para:</p>
 <ul>
 <li>PDFs como relatórios, manuais e políticas que contêm vários tópicos independentes.</li>
 <li>Imagens ou páginas digitalizadas cujo conteúdo visível deve se tornar conhecimento pesquisável.</li>
-<li>Áudio e vídeo cujos fatos materiais devem estar disponíveis através do RAG.</li>
+<li>Áudio e vídeo cujos fatos materiais devem estar disponíveis via RAG.</li>
 </ul>
-<p>Não é um recurso geral de armazenamento de arquivos e não preserva a origem como um único documento pesquisável. A saída é um conjunto de documentos RAG gerados. Revise esses documentos após o processamento quando a redação, cobertura, fidelidade legal ou o tratamento de dados sensíveis for importante.</p>
-<p>Use a importação direta de documentos quando precisar da redação exata da origem, limites determinísticos, nomes de documentos estáveis ou metadados controlados pela aplicação. Use <a href="text-segmentation.html">Text Segmentation</a> quando precisar apenas de segmentos coesos de texto de origem retornados à sua aplicação sem criar documentos de coleção.</p>
+<p>Não é um recurso geral de armazenamento de arquivos e não preserva a origem como um único documento pesquisável. A saída é um conjunto de documentos RAG gerados. Revise esses documentos após o processamento quando a formulação, cobertura, fidelidade legal ou o tratamento de dados sensíveis for importante.</p>
+<p>Use a importação direta de documentos quando precisar da formulação exata da origem, limites determinísticos, nomes de documentos estáveis ou metadados controlados pela aplicação. Use <a href="text-segmentation.html">Text Segmentation</a> quando precisar apenas de segmentos coesos de texto‑origem retornados à sua aplicação sem criar documentos de coleção.</p>
 <h2 id="como-funciona-a-ingestão">Como funciona a ingestão</h2>
 <p>No painel da AIVAX:</p>
 <ol>
 <li>Abra a coleção alvo e escolha <strong>Import from files</strong>.</li>
 <li>Selecione um ou mais arquivos de origem.</li>
-<li>Opcionalmente forneça contexto de processamento. O mesmo contexto é aplicado a cada arquivo selecionado.</li>
-<li>Confirme a importação. O painel envia os arquivos sequencialmente, e um trabalho separado é criado para cada arquivo depois que todos os seus blocos chegaram ao AIVAX.</li>
+<li>Opcionalmente, forneça contexto de processamento. O mesmo contexto é aplicado a cada arquivo selecionado.</li>
+<li>Confirme a importação. O painel carrega os arquivos sequencialmente e um trabalho separado é criado para cada arquivo após todos os seus blocos chegarem à AIVAX.</li>
 <li>Acompanhe os trabalhos em <strong>Batch &gt; Media Processing</strong>.</li>
-<li>Após a conclusão de cada trabalho, revise os documentos gerados e aguarde o estado de indexação antes de testar <a href="semantic-search.html">Semantic Search</a>.</li>
+<li>Após a conclusão de cada trabalho, revise os documentos gerados e aguarde seu estado de indexação antes de testar <a href="semantic-search.html">Semantic Search</a>.</li>
 </ol>
-<p>Um trabalho pode estar <code>queued</code>, <code>processing</code>, <code>completed</code>, <code>failed</code> ou <code>cancelled</code>. O painel relata o arquivo de origem, tempo decorrido, número de documentos produzidos e custo atual. Trabalhos falhados ou cancelados podem ser reexecutados quando seus dados carregados recuperáveis ainda estiverem disponíveis.</p>
+<p>Um trabalho pode estar <code>queued</code>, <code>processing</code>, <code>completed</code>, <code>failed</code> ou <code>cancelled</code>. O painel relata o arquivo de origem, tempo decorrido, número de documentos produzidos e custo atual. Trabalhos falhados ou cancelados podem ser reexecutados quando seus dados enviados recuperáveis ainda estiverem disponíveis.</p>
 <p>Áudio e vídeo podem ser divididos em segmentos baseados no tempo para processamento. A segmentação é automática e não altera o nome original do arquivo exibido para o trabalho. Consulte <a href="../limits.html">Plans and limits</a> para limites de upload atuais.</p>
 <h2 id="definir-contexto-de-processamento">Definir contexto de processamento</h2>
-<p>O contexto de processamento é uma instrução opcional que ajuda o Media Injector a decidir quais fatos são mais valiosos para sua base de conhecimento. Ele é considerado junto com a origem, mas não é tratado como uma fonte factual e não pode adicionar fatos que estejam ausentes no arquivo.</p>
+<p>O contexto de processamento é uma instrução opcional que ajuda o Injetor de Mídia a decidir quais fatos são mais valiosos para sua base de conhecimento. Ele é considerado juntamente com a origem, mas não é tratado como uma fonte factual e não pode acrescentar fatos que estejam ausentes no arquivo.</p>
 <p>Um bom contexto descreve:</p>
 <ul>
 <li>A identidade e o propósito da origem.</li>
 <li>O público que buscará a coleção.</li>
-<li>Os tópicos, produtos, jurisdições, períodos ou áreas que importam.</li>
+<li>Os tópicos, produtos, jurisdições, períodos ou áreas que são relevantes.</li>
 <li>Rótulos ambíguos ou terminologia interna que a própria origem estabelece.</li>
-<li>Conteúdo que deve ser despriorizado, como cabeçalhos repetidos ou texto padrão administrativo.</li>
+<li>Conteúdo que deve ser despriorizado, como cabeçalhos repetidos ou textos administrativos padrão.</li>
 </ul>
-<p>Exemplo:</p>
 <pre><code class="lang-text">Esta é a política de suporte de 2026 para clientes da Acme Cloud no Brasil. Priorize regras de elegibilidade, prazos, diferenças de plano, exceções e os passos que um agente de suporte deve comunicar. Ignore cabeçalhos de página repetidos e blocos de assinatura.
 </code></pre>
-<p>Evite pedir ao mecanismo que infera conclusões, forneça informações ausentes ou use conhecimento externo. Por exemplo, não instrua-o a decidir se um contrato é legalmente exigível ou a calcular valores que a origem não relata.</p>
-<p>O contexto de processamento é diferente do contexto de uma coleção. O contexto de processamento orienta apenas esta importação. O contexto da coleção descreve a base de conhecimento para um AI Gateway quando a coleção for usada posteriormente. Coloque aqui orientações de ingestão específicas da origem; mantenha orientações duráveis de toda a coleção nas configurações da coleção.</p>
-<h2 id="tipos-de-fonte-aceitos">Tipos de fonte aceitos</h2>
-<p>O painel aceita quatro grupos de origem para o Media Injector:</p>
+<p>Evite solicitar ao mecanismo que inferira conclusões, forneça informações ausentes ou use conhecimento externo. Por exemplo, não instrua‑o a decidir se um contrato é legalmente executável ou a calcular valores que a origem não relata.</p>
+<p>O contexto de processamento difere do contexto de uma coleção. O contexto de processamento orienta apenas esta importação. O contexto da coleção descreve a base de conhecimento para um AI Gateway quando a coleção é usada posteriormente. Coloque aqui orientações de ingestão específicas da origem; mantenha orientações duráveis de toda a coleção nas configurações da coleção.</p>
+<h2 id="tipos-de-origem-aceitos">Tipos de origem aceitos</h2>
+<p>O painel aceita quatro grupos de origem para o Injetor de Mídia:</p>
 <table>
 <thead>
 <tr>
@@ -181,7 +180,7 @@
 </tr>
 <tr>
 <td>Imagens</td>
-<td>Interpreta texto e conteúdo visível para produzir documentos RAG textuais.</td>
+<td>Interpreta texto visível e conteúdo para produzir documentos RAG textuais.</td>
 </tr>
 <tr>
 <td>Áudio</td>
@@ -193,21 +192,21 @@
 </tr>
 </tbody>
 </table>
-<p>Use a extensão de arquivo original e precisa porque a AIVAX a usa para identificar o tipo de mídia. Uma extensão rotulada incorretamente pode selecionar o caminho de processamento errado ou fazer o trabalho falhar. O suporte a contêineres e codecs pode variar; se um arquivo de áudio ou vídeo falhar, converta-o para um formato comum e tente novamente.</p>
+<p>Use a extensão de arquivo original e precisa porque a AIVAX a utiliza para identificar o tipo de mídia. Uma extensão rotulada incorretamente pode selecionar o caminho de processamento errado ou fazer o trabalho falhar. O suporte a contêineres e codecs pode variar; se um arquivo de áudio ou vídeo falhar, converta‑o para um formato comum e tente novamente.</p>
 <h2 id="documentos-gerados">Documentos gerados</h2>
-<p>Cada item gerado foi projetado para ser uma unidade de conhecimento útil, em vez de uma transcrição página por página. Media Injector:</p>
+<p>Cada item gerado foi projetado para ser uma unidade de conhecimento útil, em vez de uma transcrição página por página. O Injetor de Mídia:</p>
 <ul>
 <li>Prioriza a identidade da origem, escopo, fatos principais, relacionamentos, exceções e distinções materiais.</li>
 <li>Combina fatos estreitamente relacionados em vez de criar um documento por rótulo, célula de tabela ou valor repetido.</li>
 <li>Ignora texto decorativo, paginação, resumos repetidos e metadados incidentais, a menos que alterem o significado.</li>
-<li>Preserva o idioma, a terminologia, as datas exibidas e os formatos numéricos da origem.</li>
-<li>Para quando a origem não tem conhecimento materialmente novo para acrescentar.</li>
+<li>Preserva o idioma, terminologia, datas exibidas e formatos numéricos da origem.</li>
+<li>Para quando a origem não tem conhecimento materialmente novo para adicionar.</li>
 </ul>
-<p>Os documentos gerados são marcados para que possam ser identificados como conteúdo produzido automaticamente. Eles são então indexados como outros documentos da coleção e incidem no custo normal de incorporação de texto da coleção, além do processamento do Media Injector.</p>
+<p>Os documentos gerados são marcados para que possam ser identificados como conteúdo produzido automaticamente. Eles são então indexados como outros documentos da coleção e incidem no custo normal de incorporação de texto da coleção, além do processamento do Injetor de Mídia.</p>
 <p>Para orientações de qualidade de recuperação após a ingestão, veja <a href="best-practices.html">Best Practices for RAG</a>. Em particular, inspecione documentos gerados a partir de tabelas, digitalizações e fontes com layouts repetidos antes de confiar neles em produção.</p>
 <h2 id="uso-preços-e-limites">Uso, preços e limites</h2>
-<p>O uso do Media Injector depende da origem, contexto opcional, perguntas e respostas geradas, reutilização de cache e tokens de mídia quando aplicável. A faturação agrega entrada, entrada em cache, saída e uso de mídia para o trabalho de processamento sem expor o modelo de processamento subjacente. Consulte <a href="../pricing.html#pricing-list">Pricing</a> para as taxas finais.</p>
-<p>A disponibilidade e os limites operacionais do Media Injector dependem da configuração da conta. Consulte <a href="../pricing.html">Pricing</a> e <a href="../limits.html">Plans and limits</a> antes de enviar arquivos em produção.</p>
+<p>O uso do Injetor de Mídia depende da origem, contexto opcional, perguntas e respostas geradas, reutilização de cache e tokens de mídia quando aplicável. A cobrança agrega entrada, entrada em cache, saída e uso de mídia para o trabalho de processamento sem expor o modelo de processamento subjacente. Consulte <a href="../pricing.html#media-injector">Pricing</a> para as tarifas finais.</p>
+<p>A disponibilidade e os limites operacionais do Injetor de Mídia dependem da configuração da conta. Consulte <a href="../pricing.html">Pricing</a> e <a href="../limits.html">Plans and limits</a> antes de fazer upload de arquivos em produção.</p>
 
 </article>
 

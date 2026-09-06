@@ -82,6 +82,6 @@ For retrieval-quality guidance after ingestion, see [Best Practices for RAG](bes
 
 ## Usage, pricing, and limits
 
-Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See [Pricing](../pricing.md#pricing-list) for the final rates.
+Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See [Pricing](../pricing.md#media-injector) for the final rates.
 
 Media Injector availability and operational limits depend on the account configuration. See [Pricing](../pricing.md) and [Plans and limits](../limits.md) before uploading files in production.

@@ -49,6 +49,13 @@
 - name: AI workers
   href: inference/workers.md
 
+- name: Web Foundation
+
+- name: Web Search
+  href: web-foundation/web-search.md
+- name: Fetch and OCR
+  href: web-foundation/fetch-and-ocr.md
+
 - name: Generations
 
 - name: Speech generation

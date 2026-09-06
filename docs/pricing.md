@@ -1,130 +1,113 @@
 # Pricing
 
-AIVAX uses a prepaid account balance. Paid invoices add credit to the account, and usage records subtract from that balance.
+Service usage prices are listed below in USD. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
 
-The backend calculates balance as:
+See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](limits.md) for quotas. Usage rates are subject to the plan multiplier:
+- Free: **+25%** on inference taxes;
+- Pro: **+5%** on inference taxes;
+- Max: **0%** on inference taxes.
 
-```text
-balance = paid, unexpired invoice total - usage total
-```
+BYOK are not affected by inference taxes.
 
-Use the [AIVAX pricing page](https://aivax.net/pricing) for current commercial plan prices. This page documents billing behavior that is visible in the API source.
+## Inference and Moderation
 
-## Credits and invoices
+Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used.
 
-Credits are represented as invoices.
+| Description | Pricing |
+| --- | ---: |
+| AI model and AI Gateway inference | Selected model and provider rates |
+| Input moderation | Variable price per PU; separate from the main inference charge |
 
-- Paid invoices increase the usable account balance until their expiration date.
-- Unpaid payment invoices are created with a one-year expiration.
-- Unpaid invoices older than three days are removed by cleanup.
-- Expired paid invoices no longer count toward balance.
-- Payment invoice creation requires at least 3 USD and is rate-limited.
+## Agentic Tests
 
-## Usage billing
+Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates.
 
-Every billable operation writes one or more usage records. Each usage record has:
+| Description | Pricing |
+| --- | ---: |
+| Model or AI Gateway under test | Regular inference rates |
+| Low profile - simulated user | Input **$0.25/M tokens**; cache **$0.025/M tokens**; output **$1.50/M tokens** |
+| Low profile - judge | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$2.50/M tokens** |
+| Medium profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| Medium profile - judge | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
 
-- Description.
-- Unit price.
-- Quantity.
-- Optional model name.
-- Usage category.
-- Resources such as API key, gateway, or collection.
+## RAG and Collections
 
-The final unit price is multiplied by the account tax multiplier and the current plan commission multiplier.
+Indexing and search are billed by token usage. Generated RAG responses are charged separately from query embedding, and their price varies with the summarization model.
 
-### Per-request consumed credits
+| Description | Pricing |
+| --- | ---: |
+| Collection text embedding | **$0.015/M tokens** |
+| Semantic search - query cache miss | **$0.015/M tokens** |
+| Semantic search - query cache hit | Zero |
+| RAG response generation | **~$0.50/M tokens**, excluding query rates |
+| Reflex - cache miss | **$0.015/M tokens** |
+| Reflex - cache hit | **$0.003/M tokens** |
 
-When a request reports usage, AIVAX includes the total credits charged for that request in the response header:
+## Media Injector
 
-```text
-Consumed-Credits: 0.005
-```
+Converting media into RAG documents is billed for input, cached input, output, and media usage. The source file, optional context, and generated content affect the total. Rates depend on media type and input-token volume.
 
-The value is a decimal number of credits, formatted with a period as the decimal separator. It is the total for the complete request, including all billable operations performed while processing it. A tracked operation that has no charge can return `Consumed-Credits: 0`.
+| Description | Pricing |
+| --- | ---: |
+| PDFs and images - up to 272K input tokens | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$1.80/M tokens** |
+| PDFs and images - above 272K input tokens | Input **$0.60/M tokens**; cache **$0.06/M tokens**; output **$3.60/M tokens** |
+| Audio - up to 256K input tokens | Input/media **$0.60/M tokens**; cache **$0.12/M tokens**; output **$3.00/M tokens** |
+| Audio - above 256K input tokens | Input/media **$1.20/M tokens**; cache **$0.24/M tokens**; output **$6.00/M tokens** |
+| Video | Input/media **$0.45/M tokens**; cache **$0.045/M tokens**; output **$3.75/M tokens** |
 
-If the header is absent, the request did not report a usage total. Do not treat an absent header as `0`. This header reports only the current request's consumption; use the account balance APIs to obtain the account's available balance or broader billing history.
+## Text Tools
 
-| Plan | Commission multiplier |
-| --- | --- |
-| Free | 1.25x |
-| Pro | 1.05x |
-| Max | 1.00x |
+Text segmentation and classification are billed by token usage.
 
-## Pricing list
-
-| Service | Pricing |
-| ------- | ------------ |
-| **Account** |
-| Storage | - Free Plan: **30 MB** included, no expansion<br>- Pro Plan: **2 GB** included, **$0.50/GB/month** for excess, billed hourly<br>- Max Plan: **20 GB** included, **$0.20/GB/month** for excess, billed hourly |
-| **Inference** |
-| Moderation | - Input: **$0.10/M tokens**<br>- Cache: **$0.0375/M tokens**<br>- Output: **$0.30/M tokens**<br>- Context size: 16K tokens |
-| <a id="agentic-tests"></a><a id="agentic-validations"></a>Agentic Tests | - Selected model or AI Gateway: its regular inference rates<br>- `low` profile — simulated user: input **$0.25/M tokens**, cached input **$0.025/M tokens**, output **$1.50/M tokens**; judge: input **$0.30/M tokens**, cached input **$0.03/M tokens**, output **$2.50/M tokens**<br>- `medium` profile (default) — simulated user and judge, each: input **$0.75/M tokens**, cached input **$0.075/M tokens**, output **$3.75/M tokens**<br>- `high` profile — simulated user: input **$0.75/M tokens**, cached input **$0.075/M tokens**, output **$3.75/M tokens**; judge: input **$1.25/M tokens**, cached input **$0.15/M tokens**, output **$4.25/M tokens** |
-| **RAG and collections** |
-| Collections | Text embedding: **$0.015/M tokens** |
-| Media Injector | - PDFs and images, up to 272K input tokens: input **$0.30/M tokens**, cached input **$0.03/M tokens**, output **$1.80/M tokens**<br>- PDFs and images, above 272K input tokens: input **$0.60/M tokens**, cached input **$0.06/M tokens**, output **$3.60/M tokens**<br>- Audio, up to 256K input tokens: input/media **$0.60/M tokens**, cached input **$0.12/M tokens**, output **$3.00/M tokens**<br>- Audio, above 256K input tokens: input/media **$1.20/M tokens**, cached input **$0.24/M tokens**, output **$6.00/M tokens**<br>- Video: input/media **$0.45/M tokens**, cached input **$0.045/M tokens**, output **$3.75/M tokens** (4) |
-| Semantic search | Query: **$0.015/M tokens** |
-| RAG responses | ~**$0.50/M tokens** (3) |
+| Description | Pricing |
+| --- | ---: |
 | Text segmentation | **$0.30/M tokens** |
 | Text classification | **$0.015/M tokens** |
-| Reflex | - Cache miss: **$0.015/M tokens**<br>- Cache hit: **$0.003/M tokens** |
-| **Voice and speech** |
-| Voice Sessions | Selected realtime model's pricing rates |
-| **Internet access** |
-| Web search | **$5/1k searches** |
-| X (Twitter) search | **$5/1k searches** |
-| Advanced web search | ~**$0.75/M tokens** (1) |
-| Fetch and OCR extraction | - Free Plan: **1,000 PU/day free**, **$0.15/1k PUs**<br>- Pro Plan: **10,000 PU/day free**, **$0.05/1k PUs**<br>- Max Plan: **50,000 PU/day free**, **$0.02/1k PUs** (2) |
-| **Media generation** |
-| Image generation | Varies by model |
+
+## Voice and Media
+
+Generation and transcription rates depend on the selected model. Media description pricing is approximate and depends on the available processing model.
+
+| Description | Pricing |
+| --- | ---: |
+| Voice Sessions | Selected realtime model rates |
 | Speech-to-text | Varies by model |
 | Text-to-speech | Varies by model |
-| Media descriptions | **~$1.50/mtokens** (2) |
-| **Other tools** |
-| Memory and calendar | No cost |
-| Advanced requests | No cost |
-| Document generation | No cost |
-| Web page generation | No cost |
+| Image generation | Varies by model |
+| Media descriptions | **~$1.50/M tokens** |
 
-- <small>(1) Advanced internet search pricing applies to an external model connected to internet and search tools; the price varies based on the number of interactions performed by the agent.</small>
-- <small>(2) Pricing for text extraction from media applies to a small omni-modal model, subject to availability.</small>
-- <small>(3) Pricing for RAG response generation does not include the cost of query embedding; the price varies based on the summarization model.</small>
-- <small>(4) Media Injector is billed for the aggregate input, cached input, output, and media usage produced while creating RAG documents. The source file, optional context, and generated content can all affect token usage. Standard account tax and plan commission multipliers still apply.</small>
-## Inference billing
+## Web Search, OCR and Fetch
 
-Integrated model billing uses the model's pricing table from the backend. Pricing can vary by model and by input-token threshold. Usage can include:
+Web and X searches are billed per search. Advanced web search is billed by token usage and varies with the model and number of interactions. Fetch and OCR extraction use Processing Units (PUs), with a daily free allowance by plan. These allowances and PU rates do not apply to moderation.
 
-- Text input tokens.
-- Cached input tokens, when the selected model has cached-input pricing.
-- Audio input tokens, when applicable.
-- Image input tokens, when applicable.
-- Output tokens, including audio output tokens when applicable.
+| Description | Pricing |
+| --- | ---: |
+| Web search | **$5/1k searches** |
+| X (Twitter) search | **$5/1k searches** |
+| Advanced web search | **~$0.75/M tokens** |
+| Fetch and OCR extraction - Free | **1,000 PUs/day free**, then **$0.15/1k PUs** |
+| Fetch and OCR extraction - Pro | **10,000 PUs/day free**, then **$0.05/1k PUs** |
+| Fetch and OCR extraction - Max | **50,000 PUs/day free**, then **$0.02/1k PUs** |
 
-BYOK (Bring-Your-Own-Key) calls use your external provider key, but AIVAX still enforces BYOK request limits because the request passes through AIVAX infrastructure.
+## Storage
 
-## Balance requirements
+Each plan includes storage. Pro and Max overages are billed hourly at the monthly rates below; Free storage cannot be expanded.
 
-Billable routes check balance before running. The generic balance middleware rejects balances below the route minimum; chat clients, integrations, and batch processing also stop when the balance is zero or negative. Some multimodal chat-completion inputs require a minimum balance before the model call starts:
+| Description | Pricing |
+| --- | ---: |
+| Free storage | **30 MB included**; no expansion |
+| Pro storage | **2 GB included**; excess **$0.50/GB/month** |
+| Max storage | **20 GB included**; excess **$0.20/GB/month** |
 
-| Input type | Minimum balance |
-| --- | --- |
-| Image or audio | $0.10 |
-| File or video | $0.50 |
+## Other Tools
 
-If the account balance is too low, the API returns `402 Payment Required`.
+The following tools have no separate tool charge. Model inference used to invoke them is still billed at its regular rate.
 
-## Plans and limits
-
-Plans affect both price and operation:
-
-- Model access.
-- Commission multiplier.
-- Request and token rate limits.
-- BYOK request limits.
-- RAG quotas.
-- Tool limits.
-- Storage quota and overage price.
-- Conversation retention.
-- Subscription-model reserve windows.
-
-See [Plans and limits](limits.md) for the technical quota matrix.
+| Description | Pricing |
+| --- | ---: |
+| Memory and calendar | No separate charge |
+| Advanced requests | No separate charge |
+| Document generation | No separate charge |
+| Web page generation | No separate charge |

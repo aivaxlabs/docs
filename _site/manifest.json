@@ -1465,6 +1465,26 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/web-foundation/fetch-and-ocr.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/web-foundation/fetch-and-ocr.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/web-foundation/web-search.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/web-foundation/web-search.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/rag/best-practices.md",
       "output": {
         ".html": {
@@ -1592,6 +1612,26 @@
       "output": {
         ".html": {
           "relative_path": "docs/tools/shell.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/web-foundation/fetch-and-ocr.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/web-foundation/fetch-and-ocr.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/web-foundation/web-search.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/web-foundation/web-search.html"
         }
       },
       "version": ""

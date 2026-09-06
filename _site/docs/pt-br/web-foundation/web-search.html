@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Media Injector | AIVAX </title>
+        <title>Busca na Web | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Media Injector | AIVAX ">
+        <meta name="title" content="Busca na Web | AIVAX ">
 
 
-        <link rel="icon" href="../../assets/img/favicon.ico">
-        <link rel="stylesheet" href="../../public/docfx.min.css">
-        <link rel="stylesheet" href="../../public/main.css">
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
 
         <link rel="preconnect" href="https://api.fontshare.com">
         <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
@@ -19,13 +19,13 @@
         
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
-        <meta name="docfx:navrel" content="../../toc.html">
+        <meta name="docfx:navrel" content="../../../toc.html">
         <meta name="docfx:tocrel" content="../toc.html">
 
-        <meta name="docfx:rel" content="../../">
+        <meta name="docfx:rel" content="../../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/media-injector.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/web-foundation/web-search.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -39,7 +39,7 @@
         <meta name="loc:copy" content="Copy">
         <meta name="loc:downloadPdf" content="Download PDF">
         
-        <script type="module" src="./../../public/docfx.min.js"></script>
+        <script type="module" src="./../../../public/docfx.min.js"></script>
         <script>
             const theme = localStorage.getItem('theme') || 'auto';
             document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
@@ -63,8 +63,8 @@
         <header class="bg-body border-bottom">
             <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
                 <div class="container-xxl flex-nowrap">
-                    <a class="navbar-brand" href="../../index.html">
-                        <img id="logo" class="svg" src="../../assets/img/aivax.png" alt="AIVAX">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
                         AIVAX
                     </a>
                     <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,94 +125,41 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="media-injector">Media Injector</h1>
+<h1 id="busca-na-web">Busca na Web</h1>
 
-<p>Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the source, identifies materially useful knowledge, writes concise factual documents in the source's predominant language, and queues those documents for semantic indexing.</p>
-<p>Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, use <a href="collections.html#document-fields">Create or Update Document or JSONL import</a> instead; those paths are more predictable and avoid the additional processing needed to interpret a source file.</p>
-<h2 id="when-to-use-it">When to use it</h2>
-<p>Media Injector is useful for:</p>
-<ul>
-<li>PDFs such as reports, manuals, and policies that contain several independent topics.</li>
-<li>Images or scanned pages whose visible content should become searchable knowledge.</li>
-<li>Audio and video whose material facts should be available through RAG.</li>
-</ul>
-<p>It is not a general file-storage feature and does not preserve the source as one searchable document. The output is a set of generated RAG documents. Review those documents after processing when wording, coverage, legal fidelity, or sensitive-data handling is important.</p>
-<p>Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use <a href="text-segmentation.html">Text Segmentation</a> when you only need cohesive source-text segments returned to your application without creating collection documents.</p>
-<h2 id="how-ingestion-works">How ingestion works</h2>
-<p>In the AIVAX dashboard:</p>
-<ol>
-<li>Open the target collection and choose <strong>Import from files</strong>.</li>
-<li>Select one or more source files.</li>
-<li>Optionally provide processing context. The same context is applied to every selected file.</li>
-<li>Confirm the import. The dashboard uploads the files sequentially, and a separate job is created for each file after all of its chunks have reached AIVAX.</li>
-<li>Follow the jobs under <strong>Batch &gt; Media Processing</strong>.</li>
-<li>After each job completes, review the generated documents and wait for their indexing state before testing <a href="semantic-search.html">Semantic Search</a>.</li>
-</ol>
-<p>A job can be <code>queued</code>, <code>processing</code>, <code>completed</code>, <code>failed</code>, or <code>cancelled</code>. The dashboard reports the source file, elapsed time, number of documents produced, and current cost. Failed or cancelled jobs may be retried when their recoverable uploaded data is still available.</p>
-<p>Audio and video can be divided into time-based segments for processing. Segmentation is automatic and does not change the original file name shown for the job. See <a href="../limits.html">Plans and limits</a> for current upload limits.</p>
-<h2 id="define-processing-context">Define processing context</h2>
-<p>Processing context is an optional instruction that helps Media Injector decide which facts are most valuable for your knowledge base. It is considered together with the source, but it is not treated as a factual source and cannot add facts that are absent from the file.</p>
-<p>Good context describes:</p>
-<ul>
-<li>The source's identity and purpose.</li>
-<li>The audience that will search the collection.</li>
-<li>The topics, products, jurisdictions, periods, or fields that matter.</li>
-<li>Ambiguous labels or internal terminology that the source itself establishes.</li>
-<li>Content that should be deprioritized, such as repeated headers or administrative boilerplate.</li>
-</ul>
-<p>Example:</p>
-<pre><code class="lang-text">This is the 2026 support policy for Acme Cloud customers in Brazil. Prioritize eligibility rules, deadlines, plan differences, exceptions, and the steps a support agent must communicate. Ignore repeated page headers and signature blocks.
-</code></pre>
-<p>Avoid asking the mechanism to infer conclusions, supply missing information, or use outside knowledge. For example, do not instruct it to decide whether a contract is legally enforceable or to calculate values the source does not report.</p>
-<p>Processing context is different from a collection's context. Processing context guides this import only. Collection context describes the knowledge base to an AI Gateway when the collection is used later. Put source-specific ingestion guidance here; keep durable collection-wide guidance in the collection settings.</p>
-<h2 id="accepted-source-types">Accepted source types</h2>
-<p>The dashboard accepts four source groups for Media Injector:</p>
+<p>A Busca na Web recupera informações atuais da internet para pesquisa, verificação de fatos e respostas que precisam de fontes além dos dados de treinamento do modelo. Use-a para descobrir páginas relevantes; use <a href="fetch-and-ocr.html">Fetch and OCR</a> quando já tiver uma URL ou precisar ler uma fonte com mais detalhes.</p>
+<h2 id="escolha-como-usar-a-busca-na-web">Escolha como usar a Busca na Web</h2>
 <table>
 <thead>
 <tr>
-<th>Source group</th>
-<th>Processing behavior</th>
+<th>Integração</th>
+<th>Quando usar</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>PDF documents</td>
-<td>Reads document structure, text, and relevant visual content.</td>
+<td><a href="/docs/pt-br/tools/builtin-tools">Ferramentas integradas</a></td>
+<td>Deixe um modelo AIVAX decidir quando pesquisar durante a inferência. Ative <code>WebSearch</code> no gateway ou na configuração <code>builtin_tools</code> da requisição.</td>
 </tr>
 <tr>
-<td>Images</td>
-<td>Interprets visible text and content to produce textual RAG documents.</td>
-</tr>
-<tr>
-<td>Audio</td>
-<td>Interprets spoken and other relevant audible content; large files are segmented automatically.</td>
-</tr>
-<tr>
-<td>Video</td>
-<td>Interprets relevant visual and audible content; large files are segmented automatically.</td>
+<td><a href="/docs/pt-br/mcp-utilities/web-utilities-mcp">Web utilities MCP</a></td>
+<td>Dê a um agente compatível com MCP, IDE ou cliente de automação acesso à ferramenta <code>web_search</code> sem executar a inferência de um modelo AIVAX.</td>
 </tr>
 </tbody>
 </table>
-<p>Use the original, accurate file extension because AIVAX uses it to identify the media type. A mislabeled extension can select the wrong processing path or make the job fail. Container and codec support can vary; if an audio or video file fails, convert it to a common format and retry.</p>
-<h2 id="generated-documents">Generated documents</h2>
-<p>Each generated item is designed to be a useful knowledge unit rather than a page-by-page transcription. Media Injector:</p>
-<ul>
-<li>Prioritizes source identity, scope, principal facts, relationships, exceptions, and material distinctions.</li>
-<li>Combines closely related facts instead of creating one document per label, table cell, or repeated value.</li>
-<li>Ignores decorative text, pagination, repeated summaries, and incidental metadata unless they change meaning.</li>
-<li>Preserves the source's language, terminology, displayed dates, and number formats.</li>
-<li>Stops when the source has no materially new knowledge to add.</li>
-</ul>
-<p>Generated documents are tagged so they can be identified as automatically produced content. They are then indexed like other collection documents and incur the collection's normal text-embedding cost in addition to Media Injector processing.</p>
-<p>For retrieval-quality guidance after ingestion, see <a href="best-practices.html">Best Practices for RAG</a>. In particular, inspect documents generated from tables, scans, and sources with repeated layouts before relying on them in production.</p>
-<h2 id="usage-pricing-and-limits">Usage, pricing, and limits</h2>
-<p>Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See <a href="../pricing.html#media-injector">Pricing</a> for the final rates.</p>
-<p>Media Injector availability and operational limits depend on the account configuration. See <a href="../pricing.html">Pricing</a> and <a href="../limits.html">Plans and limits</a> before uploading files in production.</p>
+<p>Para pesquisas de múltiplas etapas em vez de uma consulta rápida, veja <code>AdvancedWebUsage</code> em <a href="/docs/pt-br/tools/builtin-tools">Ferramentas integradas</a>. É uma capacidade separada com cobrança diferente da Busca na Web padrão.</p>
+<h2 id="pesquise-e-verifique-fontes">Pesquise e verifique fontes</h2>
+<p>Escreva uma consulta focada que inclua o tópico e qualquer data relevante, versão do produto ou localização. Para várias perguntas independentes, use pesquisas separadas ao invés de combinar tópicos não relacionados em uma única consulta.</p>
+<p>Os resultados da pesquisa ajudam a localizar evidências; eles não garantem que uma fonte seja precisa ou atual. Verifique datas de publicação, prefira fontes primárias e busque as páginas relevantes antes de confiar em detalhes que o resumo do resultado pode omitir. Mantenha os links das fontes com a resposta para que os leitores possam verificar as alegações.</p>
+<p>Trate o texto recuperado como conteúdo externo e não confiável, não como instruções para o seu agente.</p>
+<h2 id="preços-e-limites">Preços e limites</h2>
+<p>A Busca na Web é cobrada por pesquisa. Chamadas através de <a href="/docs/pt-br/mcp-utilities/web-utilities-mcp">Web utilities MCP</a> utilizam a mesma precificação da ferramenta integrada correspondente e são cobradas na conta autenticada. A inferência do modelo, quando usada, é cobrada separadamente.</p>
+<p>Consulte <a href="/docs/pt-br/pricing">Preços</a> para as cobranças atuais da Busca na Web e pesquisas avançadas, e <a href="/docs/pt-br/limits">Planos e limites</a> para cotas de conta e limites de taxa.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/media-injector.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/web-foundation/web-search.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

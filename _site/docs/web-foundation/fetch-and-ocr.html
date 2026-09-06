@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Media Injector | AIVAX </title>
+        <title>Fetch and OCR | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Media Injector | AIVAX ">
+        <meta name="title" content="Fetch and OCR | AIVAX ">
 
 
         <link rel="icon" href="../../assets/img/favicon.ico">
@@ -25,7 +25,7 @@
         <meta name="docfx:rel" content="../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/media-injector.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/web-foundation/fetch-and-ocr.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -125,94 +125,144 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="media-injector">Media Injector</h1>
+<h1 id="fetch-and-ocr">Fetch and OCR</h1>
 
-<p>Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the source, identifies materially useful knowledge, writes concise factual documents in the source's predominant language, and queues those documents for semantic indexing.</p>
-<p>Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, use <a href="collections.html#document-fields">Create or Update Document or JSONL import</a> instead; those paths are more predictable and avoid the additional processing needed to interpret a source file.</p>
-<h2 id="when-to-use-it">When to use it</h2>
-<p>Media Injector is useful for:</p>
-<ul>
-<li>PDFs such as reports, manuals, and policies that contain several independent topics.</li>
-<li>Images or scanned pages whose visible content should become searchable knowledge.</li>
-<li>Audio and video whose material facts should be available through RAG.</li>
-</ul>
-<p>It is not a general file-storage feature and does not preserve the source as one searchable document. The output is a set of generated RAG documents. Review those documents after processing when wording, coverage, legal fidelity, or sensitive-data handling is important.</p>
-<p>Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use <a href="text-segmentation.html">Text Segmentation</a> when you only need cohesive source-text segments returned to your application without creating collection documents.</p>
-<h2 id="how-ingestion-works">How ingestion works</h2>
-<p>In the AIVAX dashboard:</p>
-<ol>
-<li>Open the target collection and choose <strong>Import from files</strong>.</li>
-<li>Select one or more source files.</li>
-<li>Optionally provide processing context. The same context is applied to every selected file.</li>
-<li>Confirm the import. The dashboard uploads the files sequentially, and a separate job is created for each file after all of its chunks have reached AIVAX.</li>
-<li>Follow the jobs under <strong>Batch &gt; Media Processing</strong>.</li>
-<li>After each job completes, review the generated documents and wait for their indexing state before testing <a href="semantic-search.html">Semantic Search</a>.</li>
-</ol>
-<p>A job can be <code>queued</code>, <code>processing</code>, <code>completed</code>, <code>failed</code>, or <code>cancelled</code>. The dashboard reports the source file, elapsed time, number of documents produced, and current cost. Failed or cancelled jobs may be retried when their recoverable uploaded data is still available.</p>
-<p>Audio and video can be divided into time-based segments for processing. Segmentation is automatic and does not change the original file name shown for the job. See <a href="../limits.html">Plans and limits</a> for current upload limits.</p>
-<h2 id="define-processing-context">Define processing context</h2>
-<p>Processing context is an optional instruction that helps Media Injector decide which facts are most valuable for your knowledge base. It is considered together with the source, but it is not treated as a factual source and cannot add facts that are absent from the file.</p>
-<p>Good context describes:</p>
-<ul>
-<li>The source's identity and purpose.</li>
-<li>The audience that will search the collection.</li>
-<li>The topics, products, jurisdictions, periods, or fields that matter.</li>
-<li>Ambiguous labels or internal terminology that the source itself establishes.</li>
-<li>Content that should be deprioritized, such as repeated headers or administrative boilerplate.</li>
-</ul>
-<p>Example:</p>
-<pre><code class="lang-text">This is the 2026 support policy for Acme Cloud customers in Brazil. Prioritize eligibility rules, deadlines, plan differences, exceptions, and the steps a support agent must communicate. Ignore repeated page headers and signature blocks.
-</code></pre>
-<p>Avoid asking the mechanism to infer conclusions, supply missing information, or use outside knowledge. For example, do not instruct it to decide whether a contract is legally enforceable or to calculate values the source does not report.</p>
-<p>Processing context is different from a collection's context. Processing context guides this import only. Collection context describes the knowledge base to an AI Gateway when the collection is used later. Put source-specific ingestion guidance here; keep durable collection-wide guidance in the collection settings.</p>
-<h2 id="accepted-source-types">Accepted source types</h2>
-<p>The dashboard accepts four source groups for Media Injector:</p>
+<p>Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. Use <a href="web-search.html">Web Search</a> first if you need to discover sources rather than read a known URL.</p>
+<p>Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result.</p>
+<h2 id="what-you-can-extract">What you can extract</h2>
 <table>
 <thead>
 <tr>
-<th>Source group</th>
-<th>Processing behavior</th>
+<th>Content</th>
+<th>Supported formats</th>
+<th>Extracted content</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>PDF documents</td>
-<td>Reads document structure, text, and relevant visual content.</td>
+<td>Web pages</td>
+<td>HTML, XHTML</td>
+<td>Readable page content, such as articles, documentation, and product information, with markup and non-content elements removed. JavaScript and CSS is rendered before extraction.</td>
 </tr>
 <tr>
-<td>Images</td>
-<td>Interprets visible text and content to produce textual RAG documents.</td>
+<td>Plain text and Markdown</td>
+<td>TXT, Markdown</td>
+<td>The document's text, including existing Markdown formatting.</td>
 </tr>
 <tr>
-<td>Audio</td>
-<td>Interprets spoken and other relevant audible content; large files are segmented automatically.</td>
+<td>PDFs</td>
+<td>PDF</td>
+<td>Text from digital documents and OCR text from scanned pages. Mixed PDFs can combine direct text extraction with OCR where needed.</td>
 </tr>
 <tr>
-<td>Video</td>
-<td>Interprets relevant visual and audible content; large files are segmented automatically.</td>
+<td>Images containing text</td>
+<td>PNG, JPEG, WebP, TIFF, BMP</td>
+<td>Recognized text from screenshots, scanned documents, receipts, and other images with legible writing.</td>
+</tr>
+<tr>
+<td>Word-processing documents</td>
+<td>DOC, DOCX, ODT, RTF</td>
+<td>Document text converted into a readable textual representation.</td>
+</tr>
+<tr>
+<td>Presentations</td>
+<td>PPT, PPTX, ODP</td>
+<td>Textual slide content.</td>
+</tr>
+<tr>
+<td>Spreadsheets and tabular files</td>
+<td>XLSX, ODS, CSV</td>
+<td>Cell and row content as text, for downstream reading or analysis.</td>
+</tr>
+<tr>
+<td>E-books</td>
+<td>EPUB</td>
+<td>The publication's text.</td>
 </tr>
 </tbody>
 </table>
-<p>Use the original, accurate file extension because AIVAX uses it to identify the media type. A mislabeled extension can select the wrong processing path or make the job fail. Container and codec support can vary; if an audio or video file fails, convert it to a common format and retry.</p>
-<h2 id="generated-documents">Generated documents</h2>
-<p>Each generated item is designed to be a useful knowledge unit rather than a page-by-page transcription. Media Injector:</p>
-<ul>
-<li>Prioritizes source identity, scope, principal facts, relationships, exceptions, and material distinctions.</li>
-<li>Combines closely related facts instead of creating one document per label, table cell, or repeated value.</li>
-<li>Ignores decorative text, pagination, repeated summaries, and incidental metadata unless they change meaning.</li>
-<li>Preserves the source's language, terminology, displayed dates, and number formats.</li>
-<li>Stops when the source has no materially new knowledge to add.</li>
-</ul>
-<p>Generated documents are tagged so they can be identified as automatically produced content. They are then indexed like other collection documents and incur the collection's normal text-embedding cost in addition to Media Injector processing.</p>
-<p>For retrieval-quality guidance after ingestion, see <a href="best-practices.html">Best Practices for RAG</a>. In particular, inspect documents generated from tables, scans, and sources with repeated layouts before relying on them in production.</p>
-<h2 id="usage-pricing-and-limits">Usage, pricing, and limits</h2>
-<p>Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See <a href="../pricing.html#media-injector">Pricing</a> for the final rates.</p>
-<p>Media Injector availability and operational limits depend on the account configuration. See <a href="../pricing.html">Pricing</a> and <a href="../limits.html">Plans and limits</a> before uploading files in production.</p>
+<p>For example, you can fetch an online article, read a PDF manual, extract text from a receipt image, or turn a spreadsheet into text for an agent to analyze. Provide a URL that returns the actual page or file, not a sharing page that requires a login. When submitting a data URI through the API, declare the content's correct MIME type.</p>
+<p>The result is extracted text, not a pixel-perfect copy of the original document. Do not assume that layout, table structure, charts, or embedded images will be reproduced exactly. Spreadsheet extraction does not execute formulas or macros.</p>
+<h2 id="fetch-api-vs-media-descriptions">Fetch API vs. Media Descriptions</h2>
+<p>Use the <strong>Fetch API to extract existing text</strong>. Use <a href="/docs/generations/media-descriptions">Media Descriptions</a> to <strong>interpret media with AI</strong>, optionally guided by what your application needs to learn from it.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Fetch API</th>
+<th>Media Descriptions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main purpose</td>
+<td>Retrieve readable text from pages and documents, using OCR for supported images and scanned PDFs.</td>
+<td>Generate descriptions or extract information from images, PDFs, audio, and video using AI.</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Extracted text with processing-unit usage and optional per-item errors. It is not a generated summary or answer.</td>
+<td>Model-generated content focused by your guidance, which can describe visual or audiovisual information beyond the text present in the source.</td>
+</tr>
+<tr>
+<td>Images and PDFs</td>
+<td>Read text, such as the words on a receipt or the paragraphs in a manual.</td>
+<td>Describe visual content or interpret a document, such as explaining a diagram or identifying information relevant to a question.</td>
+</tr>
+<tr>
+<td>Audio and video</td>
+<td>Not an audio/video understanding or transcription API.</td>
+<td>Analyze audio and video content. For a dedicated speech-to-text workflow, use <a href="/docs/generations/audio-transcriptions">Audio Transcriptions</a>.</td>
+</tr>
+<tr>
+<td>Billing</td>
+<td>Processing units (PUs), with plan-dependent allowances and rates.</td>
+<td>AI usage charges under Media Descriptions pricing; Fetch PU allowances do not replace these charges.</td>
+</tr>
+</tbody>
+</table>
+<p>For a PDF report, choose Fetch when you need its text for indexing or later analysis. Choose Media Descriptions when you need an explanation of its charts or a guided interpretation of the content. For a receipt image, Fetch reads the printed text; Media Descriptions can interpret the receipt according to your extraction guidance.</p>
+<p>Neither guarantees perfect results. Fetch can lose text or structure because of OCR and layout limitations. Media Descriptions can omit details or introduce incorrect interpretations because its output is model-generated. Verify consequential details against the original source, and consult <a href="/docs/pricing">Pricing</a> before choosing a processing path.</p>
+<h2 id="choose-an-integration">Choose an integration</h2>
+<table>
+<thead>
+<tr>
+<th>Integration</th>
+<th>When to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fetch API</td>
+<td>Your application controls which URLs or inline base64 data URIs to process and needs structured results, processing-unit usage, and per-item errors.</td>
+</tr>
+<tr>
+<td><a href="/docs/mcp-utilities/web-utilities-mcp">Web utilities MCP</a></td>
+<td>An MCP-compatible client needs to read public URLs through <code>fetch_url</code>. This tool accepts one to five URLs per call.</td>
+</tr>
+<tr>
+<td><a href="/docs/tools/builtin-tools">Built-in tools</a></td>
+<td>An AIVAX model needs to read a URL during inference. Enable <code>OpenUrl</code> and follow the URL Context configuration guide.</td>
+</tr>
+</tbody>
+</table>
+<p>The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs.</p>
+<h2 id="fetch-content-with-the-api">Fetch content with the API</h2>
+<p>Authenticate with an AIVAX API key; see <a href="/docs/authentication">Authentication</a>. Supply a non-empty <code>contents</code> array containing URLs or base64 data URIs. Each item is limited to 10 MB.</p>
+<p>Set <code>returnErrors</code> to <code>true</code> when you need an error result for an individual failed item. Results include <code>index</code>, <code>extractedText</code>, <code>processingUnits</code>, and <code>error</code>, allowing your application to associate extracted text or a failure with the corresponding input.</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Fetch%20web%20contents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<p>The embedded reference defines the current request and response contract. Check individual results before passing their text to the next step; a failed extraction is not evidence that the source contains no relevant information.</p>
+<h2 id="access-and-extraction-limitations">Access and extraction limitations</h2>
+<p>A destination may block automated access or require authentication. Fetching a URL does not bypass access restrictions. Use accessible sources or content you are authorized to submit, and correct invalid or inaccessible inputs before retrying.</p>
+<p>Treat extracted text as untrusted source material, not as instructions for your application or agent. OCR output may need manual review for exact numbers, names, or other consequential details.</p>
+<h2 id="pricing-and-limits">Pricing and limits</h2>
+<p>Fetch and OCR extraction is metered in processing units (PUs). Daily included allowances and additional PU rates depend on the account plan. See <a href="/docs/pricing">Pricing</a> for current allowances and charges rather than estimating cost from extracted text length.</p>
+<p><a href="/docs/mcp-utilities/web-utilities-mcp">Web utilities MCP</a> uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. See <a href="/docs/limits">Plans and limits</a> for account quotas and rate limits. The Fetch API requires a positive account balance.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/rag/media-injector.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/web-foundation/fetch-and-ocr.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>
