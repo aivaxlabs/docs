@@ -85,26 +85,12 @@ Batch import is sent as a JSONL file in the `documents` multipart field.
 
 Use batch import when you already have many documents prepared outside AIVAX, such as chunks generated from PDFs, product catalogs, policies, or help-center articles. If you are creating or updating one document from an application flow, the single-document endpoint below is usually easier. If you are preparing a large knowledge base, import in batches, wait for indexing, and then test retrieval through [Semantic Search](semantic-search.md) before attaching the collection to a production gateway.
 
-The current effective per-request JSONL line limits are:
-
-| Plan | Maximum JSONL lines per request |
-| --- | ---: |
-| Free | 999 |
-| Pro | 9,999 |
-| Max | 999,999 |
-
-Daily RAG insertion limits are separate from the per-request line limit:
-
-| Plan | RAG insertions per day |
-| --- | ---: |
-| Free | 500 |
-| Pro | 10,000 |
-| Max | Not limited by the current plan configuration |
-
-If your import exceeds the request limit, split it into multiple files. If your account reaches the daily insertion limit, wait for the rate window to reset or upgrade the plan.
+Per-request JSONL line limits and daily RAG insertion limits vary by plan; see [Plans and limits](/docs/limits#plan-limits). If your import exceeds the request limit, split it into multiple files. If your account reaches the daily insertion limit, wait for the rate window to reset or upgrade the plan.
 
 > [!WARNING]
 > Indexing incurs cost based on document text tokens when documents are created or when their text changes.
+
+The embedded API reference is the source of truth for the import request and response contract.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Index%20Documents%20(JSONL)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 

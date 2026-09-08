@@ -2,6 +2,8 @@
 
 Reflex is AIVAX's collection-less search for RAG. Send a query together with candidate document strings and receive the most relevant items in ranked order—without indexing, storing, or maintaining a RAG collection first.
 
+Reflex is the default ranker of the autonomous [reranking endpoint](reranking.md): calling that endpoint without a `model` selects Reflex. This page covers when to reach for Reflex; that page covers candidate preparation and ranker comparison in depth.
+
 Use Reflex when your application already owns the candidate documents, the candidate set changes frequently, or you want a retrieval step without collection indexing and storage. Use [Semantic Search](semantic-search.md) when AIVAX should store, index, and search a persistent knowledge base or narrow a corpus that is too large to submit as candidates on every request.
 
 ## Reflex or Semantic Search?
@@ -20,6 +22,8 @@ Reflex returns ranked text candidates; it does not generate an answer. Pass the 
 Call the reranking API with a query and the candidate documents your application wants to compare. Results are returned in relevance order and retain the input position needed to associate them with your application data.
 
 Use concise, focused candidate documents. Reranking can improve their order, but it cannot recover information that was not included in the candidates. If the expected document is consistently absent, improve candidate selection, chunking, or query formulation before tuning the ranker.
+
+Reflex returns at most 200 documents per request. When the candidate pool is larger, narrow it first — with lexical pre-filtering, a cheap first-pass rank, or collection retrieval — and let Reflex order the shortlist.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 
