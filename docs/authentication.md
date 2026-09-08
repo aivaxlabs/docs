@@ -50,7 +50,7 @@ from openai import OpenAI
 
 client = OpenAI(
     base_url="https://inference.aivax.net/v1",
-    api_key="sk-aiv-acc..."
+    api_key="<AIVAX_API_KEY>"
 )
 ```
 

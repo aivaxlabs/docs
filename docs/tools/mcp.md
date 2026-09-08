@@ -44,7 +44,7 @@ You can define your MCP servers in the gateway through a JSON array:
         "name": "My MCP server",
         "url": "https://example-server.io/mcp",
         "headers": {
-            "Authorization": "sk-pv-12nbo..."
+            "Authorization": "<AIVAX_API_KEY>"
         }
     }
 ]
