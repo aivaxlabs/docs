@@ -1,14 +1,23 @@
 # Teach Skill
 
-Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Submit tutorial videos showing a workflow, then review and refine the returned Markdown before using it as an account skill.
+Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Typical uses include capturing an expert's screen workflow so support agents repeat it consistently, converting onboarding walkthroughs into assistant behavior, and bootstrapping a skill draft that a human then tightens.
 
-Teach Skill works best when the relevant actions, screens, and spoken guidance are clear. Do not include credentials, personal data, or other information that should not become part of the resulting instructions.
+Submit tutorial videos as `video_url` content parts — hosted URLs or base64 data URIs. Since analysis takes a while on longer recordings, the API recommends the long inference host described in the reference.
+
+## Record a demonstration that teaches well
+
+The quality of the draft follows the quality of the recording. Before submitting:
+
+- Show the workflow in the order it should be understood, one step at a time, without jumping between screens.
+- Narrate or caption the intent behind each action ("I open this panel because..."), not just the click itself — silent recordings leave the required context implicit and force the model to guess.
+- Keep credentials, personal data, and customer information out of frame; anything visible can end up in the resulting instructions.
+- Prefer a few short, focused recordings over one long session when the procedure has natural phases.
 
 ## Create a skill draft
 
 Organize recordings in the order in which the procedure should be understood. The response uses the standard JSON envelope. `data.resultText` contains a structured Markdown draft that can include front matter, steps, notes, and assumptions when the recording leaves required context implicit. `data.usage.processedUnits` reports the processed usage units for the request.
 
-A generated draft is not automatically published as an account skill. Validate every step, remove recording-specific details, and confirm prerequisites before saving it. See [Skills](/docs/features/skills) for skill structure and activation guidance.
+A generated draft is not automatically published as an account skill. Validate every step against the real workflow, remove recording-specific details (window sizes, test names, one-off values), confirm prerequisites, and rewrite vague steps as imperative instructions before saving it. See [Skills](/docs/features/skills) for skill structure and activation guidance.
 
 The embedded reference is the source of truth for accepted video input and response behavior.
 
