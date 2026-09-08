@@ -127,12 +127,15 @@
                 <article data-uid="">
 <h1 id="image-generation">Image Generation</h1>
 
-<p>Use Image Generation to create images from a text prompt in an application workflow. Describe the intended subject, composition, visual style, and constraints clearly, then inspect the returned image before publishing or acting on it.</p>
+<p>Use Image Generation to create images from a text prompt in an application workflow. Typical uses include draft illustrations for editorial review, product mockups, marketing variations for A/B testing, and placeholder art that a designer refines later.</p>
 <p>Authenticate requests with an AIVAX API key. See <a href="/docs/authentication">Authentication</a> for authorization guidance.</p>
 <h2 id="choose-a-model">Choose a model</h2>
 <p>Select an image-generation model available to the authenticated account. Model availability and capabilities can change, so obtain current options from the platform instead of depending on a fixed list in this guide.</p>
+<p>When several models are available, decide by capability: whether you need reference-image support (only some models accept <code>referenceImages</code>), how many variations per prompt you need (<code>count</code> accepts 1 to 4), and how long your application can wait — image requests on some models take a while, in which case the API recommends the long inference host described in the reference.</p>
 <h2 id="generate-an-image">Generate an image</h2>
-<p>Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. Treat generated assets as drafts and review them for accuracy, brand suitability, and unintended content before release.</p>
+<p>Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. One request can carry a single prompt or an array of prompts, and each prompt generates <code>count</code> images whose URLs come back grouped by input prompt.</p>
+<p>Supply up to four HTTP(S) reference images when the selected model supports them and the output must follow an existing subject, style, or composition. References guide the result; they do not guarantee identity preservation, so inspect the output before publishing.</p>
+<p>Treat generated assets as drafts and review them for accuracy, brand suitability, and unintended content before release. When the first result is close but not right, iterate by tightening one element at a time — subject detail, composition, style constraint — rather than rewriting the whole prompt at once.</p>
 <p>The embedded reference is the source of truth for the request shape, supported options, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20images&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>

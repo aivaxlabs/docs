@@ -128,6 +128,7 @@
 <h1 id="reflex">Reflex</h1>
 
 <p>Reflex is AIVAX's collection-less search for RAG. Send a query together with candidate document strings and receive the most relevant items in ranked order—without indexing, storing, or maintaining a RAG collection first.</p>
+<p>Reflex is the default ranker of the autonomous <a href="reranking.html">reranking endpoint</a>: calling that endpoint without a <code>model</code> selects Reflex. This page covers when to reach for Reflex; that page covers candidate preparation and ranker comparison in depth.</p>
 <p>Use Reflex when your application already owns the candidate documents, the candidate set changes frequently, or you want a retrieval step without collection indexing and storage. Use <a href="semantic-search.html">Semantic Search</a> when AIVAX should store, index, and search a persistent knowledge base or narrow a corpus that is too large to submit as candidates on every request.</p>
 <h2 id="reflex-or-semantic-search">Reflex or Semantic Search?</h2>
 <table>
@@ -160,6 +161,7 @@
 <h2 id="use-reflex">Use Reflex</h2>
 <p>Call the reranking API with a query and the candidate documents your application wants to compare. Results are returned in relevance order and retain the input position needed to associate them with your application data.</p>
 <p>Use concise, focused candidate documents. Reranking can improve their order, but it cannot recover information that was not included in the candidates. If the expected document is consistently absent, improve candidate selection, chunking, or query formulation before tuning the ranker.</p>
+<p>Reflex returns at most 200 documents per request. When the candidate pool is larger, narrow it first — with lexical pre-filtering, a cheap first-pass rank, or collection retrieval — and let Reflex order the shortlist.</p>
 <p>For the supported request, response, authentication, and error contract, use the API Reference:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="use-reflex-with-rag">Use Reflex with RAG</h2>

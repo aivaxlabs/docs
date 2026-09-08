@@ -127,15 +127,19 @@
                 <article data-uid="">
 <h1 id="audio-transcriptions">Audio Transcriptions</h1>
 
-<p>Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. Send the audio in a supported request form and use the returned transcription in the next stage of your workflow.</p>
+<p>Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. Typical uses include transcribing meetings and interviews, captioning recorded videos, making voice notes searchable, and feeding spoken input into classification or RAG pipelines.</p>
 <p>Authenticate requests with an AIVAX API key. See <a href="/docs/authentication">Authentication</a> for authorization guidance.</p>
 <h2 id="choose-a-transcription-model">Choose a transcription model</h2>
 <p>Query the available transcription models for the authenticated account before selecting one. Availability can vary by account configuration, so do not hard-code a catalog in your application.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Audio%20Transcription%20Models&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="transcribe-audio">Transcribe audio</h2>
-<p>Provide audio that is accessible to AIVAX and preserve the original language context when it matters to your use case. Review the returned text before using it in user-visible or irreversible actions: noisy recordings, multiple speakers, specialized vocabulary, and poor microphone quality can affect transcription quality.</p>
+<p>Send the audio as base64 with its format (<code>wav</code>, <code>mp3</code>, <code>m4a</code>, <code>flac</code>, <code>ogg</code>, <code>webm</code>, or <code>aac</code>). Decoded audio must not exceed 75 MB, and billing follows the measured media duration (see <a href="/docs/pricing">Pricing</a>) — files with no measurable duration are rejected.</p>
+<p>Provide the optional <code>language</code> hint when the spoken language is known. It steers recognition toward that language and helps with accented speech and domain vocabulary; omit it when the language genuinely varies within one file and let detection handle it.</p>
+<p>Review the returned text before using it in user-visible or irreversible actions: noisy recordings, multiple speakers, specialized vocabulary, and poor microphone quality can affect transcription quality. For files where speaker attribution matters, plan a diarization or review step downstream — the endpoint returns the transcript text, not speaker labels.</p>
 <p>The embedded reference is the source of truth for accepted request forms, options, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Transcribe%20audio&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="after-the-transcript">After the transcript</h2>
+<p>A transcript is usually the start of a pipeline, not the end. Index it into a <a href="/docs/rag/collections.md">RAG collection</a> to make recordings searchable, run it through <a href="/docs/features/batch.md">Batch</a> when there are many files, or feed it to <a href="/docs/rag/classification.md">Text classification</a> to label conversations at scale. For live conversation instead of recorded audio, use <a href="/docs/inference/voice-session">Voice Sessions</a>.</p>
 <h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>
 <p>For current availability, pricing, and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>. Correct invalid or inaccessible audio before retrying a failed request.</p>
 

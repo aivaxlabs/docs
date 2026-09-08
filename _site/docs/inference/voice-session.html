@@ -274,8 +274,7 @@
 <p>Tools configured as AIVAX server <code>InternalFunctions</code> execute within AIVAX and require no client action. Client-defined tools continue to be returned normally and remain the client's responsibility.</p>
 <p>Your tool handler should validate arguments, preserve call identifiers, enforce timeouts, and return a useful error result when execution fails. Do not wait for a client tool result that is being executed as an AIVAX server function.</p>
 <h2 id="billing-and-limits">Billing and limits</h2>
-<p>Voice Sessions are not billed at a flat per-minute price. Usage is metered using the selected realtime model's text, audio, and image token rates, as applicable. The final <code>response.done</code> event includes response usage that clients can record for observability; account billing remains authoritative.</p>
-<p>Model access, account balance, and applicable inference limits still apply. See <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>.</p>
+<p>For current pricing, availability, and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>.</p>
 <h2 id="disconnect-gracefully">Disconnect gracefully</h2>
 <p>A Voice Session lasts only for the active WebSocket. It is not resumable after disconnecting.</p>
 <p>For a normal shutdown:</p>

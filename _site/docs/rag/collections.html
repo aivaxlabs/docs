@@ -219,57 +219,12 @@
 <h2 id="batch-import-limits">Batch Import Limits</h2>
 <p>Batch import is sent as a JSONL file in the <code>documents</code> multipart field.</p>
 <p>Use batch import when you already have many documents prepared outside AIVAX, such as chunks generated from PDFs, product catalogs, policies, or help-center articles. If you are creating or updating one document from an application flow, the single-document endpoint below is usually easier. If you are preparing a large knowledge base, import in batches, wait for indexing, and then test retrieval through <a href="semantic-search.html">Semantic Search</a> before attaching the collection to a production gateway.</p>
-<p>The current effective per-request JSONL line limits are:</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th style="text-align: right;">Maximum JSONL lines per request</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td style="text-align: right;">999</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td style="text-align: right;">9,999</td>
-</tr>
-<tr>
-<td>Max</td>
-<td style="text-align: right;">999,999</td>
-</tr>
-</tbody>
-</table>
-<p>Daily RAG insertion limits are separate from the per-request line limit:</p>
-<table>
-<thead>
-<tr>
-<th>Plan</th>
-<th style="text-align: right;">RAG insertions per day</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Free</td>
-<td style="text-align: right;">500</td>
-</tr>
-<tr>
-<td>Pro</td>
-<td style="text-align: right;">10,000</td>
-</tr>
-<tr>
-<td>Max</td>
-<td style="text-align: right;">Not limited by the current plan configuration</td>
-</tr>
-</tbody>
-</table>
-<p>If your import exceeds the request limit, split it into multiple files. If your account reaches the daily insertion limit, wait for the rate window to reset or upgrade the plan.</p>
+<p>Per-request JSONL line limits and daily RAG insertion limits vary by plan; see <a href="/docs/limits#plan-limits">Plans and limits</a>. If your import exceeds the request limit, split it into multiple files. If your account reaches the daily insertion limit, wait for the rate window to reset or upgrade the plan.</p>
 <div class="WARNING">
 <h5>Warning</h5>
 <p>Indexing incurs cost based on document text tokens when documents are created or when their text changes.</p>
 </div>
+<p>The embedded API reference is the source of truth for the import request and response contract.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Index%20Documents%20(JSONL)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="document-management">Document Management</h2>
 <h3 id="create-or-update-document">Create or update document</h3>

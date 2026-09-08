@@ -127,11 +127,19 @@
                 <article data-uid="">
 <h1 id="teach-skill">Teach Skill</h1>
 
-<p>Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Submit tutorial videos showing a workflow, then review and refine the returned Markdown before using it as an account skill.</p>
-<p>Teach Skill works best when the relevant actions, screens, and spoken guidance are clear. Do not include credentials, personal data, or other information that should not become part of the resulting instructions.</p>
+<p>Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Typical uses include capturing an expert's screen workflow so support agents repeat it consistently, converting onboarding walkthroughs into assistant behavior, and bootstrapping a skill draft that a human then tightens.</p>
+<p>Submit tutorial videos as <code>video_url</code> content parts — hosted URLs or base64 data URIs. Since analysis takes a while on longer recordings, the API recommends the long inference host described in the reference.</p>
+<h2 id="record-a-demonstration-that-teaches-well">Record a demonstration that teaches well</h2>
+<p>The quality of the draft follows the quality of the recording. Before submitting:</p>
+<ul>
+<li>Show the workflow in the order it should be understood, one step at a time, without jumping between screens.</li>
+<li>Narrate or caption the intent behind each action (&quot;I open this panel because...&quot;), not just the click itself — silent recordings leave the required context implicit and force the model to guess.</li>
+<li>Keep credentials, personal data, and customer information out of frame; anything visible can end up in the resulting instructions.</li>
+<li>Prefer a few short, focused recordings over one long session when the procedure has natural phases.</li>
+</ul>
 <h2 id="create-a-skill-draft">Create a skill draft</h2>
 <p>Organize recordings in the order in which the procedure should be understood. The response uses the standard JSON envelope. <code>data.resultText</code> contains a structured Markdown draft that can include front matter, steps, notes, and assumptions when the recording leaves required context implicit. <code>data.usage.processedUnits</code> reports the processed usage units for the request.</p>
-<p>A generated draft is not automatically published as an account skill. Validate every step, remove recording-specific details, and confirm prerequisites before saving it. See <a href="/docs/features/skills">Skills</a> for skill structure and activation guidance.</p>
+<p>A generated draft is not automatically published as an account skill. Validate every step against the real workflow, remove recording-specific details (window sizes, test names, one-off values), confirm prerequisites, and rewrite vague steps as imperative instructions before saving it. See <a href="/docs/features/skills">Skills</a> for skill structure and activation guidance.</p>
 <p>The embedded reference is the source of truth for accepted video input and response behavior.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Teach%20skill&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>

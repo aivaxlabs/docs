@@ -127,12 +127,22 @@
                 <article data-uid="">
 <h1 id="speech-generation">Speech Generation</h1>
 
-<p>Use Speech Generation when your application already has final text and needs playable audio without running a chat completion. Select an available speech model and voice, then deliver the generated audio in the form best suited to the consumer.</p>
+<p>Use Speech Generation when your application already has final text and needs playable audio without running a chat completion. Typical uses include narrating an article or notification, voicing an IVR prompt, producing a draft voice-over for review, or generating audio files for offline playback.</p>
 <p>Authenticate requests with an AIVAX API key. See <a href="/docs/authentication">Authentication</a> for authorization guidance.</p>
+<h2 id="choose-the-delivery-form">Choose the delivery form</h2>
+<p>The endpoint can return audio in two forms, and the right choice depends on the consumer:</p>
+<ul>
+<li><strong>Binary audio (<code>raw: true</code>)</strong> — the response body is the audio file itself, served inline with its MIME type. Use this when a player, browser <code>&lt;audio&gt;</code> element, or download flow consumes the response directly.</li>
+<li><strong>Base64 in the JSON envelope (<code>raw: false</code>)</strong> — the response contains the format, MIME type, and base64-encoded audio inside the standard envelope. Use this when the result travels through JSON pipelines, gets stored in a database, or needs to be inspected alongside billing metadata.</li>
+</ul>
+<p>Supported formats are <code>mp3</code>, <code>wav</code>, and <code>ogg</code>. When the consumer accepts any of them, prefer <code>mp3</code> for smaller payloads and <code>wav</code> for maximum compatibility with audio tooling.</p>
 <h2 id="generate-speech">Generate speech</h2>
-<p>Write text that is ready to be spoken aloud, including punctuation and formatting that communicate pauses or emphasis. Test the selected voice with representative content before using it in production, especially for names, abbreviations, or specialized terms.</p>
+<p>Write text that is ready to be spoken aloud, including punctuation and formatting that communicate pauses or emphasis. Expand abbreviations and numerals the way they should be heard (&quot;twenty twenty-six&quot;, &quot;doctor&quot; instead of &quot;Dr.&quot;) rather than trusting the voice to guess.</p>
+<p>Test the selected voice with representative content before using it in production, especially for names, abbreviations, or specialized terms. Voices differ per speech model, so confirm the voice against the model you will use rather than assuming one model's voices exist in another.</p>
 <p>The embedded reference is the source of truth for available models and voices, request options, output formats, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20speech&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<h2 id="speech-or-voice-sessions">Speech or Voice Sessions</h2>
+<p>Use Speech Generation for one-shot synthesis of known text. Use <a href="/docs/inference/voice-session">Voice Sessions</a> when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls — chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.</p>
 <h2 id="pricing-limits-and-errors">Pricing, limits, and errors</h2>
 <p>For current pricing, availability, and account limits, see <a href="/docs/pricing">Pricing</a> and <a href="/docs/limits">Plans and Limits</a>. Review reported validation errors before retrying a failed request.</p>
 

@@ -142,9 +142,9 @@
 </ul>
 <p>The test definition is reusable. Each execution creates a separate run, so changing a test later does not replace the history already collected for previous runs.</p>
 <h3 id="create-a-useful-test">Create a useful test</h3>
-<p>Write the goal as an observable outcome rather than as instructions for the assistant. The goal is shared with both the simulated user, which pursues it, and the judge, which evaluates it. For example:</p>
+<p>Write the goal from the simulated user's perspective: describe who they are, what they want, and how they should progress through the conversation. Do not write it as instructions for the assistant. The goal is shared with both the simulated user, which pursues it, and the judge, which evaluates it. For example:</p>
 <blockquote>
-<p>Identify the customer's team size, recommend the correct plan, explain why it fits, and provide the next signup step.</p>
+<p>You are choosing a plan for your team. Explain your team's size and needs when asked, ask which plan fits, and continue until you understand the recommendation and how to sign up.</p>
 </blockquote>
 <p>Use <strong>Validation criteria</strong> for optional requirements that should affect only the judge's evaluation, not the simulated user's behavior. For example:</p>
 <blockquote>
@@ -166,6 +166,7 @@
   ]
 }
 </code></pre>
+<p>Resources are visible to the simulated user and judge; they are not sent to the gateway under test as conversation history. They do not add knowledge to the gateway. If the assistant must retrieve the same material, make it available through the gateway's own knowledge or tools. The simulated user may still reveal resource information naturally in its messages, so do not treat resources as hidden judge-only criteria.</p>
 <p>Remote content can change between test runs and contributes to usage. Use only trusted, publicly reachable URLs whose content is appropriate for the test.</p>
 <p>A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.</p>
 <h3 id="validation-hooks">Validation hooks</h3>
@@ -289,7 +290,8 @@
 <p>Disable scheduling when you want to preserve the test definition without creating new scheduled runs. Manual runs remain available from the test page.</p>
 <h3 id="failure-and-recovery-notifications">Failure and recovery notifications</h3>
 <p>Enable failure notifications when repeated run execution failures should alert the account owner. <strong>Notification threshold</strong> controls how many consecutive runs in the <code>failed</code> state are required before AIVAX sends an alert. The default is <code>1</code>.</p>
-<p>When <strong>Recovery notification</strong> is enabled, AIVAX also notifies the account after a run completes successfully following enough consecutive execution failures to reach the configured threshold. A successfully completed run resets the consecutive-failure counter.</p>
+<p>These notifications track execution errors, not behavioral test failures. A run in the <code>succeeded</code> state completed without an execution error, but its behavioral outcome can still be <code>loss</code> or <code>incomplete</code>. Those outcomes do not count toward the failure notification threshold.</p>
+<p>When <strong>Recovery notification</strong> is enabled, AIVAX also notifies the account after a run completes successfully following enough consecutive execution failures to reach the configured threshold. A successfully completed run resets the consecutive-failure counter, even if its behavioral outcome is <code>loss</code> or <code>incomplete</code>. Recovery therefore means execution recovered, not that the assistant passed the behavioral checks.</p>
 <h3 id="retention">Retention</h3>
 <p>Succeeded and failed runs are retained for one month. Cancelled runs are retained for one day. Export any result that must remain available beyond those periods.</p>
 <h2 id="evaluation-settings">Evaluation settings</h2>

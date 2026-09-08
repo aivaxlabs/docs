@@ -130,6 +130,9 @@
 <p>AIVAX offers a virtual shell environment that can be used by agent assistants to execute terminal commands during inference. This feature is especially useful for tasks such as data manipulation, API calls, script execution, and workflows that are easier to express as command-line operations.</p>
 <p>The shell environment allows moving selected model tools to the shell side, turning them into CLI commands. This is useful when you have many tools and do not want to expose all of them directly to the model, or when a tool is easier to use through command-line arguments and pipes.</p>
 <p>When enabled in an AI Gateway, the model sees a <code>shell</code> tool with one argument: <code>command</code>. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at <code>/home/workspace</code>. Each command is limited to 60 seconds and returns up to 4,096 characters of output to the model.</p>
+<h2 id="design-for-the-limits">Design for the limits</h2>
+<p>The 60-second timeout and 4,096-character output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with <code>grep</code>, <code>awk</code>, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.</p>
+<p>Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to <a href="/docs/features/batch.md">Batch</a> or an external job, and let the shell handle the interactive slices.</p>
 <h2 id="adapting-tools-for-shell">Adapting tools for shell</h2>
 <p>In the virtual shell interface, standard command-line utilities and registered shell modules are available. This way, you can adapt your tools to return raw or long outputs, and the model can use the shell's text manipulation tools to extract the relevant information, for example:</p>
 <pre><code class="lang-bash">get-users --filter active --format csv | grep &quot;John Doe&quot; | awk -F, '{print $1, $2}'
@@ -141,11 +144,15 @@
 <li><code>BlackList</code>: listed tools remain direct model tools, and the other non-reserved tools are exposed as shell commands.</li>
 </ul>
 <p>Use the runtime function name when listing tools, such as <code>web_search</code>, <code>open_url</code>, <code>request</code>, or a protocol/MCP function name. Each shell command generated from a tool supports <code>--help</code> and maps JSON Schema properties to command-line options.</p>
+<p>Prefer the whitelist when the model needs a small, predictable command set — every new tool otherwise leaks into the shell automatically. Prefer the blacklist when most tools are shell-friendly and only a few must stay as direct functions for latency or reliability reasons.</p>
 <h2 id="data-persistence">Data persistence</h2>
 <p>It is possible to define data persistence for the shell environment. When <code>allowDataPersistence</code> is enabled and the inference context has a user external ID, AIVAX mounts a persistent workspace scoped to the account and user. This allows the agent to keep files across conversations and sessions for that identified user.</p>
 <p>If persistence is disabled, or the inference context has no user external ID, the shell uses an in-memory filesystem and the workspace is discarded after the inference iteration.</p>
+<p>Enable persistence only for data the user expects to survive — working documents, generated reports, configuration they manage. Keep secrets, credentials, and other users' data out of the persistent workspace: anything written there endures beyond the session that created it.</p>
 <h2 id="shell-file-api">Shell file API</h2>
 <p>AIVAX also exposes Shell I/O endpoints under <code>/api/v1/shell/io</code> for authenticated accounts. These endpoints use the required <code>X-Shell-User-Id</code> header to scope the filesystem sandbox and support listing directories, downloading files, inspecting file metadata, creating temporary public file addresses, uploading files, creating directories, and deleting files or directories. Uploads are documented with a 100 MB maximum request body.</p>
+<p>Reference:</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=List%20Directory&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 </article>
 

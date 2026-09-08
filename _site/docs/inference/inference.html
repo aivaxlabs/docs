@@ -137,6 +137,8 @@
     </span>
 </div>
 <p>The endpoint also has the API alias <code>/api/v1/chat/completions</code>.</p>
+<p>Reference:</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="provider-routing">Provider routing</h2>
 <p>Some integrated models are available through more than one provider. Provider routing lets AIVAX choose among those providers without changing the model requested by your application. This differs from model routing, which can select a different model based on request complexity.</p>
 <p>AIVAX considers providers that are currently available and compatible with the request. If only one provider is eligible, the routing preference does not change the result. Provider routing applies only to integrated AIVAX models; a bring-your-own-key gateway uses the provider endpoint configured in that gateway.</p>
@@ -300,6 +302,10 @@
 }
 </code></pre>
 <p><code>metadata</code> must be a JSON object whose property names and values are strings. Do not place secrets, credentials, payment data, or large payloads in this field.</p>
+<h2 id="response-and-conversation-records">Response and conversation records</h2>
+<p>The standard <code>/v1/chat/completions</code> response envelope includes <code>generation_context</code>. Its <code>generated_usage</code> entries contain <code>sku</code>, <code>amount</code>, <code>unit_price</code>, <code>quantity</code>, and <code>description</code>. Set <code>json_only: true</code> to return only the final JSON without this envelope.</p>
+<p>When conversation logging is enabled, the stored record includes its ID, origin, model name, request ID, response schema, tools and tool input schemas, usage, linked resources, created and updated timestamps, token count, external user ID, error message, messages, and metadata. Gateway and API key context is available through the linked resources.</p>
+<p>Use <code>idempotency_key</code> and <code>metadata</code> to correlate these records with your own workflow.</p>
 <h2 id="multimodal-pre-processing">Multimodal pre-processing</h2>
 <p>Use <code>multimodal_preprocess</code> when the main model should receive a textual description of media instead of the original media object. This is useful for text-first models or when you want AIVAX to normalize files before the main inference.</p>
 <pre><code class="lang-json">{

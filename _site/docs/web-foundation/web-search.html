@@ -145,13 +145,21 @@
 <td><a href="/docs/mcp-utilities/web-utilities-mcp">Web utilities MCP</a></td>
 <td>Give an MCP-compatible agent, IDE, or automation client access to the <code>web_search</code> tool without running an AIVAX model inference.</td>
 </tr>
+<tr>
+<td>Direct API</td>
+<td>Call the search endpoint from your backend when no model or agent is involved — scheduled monitors, dataset enrichment, or pre-fetching context before inference.</td>
+</tr>
 </tbody>
 </table>
 <p>For multi-step research rather than a quick lookup, see <code>AdvancedWebUsage</code> in <a href="/docs/tools/builtin-tools">Built-in tools</a>. It is a separate capability with different billing from standard Web Search.</p>
 <h2 id="search-and-verify-sources">Search and verify sources</h2>
 <p>Write a focused query that includes the topic and any relevant date, product version, or location. For several independent questions, use separate searches rather than combining unrelated topics into one query.</p>
+<p>Narrow with filters when the question has a geographic or linguistic scope: <code>country</code> restricts to a two-letter country, <code>language</code> to a language code, and <code>includeDomains</code> confines results to trusted domains. Request up to 25 results (<code>topn</code>) when recall matters — for example, surveying competing sources — and keep the default small count when one authoritative answer suffices.</p>
 <p>Search results help locate evidence; they do not guarantee that a source is accurate or current. Check publication dates, prefer primary sources, and fetch the relevant pages before relying on details that a result summary may omit. Keep source links with the answer so readers can verify the claims.</p>
 <p>Treat retrieved text as external, untrusted content, not as instructions for your agent.</p>
+<h2 id="api-reference">API reference</h2>
+<p>For the supported request, response, authentication, and error contract, use the API Reference:</p>
+<script src="https://inference.aivax.net/apidocs?embed-target=Search%20the%20web&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="pricing-and-limits">Pricing and limits</h2>
 <p>Web Search is billed per search. Calls through <a href="/docs/mcp-utilities/web-utilities-mcp">Web utilities MCP</a> use the same pricing as the corresponding built-in tool and are charged to the authenticated account. Model inference, when used, is billed separately.</p>
 <p>See <a href="/docs/pricing">Pricing</a> for current Web Search and advanced search charges, and <a href="/docs/limits">Plans and limits</a> for account quotas and rate limits.</p>

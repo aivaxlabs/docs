@@ -127,10 +127,18 @@
                 <article data-uid="">
 <h1 id="media-descriptions">Media Descriptions</h1>
 
-<p>Use Media Descriptions when an application needs structured information from audio, images, video, or PDF content. It is useful for preparing media for search, moderation review, accessibility workflows, and downstream automation.</p>
+<p>Use Media Descriptions when an application needs structured information from audio, images, video, or PDF content. Typical uses include preparing media for search, moderation review, accessibility workflows, and downstream automation.</p>
 <p>Choose the more specialized API when the task is limited to a single medium, such as <a href="/docs/generations/audio-transcriptions">Audio Transcriptions</a> for speech-to-text.</p>
+<h2 id="describe-media-or-reason-over-it-directly">Describe media or reason over it directly</h2>
+<p>There are two ways to extract information from media, and they serve different needs:</p>
+<ul>
+<li><strong>Describe media, then decide</strong> — use this endpoint when you need a reusable text artifact: a description stored for search, a transcript-like record for audit, or input text for a later workflow stage that runs independently.</li>
+<li><strong>Multimodal inference in one request</strong> — send the media straight to a chat model that supports the input type when the model should reason over it immediately and no intermediate artifact is needed. See <a href="/docs/inference/inference.md">Inference</a>.</li>
+</ul>
+<p>Prefer Describe when the extraction guidance is stable and the result feeds several consumers; prefer direct multimodal inference when the question about the media changes on every request.</p>
 <h2 id="describe-media">Describe media</h2>
-<p>Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. Each submitted item is handled independently, so preserve input order when correlating results with the original media.</p>
+<p>Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. The optional <code>extractionGuidance</code> instruction narrows the output — &quot;identify the main subject and visible text&quot; for an image, &quot;summarize the sequence of events&quot; for a video — so write it as the question your workflow needs answered.</p>
+<p>Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Remote file URLs are downloaded before processing under the <code>auto</code> preset (up to 5 MB); switch to <code>high</code> when the service should receive the remote URL directly.</p>
 <p>For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.</p>
 <p>The embedded reference is the source of truth for accepted media forms, request options, and response fields.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Describe%20media&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
