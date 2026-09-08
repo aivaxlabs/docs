@@ -199,6 +199,14 @@ Set `metadata` to attach string key/value information to the inference request. 
 
 `metadata` must be a JSON object whose property names and values are strings. Do not place secrets, credentials, payment data, or large payloads in this field.
 
+## Response and conversation records
+
+The standard `/v1/chat/completions` response envelope includes `generation_context`. Its `generated_usage` entries contain `sku`, `amount`, `unit_price`, `quantity`, and `description`. Set `json_only: true` to return only the final JSON without this envelope.
+
+When conversation logging is enabled, the stored record includes its ID, origin, model name, request ID, response schema, tools and tool input schemas, usage, linked resources, created and updated timestamps, token count, external user ID, error message, messages, and metadata. Gateway and API key context is available through the linked resources.
+
+Use `idempotency_key` and `metadata` to correlate these records with your own workflow.
+
 ## Multimodal pre-processing
 
 Use `multimodal_preprocess` when the main model should receive a textual description of media instead of the original media object. This is useful for text-first models or when you want AIVAX to normalize files before the main inference.
