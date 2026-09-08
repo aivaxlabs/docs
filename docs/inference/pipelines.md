@@ -25,9 +25,9 @@ Query strategies:
 - `FullRewrite`: Rewrites recent user and assistant messages into one or more search queries using a resolver model.
 - `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses.
 
-Rewrite strategies add resolver-model cost and latency. They are useful when users ask follow-up questions such as "what about this case?" because the resolver can turn the recent conversation into a clearer search query.
+Rewrite strategies add resolver-model cost (see [Pricing](/docs/pricing)) and latency. They are useful when users ask follow-up questions such as "what about this case?" because the resolver can turn the recent conversation into a clearer search query.
 
-Defining many RAG results increases input token usage and can increase final inference cost. Start with a small result count and raise it only when the model lacks enough evidence.
+Defining many RAG results increases input token usage and can increase final inference cost (see [Pricing](/docs/pricing)). Start with a small result count and raise it only when the model lacks enough evidence.
 
 ## Instructions
 
@@ -81,7 +81,7 @@ The context truncation pipeline uses an approximate token count. When `ContextMa
 
 Truncation preserves system messages and keeps at least one user message when possible. If the remaining user message still exceeds the limit, the request fails with a message-size error.
 
-On the free plan, the effective input context is capped at 65,536 tokens even when a larger context is configured.
+On lower plans, the effective input context may be capped even when a larger context is configured; see [Plans and limits](/docs/limits#plan-limits).
 
 ## Tool message truncation
 

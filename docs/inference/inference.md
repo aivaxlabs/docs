@@ -15,6 +15,10 @@ Use this page for direct inference calls. Use [AI Gateway](/docs/inference/ai-ga
 
 The endpoint also has the API alias `/api/v1/chat/completions`.
 
+Reference:
+
+<script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+
 ## Provider routing
 
 Some integrated models are available through more than one provider. Provider routing lets AIVAX choose among those providers without changing the model requested by your application. This differs from model routing, which can select a different model based on request complexity.

@@ -159,9 +159,7 @@ Your tool handler should validate arguments, preserve call identifiers, enforce 
 
 ## Billing and limits
 
-Voice Sessions are not billed at a flat per-minute price. Usage is metered using the selected realtime model's text, audio, and image token rates, as applicable. The final `response.done` event includes response usage that clients can record for observability; account billing remains authoritative.
-
-Model access, account balance, and applicable inference limits still apply. See [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits).
+For current pricing, availability, and account limits, see [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits).
 
 ## Disconnect gracefully
 
