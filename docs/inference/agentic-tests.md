@@ -20,9 +20,9 @@ The test definition is reusable. Each execution creates a separate run, so chang
 
 ### Create a useful test
 
-Write the goal as an observable outcome rather than as instructions for the assistant. The goal is shared with both the simulated user, which pursues it, and the judge, which evaluates it. For example:
+Write the goal from the simulated user's perspective: describe who they are, what they want, and how they should progress through the conversation. Do not write it as instructions for the assistant. The goal is shared with both the simulated user, which pursues it, and the judge, which evaluates it. For example:
 
-> Identify the customer's team size, recommend the correct plan, explain why it fits, and provide the next signup step.
+> You are choosing a plan for your team. Explain your team's size and needs when asked, ask which plan fits, and continue until you understand the recommendation and how to sign up.
 
 Use **Validation criteria** for optional requirements that should affect only the judge's evaluation, not the simulated user's behavior. For example:
 
@@ -48,6 +48,8 @@ Use `resources` to give the simulated user and judge shared context that does no
   ]
 }
 ```
+
+Resources are visible to the simulated user and judge; they are not sent to the gateway under test as conversation history. They do not add knowledge to the gateway. If the assistant must retrieve the same material, make it available through the gateway's own knowledge or tools. The simulated user may still reveal resource information naturally in its messages, so do not treat resources as hidden judge-only criteria.
 
 Remote content can change between test runs and contributes to usage. Use only trusted, publicly reachable URLs whose content is appropriate for the test.
 
@@ -150,7 +152,9 @@ Disable scheduling when you want to preserve the test definition without creatin
 
 Enable failure notifications when repeated run execution failures should alert the account owner. **Notification threshold** controls how many consecutive runs in the `failed` state are required before AIVAX sends an alert. The default is `1`.
 
-When **Recovery notification** is enabled, AIVAX also notifies the account after a run completes successfully following enough consecutive execution failures to reach the configured threshold. A successfully completed run resets the consecutive-failure counter.
+These notifications track execution errors, not behavioral test failures. A run in the `succeeded` state completed without an execution error, but its behavioral outcome can still be `loss` or `incomplete`. Those outcomes do not count toward the failure notification threshold.
+
+When **Recovery notification** is enabled, AIVAX also notifies the account after a run completes successfully following enough consecutive execution failures to reach the configured threshold. A successfully completed run resets the consecutive-failure counter, even if its behavioral outcome is `loss` or `incomplete`. Recovery therefore means execution recovered, not that the assistant passed the behavioral checks.
 
 ### Retention
 
