@@ -206,7 +206,7 @@ Every Server-Sent Events message contains this envelope:
 }
 ```
 
-Route messages by `event.type` and concatenate streamed content chunks in order. The examples below show the `event` object inside the SSE envelope.
+Route messages by `event.type` and concatenate streamed content chunks in order. The examples below show the `event` object inside the SSE envelope. Lifecycle markers (`start_generation`, `end_generation`, `turn_analysis_start`, `turn_analysis_end`) carry `data: null`; reasoning chunks share the `{ "reasoning_content": "..." }` shape. Only content-bearing events are shown in full.
 
 - **`chat.start`** — Starts a turn and reports its number and remaining turn budget.
 
@@ -220,25 +220,9 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.user_message.start_generation`** — Marks the start of simulated-user message generation.
-
-  ```json
-  {
-    "type": "chat.user_message.start_generation",
-    "data": null
-  }
-  ```
+- **`chat.user_message.start_generation`** — Marks the start of simulated-user message generation (`data: null`).
 
 - **`chat.user_message.reasoning`** — Streams one reasoning chunk exposed by the simulated-user model. Use this for debugging only.
-
-  ```json
-  {
-    "type": "chat.user_message.reasoning",
-    "data": {
-      "reasoning_content": "Okay, the user is"
-    }
-  }
-  ```
 
 - **`chat.user_message.content`** — Streams one simulated-user message content chunk. Concatenate consecutive chunks in arrival order.
 
@@ -251,14 +235,7 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.user_message.end_generation`** — Marks the end of simulated-user message generation.
-
-  ```json
-  {
-    "type": "chat.user_message.end_generation",
-    "data": null
-  }
-  ```
+- **`chat.user_message.end_generation`** — Marks the end of simulated-user message generation (`data: null`).
 
 - **`chat.user_message.end_conversation`** — Reports a permitted simulated-user exit after `minimum_turns`. This event is not emitted when `allow_user_exit` is disabled.
 
@@ -271,25 +248,9 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.assistant_message.start_generation`** — Marks the start of the selected gateway response.
+- **`chat.assistant_message.start_generation`** — Marks the start of the selected gateway response (`data: null`).
 
-  ```json
-  {
-    "type": "chat.assistant_message.start_generation",
-    "data": null
-  }
-  ```
-
-- **`chat.assistant_message.reasoning`** — Streams one reasoning chunk exposed by the gateway model.
-
-  ```json
-  {
-    "type": "chat.assistant_message.reasoning",
-    "data": {
-      "reasoning_content": "I should answer with the applicable policy and next steps."
-    }
-  }
-  ```
+- **`chat.assistant_message.reasoning`** — Streams one reasoning chunk exposed by the gateway model (same `reasoning_content` shape).
 
 - **`chat.assistant_message.content`** — Streams one assistant response content chunk. Concatenate consecutive chunks in arrival order.
 
@@ -302,23 +263,9 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.assistant_message.end_generation`** — Marks the end of the selected gateway response.
+- **`chat.assistant_message.end_generation`** — Marks the end of the selected gateway response (`data: null`).
 
-  ```json
-  {
-    "type": "chat.assistant_message.end_generation",
-    "data": null
-  }
-  ```
-
-- **`chat.judge.turn_analysis_start`** — Marks the start of an evaluation against the goal and any judge-only validation criteria.
-
-  ```json
-  {
-    "type": "chat.judge.turn_analysis_start",
-    "data": null
-  }
-  ```
+- **`chat.judge.turn_analysis_start`** — Marks the start of an evaluation against the goal and any judge-only validation criteria (`data: null`).
 
 - **`chat.judge.turn_analysis_result_ready`** — Returns the judge reasoning, normalized score, current state, trajectory measurements, and continuation decision. `score` ranges from `0.001` to `0.999`; `pass` is false only after a persistent loss is established.
 
@@ -341,14 +288,7 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.judge.turn_analysis_end`** — Marks the end of the current turn evaluation.
-
-  ```json
-  {
-    "type": "chat.judge.turn_analysis_end",
-    "data": null
-  }
-  ```
+- **`chat.judge.turn_analysis_end`** — Marks the end of the current turn evaluation (`data: null`).
 
 - **`usage_updated`** — Reports prompt, cached prompt, and completion token usage. `role` is `user`, `assistant`, or `judge` depending on the inference that produced the usage.
 

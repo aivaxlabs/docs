@@ -1,4 +1,4 @@
-﻿# Built-in Tools
+# Built-in Tools
 
 AIVAX provides a list of built-in tools for you to enable in your model. These tools can be used together with the [server-side functions](/docs/tools/protocol-functions).
 
@@ -48,14 +48,6 @@ Activation via `builtin_tools`:
     }
 }
 ```
-
-## Tool Diagnosis
-
-When a tool is not called, first confirm that it is enabled in the gateway or in the `builtin_tools` field of the request. Then, check whether the selected model supports function calls or if a tool handler is configured for models without native support. Next, review the instruction: if it does not specify when to search, open a URL, generate an image, or query memory, the model may respond only with its own knowledge. Finally, test a direct question that clearly requires the tool, such as requesting a recent news article for `WebSearch` or asking to open a specific URL for `OpenUrl`.
-
-When a tool is called too often, reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link; `Remember` and `Calendar` can overlap when the user talks about preferences and dates. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use workers to block or replace calls in specific scenarios.
-
-When a tool fails, treat it as a normal part of the experience. Searches may return little content, URLs may block bots, APIs may deny authorization, image generation may refuse content, and code execution may receive ambiguous input. Instruct the model to explain the limitation objectively and offer the next step, such as requesting another link, trying a more specific query, asking for authorization, or responding based only on the available context. Do not rely on an external tool as the sole way to conclude a critical conversation without an experience fallback.
 
 ## Advanced Internet Search
 
@@ -299,3 +291,11 @@ Activation via `builtin_tools`:
     }
 }
 ```
+
+## Tool Diagnosis
+
+When a tool is not called, first confirm that it is enabled in the gateway or in the `builtin_tools` field of the request. Then, check whether the selected model supports function calls or if a tool handler is configured for models without native support. Next, review the instruction: if it does not specify when to search, open a URL, generate an image, or query memory, the model may respond only with its own knowledge. Finally, test a direct question that clearly requires the tool, such as requesting a recent news article for `WebSearch` or asking to open a specific URL for `OpenUrl`.
+
+When a tool is called too often, reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link; `Remember` and `Calendar` can overlap when the user talks about preferences and dates. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use workers to block or replace calls in specific scenarios.
+
+When a tool fails, treat it as a normal part of the experience. Searches may return little content, URLs may block bots, APIs may deny authorization, image generation may refuse content, and code execution may receive ambiguous input. Instruct the model to explain the limitation objectively and offer the next step, such as requesting another link, trying a more specific query, asking for authorization, or responding based only on the available context. Do not rely on an external tool as the sole way to conclude a critical conversation without an experience fallback.

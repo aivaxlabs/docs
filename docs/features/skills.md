@@ -1,4 +1,4 @@
-﻿# Skills
+# Skills
 
 Skills (also known as abilities) can be used to improve how your agent performs on specific tasks. Skills are special instructions that are retrieved on demand, and your agent loads these skills as needed.
 
@@ -33,7 +33,7 @@ Writing effective skills requires clarity and specificity in the instructions. H
 
 ### Skill structure
 
-A well‑written skill should contain:
+A well‐written skill should contain:
 
 1. **Clear, descriptive slug**: Use a short slug that immediately identifies the purpose of the skill, such as `python_code_analysis`, `customer_support`, or `technical_translation`.
 
@@ -48,7 +48,7 @@ A well‑written skill should contain:
 
 ### Best practices
 
-- **Be specific**: Avoid vague instructions. Instead of “be helpful,” say “provide step‑by‑step explanations with code examples.”
+- **Be specific**: Avoid vague instructions. Instead of “be helpful,” say “provide step‐by‐step explanations with code examples.”
 - **Use imperative language**: Start sentences with action verbs (analyze, explain, compare, list).
 - **Keep the scope limited**: Each skill should focus on a specific knowledge area or type of task.
 - **Iteratively test**: Refine your skills based on how the model responds in practice.
@@ -72,10 +72,10 @@ Skills are most useful in specific scenarios where you need specialized behavior
 
 ### Ideal scenarios
 
-**1. Domain‑specific expertise**
+**1. Domain‐specific expertise**
 - Technical terminology specific to an industry
 - Compliance with regulations or standards
-- Specific methodologies (Scrum, ITIL, SOC 2, etc.)
+- Specific methodologies (Scrum, ITIL, SOC 2, etc.)
 
 **2. Tone or style shift**
 - Formal vs. casual service
@@ -83,7 +83,7 @@ Skills are most useful in specific scenarios where you need specialized behavior
 - Different personas or roles
 
 **3. Complex, structured processes**
-- Multi‑step workflows
+- Multi‐step workflows
 - Analyses that follow specific frameworks
 - Document generation with strict formats
 
@@ -116,11 +116,6 @@ Skills are most useful in specific scenarios where you need specialized behavior
 - **Avoid overlap**: Skills with similar descriptions can confuse the model.
 - **Test transitions**: Ensure the model switches skills when appropriate.
 
-## Comparing Skills, RAG, and System Prompt
+## When to choose RAG or system instructions instead
 
-To better understand when and how to use skills compared to other techniques such as **RAG (Retrieval‑Augmented Generation)** and **System Prompt (System Instructions)**, use the guidance on this page together with the documentation for [collections](/docs/rag/collections) and [pipelines](/docs/inference/pipelines).
-
-See also:
-- [Prompt Engineering Guide](https://www.promptingguide.ai/)
-- [Building Production‑Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents)
-- [AI Gateway Documentation](/docs/inference/ai-gateway)
+Use skills together with [collections](/docs/rag/collections) when the task needs searchable knowledge, and with [pipelines](/docs/inference/pipelines) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building Production‐Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](/docs/inference/ai-gateway).

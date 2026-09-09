@@ -1,4 +1,4 @@
-﻿# Support for Model Context Protocol (MCP)
+# Support for Model Context Protocol (MCP)
 
 You can bind external MCP protocol tools to your [AI Gateway](/docs/inference/ai-gateway). The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
 

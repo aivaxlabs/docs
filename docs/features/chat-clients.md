@@ -1,4 +1,4 @@
-﻿# Chat Clients
+# Chat Clients
 
 A chat client provides a user interface via an [AI Gateway](/docs/inference/ai-gateway) that allows the user to converse with their assistant. A chat client is integrated with the AI gateway inference and supports deep thinking, search, text conversation, and image sending. Audio features depend on the integration and client configuration.
 
@@ -42,11 +42,13 @@ The required `prompt` accepts plain text, one OpenAI-compatible message object, 
 
 The response contains `completionText`, `reasoning` when available, `toolCalls` for your application to execute, `usage`, and `createdMessages`. The last field contains only the messages generated during this request, in generation order—not the submitted messages or the previous session history. Its messages use the OpenAI-compatible format and may include tool calls, tool results, reasoning and per-message metadata.
 
+`completionText` is the text of the last assistant message in `createdMessages`, not a concatenation of the turn: after a tool call, it holds only the final answer. It falls back to the accumulated inference text when the last assistant message is missing or empty, so a tool-call-only turn may return an empty `completionText` — check `toolCalls` to decide whether to continue.
+
 ### Decide whether to save the turn
 
 `commit` defaults to `true`: submitted messages and generated messages are saved to the session. Use `commit: false` for a one-off inference against the current history without saving that turn. You still receive the completion and `createdMessages`.
 
-This is not a dry run: inference is still billed, and tools can still perform actions. A later request will not have the uncommitted messages in its session history. If you need to continue that branch, supply the necessary messages again in an ordered `prompt` array.
+This is not a dry run: inference is still billed and tools can still act. Uncommitted messages stay out of later session history — to continue that branch, resubmit them in an ordered `prompt` array.
 
 ### Add context for one inference
 

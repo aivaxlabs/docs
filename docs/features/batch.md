@@ -1,4 +1,4 @@
-﻿# Batch
+# Batch
 
 Batch is AIVAX's feature for running the same AI workflow over many independent items. It turns a list of inputs into a background-processed queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
 
