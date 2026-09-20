@@ -213,7 +213,7 @@ Use `multimodal_preprocess` when the main model should receive a textual descrip
 
 ```json
 {
-    "model": "@meta/llama-3.3-70b",
+    "model": "@metaai/llama-3.3-70b",
     "messages": [
         {
             "role": "user",
@@ -324,7 +324,9 @@ Use `builtin_tools` to enable AIVAX built-in tools for a direct request without 
 }
 ```
 
-Built-in tools include `WebSearch`, `AdvancedWebUsage`, `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
+Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage`, `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
+
+`DateTime` exposes `get_date_time`, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set `builtin_tools.options.dateTimeTimeZone` to an IANA identifier; the default is `America/Los_Angeles` (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See [Current Date and Time](../tools/builtin-tools.md#current-date-and-time) for configuration and output examples.
 
 On-demand tools are suitable for occasional calls, prototypes, and integrations that do not need a persistent gateway. If the same application always uses the same tools, prefer configuring them in an AI Gateway so the policy is centralized.
 
@@ -471,10 +473,12 @@ I found several candidates and should rank them by cost, speed, and modality sup
 <assistant-answer>
 For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.
 
+Model availability and prices change over time; the picks below are example output — see [Pricing](../pricing.md) for current values.
+
 Top picks:
 
 1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.
-2. @qwen/qwen3.5-9b: the lowest input cost with video support.
+2. @qwen/qwen3.5-9b: low input cost in this example output with video support.
 3. @amazon/nova-lite: low input cost and a large context window.
 
 Use VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them.
@@ -493,7 +497,7 @@ When the user replies, keep the conversation history focused on the user-visible
         },
         {
             "role": "assistant",
-            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: the lowest input cost with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
+            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](../pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
         },
         {
             "role": "user",

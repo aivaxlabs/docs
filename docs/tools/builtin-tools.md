@@ -18,6 +18,42 @@ When tools are available via `builtin_tools` in a direct call, the application m
 
 The values in `builtin_tools.tools` are configuration flags such as `WebSearch`, `Code`, and `OpenUrl`. The model sees runtime function names such as `web_search`, `evaluate_code`, and `open_url`. Use runtime function names when configuring skill tool allowlists or shell tool allowlists.
 
+## Current Date and Time
+
+Enable `DateTime` to expose `get_date_time`. This tool takes no arguments and reads the current time when it is called. It returns the date, time, day of the week, time zone, UTC offset, and an ISO 8601 timestamp.
+
+In the dashboard, select **Current date and time** in the gateway's built-in tools, then edit its **Time zone** under **Current date and time configuration**. The Functions playground and Batch workflow tool options also expose this setting.
+
+Configure `dateTimeTimeZone` with an IANA time zone identifier. The default is `America/Los_Angeles` (Pacific Time), which automatically follows PST/PDT daylight-saving changes rather than using a fixed UTC offset. For example, use `America/Sao_Paulo` for São Paulo or `UTC` for UTC. Invalid identifiers are rejected. The tool uses this configured zone, not the browser or user-context time zone.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": ["DateTime"],
+    "options": {
+        "dateTimeTimeZone": "America/Los_Angeles"
+    }
+}
+```
+
+For a saved gateway, include `DateTime` in `parameters.sentinelOptions.enabledFunctions` and set `parameters.builtinFunctionsOptions.dateTimeTimeZone`. For a Batch workflow, use `enabledTools.enabledFunctions` and `enabledTools.options.dateTimeTimeZone`.
+
+Example tool result (illustrative, not a live reading):
+
+```json
+{
+    "date": "2026-07-15",
+    "time": "09:30:00",
+    "day_of_week": "Wednesday",
+    "time_zone": "America/Los_Angeles",
+    "utc_offset": "-07:00",
+    "date_time": "2026-07-15T09:30:00-07:00"
+}
+```
+
+The date uses `yyyy-MM-dd`, time uses 24-hour `HH:mm:ss`, and weekday names are returned in English. All fields describe the same instant.
+
 ## Internet Search
 
 This function enables internet search in your model. With this, the model can query specific or real‐time information such as weather data, news, game results, etc.

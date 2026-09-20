@@ -122,13 +122,7 @@ Hook responses follow the worker convention: any `2xx` response continues the ru
 
 ### Run and inspect a test
 
-Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Account-level concurrency depends on the current plan:
-
-| Plan | Concurrent runs per account |
-| --- | ---: |
-| Free | 1 |
-| Pro | 4 |
-| Max | 8 |
+Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Account-level concurrency depends on the current plan. See [Plans and limits](../limits.md#plan-limits) for current values.
 
 A run processes its conversation sequentially, while eligible runs from the same account can execute concurrently. Every turn checks that the account can continue operating. A run can fail if the balance is exhausted or inference cannot continue, and a pending or running run can be cancelled from the dashboard.
 

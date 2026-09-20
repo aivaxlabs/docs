@@ -55,6 +55,8 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Image generation and editing | 5/day | 500/day | 5,000/day |
 | General service actions | 30/day | 5,000/day | 100,000/day |
 | Bash commands | 300/hour | 30,000/hour | — |
+| **Agentic tests** |  |  |  |
+| Concurrent runs per account | 1 | 4 | 8 |
 | **Batch processing** |  |  |  |
 | Workflow items processed | 500/day | 100,000/day | — |
 | Files per import request | 1,000 | 1,000 | 1,000 |
@@ -65,6 +67,8 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Cost per excess GB | — | $0.50/GB/month | $0.20/GB/month |
 | Conversation retention | 2 hours | 2 days | 30 days |
 | Support level | Email | Priority | Dedicated |
+
+Reseller accounts support 8 concurrent agentic test runs per account.
 
 Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:
 

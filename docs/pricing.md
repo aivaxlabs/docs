@@ -80,7 +80,7 @@ Generation and transcription rates depend on the selected model. Media descripti
 
 ## Web Search, OCR and Fetch
 
-Web and X searches are billed per search. Advanced web search is billed by token usage and varies with the model and number of interactions. Fetch and OCR extraction use Processing Units (PUs), with a daily free allowance by plan. These allowances and PU rates do not apply to moderation.
+Web and X searches are billed per search. Advanced web search is billed by token usage and varies with the model and number of interactions. Fetch and OCR extraction use Processing Units (PUs), with a daily free allowance by plan. Optional schema-guided JSON conversion is charged separately. The extraction allowances and PU rates do not apply to JSON conversion or moderation.
 
 | Description | Pricing |
 | --- | ---: |
@@ -90,6 +90,9 @@ Web and X searches are billed per search. Advanced web search is billed by token
 | Fetch and OCR extraction - Free | **1,000 PUs/day free**, then **$0.15/1k PUs** |
 | Fetch and OCR extraction - Pro | **10,000 PUs/day free**, then **$0.05/1k PUs** |
 | Fetch and OCR extraction - Max | **50,000 PUs/day free**, then **$0.02/1k PUs** |
+| Fetch JSON conversion (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
+
+For the [Fetch API](web-foundation/fetch-and-ocr.md), `processingUnits` reports text/OCR extraction usage and `jsonProcessingUnits` reports the additional schema-guided JSON conversion usage. JSON PUs account for input, cached input, and output token usage at the processing model and provider's rates; they are not priced at the plan's OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge.
 
 ## Storage
 

@@ -111,6 +111,8 @@ Server-side tool events can be streamed to clients as `servertool` updates.
 
 Built-in tools can be configured on a gateway or supplied per request with `builtin_tools`. Available built-in tool flags include:
 
+- `DateTime` — current date and time through `get_date_time`; configure `dateTimeTimeZone` in built-in tool options (default: `America/Los_Angeles`, Pacific Time).
+
 - `WebSearch`
 - `AdvancedWebUsage`
 - `OpenUrl`
@@ -153,7 +155,6 @@ Moderation is an input gate that runs before the main model. When at least one m
 | **Political topics** | `politicalThreshold` | Political persuasion, campaigning, manipulation, or highly political content. |
 | **Dangerous content** | `dangerousContentThreshold` | Weapons, explosives, cyber abuse, self-harm, or other dangerous acts and instructions. |
 | **Jailbreak attempts** | `jailbreakThreshold` | Attempts to override instructions, reveal protected instructions, exfiltrate data, or inject prompts. |
-| **Off-topic subjects** | `offTopicThreshold` | How far the latest request is from the purpose and topics established by the conversation. Normal topic evolution receives a low score; unrelated or deliberate redirection receives a high score. |
 
 ### Understand sensitivity levels
 
@@ -172,21 +173,20 @@ For enabled categories, the blocking cutoff is `11 - sensitivity level`. A safeg
 
 ### Add gateway-specific rules
 
-**Additional moderation rules** let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all six scores.
+**Additional moderation rules** let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all five scores.
 
 For example:
 
 ```text
-Keep the assistant focused on insurance support.
-Treat requests for unrelated financial investments, entertainment, or general trivia as off-topic.
-Allow users to discuss claim accidents when they are asking for coverage or assistance.
+Allow users to describe accidents and injuries when asking for insurance coverage or assistance.
+Treat requests for instructions to cause an accident or harm someone as dangerous content.
 ```
 
-Additional rules guide classification; they do not create a separate score or block an input directly. At least one category must have a sensitivity level above `0` for moderation to run. In the example above, enable **Off-topic subjects** so the safeguard score can produce a blocking decision.
+Additional rules guide classification; they do not create a separate score or block an input directly. At least one category must have a sensitivity level above `0` for moderation to run. In the example above, enable **Dangerous content** so the safeguard score can produce a blocking decision.
 
 Write rules as short policy statements with explicit allowed and disallowed cases. Do not include secrets, credentials, or private operational data because the rules are stored with the gateway configuration and sent to the safeguard model during moderation.
 
-The following gateway fragment enables different sensitivity levels and gives the off-topic classifier domain-specific guidance. The values are an example, not a recommended production baseline:
+The following gateway fragment enables different sensitivity levels and gives the safeguard domain-specific guidance. The values are an example, not a recommended production baseline:
 
 ```json
 {
@@ -196,8 +196,7 @@ The following gateway fragment enables different sensitivity levels and gives th
     "politicalThreshold": 2,
     "dangerousContentThreshold": 6,
     "jailbreakThreshold": 7,
-    "offTopicThreshold": 6,
-    "additionalRules": "Keep the assistant focused on insurance support. Allow claim and coverage discussions."
+    "additionalRules": "Allow descriptions of accidents and injuries for insurance support. Treat instructions to cause accidents or harm someone as dangerous content."
   }
 }
 ```

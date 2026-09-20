@@ -80,7 +80,7 @@ For RAG, link collections with short, self-contained, well-named documents. Choo
 - `FullRewrite`: Rewrites recent user and assistant messages using a resolver model.
 - `QueryFunction`: Exposes a search function to the model instead of injecting a search result before inference.
 
-For tools, enable only those with a clear role. Built-in tools cover common capabilities such as web search, opening URLs, code execution, image generation, document generation, page generation, calendar actions, memory, HTTP requests, and X post lookup. External MCP is better when you already have an MCP server with business tools. Protocol functions are useful when you want to expose specific HTTP callbacks to the model without installing a full MCP server.
+For tools, enable only those with a clear role. Built-in tools cover common capabilities such as current date and time, web search, opening URLs, code execution, image generation, document generation, page generation, calendar actions, memory, HTTP requests, and X post lookup. External MCP is better when you already have an MCP server with business tools. Protocol functions are useful when you want to expose specific HTTP callbacks to the model without installing a full MCP server.
 
 Use a tool handler only when the selected model needs help producing tool calls. The available handler is `react.v1.selfcall`; `native` or no value uses the model's native tool calling.
 
