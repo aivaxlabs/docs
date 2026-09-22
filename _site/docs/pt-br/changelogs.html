@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Skills | AIVAX </title>
+        <title>Registro de altera&#231;&#245;es | AIVAX </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="title" content="Skills | AIVAX ">
+        <meta name="title" content="Registro de altera&#231;&#245;es | AIVAX ">
 
 
         <link rel="icon" href="../../assets/img/favicon.ico">
@@ -20,12 +20,12 @@
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
         <meta name="docfx:navrel" content="../../toc.html">
-        <meta name="docfx:tocrel" content="../toc.html">
+        <meta name="docfx:tocrel" content="toc.html">
 
         <meta name="docfx:rel" content="../../">
 
 
-        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/features/skills.md/#L1">
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/changelogs.md/#L1">
         <meta name="loc:inThisArticle" content="In this article">
         <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
         <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
@@ -125,147 +125,48 @@
                 </div>
 
                 <article data-uid="">
-<h1 id="skills">Skills</h1>
+<h1 id="registro-de-alterações">Registro de alterações</h1>
 
-<p>Skills (also known as abilities) can be used to improve how your agent performs on specific tasks. Skills are special instructions that are retrieved on demand, and your agent loads these skills as needed.</p>
-<p>Ideally, your agent should only use a skill when it is relevant to the task it is performing. It is embedded in the conversation through a special tool, and skill instructions are added to the context, indicating that the agent has context provided in the context that can be used in the conversation.</p>
-<h2 id="how-do-skills-work">How do skills work?</h2>
-<p>Skills are primarily provided through a slug and a brief description of what that skill is and when it should be used. You can have multiple skills in your account, but only use a subset of them in your <a href="/docs/inference/ai-gateway">AI Gateway</a>. The skills enabled in the AI Gateway are listed in the model’s system instructions and the <code>read_skill</code> function is added to the context.</p>
-<p>When the model calls <code>read_skill</code>, it passes an array of skill slugs. The instructions for the matching skills are inserted into the system instructions of the next context turn inside <code>&lt;activated_skill&gt;</code> blocks. More than one skill can be activated when a task spans multiple domains, and the model can call <code>read_skill</code> again with a different list when the active task changes.</p>
-<p>For this to work, the chosen base model must support <strong>function calls</strong> and <strong>system instructions</strong>.</p>
+<p>Alterações técnicas que afetam produtos, serviços ou a API pública da AIVAX. As datas indicam quando as entradas foram adicionadas ou atualizadas, não datas confirmadas de implantação em produção. Cada item identifica o produto ou serviço afetado; manutenção sem efeito visível ao usuário é omitida.</p>
+<h2 id="segunda-feira-21-de-setembro-de-2026">Segunda-feira, 21 de setembro de 2026</h2>
+<p>Alterações críticas:</p>
 <ul>
-<li>If your model does not support function calls, consider using a <a href="/docs/inference/pipelines">tool handler</a> to handle function calls.</li>
-<li>If your model does not support system instructions, consider using the <code>No system instructions</code> flag, which provides system instructions as a user message.</li>
+<li><strong>Gateways — A moderação fora de tópico está sendo removida.</strong> O limite dedicado fora de tópico não bloqueará mais solicitações que se desviem do objetivo da conversa. Se sua aplicação depende dessa verificação, revise suas restrições de tópico antes de adotar essa mudança; as categorias de moderação restantes não são um substituto equivalente.</li>
+<li><strong>Ferramentas incorporadas — A pesquisa avançada na web está sendo desativada.</strong> A ferramenta <code>AdvancedWebUsage</code> retornará uma resposta indisponível ao invés de realizar a pesquisa. Remova a dependência dessa ferramenta das instruções e fluxos de trabalho do gateway. A <a href="web-foundation/web-search.html">Pesquisa na Web</a> padrão e a extração de URL permanecem alternativas separadas, não substitutos equivalentes para pesquisas em múltiplas etapas.</li>
+<li><strong>Modelos — Identificador do modelo Mercury 2.5 alterado.</strong> Substitua <code>@inception/mercury-2.5-preview</code> por <code>@inception/mercury-2.5</code> nas solicitações e configurações do gateway. O identificador de pré‑visualização não está mais listado, e a substituição não está mais marcada como pré‑visualização.</li>
+<li><strong>Gateways / MCP — Nomes de ferramentas MCP são qualificados por origem.</strong> Ferramentas de diferentes fontes MCP não compartilham mais um nome não qualificado no gateway. Revise as instruções do gateway, regras de seleção de ferramentas e workers que correspondem a nomes de ferramentas exatos. O nome original da ferramenta no servidor MCP conectado permanece inalterado. Veja <a href="tools/mcp.html">funções MCP</a>.</li>
 </ul>
-<p>Larger models tend to follow instructions and function calls very strictly. Run tests to see if your model is changing its skills as required.</p>
-<h2 id="structure-and-operation">Structure and operation</h2>
-<p>A skill has <code>slug</code>, <code>description</code>, <code>instructions</code>, and <code>options</code>. The <code>slug</code> is the technical identifier used by the account and must be 64 characters or fewer, using letters, numbers, underscores, periods, or hyphens. The <code>description</code> is the text that helps the model decide when that skill should be loaded; it needs to explain the usage scenario instead of repeating the name. The <code>instructions</code> are the full content that will be inserted when the skill is activated. In the current runtime path, <code>instructionSources</code> is stored and exported with the skill configuration, but only the inline <code>instructions</code> field is injected when the model activates a skill.</p>
-<p>Write the description as a routing rule. A description like “legal skill” is weak because it doesn’t say when to use it. A better description would be “use when the user asks for analysis, review, or explanation of contractual clauses in simple language.” The instructions, on the other hand, should be operational: explain how to respond, what questions to ask when data is missing, which tools may be useful, what limits must be respected, and the expected final format. The model reads the description to choose the skill and reads the instructions to perform the task.</p>
-<p><code>allowedToolsNames</code> is part of the skill configuration and is intended to associate runtime tool names with a skill, such as <code>web_search</code>, <code>open_url</code>, <code>generate_image</code>, or <code>generate_web_page</code>. In the current runtime path, the general always-visible tool list is the reliable way to keep shared tools visible when the gateway hides tools without a skill.</p>
-<p>Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least <code>slug</code> and <code>instructions</code>; <code>description</code> and <code>options</code> can complement the configuration. When importing a skill with an existing <code>slug</code>, AIVAX updates the corresponding skill instead of creating a duplicate.</p>
-<h2 id="how-to-write-skills">How to write skills?</h2>
-<p>Writing effective skills requires clarity and specificity in the instructions. Here are the main guidelines:</p>
-<h3 id="skill-structure">Skill structure</h3>
-<p>A well‐written skill should contain:</p>
-<ol>
-<li><p><strong>Clear, descriptive slug</strong>: Use a short slug that immediately identifies the purpose of the skill, such as <code>python_code_analysis</code>, <code>customer_support</code>, or <code>technical_translation</code>.</p>
-</li>
-<li><p><strong>Concise description</strong>: Provide a brief description (1–2 sentences) that explains when the skill should be activated. This description is crucial because the model uses it to decide whether to load the skill.</p>
-</li>
-<li><p><strong>Detailed instructions</strong>: The actual instructions should include:</p>
+<p>Correções:</p>
 <ul>
-<li>Clear objectives of the task</li>
-<li>Expected response format</li>
-<li>Specific rules to follow</li>
-<li>Examples where appropriate</li>
-<li>Important constraints or limitations</li>
+<li><strong>Coleções, Gateways e Gerações — Disponibilidade de modelo de serviço.</strong> A geração de respostas de coleção, roteamento de gateway, utilitários de chat e serviços de processamento de mídia evitam selecionar modelos temporariamente indisponíveis. O Teach Skill e o pré‑processamento multimodal podem tentar outro modelo disponível após uma falha recuperável; o sucesso ainda depende da disponibilidade do serviço.</li>
+<li><strong>Teach Skill — Cálculo de uso.</strong> As cobranças de processamento do Teach Skill utilizam o preço do modelo associado à solicitação concluída, inclusive quando uma tentativa altera o modelo usado. Veja <a href="generations/teach-skill.html">Teach Skill</a> e <a href="pricing.html">Preços</a>.</li>
+<li><strong>Fetch e OCR — Extração de página mais confiável.</strong> Solicitações de conteúdo de página canceladas ou expiradas não deixam mais a extração de página em execução indefinidamente. Isso resolve casos em que a extração de conteúdo web poderia travar.</li>
+<li><strong>Clientes de chat — Resposta final e histórico de mensagens.</strong> <code>completionText</code> agora seleciona a resposta final gerada pelo assistente ao invés de combiná‑la com o texto anterior do assistente durante o uso da ferramenta. O campo de resposta <code>createdMessages</code> adicionado preserva as mensagens recém‑geradas em ordem, incluindo interações de ferramenta; mensagens enviadas não são repetidas. Use este campo quando precisar da rodada completa gerada.</li>
+<li><strong>Gateways / MCP — Resultados estruturados de MCP são mantidos.</strong> Assistentes recebem conteúdo de resultado estruturado além dos blocos de conteúdo suportados, evitando informações ausentes quando uma ferramenta MCP retorna saída estruturada.</li>
+<li><strong>Fetch e OCR — Extração de postagens X.</strong> Extração de texto legível aprimorada a partir de links públicos de postagens X. A disponibilidade de conteúdo e restrições de acesso ainda se aplicam.</li>
+<li><strong>Fetch e OCR — Normalização de texto plano alterada.</strong> A conversão para texto plano não colapsa mais espaços internos nem normaliza caracteres Unicode. Espaços ao redor ainda podem ser removidos nos resultados de extração. Aplicações que comparam texto extraído exatamente ou requerem espaçamento normalizado devem realizar essa normalização por conta própria.</li>
 </ul>
-</li>
-</ol>
-<h3 id="best-practices">Best practices</h3>
+<p>Alterações:</p>
 <ul>
-<li><strong>Be specific</strong>: Avoid vague instructions. Instead of “be helpful,” say “provide step‐by‐step explanations with code examples.”</li>
-<li><strong>Use imperative language</strong>: Start sentences with action verbs (analyze, explain, compare, list).</li>
-<li><strong>Keep the scope limited</strong>: Each skill should focus on a specific knowledge area or type of task.</li>
-<li><strong>Iteratively test</strong>: Refine your skills based on how the model responds in practice.</li>
-<li><strong>Avoid redundancy</strong>: Do not repeat information already present in the base system instructions.</li>
+<li><strong>Fetch e OCR — Extração estruturada opcional.</strong> Forneça <code>responseSchema</code> para converter o conteúdo extraído em JSON. Os resultados adicionam <code>extractedObject</code> e <code>jsonProcessingUnits</code> mantendo <code>extractedText</code> em caso de sucesso. Sem um esquema, os novos campos são nulos e zero, respectivamente. A conversão para JSON é cobrada separadamente da extração e não está coberta pela cota diária de extração. Veja <a href="web-foundation/fetch-and-ocr.html">Fetch e OCR</a>.</li>
+<li><strong>Gerações — Decisões semânticas.</strong> Avalie múltiplas perguntas nomeadas contra um estado JSON compartilhado usando <code>noul</code> (critério verdadeiro/falso), <code>choice</code> ou <code>score</code>. As respostas incluem respostas nomeadas, uso de tokens e custo. O serviço requer saldo positivo, e seu uso de tokens contribui para os totais de uso da conta.</li>
+<li><strong>Ferramentas incorporadas — Data e hora atuais.</strong> A opção <code>DateTime</code> permite que assistentes solicitem a data, hora, dia da semana, fuso horário e deslocamento UTC atuais. Defina <code>dateTimeTimeZone</code> para o fuso horário desejado; o padrão é <code>America/Los_Angeles</code>, com ajustes de horário de verão, independente do fuso horário do navegador. Fusos horários inválidos são rejeitados.</li>
+<li><strong>Modelos — Opções de modelo adicionais.</strong> Adiciona GLM-5.3-FlashX, Fugu Max, Pareto, Ling 3.0 Flash VL, MiMo-V2.6-Pro, MiMo-V2.6-Flash, MiMo-V2.6-Pro-UltraSpeed e Grok 4.7 ao catálogo de inferência. Os aliases Xiaomi frontier, mid e budget agora selecionam modelos MiMo V2.6, enquanto <code>@model-router/grok:latest</code> seleciona Grok 4.7. Usuários de alias podem observar qualidade de resposta, latência e custo diferentes; disponibilidade e capacidades suportadas dependem do modelo selecionado e do plano da conta.</li>
+<li><strong>Inferência — Recuperação de falhas transitórias.</strong> Solicitações de inferência podem fazer tentativas adicionais de recuperação quando um provedor está temporariamente indisponível. Isso pode evitar algumas solicitações falhas, mas também pode aumentar o tempo de resposta antes que um erro seja retornado.</li>
+<li><strong>Assistente Avi — Modelo padrão atualizado.</strong> O assistente do console AIVAX altera seu modelo padrão, o que pode mudar o estilo de resposta, latência e custo de uso. Isso não altera o modelo selecionado em seus próprios gateways.</li>
+<li><strong>Documentação — Orientação de serviço atualizada.</strong> A visão geral da documentação da API e as orientações do Assistente Avi cobrem sessões de voz, testes agenticos, classificação, segmentação, reordenação e extração web, com links de documentação atuais e orientação de faturamento específica por serviço. Esta é uma atualização de orientação, não a introdução desses serviços.</li>
+<li><strong>Modelos — DeepSeek V4.1 Flash adicionado.</strong> O catálogo de inferência inclui <code>@deepseek/deepseek-v4.1-flash</code> com suporte a chamada de ferramenta. Verifique a disponibilidade do modelo e a elegibilidade do plano antes de selecioná‑lo.</li>
+<li><strong>Modelos — Seleções de roteador atualizadas.</strong> <code>@model-router/deepseek:latest</code> e <code>@model-router/deepseek:budget</code> agora selecionam DeepSeek V4.1 Flash. Aplicações que usam esses aliases podem observar qualidade de resposta, latência e custo diferentes sem mudar o alias. Adiciona <code>@model-router/claude:frontier-mythos</code> e <code>@model-router/mercury:latest</code> como opções adicionais.</li>
+<li><strong>Clientes de chat — Entrada de prompt estruturado.</strong> Prompts síncronos de cliente de chat aceitam texto simples, uma única mensagem ou um array ordenado de mensagens, incluindo chamadas de ferramenta do assistente e resultados de ferramenta correspondentes. A entrada de mensagem única existente continua suportada. <code>instructions</code> opcional adiciona contexto para aquela solicitação sem substituir o contexto da sessão salvo. Veja <a href="features/chat-clients.html">Clientes de chat</a>.</li>
+<li><strong>Clientes de chat — Turnos sem persistência de sessão.</strong> Defina <code>commit</code> como falso para gerar uma resposta sem salvar as mensagens enviadas e geradas no histórico da sessão. O padrão permanece verdadeiro. Isso não é uma pré‑visualização gratuita: inferência e ações de ferramenta ainda são executadas. Para continuar uma interação de ferramenta não confirmada, envie a mensagem de chamada de ferramenta do assistente junto com seus resultados de ferramenta.</li>
+<li><strong>Testes Agenticos — Notificações de teste opcionais.</strong> As preferências de notificação da conta podem habilitar resumos semanais de teste e alertas quando um teste atinge três falhas consecutivas. Estes complementam as notificações de falha e recuperação existentes. Veja <a href="inference/agentic-tests.html">Testes Agenticos</a>.</li>
+<li><strong>Fetch e OCR — Conteúdo web renderizado.</strong> A extração de HTML suporta conteúdo de página renderizado, melhorando a cobertura de páginas cujo texto legível depende de scripts. A renderização é cobrada em unidades de processamento; isso não garante acesso a todos os sites ou páginas restritas. Veja <a href="web-foundation/fetch-and-ocr.html">Fetch e OCR</a>.</li>
 </ul>
-<h3 id="skill-example">Skill example</h3>
-<ul>
-<li>Name: Code Performance Analysis</li>
-<li>Description: Use when the user asks for performance analysis, optimization, or bottleneck identification in code.</li>
-</ul>
-<pre><code class="lang-markdown">- Analyze the provided code identifying possible performance bottlenecks
-- Consider temporal complexity (Big O) and memory usage
-- Suggest specific optimizations with code examples
-- Explain the impact of each proposed optimization
-- Prioritize readability and maintainability alongside performance
-</code></pre>
-<h2 id="when-to-use-skills">When to use skills?</h2>
-<p>Skills are most useful in specific scenarios where you need specialized behavior:</p>
-<h3 id="ideal-scenarios">Ideal scenarios</h3>
-<p><strong>1. Domain‐specific expertise</strong></p>
-<ul>
-<li>Technical terminology specific to an industry</li>
-<li>Compliance with regulations or standards</li>
-<li>Specific methodologies (Scrum, ITIL, SOC 2, etc.)</li>
-</ul>
-<p><strong>2. Tone or style shift</strong></p>
-<ul>
-<li>Formal vs. casual service</li>
-<li>Technical vs. simplified communication</li>
-<li>Different personas or roles</li>
-</ul>
-<p><strong>3. Complex, structured processes</strong></p>
-<ul>
-<li>Multi‐step workflows</li>
-<li>Analyses that follow specific frameworks</li>
-<li>Document generation with strict formats</li>
-</ul>
-<p><strong>4. Tasks that require extensive context</strong></p>
-<ul>
-<li>When instructions are too long to include every time</li>
-<li>Knowledge that is only occasionally relevant</li>
-<li>Multiple mutually exclusive rule sets</li>
-</ul>
-<h3 id="when-not-to-use-skills">When NOT to use skills</h3>
-<ul>
-<li><strong>Permanent instructions</strong>: If instructions should always be active, put them in the base system instructions.</li>
-<li><strong>Simple tasks</strong>: For direct answers that don’t require special context.</li>
-<li><strong>General knowledge</strong>: Information the model already knows well does not need to be reinforced via skills.</li>
-<li><strong>Too few or too many skills</strong>: Aim for 3–10 skills. Less than that, consider using base instructions. More than that can confuse the model.</li>
-</ul>
-<h3 id="comparison-skills-vs-system-instructions">Comparison: Skills vs. System Instructions</h3>
-<table>
-<thead>
-<tr>
-<th>Aspect</th>
-<th>Skills</th>
-<th>System Instructions</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>When to apply</td>
-<td>On demand, when relevant</td>
-<td>Always active</td>
-</tr>
-<tr>
-<td>Ideal size</td>
-<td>Can be extensive</td>
-<td>Should be concise</td>
-</tr>
-<tr>
-<td>Context switching</td>
-<td>Yes, can alternate</td>
-<td>No, fixed</td>
-</tr>
-<tr>
-<td>Token usage</td>
-<td>Economical (only when needed)</td>
-<td>Constant</td>
-</tr>
-<tr>
-<td>Best for</td>
-<td>Specialized knowledge</td>
-<td>Base agent behavior</td>
-</tr>
-</tbody>
-</table>
-<h3 id="implementation-tips">Implementation tips</h3>
-<ul>
-<li><strong>Start small</strong>: Implement 2–3 skills initially and expand as needed.</li>
-<li><strong>Monitor usage</strong>: Check that the model is activating skills correctly.</li>
-<li><strong>Avoid overlap</strong>: Skills with similar descriptions can confuse the model.</li>
-<li><strong>Test transitions</strong>: Ensure the model switches skills when appropriate.</li>
-</ul>
-<h2 id="when-to-choose-rag-or-system-instructions-instead">When to choose RAG or system instructions instead</h2>
-<p>Use skills together with <a href="/docs/rag/collections">collections</a> when the task needs searchable knowledge, and with <a href="/docs/inference/pipelines">pipelines</a> when it needs event-time policy or message rewriting. For broader background, see the <a href="https://www.promptingguide.ai/">Prompt Engineering Guide</a>, <a href="https://www.anthropic.com/index/building-effective-agents">Building Production‐Ready RAG Applications</a>, and the <a href="/docs/inference/ai-gateway">AI Gateway Documentation</a>.</p>
 
 </article>
 
                 <div class="contribution d-print-none">
-                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/features/skills.md/#L1" class="edit-link">Edit this page</a>
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/changelogs.md/#L1" class="edit-link">Edit this page</a>
                 </div>
 
                 <div class="next-article d-print-none border-top" id="nextArticle"></div>

@@ -12,6 +12,8 @@
   href: limits.md
 - name: Coleta de dados
   href: data-collecting.md
+- name: Registros de alterações
+  href: changelogs.md
 
 - name: RAG e coleções
 
@@ -25,7 +27,7 @@
   href: rag/text-segmentation.md
 - name: Classificação de texto
   href: rag/classification.md
-- name: Re-ranqueadores
+- name: Reclassificadores
   href: rag/reranking.md
 - name: Reflex
   href: rag/reflex.md
@@ -69,7 +71,7 @@
 - name: Geração de imagens
   href: generations/images.md
 
-- name: Recursos e recursos
+- name: Recursos e funcionalidades
 
 - name: Habilidades
   href: features/skills.md

@@ -127,7 +127,7 @@
                 <article data-uid="">
 <h1 id="fetch-and-ocr">Fetch and OCR</h1>
 
-<p>Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. Use <a href="web-search.html">Web Search</a> first if you need to discover sources rather than read a known URL.</p>
+<p>Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. The Fetch API can also convert the extracted text into structured JSON using a schema you provide. Use <a href="web-search.html">Web Search</a> first if you need to discover sources rather than read a known URL.</p>
 <p>Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result.</p>
 <h2 id="what-you-can-extract">What you can extract</h2>
 <table>
@@ -201,7 +201,7 @@
 </tr>
 <tr>
 <td>Output</td>
-<td>Extracted text with processing-unit usage and optional per-item errors. It is not a generated summary or answer.</td>
+<td>Extracted text, optional schema-guided JSON generated from that text, processing-unit usage, and per-item errors.</td>
 <td>Model-generated content focused by your guidance, which can describe visual or audiovisual information beyond the text present in the source.</td>
 </tr>
 <tr>
@@ -216,13 +216,13 @@
 </tr>
 <tr>
 <td>Billing</td>
-<td>Processing units (PUs), with plan-dependent allowances and rates.</td>
+<td>Extraction processing units (PUs), with plan-dependent allowances and rates. Optional JSON conversion is billed separately and is not covered by the extraction allowance.</td>
 <td>AI usage charges under Media Descriptions pricing; Fetch PU allowances do not replace these charges.</td>
 </tr>
 </tbody>
 </table>
 <p>For a PDF report, choose Fetch when you need its text for indexing or later analysis. Choose Media Descriptions when you need an explanation of its charts or a guided interpretation of the content. For a receipt image, Fetch reads the printed text; Media Descriptions can interpret the receipt according to your extraction guidance.</p>
-<p>Neither guarantees perfect results. Fetch can lose text or structure because of OCR and layout limitations. Media Descriptions can omit details or introduce incorrect interpretations because its output is model-generated. Verify consequential details against the original source, and consult <a href="/docs/pricing">Pricing</a> before choosing a processing path.</p>
+<p>Neither guarantees perfect results. Fetch can lose text or structure because of OCR and layout limitations. Media Descriptions can omit details or introduce incorrect interpretations because its output is model-generated. Verify consequential details against the original source and compare the billing paths in the pricing section below.</p>
 <h2 id="choose-an-integration">Choose an integration</h2>
 <table>
 <thead>
@@ -249,14 +249,89 @@
 <p>The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs.</p>
 <h2 id="fetch-content-with-the-api">Fetch content with the API</h2>
 <p>Authenticate with an AIVAX API key; see <a href="/docs/authentication">Authentication</a>. Supply a non-empty <code>contents</code> array containing URLs or base64 data URIs. Each item is limited to 10 MB.</p>
-<p>Set <code>returnErrors</code> to <code>true</code> when you need an error result for an individual failed item. Results include <code>index</code>, <code>extractedText</code>, <code>processingUnits</code>, and <code>error</code>, allowing your application to associate extracted text or a failure with the corresponding input.</p>
+<p>The <code>system.v1.web.fetch</code> operation accepts these JSON request fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contents</code></td>
+<td>Array of strings</td>
+<td>Yes</td>
+<td>Non-empty list of URLs or base64 data URIs to extract.</td>
+</tr>
+<tr>
+<td><code>returnErrors</code></td>
+<td>Boolean</td>
+<td>No</td>
+<td>Defaults to <code>true</code>: includes a result for each failed item. When <code>false</code>, failed items are omitted.</td>
+</tr>
+<tr>
+<td><code>responseSchema</code></td>
+<td>JSON Schema object</td>
+<td>No</td>
+<td>Converts each item's extracted text into JSON guided by this schema. Omit it or use <code>null</code> for text-only extraction. The same schema applies to every item in the batch.</td>
+</tr>
+<tr>
+<td><code>responseSchema.instructions</code></td>
+<td>String</td>
+<td>No</td>
+<td>Optional extraction guidance inside the schema, such as which details to select or how to handle missing information. This is an AIVAX extension, not a standard JSON Schema keyword.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="extract-structured-json">Extract structured JSON</h3>
+<p>Provide <code>responseSchema</code> when your application needs fields from the source rather than only its text. Describe the expected properties, types, and required fields with JSON Schema. Use property descriptions and optional <code>responseSchema.instructions</code> to clarify what to extract. For example, an object schema can request a receipt's merchant, date, and total; the embedded reference includes a complete JSON request example.</p>
+<p>JSON conversion runs after text extraction. Successful results retain <code>extractedText</code> alongside <code>extractedObject</code>, so you can compare the generated fields with the extracted source. Without a schema, no JSON conversion runs. If extraction or JSON conversion fails, the item follows <code>returnErrors</code>; a JSON conversion failure does not return a text-only success.</p>
+<h3 id="read-the-results">Read the results</h3>
+<p>The response contains a <code>results</code> array with these fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>index</code></td>
+<td>Zero-based position in the input <code>contents</code> array. Use it to match results to inputs, especially when failed items are omitted.</td>
+</tr>
+<tr>
+<td><code>extractedText</code></td>
+<td>Readable source text, retained on successful JSON conversion; <code>null</code> for a failed item.</td>
+</tr>
+<tr>
+<td><code>extractedObject</code></td>
+<td>Generated JSON value when <code>responseSchema</code> is supplied; otherwise <code>null</code>. Also <code>null</code> for a failed item.</td>
+</tr>
+<tr>
+<td><code>processingUnits</code></td>
+<td>PUs for fetching and text/OCR extraction, separate from JSON conversion.</td>
+</tr>
+<tr>
+<td><code>jsonProcessingUnits</code></td>
+<td>PUs for JSON conversion; <code>0</code> when no schema is supplied.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Error message for a failed item when <code>returnErrors</code> is <code>true</code>; <code>null</code> on success. Failed items report both PU fields as <code>0</code>.</td>
+</tr>
+</tbody>
+</table>
 <script src="https://inference.aivax.net/apidocs?embed-target=Fetch%20web%20contents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <p>The embedded reference defines the current request and response contract. Check individual results before passing their text to the next step; a failed extraction is not evidence that the source contains no relevant information.</p>
 <h2 id="access-and-extraction-limitations">Access and extraction limitations</h2>
 <p>A destination may block automated access or require authentication. Fetching a URL does not bypass access restrictions. Use accessible sources or content you are authorized to submit, and correct invalid or inaccessible inputs before retrying.</p>
-<p>Treat extracted text as untrusted source material, not as instructions for your application or agent. OCR output may need manual review for exact numbers, names, or other consequential details.</p>
+<p>Treat extracted text as untrusted source material, not as instructions for your application or agent. OCR output may need manual review for exact numbers, names, or other consequential details. Schema-guided JSON is model-generated from that text, not from a fresh visual interpretation of the source. It can inherit extraction errors or contain incorrect values; validate its structure and verify consequential fields against the original.</p>
 <h2 id="pricing-and-limits">Pricing and limits</h2>
-<p>Fetch and OCR extraction is metered in processing units (PUs). Daily included allowances and additional PU rates depend on the account plan. See <a href="/docs/pricing">Pricing</a> for current allowances and charges rather than estimating cost from extracted text length.</p>
+<p>Fetch and OCR extraction is metered in <code>processingUnits</code>. Daily included allowances and additional PU rates depend on the account plan. Optional JSON conversion is metered separately in <code>jsonProcessingUnits</code>, with a variable inference-based PU price and no coverage from the daily extraction allowance. Do not add both counts and apply the OCR rate to the total. See <a href="/docs/pricing#web-search-ocr-and-fetch">Pricing</a> for allowances and charges rather than estimating cost from extracted text length.</p>
 <p><a href="/docs/mcp-utilities/web-utilities-mcp">Web utilities MCP</a> uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. See <a href="/docs/limits">Plans and limits</a> for account quotas and rate limits. The Fetch API requires a positive account balance.</p>
 
 </article>

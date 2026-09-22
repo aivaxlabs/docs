@@ -316,7 +316,7 @@
 </tbody>
 </table>
 <h2 id="web-search-ocr-and-fetch">Web Search, OCR and Fetch</h2>
-<p>Web and X searches are billed per search. Advanced web search is billed by token usage and varies with the model and number of interactions. Fetch and OCR extraction use Processing Units (PUs), with a daily free allowance by plan. These allowances and PU rates do not apply to moderation.</p>
+<p>Web and X searches are billed per search. Advanced web search is billed by token usage and varies with the model and number of interactions. Fetch and OCR extraction use Processing Units (PUs), with a daily free allowance by plan. Optional schema-guided JSON conversion is charged separately. The extraction allowances and PU rates do not apply to JSON conversion or moderation.</p>
 <table>
 <thead>
 <tr>
@@ -349,8 +349,13 @@
 <td>Fetch and OCR extraction - Max</td>
 <td style="text-align: right;"><strong>50,000 PUs/day free</strong>, then <strong>$0.02/1k PUs</strong></td>
 </tr>
+<tr>
+<td>Fetch JSON conversion (<code>responseSchema</code>)</td>
+<td style="text-align: right;">Variable inference-based price per PU; charged separately, with no daily extraction allowance</td>
+</tr>
 </tbody>
 </table>
+<p>For the <a href="web-foundation/fetch-and-ocr.html">Fetch API</a>, <code>processingUnits</code> reports text/OCR extraction usage and <code>jsonProcessingUnits</code> reports the additional schema-guided JSON conversion usage. JSON PUs account for input, cached input, and output token usage at the processing model and provider's rates; they are not priced at the plan's OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting <code>responseSchema</code> or setting it to <code>null</code> disables conversion, reports <code>jsonProcessingUnits: 0</code>, and incurs no JSON conversion charge.</p>
 <h2 id="storage">Storage</h2>
 <p>Each plan includes storage. Pro and Max overages are billed hourly at the monthly rates below; Free storage cannot be expanded.</p>
 <table>

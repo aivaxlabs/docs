@@ -209,17 +209,30 @@
 <h2 id="built-in-tools">Built-in tools</h2>
 <p>Built-in tools can be configured on a gateway or supplied per request with <code>builtin_tools</code>. Available built-in tool flags include:</p>
 <ul>
-<li><code>WebSearch</code></li>
-<li><code>AdvancedWebUsage</code></li>
-<li><code>OpenUrl</code></li>
-<li><code>Code</code></li>
-<li><code>Request</code></li>
-<li><code>Calendar</code></li>
-<li><code>Remember</code></li>
-<li><code>GenerateWebPage</code></li>
-<li><code>GenerateDocument</code></li>
-<li><code>XPostsSearch</code></li>
-<li><code>ImageGeneration</code></li>
+<li><p><code>DateTime</code> — current date and time through <code>get_date_time</code>; configure <code>dateTimeTimeZone</code> in built-in tool options (default: <code>America/Los_Angeles</code>, Pacific Time).</p>
+</li>
+<li><p><code>WebSearch</code></p>
+</li>
+<li><p><code>AdvancedWebUsage</code></p>
+</li>
+<li><p><code>OpenUrl</code></p>
+</li>
+<li><p><code>Code</code></p>
+</li>
+<li><p><code>Request</code></p>
+</li>
+<li><p><code>Calendar</code></p>
+</li>
+<li><p><code>Remember</code></p>
+</li>
+<li><p><code>GenerateWebPage</code></p>
+</li>
+<li><p><code>GenerateDocument</code></p>
+</li>
+<li><p><code>XPostsSearch</code></p>
+</li>
+<li><p><code>ImageGeneration</code></p>
+</li>
 </ul>
 <p>See <a href="/docs/tools/builtin-tools">Built-in tools</a>.</p>
 <h2 id="mcp-and-protocol-functions">MCP and protocol functions</h2>
@@ -269,11 +282,6 @@
 <td><code>jailbreakThreshold</code></td>
 <td>Attempts to override instructions, reveal protected instructions, exfiltrate data, or inject prompts.</td>
 </tr>
-<tr>
-<td><strong>Off-topic subjects</strong></td>
-<td><code>offTopicThreshold</code></td>
-<td>How far the latest request is from the purpose and topics established by the conversation. Normal topic evolution receives a low score; unrelated or deliberate redirection receives a high score.</td>
-</tr>
 </tbody>
 </table>
 <h3 id="understand-sensitivity-levels">Understand sensitivity levels</h3>
@@ -314,15 +322,14 @@
 </table>
 <p>For enabled categories, the blocking cutoff is <code>11 - sensitivity level</code>. A safeguard score of <code>0</code> never blocks. Configure each category independently; the request is blocked when any enabled category reaches its cutoff.</p>
 <h3 id="add-gateway-specific-rules">Add gateway-specific rules</h3>
-<p><strong>Additional moderation rules</strong> let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all six scores.</p>
+<p><strong>Additional moderation rules</strong> let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all five scores.</p>
 <p>For example:</p>
-<pre><code class="lang-text">Keep the assistant focused on insurance support.
-Treat requests for unrelated financial investments, entertainment, or general trivia as off-topic.
-Allow users to discuss claim accidents when they are asking for coverage or assistance.
+<pre><code class="lang-text">Allow users to describe accidents and injuries when asking for insurance coverage or assistance.
+Treat requests for instructions to cause an accident or harm someone as dangerous content.
 </code></pre>
-<p>Additional rules guide classification; they do not create a separate score or block an input directly. At least one category must have a sensitivity level above <code>0</code> for moderation to run. In the example above, enable <strong>Off-topic subjects</strong> so the safeguard score can produce a blocking decision.</p>
+<p>Additional rules guide classification; they do not create a separate score or block an input directly. At least one category must have a sensitivity level above <code>0</code> for moderation to run. In the example above, enable <strong>Dangerous content</strong> so the safeguard score can produce a blocking decision.</p>
 <p>Write rules as short policy statements with explicit allowed and disallowed cases. Do not include secrets, credentials, or private operational data because the rules are stored with the gateway configuration and sent to the safeguard model during moderation.</p>
-<p>The following gateway fragment enables different sensitivity levels and gives the off-topic classifier domain-specific guidance. The values are an example, not a recommended production baseline:</p>
+<p>The following gateway fragment enables different sensitivity levels and gives the safeguard domain-specific guidance. The values are an example, not a recommended production baseline:</p>
 <pre><code class="lang-json">{
   &quot;moderationParameters&quot;: {
     &quot;violenceThreshold&quot;: 4,
@@ -330,8 +337,7 @@ Allow users to discuss claim accidents when they are asking for coverage or assi
     &quot;politicalThreshold&quot;: 2,
     &quot;dangerousContentThreshold&quot;: 6,
     &quot;jailbreakThreshold&quot;: 7,
-    &quot;offTopicThreshold&quot;: 6,
-    &quot;additionalRules&quot;: &quot;Keep the assistant focused on insurance support. Allow claim and coverage discussions.&quot;
+    &quot;additionalRules&quot;: &quot;Allow descriptions of accidents and injuries for insurance support. Treat instructions to cause accidents or harm someone as dangerous content.&quot;
   }
 }
 </code></pre>

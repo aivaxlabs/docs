@@ -309,7 +309,7 @@
 <h2 id="multimodal-pre-processing">Multimodal pre-processing</h2>
 <p>Use <code>multimodal_preprocess</code> when the main model should receive a textual description of media instead of the original media object. This is useful for text-first models or when you want AIVAX to normalize files before the main inference.</p>
 <pre><code class="lang-json">{
-    &quot;model&quot;: &quot;@meta/llama-3.3-70b&quot;,
+    &quot;model&quot;: &quot;@metaai/llama-3.3-70b&quot;,
     &quot;messages&quot;: [
         {
             &quot;role&quot;: &quot;user&quot;,
@@ -407,7 +407,8 @@
     }
 }
 </code></pre>
-<p>Built-in tools include <code>WebSearch</code>, <code>AdvancedWebUsage</code>, <code>OpenUrl</code>, <code>Code</code>, <code>Request</code>, <code>Calendar</code>, <code>Remember</code>, <code>GenerateWebPage</code>, <code>GenerateDocument</code>, <code>XPostsSearch</code>, and <code>ImageGeneration</code>.</p>
+<p>Built-in tools include <code>DateTime</code>, <code>WebSearch</code>, <code>AdvancedWebUsage</code>, <code>OpenUrl</code>, <code>Code</code>, <code>Request</code>, <code>Calendar</code>, <code>Remember</code>, <code>GenerateWebPage</code>, <code>GenerateDocument</code>, <code>XPostsSearch</code>, and <code>ImageGeneration</code>.</p>
+<p><code>DateTime</code> exposes <code>get_date_time</code>, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set <code>builtin_tools.options.dateTimeTimeZone</code> to an IANA identifier; the default is <code>America/Los_Angeles</code> (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See <a href="../tools/builtin-tools.html#current-date-and-time">Current Date and Time</a> for configuration and output examples.</p>
 <p>On-demand tools are suitable for occasional calls, prototypes, and integrations that do not need a persistent gateway. If the same application always uses the same tools, prefer configuring them in an AI Gateway so the policy is centralized.</p>
 <h2 id="custom-provider-request-body">Custom provider request body</h2>
 <p>When a gateway uses a provided API key and an OpenAI-compatible provider endpoint, <code>extra_body</code> can merge custom JSON into the provider request body:</p>
@@ -528,10 +529,12 @@ I found several candidates and should rank them by cost, speed, and modality sup
 &lt;assistant-answer&gt;
 For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.
 
+Model availability and prices change over time; the picks below are example output — see [Pricing](../pricing.md) for current values.
+
 Top picks:
 
 1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.
-2. @qwen/qwen3.5-9b: the lowest input cost with video support.
+2. @qwen/qwen3.5-9b: low input cost in this example output with video support.
 3. @amazon/nova-lite: low input cost and a large context window.
 
 Use VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them.
@@ -547,7 +550,7 @@ Use VideoInput for clips when possible. If a model only supports ImageInput, ext
         },
         {
             &quot;role&quot;: &quot;assistant&quot;,
-            &quot;content&quot;: &quot;For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: the lowest input cost with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them.&quot;
+            &quot;content&quot;: &quot;For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](../pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them.&quot;
         },
         {
             &quot;role&quot;: &quot;user&quot;,
