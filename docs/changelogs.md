@@ -2,6 +2,12 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Tuesday, September 22nd, 2026
+
+Changes:
+
+- **Models — GPT-6 Sol and Luna added.** Adds `@openai/gpt-6-sol` and `@openai/gpt-6-luna`, including their `:pro` reasoning variants. The `@model-router/openai:mid` and `@model-router/openai:budget` aliases now select GPT-6 Sol and GPT-6 Luna, respectively. Applications using these aliases may see changes in response quality, latency, and cost. Existing explicit model identifiers remain unchanged.
+
 ## Monday, September 21st, 2026
 
 Breaking changes:
