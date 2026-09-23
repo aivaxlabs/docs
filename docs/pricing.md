@@ -38,8 +38,8 @@ Indexing and search are billed by token usage. Generated RAG responses are charg
 
 | Description | Pricing |
 | --- | ---: |
-| Collection text embedding | **$0.015/M tokens** |
-| Semantic search - query cache miss | **$0.015/M tokens** |
+| Collection text embedding | **$0.10/M tokens** |
+| Semantic search - query cache miss | **$0.10/M tokens** |
 | Semantic search - query cache hit | Zero |
 | RAG response generation | **~$0.50/M tokens**, excluding query rates |
 | Reflex - cache miss | **$0.015/M tokens** |
@@ -64,7 +64,7 @@ Text segmentation and classification are billed by token usage.
 | Description | Pricing |
 | --- | ---: |
 | Text segmentation | **$0.30/M tokens** |
-| Text classification | **$0.015/M tokens** |
+| Text classification | **$0.10/M tokens** |
 
 ## Voice and Media
 

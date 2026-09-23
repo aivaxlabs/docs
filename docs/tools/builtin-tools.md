@@ -10,7 +10,7 @@ Note that each model decides which function to call and its parameters. Not all 
 
 Built-in tools should be enabled as work capabilities, not as agent decoration. Each tool adds a decision to the model: it needs to perceive that the tool exists, understand when to use it, assemble valid arguments, wait for the result, and continue the response. The more similar tools are available at the same time, the higher the chance of redundant use or poor choice. Start with the smallest set that solves the use case and write clear instructions on when to use each.
 
-Use `WebSearch` when the answer depends on public, recent, or variable information. Use `OpenUrl` when the user has already provided a URL and wants the assistant to analyze that specific content. Use `AdvancedWebUsage` when the task needs a deeper research pass over multiple sources rather than a single search. Use `Code` for calculation, data transformation, and small algorithmic reasoning. Use `Request` when the model needs to call an HTTP API with method, headers, or custom body. Use `Remember` and `Calendar` only in chat clients or calls with an identifiable user, because these tools depend on persistent per-user context.
+Use `WebSearch` when the answer depends on public, recent, or variable information. Use `OpenUrl` when the user has already provided a URL and wants the assistant to analyze that specific content. `AdvancedWebUsage` is disabled and returns an unavailable response; see [Changelogs](../changelogs.md). Use `Code` for calculation, data transformation, and small algorithmic reasoning. Use `Request` when the model needs to call an HTTP API with method, headers, or custom body. Use `Remember` and `Calendar` only in chat clients or calls with an identifiable user, because these tools depend on persistent per-user context.
 
 Generation tools, such as image, document, and web page, should be treated as output actions. They do more than improve an answer; they create artifacts hosted or attached to the conversation. Therefore, instruct the model on when to generate an artifact and when to reply in text. In support, for example, generating a document can be useful for a quote, proposal, or formal summary; generating a web page can be useful for a visual report; generating an image can be useful for creative ideation. If the user only asked for an explanation, plain text is usually sufficient.
 
@@ -87,23 +87,7 @@ Activation via `builtin_tools`:
 
 ## Advanced Internet Search
 
-This function runs a deeper web research request through AIVAX's research agent. It is intended for complex questions that need synthesis across multiple sources or a more detailed research pass than `WebSearch`.
-
-The runtime function name is `advanced_web_search`, and it accepts a single `prompt` argument. Avoid enabling it for routine lookup tasks; use `WebSearch` for quick current facts and `OpenUrl` for user-provided URLs.
-
-This function can incur usage charges. See [Pricing](../pricing.md) before enabling it in production.
-
-Activation via `builtin_tools`:
-
-```json
-{
-    "tools": [
-        "AdvancedWebUsage"
-    ],
-    "options": {
-    }
-}
-```
+`AdvancedWebUsage` is disabled and returns an unavailable response. See [Changelogs](../changelogs.md) for details.
 
 ## Code Execution
 
@@ -186,30 +170,7 @@ You can also enable the generation of explicit and adult images in image generat
 
 You are always responsible for the [material you generate](/docs/legal/terms-of-service) and the generated material must be compatible with our terms of service.
 
-The available image generation models are:
-- `gpt-image-2`
-- `wan-image-2.7-pro`
-- `wan-image-2.7`
-- `grok-imagine-pro`
-- `grok-imagine`
-- `seedream-5-lite`
-- `nanobanana-2`
-- `gpt-image-1.5`
-- `gpt-image-1-mini`
-- `seedream-4.5-pro`
-- `seedream-4`
-- `nanobanana-pro`
-- `nanobanana`
-- `flux-schnell`
-- `zimage-turbo`
-- `flux-2-klein`
-- `majicMIX-realistic`
-- `AbsoluteReality`
-- `CyberRealistic`
-- `RealCartoon-Realistic`
-- `CyberRealistic-Pony`
-- `Hassaku-XL`
-- `Meina-Mix`
+The available image generation models are listed in the AIVAX console.
 
 Generated images are stored on AIVAX servers for a few months before being permanently removed.
 

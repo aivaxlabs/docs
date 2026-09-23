@@ -200,7 +200,7 @@ Every Server-Sent Events message contains this envelope:
 }
 ```
 
-Route messages by `event.type` and concatenate streamed content chunks in order. The examples below show the `event` object inside the SSE envelope. Lifecycle markers (`start_generation`, `end_generation`, `turn_analysis_start`, `turn_analysis_end`) carry `data: null`; reasoning chunks share the `{ "reasoning_content": "..." }` shape. Only content-bearing events are shown in full.
+Route messages by `event.type` and concatenate streamed content chunks in order. The examples below show the `event` object inside the SSE envelope. Lifecycle markers (`start_generation`, `end_generation`, `turn_analysis_start`, `turn_analysis_end`) carry an empty object (`data: {}`); reasoning chunks share the `{ "reasoning_content": "..." }` shape. Only content-bearing events are shown in full.
 
 - **`chat.start`** — Starts a turn and reports its number and remaining turn budget.
 
@@ -214,7 +214,7 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.user_message.start_generation`** — Marks the start of simulated-user message generation (`data: null`).
+- **`chat.user_message.start_generation`** — Marks the start of simulated-user message generation (`data: {}`).
 
 - **`chat.user_message.reasoning`** — Streams one reasoning chunk exposed by the simulated-user model. Use this for debugging only.
 
@@ -229,7 +229,7 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.user_message.end_generation`** — Marks the end of simulated-user message generation (`data: null`).
+- **`chat.user_message.end_generation`** — Marks the end of simulated-user message generation (`data: {}`).
 
 - **`chat.user_message.end_conversation`** — Reports a permitted simulated-user exit after `minimum_turns`. This event is not emitted when `allow_user_exit` is disabled.
 
@@ -242,9 +242,15 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.assistant_message.start_generation`** — Marks the start of the selected gateway response (`data: null`).
+- **`chat.assistant_message.start_generation`** — Marks the start of the selected gateway response (`data: {}`).
 
 - **`chat.assistant_message.reasoning`** — Streams one reasoning chunk exposed by the gateway model (same `reasoning_content` shape).
+
+- **`chat.assistant_message.refusal`** — Reports a refusal returned by the gateway model.
+
+- **`chat.assistant_message.tool_call`** — Reports an assistant tool call, including its ID, name, and arguments.
+
+- **`chat.assistant_message.tool_result`** — Reports a tool result, including the associated call ID, name, and content.
 
 - **`chat.assistant_message.content`** — Streams one assistant response content chunk. Concatenate consecutive chunks in arrival order.
 
@@ -257,9 +263,9 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.assistant_message.end_generation`** — Marks the end of the selected gateway response (`data: null`).
+- **`chat.assistant_message.end_generation`** — Marks the end of the selected gateway response (`data: {}`).
 
-- **`chat.judge.turn_analysis_start`** — Marks the start of an evaluation against the goal and any judge-only validation criteria (`data: null`).
+- **`chat.judge.turn_analysis_start`** — Marks the start of an evaluation against the goal and any judge-only validation criteria (`data: {}`).
 
 - **`chat.judge.turn_analysis_result_ready`** — Returns the judge reasoning, normalized score, current state, trajectory measurements, and continuation decision. `score` ranges from `0.001` to `0.999`; `pass` is false only after a persistent loss is established.
 
@@ -282,7 +288,7 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.judge.turn_analysis_end`** — Marks the end of the current turn evaluation (`data: null`).
+- **`chat.judge.turn_analysis_end`** — Marks the end of the current turn evaluation (`data: {}`).
 
 - **`usage_updated`** — Reports prompt, cached prompt, and completion token usage. `role` is `user`, `assistant`, or `judge` depending on the inference that produced the usage.
 
@@ -339,5 +345,6 @@ Final outcomes are:
 | `success` | The judge reached `base_threshold`, or the simulated user declared the goal complete. |
 | `loss` | The score and cumulative trajectory remained at or below `loss_threshold` for the required consecutive judged turns. |
 | `incomplete` | The conversation exhausted `max_turns` without reaching success or a persistent loss. |
+| `interrupted` | A validation rule stopped the evaluation before it completed. |
 
 A missing or invalid key returns `401 Unauthorized`; a public API key returns `403 Forbidden`; insufficient balance returns `402 Payment Required`; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return `400 Bad Request`. An inference failure can instead arrive as an SSE event after streaming begins.

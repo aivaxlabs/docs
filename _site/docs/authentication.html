@@ -165,7 +165,7 @@
 <li>The <code>model</code> must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.</li>
 <li>Gateway slug lookup is disabled.</li>
 <li>MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options are stripped from the request.</li>
-<li>Only these request parameters are accepted: <code>model</code>, <code>messages</code>, <code>prompt</code>, <code>temperature</code>, <code>top_p</code>, <code>top_k</code>, <code>seed</code>, <code>tools</code>, <code>reasoning_effort</code>, <code>max_completion_tokens</code>, and <code>stream</code>.</li>
+<li>Only these request parameters are accepted: <code>model</code>, <code>messages</code>, <code>prompt</code>, <code>temperature</code>, <code>top_p</code>, <code>top_k</code>, <code>seed</code>, <code>tools</code>, <code>reasoning_effort</code>, <code>max_completion_tokens</code>, <code>idempotency_key</code>, and <code>stream</code>.</li>
 <li>Request and token rate limits are applied both globally per key and per remote address.</li>
 </ul>
 <p>Use private keys for backend services, account management, model listing, collection management, batch operations, and any workflow that needs the full gateway tool surface.</p>

@@ -23,7 +23,7 @@ Call the reranking API with a query and the candidate documents your application
 
 Use concise, focused candidate documents. Reranking can improve their order, but it cannot recover information that was not included in the candidates. If the expected document is consistently absent, improve candidate selection, chunking, or query formulation before tuning the ranker.
 
-Reflex returns at most 200 documents per request. When the candidate pool is larger, narrow it first — with lexical pre-filtering, a cheap first-pass rank, or collection retrieval — and let Reflex order the shortlist.
+Reflex accepts up to 10,000 candidate documents per request and returns at most 200 ranked results. If your candidate pool exceeds 10,000 documents, narrow it first — with lexical pre-filtering, a cheap first-pass rank, or collection retrieval — and let Reflex order the shortlist.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 

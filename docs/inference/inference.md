@@ -324,7 +324,7 @@ Use `builtin_tools` to enable AIVAX built-in tools for a direct request without 
 }
 ```
 
-Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage`, `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
+Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage` (disabled; returns an unavailable response; see [Changelogs](../changelogs.md)), `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
 
 `DateTime` exposes `get_date_time`, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set `builtin_tools.options.dateTimeTimeZone` to an IANA identifier; the default is `America/Los_Angeles` (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See [Current Date and Time](../tools/builtin-tools.md#current-date-and-time) for configuration and output examples.
 

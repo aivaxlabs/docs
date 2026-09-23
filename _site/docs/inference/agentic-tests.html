@@ -376,7 +376,7 @@
   }
 }
 </code></pre>
-<p>Route messages by <code>event.type</code> and concatenate streamed content chunks in order. The examples below show the <code>event</code> object inside the SSE envelope. Lifecycle markers (<code>start_generation</code>, <code>end_generation</code>, <code>turn_analysis_start</code>, <code>turn_analysis_end</code>) carry <code>data: null</code>; reasoning chunks share the <code>{ &quot;reasoning_content&quot;: &quot;...&quot; }</code> shape. Only content-bearing events are shown in full.</p>
+<p>Route messages by <code>event.type</code> and concatenate streamed content chunks in order. The examples below show the <code>event</code> object inside the SSE envelope. Lifecycle markers (<code>start_generation</code>, <code>end_generation</code>, <code>turn_analysis_start</code>, <code>turn_analysis_end</code>) carry an empty object (<code>data: {}</code>); reasoning chunks share the <code>{ &quot;reasoning_content&quot;: &quot;...&quot; }</code> shape. Only content-bearing events are shown in full.</p>
 <ul>
 <li><p><strong><code>chat.start</code></strong> — Starts a turn and reports its number and remaining turn budget.</p>
 <pre><code class="lang-json">{
@@ -388,7 +388,7 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.user_message.start_generation</code></strong> — Marks the start of simulated-user message generation (<code>data: null</code>).</p>
+<li><p><strong><code>chat.user_message.start_generation</code></strong> — Marks the start of simulated-user message generation (<code>data: {}</code>).</p>
 </li>
 <li><p><strong><code>chat.user_message.reasoning</code></strong> — Streams one reasoning chunk exposed by the simulated-user model. Use this for debugging only.</p>
 </li>
@@ -401,7 +401,7 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.user_message.end_generation</code></strong> — Marks the end of simulated-user message generation (<code>data: null</code>).</p>
+<li><p><strong><code>chat.user_message.end_generation</code></strong> — Marks the end of simulated-user message generation (<code>data: {}</code>).</p>
 </li>
 <li><p><strong><code>chat.user_message.end_conversation</code></strong> — Reports a permitted simulated-user exit after <code>minimum_turns</code>. This event is not emitted when <code>allow_user_exit</code> is disabled.</p>
 <pre><code class="lang-json">{
@@ -412,9 +412,15 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.assistant_message.start_generation</code></strong> — Marks the start of the selected gateway response (<code>data: null</code>).</p>
+<li><p><strong><code>chat.assistant_message.start_generation</code></strong> — Marks the start of the selected gateway response (<code>data: {}</code>).</p>
 </li>
 <li><p><strong><code>chat.assistant_message.reasoning</code></strong> — Streams one reasoning chunk exposed by the gateway model (same <code>reasoning_content</code> shape).</p>
+</li>
+<li><p><strong><code>chat.assistant_message.refusal</code></strong> — Reports a refusal returned by the gateway model.</p>
+</li>
+<li><p><strong><code>chat.assistant_message.tool_call</code></strong> — Reports an assistant tool call, including its ID, name, and arguments.</p>
+</li>
+<li><p><strong><code>chat.assistant_message.tool_result</code></strong> — Reports a tool result, including the associated call ID, name, and content.</p>
 </li>
 <li><p><strong><code>chat.assistant_message.content</code></strong> — Streams one assistant response content chunk. Concatenate consecutive chunks in arrival order.</p>
 <pre><code class="lang-json">{
@@ -425,9 +431,9 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.assistant_message.end_generation</code></strong> — Marks the end of the selected gateway response (<code>data: null</code>).</p>
+<li><p><strong><code>chat.assistant_message.end_generation</code></strong> — Marks the end of the selected gateway response (<code>data: {}</code>).</p>
 </li>
-<li><p><strong><code>chat.judge.turn_analysis_start</code></strong> — Marks the start of an evaluation against the goal and any judge-only validation criteria (<code>data: null</code>).</p>
+<li><p><strong><code>chat.judge.turn_analysis_start</code></strong> — Marks the start of an evaluation against the goal and any judge-only validation criteria (<code>data: {}</code>).</p>
 </li>
 <li><p><strong><code>chat.judge.turn_analysis_result_ready</code></strong> — Returns the judge reasoning, normalized score, current state, trajectory measurements, and continuation decision. <code>score</code> ranges from <code>0.001</code> to <code>0.999</code>; <code>pass</code> is false only after a persistent loss is established.</p>
 <pre><code class="lang-json">{
@@ -448,7 +454,7 @@
 }
 </code></pre>
 </li>
-<li><p><strong><code>chat.judge.turn_analysis_end</code></strong> — Marks the end of the current turn evaluation (<code>data: null</code>).</p>
+<li><p><strong><code>chat.judge.turn_analysis_end</code></strong> — Marks the end of the current turn evaluation (<code>data: {}</code>).</p>
 </li>
 <li><p><strong><code>usage_updated</code></strong> — Reports prompt, cached prompt, and completion token usage. <code>role</code> is <code>user</code>, <code>assistant</code>, or <code>judge</code> depending on the inference that produced the usage.</p>
 <pre><code class="lang-json">{
@@ -512,6 +518,10 @@
 <tr>
 <td><code>incomplete</code></td>
 <td>The conversation exhausted <code>max_turns</code> without reaching success or a persistent loss.</td>
+</tr>
+<tr>
+<td><code>interrupted</code></td>
+<td>A validation rule stopped the evaluation before it completed.</td>
 </tr>
 </tbody>
 </table>

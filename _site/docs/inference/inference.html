@@ -407,7 +407,7 @@
     }
 }
 </code></pre>
-<p>Built-in tools include <code>DateTime</code>, <code>WebSearch</code>, <code>AdvancedWebUsage</code>, <code>OpenUrl</code>, <code>Code</code>, <code>Request</code>, <code>Calendar</code>, <code>Remember</code>, <code>GenerateWebPage</code>, <code>GenerateDocument</code>, <code>XPostsSearch</code>, and <code>ImageGeneration</code>.</p>
+<p>Built-in tools include <code>DateTime</code>, <code>WebSearch</code>, <code>AdvancedWebUsage</code> (disabled; returns an unavailable response; see <a href="../changelogs.html">Changelogs</a>), <code>OpenUrl</code>, <code>Code</code>, <code>Request</code>, <code>Calendar</code>, <code>Remember</code>, <code>GenerateWebPage</code>, <code>GenerateDocument</code>, <code>XPostsSearch</code>, and <code>ImageGeneration</code>.</p>
 <p><code>DateTime</code> exposes <code>get_date_time</code>, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set <code>builtin_tools.options.dateTimeTimeZone</code> to an IANA identifier; the default is <code>America/Los_Angeles</code> (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See <a href="../tools/builtin-tools.html#current-date-and-time">Current Date and Time</a> for configuration and output examples.</p>
 <p>On-demand tools are suitable for occasional calls, prototypes, and integrations that do not need a persistent gateway. If the same application always uses the same tools, prefer configuring them in an AI Gateway so the policy is centralized.</p>
 <h2 id="custom-provider-request-body">Custom provider request body</h2>

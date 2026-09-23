@@ -22,7 +22,7 @@ Public keys can be used for RAG semantic search, RAG answer generation, speech g
 - The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.
 - Gateway slug lookup is disabled.
 - MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options are stripped from the request.
-- Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, and `stream`.
+- Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `idempotency_key`, and `stream`.
 - Request and token rate limits are applied both globally per key and per remote address.
 
 Use private keys for backend services, account management, model listing, collection management, batch operations, and any workflow that needs the full gateway tool surface.

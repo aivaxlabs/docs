@@ -1,6 +1,6 @@
 # Data Collecting
 
-AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking data to model development. Document indexing and storage are outside this program. All collected RAG and reranking records are anonymized before they are written to the training dataset. The setting is disabled by default and must be enabled by an authorized Account Manager.
+AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking data to model development. Document indexing and storage are outside this program. All collected RAG and reranking records are anonymized before they are written to the training dataset. The setting is disabled by default and must be enabled by an authorized Account Manager — the person using the AIVAX account, not a role in the API.
 
 ## What changes when collection is enabled
 
@@ -33,7 +33,7 @@ Access is limited to authorized personnel and service providers that support the
 
 ## Account Manager responsibilities
 
-Before enabling collection, the Account Manager must:
+In AIVAX legal terms, the Account Manager is the person using the AIVAX account. Before enabling collection, the Account Manager must:
 
 - have authority to accept these conditions for the account;
 - have an appropriate legal basis for AIVAX to use the submitted data for the purposes above;
