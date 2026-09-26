@@ -236,9 +236,9 @@
 <p><code>before-inference</code> and <code>after-inference</code> are available only when the test targets an AI Gateway. Hooks are supported for persisted dashboard tests and scheduled runs; the direct SSE validation endpoint does not accept <code>hooks</code>.</p>
 <p>Each hook receives a worker-compatible JSON envelope:</p>
 <pre><code class="lang-json">{
-  &quot;testId&quot;: &quot;01900000-0000-7000-8000-000000000001&quot;,
-  &quot;runId&quot;: &quot;01900000-0000-7000-8000-000000000002&quot;,
-  &quot;gatewayId&quot;: &quot;01900000-0000-7000-8000-000000000003&quot;,
+  &quot;testId&quot;: &quot;&lt;AGENTIC_TEST_ID&gt;&quot;,
+  &quot;runId&quot;: &quot;&lt;AGENTIC_TEST_RUN_ID&gt;&quot;,
+  &quot;gatewayId&quot;: &quot;&lt;GATEWAY_ID&gt;&quot;,
   &quot;moment&quot;: &quot;2026-08-16T03:00:00Z&quot;,
   &quot;event&quot;: {
     &quot;name&quot;: &quot;before-inference&quot;,
@@ -526,6 +526,7 @@
 </tbody>
 </table>
 <p>A missing or invalid key returns <code>401 Unauthorized</code>; a public API key returns <code>403 Forbidden</code>; insufficient balance returns <code>402 Payment Required</code>; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return <code>400 Bad Request</code>. An inference failure can instead arrive as an SSE event after streaming begins.</p>
+<p>To investigate an inference failure, review the <a href="/docs/inference/ai-gateway">AI Gateway configuration</a> used by the test.</p>
 
 </article>
 

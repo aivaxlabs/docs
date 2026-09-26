@@ -127,15 +127,23 @@
                 <article data-uid="">
 <h1 id="ensinar-habilidade">Ensinar Habilidade</h1>
 
-<p>Use o Ensinar Habilidade para transformar demonstrações gravadas em instruções de habilidade reutilizáveis e passo a passo. Envie vídeos tutoriais que mostram um fluxo de trabalho, depois revise e refine o Markdown retornado antes de usá-lo como uma habilidade de conta.</p>
-<p>O Ensinar Habilidade funciona melhor quando as ações relevantes, telas e orientações faladas estão claras. Não inclua credenciais, dados pessoais ou outras informações que não devem fazer parte das instruções resultantes.</p>
-<h2 id="criar-um-rascunho-de-habilidade">Criar um rascunho de habilidade</h2>
-<p>Organize as gravações na ordem em que o procedimento deve ser compreendido. A resposta usa o envelope JSON padrão. <code>data.resultText</code> contém um rascunho de Markdown estruturado que pode incluir front matter, etapas, notas e suposições quando a gravação deixa implícito o contexto necessário. <code>data.usage.processedUnits</code> relata as unidades de uso processadas para a solicitação.</p>
-<p>Um rascunho gerado não é publicado automaticamente como uma habilidade de conta. Valide cada etapa, remova detalhes específicos da gravação e confirme pré-requisitos antes de salvá‑lo. Consulte <a href="/docs/pt-br/features/skills">Skills</a> para a estrutura da habilidade e orientações de ativação.</p>
+<p>Use o recurso Ensinar Habilidade para transformar demonstrações gravadas em instruções de habilidade reutilizáveis, passo a passo. Os usos típicos incluem capturar o fluxo de tela de um especialista para que agentes de suporte o repitam consistentemente, converter tutoriais de integração em comportamento de assistente e iniciar um rascunho de habilidade que um humano depois aperfeiçoa.</p>
+<p>Envie vídeos tutoriais como partes de conteúdo <code>video_url</code> — URLs hospedados ou URIs de dados base64. Como a análise leva um tempo em gravações mais longas, a API recomenda <code>direct.inference.aivax.net</code>.</p>
+<h2 id="grave-uma-demonstração-que-ensine-bem">Grave uma demonstração que ensine bem</h2>
+<p>A qualidade do rascunho segue a qualidade da gravação. Antes de enviar:</p>
+<ul>
+<li>Mostre o fluxo de trabalho na ordem em que deve ser compreendido, um passo de cada vez, sem pular entre telas.</li>
+<li>Narre ou legendue a intenção por trás de cada ação (&quot;Eu abro este painel porque...&quot;), não apenas o clique em si — gravações silenciosas deixam o contexto necessário implícito e forçam o modelo a adivinhar.</li>
+<li>Mantenha credenciais, dados pessoais e informações do cliente fora do quadro; tudo que for visível pode acabar nas instruções resultantes.</li>
+<li>Prefira algumas gravações curtas e focadas em vez de uma sessão longa quando o procedimento tem fases naturais.</li>
+</ul>
+<h2 id="crie-um-rascunho-de-habilidade">Crie um rascunho de habilidade</h2>
+<p>Organize as gravações na ordem em que o procedimento deve ser compreendido. A resposta usa o envelope JSON padrão. <code>data.resultText</code> contém um rascunho Markdown estruturado que pode incluir front matter, etapas, notas e suposições quando a gravação deixa o contexto necessário implícito. <code>data.usage.processedUnits</code> relata as unidades de uso processadas para a solicitação.</p>
+<p>Um rascunho gerado não é publicado automaticamente como uma habilidade de conta. Valide cada etapa contra o fluxo de trabalho real, remova detalhes específicos da gravação (tamanhos de janela, nomes de teste, valores pontuais), confirme pré-requisitos e reescreva etapas vagas como instruções imperativas antes de salvá-lo. Consulte <a href="/docs/pt-br/features/skills">Habilidades</a> para a estrutura da habilidade e orientações de ativação.</p>
 <p>A referência incorporada é a fonte de verdade para a entrada de vídeo aceita e o comportamento da resposta.</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Teach%20skill&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="preços-limites-e-erros">Preços, limites e erros</h2>
-<p>Para disponibilidade atual e limites de conta, veja <a href="/docs/pt-br/pricing">Pricing</a> e <a href="/docs/pt-br/limits">Plans and Limits</a>. Corrija conteúdo de vídeo inválido ou inacessível antes de tentar novamente uma solicitação que falhou.</p>
+<p>Para disponibilidade atual e limites de conta, veja <a href="/docs/pt-br/pricing">Preços</a> e <a href="/docs/pt-br/limits">Planos e Limites</a>. Corrija conteúdo de vídeo inválido ou inacessível antes de tentar novamente uma solicitação falhada.</p>
 
 </article>
 

@@ -102,9 +102,9 @@ Each hook receives a worker-compatible JSON envelope:
 
 ```json
 {
-  "testId": "01900000-0000-7000-8000-000000000001",
-  "runId": "01900000-0000-7000-8000-000000000002",
-  "gatewayId": "01900000-0000-7000-8000-000000000003",
+  "testId": "<AGENTIC_TEST_ID>",
+  "runId": "<AGENTIC_TEST_RUN_ID>",
+  "gatewayId": "<GATEWAY_ID>",
   "moment": "2026-08-16T03:00:00Z",
   "event": {
     "name": "before-inference",
@@ -348,3 +348,5 @@ Final outcomes are:
 | `interrupted` | A validation rule stopped the evaluation before it completed. |
 
 A missing or invalid key returns `401 Unauthorized`; a public API key returns `403 Forbidden`; insufficient balance returns `402 Payment Required`; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return `400 Bad Request`. An inference failure can instead arrive as an SSE event after streaming begins.
+
+To investigate an inference failure, review the [AI Gateway configuration](/docs/inference/ai-gateway) used by the test.

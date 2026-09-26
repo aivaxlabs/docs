@@ -1,6 +1,6 @@
 # AI Gateway
 
-An AI Gateway is a persistent inference configuration. It lets you call an agent by model name while AIVAX applies the gateway's model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
+An AI Gateway is a persistent inference configuration. It lets you call a gateway by model name while AIVAX applies the gateway's model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
 
 Use a gateway when the same behavior must be reused by multiple clients or changed without redeploying the calling application.
 
@@ -53,7 +53,7 @@ from openai import OpenAI
 
 client = OpenAI(
     base_url="https://inference.aivax.net/v1",
-    api_key="YOUR_AIVAX_API_KEY"
+    api_key="<AIVAX_API_KEY>"
 )
 
 response = client.chat.completions.create(

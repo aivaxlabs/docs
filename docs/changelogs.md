@@ -2,6 +2,14 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Saturday, September 26th, 2026
+
+Changes:
+
+- **Privacy — Judicial disclosure and retention clarified.** The [Privacy Policy](legal/privacy-policy.md) and [Terms of Use](legal/terms-of-service.md) specify Brazilian court orders for disclosure, foreign requests to preserve existing logs for up to 1 year, and up to 1 year of technical logs and metadata. They clarify that conversation content is collected only when Conversations is enabled for the request or account, and that available account resources and backups dating back up to 3 months may be disclosed under a Brazilian court order. The content license in the Terms is expressly subject to these limits.
+
+- **Generations — Additional decision models.** Adds `@respan/span-01`, `@respan/span-01-lite`, and `@jaredpalmer/kev-4b` as model choices for semantic decisions. Existing model identifiers and request formats remain unchanged.
+
 ## Tuesday, September 22nd, 2026
 
 Changes:

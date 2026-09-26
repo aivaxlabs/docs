@@ -81,3 +81,5 @@ Integrations treat the channel as the source of messages, but inference continue
 Use Telegram when you need a simple bot with users identifiable by chat and easy‐to‐test commands. Use WhatsApp when the user’s primary support channel is already the phone and the conversation needs to happen in a daily app. Use the web widget when you want to embed the assistant in a website, product, support center, or dashboard. The channel choice should not change the gateway’s essential content, but may require adjustments to tone, response size, formatting, and attachment tolerance.
 
 Before opening a channel to the public, review the chat client configuration and explain memory behavior to users when applicable. When an integration does not respond as expected, first verify the associated gateway and integration configuration, then retry with a simple message before investigating optional capabilities.
+
+For the next steps, review [AI Gateway configuration](/docs/inference/ai-gateway) and [Authentication](/docs/authentication), especially the boundary between public chat access and API credentials.

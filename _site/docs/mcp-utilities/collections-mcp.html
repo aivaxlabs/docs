@@ -174,7 +174,7 @@
 </tr>
 <tr>
 <td><code>X-Mcp-Use-References</code></td>
-<td>Current server behavior enables references when this header value is <code>none</code>; omit the header to disable references.</td>
+<td>Set to <code>none</code> to enable references in search results; omit the header to disable them.</td>
 <td>disabled</td>
 </tr>
 <tr>
@@ -202,6 +202,7 @@
         &quot;X-Mcp-Collection-Name&quot;: &quot;my_collection&quot;,
         &quot;X-Mcp-Top-K&quot;: &quot;5&quot;,
         &quot;X-Mcp-Min-Score&quot;: &quot;0.4&quot;,
+        // Enables references in search results.
         &quot;X-Mcp-Use-References&quot;: &quot;none&quot;
       }
     }

@@ -8,7 +8,7 @@ Authenticate requests with an AIVAX API key. See [Authentication](/docs/authenti
 
 Select an image-generation model available to the authenticated account. Model availability and capabilities can change, so obtain current options from the platform instead of depending on a fixed list in this guide.
 
-When several models are available, decide by capability: whether you need reference-image support (only some models accept `referenceImages`), how many variations per prompt you need (`count` accepts 1 to 4), and how long your application can wait — image requests on some models take a while, in which case the API recommends the long inference host described in the reference.
+When several models are available, decide by capability: whether you need reference-image support (only some models accept `referenceImages`), how many variations per prompt you need (`count` accepts 1 to 4), and how long your application can wait — image requests on some models take a while, in which case the API recommends `direct.inference.aivax.net`.
 
 ## Generate an image
 

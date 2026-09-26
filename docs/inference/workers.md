@@ -39,7 +39,7 @@ The exact `event.data` shape depends on the event. Always validate `gatewayId` w
 
 ## Authentication
 
-When the account has a hook key, AIVAX sends `X-Request-Nonce`. The nonce is a BCrypt hash derived from the account salt. Validate this header before trusting the body, especially when the worker releases private data, changes context, or authorizes tool usage.
+When the account has a hook key, AIVAX sends `X-Request-Nonce`. The nonce is a BCrypt hash derived from the account hook key. Validate this header before trusting the body, especially when the worker releases private data, changes context, or authorizes tool usage.
 
 Treat `externalUserId`, `metadata`, messages, and tool arguments as untrusted input.
 
@@ -152,7 +152,7 @@ Available rewrite actions:
                     "name": "Internal CRM",
                     "url": "https://crm.example.com/mcp",
                     "headers": {
-                        "Authorization": "Bearer server-token"
+                        "Authorization": "Bearer <INTERNAL_CRM_TOKEN>"
                     },
                     "cacheDuration": 600
                 }
@@ -295,3 +295,5 @@ export default {
 ```
 
 This pattern prevents exposing the internal API directly to the model. The worker remains responsible for authenticating the request, validating the user, calling the internal system, and deciding how much data can return to the model context.
+
+For how workers fit into gateway execution, see [Pipelines](/docs/inference/pipelines).

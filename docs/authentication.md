@@ -1,6 +1,6 @@
 # Authentication
 
-AIVAX authenticates API requests with account API keys. The authentication middleware accepts keys from:
+AIVAX authenticates API requests with account API keys. AIVAX accepts API keys via:
 
 - `Authorization: Bearer <API_KEY>`
 - `Authorization: Basic <BASE64_USERNAME_COLON_API_KEY>`

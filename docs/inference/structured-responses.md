@@ -29,6 +29,10 @@ Use `json_only: true` when the HTTP response body should be only the final JSON.
 
 ## Basic example
 
+Reference:
+
+<script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+
 <div class="request-item post">
     <span>POST</span>
     <span>

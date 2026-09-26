@@ -20,7 +20,7 @@ https://inference.aivax.net/v1/mcp/collections
 | `X-Mcp-Reranker` | Selects the ranker used to order search results. Use a canonical `@provider/name`, `lexical`, `rrf`, `smart`, or `none`. | `@aivax/reflex-v1` |
 | `X-Mcp-Top-K` | Maximum number of results to return. | `5` |
 | `X-Mcp-Min-Score` | Minimum relevance score greater than 0 and up to 1.0. | `0.4` |
-| `X-Mcp-Use-References` | Current server behavior enables references when this header value is `none`; omit the header to disable references. | disabled |
+| `X-Mcp-Use-References` | Set to `none` to enable references in search results; omit the header to disable them. | disabled |
 | `X-Mcp-Allow-Write` | Use `yes` to expose document write and delete tools. | disabled |
 | `X-Mcp-Naming-Convention` | Controls how generated tools are named. Use `default` or `agent`. | `default` |
 
@@ -40,6 +40,7 @@ Visual Studio Code:
         "X-Mcp-Collection-Name": "my_collection",
         "X-Mcp-Top-K": "5",
         "X-Mcp-Min-Score": "0.4",
+        // Enables references in search results.
         "X-Mcp-Use-References": "none"
       }
     }

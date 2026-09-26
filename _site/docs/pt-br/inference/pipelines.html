@@ -127,48 +127,48 @@
                 <article data-uid="">
 <h1 id="pipelines-de-ia">Pipelines de IA</h1>
 
-<p>Os pipelines do Gateway de IA são as etapas de processamento que a AIVAX aplica antes e durante a inferência. Eles podem adicionar contexto, reescrever consultas, expor ferramentas, moderar a entrada, rotear modelos, truncar conversas e chamar trabalhadores externos.</p>
-<p>A maioria dos pipelines é configurada nos parâmetros do gateway. Opções ao nível de requisição podem sobrescrever alguns parâmetros de inferência em chamadas diretas <code>chat/completions</code>.</p>
+<p>Os pipelines do AI Gateway são as etapas de processamento que o AIVAX aplica antes e durante a inferência. Eles podem adicionar contexto, reescrever consultas, expor ferramentas, moderar entrada, rotear modelos, truncar conversas e chamar trabalhadores externos.</p>
+<p>A maioria dos pipelines é configurada nos parâmetros do gateway. Opções ao nível da requisição podem sobrescrever alguns parâmetros de inferência em chamadas diretas de <code>chat/completions</code>.</p>
 <h2 id="rag">RAG</h2>
-<p>RAG vincula <a href="/docs/pt-br/rag/collections">coleções</a> a um Gateway de IA. O gateway controla:</p>
+<p>RAG vincula <a href="/docs/pt-br/rag/collections">coleções</a> a um AI Gateway. O gateway controla:</p>
 <ul>
 <li>Coleções incluídas na recuperação.</li>
 <li>Número máximo de documentos recuperados.</li>
 <li>Pontuação mínima.</li>
-<li>Nome do reordenador.</li>
-<li>Se as referências de fragmentos estão incluídas.</li>
+<li>Nome do reranker.</li>
+<li>Se referências de fragmentos são incluídas.</li>
 <li>Estratégia de consulta.</li>
 </ul>
-<p>Quando um gateway tem coleções de conhecimento e a mensagem mais recente do usuário contém texto, a AIVAX pode recuperar documentos correspondentes antes da chamada ao modelo. Para estratégias de injeção, o contexto recuperado é inserido no início da última mensagem do usuário. Se uma coleção vinculada tem seu próprio texto de contexto, esse contexto da coleção é adicionado às instruções do sistema.</p>
+<p>Quando um gateway tem coleções de conhecimento e a última mensagem do usuário contém texto, o AIVAX pode recuperar documentos correspondentes antes da chamada ao modelo. Para estratégias de injeção, o contexto recuperado é inserido no início da última mensagem do usuário. Se uma coleção vinculada tem seu próprio texto de contexto, esse contexto de coleção é adicionado às instruções do sistema.</p>
 <p>Estratégias de consulta:</p>
 <ul>
-<li><code>Plain</code>: Usa a mensagem mais recente do usuário como a consulta de busca.</li>
-<li><code>Concatenate</code>: Junta o número configurado mais recente de mensagens do usuário linha por linha e busca com o texto combinado.</li>
-<li><code>UserRewrite</code>: Reescreve mensagens recentes do usuário em uma ou mais consultas de busca usando um modelo resolvedor.</li>
-<li><code>FullRewrite</code>: Reescreve mensagens recentes do usuário e do assistente em uma ou mais consultas de busca usando um modelo resolvedor.</li>
-<li><code>QueryFunction</code>: Adiciona uma função de consulta ao modelo. O modelo decide quando buscar nas coleções vinculadas, e os resultados da busca são retornados como respostas de ferramenta.</li>
+<li><code>Plain</code>: Usa a última mensagem do usuário como consulta de pesquisa.</li>
+<li><code>Concatenate</code>: Junta o número configurado mais recente de mensagens do usuário linha a linha e pesquisa com o texto combinado.</li>
+<li><code>UserRewrite</code>: Reescreve mensagens recentes do usuário em uma ou mais consultas de pesquisa usando um modelo resolvedor.</li>
+<li><code>FullRewrite</code>: Reescreve mensagens recentes do usuário e do assistente em uma ou mais consultas de pesquisa usando um modelo resolvedor.</li>
+<li><code>QueryFunction</code>: Adiciona uma função de consulta ao modelo. O modelo decide quando pesquisar as coleções vinculadas, e os resultados da pesquisa são retornados como respostas de ferramenta.</li>
 </ul>
-<p>Estratégias de reescrita adicionam custo e latência ao modelo resolvedor. Elas são úteis quando os usuários fazem perguntas de acompanhamento, como &quot;e quanto a este caso?&quot;, pois o resolvedor pode transformar a conversa recente em uma consulta de busca mais clara.</p>
-<p>Definir muitos resultados RAG aumenta o uso de tokens de entrada e pode elevar o custo final da inferência. Comece com uma contagem pequena de resultados e aumente apenas quando o modelo não tem evidência suficiente.</p>
+<p>Estratégias de reescrita adicionam custo de modelo resolvedor (veja <a href="/docs/pt-br/pricing">Pricing</a>) e latência. Elas são úteis quando os usuários fazem perguntas de acompanhamento, como &quot;e sobre este caso?&quot;, pois o resolvedor pode transformar a conversa recente em uma consulta de pesquisa mais clara.</p>
+<p>Definir muitos resultados de RAG aumenta o uso de tokens de entrada e pode aumentar o custo final da inferência (veja <a href="/docs/pt-br/pricing">Pricing</a>). Comece com uma contagem pequena de resultados e aumente apenas quando o modelo não tiver evidência suficiente.</p>
 <h2 id="instruções">Instruções</h2>
-<p>As configurações de instruções moldam o prompt voltado ao provedor:</p>
+<p>As configurações de instrução moldam o prompt voltado ao provedor:</p>
 <ul>
-<li><strong>System instructions</strong>: Adicionado ao conjunto de instruções do sistema.</li>
-<li><strong>Remote system instruction sources</strong>: Obtido a partir de URLs configuradas e adicionado ao conjunto de instruções do sistema.</li>
-<li><strong>User prompt template</strong>: Substitui <code>{prompt}</code> pelo texto de cada mensagem do usuário antes de enviá-lo ao modelo.</li>
-<li><strong>Assistant prefill</strong>: Adiciona conteúdo inicial do assistente antes da geração quando o modelo suporta preenchimento prévio.</li>
+<li><strong>Instruções do sistema</strong>: Adicionadas ao conjunto de instruções do sistema.</li>
+<li><strong>Fontes remotas de instruções do sistema</strong>: Obtidas de URLs configuradas e adicionadas ao conjunto de instruções do sistema.</li>
+<li><strong>Modelo de prompt do usuário</strong>: Substitui <code>{prompt}</code> pelo texto de cada mensagem do usuário antes de enviá‑la ao modelo.</li>
+<li><strong>Pré‑preenchimento do assistente</strong>: Adiciona conteúdo inicial do assistente antes da geração quando o modelo suporta pré‑preenchimento.</li>
 </ul>
-<p>Fontes de instruções remotas são obtidas como texto com tamanho máximo de resposta de 10 MB. Sua duração de cache é configurável; o padrão é 600 segundos.</p>
-<p>Alguns modelos não suportam preenchimento prévio do assistente, temperatura, sequências de parada ou esforço de raciocínio. A validação integrada do modelo rejeita configurações de gateway incompatíveis quando essas limitações são conhecidas.</p>
+<p>Fontes remotas de instrução são obtidas como texto com tamanho máximo de resposta de 10 MB. Sua duração de cache é configurável; o padrão é 600 segundos.</p>
+<p>Alguns modelos não suportam pré‑preenchimento do assistente, temperatura, sequências de parada ou esforço de raciocínio. A validação integrada de modelo rejeita configurações de gateway incompatíveis quando essas limitações são conhecidas.</p>
 <h2 id="habilidades">Habilidades</h2>
-<p>Habilidades são pacotes de instruções sob demanda disponíveis para o modelo. Quando um gateway habilita habilidades, a AIVAX carrega as habilidades da conta configuradas no gateway e pode expor funções integradas relacionadas a habilidades.</p>
-<p>Saiba mais sobre <a href="/docs/pt-br/features/skills">habilidades</a>.</p>
-<h2 id="pré-processamento-multimodal">Pré-processamento multimodal</h2>
-<p>O pré-processamento multimodal converte o conteúdo de mídia selecionado em texto antes da chamada ao modelo principal. As flags disponíveis são <code>Image</code>, <code>Audio</code>, <code>Video</code>, <code>File</code>, <code>OtherFiles</code> e <code>All</code>.</p>
-<p>Use o pré-processamento quando o modelo principal for principalmente texto ou quando você quiser que a AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré-processamento para que o modelo possa inspecioná‑la diretamente.</p>
+<p>Habilidades são pacotes de instruções sob demanda disponíveis para o modelo. Quando um gateway habilita habilidades, o AIVAX carrega as habilidades da conta configuradas no gateway e pode expor funções internas relacionadas a habilidades.</p>
+<p>Leia mais sobre <a href="/docs/pt-br/features/skills">habilidades</a>.</p>
+<h2 id="préprocessamento-multimodal">Pré‑processamento multimodal</h2>
+<p>O pré‑processamento multimodal converte conteúdo de mídia selecionado em texto antes da chamada ao modelo principal. As bandeiras disponíveis são <code>Image</code>, <code>Audio</code>, <code>Video</code>, <code>File</code>, <code>OtherFiles</code> e <code>All</code>.</p>
+<p>Use pré‑processamento quando o modelo principal for texto‑primeiro ou quando quiser que o AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré‑processamento para que o modelo possa inspecioná‑la diretamente.</p>
 <p>As descrições de mídia são armazenadas em cache por hash de conteúdo para reutilização.</p>
 <h2 id="parametrização">Parametrização</h2>
-<p>O pipeline de parametrização configura opções de requisição do modelo, como:</p>
+<p>O pipeline de parametrização configura opções de requisição ao modelo, tais como:</p>
 <ul>
 <li><code>temperature</code></li>
 <li><code>top_p</code></li>
@@ -180,67 +180,187 @@
 <li><code>verbosity</code></li>
 <li><code>seed</code></li>
 </ul>
-<p>Valores ao nível de requisição podem sobrescrever valores do gateway quando o endpoint suporta o parâmetro. Alguns modelos integrados rejeitam parâmetros específicos, e provedores BYOK podem ter suas próprias restrições.</p>
-<h2 id="truncação-de-contexto">Truncação de contexto</h2>
-<p>O pipeline de truncação de contexto usa uma contagem aproximada de tokens. Quando <code>ContextMaximumSize</code> está definido e a conversa excede o limite, o gateway segue <code>ContextOverflowAction</code>:</p>
+<p>Valores ao nível da requisição podem sobrescrever valores do gateway quando o endpoint suporta o parâmetro. Alguns modelos integrados rejeitam parâmetros específicos, e provedores BYOK podem ter suas próprias restrições.</p>
+<h2 id="truncamento-de-contexto">Truncamento de contexto</h2>
+<p>O pipeline de truncamento de contexto usa uma contagem aproximada de tokens. Quando <code>ContextMaximumSize</code> está definido e a conversa excede o limite, o gateway segue <code>ContextOverflowAction</code>:</p>
 <ul>
-<li><code>Throw</code>: Retorna um erro ao invés de chamar o modelo.</li>
-<li><code>Truncate</code>: Remove mensagens não‑sistema mais antigas até que a conversa caiba.</li>
+<li><code>Throw</code>: Retorna um erro em vez de chamar o modelo.</li>
+<li><code>Truncate</code>: Remove mensagens não‑sistêmicas mais antigas até que a conversa caiba.</li>
 </ul>
-<p>A truncação preserva mensagens do sistema e mantém ao menos uma mensagem do usuário quando possível. Se a mensagem de usuário restante ainda exceder o limite, a requisição falha com um erro de tamanho de mensagem.</p>
-<p>No plano gratuito, o contexto de entrada efetivo é limitado a 65 536 tokens mesmo quando um contexto maior está configurado.</p>
-<h2 id="truncação-de-mensagens-de-ferramenta">Truncação de mensagens de ferramenta</h2>
+<p>O truncamento preserva mensagens do sistema e mantém pelo menos uma mensagem do usuário quando possível. Se a mensagem do usuário restante ainda exceder o limite, a requisição falha com um erro de tamanho de mensagem.</p>
+<p>Em planos inferiores, o contexto de entrada efetivo pode ser limitado mesmo quando um contexto maior está configurado; veja <a href="/docs/pt-br/limits#plan-limits">Plans and limits</a>.</p>
+<h2 id="truncamento-de-mensagem-de-ferramenta">Truncamento de mensagem de ferramenta</h2>
 <p><code>ToolContextCount</code> controla quantas mensagens recentes de resposta de ferramenta mantêm seu conteúdo original. Quando definido para um valor maior que zero, mensagens de ferramenta mais antigas permanecem na conversa, mas seu conteúdo é substituído por:</p>
 <pre><code class="lang-text">[tool response truncated - call this tool again]
 </code></pre>
-<p>Isso pode reduzir o uso de contexto em conversas agenticas longas. Também pode prejudicar cadeias onde um resultado antigo de ferramenta permanece importante, portanto use apenas quando o modelo puder chamar a ferramenta novamente com segurança.</p>
+<p>Isso pode reduzir o uso de contexto em conversas longas de agentes. Também pode prejudicar cadeias onde um resultado antigo de ferramenta continua importante, portanto use apenas quando o modelo puder chamar a ferramenta novamente com segurança.</p>
 <h2 id="ferramentas-do-lado-do-servidor">Ferramentas do lado do servidor</h2>
-<p>Ferramentas do lado do servidor são funções internas executadas pela AIVAX durante a inferência. Elas podem vir de:</p>
+<p>Ferramentas do lado do servidor são funções internas executadas pelo AIVAX durante a inferência. Elas podem vir de:</p>
 <ul>
-<li>Ferramentas integradas.</li>
+<li>Ferramentas internas.</li>
 <li>Funções de protocolo.</li>
-<li>Fontes de funções de protocolo remotas.</li>
+<li>Fontes remotas de funções de protocolo.</li>
 <li>Fontes MCP.</li>
 <li>QueryFunction RAG.</li>
 <li>Habilidades.</li>
 <li>Ambiente bash opcional.</li>
 </ul>
-<p>Eventos de ferramentas do lado do servidor podem ser transmitidos aos clientes como atualizações <code>servertool</code>.</p>
-<h2 id="ferramentas-integradas">Ferramentas integradas</h2>
-<p>Ferramentas integradas podem ser configuradas em um gateway ou fornecidas por requisição com <code>builtin_tools</code>. Flags de ferramentas integradas disponíveis incluem:</p>
+<p>Eventos de ferramenta do lado do servidor podem ser transmitidos aos clientes como atualizações <code>servertool</code>.</p>
+<h2 id="ferramentas-internas">Ferramentas internas</h2>
+<p>Ferramentas internas podem ser configuradas em um gateway ou fornecidas por requisição com <code>builtin_tools</code>. As bandeiras de ferramenta interna disponíveis incluem:</p>
 <ul>
-<li><code>WebSearch</code></li>
-<li><code>AdvancedWebUsage</code></li>
-<li><code>OpenUrl</code></li>
-<li><code>Code</code></li>
-<li><code>Request</code></li>
-<li><code>Calendar</code></li>
-<li><code>Remember</code></li>
-<li><code>GenerateWebPage</code></li>
-<li><code>GenerateDocument</code></li>
-<li><code>XPostsSearch</code></li>
-<li><code>ImageGeneration</code></li>
+<li><p><code>DateTime</code> — data e hora atuais através de <code>get_date_time</code>; configure <code>dateTimeTimeZone</code> nas opções da ferramenta interna (padrão: <code>America/Los_Angeles</code>, horário do Pacífico).</p>
+</li>
+<li><p><code>WebSearch</code></p>
+</li>
+<li><p><code>AdvancedWebUsage</code> (desativado; retorna uma resposta indisponível. Veja <a href="../changelogs.html">Changelogs</a>.)</p>
+</li>
+<li><p><code>OpenUrl</code></p>
+</li>
+<li><p><code>Code</code></p>
+</li>
+<li><p><code>Request</code></p>
+</li>
+<li><p><code>Calendar</code></p>
+</li>
+<li><p><code>Remember</code></p>
+</li>
+<li><p><code>GenerateWebPage</code></p>
+</li>
+<li><p><code>GenerateDocument</code></p>
+</li>
+<li><p><code>XPostsSearch</code></p>
+</li>
+<li><p><code>ImageGeneration</code></p>
+</li>
 </ul>
-<p>Veja <a href="/docs/pt-br/tools/builtin-tools">Ferramentas integradas</a>.</p>
+<p>Veja <a href="/docs/pt-br/tools/builtin-tools">Built-in tools</a>.</p>
 <h2 id="mcp-e-funções-de-protocolo">MCP e funções de protocolo</h2>
-<p>Ferramentas listadas por uma fonte MCP tornam‑se disponíveis ao modelo com seus esquemas declarados. Resultados de ferramentas MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportado.</p>
-<p>Funções de protocolo expõem callbacks HTTP ou URLs de callback da AIVAX como ferramentas chamáveis pelo modelo. Fontes de funções de protocolo remotas são obtidas e armazenadas em cache antes que suas ferramentas se tornem disponíveis ao modelo.</p>
-<p>Veja <a href="/docs/pt-br/tools/protocol-functions">Funções de protocolo</a> e <a href="/docs/pt-br/tools/mcp">MCP</a>.</p>
+<p>Ferramentas listadas por uma fonte MCP ficam disponíveis ao modelo com seus esquemas declarados. Resultados de ferramenta MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportado.</p>
+<p>Funções de protocolo expõem callbacks HTTP ou URLs de callback do AIVAX como ferramentas chamáveis pelo modelo. Fontes remotas de funções de protocolo são obtidas e armazenadas em cache antes que suas ferramentas fiquem disponíveis ao modelo.</p>
+<p>Veja <a href="/docs/pt-br/tools/protocol-functions">Protocol functions</a> e <a href="/docs/pt-br/tools/mcp">MCP</a>.</p>
 <h2 id="interpretador-de-funções">Interpretador de funções</h2>
 <p>Um manipulador de ferramenta pode adicionar comportamento de chamada de ferramenta para modelos que não produzem chamadas nativas de forma confiável. Valores suportados são:</p>
 <ul>
-<li><code>native</code> ou <code>null</code>: Usa chamada de ferramenta nativa do modelo.</li>
-<li><code>react.v1.selfcall</code>: Usa o manipulador de autochamada estilo ReAct.</li>
+<li><code>native</code> ou <code>null</code>: Usa chamada nativa de ferramenta do modelo.</li>
+<li><code>react.v1.selfcall</code>: Usa o manipulador de auto‑chamada estilo ReAct.</li>
 </ul>
-<p>Se um nome de manipulador não for reconhecido, a configuração do gateway falha no momento da inferência.</p>
+<p>Se um nome de manipulador não for reconhecido, a configuração do gateway falha no tempo de inferência.</p>
 <h2 id="moderação">Moderação</h2>
-<p>A moderação executa um modelo de proteção sobre toda a conversa textual antes do modelo principal. Ela pontua a solicitação mais recente do usuário nas categorias de violência, conteúdo sexualmente explícito, conteúdo político, conteúdo perigoso, tentativas de jailbreak e assuntos off-topic. As regras adicionais de moderação configuradas no gateway orientam essas pontuações em conjunto com as políticas internas das categorias.</p>
-<p>Cada categoria usa um nível de sensibilidade de 0 a 10. O nível 0 desativa a categoria, o nível 1 bloqueia apenas a pontuação 10 do safeguard e o nível 10 bloqueia pontuações de 1 a 10. Quando uma categoria atinge a pontuação de bloqueio, a AIVAX não encaminha a conversa original ao modelo principal e solicita uma resposta de recusa.</p>
-<p>Atualmente, a moderação se aplica apenas ao texto de entrada. Ela não analisa a saída gerada nem o conteúdo de imagens, áudios, vídeos ou arquivos anexados.</p>
-<p>Use a moderação para política de segurança abrangente. Use trabalhadores quando a decisão depende de identidade externa, estado da conta ou política específica de negócio.</p>
+<p>A moderação é um filtro de entrada que roda antes do modelo principal. Quando ao menos uma categoria de moderação está habilitada, o AIVAX envia a conversa textual disponível a um modelo de salvaguarda. O modelo de salvaguarda avalia a última solicitação do usuário no contexto estabelecido pela conversa e devolve uma pontuação de 0 a 10 para cada categoria.</p>
+<table>
+<thead>
+<tr>
+<th>Categoria</th>
+<th>Propriedade do gateway</th>
+<th>O que o salvaguarda avalia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Violência e discurso de ódio</strong></td>
+<td><code>violenceThreshold</code></td>
+<td>Violência, ódio, extremismo, ameaças ou incentivo a dano físico.</td>
+</tr>
+<tr>
+<td><strong>Conteúdo sexual e explícito</strong></td>
+<td><code>sexualExplicitThreshold</code></td>
+<td>Conteúdo sexualmente explícito ou adulto.</td>
+</tr>
+<tr>
+<td><strong>Temas políticos</strong></td>
+<td><code>politicalThreshold</code></td>
+<td>Persuasão política, campanha, manipulação ou conteúdo altamente político.</td>
+</tr>
+<tr>
+<td><strong>Conteúdo perigoso</strong></td>
+<td><code>dangerousContentThreshold</code></td>
+<td>Armas, explosivos, abuso cibernético, automutilação ou outros atos e instruções perigosas.</td>
+</tr>
+<tr>
+<td><strong>Tentativas de jailbreak</strong></td>
+<td><code>jailbreakThreshold</code></td>
+<td>Tentativas de sobrescrever instruções, revelar instruções protegidas, exfiltrar dados ou injetar prompts.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entendendo-níveis-de-sensibilidade">Entendendo níveis de sensibilidade</h3>
+<p>O valor configurado no gateway é um <strong>nível de sensibilidade</strong>, não a pontuação da salvaguarda em si. Um nível mais alto reduz a pontuação necessária para bloquear a entrada.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Nível de sensibilidade</th>
+<th>Pontuações de salvaguarda que bloqueiam</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;"><code>0</code></td>
+<td>Categoria desativada</td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>1</code></td>
+<td><code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>3</code></td>
+<td><code>8</code>–<code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>5</code></td>
+<td><code>6</code>–<code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>8</code></td>
+<td><code>3</code>–<code>10</code></td>
+</tr>
+<tr>
+<td style="text-align: right;"><code>10</code></td>
+<td><code>1</code>–<code>10</code></td>
+</tr>
+</tbody>
+</table>
+<p>Para categorias habilitadas, o corte de bloqueio é <code>11 - nível de sensibilidade</code>. Uma pontuação de salvaguarda de <code>0</code> nunca bloqueia. Configure cada categoria independentemente; a requisição é bloqueada quando qualquer categoria habilitada atinge seu corte.</p>
+<h3 id="adicionar-regras-específicas-do-gateway">Adicionar regras específicas do gateway</h3>
+<p><strong>Regras de moderação adicionais</strong> permitem que um administrador de gateway descreva políticas que não são totalmente expressas pelas descrições de categoria internas. A salvaguarda lê essas regras junto com a política interna e as usa para calibrar todas as cinco pontuações.</p>
+<p>Por exemplo:</p>
+<pre><code class="lang-text">Allow users to describe accidents and injuries when asking for insurance coverage or assistance.
+Treat requests for instructions to cause an accident or harm someone as dangerous content.
+</code></pre>
+<p>Regras adicionais orientam a classificação; elas não criam uma pontuação separada nem bloqueiam diretamente uma entrada. Pelo menos uma categoria deve ter um nível de sensibilidade acima de <code>0</code> para que a moderação seja executada. No exemplo acima, habilite <strong>Conteúdo perigoso</strong> para que a pontuação da salvaguarda possa gerar uma decisão de bloqueio.</p>
+<p>Escreva regras como declarações de política curtas com casos explicitamente permitidos e proibidos. Não inclua segredos, credenciais ou dados operacionais privados, pois as regras são armazenadas com a configuração do gateway e enviadas ao modelo de salvaguarda durante a moderação.</p>
+<p>O fragmento de gateway a seguir habilita diferentes níveis de sensibilidade e fornece orientações específicas ao domínio para a salvaguarda. Os valores são um exemplo, não uma baseline recomendada para produção:</p>
+<pre><code class="lang-json">{
+  &quot;moderationParameters&quot;: {
+    &quot;violenceThreshold&quot;: 4,
+    &quot;sexualExplicitThreshold&quot;: 4,
+    &quot;politicalThreshold&quot;: 2,
+    &quot;dangerousContentThreshold&quot;: 6,
+    &quot;jailbreakThreshold&quot;: 7,
+    &quot;additionalRules&quot;: &quot;Permitir descrições de acidentes e lesões para suporte de seguro. Tratar instruções para causar acidentes ou machucar alguém como conteúdo perigoso.&quot;
+  }
+}
+</code></pre>
+<h3 id="o-que-acontece-quando-uma-entrada-é-bloqueada">O que acontece quando uma entrada é bloqueada</h3>
+<p>Quando qualquer categoria habilitada atinge seu corte:</p>
+<ol>
+<li>O AIVAX marca as mensagens originais da conversa como indisponíveis para a requisição de inferência principal.</li>
+<li>O AIVAX as substitui por uma instrução identificando as categorias que causaram o bloqueio.</li>
+<li>O modelo principal gera uma recusa em vez de responder à requisição original.</li>
+</ol>
+<p>A recusa é gerada pelo modelo; a moderação não devolve um corpo de resposta fixo. Se a salvaguarda não puder produzir um resultado de moderação válido, a requisição falha antes que a conclusão normal seja gerada.</p>
+<h3 id="contexto-e-limitações-atuais">Contexto e limitações atuais</h3>
+<p>A salvaguarda recebe o histórico de conversa disponível, não apenas a última mensagem. Papéis e textos das mensagens são preservados como dados de conversa serializados não confiáveis, de modo que instruções dentro da conversa não podem substituir a política da salvaguarda. Se a conversa exceder a janela de contexto da salvaguarda, o contexto mais antigo pode ser truncado.</p>
+<p>A moderação atualmente se aplica apenas ao texto de entrada:</p>
+<ul>
+<li>Saída gerada não é moderada.</li>
+<li>Imagens, áudio, vídeo e conteúdo de arquivos não são analisados. A salvaguarda recebe apenas um marcador indicando que mídia estava presente.</li>
+<li>Autorização de ferramenta ou trabalhador ainda requer política ao nível da aplicação; a moderação não é um mecanismo de autorização.</li>
+<li>A moderação adiciona uma inferência de salvaguarda antes da inferência principal, o que acrescenta latência e uso de moderação cobrável.</li>
+</ul>
+<p>Use a moderação para políticas de segurança amplas. Use trabalhadores quando a decisão depender de identidade externa, estado da conta ou política específica de negócio.</p>
 <h2 id="trabalhadores">Trabalhadores</h2>
-<p>Trabalhadores são hooks HTTP externos chamados durante a execução do gateway. Eles podem parar um evento, deixá‑lo continuar, reescrever o contexto da mensagem, adicionar ferramentas, adicionar instruções do sistema ou substituir um resultado de ferramenta do lado do servidor.</p>
-<p>Saiba mais sobre <a href="/docs/pt-br/inference/workers">Trabalhadores de IA</a>.</p>
+<p>Configure eventos de trabalhador e detalhes de endpoint nos parâmetros do gateway; implemente o comportamento do evento em seu endpoint externo. Veja <a href="/docs/pt-br/inference/workers">AI Workers</a>.</p>
 
 </article>
 

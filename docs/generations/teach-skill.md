@@ -2,7 +2,7 @@
 
 Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Typical uses include capturing an expert's screen workflow so support agents repeat it consistently, converting onboarding walkthroughs into assistant behavior, and bootstrapping a skill draft that a human then tightens.
 
-Submit tutorial videos as `video_url` content parts — hosted URLs or base64 data URIs. Since analysis takes a while on longer recordings, the API recommends the long inference host described in the reference.
+Submit tutorial videos as `video_url` content parts — hosted URLs or base64 data URIs. Since analysis takes a while on longer recordings, the API recommends `direct.inference.aivax.net`.
 
 ## Record a demonstration that teaches well
 

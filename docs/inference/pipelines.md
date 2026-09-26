@@ -226,6 +226,4 @@ Use moderation for broad safety policy. Use workers when the decision depends on
 
 ## Workers
 
-Workers are external HTTP hooks called during gateway execution. They can stop an event, let it continue, rewrite message context, add tools, add system instructions, or replace a server-side tool result.
-
-Read more on [AI Workers](/docs/inference/workers).
+Configure worker events and endpoint details in the gateway parameters; implement the event behavior at your external endpoint. See [AI Workers](/docs/inference/workers).
