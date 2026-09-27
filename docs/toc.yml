@@ -60,6 +60,8 @@
 
 - name: Generations
 
+- name: Semantic decisions
+  href: generations/decisions.md
 - name: Speech generation
   href: generations/speech.md
 - name: Audio transcriptions

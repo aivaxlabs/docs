@@ -2,13 +2,31 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
-## Saturday, September 26th, 2026
+## Sunday, September 27th, 2026
 
 Changes:
 
+- **Models — Consistent speech synthesis prices.** Text-to-speech catalog prices now derive from the same per-character rates used to calculate synthesis usage, displayed per 1,000 characters. Existing model identifiers and billing rates remain unchanged.
+
+- **Models — Comparable transcription prices.** Speech-to-text model prices are displayed consistently in USD per minute, converting hourly and per-second rates for comparison without changing billing rates or duration measurement.
+
+- **Image generation — Fixed output and reference prices.** Image generation uses a fixed price per delivered output plus a per-reference price for each output. Models whose providers bill tokens or megapixels now use rounded-up estimates instead of metered token charges. Prompt processing is included in the output estimate; models without a separate reference charge list a zero reference rate. These are fixed tariffs, not receipts for the provider's actual consumption. Image charges no longer include the AIVAX image-generation markup or account and plan pricing multipliers. See [Image generation](generations/images.md).
+
+## Saturday, September 26th, 2026
+
+Breaking changes:
+
+- **Image generation — Deprecated models removed.** Removes `majicMIX-realistic`, `AbsoluteReality`, `CyberRealistic`, `CyberRealistic-Pony`, `RealCartoon-Realistic`, `Hassaku-XL`, and `Meina-Mix` from the available models. Direct API requests using these identifiers now fail; select an active model instead. Built-in image generation uses `flux-schnell` when no valid model is configured, replacing the deprecated `AbsoluteReality` default. Review saved configurations; output style and pricing differ.
+
+Changes:
+
+- **Image generation — Additional Pollinations models.** Adds 16 official raster-image models, including FLUX 1.1 Pro and FLUX 2 variants, MAI Image variants, GPT Image 2.5 Flare and Sunburst, Qwen Image 2.1 and 3, Grok Imagine Image 2.0, Recraft V4.1 Flash, Krea 2 Medium, DreamShaper 8 LCM, and Seedream 5 Pro, with model-generated previews in the image picker. Community and SVG models are excluded. The catalog displays the billing units. See the September 27th entry for the subsequent fixed-price billing change. Failed generations are not counted as delivered images. See [Image generation](generations/images.md).
+
+- **Models — Service model catalogs.** The Models page now includes tables for image generation, speech-to-text, text-to-speech, reranking, and semantic decisions, with backend-provided descriptions, release dates, base USD pricing with billing units, and an Actions dropdown in every service-model table for copying model names and opening integration documentation. Model names show a friendly label when available while copying the identifier accepted by the API. Pricing uses compact input, cached-input, output, image, character, and duration units separated by arrows where applicable, with full rates and units available in the tooltip. Catalogs are ordered newest first. OpenRouter catalog dates and friendly names supplement missing launch metadata; catalog dates are explicitly labeled rather than presented as manufacturer release dates. Models without either date remain last. Failed catalog requests can be retried independently. The public information catalogs expose these details, including the new `GET /api/v1/information/speech-models.json` catalog. Account and plan pricing adjustments still apply. See [Pricing](pricing.md) and [Semantic decisions](generations/decisions.md).
+
 - **Privacy — Judicial disclosure and retention clarified.** The [Privacy Policy](legal/privacy-policy.md) and [Terms of Use](legal/terms-of-service.md) specify Brazilian court orders for disclosure, foreign requests to preserve existing logs for up to 1 year, and up to 1 year of technical logs and metadata. They clarify that conversation content is collected only when Conversations is enabled for the request or account, and that available account resources and backups dating back up to 3 months may be disclosed under a Brazilian court order. The content license in the Terms is expressly subject to these limits.
 
-- **Generations — Additional decision models.** Adds `@respan/span-01`, `@respan/span-01-lite`, and `@jaredpalmer/kev-4b` as model choices for semantic decisions. Existing model identifiers and request formats remain unchanged.
+- **Generations — Additional decision models.** The new [Semantic decisions guide](generations/decisions.md) explains question types, response interpretation, model pricing, and Julia-1 limits. The public `GET /api/v1/information/decisions-models.json` endpoint lists canonical names, aliases, supported question types, context lengths, release dates, and base token prices. Adds `@respan/span-01`, `@respan/span-01-lite`, `@jaredpalmer/kev-4b`, and `@supersonic-labs/julia-1` as model choices for semantic decisions. Julia-1 supports `choice`, `score`, and `noul`, with a 1,024-token combined context per question and 2–20 choices or score levels. Its base price is $0.008 per million input tokens, with no output-token charge; existing account and plan pricing adjustments still apply. Input usage includes the state repeated for each question. Existing model identifiers and request formats remain unchanged.
 
 ## Tuesday, September 22nd, 2026
 

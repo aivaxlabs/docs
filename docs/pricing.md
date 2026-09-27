@@ -75,8 +75,10 @@ Generation and transcription rates depend on the selected model. Media descripti
 | Voice Sessions | Selected realtime model rates |
 | Speech-to-text | Varies by model |
 | Text-to-speech | Varies by model |
-| Image generation | Varies by model |
+| Image generation | Fixed output and reference-image tariffs by model |
 | Media descriptions | **~$1.50/M tokens** |
+
+Image generation charges each delivered output at the selected model's fixed output price, plus its per-reference price for every reference sent with that output. Prompt processing is included. Token- and megapixel-priced providers use rounded-up estimates, not exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs are listed in the Models catalog; see [Image generation](generations/images.md).
 
 ## Web Search, OCR and Fetch
 

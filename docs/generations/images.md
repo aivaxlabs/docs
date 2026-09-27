@@ -24,4 +24,8 @@ The embedded reference is the source of truth for the request shape, supported o
 
 ## Pricing, limits, and errors
 
+The Models catalog lists a fixed price per output image and, where applicable, a price per reference image. The charge is the number of delivered outputs multiplied by the output price plus the reference price for every reference sent with each output. For example, two outputs using three references cost `2 × (output price + 3 × reference price)`. A zero reference price means references have no separate charge.
+
+These tariffs use rounded-up estimates where the provider bills tokens or megapixels; they are not the provider's exact charge for each request. Prompt processing is included in the output tariff, with no separate token charge. No AIVAX image-generation markup or account and plan pricing multiplier is added. Only delivered images count toward the image charge.
+
 For current pricing, availability, and account limits, see [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits). If a request fails, revise the reported validation issue before retrying.
