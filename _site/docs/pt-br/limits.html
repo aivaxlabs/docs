@@ -127,22 +127,24 @@
                 <article data-uid="">
 <h1 id="planos-e-limites">Planos e Limites</h1>
 
-<p>AIVAX tem três planos de conta: <strong>Free</strong>, <strong>Pro</strong> e <strong>Max</strong>. O plano atual é armazenado na conta e controla o acesso ao modelo, comissões, limites de taxa, cotas RAG, limites de ferramentas, cota de armazenamento, retenção de conversas e janelas de reserva do modelo de assinatura.</p>
-<p>Para preços de assinatura comercial e embalagens de planos, use a <a href="https://aivax.net/pricing">página de preços da AIVAX</a>. Esta página documenta os limites técnicos da API.</p>
+<p>AIVAX tem três planos de conta: <strong>Free</strong>, <strong>Pro</strong> e <strong>Max</strong>. O plano atual é armazenado na conta e controla o acesso ao modelo, comissões, limites de taxa, cotas de RAG, limites de ferramentas, cota de armazenamento, retenção de conversas e permissões diárias incluídas.</p>
+<p>Para preços de assinatura comercial e empacotamento de planos, use a <a href="https://aivax.net/pricing">AIVAX pricing page</a>. Esta página documenta os limites técnicos da API.</p>
 <h2 id="como-os-limites-são-aplicados">Como os limites são aplicados</h2>
+<p>Os limites são aplicados em diferentes camadas:</p>
 <ul>
 <li>A autenticação rejeita chaves de API ausentes, expiradas ou desconhecidas.</li>
 <li>Chaves de API públicas são restritas a rotas públicas e têm limites de requisição e token por chave e por IP.</li>
-<li>O middleware de saldo rejeita requisições faturáveis quando o saldo da conta está abaixo do mínimo exigido.</li>
+<li>O middleware de saldo rejeita requisições pagas quando o saldo da conta está abaixo do mínimo exigido.</li>
 <li>O middleware de armazenamento rejeita requisições quando o armazenamento da conta excede a cota do plano.</li>
-<li>A inferência verifica o acesso ao modelo, taxa de requisição, taxa de tokens de entrada, taxa BYOK e tamanho do contexto do plano Free.</li>
-<li>RAG verifica contagem de coleções, taxa de busca, taxa de inserção e tamanho de importação JSONL.</li>
-<li>Ferramentas incorporadas verificam os limites diários de serviço.</li>
-<li>Processamento em lote verifica quantos itens de fluxo de trabalho podem ser processados por dia.</li>
+<li>As verificações de inferência avaliam acesso ao modelo, taxa de requisição, taxa de tokens de entrada, taxa BYOK e tamanho de contexto do plano Free.</li>
+<li>As verificações de RAG avaliam contagem de coleções, taxa de busca, taxa de inserção e tamanho de importação JSONL.</li>
+<li>Ferramentas integradas verificam limites de serviço diário.</li>
+<li>O processamento em lote verifica quantos itens de fluxo de trabalho podem ser processados por dia.</li>
 </ul>
+<p>Referência:</p>
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Account%20Balance&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="limites-do-plano">Limites do plano</h2>
-<p>Um travessão (<code>—</code>) indica que o plano não impõe um limite. Limites específicos de modelo, gateway, provedor ou endpoint ainda podem ser aplicados.</p>
+<p>Um travessão longo (<code>—</code>) indica que o plano não impõe limite. Limites específicos de modelo, gateway, provedor ou endpoint ainda podem ser aplicados.</p>
 <table>
 <thead>
 <tr>
@@ -172,7 +174,7 @@
 <td>1.00x</td>
 </tr>
 <tr>
-<td>Requisições de modelo integrado</td>
+<td>Solicitações de modelo integrado</td>
 <td>20/min e 500/dia</td>
 <td>200/min</td>
 <td>—</td>
@@ -184,7 +186,7 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Requisições BYOK</td>
+<td>Solicitações BYOK</td>
 <td>30/min</td>
 <td>200/min</td>
 <td>—</td>
@@ -196,22 +198,28 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Reserva do modelo de assinatura</td>
-<td>Não incluído</td>
-<td>250 unidades/6h e 3.000 unidades/semana</td>
-<td>1.000 unidades/6h e 15.000 unidades/semana</td>
+<td>Cobertura de assinatura LLM</td>
+<td>Atualmente desativada</td>
+<td>Atualmente desativada</td>
+<td>Atualmente desativada</td>
 </tr>
 <tr>
-<td>Requisições independentes de texto-para-fala</td>
+<td>Solicitações autônomas de texto para fala</td>
 <td>3/min e 40/hora</td>
 <td>30/min</td>
 <td>300/min</td>
 </tr>
 <tr>
-<td>Requisições independentes de transcrição de áudio</td>
+<td>Solicitações autônomas de transcrição de áudio</td>
 <td>3/min e 40/hora</td>
 <td>30/min</td>
 <td>300/min</td>
+</tr>
+<tr>
+<td>Solicitações de decisão semântica</td>
+<td>10/min</td>
+<td>50/min</td>
+<td>—</td>
 </tr>
 <tr>
 <td><strong>RAG e coleções</strong></td>
@@ -226,7 +234,7 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Buscas semânticas</td>
+<td>Pesquisas semânticas</td>
 <td>20/min</td>
 <td>500/min</td>
 <td>3.000/min</td>
@@ -244,7 +252,7 @@
 <td>2.500/min</td>
 </tr>
 <tr>
-<td>Buscas de reclassificação</td>
+<td>Reordenação de buscas</td>
 <td>30/min</td>
 <td>1.000/min</td>
 <td>—</td>
@@ -262,7 +270,7 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Documentos JSONL por requisição de importação</td>
+<td>Documentos JSONL por solicitação de importação</td>
 <td>1.000</td>
 <td>10.000</td>
 <td>1.000.000</td>
@@ -274,25 +282,25 @@
 <td>1.000 arquivos/dia</td>
 </tr>
 <tr>
-<td><strong>Ferramentas incorporadas</strong></td>
+<td><strong>Ferramentas integradas</strong></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>Busca na web</td>
+<td>Pesquisa na web</td>
 <td>15/dia</td>
 <td>1.000/dia</td>
 <td>10.000/dia</td>
 </tr>
 <tr>
-<td>Busca X/Twitter</td>
+<td>Pesquisa X/Twitter</td>
 <td>Não disponível</td>
 <td>1.000/dia</td>
 <td>10.000/dia</td>
 </tr>
 <tr>
-<td>Busca avançada na web</td>
+<td>Pesquisa avançada na web</td>
 <td>Não disponível</td>
 <td>100/dia</td>
 <td>1.000/dia</td>
@@ -310,7 +318,7 @@
 <td>5.000/dia</td>
 </tr>
 <tr>
-<td>Ações de serviço geral</td>
+<td>Ações gerais de serviço</td>
 <td>30/dia</td>
 <td>5.000/dia</td>
 <td>100.000/dia</td>
@@ -320,6 +328,24 @@
 <td>300/hora</td>
 <td>30.000/hora</td>
 <td>—</td>
+</tr>
+<tr>
+<td><strong>Testes agentes</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Novas execuções por conta</td>
+<td>5/min</td>
+<td>30/min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Execuções simultâneas por conta</td>
+<td>1</td>
+<td>4</td>
+<td>8</td>
 </tr>
 <tr>
 <td><strong>Processamento em lote</strong></td>
@@ -334,22 +360,22 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Arquivos por requisição de importação</td>
+<td>Arquivos por solicitação de importação</td>
 <td>1.000</td>
 <td>1.000</td>
 <td>1.000</td>
 </tr>
 <tr>
 <td>Tamanho total de importação</td>
-<td>100 MiB/requisição</td>
-<td>100 MiB/requisição</td>
-<td>100 MiB/requisição</td>
+<td>100 MiB/solicitação</td>
+<td>100 MiB/solicitação</td>
+<td>100 MiB/solicitação</td>
 </tr>
 <tr>
 <td>Tamanho de arquivo importado único</td>
-<td>10 MiB</td>
-<td>10 MiB</td>
-<td>10 MiB</td>
+<td>10 MiB</td>
+<td>10 MiB</td>
+<td>10 MiB</td>
 </tr>
 <tr>
 <td><strong>Conta e suporte</strong></td>
@@ -359,36 +385,85 @@
 </tr>
 <tr>
 <td>Cota de armazenamento</td>
-<td>30 MB</td>
-<td>2 GB</td>
-<td>20 GB</td>
+<td>30 MB</td>
+<td>2 GB</td>
+<td>20 GB</td>
 </tr>
 <tr>
 <td>Custo por GB excedente</td>
 <td>—</td>
-<td>$0,50/GB/mês</td>
-<td>$0,20/GB/mês</td>
+<td>$0.50/GB/mês</td>
+<td>$0.20/GB/mês</td>
 </tr>
 <tr>
 <td>Retenção de conversas</td>
-<td>2 horas</td>
-<td>2 dias</td>
-<td>30 dias</td>
+<td>2 horas</td>
+<td>2 dias</td>
+<td>30 dias</td>
 </tr>
 <tr>
 <td>Nível de suporte</td>
 <td>Email</td>
-<td>Prioritário</td>
+<td>Prioridade</td>
 <td>Dedicado</td>
 </tr>
 </tbody>
 </table>
-<p>Requisições de modelo integrado são limitadas tanto pelo número de requisições quanto pelos tokens de entrada. Grupos de limite de taxa de modelo ajustam os limiares de contagem de requisições:</p>
+<h3 id="limites-de-taxa-de-decisão-semântica-e-teste-agente">Limites de taxa de decisão semântica e teste agente</h3>
+<p>Esses limites por minuto são compartilhados entre chaves de API pertencentes à mesma conta. Eles são independentes das permissões de assinatura e faturamento: o uso incluído ainda consome a cota de requisição ou execução aplicável.</p>
+<ul>
+<li><strong>Decisões semânticas:</strong> cada requisição consome uma unidade, independentemente de quantas perguntas contém ou qual modelo de decisão é selecionado. Uma requisição que excede o limite da conta retorna <code>429 Too Many Requests</code> antes da avaliação. Veja <a href="generations/decisions.html">Decisões semânticas</a>.</li>
+<li><strong>Testes agentes:</strong> execuções manuais, agendadas e avaliações diretas compartilham uma cota de novas execuções. Uma execução persistente consome sua unidade quando é enfileirada, não novamente quando a execução começa; turnos individuais de conversa não consomem unidades adicionais. Requisições manuais excedentes e avaliações diretas retornam <code>429 Too Many Requests</code>. Um teste agendado sem cota disponível aguarda a próxima verificação de agendamento em vez de criar uma execução extra. Execuções existentes permanecem sujeitas aos seus limites de simultaneidade e inferência separados. Veja <a href="inference/agentic-tests.html">Testes agentes</a>.</li>
+</ul>
+<p>Distribua as requisições pela conta e use tentativas limitadas com backoff após um 429. Uma tentativa imediata ainda encontra a janela de limite de taxa ativa. Max não tem limite imposto pelo plano para essas duas cotas, mas outros limites aplicáveis permanecem em vigor.</p>
+<h3 id="cotas-diárias-incluídas-na-assinatura">Cotas diárias incluídas na assinatura</h3>
+<p>Free, Pro e Max incluem cotas diárias separadas para os serviços abaixo. Cada comparação refere‑se ao mesmo serviço no plano nomeado, não a um saldo de crédito compartilhado ou a um número garantido de requisições. Cota não utilizada de um serviço não pode cobrir outro. Contas revendedoras não recebem cotas de assinatura.</p>
+<table>
+<thead>
+<tr>
+<th>Serviço incluído</th>
+<th>Free</th>
+<th>Pro</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incorporação de busca e inserção RAG</td>
+<td>Cota base</td>
+<td>25× Free</td>
+<td>4× Pro</td>
+</tr>
+<tr>
+<td>Reordenação com Reflex</td>
+<td>Cota base</td>
+<td>5× Free</td>
+<td>10× Pro</td>
+</tr>
+<tr>
+<td>Decisões semânticas com Julia-1</td>
+<td>Cota base</td>
+<td>2.5× Free</td>
+<td>2× Pro</td>
+</tr>
+<tr>
+<td>Busca e extração OCR</td>
+<td>Cota base</td>
+<td>10× Free</td>
+<td>5× Pro</td>
+</tr>
+</tbody>
+</table>
+<p>Pesquisas RAG e inserções de documentos compartilham a cota de incorporação. Ela não cobre geração de respostas, processamento de mídia, classificação ou segmentação de texto. Uma incorporação de consulta atendida a partir do cache não a consome. Reflex usa uma cota de reordenação separada que inclui entradas em cache e sem cache. Julia-1 é atualmente o único modelo de decisão coberto pela cota de decisão semântica; outros modelos de decisão são cobrados normalmente. A conversão opcional de JSON Fetch é separada da cota de extração.</p>
+<p>A cobertura é avaliada para cada item de serviço medido: a incorporação de um documento, a incorporação de um termo de consulta individual, uma chamada de reordenação, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas tarifas normais. Itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As cotas atuais permitem uma margem de 10 % acima da capacidade base. Um item que excederia essa margem deixa a cota inalterada e é cobrado normalmente. Uma requisição pode conter vários itens, de modo que alguns podem ser incluídos enquanto outros são cobrados.</p>
+<p>As cotas diárias são redefinidas à meia‑noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de redefinição; o uso pode exceder 100 % dentro da margem. A cobertura de assinatura LLM está atualmente desativada, portanto a inferência de texto‑modelo e a geração de respostas RAG permanecem medidas separadamente. As cotas não contornam requisitos de saldo, limites de taxa ou o teto de tempo de processamento separado de Reflex. Consulte <a href="pricing.html">Pricing</a> para cobranças quando um item não está coberto.</p>
+<p>Contas revendedoras suportam 8 execuções de teste agente simultâneas por conta.</p>
+<p>Solicitações de modelo integrado são limitadas tanto por contagem de requisições quanto por tokens de entrada. Grupos de limite de taxa de modelo ajustam os limites de contagem de requisições:</p>
 <table>
 <thead>
 <tr>
 <th>Grupo de limite de taxa</th>
-<th>Multiplicador de limiar</th>
+<th>Multiplicador de limite</th>
 </tr>
 </thead>
 <tbody>
@@ -410,13 +485,13 @@
 </tr>
 </tbody>
 </table>
-<p>Por exemplo, uma conta Pro normalmente tem 200 requisições de modelo integrado por minuto. Com um grupo de modelo <code>Discounted</code>, o limiar ajustado é 100 requisições por minuto.</p>
+<p>Por exemplo, uma conta Pro normalmente tem 200 solicitações de modelo integrado por minuto. Com um grupo de modelo <code>Discounted</code>, o limite ajustado é 100 solicitações por minuto.</p>
 <p>BYOK usa uma chave de provedor configurada no gateway em vez de um modelo AIVAX integrado, mas as requisições ainda passam pela infraestrutura AIVAX e utilizam o limite BYOK do plano.</p>
-<p>As cotas de classificação de texto e segmentação de texto contam cada item no array <code>documents</code> da requisição, não cada requisição HTTP. Uma requisição que exceda qualquer janela ativa retorna <code>429 Too Many Requests</code>. A classificação de texto usa o modelo de incorporação padrão e é cobrada pelo trabalho de incorporação realizado.</p>
-<p>Requisições independentes de texto-para-fala e transcrição de áudio usam cada uma sua própria cota de requisição do plano. As sessões de voz utilizam o modelo em tempo real selecionado e estão sujeitas aos limites de acesso ao modelo, saldo e inferência aplicáveis, em vez dessas cotas de requisição independentes. A transcrição de entrada não é suportada atualmente dentro das sessões de voz.</p>
-<p>O endpoint de importação JSONL rejeita uma requisição quando atinge o limite de documentos por requisição do plano. O limite de reclassificação se aplica ao endpoint autônomo de reclassificação e às buscas RAG que usam um reclassificador, incluindo buscas realizadas através de AI Gateways e ferramentas MCP.</p>
-<p>O limite Reflex conta o tempo gasto processando requisições Reflex. Ele se aplica ao endpoint autônomo de reclassificação e às buscas RAG que usam Reflex; a entrada em cache não consome a cota separadamente. Requisições que excedem o limite do plano retornam <code>429 Too Many Requests</code>. Veja <a href="rag/reflex.html">Reflex</a> para limites de requisição, comportamento de cache e preços.</p>
-<p>Ações de serviço geral compartilham a cota de ação de serviço mostrada acima. O processamento em lote é assíncrono; se o processamento for pausado ou falhar por causa da cota, tente novamente após o reset da janela de cota ou faça upgrade da conta.</p>
+<p>As cotas de classificação de texto e segmentação de texto contam cada item no array <code>documents</code> da requisição, não cada requisição HTTP. Uma requisição que excederia qualquer janela ativa retorna <code>429 Too Many Requests</code>. A classificação de texto usa o modelo de incorporação padrão e é cobrada pelo trabalho de incorporação realizado.</p>
+<p>Solicitações autônomas de texto para fala e transcrição de áudio usam suas próprias cotas de requisição do plano. Sessões de voz utilizam o modelo em tempo real selecionado e estão sujeitas aos limites de acesso ao modelo, saldo e inferência aplicáveis, em vez dessas cotas de requisição autônomas. A transcrição de entrada não é suportada atualmente dentro de Sessões de voz.</p>
+<p>O endpoint de importação JSONL rejeita uma requisição quando atinge o limite de documentos por requisição do plano. O limite de reordenação aplica‑se ao endpoint autônomo de reordenação e às buscas RAG que utilizam um reordenador, incluindo buscas realizadas através de AI Gateways e ferramentas MCP.</p>
+<p>O limite de Reflex conta o tempo gasto processando requisições Reflex. Ele aplica‑se ao endpoint autônomo de reordenação e às buscas RAG que utilizam Reflex; entrada em cache não consome a cota separadamente. Requisições que excedem o limite do plano retornam <code>429 Too Many Requests</code>. Veja <a href="rag/reflex.html">Reflex</a> para limites de requisição, comportamento de cache e preços.</p>
+<p>Ações gerais de serviço compartilham a cota de ação de serviço mostrada acima. O processamento em lote é assíncrono; se o processamento for pausado ou falhar por causa de cota, tente novamente após a janela de cota ser redefinida ou faça upgrade da conta.</p>
 <h2 id="chaves-de-api-públicas">Chaves de API públicas</h2>
 <p>Chaves públicas têm limites adicionais independentes do plano da conta.</p>
 <table>
@@ -455,7 +530,7 @@
 </tr>
 </tbody>
 </table>
-<p>Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e completações de chat. Para completações de chat, chaves públicas também exigem um UUID completo do AI Gateway, restringem parâmetros de requisição e omitam superfícies de ferramentas do lado do servidor. Veja <a href="authentication.html">Authentication</a>.</p>
+<p>Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e complementos de chat. Para complementos de chat, chaves públicas também exigem um UUID completo de AI Gateway, restringem parâmetros de requisição e omitam superfícies de ferramentas no lado do servidor. Consulte <a href="authentication.html">Authentication</a>.</p>
 
 </article>
 

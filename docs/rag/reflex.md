@@ -33,4 +33,4 @@ For the supported request, response, authentication, and error contract, use the
 
 Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. In this flow, it can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.
 
-For current service availability and account limits, see [Plans and Limits](../limits.md).
+Free, Pro, and Max include a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](../limits.md#included-daily-subscription-allowances).

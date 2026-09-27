@@ -127,7 +127,7 @@
                 <article data-uid="">
 <h1 id="plans-and-limits">Plans and Limits</h1>
 
-<p>AIVAX has three account plans: <strong>Free</strong>, <strong>Pro</strong>, and <strong>Max</strong>. The current plan is stored on the account and controls model access, commissions, rate limits, RAG quotas, tool limits, storage quota, conversation retention, and subscription-model reserve windows.</p>
+<p>AIVAX has three account plans: <strong>Free</strong>, <strong>Pro</strong>, and <strong>Max</strong>. The current plan is stored on the account and controls model access, commissions, rate limits, RAG quotas, tool limits, storage quota, conversation retention, and included daily service allowances.</p>
 <p>For commercial subscription prices and plan packaging, use the <a href="https://aivax.net/pricing">AIVAX pricing page</a>. This page documents the technical limits of the API.</p>
 <h2 id="how-limits-are-enforced">How limits are enforced</h2>
 <p>Limits are enforced at different layers:</p>
@@ -198,10 +198,10 @@
 <td>—</td>
 </tr>
 <tr>
-<td>Subscription model reserve</td>
-<td>Not included</td>
-<td>250 units/6h and 3,000 units/week</td>
-<td>1,000 units/6h and 15,000 units/week</td>
+<td>LLM subscription coverage</td>
+<td>Currently disabled</td>
+<td>Currently disabled</td>
+<td>Currently disabled</td>
 </tr>
 <tr>
 <td>Standalone text-to-speech requests</td>
@@ -214,6 +214,12 @@
 <td>3/min and 40/hour</td>
 <td>30/min</td>
 <td>300/min</td>
+</tr>
+<tr>
+<td>Semantic decision requests</td>
+<td>10/min</td>
+<td>50/min</td>
+<td>—</td>
 </tr>
 <tr>
 <td><strong>RAG and collections</strong></td>
@@ -330,6 +336,12 @@
 <td></td>
 </tr>
 <tr>
+<td>New runs per account</td>
+<td>5/min</td>
+<td>30/min</td>
+<td>—</td>
+</tr>
+<tr>
 <td>Concurrent runs per account</td>
 <td>1</td>
 <td>4</td>
@@ -397,6 +409,54 @@
 </tr>
 </tbody>
 </table>
+<h3 id="semantic-decision-and-agentic-test-rate-limits">Semantic decision and Agentic Test rate limits</h3>
+<p>These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing: included usage still consumes the applicable request or run quota.</p>
+<ul>
+<li><strong>Semantic decisions:</strong> each request consumes one unit, regardless of how many questions it contains or which decision model it selects. A request exceeding the account's limit returns <code>429 Too Many Requests</code> before evaluation. See <a href="generations/decisions.html">Semantic decisions</a>.</li>
+<li><strong>Agentic Tests:</strong> manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return <code>429 Too Many Requests</code>. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits. See <a href="inference/agentic-tests.html">Agentic Tests</a>.</li>
+</ul>
+<p>Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit for these two quotas, but other applicable limits remain in effect.</p>
+<h3 id="included-daily-subscription-allowances">Included daily subscription allowances</h3>
+<p>Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Reseller accounts do not receive subscription allowances.</p>
+<table>
+<thead>
+<tr>
+<th>Included service</th>
+<th>Free</th>
+<th>Pro</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG search and insertion embeddings</td>
+<td>Base allowance</td>
+<td>25× Free</td>
+<td>4× Pro</td>
+</tr>
+<tr>
+<td>Reranking with Reflex</td>
+<td>Base allowance</td>
+<td>5× Free</td>
+<td>10× Pro</td>
+</tr>
+<tr>
+<td>Semantic decisions with Julia-1</td>
+<td>Base allowance</td>
+<td>2.5× Free</td>
+<td>2× Pro</td>
+</tr>
+<tr>
+<td>Fetch and OCR extraction</td>
+<td>Base allowance</td>
+<td>10× Free</td>
+<td>5× Pro</td>
+</tr>
+</tbody>
+</table>
+<p>RAG searches and document insertions share the embedding allowance. It does not cover answer generation, media processing, text classification, or segmentation. A query embedding served from cache does not consume it. Reflex uses a separate reranking allowance that includes both cached and uncached input. Julia-1 is currently the only decision model covered by the semantic decision allowance; other decision models are billed normally. Optional Fetch JSON conversion is separate from the extraction allowance.</p>
+<p>Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.</p>
+<p>Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements, rate limits, or Reflex's separate processing-time cap. See <a href="pricing.html">Pricing</a> for charges when an item is not covered.</p>
 <p>Reseller accounts support 8 concurrent agentic test runs per account.</p>
 <p>Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:</p>
 <table>

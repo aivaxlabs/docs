@@ -9,6 +9,8 @@ See [subscription pricing](https://aivax.net/pricing) for monthly plan prices an
 
 BYOK are not affected by inference taxes.
 
+Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, Julia-1 semantic decisions, and Fetch/OCR extraction. The rates below apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled.
+
 ## Inference and Moderation
 
 Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used.
@@ -89,9 +91,9 @@ Web and X searches are billed per search. Advanced web search is billed by token
 | Web search | **$5/1k searches** |
 | X (Twitter) search | **$5/1k searches** |
 | Advanced web search | **~$0.75/M tokens** |
-| Fetch and OCR extraction - Free | **1,000 PUs/day free**, then **$0.15/1k PUs** |
-| Fetch and OCR extraction - Pro | **10,000 PUs/day free**, then **$0.05/1k PUs** |
-| Fetch and OCR extraction - Max | **50,000 PUs/day free**, then **$0.02/1k PUs** |
+| Fetch and OCR extraction - Free | Base daily allowance; uncovered items **$0.15/1k PUs** |
+| Fetch and OCR extraction - Pro | **10× Free** daily allowance; uncovered items **$0.05/1k PUs** |
+| Fetch and OCR extraction - Max | **5× Pro** daily allowance; uncovered items **$0.02/1k PUs** |
 | Fetch JSON conversion (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
 
 For the [Fetch API](web-foundation/fetch-and-ocr.md), `processingUnits` reports text/OCR extraction usage and `jsonProcessingUnits` reports the additional schema-guided JSON conversion usage. JSON PUs account for input, cached input, and output token usage at the processing model and provider's rates; they are not priced at the plan's OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge.

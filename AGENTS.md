@@ -24,6 +24,7 @@
 - Translation scripts call external AI APIs and may incur cost. Do not run translation unless explicitly requested.
 
 ## Conventions
+- Never disclose absolute subscription allowance units, token quantities, or numerical allowance balances in public content, including tables, examples, and changelogs. Describe allowances through relative plan comparisons, such as “3× the Pro allowance” or “5× the Max allowance”. Scenario-based operation estimates are also permitted when calculated from actual metering and conservatively rounded without publishing exact internal capacity. Mark estimates with “≈” and disclose their assumptions; do not present scenarios as measured averages or guaranteed limits, or use “Up to” to imply a ceiling. Never invent figures or unsupported conversions. Verify each multiplier against the actual allowances; these examples are illustrative, not fixed product claims. This rule concerns subscription allowances, not independently published technical rate limits.
 - Produce and edit documentation only in English source files under `docs/`.
 - Never create, edit, move, or delete anything under `docs/pt-br/`.
 - Do not edit generated API artifacts/binaries under `ref/`.

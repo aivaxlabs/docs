@@ -1,6 +1,6 @@
 # Plans and Limits
 
-AIVAX has three account plans: **Free**, **Pro**, and **Max**. The current plan is stored on the account and controls model access, commissions, rate limits, RAG quotas, tool limits, storage quota, conversation retention, and subscription-model reserve windows.
+AIVAX has three account plans: **Free**, **Pro**, and **Max**. The current plan is stored on the account and controls model access, commissions, rate limits, RAG quotas, tool limits, storage quota, conversation retention, and included daily service allowances.
 
 For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). This page documents the technical limits of the API.
 
@@ -34,9 +34,10 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Integrated model input tokens | 1,000,000/min | 20,000,000/min | — |
 | BYOK requests | 30/min | 200/min | — |
 | Maximum context | 65,536 input tokens | — | — |
-| Subscription model reserve | Not included | 250 units/6h and 3,000 units/week | 1,000 units/6h and 15,000 units/week |
+| LLM subscription coverage | Currently disabled | Currently disabled | Currently disabled |
 | Standalone text-to-speech requests | 3/min and 40/hour | 30/min | 300/min |
 | Standalone audio-transcription requests | 3/min and 40/hour | 30/min | 300/min |
+| Semantic decision requests | 10/min | 50/min | — |
 | **RAG and collections** |  |  |  |
 | Collections | 5 | — | — |
 | Semantic searches | 20/min | 500/min | 3,000/min |
@@ -56,6 +57,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | General service actions | 30/day | 5,000/day | 100,000/day |
 | Bash commands | 300/hour | 30,000/hour | — |
 | **Agentic tests** |  |  |  |
+| New runs per account | 5/min | 30/min | — |
 | Concurrent runs per account | 1 | 4 | 8 |
 | **Batch processing** |  |  |  |
 | Workflow items processed | 500/day | 100,000/day | — |
@@ -67,6 +69,32 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Cost per excess GB | — | $0.50/GB/month | $0.20/GB/month |
 | Conversation retention | 2 hours | 2 days | 30 days |
 | Support level | Email | Priority | Dedicated |
+
+### Semantic decision and Agentic Test rate limits
+
+These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing: included usage still consumes the applicable request or run quota.
+
+- **Semantic decisions:** each request consumes one unit, regardless of how many questions it contains or which decision model it selects. A request exceeding the account's limit returns `429 Too Many Requests` before evaluation. See [Semantic decisions](generations/decisions.md).
+- **Agentic Tests:** manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits. See [Agentic Tests](inference/agentic-tests.md).
+
+Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit for these two quotas, but other applicable limits remain in effect.
+
+### Included daily subscription allowances
+
+Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Reseller accounts do not receive subscription allowances.
+
+| Included service | Free | Pro | Max |
+| --- | --- | --- | --- |
+| RAG search and insertion embeddings | Base allowance | 25× Free | 4× Pro |
+| Reranking with Reflex | Base allowance | 5× Free | 10× Pro |
+| Semantic decisions with Julia-1 | Base allowance | 2.5× Free | 2× Pro |
+| Fetch and OCR extraction | Base allowance | 10× Free | 5× Pro |
+
+RAG searches and document insertions share the embedding allowance. It does not cover answer generation, media processing, text classification, or segmentation. A query embedding served from cache does not consume it. Reflex uses a separate reranking allowance that includes both cached and uncached input. Julia-1 is currently the only decision model covered by the semantic decision allowance; other decision models are billed normally. Optional Fetch JSON conversion is separate from the extraction allowance.
+
+Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.
+
+Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements, rate limits, or Reflex's separate processing-time cap. See [Pricing](pricing.md) for charges when an item is not covered.
 
 Reseller accounts support 8 concurrent agentic test runs per account.
 

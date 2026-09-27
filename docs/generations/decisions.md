@@ -147,6 +147,12 @@ With Julia-1:
 
 Other models may omit optional fields such as `probabilities`, `legend`, or `confidence`. Do not assume that every provider uses the same score scale or confidence definition. A high probability is not proof that the decision is correct; validate thresholds and escalation rules with labeled examples from your own domain.
 
+## Account rate limits
+
+Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. See [Plans and Limits](../limits.md#plan-limits) for the Free, Pro, and Max thresholds.
+
+Requests above the limit return `429 Too Many Requests` before evaluation. Pace calls across the account and retry with backoff after the rate-limit window clears; changing API keys within the same account does not provide a separate quota.
+
 ## Julia-1 limits
 
 | Limit | Value |
@@ -167,13 +173,16 @@ Inputs exceeding the context or question/options budget are rejected, not silent
 
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question. Four questions over one state do not have the same input usage as one question over that state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
-At the base price of $0.008 per million input tokens, 10,000 input tokens cost $0.00008 before account and plan adjustments. Use the returned `usage.cost` for the actual billed amount rather than calculating it from the base price alone.
+Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across eligible decision calls, not reserved for each question or API key. See [Plans and Limits](../limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
+
+When not covered, Julia-1 input is billed at the base price of $0.008 per million tokens before account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 
 ## Errors and reliable use
 
 - **Invalid model or question:** check the exact model identifier, question type, instructions, and criteria shape. Question IDs and choice IDs must be nonempty.
 - **Context or option limit exceeded:** shorten the state or descriptions, reduce the option count, or select a model with suitable limits. Retrying the same invalid input will not resolve it.
 - **Authentication or balance error:** verify the API key and account balance before retrying. A zero-priced model still requires a positive balance.
+- **Rate limit (429):** reduce the account's request rate and retry with backoff. Multiple questions in one request still count as one request, but model-specific payload limits and per-question usage remain applicable.
 - **Temporary capacity or provider unavailability:** avoid an immediate parallel retry storm. Reduce concurrency and use bounded retries with backoff for transient failures.
 
 Evaluate `choice`, `noul`, and `score` separately when validating a model: success at routing does not establish reliable scoring or Boolean behavior. Include ambiguous and incomplete states in your test set, and use human review where a wrong decision has material consequences. A retry is a new request; do not assume automatic deduplication or identical model outputs.

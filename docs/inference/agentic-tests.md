@@ -122,7 +122,9 @@ Hook responses follow the worker convention: any `2xx` response continues the ru
 
 ### Run and inspect a test
 
-Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Account-level concurrency depends on the current plan. See [Plans and limits](../limits.md#plan-limits) for current values.
+Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Both the rate of new runs and account-level concurrency depend on the current plan. See [Plans and limits](../limits.md#plan-limits) for current values.
+
+Manual runs, scheduled runs, and direct API evaluations share one new-run quota across the account's API keys. A persisted run counts when it is queued and does not count again when execution begins. Conversation turns do not consume additional run units, although applicable inference limits still apply. A manual run request above the quota returns HTTP 429 without creating a run; wait for the rate-limit window to clear before retrying.
 
 A run processes its conversation sequentially, while eligible runs from the same account can execute concurrently. Every turn checks that the account can continue operating. A run can fail if the balance is exhausted or inference cannot continue, and a pending or running run can be cancelled from the dashboard.
 
@@ -139,6 +141,8 @@ Use the judge opinions to identify the turn where the conversation improved, bec
 ### Schedule recurring tests
 
 A test can run automatically from a standard five-field cron expression. The minimum supported interval is five minutes. For example, `*/15 * * * *` runs every 15 minutes.
+
+If the account's new-run quota is exhausted, a due scheduled test waits for a later scheduling check without creating a run. Scheduling does not bypass the quota or reserve capacity separately from manual runs and direct evaluations.
 
 Disable scheduling when you want to preserve the test definition without creating new scheduled runs. Manual runs remain available from the test page.
 
@@ -176,6 +180,8 @@ Reduce `max_turns` for fast, bounded regression checks. Increase it for flows th
 Agentic Tests bills the selected gateway inference plus simulated-user and judge usage at the rates of the selected profile. See [Pricing](../pricing.md#agentic-tests) for current rates.
 
 ## Direct API execution
+
+Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Plans and limits](../limits.md#semantic-decision-and-agentic-test-rate-limits).
 
 Use the direct generation endpoint when an application needs to run an ephemeral test and consume its events immediately. A direct execution does **not** create a persistent test case or run in the dashboard.
 

@@ -1,30 +1,33 @@
 # Preços
 
-Os preços de uso do serviço são listados abaixo em USD. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam com o modelo usado e o trabalho realizado.
+Os preços de uso do serviço são listados abaixo em USD. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo usado e o trabalho realizado.
 
-Consulte [preço de assinatura](https://aivax.net/pricing) para preços dos planos mensais e [Planos e limites](limits.md) para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:
-- Gratuito: **+25%** nos impostos de inferência;
+Veja [preços de assinatura](https://aivax.net/pricing) para preços mensais dos planos e [Planos e limites](limits.md) para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:
+
+- Free: **+25%** nos impostos de inferência;
 - Pro: **+5%** nos impostos de inferência;
 - Max: **0%** nos impostos de inferência.
 
 BYOK não são afetados pelos impostos de inferência.
 
+Free, Pro e Max incluem cotas diárias separadas para embeddings RAG elegíveis, reranking Reflex, decisões semânticas Julia-1 e extração Fetch/OCR. As taxas abaixo se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por requisição completa: um item que não cabe na cota restante e sua margem permitida é cobrado integralmente. Compare as cotas e verifique exclusões em [Planos e limites](limits.md#included-daily-subscription-allowances). A cobertura de assinatura LLM está atualmente desativada.
+
 ## Inferência e Moderação
 
-Taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo entrada, entrada em cache e uso de saída; seu preço por PU varia com o modelo e provedor usados.
+As taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo uso de entrada, entrada em cache e saída; seu preço por PU varia conforme o modelo e provedor usados.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
-| Inferência de modelo de IA e Gateway de IA | Taxas do modelo e provedor selecionados |
-| Moderação de entrada | Preço variável por PU; separado da cobrança principal de inferência |
+| Inferência de modelo de IA e gateway de IA | Selected model and provider rates |
+| Moderação de entrada | Variable price per PU; separate from the main inference charge |
 
 ## Testes de Agente
 
-Cada teste inclui as cobranças de inferência do modelo selecionado ou do Gateway de IA, mais o uso de usuário simulado e juiz nas taxas do perfil selecionado.
+Cada teste inclui as cobranças de inferência do modelo selecionado ou do gateway de IA, além do uso de usuário simulado e juiz nas taxas do perfil selecionado.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
-| Modelo ou Gateway de IA em teste | Taxas de inferência regulares |
+| Modelo ou gateway de IA em teste | Regular inference rates |
 | Perfil baixo - usuário simulado | Input **$0.25/M tokens**; cache **$0.025/M tokens**; output **$1.50/M tokens** |
 | Perfil baixo - juiz | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$2.50/M tokens** |
 | Perfil médio - usuário simulado | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
@@ -36,20 +39,20 @@ Cada teste inclui as cobranças de inferência do modelo selecionado ou do Gatew
 
 Indexação e busca são cobradas por uso de tokens. Respostas RAG geradas são cobradas separadamente da incorporação de consulta, e seu preço varia com o modelo de sumarização.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
-| Incorporação de texto da coleção | **$0.015/M tokens** |
-| Busca semântica - falha no cache de consulta | **$0.015/M tokens** |
+| Incorporação de texto da coleção | **$0.10/M tokens** |
+| Busca semântica - falha no cache de consulta | **$0.10/M tokens** |
 | Busca semântica - acerto no cache de consulta | Zero |
-| Geração de resposta RAG | **~$0.50/M tokens**, excluindo taxas de consulta |
+| Geração de resposta RAG | **~$0.50/M tokens**, excluding query rates |
 | Reflex - falha no cache | **$0.015/M tokens** |
 | Reflex - acerto no cache | **$0.003/M tokens** |
 
 ## Injetor de Mídia
 
-Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, saída e uso de mídia. O arquivo fonte, o contexto opcional e o conteúdo gerado afetam o total. As taxas dependem do tipo de mídia e do volume de tokens de entrada.
+Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, saída e uso de mídia. O arquivo fonte, contexto opcional e conteúdo gerado afetam o total. As taxas dependem do tipo de mídia e volume de tokens de entrada.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
 | PDFs e imagens - até 272K tokens de entrada | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$1.80/M tokens** |
 | PDFs e imagens - acima de 272K tokens de entrada | Input **$0.60/M tokens**; cache **$0.06/M tokens**; output **$3.60/M tokens** |
@@ -61,53 +64,58 @@ Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, sa�
 
 Segmentação e classificação de texto são cobradas por uso de tokens.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
 | Segmentação de texto | **$0.30/M tokens** |
-| Classificação de texto | **$0.015/M tokens** |
+| Classificação de texto | **$0.10/M tokens** |
 
 ## Voz e Mídia
 
-Taxas de geração e transcrição dependem do modelo selecionado. O preço de descrições de mídia é aproximado e depende do modelo de processamento disponível.
+As taxas de geração e transcrição dependem do modelo selecionado. O preço da descrição de mídia é aproximado e depende do modelo de processamento disponível.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
-| Sessões de voz | Taxas do modelo em tempo real selecionado |
-| Fala para texto | Varia de acordo com o modelo |
-| Texto para fala | Varia de acordo com o modelo |
-| Geração de imagem | Varia de acordo com o modelo |
+| Sessões de voz | Selected realtime model rates |
+| Fala para texto | Varies by model |
+| Texto para fala | Varies by model |
+| Geração de imagem | Fixed output and reference-image tariffs by model |
 | Descrições de mídia | **~$1.50/M tokens** |
 
-## Busca na Web, OCR e Busca
+A geração de imagem cobra cada saída entregue ao preço fixo de saída do modelo selecionado, mais seu preço por referência para cada referência enviada com essa saída. O processamento do prompt está incluído. Provedores com preços por token e megapixel usam estimativas arredondadas, não repasse exato de custo do provedor. Nenhuma marcação adicional de geração de imagem AIVAX ou multiplicador de conta e plano se aplica. As tarifas atuais estão listadas no catálogo de Modelos; veja [Geração de imagem](generations/images.md).
 
-Buscas na Web e X são cobradas por busca. Busca avançada na web é cobrada por uso de tokens e varia com o modelo e o número de interações. Busca e extração de OCR utilizam Unidades de Processamento (PUs), com uma quota diária gratuita por plano. Essas quotas e taxas de PU não se aplicam à moderação.
+## Busca na Web, OCR e Fetch
 
-| Description | Pricing |
+Buscas na Web e X são cobradas por busca. Busca avançada na web é cobrada por uso de tokens e varia conforme o modelo e número de interações. Extração Fetch e OCR usam Unidades de Processamento (PUs), com uma cota diária gratuita por plano. Conversão JSON guiada por esquema opcional é cobrada separadamente. As cotas de extração e taxas de PU não se aplicam à conversão JSON ou moderação.
+
+| Descrição | Preço |
 | --- | ---: |
 | Busca na Web | **$5/1k searches** |
 | Busca X (Twitter) | **$5/1k searches** |
 | Busca avançada na web | **~$0.75/M tokens** |
-| Busca e extração de OCR - Gratuito | **1,000 PUs/day free**, then **$0.15/1k PUs** |
-| Busca e extração de OCR - Pro | **10,000 PUs/day free**, then **$0.05/1k PUs** |
-| Busca e extração de OCR - Max | **50,000 PUs/day free**, then **$0.02/1k PUs** |
+| Extração Fetch e OCR - Gratuita | Base daily allowance; uncovered items **$0.15/1k PUs** |
+| Extração Fetch e OCR - Pro | **10× Free** daily allowance; uncovered items **$0.05/1k PUs** |
+| Extração Fetch e OCR - Max | **5× Pro** daily allowance; uncovered items **$0.02/1k PUs** |
+| Conversão JSON Fetch (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
+
+Para a [API Fetch](web-foundation/fetch-and-ocr.md), `processingUnits` relata o uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. As PUs JSON contabilizam uso de tokens de entrada, entrada em cache e saída nas taxas do modelo e provedor de processamento; elas não são precificadas à taxa OCR do plano. O multiplicador de inferência do plano se aplica à conversão JSON. Omitir `responseSchema` ou defini‑lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
 
 ## Armazenamento
 
-Cada plano inclui armazenamento. Excedentes dos planos Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.
+Cada plano inclui armazenamento. Excedentes de Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
-| Armazenamento gratuito | **30 MB incluídos**; sem expansão |
-| Armazenamento Pro | **2 GB incluídos**; excedente **$0.50/GB/mês** |
-| Armazenamento Max | **20 GB incluídos**; excedente **$0.20/GB/mês** |
+| Armazenamento gratuito | **30 MB included**; no expansion |
+| Armazenamento Pro | **2 GB included**; excess **$0.50/GB/month** |
+| Armazenamento Max | **20 GB included**; excess **$0.20/GB/month** |
 
 ## Outras Ferramentas
 
-As ferramentas a seguir não têm cobrança separada. A inferência do modelo usada para invocá-las ainda é cobrada à sua taxa regular.
+As ferramentas a seguir não têm cobrança separada. A inferência do modelo usada para acioná‑las ainda é cobrada à sua taxa regular.
 
-| Description | Pricing |
+| Descrição | Preço |
 | --- | ---: |
-| Memória e calendário | Sem cobrança separada |
-| Solicitações avançadas | Sem cobrança separada |
-| Geração de documento | Sem cobrança separada |
-| Geração de página web | Sem cobrança separada |
+| Memória e calendário | No separate charge |
+| Solicitações avançadas | No separate charge |
+| Geração de documento | No separate charge |
+| Geração de página web | No separate charge |

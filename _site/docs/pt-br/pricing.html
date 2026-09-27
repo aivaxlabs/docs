@@ -127,47 +127,48 @@
                 <article data-uid="">
 <h1 id="preços">Preços</h1>
 
-<p>Os preços de uso do serviço são listados abaixo em USD. <strong>M</strong> significa um milhão de tokens; <strong>1k</strong> significa mil unidades. Preços aproximados (<code>~</code>) variam com o modelo usado e o trabalho realizado.</p>
-<p>Consulte <a href="https://aivax.net/pricing">preço de assinatura</a> para preços dos planos mensais e <a href="limits.html">Planos e limites</a> para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:</p>
+<p>Os preços de uso do serviço são listados abaixo em USD. <strong>M</strong> significa um milhão de tokens; <strong>1k</strong> significa mil unidades. Preços aproximados (<code>~</code>) variam conforme o modelo usado e o trabalho realizado.</p>
+<p>Veja <a href="https://aivax.net/pricing">preços de assinatura</a> para preços mensais dos planos e <a href="limits.html">Planos e limites</a> para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:</p>
 <ul>
-<li>Gratuito: <strong>+25%</strong> nos impostos de inferência;</li>
+<li>Free: <strong>+25%</strong> nos impostos de inferência;</li>
 <li>Pro: <strong>+5%</strong> nos impostos de inferência;</li>
 <li>Max: <strong>0%</strong> nos impostos de inferência.</li>
 </ul>
 <p>BYOK não são afetados pelos impostos de inferência.</p>
+<p>Free, Pro e Max incluem cotas diárias separadas para embeddings RAG elegíveis, reranking Reflex, decisões semânticas Julia-1 e extração Fetch/OCR. As taxas abaixo se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por requisição completa: um item que não cabe na cota restante e sua margem permitida é cobrado integralmente. Compare as cotas e verifique exclusões em <a href="limits.html#included-daily-subscription-allowances">Planos e limites</a>. A cobertura de assinatura LLM está atualmente desativada.</p>
 <h2 id="inferência-e-moderação">Inferência e Moderação</h2>
-<p>Taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo entrada, entrada em cache e uso de saída; seu preço por PU varia com o modelo e provedor usados.</p>
+<p>As taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo uso de entrada, entrada em cache e saída; seu preço por PU varia conforme o modelo e provedor usados.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Inferência de modelo de IA e Gateway de IA</td>
-<td style="text-align: right;">Taxas do modelo e provedor selecionados</td>
+<td>Inferência de modelo de IA e gateway de IA</td>
+<td style="text-align: right;">Selected model and provider rates</td>
 </tr>
 <tr>
 <td>Moderação de entrada</td>
-<td style="text-align: right;">Preço variável por PU; separado da cobrança principal de inferência</td>
+<td style="text-align: right;">Variable price per PU; separate from the main inference charge</td>
 </tr>
 </tbody>
 </table>
 <h2 id="testes-de-agente">Testes de Agente</h2>
-<p>Cada teste inclui as cobranças de inferência do modelo selecionado ou do Gateway de IA, mais o uso de usuário simulado e juiz nas taxas do perfil selecionado.</p>
+<p>Cada teste inclui as cobranças de inferência do modelo selecionado ou do gateway de IA, além do uso de usuário simulado e juiz nas taxas do perfil selecionado.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Modelo ou Gateway de IA em teste</td>
-<td style="text-align: right;">Taxas de inferência regulares</td>
+<td>Modelo ou gateway de IA em teste</td>
+<td style="text-align: right;">Regular inference rates</td>
 </tr>
 <tr>
 <td>Perfil baixo - usuário simulado</td>
@@ -200,18 +201,18 @@
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Incorporação de texto da coleção</td>
-<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
+<td style="text-align: right;"><strong>$0.10/M tokens</strong></td>
 </tr>
 <tr>
 <td>Busca semântica - falha no cache de consulta</td>
-<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
+<td style="text-align: right;"><strong>$0.10/M tokens</strong></td>
 </tr>
 <tr>
 <td>Busca semântica - acerto no cache de consulta</td>
@@ -219,7 +220,7 @@
 </tr>
 <tr>
 <td>Geração de resposta RAG</td>
-<td style="text-align: right;"><strong>~$0.50/M tokens</strong>, excluindo taxas de consulta</td>
+<td style="text-align: right;"><strong>~$0.50/M tokens</strong>, excluding query rates</td>
 </tr>
 <tr>
 <td>Reflex - falha no cache</td>
@@ -232,12 +233,12 @@
 </tbody>
 </table>
 <h2 id="injetor-de-mídia">Injetor de Mídia</h2>
-<p>Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, saída e uso de mídia. O arquivo fonte, o contexto opcional e o conteúdo gerado afetam o total. As taxas dependem do tipo de mídia e do volume de tokens de entrada.</p>
+<p>Converter mídia em documentos RAG é cobrado por entrada, entrada em cache, saída e uso de mídia. O arquivo fonte, contexto opcional e conteúdo gerado afetam o total. As taxas dependem do tipo de mídia e volume de tokens de entrada.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
@@ -268,8 +269,8 @@
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
@@ -279,35 +280,35 @@
 </tr>
 <tr>
 <td>Classificação de texto</td>
-<td style="text-align: right;"><strong>$0.015/M tokens</strong></td>
+<td style="text-align: right;"><strong>$0.10/M tokens</strong></td>
 </tr>
 </tbody>
 </table>
 <h2 id="voz-e-mídia">Voz e Mídia</h2>
-<p>Taxas de geração e transcrição dependem do modelo selecionado. O preço de descrições de mídia é aproximado e depende do modelo de processamento disponível.</p>
+<p>As taxas de geração e transcrição dependem do modelo selecionado. O preço da descrição de mídia é aproximado e depende do modelo de processamento disponível.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Sessões de voz</td>
-<td style="text-align: right;">Taxas do modelo em tempo real selecionado</td>
+<td style="text-align: right;">Selected realtime model rates</td>
 </tr>
 <tr>
 <td>Fala para texto</td>
-<td style="text-align: right;">Varia de acordo com o modelo</td>
+<td style="text-align: right;">Varies by model</td>
 </tr>
 <tr>
 <td>Texto para fala</td>
-<td style="text-align: right;">Varia de acordo com o modelo</td>
+<td style="text-align: right;">Varies by model</td>
 </tr>
 <tr>
 <td>Geração de imagem</td>
-<td style="text-align: right;">Varia de acordo com o modelo</td>
+<td style="text-align: right;">Fixed output and reference-image tariffs by model</td>
 </tr>
 <tr>
 <td>Descrições de mídia</td>
@@ -315,13 +316,14 @@
 </tr>
 </tbody>
 </table>
-<h2 id="busca-na-web-ocr-e-busca">Busca na Web, OCR e Busca</h2>
-<p>Buscas na Web e X são cobradas por busca. Busca avançada na web é cobrada por uso de tokens e varia com o modelo e o número de interações. Busca e extração de OCR utilizam Unidades de Processamento (PUs), com uma quota diária gratuita por plano. Essas quotas e taxas de PU não se aplicam à moderação.</p>
+<p>A geração de imagem cobra cada saída entregue ao preço fixo de saída do modelo selecionado, mais seu preço por referência para cada referência enviada com essa saída. O processamento do prompt está incluído. Provedores com preços por token e megapixel usam estimativas arredondadas, não repasse exato de custo do provedor. Nenhuma marcação adicional de geração de imagem AIVAX ou multiplicador de conta e plano se aplica. As tarifas atuais estão listadas no catálogo de Modelos; veja <a href="generations/images.html">Geração de imagem</a>.</p>
+<h2 id="busca-na-web-ocr-e-fetch">Busca na Web, OCR e Fetch</h2>
+<p>Buscas na Web e X são cobradas por busca. Busca avançada na web é cobrada por uso de tokens e varia conforme o modelo e número de interações. Extração Fetch e OCR usam Unidades de Processamento (PUs), com uma cota diária gratuita por plano. Conversão JSON guiada por esquema opcional é cobrada separadamente. As cotas de extração e taxas de PU não se aplicam à conversão JSON ou moderação.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
@@ -338,68 +340,73 @@
 <td style="text-align: right;"><strong>~$0.75/M tokens</strong></td>
 </tr>
 <tr>
-<td>Busca e extração de OCR - Gratuito</td>
-<td style="text-align: right;"><strong>1,000 PUs/day free</strong>, then <strong>$0.15/1k PUs</strong></td>
+<td>Extração Fetch e OCR - Gratuita</td>
+<td style="text-align: right;">Base daily allowance; uncovered items <strong>$0.15/1k PUs</strong></td>
 </tr>
 <tr>
-<td>Busca e extração de OCR - Pro</td>
-<td style="text-align: right;"><strong>10,000 PUs/day free</strong>, then <strong>$0.05/1k PUs</strong></td>
+<td>Extração Fetch e OCR - Pro</td>
+<td style="text-align: right;"><strong>10× Free</strong> daily allowance; uncovered items <strong>$0.05/1k PUs</strong></td>
 </tr>
 <tr>
-<td>Busca e extração de OCR - Max</td>
-<td style="text-align: right;"><strong>50,000 PUs/day free</strong>, then <strong>$0.02/1k PUs</strong></td>
+<td>Extração Fetch e OCR - Max</td>
+<td style="text-align: right;"><strong>5× Pro</strong> daily allowance; uncovered items <strong>$0.02/1k PUs</strong></td>
+</tr>
+<tr>
+<td>Conversão JSON Fetch (<code>responseSchema</code>)</td>
+<td style="text-align: right;">Variable inference-based price per PU; charged separately, with no daily extraction allowance</td>
 </tr>
 </tbody>
 </table>
+<p>Para a <a href="web-foundation/fetch-and-ocr.html">API Fetch</a>, <code>processingUnits</code> relata o uso de extração de texto/OCR e <code>jsonProcessingUnits</code> relata o uso adicional de conversão JSON guiada por esquema. As PUs JSON contabilizam uso de tokens de entrada, entrada em cache e saída nas taxas do modelo e provedor de processamento; elas não são precificadas à taxa OCR do plano. O multiplicador de inferência do plano se aplica à conversão JSON. Omitir <code>responseSchema</code> ou defini‑lo como <code>null</code> desativa a conversão, relata <code>jsonProcessingUnits: 0</code> e não gera cobrança de conversão JSON.</p>
 <h2 id="armazenamento">Armazenamento</h2>
-<p>Cada plano inclui armazenamento. Excedentes dos planos Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.</p>
+<p>Cada plano inclui armazenamento. Excedentes de Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Armazenamento gratuito</td>
-<td style="text-align: right;"><strong>30 MB incluídos</strong>; sem expansão</td>
+<td style="text-align: right;"><strong>30 MB included</strong>; no expansion</td>
 </tr>
 <tr>
 <td>Armazenamento Pro</td>
-<td style="text-align: right;"><strong>2 GB incluídos</strong>; excedente <strong>$0.50/GB/mês</strong></td>
+<td style="text-align: right;"><strong>2 GB included</strong>; excess <strong>$0.50/GB/month</strong></td>
 </tr>
 <tr>
 <td>Armazenamento Max</td>
-<td style="text-align: right;"><strong>20 GB incluídos</strong>; excedente <strong>$0.20/GB/mês</strong></td>
+<td style="text-align: right;"><strong>20 GB included</strong>; excess <strong>$0.20/GB/month</strong></td>
 </tr>
 </tbody>
 </table>
 <h2 id="outras-ferramentas">Outras Ferramentas</h2>
-<p>As ferramentas a seguir não têm cobrança separada. A inferência do modelo usada para invocá-las ainda é cobrada à sua taxa regular.</p>
+<p>As ferramentas a seguir não têm cobrança separada. A inferência do modelo usada para acioná‑las ainda é cobrada à sua taxa regular.</p>
 <table>
 <thead>
 <tr>
-<th>Description</th>
-<th style="text-align: right;">Pricing</th>
+<th>Descrição</th>
+<th style="text-align: right;">Preço</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Memória e calendário</td>
-<td style="text-align: right;">Sem cobrança separada</td>
+<td style="text-align: right;">No separate charge</td>
 </tr>
 <tr>
 <td>Solicitações avançadas</td>
-<td style="text-align: right;">Sem cobrança separada</td>
+<td style="text-align: right;">No separate charge</td>
 </tr>
 <tr>
 <td>Geração de documento</td>
-<td style="text-align: right;">Sem cobrança separada</td>
+<td style="text-align: right;">No separate charge</td>
 </tr>
 <tr>
 <td>Geração de página web</td>
-<td style="text-align: right;">Sem cobrança separada</td>
+<td style="text-align: right;">No separate charge</td>
 </tr>
 </tbody>
 </table>

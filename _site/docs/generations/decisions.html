@@ -300,6 +300,9 @@
 <li><code>probabilities</code> are keyed by choice IDs, <code>false</code>/<code>true</code>, or score-level indices. <code>legend</code> describes the score levels.</li>
 </ul>
 <p>Other models may omit optional fields such as <code>probabilities</code>, <code>legend</code>, or <code>confidence</code>. Do not assume that every provider uses the same score scale or confidence definition. A high probability is not proof that the decision is correct; validate thresholds and escalation rules with labeled examples from your own domain.</p>
+<h2 id="account-rate-limits">Account rate limits</h2>
+<p>Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. See <a href="../limits.html#plan-limits">Plans and Limits</a> for the Free, Pro, and Max thresholds.</p>
+<p>Requests above the limit return <code>429 Too Many Requests</code> before evaluation. Pace calls across the account and retry with backoff after the rate-limit window clears; changing API keys within the same account does not provide a separate quota.</p>
 <h2 id="julia-1-limits">Julia-1 limits</h2>
 <table>
 <thead>
@@ -343,12 +346,14 @@
 <p>Inputs exceeding the context or question/options budget are rejected, not silently truncated. The literal <code>&lt;mask&gt;</code> is reserved and cannot appear in the state, instructions, or option descriptions. These are the current AIVAX Julia-1 serving limits; larger context figures in an upstream model card do not override them.</p>
 <h2 id="usage-and-cost">Usage and cost</h2>
 <p>For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question. Four questions over one state do not have the same input usage as one question over that state. Julia-1 does not generate text, so its <code>output_tokens</code> value is zero.</p>
-<p>At the base price of $0.008 per million input tokens, 10,000 input tokens cost $0.00008 before account and plan adjustments. Use the returned <code>usage.cost</code> for the actual billed amount rather than calculating it from the base price alone.</p>
+<p>Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across eligible decision calls, not reserved for each question or API key. See <a href="../limits.html#included-daily-subscription-allowances">Plans and Limits</a> for relative plan capacity and coverage rules.</p>
+<p>When not covered, Julia-1 input is billed at the base price of $0.008 per million tokens before account and plan adjustments. Use the returned <code>usage.cost</code> for the actual billed amount; it is zero when the input is fully covered by the allowance.</p>
 <h2 id="errors-and-reliable-use">Errors and reliable use</h2>
 <ul>
 <li><strong>Invalid model or question:</strong> check the exact model identifier, question type, instructions, and criteria shape. Question IDs and choice IDs must be nonempty.</li>
 <li><strong>Context or option limit exceeded:</strong> shorten the state or descriptions, reduce the option count, or select a model with suitable limits. Retrying the same invalid input will not resolve it.</li>
 <li><strong>Authentication or balance error:</strong> verify the API key and account balance before retrying. A zero-priced model still requires a positive balance.</li>
+<li><strong>Rate limit (429):</strong> reduce the account's request rate and retry with backoff. Multiple questions in one request still count as one request, but model-specific payload limits and per-question usage remain applicable.</li>
 <li><strong>Temporary capacity or provider unavailability:</strong> avoid an immediate parallel retry storm. Reduce concurrency and use bounded retries with backoff for transient failures.</li>
 </ul>
 <p>Evaluate <code>choice</code>, <code>noul</code>, and <code>score</code> separately when validating a model: success at routing does not establish reliable scoring or Boolean behavior. Include ambiguous and incomplete states in your test set, and use human review where a wrong decision has material consequences. A retry is a new request; do not assume automatic deduplication or identical model outputs.</p>

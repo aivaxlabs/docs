@@ -166,7 +166,7 @@
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 <h2 id="use-reflex-with-rag">Use Reflex with RAG</h2>
 <p>Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. In this flow, it can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.</p>
-<p>For current service availability and account limits, see <a href="../limits.html">Plans and Limits</a>.</p>
+<p>Free, Pro, and Max include a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see <a href="../limits.html#included-daily-subscription-allowances">Plans and Limits</a>.</p>
 
 </article>
 
