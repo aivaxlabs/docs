@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Decis&#245;es sem&#226;nticas | AIVAX </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="title" content="Decis&#245;es sem&#226;nticas | AIVAX ">
+
+
+        <link rel="icon" href="../../../assets/img/favicon.ico">
+        <link rel="stylesheet" href="../../../public/docfx.min.css">
+        <link rel="stylesheet" href="../../../public/main.css">
+
+        <link rel="preconnect" href="https://api.fontshare.com">
+        <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600&amp;display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+        
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+        <meta name="docfx:navrel" content="../../../toc.html">
+        <meta name="docfx:tocrel" content="../toc.html">
+
+        <meta name="docfx:rel" content="../../../">
+
+
+        <meta name="docfx:docurl" content="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/generations/decisions.md/#L1">
+        <meta name="loc:inThisArticle" content="In this article">
+        <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+        <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+        <meta name="loc:tocFilter" content="Filter by title">
+        <meta name="loc:nextArticle" content="Next">
+        <meta name="loc:prevArticle" content="Previous">
+        <meta name="loc:themeLight" content="Light">
+        <meta name="loc:themeDark" content="Dark">
+        <meta name="loc:themeAuto" content="Auto">
+        <meta name="loc:changeTheme" content="Change theme">
+        <meta name="loc:copy" content="Copy">
+        <meta name="loc:downloadPdf" content="Download PDF">
+        
+        <script type="module" src="./../../../public/docfx.min.js"></script>
+        <script>
+            const theme = localStorage.getItem('theme') || 'auto';
+            document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+        </script>
+        
+        <script src="https://unpkg.com/@cypherpotato/el/dist/el.min.js"></script>
+                
+        <script>            
+            function switchLanguage(lang) {
+                const match = window.location.pathname.match(/\/docs\/(?:(pt-br)\/)?(.*)/i);
+                const docPart = match ? match[2] : '';
+                const newPath = lang + docPart;
+                window.location.href = window.location.origin + newPath;
+            }        
+        </script>
+        
+    </head>
+    
+    
+    <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+        <header class="bg-body border-bottom">
+            <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+                <div class="container-xxl flex-nowrap">
+                    <a class="navbar-brand" href="../../../index.html">
+                        <img id="logo" class="svg" src="../../../assets/img/aivax.png" alt="AIVAX">
+                        AIVAX
+                    </a>
+                    <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navpanel">
+                        <div id="navbar">
+                            <form class="search" role="search" id="search">
+                                <i class="bi bi-search"></i>
+                                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main class="container-xxl">
+            <div class="toc-offcanvas">
+                <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <nav class="toc" id="toc"></nav>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                <div class="actionbar">
+                    <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                    <nav id="breadcrumb"></nav>
+
+                    <div id="language-wrapper">
+                        <a class="btn border-0 dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded="true" title="Change theme">
+                            <i class="bi bi-globe"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end language-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/')">
+                                    <img src="/assets/flag/usa.png">
+                                    English
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="javascript:switchLanguage('/docs/pt-br/')">
+                                    <img src="/assets/flag/brazil.png">
+                                    Português
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <article data-uid="">
+<h1 id="decisões-semânticas">Decisões semânticas</h1>
+
+<p>Decisões semânticas avaliam perguntas nomeadas contra um estado compartilhado e retornam respostas estruturadas em vez de uma explicação gerada. Use-as para encaminhar solicitações de suporte, selecionar uma categoria, verificar uma condição ou atribuir uma pontuação ordenada.</p>
+<p>Uma solicitação fornece o modelo, as evidências em <code>state</code> e um objeto <code>questions</code>. Cada pergunta tem um ID que você escolhe; a resposta usa o mesmo ID em <code>answers</code>. Você pode fazer diferentes tipos de perguntas em uma única solicitação sem precisar de chamadas de API separadas.</p>
+<p>Use <a href="../inference/structured-responses.html">respostas estruturadas</a> em vez disso quando precisar de um objeto gerado maior ou de uma explicação escrita. Para similaridade baseada em incoracamento entre documentos e rótulos, veja <a href="../rag/classification.html">Classificação de texto</a>.</p>
+<h2 id="escolha-um-modelo">Escolha um modelo</h2>
+<p>Todos os modelos abaixo suportam <code>choice</code>, <code>noul</code> e <code>score</code>. Os preços são preços base em USD por milhão de tokens de entrada; ajustes de conta e plano ainda se aplicam. Tokens de saída não têm custo no catálogo atual de modelos de decisão.</p>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th style="text-align: right;">Preço de entrada por milhão de tokens</th>
+<th>Contexto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@supersonic-labs/julia-1</code></td>
+<td style="text-align: right;">$0.008</td>
+<td>1.024 tokens por pergunta</td>
+</tr>
+<tr>
+<td><code>@typesafe/jev-1.13</code></td>
+<td style="text-align: right;">$0.042</td>
+<td>32.768 tokens</td>
+</tr>
+<tr>
+<td><code>@respan/span-01</code></td>
+<td style="text-align: right;">$0.020</td>
+<td>Não especificado no catálogo atual</td>
+</tr>
+<tr>
+<td><code>@respan/span-01-lite</code></td>
+<td style="text-align: right;">$0.000</td>
+<td>Não especificado no catálogo atual</td>
+</tr>
+<tr>
+<td><code>@jaredpalmer/kev-4b</code></td>
+<td style="text-align: right;">$0.042</td>
+<td>8.192 tokens</td>
+</tr>
+</tbody>
+</table>
+<p><code>@typesafe/jev</code> também é aceito e atualmente resolve para <code>@typesafe/jev-1.13</code>. Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos do modelo e interpretação de pontuações podem diferir; valide um modelo em exemplos representativos antes de mudar o tráfego de produção.</p>
+<p>É necessária uma chave de API autenticada e um saldo de conta positivo, inclusive ao selecionar um modelo com preço base de token zero. Veja <a href="../authentication.html">Autenticação</a>, <a href="../pricing.html">Preços</a> e <a href="../limits.html">Planos e limites</a>.</p>
+<h3 id="descobrir-modelos-programaticamente">Descobrir modelos programaticamente</h3>
+<p><code>GET /api/v1/information/decisions-models.json</code> lista o catálogo atual de modelos de decisão sem autenticação. O array <code>data</code> da resposta contém:</p>
+<ul>
+<li><code>name</code>: o identificador canônico a ser usado em uma solicitação de decisão.</li>
+<li><code>aliases</code>: outros identificadores aceitos para esse modelo.</li>
+<li><code>contextLength</code>: o contexto anunciado em tokens, ou <code>null</code> quando não especificado.</li>
+<li><code>releaseDate</code>: a data de lançamento do catálogo no formato <code>yyyy-MM-dd</code>.</li>
+<li><code>capabilities</code>: tipos de pergunta suportados (<code>noul</code>, <code>choice</code> e/ou <code>score</code>).</li>
+<li><code>inputPricePerMillionTokens</code> e <code>outputPricePerMillionTokens</code>: preços base em USD, antes de ajustes de conta e plano.</li>
+</ul>
+<p>Use esta lista para preencher seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve modelos configurados, não uma verificação de saúde do provedor em tempo real. Limites de opções e perguntas específicos do modelo não estão incluídos nesta lista.</p>
+<h2 id="escreva-as-perguntas">Escreva as perguntas</h2>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th><code>criteria</code> formato</th>
+<th>Use para</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>choice</code></td>
+<td>Objeto que mapeia IDs de escolha para descrições</td>
+<td>Selecionar um destino ou categoria</td>
+</tr>
+<tr>
+<td><code>noul</code></td>
+<td>Objeto com descrições não vazias de <code>false</code> e <code>true</code></td>
+<td>Avaliar uma condição booleana</td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td>Array ordenado de descrições de níveis</td>
+<td>Avaliar uma condição graduada</td>
+</tr>
+</tbody>
+</table>
+<p>Cada pergunta requer <code>instructions</code> não vazias. Use descrições que distingam as opções, não apenas IDs opacos. Por exemplo, <code>&quot;billing&quot;: &quot;Charges, payments, and refunds&quot;</code> fornece mais evidência do que <code>&quot;billing&quot;: &quot;B&quot;</code>.</p>
+<p>Para <code>noul</code>, ambos os critérios são necessários. Descreva o que conta como falso com tanto cuidado quanto o que conta como verdadeiro, especialmente quando o estado pode omitir a informação relevante. Para <code>score</code>, mantenha a ordem dos níveis consistente entre as solicitações.</p>
+<h2 id="avaliar-uma-solicitação-de-suporte">Avaliar uma solicitação de suporte</h2>
+<p>Envie o seguinte corpo JSON para <code>POST /api/v1/generations/decisions</code>. O exemplo usa Julia-1; seu estado pode ser texto, um objeto ou um array.</p>
+<pre><code class="lang-json">{
+  &quot;model&quot;: &quot;@supersonic-labs/julia-1&quot;,
+  &quot;state&quot;: {
+    &quot;message&quot;: &quot;I was charged twice. Please return the extra payment.&quot;
+  },
+  &quot;questions&quot;: {
+    &quot;department&quot;: {
+      &quot;type&quot;: &quot;choice&quot;,
+      &quot;instructions&quot;: &quot;Which team should handle this request?&quot;,
+      &quot;criteria&quot;: {
+        &quot;billing&quot;: &quot;Charges, payments, and refunds&quot;,
+        &quot;technical&quot;: &quot;Software errors and service outages&quot;,
+        &quot;sales&quot;: &quot;Plans, pricing, and purchases&quot;
+      }
+    },
+    &quot;refund_requested&quot;: {
+      &quot;type&quot;: &quot;noul&quot;,
+      &quot;instructions&quot;: &quot;Does the customer explicitly ask for money back?&quot;,
+      &quot;criteria&quot;: {
+        &quot;false&quot;: &quot;The customer does not ask for money to be returned&quot;,
+        &quot;true&quot;: &quot;The customer asks for a refund or return of a payment&quot;
+      }
+    },
+    &quot;urgency&quot;: {
+      &quot;type&quot;: &quot;score&quot;,
+      &quot;instructions&quot;: &quot;How urgent is the request based on the stated deadline?&quot;,
+      &quot;criteria&quot;: [
+        &quot;No deadline stated&quot;,
+        &quot;A deadline is stated, but it is not today&quot;,
+        &quot;The customer explicitly needs resolution today&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p>Mantenha apenas evidências relevantes no estado. As instruções devem explicar a decisão, não solicitar uma cadeia de raciocínio ou texto adicional. Evite descrições de escolha sobrepostas a menos que a ambiguidade seja intencional.</p>
+<h3 id="ler-a-resposta">Ler a resposta</h3>
+<p>A resposta de sucesso é um objeto JSON direto, <strong>sem um envelope <code>data</code></strong>. Ela contém:</p>
+<ul>
+<li><code>id</code>: o identificador da decisão.</li>
+<li><code>model</code>: o identificador canônico do modelo usado na solicitação.</li>
+<li><code>provider</code>: o provedor relatado para o resultado.</li>
+<li><code>answers</code>: um objeto indexado pelos seus IDs de pergunta.</li>
+<li><code>usage</code>: <code>input_tokens</code>, <code>output_tokens</code> e o <code>cost</code> cobrado.</li>
+</ul>
+<p>Para Julia-1, um objeto ilustrativo <code>answers</code> para o exemplo acima é mostrado abaixo. Esses números explicam o formato; eles não são uma resposta registrada ou garantia de qualidade.</p>
+<pre><code class="lang-json">{
+  &quot;department&quot;: {
+    &quot;type&quot;: &quot;choice&quot;,
+    &quot;choice&quot;: &quot;billing&quot;,
+    &quot;probabilities&quot;: {
+      &quot;billing&quot;: 0.90,
+      &quot;technical&quot;: 0.06,
+      &quot;sales&quot;: 0.04
+    }
+  },
+  &quot;refund_requested&quot;: {
+    &quot;type&quot;: &quot;noul&quot;,
+    &quot;noul&quot;: 0.95,
+    &quot;probabilities&quot;: {
+      &quot;false&quot;: 0.05,
+      &quot;true&quot;: 0.95
+    }
+  },
+  &quot;urgency&quot;: {
+    &quot;type&quot;: &quot;score&quot;,
+    &quot;score&quot;: 0.3,
+    &quot;legend&quot;: {
+      &quot;0&quot;: &quot;No deadline stated&quot;,
+      &quot;1&quot;: &quot;A deadline is stated, but it is not today&quot;,
+      &quot;2&quot;: &quot;The customer explicitly needs resolution today&quot;
+    },
+    &quot;probabilities&quot;: {
+      &quot;0&quot;: 0.8,
+      &quot;1&quot;: 0.1,
+      &quot;2&quot;: 0.1
+    }
+  }
+}
+</code></pre>
+<p>Com Julia-1:</p>
+<ul>
+<li><code>choice</code> é o ID definido pelo chamador selecionado, não a descrição da opção.</li>
+<li><code>noul</code> é a probabilidade atribuída ao critério verdadeiro, não um Boolean JSON. Sua aplicação escolhe o limite e como lidar com casos incertos.</li>
+<li><code>score</code> é o <strong>índice de nível baseado em zero</strong> esperado. No exemplo, <code>0 × 0.8 + 1 × 0.1 + 2 × 0.1 = 0.3</code>. Não é necessariamente um inteiro, e não é uma pontuação normalizada 0–1 quando há mais de dois níveis.</li>
+<li><code>probabilities</code> são indexados por IDs de escolha, <code>false</code>/<code>true</code>, ou índices de nível de pontuação. <code>legend</code> descreve os níveis de pontuação.</li>
+</ul>
+<p>Outros modelos podem omitir campos opcionais como <code>probabilities</code>, <code>legend</code> ou <code>confidence</code>. Não presuma que todo provedor use a mesma escala de pontuação ou definição de confiança. Uma alta probabilidade não prova que a decisão está correta; valide limites e regras de escalonamento com exemplos rotulados do seu próprio domínio.</p>
+<h2 id="limites-do-julia-1">Limites do Julia-1</h2>
+<table>
+<thead>
+<tr>
+<th>Limite</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Perguntas por solicitação</td>
+<td>1–32</td>
+</tr>
+<tr>
+<td>Escolhas ou níveis de pontuação por pergunta</td>
+<td>2–20</td>
+</tr>
+<tr>
+<td>Opções booleanas</td>
+<td>Exatamente duas: false e true</td>
+</tr>
+<tr>
+<td>Contexto combinado por pergunta</td>
+<td>1.024 tokens, incluindo estado, pergunta, opções e tokens especiais</td>
+</tr>
+<tr>
+<td>Orçamento de pergunta e opções</td>
+<td>256 tokens dentro do contexto combinado</td>
+</tr>
+<tr>
+<td>Descrição de uma opção individual</td>
+<td>No máximo 48 tokens</td>
+</tr>
+<tr>
+<td>Limite de payload de decisão</td>
+<td>256 KiB</td>
+</tr>
+</tbody>
+</table>
+<p>Os limites interagem: vinte opções podem exceder o orçamento combinado de pergunta/opções mesmo que cada descrição seja individualmente curta o suficiente. Encurte as descrições ou reduza a contagem de opções ao invés de supor que todo máximo pode ser usado de uma vez.</p>
+<p>Entradas que excedem o contexto ou o orçamento de pergunta/opções são rejeitadas, não truncadas silenciosamente. O literal <code>&lt;mask&gt;</code> é reservado e não pode aparecer no estado, nas instruções ou nas descrições das opções. Estes são os limites atuais de serviço do AIVAX Julia-1; números de contexto maiores em um cartão de modelo upstream não os substituem.</p>
+<h2 id="uso-e-custo">Uso e custo</h2>
+<p>Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo preenchimento. O estado compartilhado, portanto, é contado novamente para cada pergunta. Quatro perguntas sobre um estado não têm o mesmo uso de entrada que uma pergunta sobre esse estado. Julia-1 não gera texto, portanto seu valor <code>output_tokens</code> é zero.</p>
+<p>Ao preço base de $0,008 por milhão de tokens de entrada, 10.000 tokens de entrada custam $0,00008 antes de ajustes de conta e plano. Use o <code>usage.cost</code> retornado para o valor realmente cobrado ao invés de calculá-lo apenas a partir do preço base.</p>
+<h2 id="erros-e-uso-confiável">Erros e uso confiável</h2>
+<ul>
+<li><strong>Modelo ou pergunta inválidos:</strong> verifique o identificador exato do modelo, o tipo de pergunta, as instruções e a forma dos critérios. IDs de perguntas e IDs de escolha devem ser não vazios.</li>
+<li><strong>Limite de contexto ou opção excedido:</strong> encurte o estado ou as descrições, reduza a contagem de opções ou selecione um modelo com limites adequados. Repetir a mesma entrada inválida não a resolverá.</li>
+<li><strong>Erro de autenticação ou saldo:</strong> verifique a chave de API e o saldo da conta antes de tentar novamente. Um modelo com preço zero ainda requer saldo positivo.</li>
+<li><strong>Capacidade temporária ou indisponibilidade do provedor:</strong> evite uma tempestade de tentativas paralelas imediatas. Reduza a simultaneidade e use tentativas limitadas com backoff para falhas transitórias.</li>
+</ul>
+<p>Avalie <code>choice</code>, <code>noul</code> e <code>score</code> separadamente ao validar um modelo: sucesso no roteamento não estabelece pontuação ou comportamento booleano confiáveis. Inclua estados ambíguos e incompletos no seu conjunto de testes e use revisão humana onde uma decisão errada tem consequências materiais. Uma tentativa novamente é uma nova solicitação; não presuma deduplicação automática ou saídas de modelo idênticas.</p>
+<h2 id="referência-da-api">Referência da API</h2>
+<script src="https://inference.aivax.net/apidocs?embed-target=Evaluate%20semantic%20decisions&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+
+</article>
+
+                <div class="contribution d-print-none">
+                    <a href="https://github.com/CypherPotato/open-indexer-docs/blob/master/docs/pt-br/generations/decisions.md/#L1" class="edit-link">Edit this page</a>
+                </div>
+
+                <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+            </div>
+
+            <div class="affix">
+                <nav id="affix"></nav>
+            </div>
+        </main>
+
+        <div class="container-xxl search-results" id="search-results"></div>
+
+        <footer class="border-top text-secondary">
+            <div class="container-xxl">
+                <div class="flex-fill">
+                    <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+                </div>
+            </div>
+            <script>
+                if (window.location.pathname.startsWith('/docs/')) {
+                    document.getElementById('language-wrapper').style.display = 'block';
+                }
+                
+                function splitText(text, words) {
+                    if (!Array.isArray(words)) return [];
+                    const escapedWords = words.map(word =>
+                        word.replace(/([.*+?^${}()|[\]\\])/g, '\\$1').replace(/\s/g, '\\$&'));
+                        
+                    escapedWords.sort((a, b) => b.length - a.length || b.localeCompare(a, 'en-US', { sensitivity: 'base' }));
+                    const pattern = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+                    const splitResult = text.split(pattern);
+                    const cleanedResult = splitResult.filter(segment => segment !== '');
+                    return cleanedResult;
+                }
+                
+                function runPostHljsFunctions() {
+                    if (!document.querySelector("pre>code")) {
+                        return;
+                    }
+                    if (!document.querySelector(".hljs")) {
+                        setTimeout(runPostHljsFunctions, 100);
+                        return;
+                    }
+                    
+                    function highlightMissingCodeTokens(pre) {
+                        const tokenClasses = [
+                            "HttpResponse", "HttpRequest", "File", "Task",
+                            "Router", "Route", "StringContent", "StreamContent",
+                            "JsonContent", "RegexRoute", "HtmlContent", "CancellationTokenSource",
+                            "HttpContext", "Stream", "MultipartObject", "Thread", "Task", "Encoding",
+                            "HttpKnownHeaderNames", "HttpMethod", "List", "JsonSerializer",
+                            "LogStream", "HttpServer", "RotatingLogPolicy", "StringBuilder",
+                            "Console", "HttpRequestEventSource", "HttpWebSocket", "X509Certificate2",
+                            "AppDomain", "Path", "Directory", "HttpServerConfiguration", "ListeningHost",
+                            "ByteArrayContent", "ForwardingResolver", "IPAddress", "IPEndPoint",
+                            "HttpServerExecutionResult", "ArgumentNullException", "JsonSerializerOptions",
+                            "DbContext"
+                        ];
+                        const tokenValues = [
+                            "RouteMethod", "Guid", "RequestHandlerExecutionMode", "HttpStatusCode",
+                            "HttpStatusInformation", "DateTime", "TimeSpan", "RouterMethod",
+                            "ListeningPort"
+                        ];
+                        const tokenInterfaces = [
+                            "IRequestHandler", "IEnumerable", "ICollection", "IList"
+                        ];
+                        
+                        function runStyles(node) {
+                            if (node.nodeType === 3) {
+                                applyStyles(node);
+                                
+                            } else if (node.nodeType === 1) {
+                                
+                                const prohibitedClasses = ["hljs-comment", "hljs-string"];
+                                
+                                if (! prohibitedClasses.some(cls => node.classList.contains(cls))) {
+                                    for(const child of node.childNodes) {
+                                        runStyles(child);
+                                    }
+                                }
+                            }
+                        }
+                        
+                        function applyStyles(textNode) {
+                            const text = textNode.textContent;
+                            const fragment = [];
+                            
+                            for (const token of splitText(text, [...tokenClasses, ...tokenValues, ...tokenInterfaces])) {
+                                if (tokenClasses.includes(token)) {
+                                    fragment.push(el("span.hljs-meta", token));
+                                    
+                                } else if (tokenValues.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-value", token));
+                                    
+                                } else if (tokenInterfaces.includes(token)) {
+                                    fragment.push(el("span.hljs-meta-interface", token));
+                                    
+                                } else {
+                                    fragment.push(token);
+                                }
+                            }
+                            
+                            textNode.replaceWith(el.fragment(...fragment));
+                        }
+                        
+                        const code = pre.querySelector("code");
+                        if (code && (code.classList.contains("lang-csharp") || code.classList.contains("lang-cs"))) {
+                            runStyles(code);
+                        }
+                    }
+                    
+                    function addLineNumbers(pre) {
+                        const code = pre.querySelector("code");
+                        if (!code) return;
+                        
+                        var lines = (code.textContent.match(/\n/g) || []).length;
+                        
+                        if (lines <= 1) {
+                            return;
+                        }
+                        
+                        const lineElements = [];
+                        for (let i = 1; i <= lines; i++) {
+                            lineElements.push(el("span.hljs-line-number", i + "\n"));
+                        }
+                        
+                        code.prepend(el("div.line-numbers", ...lineElements));
+                        code.classList.add("has-line-numbers");
+                    }
+                                        
+                    document.querySelectorAll("pre").forEach(pre => {
+                        highlightMissingCodeTokens(pre);
+                        addLineNumbers(pre);
+                    });
+                }
+                
+                runPostHljsFunctions();
+            </script>
+        </footer>
+    </body>
+</html>

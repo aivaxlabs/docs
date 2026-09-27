@@ -822,6 +822,16 @@
     },
     {
       "type": "Conceptual",
+      "source_relative_path": "docs/generations/decisions.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/generations/decisions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
       "source_relative_path": "docs/generations/images.md",
       "output": {
         ".html": {
@@ -1116,6 +1126,16 @@
       "output": {
         ".html": {
           "relative_path": "docs/pt-br/generations/audio-transcriptions.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/pt-br/generations/decisions.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/pt-br/generations/decisions.html"
         }
       },
       "version": ""
