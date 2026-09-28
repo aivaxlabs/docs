@@ -128,9 +128,28 @@
 <h1 id="changelogs">Changelogs</h1>
 
 <p>Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.</p>
+<h2 id="monday-september-28th-2026">Monday, September 28th, 2026</h2>
+<p>Fixes:</p>
+<ul>
+<li><p><strong>Gateways — Bash tool help accepts nullable parameters.</strong> Requesting help for tools whose parameters accept multiple types, including <code>null</code>, no longer fails while listing their arguments. Help preserves the accepted types and nested parameter paths. No tool schema changes are required.</p>
+</li>
+<li><p><strong>Chat integrations — Failure notifications restored.</strong> Streaming and non-streaming conversations again attempt to send “System: something went wrong. Please, try again later.” after an unrecoverable generation failure, exhausted recovery attempts, or a turn that sends no message. A final failure is reported even if an earlier partial reply was delivered. Notification delivery still depends on the messaging service being available.</p>
+</li>
+</ul>
+<p>Changes:</p>
+<ul>
+<li><p><strong>Gateways — Time zone selection.</strong> The current date and time setting now offers a time zone dropdown grouped by region, including UTC. Existing saved time zones are preserved when reopening the setting.</p>
+</li>
+<li><p><strong>Models — Seven new text models.</strong> Adds <code>@cohere/command-a-plus</code>, <code>@upstage/solar-mini4</code>, <code>@aion-labs/aion-3.5</code>, <code>@aion-labs/aion-3.5-mini</code>, <code>@qwen/qwen3.8-max-prime</code>, <code>@z-ai/glm-5.3-prime</code>, and <code>@fireworks/ember-1</code> as selectable text models, billed per provider at published token rates with existing account and plan adjustments still applying. Upstage and Fireworks models now display their provider icons instead of the generic fallback. Existing model identifiers remain unchanged.</p>
+</li>
+</ul>
 <h2 id="sunday-september-27th-2026">Sunday, September 27th, 2026</h2>
 <p>Changes:</p>
 <ul>
+<li><p><strong>Telegram — Compact tool progress.</strong> Streamed replies show only the latest tool preamble in the thinking indicator when tool-call visibility is enabled, instead of accumulating tool-name blocks in the response. The final reply contains no tool-progress blocks. Other messaging channels and non-streamed replies are unchanged.</p>
+</li>
+<li><p><strong>Gateways — Bash tool selection.</strong> The Bash tool list now includes a shortcut for <code>get_date_time</code> (Current date and time). Inclusion and exclusion lists accept case-insensitive wildcard patterns: <code>*</code> matches any number of characters, as in <code>something_*</code>, and <code>?</code> matches one character. Exact tool names remain supported.</p>
+</li>
 <li><p><strong>Semantic decisions and Agentic Tests — Account rate limits.</strong> Semantic decisions allow 10 requests per minute on Free and 50 on Pro. Agentic Tests allow 5 new runs per minute on Free and 30 on Pro, shared across manual runs, scheduled runs, and direct evaluations. Max has no plan-imposed limit for either operation. Direct requests above these limits return HTTP 429; scheduled tests wait for a later scheduling check. Clients should pace requests and retry after the rate-limit window clears. Existing inference limits still apply. See <a href="limits.html#semantic-decision-and-agentic-test-rate-limits">Plans and Limits</a>, <a href="generations/decisions.html#account-rate-limits">Semantic decisions</a>, and <a href="inference/agentic-tests.html#run-and-inspect-a-test">Agentic Tests</a>.</p>
 </li>
 <li><p><strong>Models — Consistent speech synthesis prices.</strong> Text-to-speech catalog prices now derive from the same per-character rates used to calculate synthesis usage, displayed per 1,000 characters. Existing model identifiers and billing rates remain unchanged.</p>

@@ -2,9 +2,27 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Monday, September 28th, 2026
+
+Fixes:
+
+- **Gateways — Bash tool help accepts nullable parameters.** Requesting help for tools whose parameters accept multiple types, including `null`, no longer fails while listing their arguments. Help preserves the accepted types and nested parameter paths. No tool schema changes are required.
+
+- **Chat integrations — Failure notifications restored.** Streaming and non-streaming conversations again attempt to send “System: something went wrong. Please, try again later.” after an unrecoverable generation failure, exhausted recovery attempts, or a turn that sends no message. A final failure is reported even if an earlier partial reply was delivered. Notification delivery still depends on the messaging service being available.
+
+Changes:
+
+- **Gateways — Time zone selection.** The current date and time setting now offers a time zone dropdown grouped by region, including UTC. Existing saved time zones are preserved when reopening the setting.
+
+- **Models — Seven new text models.** Adds `@cohere/command-a-plus`, `@upstage/solar-mini4`, `@aion-labs/aion-3.5`, `@aion-labs/aion-3.5-mini`, `@qwen/qwen3.8-max-prime`, `@z-ai/glm-5.3-prime`, and `@fireworks/ember-1` as selectable text models, billed per provider at published token rates with existing account and plan adjustments still applying. Upstage and Fireworks models now display their provider icons instead of the generic fallback. Existing model identifiers remain unchanged.
+
 ## Sunday, September 27th, 2026
 
 Changes:
+
+- **Telegram — Compact tool progress.** Streamed replies show only the latest tool preamble in the thinking indicator when tool-call visibility is enabled, instead of accumulating tool-name blocks in the response. The final reply contains no tool-progress blocks. Other messaging channels and non-streamed replies are unchanged.
+
+- **Gateways — Bash tool selection.** The Bash tool list now includes a shortcut for `get_date_time` (Current date and time). Inclusion and exclusion lists accept case-insensitive wildcard patterns: `*` matches any number of characters, as in `something_*`, and `?` matches one character. Exact tool names remain supported.
 
 - **Semantic decisions and Agentic Tests — Account rate limits.** Semantic decisions allow 10 requests per minute on Free and 50 on Pro. Agentic Tests allow 5 new runs per minute on Free and 30 on Pro, shared across manual runs, scheduled runs, and direct evaluations. Max has no plan-imposed limit for either operation. Direct requests above these limits return HTTP 429; scheduled tests wait for a later scheduling check. Clients should pace requests and retry after the rate-limit window clears. Existing inference limits still apply. See [Plans and Limits](limits.md#semantic-decision-and-agentic-test-rate-limits), [Semantic decisions](generations/decisions.md#account-rate-limits), and [Agentic Tests](inference/agentic-tests.md#run-and-inspect-a-test).
 
