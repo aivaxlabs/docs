@@ -64,6 +64,8 @@ Use references when several chunks represent the same source item. When referenc
 
 When importing PDFs, spreadsheets, web pages, or manuals, inspect the generated chunks before relying on the collection. Remove repeated headers, footers, navigation menus, broken tables, boilerplate, and irrelevant disclaimers when possible.
 
+See [what a vector database leaves to the application](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) before choosing an ingestion workflow.
+
 Good chunks usually include:
 
 - A title or source heading.

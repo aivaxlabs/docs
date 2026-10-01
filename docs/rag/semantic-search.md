@@ -4,6 +4,8 @@ The semantic search API searches one or more collections and returns the most re
 
 If your application already owns the candidate document strings, consider [Reflex](reflex.md): a collection-less RAG search that ranks supplied documents without indexing or storage. Use managed semantic search when AIVAX should store and search a persistent corpus or when the corpus is too large to submit as candidates with every request.
 
+Compare [vector search with the complete RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) before deciding what to build.
+
 After creating a collection, search it with complete terms that reflect the question a user would ask. The response can include the matched documents and their associated collection data for use in your application or AI Gateway flow.
 
 For the supported request, response, authentication, and error contract, use the API Reference:

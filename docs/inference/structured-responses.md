@@ -27,6 +27,8 @@ Use `response_format` with `type: "json_schema"` when the provider model should 
 
 Use `json_only: true` when the HTTP response body should be only the final JSON. This removes the normal chat completion envelope, choices, usage, and generation metadata from the response body.
 
+For a troubleshooting checklist covering refusals, incomplete streams, and native enforcement versus healing, read [How to fix invalid JSON from an LLM API with structured outputs](https://aivax.net/blog/structured-output-healing-boundary/).
+
 ## Basic example
 
 Reference:

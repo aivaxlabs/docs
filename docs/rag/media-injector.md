@@ -16,6 +16,8 @@ It is not a general file-storage feature and does not preserve the source as one
 
 Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use [Text Segmentation](text-segmentation.md) when you only need cohesive source-text segments returned to your application without creating collection documents.
 
+Use this [RAG responsibility checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to decide which preparation steps to manage.
+
 ## How ingestion works
 
 In the AIVAX dashboard:

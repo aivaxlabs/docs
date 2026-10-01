@@ -55,6 +55,8 @@ Remote content can change between test runs and contributes to usage. Use only t
 
 A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.
 
+Follow the [multi-turn conversation testing walkthrough](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery.
+
 ### Validation hooks
 
 Persisted Agentic Tests may call external validation hooks during a run. Configure the `hooks` array when creating or updating a test:
@@ -348,7 +350,7 @@ Final outcomes are:
 
 | Outcome | Meaning |
 | --- | --- |
-| `success` | The judge reached `base_threshold`, or the simulated user declared the goal complete. |
+| `success` | The judge reached `base_threshold`. A permitted simulated-user exit triggers judging but does not itself pass the test; without the threshold the outcome is `incomplete`. |
 | `loss` | The score and cumulative trajectory remained at or below `loss_threshold` for the required consecutive judged turns. |
 | `incomplete` | The conversation exhausted `max_turns` without reaching success or a persistent loss. |
 | `interrupted` | A validation rule stopped the evaluation before it completed. |

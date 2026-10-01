@@ -82,9 +82,13 @@ For RAG, link collections with short, self-contained, well-named documents. Choo
 
 For tools, enable only those with a clear role. Built-in tools cover common capabilities such as current date and time, web search, opening URLs, code execution, image generation, document generation, page generation, calendar actions, memory, HTTP requests, and X post lookup. External MCP is better when you already have an MCP server with business tools. Protocol functions are useful when you want to expose specific HTTP callbacks to the model without installing a full MCP server.
 
+When enabling memory, define what the assistant may retain and how your application will review and remove stored records. The [memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) outlines these controls.
+
 Use a tool handler only when the selected model needs help producing tool calls. The available handler is `react.v1.selfcall`; `native` or no value uses the model's native tool calling.
 
 Use workers when an external system must decide something during the inference flow. A worker can block a message, rewrite context, add tools, or replace a server-side tool result. Because the worker is called in the critical path, keep it fast and deterministic.
+
+Validate your gateway configuration with a [simulated-user and LLM-judge scenario](https://aivax.net/blog/introducing-agentic-tests/) before relying on it in production.
 
 ## Inference MCP
 

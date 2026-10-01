@@ -303,6 +303,8 @@ AIVAX supports structured responses through `response_schema`, `response_format`
 
 Read more on [Structured responses](/docs/inference/structured-responses).
 
+If your application cannot parse or validate the result, follow the [invalid JSON troubleshooting guide](https://aivax.net/blog/structured-output-healing-boundary/) before increasing the retry budget.
+
 ## On-demand functions
 
 Use `builtin_tools` to enable AIVAX built-in tools for a direct request without creating a gateway:

@@ -4,6 +4,8 @@ AIVAX provides a RAG (Retrieval-Augmented Generation) service for storing docume
 
 Collections can be searched directly through the RAG API or attached to an AI Gateway so retrieved documents can be injected into the model context.
 
+Compare vector storage with the surrounding ingestion and retrieval pipeline in [RAG vs vector database](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
+
 ## Collections
 
 Use collections to group documents that belong to the same knowledge base, product, tenant, language, or operational purpose.

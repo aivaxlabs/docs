@@ -18,6 +18,8 @@ For the supported request, response, authentication, and error contract, use the
 
 Reranking only reorders what it receives, so candidate quality decides the ceiling. Keep each candidate string focused on one idea — a paragraph or a short section rather than a whole page — so the relevance score reflects one topic instead of an average over many. When candidates come from chunking, prefer boundaries that preserve complete statements; see [Text segmentation](text-segmentation.md).
 
+Use the [RAG pipeline checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to distinguish preparation, retrieval, and ordering failures.
+
 Send enough candidates to cover plausible answers (over-retrieval first, precise ranking second) and use `top_n` to keep only the head of the ranked list. Use `min_score` to drop low-relevance tail results, but calibrate the threshold on your own queries: score scales differ between rankers and a cutoff tuned on one workload rarely transfers to another.
 
 ## Choosing a reranker

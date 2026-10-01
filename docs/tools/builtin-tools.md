@@ -158,6 +158,8 @@ Activation via `builtin_tools`:
 }
 ```
 
+For application-level controls around memory writes, retention, and review, see [How to protect LLM agent memory from poisoning](https://aivax.net/blog/persistent-memory-is-a-write-path/).
+
 ## Image Generation
 
 This function allows the model to create AI images.

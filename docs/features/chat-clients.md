@@ -82,4 +82,6 @@ Use Telegram when you need a simple bot with users identifiable by chat and easy
 
 Before opening a channel to the public, review the chat client configuration and explain memory behavior to users when applicable. When an integration does not respond as expected, first verify the associated gateway and integration configuration, then retry with a simple message before investigating optional capabilities.
 
+Treat persistent memory separately from session history. See [the memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) for reviewing stored context and testing its influence across conversations.
+
 For the next steps, review [AI Gateway configuration](/docs/inference/ai-gateway) and [Authentication](/docs/authentication), especially the boundary between public chat access and API credentials.
