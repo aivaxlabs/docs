@@ -1,0 +1,8 @@
+{{- $groups := slice -}}
+{{- with site.GetPage "/docs" -}}
+    {{- $groups = $groups | append (dict "title" (T "welcome") "section" . "pages" .RegularPages.ByWeight) -}}
+    {{- range .Sections.ByWeight -}}
+        {{- $groups = $groups | append (dict "title" .Title "section" . "pages" .RegularPages.ByWeight) -}}
+    {{- end -}}
+{{- end -}}
+{{- return $groups -}}

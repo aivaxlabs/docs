@@ -1,0 +1,81 @@
+baseURL = "https://docs.aivax.net/"
+title = "AIVAX Documentation"
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+disableDefaultLanguageRedirect = true
+disablePathToLower = true
+uglyURLs = true
+publishDir = "_site"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "rss"]
+
+[params]
+description = "Build, operate, and evaluate AI applications with AIVAX."
+repository = "https://github.com/aivaxlabs/docs"
+docsRepository = "https://github.com/aivaxlabs/docs"
+docsBranch = "master"
+apiReference = "https://inference.aivax.net/apidocs"
+
+[languages.en]
+languageName = "English"
+languageCode = "en-US"
+contentDir = "content/en"
+weight = 1
+
+[languages.pt-br]
+languageName = "Português"
+languageCode = "pt-BR"
+contentDir = "content/pt-br"
+weight = 2
+[languages.pt-br.params]
+translationName = "Brazilian Portuguese"
+
+[mediaTypes."text/markdown"]
+suffixes = ["md"]
+
+[outputFormats.markdown]
+mediaType = "text/markdown"
+baseName = "index"
+isPlainText = true
+rel = "alternate"
+
+[outputFormats.llms]
+mediaType = "text/plain"
+baseName = "llms"
+isPlainText = true
+notAlternative = true
+
+[outputFormats.llmsfull]
+mediaType = "text/plain"
+baseName = "llms-full"
+isPlainText = true
+notAlternative = true
+
+[outputs]
+home = ["html", "markdown", "llms", "llmsfull"]
+section = ["html", "markdown"]
+page = ["html", "markdown"]
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.goldmark.parser]
+autoHeadingIDType = "github"
+
+[markup.goldmark.parser.attribute]
+block = true
+title = true
+
+[markup.highlight]
+noClasses = false
+lineNos = false
+guessSyntax = false
+
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 3
+ordered = false
+
+[module.hugoVersion]
+min = "0.154.0"
+extended = false

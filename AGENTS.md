@@ -1,4 +1,4 @@
-# Project Guidelines
+# AIVAX Documentation (Hugo)
 
 ## Code Style
 - Keep changes focused and minimal; avoid broad reformatting.
@@ -6,39 +6,38 @@
 - Prefer editing source inputs over generated outputs.
 
 ## Architecture
-- `docs/` contains source documentation pages and section folders.
-- `docs/toc.yml` and root `toc.yml` define navigation.
-- `docfx.json` controls site generation and templates.
-- `template/modern/` contains custom DocFX template assets.
-- `template/style/src/*.xcss` contains Cascadium style sources.
-- `template/style/public/main.css` is generated from Cascadium sources.
-- `_site/` is generated output and should not be manually edited.
+- English source documentation is in `content/en/`; generated Portuguese is in `content/pt-br/`.
+- Front matter `weight` defines ordering; section `_index.md` files define groups.
+- `hugo.toml` defines static outputs, languages and rendering.
+- `layouts/` contains Hugo templates; `assets/styles/` contains plain CSS bundled by Hugo Pipes.
+- `assets/scripts/` contains vanilla JavaScript bundled with js.Build.
+- `data/icons.json` contains inline Remix Icon paths.
+- `_site/`, `resources/`, and `jsonl-exports/` are generated; never hand-edit them.
+- There is no generated .NET API reference, DLL pipeline or DocFX dependency.
 
 ## Build and Test
-- Full build (includes translation pipeline): run `build.sh`.
-- Fast rebuild (CSS + DocFX only): run `comp.ps1`.
-- Manual equivalents:
-  - `cascadium build`
-  - `docfx build`
-  - `docfx serve` (after build)
-- Translation scripts call external AI APIs and may incur cost. Do not run translation unless explicitly requested.
+- Install dependencies with `bun install`; build with `bun build.js build`.
+- Preview the static output with `php -S localhost:8793` from `_site`; stop the server before rebuilding on Windows.
+- Inspect translations without API calls using `bun build.js status`.
+- Translation and `all` call external AI APIs and may incur cost. Never run them without an explicit user request. Test translation only with a local mock in an isolated fixture.
+- See `bun build.js help` and README.md for commands and JSONL options.
 
 ## Conventions
 - Never disclose absolute subscription allowance units, token quantities, or numerical allowance balances in public content, including tables, examples, and changelogs. Describe allowances through relative plan comparisons, such as “3× the Pro allowance” or “5× the Max allowance”. Scenario-based operation estimates are also permitted when calculated from actual metering and conservatively rounded without publishing exact internal capacity. Mark estimates with “≈” and disclose their assumptions; do not present scenarios as measured averages or guaranteed limits, or use “Up to” to imply a ceiling. Never invent figures or unsupported conversions. Verify each multiplier against the actual allowances; these examples are illustrative, not fixed product claims. This rule concerns subscription allowances, not independently published technical rate limits.
-- Produce and edit documentation only in English source files under `docs/`.
-- Never create, edit, move, or delete anything under `docs/pt-br/`.
+- Produce and edit documentation only in English source files under `content/en/`.
+- Never create, edit, move, or delete generated files under `content/pt-br/` by hand; only the authorized translation pipeline may update them. The initial migration imported the existing generated translations without rewriting prose.
 - Do not edit generated API artifacts/binaries under `ref/`.
 - Do not edit generated site files under `_site/`.
-- Do not run translation generation for `docs/pt-br/` unless explicitly requested by the user.
+- Do not run translation generation for `content/pt-br/` unless explicitly requested by the user.
 - Treat all documentation as public. Never publish secrets, credentials, confidential data, proprietary operational details, or information intended only for internal use.
 - Do not reference non-public source code or expose internal class, method, type, repository, file, parameter, limiter, job, factory, implementation-path, or checkout names. Describe only the supported public contract and user-observable behavior.
 - Use explicit placeholders in examples. Never include real or realistic-looking API keys, tokens, nonce hashes, session identifiers, UUIDs, account identifiers, internal hosts, IP addresses, or filesystem paths unless the value is an intentional part of the public contract.
 - Mentions of secrets, confidential data, sensitive data, or trade secrets are allowed only for security guidance, legal definitions, and non-disclosure clauses that do not reveal the protected information.
-- If changing styles, edit `template/style/src/*.xcss` and rebuild; do not hand-edit compiled CSS.
+- If changing styles, edit plain CSS in `assets/styles/` and rebuild; do not hand-edit compiled CSS.
 - When referencing an AIVAX API endpoint in documentation, use the embedded API reference script instead of a `curl` example. Look up the correct endpoint name in `https://inference.aivax.net/apidocs/llms.txt`, then embed it as `<script src="https://inference.aivax.net/apidocs?embed-target=ENDPOINT%20NAME&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>`.
 
 ## Changelog authoring
-- Maintain `docs/changelogs.md` as the shared public changelog for backend and UI changes. Include every change that affects a product or service used by users or the public API, including visible UI changes. Exclude internal-only refactors, dependencies, tests, and operational maintenance without a user-facing effect.
+- Maintain `content/en/docs/changelogs.md` as the shared public changelog for backend and UI changes. Include every change that affects a product or service used by users or the public API, including visible UI changes. Exclude internal-only refactors, dependencies, tests, and operational maintenance without a user-facing effect.
 - Write in English using a level-two date heading such as `## Monday, September 21st, 2026`. Verify the weekday and English ordinal suffix. Under each date, use the labels `Breaking changes:`, `Fixes:`, and `Changes:` in that order, each followed by a bulleted list; omit empty groups. Do not use tables.
 - Group removed or incompatible behavior requiring a compatibility review or migration under `Breaking changes:`, corrected behavior under `Fixes:`, and improvements or user-facing maintenance under `Changes:`. Do not hide incompatibilities under another group. Start each bullet with the product category and a concise summary, for example `- **Gateways — Summary.** Description`. Use product categories, not internal subsystem names.
 - Describe what changes for the reader, affected users or configurations, and any required action. Mention relevant limits, cost effects, defaults, or compatibility details only when supported by evidence. Breaking entries must explain the impact and migration or alternative when one exists; do not imply an alternative is equivalent when it is not.
@@ -50,7 +49,9 @@
 - Link to relevant product guides rather than duplicating them. Check links, date headings, group placement, factual accuracy, and confidentiality before finishing. Follow the existing build and translation restrictions when validating the page.
 
 ## Key References
-- `readme.md` for setup constraints and contribution notes.
-- `build.sh` and `comp.ps1` for canonical build workflows.
-- `translate.js` and `clean-translations.js` for translation behavior.
-- `cascadium.json5` for CSS build output mapping.
+- README.md for setup, migration limitations, endpoint embeds and publication.
+- build.js and config.json.example for build, JSONL and incremental sourceHash translation.
+- hugo.toml for languages and output formats; data/legacy.json for legacy link resolution.
+- Preserve the external endpoint scripts in HTML. Markdown and llms outputs link to the endpoint reference instead of executing scripts.
+- Preserve aliases, absolute Markdown links, hreflang and per-language Pagefind search.
+- Run builds with zero unresolved-link warnings. Do not change English prose to hide content-caused errors; report them.

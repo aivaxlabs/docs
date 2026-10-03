@@ -1,0 +1,14 @@
+# AIVAX Documentation
+
+> {{ site.Params.description }}
+
+Language: {{ .Site.Language.LanguageName }}. Embedded API references are linked, not fetched.
+
+{{ partial "markdown-body.html" . }}
+{{ range partialCached "docs-groups.html" . .Lang }}{{ range .pages }}
+---
+
+Source: {{ .Permalink }}
+
+{{ partial "markdown-body.html" . }}
+{{ end }}{{ end }}

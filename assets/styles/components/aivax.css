@@ -1,0 +1,142 @@
+.brand img {
+    width: 108px;
+    height: auto;
+}
+
+html[data-theme="dark"] :is(.brand img, .hero-logo) {
+    filter: invert(1);
+}
+
+.prose > h1 {
+    margin: 0 0 28px;
+    color: var(--text);
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+}
+
+.prose iframe.sisk-embed-target {
+    width: 100%;
+    min-height: 400px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    color-scheme: inherit;
+}
+
+.item-pricing {
+    display: block;
+}
+
+.item-pricing > small {
+    font-size: .7rem;
+    opacity: .85;
+}
+
+.item-pricing > div {
+    font-weight: 500;
+}
+
+.item-pricing > div > small {
+    font-size: .6rem;
+    font-weight: 400;
+    opacity: .85;
+}
+
+.item-pricing + .item-pricing {
+    margin-top: 3px;
+}
+
+.model-capabilities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 6px;
+    font-size: .8rem;
+}
+
+.model-capabilities > div {
+    margin-bottom: 2px;
+    opacity: .8;
+}
+
+.model-capabilities .icon {
+    width: 18px;
+    font-size: 1rem;
+}
+
+.prose img.icon,
+.prose img.inline-icon {
+    display: inline-block;
+    width: 32px;
+    height: auto;
+    margin: 0;
+}
+
+.request-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    padding: 8px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--code-bg);
+    overflow-wrap: anywhere;
+}
+
+.request-item > span:first-of-type {
+    flex-shrink: 0;
+    width: 60px;
+    padding: 2px 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    font-size: .85em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.request-item > span:last-of-type {
+    font-family: var(--font-mono);
+    font-size: 13px;
+}
+
+.request-item.post > span:first-of-type { color: var(--tip); }
+.request-item.get > span:first-of-type { color: var(--note); }
+.request-item.delete > span:first-of-type { color: var(--caution); }
+.request-item.put > span:first-of-type { color: var(--warning); }
+.request-item.patch > span:first-of-type { color: var(--important); }
+
+.tab-group [role="tablist"] {
+    display: flex;
+    gap: 5px;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 5px;
+    border-radius: var(--radius);
+    background: var(--bg-alt);
+}
+
+.tab-group [role="tab"] {
+    padding: 6px 8px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.tab-group [role="tab"][aria-selected="true"] {
+    background: var(--bg-elevated);
+    color: var(--text);
+    box-shadow: 0 1px 3px #00000012;
+}
+
+.mermaid {
+    overflow-x: auto;
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .prose > h1 { font-size: 28px; }
+    .hero { padding-block: 24px 40px; }
+}

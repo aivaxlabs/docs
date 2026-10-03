@@ -1,0 +1,21 @@
+{
+  "/docs/generations/classification": "/docs/rag/classification",
+  "/docs/inference/chat-handling": "/docs/inference/inference",
+  "/docs/platform/account-balance": "/docs/pricing",
+  "/docs/platform/ai-gateways": "/docs/inference/ai-gateway",
+  "/docs/platform/analytics": "/docs/mcp-utilities/account-management-mcp",
+  "/docs/platform/basics": "/docs/getting-started",
+  "/docs/platform/batch": "/docs/features/batch",
+  "/docs/platform/chat-clients": "/docs/features/chat-clients",
+  "/docs/platform/conversations": "/docs/inference/inference",
+  "/docs/platform/logs": "/docs/mcp-utilities/account-management-mcp",
+  "/docs/platform/memories": "/docs/tools/builtin-tools",
+  "/docs/platform/models": "/docs/getting-started",
+  "/docs/platform/rag-collections": "/docs/rag/collections",
+  "/docs/platform/skills": "/docs/features/skills",
+  "/docs/tools/account-management-mcp": "/docs/mcp-utilities/account-management-mcp",
+  "/docs/tools/documentation-mcp": "/docs/mcp-utilities/documentation-mcp",
+  "/docs/tools/web-utilities-mcp": "/docs/mcp-utilities/web-utilities-mcp",
+  "/docs/tools/collections-mcp": "/docs/mcp-utilities/collections-mcp",
+  "/docs/tools/inference-mcp": "/docs/mcp-utilities/inference-mcp"
+}

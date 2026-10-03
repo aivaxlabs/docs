@@ -1,0 +1,21 @@
+{{ define "layout" }}home{{ end }}
+{{ define "main" }}
+<section class="hero">
+    <img class="hero-logo" src="{{ "assets/img/aivax.png" | relURL }}" alt="AIVAX" width="180">
+    <p class="hero-lead">{{ T "homeLead" }}</p>
+    <div class="hero-actions">
+        {{ with site.GetPage "/docs/getting-started" }}
+        <a class="button button-primary" href="{{ .RelPermalink }}">{{ T "getStarted" }}{{ partial "icon.html" "arrow-right" }}</a>
+        {{ end }}
+        <a class="button button-ghost" href="{{ site.Params.apiReference }}">{{ partial "icon.html" "braces" }}{{ T "browseApi" }}</a>
+    </div>
+</section>
+{{ with .Content }}<article class="article home-article"><div class="prose">{{ . }}</div></article>{{ end }}
+<section class="home-agents">
+    <h2>{{ partial "icon.html" "robot" }}{{ T "forAgents" }}</h2>
+    <p>{{ T "forAgentsText" }}</p>
+    <p class="home-agents-links"><a href="{{ "llms.txt" | relLangURL }}">llms.txt</a><a href="{{ "llms-full.txt" | relLangURL }}">llms-full.txt</a></p>
+</section>
+{{ partial "footer.html" . }}
+{{ end }}
+{{ define "sidebar" }}{{ end }}

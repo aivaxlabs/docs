@@ -1,0 +1,304 @@
+---
+{title: Built-in Tools,linkTitle: Built-in tools,weight: 340,group: Tools,aliases: [/docs/platform/memories.html]}
+---
+
+# Built-in Tools
+
+AIVAX provides a list of built-in tools for you to enable in your model. These tools can be used together with the [server-side functions](/docs/tools/protocol-functions).
+
+Some functions have usage charges. See [Pricing](../pricing.md) before enabling them in a production workflow.
+
+Note that each model decides which function to call and its parameters. Not all models can obey the call rules.
+
+## How to Choose and Combine Tools
+
+Built-in tools should be enabled as work capabilities, not as agent decoration. Each tool adds a decision to the model: it needs to perceive that the tool exists, understand when to use it, assemble valid arguments, wait for the result, and continue the response. The more similar tools are available at the same time, the higher the chance of redundant use or poor choice. Start with the smallest set that solves the use case and write clear instructions on when to use each.
+
+Use `WebSearch` when the answer depends on public, recent, or variable information. Use `OpenUrl` when the user has already provided a URL and wants the assistant to analyze that specific content. `AdvancedWebUsage` is disabled and returns an unavailable response; see [Changelogs](../changelogs.md). Use `Code` for calculation, data transformation, and small algorithmic reasoning. Use `Request` when the model needs to call an HTTP API with method, headers, or custom body. Use `Remember` and `Calendar` only in chat clients or calls with an identifiable user, because these tools depend on persistent per-user context.
+
+Generation tools, such as image, document, and web page, should be treated as output actions. They do more than improve an answer; they create artifacts hosted or attached to the conversation. Therefore, instruct the model on when to generate an artifact and when to reply in text. In support, for example, generating a document can be useful for a quote, proposal, or formal summary; generating a web page can be useful for a visual report; generating an image can be useful for creative ideation. If the user only asked for an explanation, plain text is usually sufficient.
+
+When tools are available via `builtin_tools` in a direct call, the application making the request decides the list for each inference. When configured in the AI Gateway, the list is centralized and can be combined with skills, workers, MCP, protocol functions, and shell. In production, prefer the gateway for permanent policies, because it prevents different clients from enabling different tools without control. Use direct calls for testing, internal routines, and flows where the application truly needs to choose tools dynamically.
+
+The values in `builtin_tools.tools` are configuration flags such as `WebSearch`, `Code`, and `OpenUrl`. The model sees runtime function names such as `web_search`, `evaluate_code`, and `open_url`. Use runtime function names when configuring skill tool allowlists or shell tool allowlists.
+
+## Current Date and Time
+
+Enable `DateTime` to expose `get_date_time`. This tool takes no arguments and reads the current time when it is called. It returns the date, time, day of the week, time zone, UTC offset, and an ISO 8601 timestamp.
+
+In the dashboard, select **Current date and time** in the gateway's built-in tools, then edit its **Time zone** under **Current date and time configuration**. The Functions playground and Batch workflow tool options also expose this setting.
+
+Configure `dateTimeTimeZone` with an IANA time zone identifier. The default is `America/Los_Angeles` (Pacific Time), which automatically follows PST/PDT daylight-saving changes rather than using a fixed UTC offset. For example, use `America/Sao_Paulo` for São Paulo or `UTC` for UTC. Invalid identifiers are rejected. The tool uses this configured zone, not the browser or user-context time zone.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": ["DateTime"],
+    "options": {
+        "dateTimeTimeZone": "America/Los_Angeles"
+    }
+}
+```
+
+For a saved gateway, include `DateTime` in `parameters.sentinelOptions.enabledFunctions` and set `parameters.builtinFunctionsOptions.dateTimeTimeZone`. For a Batch workflow, use `enabledTools.enabledFunctions` and `enabledTools.options.dateTimeTimeZone`.
+
+Example tool result (illustrative, not a live reading):
+
+```json
+{
+    "date": "2026-07-15",
+    "time": "09:30:00",
+    "day_of_week": "Wednesday",
+    "time_zone": "America/Los_Angeles",
+    "utc_offset": "-07:00",
+    "date_time": "2026-07-15T09:30:00-07:00"
+}
+```
+
+The date uses `yyyy-MM-dd`, time uses 24-hour `HH:mm:ss`, and weekday names are returned in English. All fields describe the same instant.
+
+## Internet Search
+
+This function enables internet search in your model. With this, the model can query specific or real‐time information such as weather data, news, game results, etc.
+
+Internet search is performed by multiple providers, chosen based on network availability and latency. AIVAX uses a mix of providers to perform internet searches.
+
+AIVAX provides two types of searches configurable via its dashboard:
+
+- **Full**: the performed search is complete, inserting the entire content of each result into the conversation context.
+- **Summarized**: the performed search is summarized, inserting into the conversation context a summary generated by AI by the search provider itself.
+
+The `Full` mode may consume more input tokens from the conversation, but can provide more precise results. See [Pricing](../pricing.md) and [Plans and limits](../limits.md) before enabling internet search in production.
+
+> [!NOTE] 
+>
+> **Important:** the `Full` search is not always available.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "WebSearch"
+    ],
+    "options": {
+        "web_search_max_results": 10,
+        "web_search_mode": "full"
+    }
+}
+```
+
+## Advanced Internet Search
+
+`AdvancedWebUsage` is disabled and returns an unavailable response. See [Changelogs](../changelogs.md) for details.
+
+## Code Execution
+
+This function allows the model to execute JavaScript code and inspect the execution result. With this, the model can evaluate algorithmic results of mathematical expressions and other situations that are better represented through code.
+
+The code runs in a protected JavaScript environment. It is intended for calculations and small transformations, not for file I/O, network access, or importing external scripts.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "Code"
+    ],
+    "options": {
+    }
+}
+```
+
+## URL Context
+
+This function allows the model to access external content at URLs and links provided by the user. With this function, the model can access links and evaluate their content.
+
+Note that some destinations may identify the access as a bot and block it, as this function is not crawling but a simple GET to the destination.
+
+Upon obtaining link content, the system checks the return content and handles it according to each type:
+
+- HTML content is rendered: HTML tags, scripts, CSS, and “noise” are removed from the access result, keeping only the plain text of the link.
+- Other textual content: the content is read directly and no transformation is performed.
+- Non‐textual content: when the link responds with non‐textual content and the response indicates a filename (either by path or by the `Content‐Disposition` header), the system attempts to convert the downloaded file to a textual version.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "OpenUrl"
+    ],
+    "options": {
+    }
+}
+```
+
+## Memory
+
+This function allows the model to store relevant content to be used across multiple conversations.
+
+> Currently, this function is only available when used in [chat clients](/docs/features/chat-clients) and when the session is identified by a `tag`.
+
+Through the session `tag`, the model stores a relevant piece of conversation data, such as name preferences or persistent context the assistant should remember.
+
+The memory tool requires an identifiable session. Without a user reference ID, memory operations return an error instead of storing or searching information. The memory instruction tells the model not to save sensitive or personal data, however, it is not guaranteed that the model will always follow this rule.
+
+Each saved memory can include a retention period. Memory items can be searched, updated, removed individually, or cleared for the user.
+
+> Note: in chat/completions requests, the `tag` is specified in the `$.user` parameter.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "Remember"
+    ],
+    "options": {
+        "include_all_memory_context": true
+    }
+}
+```
+
+For application-level controls around memory writes, retention, and review, see [How to protect LLM agent memory from poisoning](https://aivax.net/blog/persistent-memory-is-a-write-path/).
+
+## Image Generation
+
+This function allows the model to create AI images.
+
+AI‐generated images are attached to the conversation context, but are not directly visible to the assistant.
+
+Image generation can incur usage charges. See [Pricing](../pricing.md) before enabling it in production.
+
+You can also enable the generation of explicit and adult images in image generation. When this feature is enabled, the model will be allowed to generate adult material. For this to happen, the model must also “agree” to generate such content. Some models have a lower security filter than others. For example, Gemini models have the lowest security filter, making them a viable option for role‐play and generating such material.
+
+You are always responsible for the [material you generate](/docs/legal/terms-of-service) and the generated material must be compatible with our terms of service.
+
+The available image generation models are listed in the AIVAX console.
+
+Generated images are stored on AIVAX servers for a few months before being permanently removed.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "ImageGeneration"
+    ],
+    "options": {
+        "image_generation_model_name": "grok-imagine",
+        "image_generation_allow_reference_usage": true,
+        "image_generation_quality": "high",
+        "image_generation_max_results": 2,
+        "image_generation_allow_mature_content": false
+    }
+}
+```
+
+## X Posts Search
+
+This function allows the model to search for posts on X (formerly Twitter), and to read a specific post when the model has a post ID.
+
+It is a direct alternative to `web_search`, as it can be used to look for up‐to‐date information in real time, such as news, information, game results, etc. This tool provides much more recent results than the conventional internet search tool.
+
+It is not recommended to use both functions together because they have the same purpose.
+
+This function can incur usage charges. See [Pricing](../pricing.md) before enabling it in production.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "XPostsSearch"
+    ],
+    "options": {
+    }
+}
+```
+
+## Document Generation
+
+This function allows the model to create PDFs from HTML text.
+
+The created files are hosted on AIVAX servers and made available by the assistant.
+
+The content is hosted for a few months before being permanently deleted.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "GenerateDocument"
+    ],
+    "options": {
+    }
+}
+```
+
+## Web Page Generation
+
+This function allows the model to host HTML pages on AIVAX servers.
+
+This allows the model to host reports, landing pages, and other HTML infographics.
+
+The content is hosted for a few months before being permanently deleted.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "GenerateWebPage"
+    ],
+    "options": {
+    }
+}
+```
+
+## Advanced Request
+
+This function provides the model with an advanced HTTP request tool. With this function, the model can set headers, forms, contents, and methods to perform advanced HTTP requests.
+
+Text responses are read up to the platform content limit. Binary responses are not expanded into the context; the tool returns a short binary-content marker with the content type and size when available.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "Request"
+    ],
+    "options": {
+    }
+}
+```
+
+## Calendar
+
+Calendar is backed by the same persistent information store as memory, but stores date-based reminder objects instead of loose memory text. It can create, search, find, update, and delete appointments for an identified user.
+
+It is not recommended to activate this function together with the memory function or message scheduling functions of the chat client.
+
+Activation via `builtin_tools`:
+
+```json
+{
+    "tools": [
+        "Calendar"
+    ],
+    "options": {
+    }
+}
+```
+
+## Tool Diagnosis
+
+When a tool is not called, first confirm that it is enabled in the gateway or in the `builtin_tools` field of the request. Then, check whether the selected model supports function calls or if a tool handler is configured for models without native support. Next, review the instruction: if it does not specify when to search, open a URL, generate an image, or query memory, the model may respond only with its own knowledge. Finally, test a direct question that clearly requires the tool, such as requesting a recent news article for `WebSearch` or asking to open a specific URL for `OpenUrl`.
+
+When a tool is called too often, reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link; `Remember` and `Calendar` can overlap when the user talks about preferences and dates. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use workers to block or replace calls in specific scenarios.
+
+When a tool fails, treat it as a normal part of the experience. Searches may return little content, URLs may block bots, APIs may deny authorization, image generation may refuse content, and code execution may receive ambiguous input. Instruct the model to explain the limitation objectively and offer the next step, such as requesting another link, trying a more specific query, asking for authorization, or responding based only on the available context. Do not rely on an external tool as the sole way to conclude a critical conversation without an experience fallback.

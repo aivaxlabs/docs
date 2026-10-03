@@ -1,0 +1,15 @@
+{
+  "name": "aivax-documentation",
+  "private": true,
+  "scripts": {
+    "build": "bun build.js build",
+    "serve": "bun build.js serve",
+    "status": "bun build.js status",
+    "translate": "bun build.js translate",
+    "help": "bun build.js help"
+  },
+  "devDependencies": {
+    "mermaid": "11.12.0",
+    "pagefind": "1.5.2"
+  }
+}

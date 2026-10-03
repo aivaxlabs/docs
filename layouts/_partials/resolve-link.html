@@ -1,0 +1,31 @@
+{{- $page := .page -}}
+{{- $destination := replace .destination "~/" "/" -}}
+{{- $url := urls.Parse $destination -}}
+{{- $href := $destination -}}
+{{- $local := or (not $url.Scheme) (eq $url.Host "docs.aivax.net") -}}
+{{- if and $local $url.Path -}}
+    {{- $path := $url.Path -}}
+    {{- if not (hasPrefix $path "/") -}}
+        {{- $dir := "" -}}
+        {{- with $page.File }}{{ $dir = .Dir }}{{ end -}}
+        {{- $path = printf "/%s" (path.Join $dir $path) -}}
+    {{- end -}}
+    {{- $path = replaceRE `^/(?:docs/pt-br|pt-br/docs)/` "/docs/" $path -}}
+    {{- $path = strings.TrimSuffix "/index" (replaceRE `\.(?:html|md)$` "" $path) -}}
+    {{- $target := $page.Site.GetPage $path -}}
+    {{- if and (not $target) (hasPrefix $path "/docs/") -}}
+        {{- $mapped := index site.Data.legacy $path -}}
+        {{- with $mapped }}{{ $target = $page.Site.GetPage . }}{{ end -}}
+    {{- end -}}
+    {{- if $target -}}
+        {{- $href = $target.RelPermalink -}}
+        {{- if .markdown }}{{ $href = ($target.OutputFormats.Get "markdown").Permalink }}{{ end -}}
+        {{- with $url.RawQuery }}{{ $href = printf "%s?%s" $href . }}{{ end -}}
+        {{- with $url.Fragment }}{{ $href = printf "%s#%s" $href . }}{{ end -}}
+    {{- else if or (hasSuffix $url.Path ".md") (hasPrefix $path "/docs/") -}}
+        {{- warnf "%s: unresolved link %q" $page.Path $destination -}}
+    {{- else if .markdown -}}
+        {{- $href = $destination | absURL -}}
+    {{- end -}}
+{{- end -}}
+{{- return $href -}}

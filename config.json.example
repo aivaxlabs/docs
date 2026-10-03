@@ -1,0 +1,9 @@
+{
+  "translation": {
+    "apiUrl": "https://inference.aivax.net/v1/chat/completions",
+    "apiKeyEnv": "AIVAX_API_KEY",
+    "model": "@inception/mercury-2",
+    "concurrency": 3,
+    "maxRetries": 5
+  }
+}

@@ -1,0 +1,14 @@
+{{- $page := . -}}
+{{- $body := .RawContent -}}
+{{- range findRE `<script\s+src="https://inference\.aivax\.net/apidocs\?[^"\n]+"\s*>\s*</script>` $body -}}
+    {{- $src := replaceRE `^<script\s+src="([^"]+)"[\s\S]*$` "$1" . | htmlUnescape -}}
+    {{- $endpoint := replaceRE `^.*[?&]embed-target=([^&]+).*$` "$1" $src -}}
+    {{- $reference := printf "https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=%s" $endpoint -}}
+    {{- $body = replace $body . (printf "[API endpoint reference](%s)" $reference) -}}
+{{- end -}}
+{{- range findRE `\]\([^\s)]+(?:\s+"[^"]*")?\)` $body -}}
+    {{- $destination := replaceRE `^\]\(([^\s)]+)[\s\S]*$` "$1" . -}}
+    {{- $href := partial "resolve-link.html" (dict "page" $page "destination" $destination "markdown" true) -}}
+    {{- $body = replace $body . (replace . $destination $href) -}}
+{{- end -}}
+{{- return strings.TrimSpace $body -}}

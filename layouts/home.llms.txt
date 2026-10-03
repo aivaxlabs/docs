@@ -1,0 +1,16 @@
+# AIVAX Documentation
+
+> {{ site.Params.description }}
+
+Every documentation page is also available as Markdown by replacing .html with .md.
+Language: {{ .Site.Language.LanguageName }}.
+
+- Complete documentation: {{ "llms-full.txt" | absLangURL }}
+- Public API reference: https://inference.aivax.net/apidocs/llms.txt
+
+Embedded API references are represented by endpoint links in Markdown; their remote content is not copied into this static site.
+{{ range partialCached "docs-groups.html" . .Lang }}
+## {{ .title }}
+
+{{ range .pages }}- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }}){{ with .Summary | plainify | htmlUnescape | strings.TrimSpace }}: {{ . | replaceRE `\s+` " " | truncate 160 | htmlUnescape }}{{ end }}
+{{ end }}{{ end }}

@@ -1,0 +1,3 @@
+{{- $href := partial "resolve-link.html" (dict "page" .Page "destination" .Destination "markdown" false) -}}
+<a href="{{ $href | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if (urls.Parse $href).Scheme }} rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- /**/ -}}
