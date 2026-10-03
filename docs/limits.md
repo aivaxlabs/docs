@@ -28,7 +28,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Feature | Free | Pro | Max |
 | --- | --- | --- | --- |
 | **Inference** |  |  |  |
-| Model access | Low-price/basic models | Advanced models | All models |
+| Model access | Low-price models | All models | All models |
 | Inference commission multiplier | 1.25x | 1.05x | 1.00x |
 | Integrated model requests | 20/min and 500/day | 200/min | — |
 | Integrated model input tokens | 1,000,000/min | 20,000,000/min | — |
