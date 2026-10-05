@@ -111,7 +111,7 @@ These limits interact: twenty options can exceed the combined question/options b
 
 ### Included daily subscription allowances
 
-Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Reseller accounts do not receive subscription allowances.
+Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Custom accounts do not receive subscription allowances.
 
 | Included service | Free | Pro | Max |
 | --- | --- | --- | --- |
@@ -126,7 +126,7 @@ Coverage is evaluated for each metered service item: a document's embedding, an 
 
 Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements, rate limits, or Reflex's separate processing-time cap. See [Pricing](pricing.md) for charges when an item is not covered.
 
-Reseller accounts support 8 concurrent agentic test runs per account.
+Custom accounts support 8 concurrent agentic test runs per account. Their rate limits are the Pro plan limits multiplied by a factor agreed for the account, or have no plan rate limits when no factor is set.
 
 Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:
 
