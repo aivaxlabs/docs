@@ -24,6 +24,10 @@ Source: https://docs.aivax.net/docs/index.html
 - [Reflex](https://docs.aivax.net/docs/rag/reflex.md)
 - [Best Practices for RAG](https://docs.aivax.net/docs/rag/best-practices.md)
 
+## Filters
+
+- [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md)
+
 ## Inference
 
 - [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md)

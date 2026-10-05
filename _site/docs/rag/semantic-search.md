@@ -14,6 +14,10 @@ For the supported request, response, authentication, and error contract, use the
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Semantic%20search)
 
+## Filtering Documents
+
+Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md) for the syntax and examples.
+
 ## Reranking
 
 A reranker can adjust the order of candidates returned by semantic search. It does not search additional documents or recover text that the retrieval stage did not select. See [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) for selection guidance.

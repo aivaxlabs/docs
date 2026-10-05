@@ -6,6 +6,16 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Monday, October 5th, 2026
+
+Fixes:
+
+- **Collections — De-duplication no longer stops before removing documents.** A de-duplication task that found duplicate documents could stop with zero documents removed and no backup files, because saving the backup of the removed documents failed. These tasks now save the backup files, remove the duplicates, and include the download links in the completion notification. Tasks that stopped this way did not remove any documents; start a new task to retry.
+
+Changes:
+
+- **RAG — Document filters for semantic search and answer generation.** The semantic search and answer generation endpoints accept an optional `filter` field that restricts the search to documents matching conditions on name, content, tags, creation and update dates, or metadata, such as `tags has "finance" and createdAt >= now-30d`. The field accepts a string or an array of strings combined with `and`. Filters are applied before the search terms are embedded; when no document matches, the request returns an empty result without embedding or search charges. Invalid filters return `400 Bad Request` with the error position. Filters are not yet available in AI gateway RAG or the Collections MCP. See [Document Filters](filters/document-filters.md).
+
 ## Saturday, October 3rd, 2026
 
 Changes:
