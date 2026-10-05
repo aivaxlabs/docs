@@ -7,5 +7,5 @@ Source: https://docs.aivax.net/pt-br/docs/features/index.html
 
 - [Habilidades](https://docs.aivax.net/pt-br/docs/features/skills.md)
 - [Clientes de Chat](https://docs.aivax.net/pt-br/docs/features/chat-clients.md)
-- [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md)
+- [Lote](https://docs.aivax.net/pt-br/docs/features/batch.md)
 

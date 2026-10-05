@@ -1,10 +1,10 @@
 Source: https://docs.aivax.net/pt-br/docs/getting-started.html
 
-# Começando
+# Iniciando
 
-Este guia leva você de uma conta AIVAX a uma conclusão de chat compatível com OpenAI verificada. O exemplo usa Python e uma chave de API privada de um ambiente do lado do servidor.
+Este guia leva você de uma conta AIVAX a um chat de conclusão compatível com OpenAI verificado. O exemplo usa Python e uma chave de API privada de um ambiente servidor.
 
-Até o final, você terá confirmado que sua chave e o modelo ou AI Gateway selecionado podem concluir uma solicitação.
+Ao final, você terá confirmado que sua chave e o modelo ou AI Gateway selecionado podem concluir uma solicitação.
 
 ## Antes de começar
 
@@ -15,13 +15,13 @@ Você precisa:
 
 Para preços e limites operacionais, veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
-Production API base URL:
+URL base da API de produção:
 
 ```text
 https://inference.aivax.net
 ```
 
-OpenAI-compatible SDK base URL:
+URL base do SDK compatível com OpenAI:
 
 ```text
 https://inference.aivax.net/v1
@@ -29,13 +29,13 @@ https://inference.aivax.net/v1
 
 ## 1. Crie uma chave de API privada
 
-Crie uma chave **privada** a partir da área de Chaves de API do painel AIVAX. Copie a chave quando ela for exibida e armazene-a como um segredo; não cole o valor real no código abaixo.
+Crie uma chave **privada** na área de Chaves de API do painel AIVAX. Copie a chave quando ela for exibida e armazene‑a como um segredo; não cole o valor real no código abaixo.
 
-Chaves privadas são destinadas a aplicações confiáveis do lado do servidor. Chaves públicas são credenciais restritas para rotas do lado do cliente intencionalmente expostas e não são substitutas de uma chave de backend.
+Chaves privadas são destinadas a aplicações servidoras confiáveis. Chaves públicas são credenciais restritas para rotas cliente expostas intencionalmente e não substituem uma chave de backend.
 
-Se você estiver construindo um widget web público ou experiência de mensagens, revise [Chat clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) antes de expor qualquer credencial. As sessões de chat fornecem um limite mais claro para a identidade do usuário, histórico de conversas e anexos.
+Se você está criando um widget web público ou experiência de mensagens, revise [Clientes de chat](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) antes de expor qualquer credencial. As sessões de chat fornecem um limite mais claro para identidade do usuário, histórico de conversas e anexos.
 
-Veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md) para esquemas de autenticação suportados, comportamento de chaves privadas e públicas, e orientações sobre manipulação de segredos.
+Veja [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md) para esquemas de autenticação suportados, comportamento de chaves privadas e públicas e orientações sobre manejo de segredos.
 
 ## 2. Instale o SDK OpenAI
 
@@ -57,6 +57,8 @@ O campo `model` pode identificar:
 Use um **modelo hospedado** para uma chamada direta, única ou experimento inicial. Use um **AI Gateway** quando quiser reutilizar o mesmo modelo, instruções, coleções RAG, habilidades, ferramentas, moderação e configurações de saída em várias solicitações ou usuários.
 
 Slugs de gateway são suportados com chaves privadas. Compleções de chat com chave pública devem usar o UUID completo do gateway e não podem chamar modelos integrados diretamente.
+
+Referência:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Model%20listing)
 
@@ -94,13 +96,15 @@ Execute o arquivo:
 python quickstart.py
 ```
 
-Uma solicitação bem-sucedida imprime uma frase gerada e sai sem erro de API.
+Uma solicitação bem‑sucedida imprime uma frase gerada e sai sem erro de API.
+
+Referência:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Inference%20(chat%20completions))
 
 ## 5. Confirme a integração
 
-Confirme que a resposta gerada corresponde ao prompt e vem do modelo ou AI Gateway selecionado na etapa anterior. Isso verifica o endpoint, credencial e seleção de modelo usados pela sua aplicação.
+Confirme que a resposta gerada corresponde ao prompt e provém do modelo ou AI Gateway selecionado na etapa anterior. Isso verifica o endpoint, credencial e seleção de modelo usados pela sua aplicação.
 
 Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
@@ -109,34 +113,36 @@ Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](htt
 AIVAX usa dois estilos de resposta:
 
 - Endpoints compatíveis com OpenAI retornam um objeto `error` no estilo OpenAI.
-- Endpoints de conta e administrativos retornam um envelope de resposta AIVAX com um erro ou um valor `data` bem-sucedido.
+- Endpoints de conta e administrativos retornam um envelope de resposta AIVAX com um erro ou um valor `data` bem‑sucedido.
 
 | Status | O que verificar |
 | --- | --- |
 | `400 Bad Request` | Confirme o identificador do modelo ou gateway e remova parâmetros não suportados da solicitação. |
-| `401 Unauthorized` | Confirme que a chave privada está presente, completa, ativa e enviada através da configuração do SDK. |
-| `402 Payment Required` | Revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e confirme que a conta está pronta para uma solicitação paga. |
+| `401 Unauthorized` | Confirme que a chave privada está presente, completa, ativa e enviada via configuração do SDK. |
+| `402 Payment Required` | Revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e confirme que a conta está pronta para uma solicitação cobrável. |
 | `403 Forbidden` | Confirme que o tipo de chave, modelo ou recurso selecionado permite esta operação. |
 | `429 Too Many Requests` | Tente novamente mais tarde e revise [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) antes de aumentar o volume de solicitações. |
+| `500 Internal Server Error` | Ocorreu uma falha inesperada da AIVAX. Tente novamente mais tarde; a resposta não inclui detalhes internos. |
+| `503 Service Unavailable` | Um serviço do qual a AIVAX depende está temporariamente indisponível. Tente novamente após o intervalo indicado no cabeçalho `Retry-After`. |
 
-Se a solicitação ainda falhar, verifique nesta ordem:
+Se a solicitação ainda falhar, verifique na seguinte ordem:
 
 1. `base_url` é `https://inference.aivax.net/v1`.
 2. `AIVAX_API_KEY` está disponível para o processo Python e contém uma chave privada.
 3. O modelo ou gateway selecionado existe e está disponível para a conta.
-4. Para um gateway, teste um prompt simples antes de adicionar RAG, ferramentas, mídia ou saída estruturada, para que você possa isolar problemas de configuração.
+4. Para um gateway, teste um prompt simples antes de adicionar RAG, ferramentas, mídia ou saída estruturada, assim você pode isolar problemas de configuração.
 
 ## Inferência de longa duração
 
-A maioria das aplicações deve usar a URL base padrão do SDK, `https://inference.aivax.net/v1`. Contudo, uma solicitação que realiza raciocínio extendido, usa várias ferramentas, processa um contexto grande ou aguarda um modelo upstream lento pode permanecer aberta mais tempo que o proxy padrão permite. Se essa solicitação terminar com HTTP `524` enquanto a AIVAX ainda a processa, use o host de inferência direta:
+Se uma solicitação terminar com HTTP `524` ou um timeout de proxy enquanto a AIVAX ainda a processa, use o host de inferência direta:
 
 ```text
 https://direct.inference.aivax.net/v1
 ```
 
-O host direto contorna o caminho padrão do proxy enquanto preserva o mesmo contrato de solicitação e resposta síncrona compatível com OpenAI. Ele não transforma a solicitação em um trabalho em segundo plano: mantenha a conexão do cliente aberta até que a conclusão termine e configure um timeout do cliente que cubra o tempo de processamento esperado.
+A solicitação permanece síncrona, não um trabalho em segundo plano: mantenha a conexão do cliente aberta até que a conclusão termine e configure um timeout do cliente que cubra o tempo de processamento esperado.
 
-Use a mesma chave de API privada, identificador de modelo ou AI Gateway, mensagens e parâmetros de solicitação. Altere a URL base do SDK e o timeout:
+Use a mesma chave de API privada, modelo ou identificador de AI Gateway, mensagens e parâmetros de solicitação. Altere a URL base do SDK e o timeout:
 
 ```python
 import os
@@ -162,21 +168,17 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-O host direto suporta listagem de modelos e completações de chat compatíveis com OpenAI em `/v1/models` e `/v1/chat/completions`, incluindo seus aliases `/api/v1`. Ele também suporta rotas de geração, consulta, resposta e classificação da AIVAX. O gerenciamento de contas, gerenciamento de AI Gateway e outras APIs administrativas não são expostas por este host; continue usando `https://inference.aivax.net` para elas.
-
-Use o host direto especificamente para inferência que pode durar mais que o proxy padrão. Ele não é um fallback para respostas `400`, `401`, `402`, `403` ou `429`, e mudar de host não altera autenticação, faturamento, disponibilidade de modelo ou limites da conta. Para cargas de trabalho que não precisam de uma conexão síncrona aberta, considere [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md) em vez disso.
-
 ## Escolha o próximo produto
 
-Depois que a solicitação mínima funcionar, adicione uma capacidade de cada vez:
+Depois que a solicitação mínima funcionar, adicione uma capacidade por vez:
 
-- [AI Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) — torne a configuração do assistente reutilizável em solicitações e usuários.
+- [AI Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) — torne a configuração do assistente reutilizável entre solicitações e usuários.
 - [Structured responses](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md) — exija que o JSON gerado siga um esquema de aplicação.
 - [RAG collections](https://docs.aivax.net/pt-br/docs/rag/collections.md) — indexe seus documentos, teste a recuperação e anexe conhecimento fundamentado a um gateway.
 - [Built-in tools](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md), [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ou [Protocol functions](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) — permita que o assistente recupere informações ao vivo ou execute ações.
-- [Chat clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) — entregue um gateway via chat web ou canais de mensagem suportados.
+- [Chat clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) — entregue um gateway via chat web ou canais de mensagens suportados.
 - [Text and media products](https://docs.aivax.net/pt-br/docs/overview.md#process-text-documents-and-media) — classifique ou segmente documentos, gere imagens ou fala, transcreva áudio e descreva mídia.
 - [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md) — aplique o mesmo fluxo de trabalho a muitos registros independentes de forma assíncrona.
-- [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md) — avalie uma conversa completa de gateway antes e depois de mudanças de configuração.
+- [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md) — avalie uma conversa completa de gateway antes e depois de alterações de configuração.
 
 Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).

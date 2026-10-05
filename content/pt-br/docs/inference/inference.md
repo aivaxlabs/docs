@@ -1,14 +1,14 @@
 ---
-{title: Inferência,linkTitle: Inferência,weight: 170,group: Inferência,sourceHash: legacy-unverified,aliases: [/docs/pt-br/inference/inference.html,/docs/pt-br/inference/chat-handling.html,/docs/pt-br/platform/conversations.html]}
+{title: Inferência,linkTitle: Inferência,weight: 170,group: Inference,aliases: [/docs/pt-br/inference/chat-handling.html,/docs/pt-br/platform/conversations.html,/docs/pt-br/inference/inference.html],sourceHash: d1f38b21a8756cf2}
 ---
 
 # Inferência
 
-AIVAX expõe uma API `chat/completions` compatível com OpenAI com parâmetros adicionais da AIVAX. As adições são opcionais e foram projetadas para suportar gateways, RAG, ferramentas integradas, respostas estruturadas, pré-processamento multimodal, roteamento de modelo e metadados de faturamento.
+AIVAX expõe uma API `chat/completions` compatível com OpenAI com parâmetros adicionais da AIVAX. As adições são opcionais e foram projetadas para suportar gateways, RAG, ferramentas embutidas, respostas estruturadas, pré-processamento multimodal, roteamento de modelo e metadados de faturamento.
 
-Use esta página para chamadas diretas de inferência. Use [AI Gateway](/docs/pt-br/inference/ai-gateway) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
+Use esta página para chamadas de inferência diretas. Use [AI Gateway](/docs/pt-br/inference/ai-gateway) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
 
-## Endpoint
+## Ponto de Extremidade
 
 <div class="request-item post">
     <span>POST</span>
@@ -17,26 +17,30 @@ Use esta página para chamadas diretas de inferência. Use [AI Gateway](/docs/pt
     </span>
 </div>
 
-O endpoint também tem o alias de API `/api/v1/chat/completions`.
+O endpoint também possui o alias de API `/api/v1/chat/completions`.
+
+Reference:
+
+<script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Roteamento de provedor
 
-Alguns modelos integrados estão disponíveis por mais de um provedor. O roteamento de provedor permite que a AIVAX escolha entre esses provedores sem alterar o modelo solicitado pela sua aplicação. Isso difere do roteamento de modelo, que pode selecionar um modelo diferente com base na complexidade da requisição.
+Alguns modelos integrados estão disponíveis através de mais de um provedor. O roteamento de provedor permite que a AIVAX escolha entre esses provedores sem mudar o modelo solicitado pela sua aplicação. Isso difere do roteamento de modelo, que pode selecionar um modelo diferente com base na complexidade da solicitação.
 
-A AIVAX considera provedores que estão atualmente disponíveis e compatíveis com a requisição. Se apenas um provedor for elegível, a preferência de roteamento não altera o resultado. O roteamento de provedor aplica‑se apenas a modelos integrados da AIVAX; um gateway “traga‑seu‑próprio‑chave” usa o endpoint do provedor configurado nesse gateway.
+AIVAX considera provedores que estão atualmente disponíveis e compatíveis com a solicitação. Se apenas um provedor for elegível, a preferência de roteamento não altera o resultado. O roteamento de provedor aplica‑se apenas a modelos integrados da AIVAX; um gateway de bring-your-own-key usa o endpoint do provedor configurado nesse gateway.
 
-Preferências de roteamento disponíveis:
+As preferências de roteamento disponíveis são:
 
 | Preferência | Comportamento |
 |---|---|
 | `Balanced` | Equilibra preço, velocidade e qualidade. Este é o padrão. |
-| `Cheapest` | Seleciona o provedor com o menor preço de token de entrada e saída aplicável. |
+| `Cheapest` | Seleciona o provedor com o menor preço aplicável de tokens de entrada e saída. |
 | `Fastest` | Prioriza o provedor com a maior taxa de transferência disponível. |
-| `Quality` | Seleciona o provedor que a AIVAX classifica como o de maior qualidade, sem otimizar por preço ou velocidade. |
+| `Quality` | Seleciona o provedor que a AIVAX classifica como o de maior qualidade, sem otimizar para preço ou velocidade. |
 
 ### Configurar roteamento em um AI Gateway
 
-Use um AI Gateway quando a mesma preferência de roteamento deve ser aplicada a cada requisição. No editor do gateway, selecione um modelo integrado, abra **Routing preference**, escolha a estratégia preferida e salve o gateway.
+Use um AI Gateway quando a mesma preferência de roteamento deve ser aplicada a cada solicitação. No editor do gateway, selecione um modelo integrado, abra **Routing preference**, escolha a estratégia preferida e salve o gateway.
 
 A configuração equivalente do gateway usa `parameters.routingOption`:
 
@@ -51,11 +55,11 @@ A configuração equivalente do gateway usa `parameters.routingOption`:
 }
 ```
 
-Depois de salvar, chame o gateway normalmente usando seu ID ou slug como `model`. A AIVAX aplica a preferência de roteamento armazenada preservando as instruções, ferramentas, configuração RAG e outras definições do gateway. Consulte [AI Gateway](/docs/pt-br/inference/ai-gateway) para o fluxo completo do gateway.
+Após salvar, chame o gateway normalmente usando seu ID ou slug como `model`. AIVAX aplica a preferência de roteamento armazenada enquanto preserva as instruções, ferramentas, configuração RAG e outras configurações do gateway. Veja [AI Gateway](/docs/pt-br/inference/ai-gateway) para o fluxo completo do gateway.
 
 ### Substituir roteamento em `chat/completions`
 
-Use `routing_preset` para escolher uma estratégia de provedor para uma única requisição. A sobrescrita funciona com um modelo integrado direto ou um AI Gateway que usa um modelo integrado:
+Use `routing_preset` para escolher uma estratégia de provedor para uma única solicitação. A substituição funciona com um modelo integrado direto ou um AI Gateway que usa um modelo integrado:
 
 ```json
 {
@@ -70,11 +74,11 @@ Use `routing_preset` para escolher uma estratégia de provedor para uma única r
 }
 ```
 
-Os valores aceitos são `Balanced`, `Cheapest`, `Fastest` e `Quality`. O valor da requisição sobrescreve o `routingOption` salvo no gateway apenas para essa requisição; não atualiza o gateway. Como `routing_preset` é uma extensão da AIVAX, envie‑o como um campo extra no corpo da requisição ao usar um SDK compatível com OpenAI. Sobrescritas de roteamento ao nível da requisição exigem uma chave de API privada.
+Os valores aceitos são `Balanced`, `Cheapest`, `Fastest` e `Quality`. O valor da solicitação substitui o `routingOption` salvo no gateway apenas para essa solicitação; não atualiza o gateway. Como `routing_preset` é uma extensão da AIVAX, envie‑o como um campo extra no corpo da solicitação ao usar um SDK compatível com OpenAI. Substituições de roteamento ao nível da solicitação requerem uma chave de API privada.
 
 ## Entrada e multimodalidade
 
-A AIVAX aceita partes de conteúdo de mensagem compatíveis com OpenAI para texto, imagens, áudio, vídeos e arquivos. O modelo selecionado deve suportar a modalidade a menos que você peça à AIVAX para pré‑processar a mídia em texto.
+AIVAX aceita partes de conteúdo de mensagem compatíveis com OpenAI para texto, imagens, áudio, vídeos e arquivos. O modelo selecionado deve suportar a modalidade, a menos que você peça à AIVAX para pré-processar a mídia em texto.
 
 ```json
 {
@@ -114,15 +118,15 @@ A AIVAX aceita partes de conteúdo de mensagem compatíveis com OpenAI para text
 }
 ```
 
-Mapeamentos de partes de conteúdo suportadas:
+Mapeamentos de partes de conteúdo suportados:
 
 - `text`: Texto simples.
 - `image_url`: Conteúdo de imagem. `image_url.url` pode ser uma URL externa ou uma URL de dados base64. `image_url.detail` pode ser `low`, `high` ou `auto` quando o modelo suporta.
 - `video_url`: Conteúdo de vídeo. `video_url.url` pode ser uma URL externa ou uma URL de dados base64. Prefira URLs para vídeos grandes.
-- `input_audio`: Conteúdo de áudio. `input_audio.data` é áudio em base64, e `input_audio.format` indica o formato.
+- `input_audio`: Conteúdo de áudio. `input_audio.data` é dados de áudio em base64, e `input_audio.format` indica o formato.
 - `file`: Conteúdo de arquivo. `file.filename` nomeia o arquivo, e `file.file_data` pode ser uma URL externa ou uma URL de dados base64.
 
-Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a usa uma Data URL em base64; prefira uma URL publicamente acessível para vídeos grandes:
+Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a usa uma URL de Dados base64; prefira uma URL publicamente acessível para vídeos grandes:
 
 ```json
 {
@@ -147,9 +151,9 @@ Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a us
 }
 ```
 
-Links externos devem ser acessíveis à AIVAX sem autenticação, restrições de firewall ou renderização apenas em JavaScript. Falhas ao baixar, redirecionamentos, URLs bloqueadas, formatos não suportados ou limites de tamanho específicos do provedor podem causar falha na inferência.
+Links externos devem ser acessíveis à AIVAX sem autenticação, restrições de firewall ou renderização apenas em JavaScript. Downloads falhados, redirecionamentos, URLs bloqueadas, formatos não suportados ou limites de tamanho específicos do provedor podem fazer a inferência falhar.
 
-Você também pode enviar uma requisição simples de texto com `prompt`:
+Você também pode enviar uma solicitação de texto simples com `prompt`:
 
 ```json
 {
@@ -158,9 +162,9 @@ Você também pode enviar uma requisição simples de texto com `prompt`:
 }
 ```
 
-## Idempotência da requisição
+## Idempotência de solicitação
 
-Defina `idempotency_key` quando sua integração precisar de chamadas repetidas para atualizar o mesmo registro de conversa armazenado em vez de criar um novo token de conversa. A AIVAX usa esse valor para correlacionar o contexto do AI Gateway e o registro da conversa.
+Defina `idempotency_key` quando sua integração precisar de chamadas repetidas para atualizar o mesmo registro de conversa armazenado em vez de criar um novo token de conversa. AIVAX usa esse valor para correlacionar o contexto do AI Gateway e o registro de conversa.
 
 ```json
 {
@@ -175,11 +179,11 @@ Defina `idempotency_key` quando sua integração precisar de chamadas repetidas 
 }
 ```
 
-O valor deve ser uma string não vazia com no máximo 128 caracteres. Quando omitido, a AIVAX gera automaticamente um token de conversa.
+O valor deve ser uma string não vazia com no máximo 128 caracteres. Quando omitido, a AIVAX gera um token de conversa automaticamente.
 
-## Metadados da requisição
+## Metadados de solicitação
 
-Defina `metadata` para anexar informações de chave/valor em forma de string à requisição de inferência. A AIVAX armazena esse objeto com a conversa registrada e o expõe aos eventos do gateway, sendo útil para correlação operacional como ID de pedido, locatário, fluxo de trabalho ou chave de rastreamento interno.
+Defina `metadata` para anexar informações de chave/valor em forma de string à solicitação de inferência. AIVAX armazena esse objeto com a conversa registrada e o expõe a eventos do gateway, portanto é útil para correlação operacional, como ID de pedido, locatário, fluxo de trabalho ou chave de rastreamento interna.
 
 ```json
 {
@@ -199,13 +203,21 @@ Defina `metadata` para anexar informações de chave/valor em forma de string à
 
 `metadata` deve ser um objeto JSON cujas propriedades e valores são strings. Não coloque segredos, credenciais, dados de pagamento ou cargas úteis grandes neste campo.
 
-## Pré‑processamento multimodal
+## Resposta e registros de conversa
 
-Use `multimodal_preprocess` quando o modelo principal deve receber uma descrição textual da mídia em vez do objeto de mídia original. Isso é útil para modelos orientados a texto ou quando você deseja que a AIVAX normalize arquivos antes da inferência principal.
+O envelope de resposta padrão `/v1/chat/completions` inclui `generation_context`. Suas entradas `generated_usage` contêm `sku`, `amount`, `unit_price`, `quantity` e `description`. Defina `json_only: true` para retornar apenas o JSON final sem este envelope.
+
+Quando o registro de conversa está habilitado, o registro armazenado inclui seu ID, origem, nome do modelo, ID da solicitação, esquema de resposta, ferramentas e esquemas de entrada de ferramentas, uso, recursos vinculados, timestamps de criação e atualização, contagem de tokens, ID de usuário externo, mensagem de erro, mensagens e metadados. O contexto do gateway e da chave de API está disponível através dos recursos vinculados.
+
+Use `idempotency_key` e `metadata` para correlacionar esses registros com seu próprio fluxo de trabalho.
+
+## Pré-processamento multimodal
+
+Use `multimodal_preprocess` quando o modelo principal deve receber uma descrição textual da mídia em vez do objeto de mídia original. Isso é útil para modelos focados em texto ou quando você deseja que a AIVAX normalize arquivos antes da inferência principal.
 
 ```json
 {
-    "model": "@meta/llama-3.3-70b",
+    "model": "@metaai/llama-3.3-70b",
     "messages": [
         {
             "role": "user",
@@ -228,7 +240,7 @@ Use `multimodal_preprocess` quando o modelo principal deve receber uma descriç�
 }
 ```
 
-Flags de pré‑processamento disponíveis:
+Bandeiras de pré-processamento disponíveis são:
 
 - `Image`
 - `Audio`
@@ -237,11 +249,11 @@ Flags de pré‑processamento disponíveis:
 - `OtherFiles`
 - `All`
 
-O resolvedor armazena em cache descrições de mídia por hash de conteúdo para reutilização. O pré‑processamento de `Image`, `Audio`, `Video` e PDF `File` usa inferência multimodal auxiliar. Arquivos não PDF suportados utilizam extração local de texto.
+O resolvedor armazena em cache as descrições de mídia por hash de conteúdo para reutilização. O pré-processamento de `Image`, `Audio`, `Video` e PDF `File` usa inferência multimodal auxiliar. Arquivos não PDF suportados usam extração de texto local.
 
-Entradas multimodais podem ter requisitos de conta. Revise [Pricing](../pricing.md) e [Plans and limits](../limits.md) antes de usá‑las em produção.
+Entradas multimodais podem ter requisitos de conta. Revise [Pricing](../pricing.md) e [Plans and limits](../limits.md) antes de usá-las em produção.
 
-Quando uma inferência multimodal falha, estreite o problema:
+Quando uma inferência multimodal falha, restrinja o problema:
 
 1. Teste uma mensagem de texto simples com o mesmo modelo.
 2. Teste um anexo pequeno.
@@ -250,7 +262,7 @@ Quando uma inferência multimodal falha, estreite o problema:
 
 ## Respostas estruturadas
 
-A AIVAX oferece suporte a respostas estruturadas por meio de `response_schema`, `response_format` e `json_only`.
+AIVAX suporta respostas estruturadas através de `response_schema`, `response_format` e `json_only`.
 
 ```json
 {
@@ -291,13 +303,15 @@ A AIVAX oferece suporte a respostas estruturadas por meio de `response_schema`, 
 }
 ```
 
-`response_schema` habilita JSON Healing. A AIVAX solicita JSON ao modelo, extrai JSON do texto ou blocos markdown gerados, valida contra o esquema e tenta novamente com feedback de validação até que a saída seja válida ou o limite de tentativas seja alcançado.
+`response_schema` habilita JSON Healing. AIVAX pede ao modelo JSON, extrai JSON do texto gerado ou blocos markdown, valida contra o esquema e tenta novamente com feedback de validação até que a saída seja válida ou o limite de tentativas seja atingido.
 
-Saiba mais em [Structured responses](/docs/pt-br/inference/structured-responses).
+Leia mais sobre [Structured responses](/docs/pt-br/inference/structured-responses).
+
+Se sua aplicação não puder analisar ou validar o resultado, siga o [invalid JSON troubleshooting guide](https://aivax.net/blog/structured-output-healing-boundary/) antes de aumentar o orçamento de tentativas.
 
 ## Funções sob demanda
 
-Use `builtin_tools` para habilitar ferramentas internas da AIVAX em uma requisição direta sem criar um gateway:
+Use `builtin_tools` para habilitar as ferramentas embutidas da AIVAX em uma solicitação direta sem criar um gateway:
 
 ```json
 {
@@ -316,13 +330,15 @@ Use `builtin_tools` para habilitar ferramentas internas da AIVAX em uma requisi�
 }
 ```
 
-Ferramentas internas incluem `WebSearch`, `AdvancedWebUsage`, `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
+As ferramentas embutidas incluem `DateTime`, `WebSearch`, `AdvancedWebUsage` (desativada; retorna uma resposta indisponível; veja [Changelogs](../changelogs.md)), `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
 
-Ferramentas sob demanda são adequadas para chamadas ocasionais, protótipos e integrações que não precisam de um gateway persistente. Se a mesma aplicação sempre usar as mesmas ferramentas, prefira configurá‑las em um AI Gateway para que a política seja centralizada.
+`DateTime` expõe `get_date_time`, uma ferramenta sem argumentos que retorna a data atual, hora, dia da semana em inglês, fuso horário, deslocamento UTC e timestamp ISO 8601. Defina `builtin_tools.options.dateTimeTimeZone` para um identificador IANA; o padrão é `America/Los_Angeles` (Horário do Pacífico), com ajustes automáticos de horário de verão. Essa configuração é independente do fuso horário do navegador do usuário. Consulte [Current Date and Time](../tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
 
-## Corpo da requisição de provedor personalizado
+Ferramentas sob demanda são adequadas para chamadas ocasionais, protótipos e integrações que não necessitam de um gateway persistente. Se a mesma aplicação sempre usar as mesmas ferramentas, prefira configurá‑las em um AI Gateway para que a política seja centralizada.
 
-Quando um gateway usa uma chave de API fornecida e um endpoint de provedor compatível com OpenAI, `extra_body` pode mesclar JSON customizado ao corpo da requisição do provedor:
+## Corpo de solicitação de provedor personalizado
+
+Quando um gateway usa uma chave de API fornecida e um endpoint de provedor compatível com OpenAI, `extra_body` pode mesclar JSON personalizado no corpo da solicitação ao provedor:
 
 ```json
 {
@@ -343,9 +359,9 @@ Quando um gateway usa uma chave de API fornecida e um endpoint de provedor compa
 
 `extra_body` não é permitido com modelos integrados da AIVAX.
 
-## Explicações de ferramentas
+## Explicações de ferramenta
 
-Defina `tool_invocation_explanations: true` para pedir à AIVAX que inclua campos de explicação nos argumentos de ferramentas do lado do servidor. Quando o modelo fornece `_tool_reason` e `_tool_goal`, `servertool.explanation` contém uma cópia amigável ao cliente:
+Defina `tool_invocation_explanations: true` para solicitar à AIVAX que inclua campos de explicação nos argumentos de ferramentas do lado do servidor. Quando o modelo fornece `_tool_reason` e `_tool_goal`, `servertool.explanation` contém uma cópia amigável ao cliente:
 
 ```json
 {
@@ -383,9 +399,9 @@ Exemplo de evento de stream:
 }
 ```
 
-## Modo de renderização da resposta
+## Modo de renderização de resposta
 
-Defina `rendering_mode: "textual_blocks"` quando seu cliente quiser que a AIVAX coloque raciocínio e atividade de ferramentas do lado do servidor no mesmo fluxo textual de resposta que a UI de chat já renderiza. Isso é útil para clientes que constroem uma linha do tempo única de resposta e desejam transformar raciocínio e atividade de ferramentas em componentes visíveis sem manter caminhos de tratamento de eventos separados para cada tipo de marcador.
+Defina `rendering_mode: "textual_blocks"` quando seu cliente deseja que a AIVAX coloque o raciocínio e a atividade de ferramentas do lado do servidor no mesmo fluxo de resposta textual que a interface de chat já renderiza. Isso é útil para clientes que constroem uma única linha do tempo de resposta e querem transformar raciocínio e atividade de ferramentas em componentes visíveis sem manter caminhos de tratamento de eventos separados para cada tipo de marcador.
 
 ```json
 {
@@ -404,13 +420,13 @@ Defina `rendering_mode: "textual_blocks"` quando seu cliente quiser que a AIVAX 
 }
 ```
 
-Neste modo, o raciocínio pode ser emitido como blocos `<thinking-group>` e `<think>`, o texto voltado ao assistente pode ser emitido como blocos `<assistant-answer>` e marcadores de ferramentas do lado do servidor podem aparecer como elementos de resultado de ferramenta, como `<div class="tool-result reason" data-tool-name="...">`. Trate esses blocos como marcadores de apresentação dentro do fluxo de resposta: analise‑os em componentes da linha do tempo de chat, seções colapsáveis de raciocínio, fragmentos de resposta do assistente ou linhas de status de ferramenta, mas não concatene cegamente cada marcador na resposta final do assistente.
+Nesse modo, o raciocínio pode ser emitido como blocos `<thinking-group>` e `<think>`, o texto voltado ao assistente pode ser emitido como blocos `<assistant-answer>`, e marcadores de ferramentas do lado do servidor podem aparecer como elementos de resultado de ferramenta, como `<div class="tool-result reason" data-tool-name="...">`. Trate esses blocos como marcadores de apresentação dentro do fluxo de resposta: analise-os em componentes da linha do tempo do chat, seções de raciocínio recolhíveis, fragmentos de resposta do assistente ou linhas de status de ferramentas, mas não concatene cegamente cada marcador na resposta final do assistente.
 
-Clientes que não entendem essa marcação devem manter o modo de renderização padrão e lidar diretamente com os eventos estruturados do stream. No modo padrão, o raciocínio chega via `delta.reasoning` e a atividade de ferramentas do lado do servidor chega via eventos `servertool`. Preserve a ordem em que os eventos do stream chegam para que o raciocínio, a atividade de ferramentas, o conteúdo parcial e a resposta final permaneçam na mesma linha do tempo de resposta.
+Clientes que não entendem essa marcação devem manter o modo de renderização padrão e lidar diretamente com os eventos de stream estruturados. No modo padrão, o raciocínio chega via `delta.reasoning`, e a atividade de ferramentas do lado do servidor chega via eventos `servertool`. Preserve a ordem em que os eventos de stream chegam para que o raciocínio, a atividade de ferramentas, o conteúdo parcial e a resposta final permaneçam na mesma linha do tempo de resposta.
 
-### Exemplo bruto de múltiplas turnos
+### Exemplo bruto de múltiplas interações
 
-O exemplo abaixo mostra a forma de uma resposta em stream quando o raciocínio do lado do servidor está visível ao cliente, `tool_invocation_explanations` está habilitado e `textual_blocks` é usado para manter a linha do tempo textual. Os atributos exatos do resultado da ferramenta podem variar conforme o renderizador, mas o comportamento importante é a ordenação: raciocínio, fragmentos de resposta do assistente, atividade de ferramentas, mais raciocínio e a resposta final podem pertencer ao mesmo turno do assistente.
+O exemplo abaixo mostra a forma de uma resposta em stream quando o raciocínio do lado do servidor está visível ao cliente, `tool_invocation_explanations` está habilitado e `textual_blocks` é usado para manter a linha do tempo da resposta textual. Os atributos exatos do resultado da ferramenta podem variar conforme o renderizador, mas o comportamento importante é a ordem: raciocínio, fragmentos de resposta do assistente, atividade de ferramenta, mais raciocínio e a resposta final podem pertencer ao mesmo turno do assistente.
 
 ```json
 {
@@ -435,7 +451,7 @@ O exemplo abaixo mostra a forma de uma resposta em stream quando o raciocínio d
 }
 ```
 
-Linha do tempo do assistente em stream:
+Linha do tempo do assistente em stream bruto:
 
 ```text
 <thinking-group>
@@ -463,17 +479,19 @@ I found several candidates and should rank them by cost, speed, and modality sup
 <assistant-answer>
 For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.
 
+Model availability and prices change over time; the picks below are example output — see [Pricing](../pricing.md) for current values.
+
 Top picks:
 
 1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.
-2. @qwen/qwen3.5-9b: the lowest input cost with video support.
+2. @qwen/qwen3.5-9b: low input cost in this example output with video support.
 3. @amazon/nova-lite: low input cost and a large context window.
 
 Use VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them.
 </assistant-answer>
 ```
 
-Quando o usuário responde, mantenha o histórico da conversa focado no resultado visível do assistente. Armazene o raciocínio e os detalhes da ferramenta como metadados de linha do tempo ou auditoria se seu produto precisar disso, mas não os converta em uma nova mensagem de usuário. A mensagem do assistente deve usar o conteúdo do bloco `<assistant-answer>` final, não a transcrição completa do raciocínio.
+Quando o usuário responde, mantenha o histórico de conversa focado no resultado do assistente visível ao usuário. Armazene o raciocínio e os detalhes da ferramenta como metadados de linha do tempo ou auditoria se seu produto precisar deles, mas não os transforme em uma nova mensagem de usuário. A mensagem do assistente deve usar o conteúdo do bloco `<assistant-answer>` final, não a transcrição completa do raciocínio.
 
 ```json
 {
@@ -485,7 +503,7 @@ Quando o usuário responde, mantenha o histórico da conversa focado no resultad
         },
         {
             "role": "assistant",
-            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: the lowest input cost with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
+            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](../pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
         },
         {
             "role": "user",
@@ -508,26 +526,26 @@ Quando o usuário responde, mantenha o histórico da conversa focado no resultad
 
 ### Orientação de apresentação
 
-Durante a geração, o raciocínio é útil porque permite que o usuário acompanhe o que o modelo está fazendo antes que a resposta final exista. O assistente pode “falar” enquanto raciocina emitindo atualizações de processo voltadas ao usuário ou fragmentos de resposta provisórios. Essas atualizações podem ser intercaladas com blocos de raciocínio, chamadas de ferramentas e conteúdo de resposta parcial à medida que a resposta se desenvolve.
+Durante a geração, o raciocínio é útil porque permite que o usuário acompanhe o que o modelo está fazendo antes que a resposta final exista. O assistente pode "falar" enquanto raciocina emitindo atualizações de processo voltadas ao usuário ou fragmentos de resposta provisórios. Essas atualizações podem ser intercaladas com blocos de raciocínio, chamadas de ferramentas e conteúdo parcial da resposta à medida que a resposta se desenvolve.
 
-Uma vez que a resposta final do assistente é gerada, essa resposta se torna o principal produto da inferência. O raciocínio intermediário ainda é útil para auditoria, orientação e depuração, mas costuma deixar de ser o objetivo principal do usuário. Colapse ou minimize o raciocínio por padrão após a conclusão, de modo que a resposta final receba a ênfase visual mais forte, mantendo o processo disponível para usuários que desejam inspecioná‑lo.
+Quando a resposta final do assistente é gerada, essa resposta se torna o principal produto da inferência. O raciocínio intermediário ainda é útil para auditoria, orientação e depuração, mas geralmente deixa de ser o objetivo principal do usuário. Colapse ou minimize o raciocínio por padrão após a conclusão para que a resposta final receba a maior  visual, mantendo o processo disponível para usuários que desejam inspecioná‑lo.
 
-Use divulgação progressiva ao longo desse ciclo de vida. O raciocínio pode ser visível enquanto o modelo ainda está trabalhando, tornando‑se um elemento secundário mais discreto após a aparição da resposta final. A atividade de ferramentas deve ser lida como status, não como discurso: use rótulos concisos como “Searching”, “Opening source”, “Running tool”, “Finished” ou “Failed”, e mantenha cada invocação de ferramenta agrupada como um item da linha do tempo, mesmo que seu estado mude ao longo do tempo.
+Use divulgação progressiva ao longo desse ciclo de vida. O raciocínio pode estar visível enquanto o modelo ainda está trabalhando, depois se tornar um elemento secundário e mais silencioso após a aparição da resposta final. A atividade da ferramenta deve ser lida como status, não como fala: use rótulos concisos como "Searching", "Opening source", "Running tool", "Finished" ou "Failed", e mantenha cada invocação de ferramenta agrupada como um item da linha do tempo, mesmo que seu estado mude ao longo do tempo.
 
 Uma boa hierarquia visual é:
 
 - Resposta do assistente: maior destaque, tipografia de leitura normal, parte da conversa principal.
 - Raciocínio em progresso: visível o suficiente para mostrar o que o modelo está fazendo enquanto a resposta está sendo gerada.
-- Raciocínio concluído: menor destaque, cor ou contêiner suavizado, colapsado ou minimizado por padrão.
-- Blocos de ferramentas: linhas de status compactas com indicadores claros de carregamento, sucesso e erro.
-- Detalhes brutos: ocultos por padrão, a menos que o cliente seja um desenvolvedor, auditor ou superfície de depuração.
+- Raciocínio concluído: menor destaque, cor ou contêiner atenuado, colapsado ou minimizado por padrão.
+- Blocos de ferramenta: linhas de status compactas com estados claros de carregamento, sucesso e erro.
+- Detalhes brutos: ocultos por padrão, a menos que o cliente seja um desenvolvedor, auditoria ou superfície de depuração.
 
-Evite expor internals barulhentos diretamente aos usuários finais. Mostre nomes de ferramentas, estados, rótulos de origem ou resumos curtos quando ajudarem o usuário a entender o que aconteceu. Oculte argumentos brutos, cargas úteis grandes e detalhes de implementação, a menos que o usuário solicite explicitamente detalhes ou a superfície do produto seja projetada para inspeção técnica.
+Evite expor internamente ruídos diretamente aos usuários finais. Mostre nomes de ferramentas, estados, rótulos de origem ou resumos curtos quando ajudarem o usuário a entender o que aconteceu. Oculte argumentos brutos, cargas úteis grandes e detalhes de implementação, a menos que o usuário solicite explicitamente detalhes ou que a superfície do produto seja feita para inspeção técnica.
 
-Para acessibilidade, torne cada bloco colapsado alternável por teclado, dê a cada linha de status um rótulo legível, evite depender apenas de cor para indicar estado e mantenha o movimento sutil. Uma resposta em stream deve parecer estável enquanto se atualiza: novos raciocínios ou linhas de ferramentas podem aparecer em ordem, mas o conteúdo existente não deve saltar ou forçar o usuário a perder a posição de leitura.
+Para acessibilidade, torne cada bloco colapsado alternável por teclado, dê a cada linha de status um rótulo legível, evite depender apenas da cor para o estado e mantenha o movimento sutil. Uma resposta em stream deve parecer estável enquanto é atualizada: novos raciocínios ou linhas de ferramenta podem aparecer em ordem, mas o conteúdo existente não deve pular ou forçar o usuário a perder sua posição de leitura.
 
 ## Chamada direta ou gateway
 
-Use uma chamada direta para tarefas simples, testes, rotinas internas e integrações onde a aplicação controla o modelo, o prompt, as ferramentas e o contexto de cada requisição.
+Use uma chamada direta para tarefas simples, testes, rotinas internas e integrações onde a aplicação controla o modelo, prompt, ferramentas e contexto para cada solicitação.
 
-Use um AI Gateway quando o comportamento precisar ser estável, auditável e reutilizável. Gateways são mais adequados para assistentes de suporte, bots de chat, agentes RAG, ferramentas permanentes, workers, skills e configurações compartilhadas por vários clientes.
+Use um AI Gateway quando o comportamento precisa ser estável, auditável e reutilizável. Gateways são melhores para assistentes de suporte, bots de chat, agentes RAG, ferramentas permanentes, workers, habilidades e configurações compartilhadas por múltiplos clientes.

@@ -1,101 +1,122 @@
 ---
-{title: Visão geral,linkTitle: Visão geral,weight: 10,group: Introdução,sourceHash: legacy-unverified,aliases: [/docs/pt-br/overview.html]}
+{title: Visão geral,linkTitle: Visão geral,weight: 10,group: Introduction,sourceHash: d56a877eb60a7aaf,aliases: [/docs/pt-br/overview.html]}
 ---
 
 # Visão geral
 
-AIVAX é uma plataforma de orquestração de IA para servir assistentes de IA através de uma única conta, superfície de API e carteira de faturamento. Combina inferência compatível com OpenAI, gateways de IA, coleções RAG, ferramentas, habilidades, clientes de chat, workers e processamento em lote.
+AIVAX é uma plataforma de orquestração de IA para construir, operar e avaliar aplicações de IA através de uma única conta, superfície de API e carteira de faturamento. Ela combina modelos hospedados e bring-your-own-key (BYOK) com configuração reutilizável de assistente, recuperação de conhecimento, ferramentas, processamento de texto e mídia, canais voltados ao usuário, jobs em segundo plano e avaliação conversacional.
 
-A maioria das integrações de aplicativos começa com um **Gateway de IA**. Um gateway escolhe o modelo, instruções do sistema, coleções RAG, ferramentas, comportamento de saída estruturada, configurações de moderação, workers e comportamento do canal de chat usados para uma solicitação.
+Você não precisa de todos os produtos para cada aplicação. Comece com inferência direta para uma resposta, depois adicione os produtos que resolvem um requisito específico de reutilização, conhecimento, integração, escala ou qualidade.
 
-## Serviços principais
+## Escolha o ponto de partida adequado
 
-### Inferência compatível com OpenAI
+| Goal | Start with | Why |
+| --- | --- | --- |
+| Gerar ou analisar texto em uma única requisição | [Inferência](inference/inference.md) | Chame um modelo hospedado ou BYOK através da API compatível com OpenAI sem criar uma configuração reutilizável de assistente. |
+| Reutilizar instruções, conhecimento, ferramentas e configurações de modelo | [Portal de IA](inference/ai-gateway.md) | Forneça à sua aplicação um runtime de assistente estável que pode evoluir sem reconstruir cada requisição. |
+| Pesquisar seus próprios documentos ou gerar respostas fundamentadas | [Coleções RAG](rag/collections.md) | Armazene e indexe conhecimento para recuperação semântica, citações e contexto do portal. |
+| Reordenar candidatos já recuperados pela sua aplicação | [Reordenadores](rag/reranking.md) | Melhore a relevância sem exigir uma coleção AIVAX gerenciada. |
+| Publicar um assistente para usuários finais | [Clientes de chat](features/chat-clients.md) | Conecte um portal a chat web ou integrações de mensagens suportadas com controles de sessão e canal. |
+| Processar muitos registros independentes | [Lote](features/batch.md) | Execute um fluxo de trabalho repetível de forma assíncrona com estado por item, validação, tentativas, custo e exportação. |
+| Testar uma conversa completa de assistente | [Testes Agentes](inference/agentic-tests.md) | Simule um usuário orientado a objetivo e julgue o portal ao longo de múltiplas interações. |
+| Construir uma experiência de voz bidirecional de baixa latência | [Sessões de voz](inference/voice-session.md) | Transmita áudio do usuário e do assistente em uma sessão interativa ao invés de combinar jobs de áudio separados. |
 
-AIVAX expõe listagem de modelos compatível com OpenAI e endpoints de conclusão de chat. Você pode chamar modelos hospedados da AIVAX diretamente ou chamar um Gateway de IA pelo seu identificador de modelo.
+## Construa o runtime do assistente
 
-A URL base de produção principal é:
+### Inferência e Portais de IA
+
+AIVAX expõe listagem de modelos compatíveis com OpenAI e endpoints de conclusão de chat. Use uma **chamada direta de modelo** para exploração, geração única ou configuração que não precisa ser reutilizada. Use um **Portal de IA** quando o mesmo modelo, instruções, coleções RAG, habilidades, ferramentas, moderação ou comportamento de saída devem atender a múltiplas chamadas ou usuários.
+
+A maioria dos assistentes de produção usa um portal porque a aplicação pode continuar chamando um identificador enquanto a configuração do assistente muda independentemente. Portais podem usar modelos AIVAX integrados ou provedores externos compatíveis com OpenAI.
+
+Production API base URL:
 
 ```text
 https://inference.aivax.net
 ```
 
-Use `/v1` como caminho base do SDK OpenAI:
+OpenAI-compatible SDK base URL:
 
 ```text
 https://inference.aivax.net/v1
 ```
 
-Referência:
+Reference:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-### Gateways de IA
+### Conhecimento, recuperação e reordenação
 
-Um Gateway de IA é o runtime configurado para um assistente. No modelo fonte ele armazena:
+Uma [coleção RAG](rag/collections.md) é uma biblioteca de conhecimento semântico. Adicione documentos, teste-os com [Busca Semântica](rag/semantic-search.md) e então anexe a coleção a um Portal de IA quando o assistente deve responder a partir desse conhecimento. AIVAX também pode gerar respostas fundamentadas diretamente das coleções e expor a busca de coleções através de [Collections MCP](mcp-utilities/collections-mcp.md).
 
-- Seleção de provedor ou modelo integrado.
-- Instrução do sistema e modelos de prompt opcionais.
-- Links de coleções RAG e estratégia de consulta.
-- Ferramentas integradas, funções de protocolo, fontes MCP e opções Bash.
-- Configurações de esquema JSON e JSON Healing.
-- Fonte do script do worker e configurações de moderação.
-- Limites de contexto, comportamento de truncamento, esforço de raciocínio, verbosidade e configurações de roteamento.
+A reordenação é uma etapa separada: ela recebe uma consulta e documentos candidatos, então retorna os candidatos em ordem mais relevante. Use uma coleção para armazenamento e recuperação gerenciados; use a geração [reordenadora](rag/reranking.md) independente quando sua aplicação já possui os candidatos.
 
-Slugs de gateway são convenientes para chaves privadas. Compleções de chat com chave pública devem usar o UUID completo do gateway e não podem chamar modelos integrados diretamente.
+### Habilidades e ferramentas
 
-### Coleções RAG
+[Habilidades](features/skills.md) empacotam instruções reutilizáveis e conhecimento operacional. Use uma habilidade quando o assistente precisa saber **como** executar uma tarefa. Use RAG quando ele precisa recuperar **fatos ou material de origem** que podem crescer ou mudar independentemente.
 
-Coleções armazenam documentos que são indexados com embeddings e pesquisados durante a inferência ou através de endpoints de coleção. Limites do plano controlam a contagem de coleções, taxa de pesquisa, taxa de inserção e tamanho de importação JSONL.
+Ferramentas permitem que o assistente tome ações ou recupere informações em tempo real. Escolha entre:
 
-AIVAX também expõe coleções como ferramentas MCP através de `/v1/mcp/collections`. O endpoint MCP de coleção lê a configuração dos cabeçalhos, como IDs de coleção, nome da ferramenta, top-k, pontuação mínima, reranker e se ferramentas de escrita são permitidas.
+- [Ferramentas embutidas](tools/builtin-tools.md) para recursos fornecidos pela AIVAX.
+- [MCP](tools/mcp.md) para servidores de Protocolo de Contexto de Modelo e ecossistemas de ferramentas reutilizáveis.
+- [Funções de protocolo](tools/protocol-functions.md) para funções HTTP definidas pela sua aplicação.
+- [Shell](tools/shell.md) para execução controlada de comandos quando o caso de uso requer.
 
-### Ferramentas
+Mantenha a superfície de ferramentas tão pequena quanto o trabalho do assistente permite. Cada ferramenta adicional aumenta custo, latência, permissões e caminhos de falha.
 
-Gateways podem habilitar ferramentas que permitem ao modelo chamar serviços da plataforma ou sistemas externos. Funções integradas cobrem busca na web, busca avançada na web, busca no X/Twitter, geração de imagens, geração de documentos ou páginas, execução de código, memória, calendário e ativações agendadas.
+## Processar texto, documentos e mídia
 
-Chaves privadas podem usar a configuração completa da ferramenta do gateway. Chamadas de conclusão de chat com chave pública removem superfícies de ferramentas do lado do servidor, como fontes MCP, funções de protocolo, ferramentas integradas, Bash, habilidades e opções de sentinela.
+AIVAX inclui produtos de geração focada para trabalhos que não precisam de uma conversa completa de chat:
 
-### Habilidades
+- [Classificação de texto](rag/classification.md) atribui rótulos a um ou mais documentos.
+- [Segmentação de texto](rag/text-segmentation.md) divide conteúdo longo em blocos úteis para indexação ou processamento subsequente.
+- [Descrições de mídia](generations/media-descriptions.md) converte imagens, áudio, vídeo e arquivos em texto que outro modelo ou fluxo de trabalho pode usar.
+- [Geração de imagens](generations/images.md) cria ou edita imagens.
+- [Geração de fala](generations/speech.md) transforma texto em áudio.
+- [Transcrição de áudio](generations/audio-transcriptions.md) transforma áudio em texto.
 
-Habilidades são pacotes de instruções reutilizáveis anexados a um gateway. Elas são carregadas no contexto do modelo quando selecionadas pelo assistente e podem restringir ou expor o comportamento da ferramenta.
+Use inferência multimodal direta quando o modelo de chat selecionado suporta a entrada e deve raciocinar sobre ela na mesma requisição. Use um endpoint de geração focada quando precisar de um artefato reutilizável, uma transcrição, uma descrição ou uma etapa de pré-processamento. Para grandes conjuntos de entradas independentes, execute a operação adequada através de [Lote](features/batch.md).
 
-### Saída estruturada
+Para áudio interativo bidirecional, use [Sessões de voz](inference/voice-session.md) ao invés de encadear manualmente transcrição, inferência de texto e geração de fala.
 
-AIVAX suporta dois caminhos de saída estruturada:
+## Entregar, escalar e avaliar
 
-- `response_schema`: AIVAX valida o JSON gerado contra o esquema e habilita JSON Healing.
-- `response_format` com `json_schema`: caminho de esquema compatível com provedor; AIVAX também pode aplicar JSON Healing quando as configurações da conta permitirem.
+### Clientes de chat
 
-Use `json_only` somente quando o chamador espera o JSON bruto gerado em vez do envelope normal de conclusão de chat.
+Um [cliente de chat](features/chat-clients.md) conecta um Portal de IA a um canal de usuário final. Ele controla a apresentação, comportamento de sessão, origens permitidas, uploads, respostas de áudio, integrações de canal e limites voltados ao usuário. O portal continua a controlar o comportamento do assistente, como modelo, instruções, RAG e ferramentas.
 
-### Clientes de chat e integrações
+Use um cliente de chat para um widget de navegador ou integração de mensagens suportada. Use a API de inferência diretamente quando seu próprio backend ou interface já gerencia usuários, estado da conversa e entrega.
 
-Clientes de chat conectam um gateway a usuários finais através de sessões públicas de web-chat ou integrações para Telegram, Z-API WhatsApp, Evolution API e Kapso. Clientes de chat têm seus próprios limites por sessão e por hora, além de verificações de saldo da conta.
+### Lote
 
-### Workers e hooks
+[Lote](features/batch.md) aplica um fluxo de trabalho a dezenas ou milhares de registros independentes. Um fluxo de trabalho define a instrução, modelo ou portal, saída estruturada, validação, ferramentas e política de tentativa. Um job importa itens, processa-os em segundo plano, expõe progresso e custo por item e exporta resultados.
 
-Workers são hooks de propriedade da conta que podem interromper ou modificar eventos do gateway. Solicitações da AIVAX ao seu serviço podem incluir `X-Request-Nonce`, um hash BCrypt derivado da chave do hook da conta. Valide-o antes de confiar na solicitação.
+Não use Lote quando um item depende de outro ou quando um usuário precisa de uma resposta imediata. Use inferência direta para um resultado síncrono e RAG para conhecimento pesquisável.
 
-### Processamento em lote
+### Testes Agentes
 
-Fluxos de trabalho em lote processam itens independentes de forma assíncrona com uma instrução de fluxo, modelo, esquema e ferramentas opcionais. O plano controla quantos itens de fluxo em lote podem ser processados por dia.
+[Testes Agentes](inference/agentic-tests.md) avaliam o comportamento configurado de um Portal de IA ao longo de uma conversa delimitada. Um usuário simulado persegue um objetivo enquanto um juiz independente avalia o progresso. Use testes persistentes para cobertura de regressão reutilizável e agendada ou uma avaliação efêmera para uma execução imediata.
 
-## Como as solicitações são verificadas
+Uma execução de teste concluída não é automaticamente um resultado de comportamento bem-sucedido. Revise o resultado da execução, o julgamento, a conversa retida, o uso e o custo em conjunto.
 
-Solicitações de API autenticadas passam pelo middleware de chave de conta. O middleware resolve a conta e a chave, armazena ambas no contexto da solicitação e adiciona cabeçalhos da conta à resposta. Endpoints que gastam dinheiro ou requerem armazenamento também verificam saldo e cota de armazenamento antes de continuar.
+## Operar e conectar AIVAX
 
-Para conclusões de chat, o runtime então verifica:
+AIVAX registra conversas e uso para que você possa rastrear comportamento, atribuir custo e diagnosticar falhas. O painel e as APIs de conta expõem saldo da conta, uso, conversas, recursos de portal, transações de coleção, itens de Lote e execuções de Testes Agentes. Comece com [Preços](pricing.md) e [Planos e limites](limits.md) antes de habilitar um fluxo de trabalho de alto volume ou pesado em mídia.
 
-1. Se o modelo selecionado está disponível no plano da conta.
-2. Limites de taxa de solicitação de modelo integrado e token de entrada, ou limites de solicitação BYOK.
-3. O limite de contexto do plano Free.
-4. Requisitos de ferramenta e modalidade.
-5. Requisitos de saldo e armazenamento, incluindo verificações de saldo mínimo adicionais para entradas de imagem/áudio/arquivo/vídeo.
+AIVAX também fornece utilitários MCP para agentes compatíveis:
+
+- [MCP de gerenciamento de conta](mcp-utilities/account-management-mcp.md)
+- [MCP de coleções](mcp-utilities/collections-mcp.md)
+- [MCP de documentação](mcp-utilities/documentation-mcp.md)
+- [MCP de utilitários web](mcp-utilities/web-utilities-mcp.md)
+- [MCP de geração de mídia](mcp-utilities/media-generation-mcp.md)
+- [MCP de inferência](mcp-utilities/inference-mcp.md)
+
+Esses utilitários expõem as capacidades existentes da AIVAX através de MCP; eles não substituem os produtos subjacentes de conta, coleção ou inferência.
 
 ## Próximos passos
 
-- [Começando](getting-started.md)
-- [Autenticação](authentication.md)
-- [Precificação](pricing.md)
-- [Planos e limites](limits.md)
+1. Siga o [Começando](getting-started.md) para fazer e verificar sua primeira conclusão de chat.  
+2. Leia a [Autenticação](authentication.md) antes de escolher chaves privadas, chaves públicas ou sessões de chat para um limite de aplicação.  
+3. Revise [Preços](pricing.md) e [Planos e limites](limits.md) antes de aumentar o tráfego ou processar grandes coleções, mídia, testes ou jobs de Lote.  
+4. Mova o comportamento reutilizável do assistente para um [Portal de IA](inference/ai-gateway.md), então adicione RAG, habilidades, ferramentas e um cliente de chat somente quando o caso de uso exigir.

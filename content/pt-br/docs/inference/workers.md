@@ -1,14 +1,14 @@
 ---
-{title: Trabalhadores de IA,linkTitle: Trabalhadores de IA,weight: 220,group: Inferência,sourceHash: legacy-unverified,aliases: [/docs/pt-br/inference/workers.html]}
+{title: Trabalhadores de IA,linkTitle: trabalhadores de IA,weight: 220,group: Inference,sourceHash: 3220a3ace32ae765,aliases: [/docs/pt-br/inference/workers.html]}
 ---
 
 # Trabalhadores de IA
 
 Os trabalhadores do AI Gateway são hooks HTTP que permitem que um serviço externo controle a execução do gateway em tempo de execução. Um trabalhador pode permitir um evento, interrompê-lo, reescrever o contexto, adicionar instruções ou ferramentas, ou substituir o resultado de uma ferramenta do lado do servidor.
 
-Use trabalhadores quando uma regra deve ser decidida fora do prompt. Casos comuns incluem verificações de assinatura, enriquecimento de CRM, política específica de locatário, registro de auditoria, bloqueio dinâmico de ferramentas e substituir o resultado de uma ferramenta visível ao modelo por dados de um sistema interno.
+Use trabalhadores quando uma regra precisar ser decidida fora do prompt. Casos comuns incluem verificações de assinatura, enriquecimento de CRM, política específica de locatário, registro de auditoria, bloqueio dinâmico de ferramentas e substituição de um resultado de ferramenta visível ao modelo por dados de um sistema interno.
 
-Os trabalhadores executam no caminho crítico da inferência. Cada evento de trabalhador adiciona uma requisição HTTP antes que o gateway possa continuar, portanto o endpoint deve responder rápida e previsivelmente.
+Os trabalhadores executam no caminho crítico da inferência. Cada evento de trabalhador adiciona uma requisição HTTP antes que o gateway possa continuar, portanto o endpoint deve responder de forma rápida e previsível.
 
 ## Formato da solicitação
 
@@ -39,11 +39,11 @@ Quando um evento de trabalhador configurado dispara, o AIVAX envia uma requisiç
 }
 ```
 
-A forma exata de `event.data` depende do evento. Sempre valide `gatewayId` quando um endpoint serve mais de um gateway.
+A forma exata de `event.data` depende do evento. Sempre valide `gatewayId` quando um endpoint atende a mais de um gateway.
 
 ## Autenticação
 
-Quando a conta possui uma chave de hook, o AIVAX envia `X-Request-Nonce`. O nonce é um hash BCrypt derivado da chave de hook da conta. Valide este cabeçalho antes de confiar no corpo, especialmente quando o trabalhador libera dados privados, altera o contexto ou autoriza o uso de ferramentas.
+Quando a conta possui uma chave de hook, o AIVAX envia `X-Request-Nonce`. O nonce é um hash BCrypt derivado da chave de hook da conta. Valide esse cabeçalho antes de confiar no corpo, especialmente quando o trabalhador libera dados privados, altera o contexto ou autoriza o uso de ferramentas.
 
 Trate `externalUserId`, `metadata`, mensagens e argumentos de ferramentas como entrada não confiável.
 
@@ -53,17 +53,17 @@ Após enviar a requisição, o AIVAX trata a resposta do trabalhador da seguinte
 
 | Resposta | Comportamento |
 |---|---|
-| `Content-Type: application/json+worker-action` | Execute a ação descrita no corpo JSON. |
-| `2xx` sem `application/json+worker-action` | Continue normalmente. |
-| Resposta não OK sem `application/json+worker-action` | Interrompa o evento. |
+| `Content-Type: application/json+worker-action` | Executa a ação descrita no corpo JSON. |
+| `2xx` sem `application/json+worker-action` | Continua normalmente. |
+| Resposta não‑OK sem `application/json+worker-action` | Interrompe o evento. |
 
-Se a requisição do trabalhador falhar com uma exceção de requisição HTTP, o AIVAX registra a falha e interrompe o evento.
+Se a requisição ao trabalhador falhar com uma exceção de requisição HTTP, o AIVAX registra a falha e interrompe o evento.
 
-Escolha intencionalmente o comportamento fail-open ou fail-closed. Retorne `2xx` quando o enriquecimento for opcional. Retorne uma resposta não OK quando a autorização, conformidade ou política de negócio não puder falhar aberta.
+Escolha intencionalmente o comportamento fail‑open ou fail‑closed. Retorne `2xx` quando o enriquecimento for opcional. Retorne uma resposta não‑OK quando autorização, conformidade ou política de negócio não puder falhar aberto.
 
 ## `message.received`
 
-O evento `message.received` dispara após o gateway preparar o contexto da mensagem recebida e antes da chamada ao modelo.
+O evento `message.received` dispara após o gateway preparar o contexto da mensagem de entrada e antes da chamada ao modelo.
 
 ```json
 {
@@ -97,7 +97,7 @@ Ações de reescrita disponíveis:
 
 | Ação | Descrição | Parâmetros |
 |---|---|---|
-| `clear` | Remove elementos do contexto. | `argument`: `messages`, `meta`, `system`, `tools`, `skills`, `all` ou omitido. |
+| `clear` | Remove elementos do contexto. | `argument`: `messages`, `meta`, `system`, `tools`, `skills`, `all`, ou omitido. |
 | `add-message` | Adiciona uma mensagem à conversa. | `message`: objeto de mensagem compatível com OpenAI. |
 | `remove-message` | Remove uma mensagem por índice. | `index`: índice da mensagem (baseado em zero). |
 | `add-system` | Adiciona uma instrução de sistema. | `message`: texto da instrução. |
@@ -170,7 +170,7 @@ Use `add-mcp-source` quando a lista de ferramentas precisar depender da mensagem
 
 ## `tool.called`
 
-O evento `tool.called` dispara antes que o AIVAX execute uma ferramenta interna do lado do servidor.
+O evento `tool.called` dispara antes do AIVAX executar uma ferramenta interna do lado do servidor.
 
 ```json
 {
@@ -187,7 +187,7 @@ O evento `tool.called` dispara antes que o AIVAX execute uma ferramenta interna 
 }
 ```
 
-Retorne uma resposta não OK para bloquear a chamada da ferramenta. Retorne `2xx` para permitir que o AIVAX execute a ferramenta normalmente.
+Retorne uma resposta não‑OK para bloquear a chamada da ferramenta. Retorne `2xx` para permitir que o AIVAX execute a ferramenta normalmente.
 
 Para substituir o resultado da ferramenta, retorne `Content-Type: application/json+worker-action` com `type: "tool.called.response"`:
 
@@ -206,7 +206,7 @@ Campos de `data`:
 | Campo | Descrição |
 |---|---|
 | `result` | Conteúdo textual injetado como resultado da ferramenta. |
-| `messages` | Mensagens adicionais opcionais no formato OpenAI anexadas ao contexto da conversa. |
+| `messages` | Mensagens adicionais em formato OpenAI opcionais anexadas ao contexto da conversa. |
 
 Quando `tool.called.response` é retornado, o AIVAX usa o resultado fornecido pelo trabalhador em vez de executar o manipulador padrão da ferramenta.
 
@@ -298,6 +298,6 @@ export default {
 };
 ```
 
-Esse padrão evita expor a API interna diretamente ao modelo. O trabalhador continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanta informação pode ser retornada ao contexto do modelo.
+Esse padrão impede a exposição direta da API interna ao modelo. O trabalhador continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanta informação pode ser retornada ao contexto do modelo.
 
-Para saber como os trabalhadores se encaixam na execução do gateway, veja [Pipelines](/docs/pt-br/inference/pipelines).
+Para entender como os trabalhadores se encaixam na execução do gateway, veja [Pipelines](/docs/pt-br/inference/pipelines).
