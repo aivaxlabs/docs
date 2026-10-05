@@ -66,6 +66,8 @@ This is a limited compatibility integration, not full support for the extension'
 
 Only the root `SKILL.md` is imported. Its byte length, SHA-256 digest, and YAML frontmatter must match the advertised entry; a mismatch fails discovery instead of loading unverified content. Manifests are limited to 512 resources and 16 MiB total declared content per skill. Skills advertising `resources: "dynamic"` are skipped. Supporting files, directory browsing, direct `skills/get` lookup, and scripts are not imported. Frontmatter does not grant tool permissions or populate the gateway's allowed-tool lists; existing tool policies still apply. This integration does not add a per-skill approval system or a new execution sandbox. Disable remote skills when your policy requires those controls.
 
+Before connecting a third-party server, review the [third-party MCP connection checklist](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/).
+
 The same options apply to MCP sources added by gateway workers. Existing account skills remain available. New connections fetch skill content during discovery, while `read_skill` controls when that content enters the model's active skill context.
 
 ## Metadata sent with tool calls

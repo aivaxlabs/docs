@@ -181,6 +181,8 @@ Set `idempotency_key` when your integration needs repeat calls to update the sam
 
 The value must be a non-empty string with 128 characters or less. When omitted, AIVAX generates a conversation token automatically.
 
+To keep conversation state in your application and gateway configuration in AIVAX, see [migrating Assistants threads to Responses](https://aivax.net/blog/migrating-from-openai-assistants-without-rebuilding-the-same-coupling/).
+
 ## Request metadata
 
 Set `metadata` to attach string key/value information to the inference request. AIVAX stores this object with the logged conversation and exposes it to gateway events, so it is useful for operational correlation such as an order ID, tenant, workflow, or internal trace key.
@@ -358,6 +360,8 @@ When a gateway uses a provided API key and an OpenAI-compatible provider endpoin
 ```
 
 `extra_body` is not allowed with integrated AIVAX models.
+
+Reasoning parameters differ by provider and model. See [how to set reasoning effort across providers](https://aivax.net/blog/reasoning-is-a-protocol-not-just-a-model-setting/) before choosing provider-specific options.
 
 ## Tool explanations
 
