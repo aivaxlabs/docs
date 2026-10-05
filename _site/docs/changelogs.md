@@ -6,13 +6,21 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 ## Monday, October 5th, 2026
 
+Breaking changes:
+
+- **Chat clients — Current date and time are no longer added to the instructions.** Telegram and WhatsApp integrations, including scheduled messages, no longer add the server date and time to the model instructions. Models must get the current time from a tool. To keep date-aware behavior, such as reminders, enable the date and time built-in function or the shell (`date` command) on the AI gateway used by the chat client.
+
 Fixes:
+
+- **AI gateways — Shell tool commands without parameters now run.** In the gateway shell, calling a tool that has no parameters, such as `list_scheduled_jobs`, now runs it instead of printing its help. Use `--help` to view the help.
 
 - **Collections — De-duplication no longer stops before removing documents.** A de-duplication task that found duplicate documents could stop with zero documents removed and no backup files, because saving the backup of the removed documents failed. These tasks now save the backup files, remove the duplicates, and include the download links in the completion notification. Tasks that stopped this way did not remove any documents; start a new task to retry.
 
 Changes:
 
+- **AI gateways — Time zone and culture for the shell.** The gateway shell options accept `timeZone`, an IANA time zone such as `America/Sao_Paulo`, and `culture`, such as `pt-BR`. The `date` command uses the time zone for its output and for dates without an explicit offset, and uses the culture for day and month names. The defaults remain UTC and the invariant culture; `date -u` always prints UTC.
 - **RAG — Document filters for semantic search and answer generation.** The semantic search and answer generation endpoints accept an optional `filter` field that restricts the search to documents matching conditions on name, content, tags, creation and update dates, or metadata, such as `tags has "finance" and createdAt >= now-30d`. The field accepts a string or an array of strings combined with `and`. Filters are applied before the search terms are embedded; when no document matches, the request returns an empty result without embedding or search charges. Invalid filters return `400 Bad Request` with the error position. Filters are not yet available in AI gateway RAG or the Collections MCP. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md).
+- **RAG — Filters and visual results in the collection playground.** The collection playground has a Filters section where each line is a document filter; all lines must match and are sent as the `filter` array. Results can be viewed as Visual, showing the generated answer and each document with its score, metadata, and referenced documents, or as raw JSON. The playground now uses the `rrf` reranker by default; you can still choose another reranker.
 
 ## Saturday, October 3rd, 2026
 
