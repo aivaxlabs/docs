@@ -96,6 +96,8 @@ Use workers when an external system must decide something during the inference f
 
 Validate your gateway configuration with a [simulated-user and LLM-judge scenario](https://aivax.net/blog/introducing-agentic-tests/) before relying on it in production.
 
+When you enable moderation, see [LLM input moderation: system prompt or separate moderation step?](https://aivax.net/blog/aivax-gateway-moderation/) for what it covers, its failure behavior, and what still needs application-level checks.
+
 ## Inference MCP
 
 To expose an integrated model or AI Gateway as a tool for an external MCP client, see [Inference MCP](/docs/mcp-utilities/inference-mcp).
