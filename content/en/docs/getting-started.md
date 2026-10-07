@@ -60,7 +60,7 @@ Use a **hosted model** for a direct, one-off call or early experiment. Use an **
 
 Gateway slugs are supported with private keys. Public-key chat completions must use the full gateway UUID and cannot call integrated models directly.
 
-Reference:
+Use the model listing reference below to choose a hosted model. If you already have an AI Gateway, use its identifier instead.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -90,7 +90,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Replace `<MODEL_OR_GATEWAY_ID>` with the exact hosted model name or gateway identifier selected in the previous step. Do not replace `AIVAX_API_KEY` with the key itself; the code reads the secret from the environment.
+Replace `<MODEL_OR_GATEWAY_ID>` with the exact hosted model name or gateway identifier selected in the previous step. Keep `AIVAX_API_KEY` unchanged in the code: it is the environment variable name, not the key value. Set that variable before running the file.
 
 Run the file:
 

@@ -6,7 +6,7 @@
 
 Skills (also known as abilities) can be used to improve how your agent performs on specific tasks. Skills are special instructions that are retrieved on demand, and your agent loads these skills as needed.
 
-Ideally, your agent should only use a skill when it is relevant to the task it is performing. It is embedded in the conversation through a special tool, and skill instructions are added to the context, indicating that the agent has context provided in the context that can be used in the conversation.
+The agent should load a skill only when it is relevant to the current task. It loads the skill through the `read_skill` tool, which adds the skill's instructions to the conversation context.
 
 ## How do skills work?
 
@@ -19,7 +19,7 @@ For this to work, the chosen base model must support **function calls** and **sy
 - If your model does not support function calls, consider using a [tool handler](/docs/inference/pipelines) to handle function calls.
 - If your model does not support system instructions, consider using the `No system instructions` flag, which provides system instructions as a user message.
 
-Larger models tend to follow instructions and function calls very strictly. Run tests to see if your model is changing its skills as required.
+Larger models tend to follow instructions and function calls very strictly. Run tests to confirm that your model loads the right skills and switches them when the task changes.
 
 ## Structure and operation
 

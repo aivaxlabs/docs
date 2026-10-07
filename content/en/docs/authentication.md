@@ -24,7 +24,6 @@ AIVAX has two key families because browser-facing and server-side use cases have
 Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. When a public key calls chat completions:
 
 - The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.
-- Gateway slug lookup is disabled.
 - MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options are stripped from the request.
 - Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `idempotency_key`, and `stream`.
 - Request and token rate limits are applied both globally per key and per remote address.
@@ -37,7 +36,7 @@ For a first server-side request, continue with [Getting Started](getting-started
 
 API keys belong to an account and can have a label, expiration, and type. A key with a negative duration does not expire; expired keys are rejected by authentication and are later removed by cleanup jobs.
 
-Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Labels and expiration dates are operational tools, not decoration; use them to identify who owns the key and when it should be reviewed.
+Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Use labels to identify each key's owner and application, and expiration dates to plan when to renew or replace it.
 
 Reference:
 

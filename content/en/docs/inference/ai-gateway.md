@@ -4,7 +4,7 @@
 
 # AI Gateway
 
-An AI Gateway is a persistent inference configuration. It lets you call a gateway by model name while AIVAX applies the gateway's model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
+An AI Gateway stores a reusable inference configuration. Pass the gateway's ID or slug in the request's `model` field, and AIVAX applies its model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
 
 Use a gateway when the same behavior must be reused by multiple clients or changed without redeploying the calling application.
 
@@ -52,7 +52,7 @@ Gateway values can be overridden by the request for supported parameters such as
 
 ## Using SDKs
 
-Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs.
+Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs. In the example below, replace `my-gateway:50c3` with your gateway's full ID or slug and load your private API key from secure configuration. See [Getting Started](../getting-started.md) for an environment-variable example.
 
 ```python
 from openai import OpenAI

@@ -40,7 +40,7 @@ If a document is longer than that, split it before indexing. Use paragraphs, sec
 - Use `__ref` to group chunks that belong to the same logical source.
 - Use `__meta` for structured data your application needs to keep, such as source URL, version, author, or publication date.
 
-Example:
+For example, identify the vehicle and fleet record so the text makes sense on its own.
 
 Prefer:
 
@@ -91,7 +91,7 @@ Semantic search works best when documents and queries use compatible language. I
 When search results are poor, check the basics first:
 
 - Confirm the documents are indexed.
-- Search the collection directly before testing through an AI gateway.
+- Test the collection with [Semantic Search](semantic-search.md) before testing through an AI Gateway.
 - Try a complete question instead of isolated keywords.
 - Compare the query language with the document language.
 - Review whether the relevant answer is split across too many small chunks or buried inside a very large one.

@@ -10,7 +10,7 @@ If your application already owns the candidate document strings, consider [Refle
 
 Compare [vector search with the complete RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) before deciding what to build.
 
-After creating a collection, search it with complete terms that reflect the question a user would ask. The response can include the matched documents and their associated collection data for use in your application or AI Gateway flow.
+Before searching, add documents to a [collection](collections.md) and wait for indexing. Search with complete questions or phrases that reflect what a user would ask. The response can include the matched documents and their associated collection data for use in your application or AI Gateway flow.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 
@@ -28,7 +28,7 @@ A reranker can adjust the order of candidates returned by semantic search. It do
 
 Multiple terms cover alternative retrieval paths rather than requiring every term to match the same document. Use them for synonyms, alternative phrasings, or several acceptable ways to find an answer.
 
-If the user intent is one composite idea, send that idea as one complete term. For example, prefer:
+If the user's question combines several related conditions, keep them together in one search term. For example, prefer:
 
 ```text
 How do I cancel an annual subscription without a penalty?

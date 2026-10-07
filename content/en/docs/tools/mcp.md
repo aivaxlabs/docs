@@ -12,7 +12,7 @@ AIVAX acts as an MCP client for gateway inference: it connects to the configured
 
 ## When to use MCP
 
-Use MCP when you already have external tools that need to be discovered and called by models in a standardized way. An MCP server is suitable for tool catalogs, integrations with internal systems, stateful operations, tools shared among multiple agents, and environments where you want to keep logic outside of AIVAX. AIVAX acts as an MCP client: it connects the AI Gateway to the remote server, reads the available tools, and allows the model to call those tools during inference.
+Use MCP when you already have external tools that need to be discovered and called by models in a standardized way. An MCP server is suitable for tool catalogs, integrations with internal systems, stateful operations, tools shared among multiple agents, and environments where you want to keep logic outside of AIVAX.
 
 Do not use MCP only to replace a single simple HTTP call. When you need to expose an isolated function with a specific callback and nonce authentication, [protocol functions](/docs/tools/protocol-functions) are usually simpler. When the capability already exists in AIVAX, such as web search, URL opening, code execution, or image generation, [built‐in tools](/docs/tools/builtin-tools) are usually the most direct path. MCP is better when there is a set of tools with their own schema, when another system already speaks MCP, or when you want the same server to be used by different clients.
 
@@ -141,4 +141,9 @@ For the equivalent HTTP callback envelope, see [protocol function context](/docs
 
 Tool results can include text, image, and audio content blocks. Text is added directly to the tool result. Image and audio blocks are attached back into the conversation as multimodal content with generated IDs. Unsupported content block types are reported as unsupported text.
 
-When an MCP tool does not appear for the model, verify that the remote server is reachable, that it supports Streamable HTTP, that the authentication headers are correct, and that the gateway is actually configured with the MCP source. When the tool appears but is not called, review the name, description, and schema. When it is called with bad arguments, restrict the JSON Schema and include property descriptions. When the call fails, make the MCP server return readable errors, because the model needs to understand whether to try another argument, ask the user for information, or terminate the action.
+If something goes wrong, check the symptom:
+
+- **The tool does not appear for the model:** verify that the remote server is reachable, supports Streamable HTTP, has the correct authentication headers, and is configured as an MCP source in the gateway.
+- **The tool appears but is not called:** review the name, description, and schema.
+- **The tool is called with bad arguments:** restrict the JSON Schema and include property descriptions.
+- **The call fails:** make the MCP server return readable errors so the model can decide whether to try another argument, ask the user for information, or stop the action.

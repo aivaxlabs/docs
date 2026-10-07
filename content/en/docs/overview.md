@@ -6,7 +6,7 @@
 
 AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account, API surface, and billing wallet. It combines hosted and bring-your-own-key (BYOK) models with reusable assistant configuration, knowledge retrieval, tools, text and media processing, user-facing channels, background jobs, and conversational evaluation.
 
-You do not need every product for every application. Start with direct inference for one response, then add the products that solve a specific reuse, knowledge, integration, scale, or quality requirement.
+You do not need every product for every application. Start with direct inference when you only need a response. Add other products when you need to reuse assistant settings, search your documents, connect tools or channels, process many records, or evaluate behavior.
 
 ## Choose the right starting point
 
@@ -95,7 +95,7 @@ Do not use Batch when one item depends on another or when a user needs an immedi
 
 ### Agentic Tests
 
-[Agentic Tests](inference/agentic-tests.md) evaluates the configured behavior of an AI Gateway across a bounded conversation. A simulated user pursues a goal while an independent judge evaluates progress. Use persisted tests for reusable, scheduled regression coverage or an ephemeral evaluation for one immediate run.
+[Agentic Tests](inference/agentic-tests.md) evaluate the configured behavior of an AI Gateway across a bounded conversation. A simulated user pursues a goal while an independent judge evaluates progress. Use persisted tests for reusable, scheduled regression coverage or an ephemeral evaluation for one immediate run.
 
 A completed test run is not automatically a successful behavior result. Review the run outcome, judge result, retained conversation, usage, and cost together.
 

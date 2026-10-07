@@ -12,7 +12,7 @@ Web pages are processed to remove markup and non-content elements. Document extr
 
 | Content | Supported formats | Extracted content |
 | --- | --- | --- |
-| Web pages | HTML, XHTML | Readable page content, such as articles, documentation, and product information, with markup and non-content elements removed. JavaScript and CSS is rendered before extraction. |
+| Web pages | HTML, XHTML | Readable page content, such as articles, documentation, and product information, with markup and non-content elements removed. JavaScript and CSS are rendered before extraction. |
 | Plain text and Markdown | TXT, Markdown | The document's text, including existing Markdown formatting. |
 | PDFs | PDF | Text from digital documents and OCR text from scanned pages. Mixed PDFs can combine direct text extraction with OCR where needed. |
 | Images containing text | PNG, JPEG, WebP, TIFF, BMP | Recognized text from screenshots, scanned documents, receipts, and other images with legible writing. |
@@ -68,7 +68,9 @@ The `system.v1.web.fetch` operation accepts these JSON request fields:
 
 Provide `responseSchema` when your application needs fields from the source rather than only its text. Describe the expected properties, types, and required fields with JSON Schema. Use property descriptions and optional `responseSchema.instructions` to clarify what to extract. For example, an object schema can request a receipt's merchant, date, and total; the embedded reference includes a complete JSON request example.
 
-JSON conversion runs after text extraction. Successful results retain `extractedText` alongside `extractedObject`, so you can compare the generated fields with the extracted source. Without a schema, no JSON conversion runs. If extraction or JSON conversion fails, the item follows `returnErrors`; a JSON conversion failure does not return a text-only success.
+JSON conversion runs after text extraction. Successful results retain `extractedText` alongside `extractedObject`, so you can compare the generated fields with the extracted source. Without a schema, no JSON conversion runs.
+
+If extraction or JSON conversion fails, `returnErrors` determines whether the failed item appears in the response. A JSON conversion failure does not return a text-only success.
 
 ### Read the results
 

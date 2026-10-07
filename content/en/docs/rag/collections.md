@@ -14,7 +14,9 @@ Compare vector storage with the surrounding ingestion and retrieval pipeline in 
 
 Use collections to group documents that belong to the same knowledge base, product, tenant, language, or operational purpose.
 
-A collection is the container you create before adding searchable knowledge. Think of it as the boundary for a knowledge base: a support collection can hold help-center answers, a legal collection can hold contract clauses, and a product collection can hold descriptions, policies, and troubleshooting notes. Later, you can search the collection directly with the [Semantic Search](semantic-search.md) API, expose it through [Collections MCP](/docs/mcp-utilities/collections-mcp), or attach it to an [AI Gateway](/docs/inference/ai-gateway) so retrieved documents are placed into the model context automatically.
+Create a collection before adding searchable knowledge. For example, a support collection can hold help-center answers, a legal collection can hold contract clauses, and a product collection can hold descriptions, policies, and troubleshooting notes.
+
+After adding and indexing documents, search the collection directly with the [Semantic Search](semantic-search.md) API, expose it through [Collections MCP](/docs/mcp-utilities/collections-mcp), or attach it to an [AI Gateway](/docs/inference/ai-gateway) so retrieved documents are placed into the model context automatically.
 
 Each collection has:
 
@@ -44,7 +46,9 @@ For example, a car manual should not be indexed as one document. Index separate 
 
 ## Document Fields
 
-When you import documents in JSONL, each line represents one document that can be created or updated. The important field is `docid`: it is the stable name AIVAX uses to recognize the same document on future imports. If you send the same `docid` again with different text, the existing document is updated and reindexed. If you only need to preserve extra application data, use `__meta` instead of mixing that data into the searchable text.
+When you import documents in JSONL, each line represents one document that can be created or updated. Use a stable `docid` so AIVAX can recognize the same document on future imports. Sending the same `docid` with different text updates and reindexes the existing document.
+
+For extra application data that does not belong in the searchable text, use `__meta`.
 
 The JSONL import endpoint accepts one JSON object per line:
 
