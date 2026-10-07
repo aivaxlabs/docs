@@ -213,11 +213,11 @@ When any enabled category reaches its cutoff:
 2. AIVAX replaces them with an instruction identifying the categories that caused the block.
 3. The main model generates a refusal instead of answering the original request.
 
-The refusal is model-generated; moderation does not return a fixed response body. If the safeguard cannot produce a valid moderation result, the request fails before the normal completion is generated.
+The refusal is model-generated; moderation does not return a fixed response body. If every moderation model fails to produce a valid result, the request is not rejected. The main model instead receives strict instructions derived from the configured categories, sensitivity levels, and additional rules, and applies the policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
 
 ### Context and current limitations
 
-The safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data so instructions inside the conversation cannot replace the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.
+The safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data to reduce the chance that instructions inside the conversation override the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.
 
 Moderation currently applies only to input text:
 
