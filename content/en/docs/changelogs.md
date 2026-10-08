@@ -6,6 +6,31 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Thursday, October 8th, 2026
+
+Changes:
+
+- **Documentation — New Learn section.** The documentation site now includes [Learn](/learn/), a set of 11 modules and 63 short units that explain AI agents from first concepts to production for readers without a computing background: what an agent is, language models, prompts and context, model selection and parameters, tools and integrations, knowledge and RAG, advanced workflows, evaluation and observability, safety and compliance, cost and scale, and practical case studies. Units include interactive examples, step-by-step walkthroughs, comparison tables, charts, and short quizzes, and each one can be marked as complete in the browser. Three suggested learning paths (Beginner, Developer, Business) group the modules by goal. Learn is available in English and Portuguese and is included in site search.
+
+## Wednesday, October 7th, 2026
+
+Breaking changes:
+
+- **Inference — `File` and `OtherFiles` pre-processing now cover every file.** Gateways and requests that enable only the `OtherFiles` multimodal flag now convert PDF files with OCR instead of sending them to the main model unchanged. Those that enable only the `File` flag now convert non-PDF files with OCR as well, also billed in Processing Units. Gateways and requests with both flags or `All` are not affected. To leave files unchanged, set `multimodal_resolver` (or the gateway's `multimodalResolverParameters`) without a `fileEngine`; no file type is then pre-processed.
+
+Changes:
+
+- **Inference — Per-media multimodal resolver engines.** Chat completions accept `multimodal_resolver`, and AI gateways accept `multimodalResolverParameters`, with `imageEngine`, `audioEngine`, `videoEngine`, and `fileEngine` fields. Each one selects how that content type is converted to text before inference: `InferenceLow` (smaller multimodal model; `Inference` is an alias), `InferenceHigh` (larger, more accurate multimodal model at a higher cost), `Ocr` for images and files (billed in Processing Units, like Fetch and OCR), or `Stt` for audio (speech-to-text, billed per second). OCR accepts base64 data URIs and public URLs. Inference results are cached per engine; OCR and speech-to-text are billed on every use. The `multimodal_preprocess` flags and the gateway `enabledMultimodalFeatures` setting are deprecated but keep working with the equivalent engines; the new settings take precedence when present. The gateway editor now configures one engine per content type. See [Multimodal pre-processing](inference/inference.md#multimodal-pre-processing).
+- **RAG — Document filters in the Collections MCP and the gateway query tool.** The search tool of the Collections MCP and the `query` tool of AI gateways using the `QueryFunction` query strategy accept an optional `filter` argument with the same syntax as the semantic search `filter` field, such as `tags has "faq" and updatedAt >= now-30d`. Filters are applied before the search terms are embedded; when no document matches, the tool returns no results without embedding or search charges. An invalid filter is returned to the model as a tool error. Automatic gateway RAG still does not apply filters. See [Document Filters](filters/document-filters.md).
+
+## Tuesday, October 6th, 2026
+
+Changes:
+
+- **RAG — Faster text segmentation without sanitization.** `POST /api/v1/generations/segment` requests with `sanitize` omitted or `false` no longer use a language model. Boundaries are now chosen from the document structure (headings, lists, tables, code blocks, paragraphs, and sentence ends) and the semantic similarity of neighboring passages, targeting segments of about 300 tokens. Segments cover the whole document in source order without overlap and keep the original line breaks; a boundary may fall at a sentence end inside a line. Documents of about 300 tokens or less are returned as a single segment. The response format, quotas, and per-token price are unchanged; `usage.processing_units` now reports the tokens of the submitted documents. Requests with `sanitize: true` keep the previous behavior. See [Text segmentation](rag/text-segmentation.md).
+
+- **Models — Six new semantic decision models.** Adds `@upstage/solar-decide` (Upstage Solar Decide), `@cloudflare/clef` (Cloudflare Clef), `@cloudflare/clef-flash` (Cloudflare Clef Flash), `@liquid/d1` (LiquidAI d1), `@perplexity/pplx-decider-v1-27b` (Perplexity Decider V1 27B), and `@openai/gpt-6-luna-decisions` (OpenAI GPT-6 Luna Decisions) to the semantic decision catalog. All six support `noul`, `choice`, and `score` questions through `POST /api/v1/generations/decisions` and are billed per input token at published rates with no output token charge, with existing account and plan adjustments still applying. They are not covered by the daily semantic decision allowance, which remains limited to Julia-1. Existing model identifiers remain unchanged. See [Semantic decisions](generations/decisions.md) and [Pricing](pricing.md#semantic-decisions).
+
 ## Monday, October 5th, 2026
 
 Breaking changes:
