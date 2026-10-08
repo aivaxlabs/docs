@@ -262,7 +262,7 @@ Use `multimodal_resolver` when the main model should receive a textual descripti
 
 With `InferenceLow` or `InferenceHigh`, `fileEngine` sends PDFs to the multimodal model and converts other file types with OCR. With `Ocr`, every file, including PDFs, is converted with OCR.
 
-Inference results are cached by content and engine for reuse, so the same media is not billed again. OCR and speech-to-text results are not cached and are billed on every request.
+Results are cached by content and engine for reuse, so the same media resolved with the same engine is not billed again. Changing the engine processes and bills the content again.
 
 ### Deprecated `multimodal_preprocess`
 

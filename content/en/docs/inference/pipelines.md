@@ -60,7 +60,7 @@ The gateway setting `multimodalResolverParameters` replaces the deprecated `enab
 
 Use pre-processing when the main model is text-first or when you want AIVAX to normalize media into textual context. For direct multimodal models, send the original media without pre-processing so the model can inspect it directly.
 
-Inference results are cached by content and engine for reuse. OCR and speech-to-text are billed on every use.
+Results are cached by content and engine for reuse.
 
 ## Parameterization
 
