@@ -1,0 +1,8 @@
+{{ $raw := .Get "items" | default (.Get 0) }}
+{{ $items := split $raw "|" }}
+<div class="flow{{ with .Get "direction" }} flow-{{ . }}{{ end }}" role="list">
+    {{ range $index, $item := $items }}
+    {{ if gt $index 0 }}<span class="flow-arrow" aria-hidden="true">{{ partial "icon.html" "arrow-right" }}</span>{{ end }}
+    <span class="flow-item" role="listitem">{{ trim $item " " | markdownify }}</span>
+    {{ end }}
+</div>

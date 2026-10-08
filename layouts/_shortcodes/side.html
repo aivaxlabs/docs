@@ -1,0 +1,5 @@
+{{ $tone := .Get "tone" }}
+<section class="compare-side{{ with $tone }} compare-{{ . }}{{ end }}">
+    <p class="compare-title">{{ with $tone }}{{ partial "icon.html" (cond (eq . "good") "check-circle" "close") }}{{ end }}{{ .Get "title" | markdownify }}</p>
+    {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</section>

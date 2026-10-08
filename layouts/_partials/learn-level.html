@@ -1,0 +1,4 @@
+{{- $level := .Params.level -}}
+{{- if not $level }}{{ with .Parent }}{{ $level = .Params.level }}{{ end }}{{ end -}}
+{{- $level = $level | default "beginner" -}}
+<span class="level level-{{ $level }}">{{ T (printf "level%s" (title $level)) }}</span>

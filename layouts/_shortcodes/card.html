@@ -1,0 +1,4 @@
+<section class="concept-card">
+    <p class="concept-card-title">{{ with .Get "icon" }}{{ partial "icon.html" . }}{{ end }}{{ .Get "title" | markdownify }}</p>
+    {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</section>

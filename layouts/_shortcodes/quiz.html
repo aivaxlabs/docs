@@ -1,0 +1,16 @@
+{{ $options := split (.Get "options") "|" }}
+{{ $name := printf "quiz-%s-%d" .Page.File.UniqueID .Ordinal }}
+<section class="quiz" data-quiz data-answer="{{ .Get "answer" }}" data-label-correct="{{ T "correctAnswer" }}" data-label-incorrect="{{ T "incorrectAnswer" }}">
+    <p class="quiz-title">{{ partial "icon.html" "question" }}{{ T "knowledgeCheck" }}</p>
+    <div class="quiz-question" id="{{ $name }}-question">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+    <div class="quiz-options" role="radiogroup" aria-labelledby="{{ $name }}-question">
+        {{ range $index, $option := $options }}
+        <label class="quiz-option"><input type="radio" name="{{ $name }}" value="{{ add $index 1 }}"><span>{{ trim $option " " | markdownify }}</span></label>
+        {{ end }}
+    </div>
+    <div class="quiz-actions">
+        <button type="button" class="button button-primary" data-quiz-check>{{ T "checkAnswer" }}</button>
+        <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+    </div>
+    {{ with .Get "explanation" }}<p class="quiz-explanation" data-quiz-explanation hidden>{{ . | markdownify }}</p>{{ end }}
+</section>

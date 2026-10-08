@@ -14,6 +14,9 @@
             {{ with site.GetPage "/docs" }}
             <a href="{{ .RelPermalink }}" {{ if eq $section "docs" }}aria-current="page"{{ end }}>{{ T "docs" }}</a>
             {{ end }}
+            {{ with site.GetPage "/learn" }}
+            <a href="{{ .RelPermalink }}" {{ if eq $section "learn" }}aria-current="page"{{ end }}>{{ T "learn" }}</a>
+            {{ end }}
             <a href="{{ site.Params.apiReference }}">{{ T "api" }}</a>
         </nav>
 

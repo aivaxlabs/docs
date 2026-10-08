@@ -1,0 +1,2 @@
+{{ .Parent.Scratch.Add "titles" (slice (.Get "title")) }}
+<div role="tabpanel" data-tab-panel="{{ .Ordinal }}"{{ if gt .Ordinal 0 }} hidden{{ end }}>{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>

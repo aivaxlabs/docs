@@ -1,0 +1,7 @@
+<li class="timeline-event">
+    <span class="timeline-date">{{ .Get "date" }}</span>
+    <div class="timeline-body">
+        {{ with .Get "title" }}<p class="timeline-title">{{ . | markdownify }}</p>{{ end }}
+        {{ .Inner | .Page.RenderString (dict "display" "block") }}
+    </div>
+</li>

@@ -3,7 +3,7 @@
 <head>
     {{ partial "head.html" . }}
 </head>
-<body class="layout-{{ block "layout" . }}docs{{ end }}">
+<body class="layout-{{ block "layout" . }}docs{{ end }}" data-learn-labels="{{ dict "tokens" (T "tokens") "characters" (T "characters") "temperature" (T "temperature") "sample" (T "sample") "contextSize" (T "contextSize") "fits" (T "fits") "dropped" (T "dropped") "play" (T "play") "replay" (T "replay") "monthlyCost" (T "monthlyCost") | jsonify }}">
     <a class="skip-link" href="#content">{{ T "skipToContent" }}</a>
     {{ partial "header.html" . }}
 

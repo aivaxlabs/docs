@@ -12,3 +12,10 @@ Source: {{ .Permalink }}
 
 {{ partial "markdown-body.html" . }}
 {{ end }}{{ end }}
+{{ range partialCached "learn-modules.html" . .Lang }}{{ range .units }}
+---
+
+Source: {{ .Permalink }}
+
+{{ partial "markdown-body.html" . }}
+{{ end }}{{ end }}

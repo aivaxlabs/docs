@@ -1,0 +1,7 @@
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        {{ with .Get "title" }}<p class="step-title">{{ . | markdownify }}</p>{{ end }}
+        {{ .Inner | .Page.RenderString (dict "display" "block") }}
+    </div>
+</li>

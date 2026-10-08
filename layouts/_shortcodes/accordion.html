@@ -1,0 +1,4 @@
+<details class="accordion">
+    <summary>{{ partial "icon.html" "arrow-right" }}{{ .Get "title" | markdownify }}</summary>
+    <div class="accordion-body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+</details>

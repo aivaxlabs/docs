@@ -1,0 +1,89 @@
+{{ define "layout" }}learn{{ end }}
+{{ define "sidebar" }}{{ partial "sidebar-learn.html" . }}{{ end }}
+{{ define "aside" }}{{ partial "toc.html" . }}{{ end }}
+{{ define "main" }}
+{{ $modules := partialCached "learn-modules.html" . .Lang }}
+{{ $module := .Parent }}
+{{ $entry := index (where $modules "module.RelPermalink" $module.RelPermalink) 0 }}
+{{ $units := $entry.units }}
+{{ $position := 0 }}{{ $prev := false }}{{ $next := false }}{{ $nextModule := false }}
+{{ range $index, $unit := $units }}
+    {{ if eq $unit.RelPermalink $.RelPermalink }}
+        {{ $position = add $index 1 }}
+        {{ if gt $index 0 }}{{ $prev = index $units (sub $index 1) }}{{ end }}
+        {{ if lt (add $index 1) (len $units) }}{{ $next = index $units (add $index 1) }}{{ end }}
+    {{ end }}
+{{ end }}
+{{ range $index, $item := $modules }}
+    {{ if and (eq $item.module.RelPermalink $module.RelPermalink) (lt (add $index 1) (len $modules)) }}{{ $nextModule = index $modules (add $index 1) }}{{ end }}
+{{ end }}
+
+<article class="article learn-unit" data-pagefind-body data-pagefind-meta="section:learn">
+    <div class="article-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore>
+            <a href="{{ (site.GetPage "/learn").RelPermalink }}">{{ T "learn" }}</a>
+            {{ partial "icon.html" "arrow-right" }}<a href="{{ $module.RelPermalink }}">{{ $module.Title }}</a>
+        </nav>
+        {{ partial "page-actions.html" . }}
+    </div>
+
+    {{ partial "translation-notice.html" . }}
+
+    <header class="unit-header">
+        <p class="unit-eyebrow">{{ partial "icon.html" ($module.Params.icon | default "book") }}{{ $module.Title }}</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Description }}<p class="lead">{{ . | markdownify }}</p>{{ end }}
+        <ul class="unit-meta" data-pagefind-ignore>
+            <li>{{ partial "icon.html" "layout" }}{{ printf (T "unitOf") $position (len $units) }}</li>
+            <li>{{ partial "icon.html" "time" }}{{ .Params.duration | default 8 }} {{ T "minutesShort" }}</li>
+            <li>{{ partial "learn-level.html" . }}</li>
+        </ul>
+    </header>
+
+    {{ with .Params.objectives }}
+    <section class="objectives">
+        <p class="objectives-title">{{ partial "icon.html" "lightbulb" }}{{ T "objectives" }}</p>
+        <ul>
+            {{ range . }}<li>{{ . | markdownify }}</li>{{ end }}
+        </ul>
+    </section>
+    {{ end }}
+
+    <div class="prose">
+        {{ .Content }}
+    </div>
+
+    <div class="unit-complete" data-pagefind-ignore>
+        <button type="button" class="button button-ghost" data-learn-complete="{{ .RelPermalink }}"
+            data-label-todo="{{ T "markComplete" }}" data-label-done="{{ T "completed" }}">
+            {{ partial "icon.html" "check-circle" }}<span>{{ T "markComplete" }}</span>
+        </button>
+    </div>
+
+    <nav class="pager" aria-label="Pagination" data-pagefind-ignore>
+        {{ with $prev }}
+        <a class="pager-link pager-prev" href="{{ .RelPermalink }}" rel="prev">
+            <span>{{ partial "icon.html" "arrow-left" }}{{ T "previous" }}</span>
+            <strong>{{ .LinkTitle }}</strong>
+        </a>
+        {{ else }}
+        <a class="pager-link pager-prev" href="{{ $module.RelPermalink }}">
+            <span>{{ partial "icon.html" "arrow-left" }}{{ T "backToModule" }}</span>
+            <strong>{{ $module.Title }}</strong>
+        </a>
+        {{ end }}
+        {{ with $next }}
+        <a class="pager-link pager-next" href="{{ .RelPermalink }}" rel="next" data-learn-advance="{{ $.RelPermalink }}">
+            <span>{{ T "nextUnit" }}{{ partial "icon.html" "arrow-right" }}</span>
+            <strong>{{ .LinkTitle }}</strong>
+        </a>
+        {{ else }}{{ with $nextModule }}
+        <a class="pager-link pager-next" href="{{ (index .units 0 | default .module).RelPermalink }}" rel="next" data-learn-advance="{{ $.RelPermalink }}">
+            <span>{{ T "nextModule" }}{{ partial "icon.html" "arrow-right" }}</span>
+            <strong>{{ .module.Title }}</strong>
+        </a>
+        {{ end }}{{ end }}
+    </nav>
+</article>
+{{ partial "footer.html" . }}
+{{ end }}

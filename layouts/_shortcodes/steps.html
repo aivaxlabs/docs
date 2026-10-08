@@ -1,0 +1,11 @@
+<div class="steps" data-steps data-label-of="{{ T "stepOf" }}">
+    <div class="steps-toolbar">
+        <button type="button" class="button button-ghost steps-play" data-steps-play data-label-play="{{ T "play" }}" data-label-replay="{{ T "replay" }}">{{ partial "icon.html" "play" }}<span>{{ T "play" }}</span></button>
+        <span class="steps-counter" data-steps-counter></span>
+        <span class="steps-nav">
+            <button type="button" class="icon-button" data-steps-prev aria-label="{{ T "stepPrevious" }}">{{ partial "icon.html" "arrow-left" }}</button>
+            <button type="button" class="icon-button" data-steps-next aria-label="{{ T "stepNext" }}">{{ partial "icon.html" "arrow-right" }}</button>
+        </span>
+    </div>
+    <ol class="steps-list">{{ .Inner | safeHTML }}</ol>
+</div>

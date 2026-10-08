@@ -1,0 +1,30 @@
+{{ $currentModule := "" }}
+{{ if eq .Kind "section" }}{{ $currentModule = .RelPermalink }}{{ else }}{{ with .Parent }}{{ $currentModule = .RelPermalink }}{{ end }}{{ end }}
+<aside class="sidebar sidebar-learn" id="sidebar" aria-label="{{ T "learn" }}">
+    <nav class="sidebar-nav">
+        <a class="sidebar-learn-home" href="{{ (site.GetPage "/learn").RelPermalink }}">{{ partial "icon.html" "arrow-left" }}{{ T "allModules" }}</a>
+        {{ range partialCached "learn-modules.html" . .Lang }}
+        {{ $units := slice }}{{ range .units }}{{ $units = $units | append .RelPermalink }}{{ end }}
+        <details class="nav-module" {{ if eq .module.RelPermalink $currentModule }}open{{ end }}>
+            <summary>
+                {{ partial "icon.html" (.module.Params.icon | default "book") }}
+                <span class="nav-module-title">{{ .module.Title }}</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="{{ $units | jsonify }}">{{ len .units }}</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="{{ .module.RelPermalink }}" {{ if eq .module.RelPermalink $.RelPermalink }}aria-current="page"{{ end }}>{{ T "module" }}</a>
+                </li>
+                {{ range .units }}
+                <li>
+                    <a href="{{ .RelPermalink }}" data-learn-unit="{{ .RelPermalink }}" {{ if eq .RelPermalink $.RelPermalink }}aria-current="page"{{ end }}>
+                        <span class="unit-check">{{ partial "icon.html" "check-circle-fill" }}</span>
+                        <span>{{ .LinkTitle }}</span>
+                    </a>
+                </li>
+                {{ end }}
+            </ul>
+        </details>
+        {{ end }}
+    </nav>
+</aside>

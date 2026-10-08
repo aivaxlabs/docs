@@ -1,0 +1,11 @@
+{{- $module := .module -}}
+{{- $width := .width | default 640 -}}
+{{- $class := .class | default "module-card-cover" -}}
+{{- $image := false -}}
+{{- with $module.Params.cover }}{{ $image = resources.Get . }}{{ end -}}
+{{- with $image -}}
+    {{- $resized := .Resize (printf "%dx webp q85" $width) -}}
+    <img class="{{ $class }}" src="{{ $resized.RelPermalink }}" width="{{ $resized.Width }}" height="{{ $resized.Height }}" alt="" loading="lazy">
+{{- else -}}
+    <span class="{{ $class }} module-cover-fallback">{{ partial "icon.html" ($module.Params.icon | default "book") }}</span>
+{{- end -}}

@@ -1,0 +1,11 @@
+{{ $id := printf "tabs-%s-%d" .Page.File.UniqueID .Ordinal }}
+{{ $inner := .Inner }}
+{{ $titles := .Scratch.Get "titles" | default slice }}
+<div class="tab-group learn-tabs">
+    <div role="tablist">
+        {{ range $index, $title := $titles }}
+        <button type="button" role="tab" id="{{ $id }}-tab-{{ $index }}" aria-controls="{{ $id }}-panel-{{ $index }}" aria-selected="{{ eq $index 0 }}" tabindex="{{ cond (eq $index 0) 0 -1 }}">{{ $title }}</button>
+        {{ end }}
+    </div>
+    {{ $inner | replaceRE `data-tab-panel="(\d+)"` (printf `id="%s-panel-$1" aria-labelledby="%s-tab-$1"` $id $id) | safeHTML }}
+</div>

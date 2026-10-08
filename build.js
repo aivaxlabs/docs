@@ -120,7 +120,8 @@ Rules:
 - Do not translate script-header file names, language names, code fence titles, CLI commands or HTML tag names.
 - Keep the same Markdown structure, headings, lists, tables, code fences, attributes and alert markers such as [!NOTE], [!TIP], [!IMPORTANT], [!WARNING] and [!CAUTION].
 - Keep every link target and anchor unchanged. The build script localizes documentation links after translation.
-- Preserve YAML structure and keys. Translate only front matter values title, linkTitle and description; copy all other keys and values exactly.
+- Preserve YAML structure and keys. Translate only front matter values title, linkTitle and description, the objectives list items, and the title and description of each paths item; copy all other keys and values exactly.
+- "Learn" is the name of the AIVAX learning section; keep it in English when it names the section, as in "AIVAX Learn" or "How Learn works".
 - Reply ONLY with the translated document: no greetings, advice, comments or wrapping code fence.
 File: ${job.rel}
 <translation-input>
@@ -165,6 +166,16 @@ ${job.text}
                         if (typeof translated.data[key] !== 'string') throw new Error(`Missing translated front matter: ${key}`);
                         data[key] = translated.data[key];
                     }
+                }
+                if (Array.isArray(source.data.objectives)) {
+                    const objectives = translated.data.objectives;
+                    if (!Array.isArray(objectives) || objectives.length !== source.data.objectives.length) throw new Error('Structure mismatch: objectives');
+                    data.objectives = objectives;
+                }
+                if (Array.isArray(source.data.paths)) {
+                    const paths = translated.data.paths;
+                    if (!Array.isArray(paths) || paths.length !== source.data.paths.length) throw new Error('Structure mismatch: paths');
+                    data.paths = source.data.paths.map((item, index) => ({ ...item, title: paths[index].title, description: paths[index].description }));
                 }
                 const prefix = `/docs/${job.lang}/`;
                 if (data.aliases) data.aliases = data.aliases.map(alias => alias.startsWith('/docs/')
@@ -229,7 +240,7 @@ async function build(options) {
     try {
         const { index, errors } = await pagefind.createIndex({ excludeSelectors: ['.heading-anchor', '.code-header'] });
         if (errors?.length) throw new Error(errors.join('\n'));
-        const result = await index.addDirectory({ path: SITE, glob: '{docs/**/*.html,pt-br/docs/**/*.html}' });
+        const result = await index.addDirectory({ path: SITE, glob: '{docs/**/*.html,learn/**/*.html,pt-br/docs/**/*.html,pt-br/learn/**/*.html}' });
         if (result.errors?.length) throw new Error(result.errors.join('\n'));
         const written = await index.writeFiles({ outputPath: path.join(SITE, 'pagefind') });
         if (written.errors?.length) throw new Error(written.errors.join('\n'));

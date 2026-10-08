@@ -14,3 +14,8 @@ Embedded API references are represented by endpoint links in Markdown; their rem
 
 {{ range .pages }}- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }}){{ with .Summary | plainify | htmlUnescape | strings.TrimSpace }}: {{ . | replaceRE `\s+` " " | truncate 160 | htmlUnescape }}{{ end }}
 {{ end }}{{ end }}
+{{ range partialCached "learn-modules.html" . .Lang }}
+## Learn: {{ .module.Title }}
+
+{{ range .units }}- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }}){{ with .Description | plainify | htmlUnescape | strings.TrimSpace }}: {{ . | replaceRE `\s+` " " | truncate 160 | htmlUnescape }}{{ end }}
+{{ end }}{{ end }}

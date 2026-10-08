@@ -1,0 +1,6 @@
+{{ define "layout" }}{{ if eq .Path "/learn" }}learn-hub{{ else }}learn{{ end }}{{ end }}
+{{ define "sidebar" }}{{ if ne .Path "/learn" }}{{ partial "sidebar-learn.html" . }}{{ end }}{{ end }}
+{{ define "main" }}
+{{ if eq .Path "/learn" }}{{ partial "learn-hub.html" . }}{{ else }}{{ partial "learn-module.html" . }}{{ end }}
+{{ partial "footer.html" . }}
+{{ end }}

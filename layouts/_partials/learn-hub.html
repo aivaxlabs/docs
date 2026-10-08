@@ -1,0 +1,51 @@
+{{ $modules := partialCached "learn-modules.html" . .Lang }}
+<section class="learn-hero">
+    <p class="learn-eyebrow">{{ partial "icon.html" "graduation" }}{{ T "learnEyebrow" }}</p>
+    <h1>{{ .Title }}</h1>
+    <p class="learn-lead">{{ .Description | default (T "learnLead") }}</p>
+    {{ with index $modules 0 }}{{ with index .units 0 }}
+    <div class="hero-actions">
+        <a class="button button-primary" href="{{ .RelPermalink }}">{{ T "getStarted" }}{{ partial "icon.html" "arrow-right" }}</a>
+    </div>
+    {{ end }}{{ end }}
+</section>
+
+{{ with .Params.paths }}
+<section class="learn-paths" aria-label="Learning paths">
+    {{ range . }}
+    <article class="learn-path">
+        <h2>{{ partial "icon.html" (.icon | default "compass") }}{{ .title }}</h2>
+        <p>{{ .description }}</p>
+        <ol>
+            {{ range .modules }}
+            {{ with site.GetPage (printf "/learn/%s" .) }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+            {{ end }}
+        </ol>
+    </article>
+    {{ end }}
+</section>
+{{ end }}
+
+<section class="learn-modules" aria-label="{{ T "allModules" }}">
+    <h2>{{ T "allModules" }}</h2>
+    <div class="module-grid">
+        {{ range $modules }}
+        {{ $units := slice }}{{ range .units }}{{ $units = $units | append .RelPermalink }}{{ end }}
+        <a class="module-card" href="{{ .module.RelPermalink }}">
+            {{ partial "learn-cover.html" (dict "module" .module "width" 640) }}
+            <div class="module-card-body">
+                <p class="module-card-level">{{ partial "learn-level.html" .module }}</p>
+                <strong>{{ partial "icon.html" (.module.Params.icon | default "book") }}{{ .module.Title }}</strong>
+                <span class="module-card-description">{{ .module.Description | plainify }}</span>
+                <span class="module-card-meta">{{ len .units }} {{ T "units" }} · {{ .minutes }} {{ T "minutesShort" }}</span>
+                <span class="progress" data-learn-progress data-learn-units="{{ $units | jsonify }}" data-template="{{ T "unitsCompleted" }}">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        {{ end }}
+    </div>
+</section>
+
+{{ with .Content }}<article class="article learn-hub-article"><div class="prose">{{ . }}</div></article>{{ end }}

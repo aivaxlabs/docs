@@ -1,0 +1,9 @@
+{{- $modules := slice -}}
+{{- with site.GetPage "/learn" -}}
+    {{- range .Sections.ByWeight -}}
+        {{- $minutes := 0 -}}
+        {{- range .RegularPages.ByWeight }}{{ $minutes = add $minutes (.Params.duration | default 8) }}{{ end -}}
+        {{- $modules = $modules | append (dict "module" . "units" .RegularPages.ByWeight "minutes" $minutes) -}}
+    {{- end -}}
+{{- end -}}
+{{- return $modules -}}

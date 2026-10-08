@@ -1,0 +1,5 @@
+<section class="demo" data-demo="{{ .Get "name" }}"{{ with .Get "config" }} data-config="{{ . }}"{{ end }}>
+    <p class="demo-title">{{ partial "icon.html" "sparkle" }}{{ .Get "title" | default (T "interactiveDemo") }}</p>
+    {{ with .Inner }}<div class="demo-intro">{{ . | $.Page.RenderString (dict "display" "block") }}</div>{{ end }}
+    <div class="demo-stage" data-demo-stage></div>
+</section>

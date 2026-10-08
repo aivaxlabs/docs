@@ -1,0 +1,52 @@
+{{ $modules := partialCached "learn-modules.html" . .Lang }}
+{{ $entry := index (where $modules "module.RelPermalink" .RelPermalink) 0 }}
+{{ $units := slice }}{{ range $entry.units }}{{ $units = $units | append .RelPermalink }}{{ end }}
+<article class="article learn-module">
+    <div class="article-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore>
+            <a href="{{ (site.GetPage "/learn").RelPermalink }}">{{ T "learn" }}</a>
+        </nav>
+        {{ partial "page-actions.html" . }}
+    </div>
+
+    {{ partial "translation-notice.html" . }}
+
+    <header class="module-header">
+        {{ partial "learn-cover.html" (dict "module" . "width" 1200 "class" "module-cover") }}
+        <p class="unit-eyebrow">{{ T "module" }} · {{ partial "learn-level.html" . }}</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Description }}<p class="lead">{{ . | markdownify }}</p>{{ end }}
+        <ul class="unit-meta">
+            <li>{{ partial "icon.html" "layout" }}{{ len $entry.units }} {{ T "units" }}</li>
+            <li>{{ partial "icon.html" "time" }}{{ $entry.minutes }} {{ T "minutesShort" }}</li>
+        </ul>
+        <div class="module-progress">
+            <span class="progress" data-learn-progress data-learn-units="{{ $units | jsonify }}" data-template="{{ T "unitsCompleted" }}">
+                <span class="progress-bar"><span class="progress-value"></span></span>
+                <span class="progress-text"></span>
+            </span>
+            <a class="button button-primary" href="{{ (index $entry.units 0).RelPermalink }}" data-learn-start data-learn-units="{{ $units | jsonify }}"
+                data-label-start="{{ T "startModule" }}" data-label-continue="{{ T "continueModule" }}" data-label-review="{{ T "reviewModule" }}">
+                <span>{{ T "startModule" }}</span>{{ partial "icon.html" "arrow-right" }}
+            </a>
+        </div>
+    </header>
+
+    {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+
+    <ol class="unit-list">
+        {{ range $index, $unit := $entry.units }}
+        <li>
+            <a class="unit-card" href="{{ .RelPermalink }}" data-learn-unit="{{ .RelPermalink }}">
+                <span class="unit-card-index"><span class="unit-check">{{ partial "icon.html" "check" }}</span><span class="unit-number">{{ add $index 1 }}</span></span>
+                <span class="unit-card-body">
+                    <strong>{{ .Title }}</strong>
+                    <span class="unit-card-description">{{ .Description | default .Summary | plainify | truncate 180 }}</span>
+                    <span class="unit-card-meta">{{ partial "icon.html" "time" }}{{ .Params.duration | default 8 }} {{ T "minutesShort" }}</span>
+                </span>
+                {{ partial "icon.html" "arrow-right" }}
+            </a>
+        </li>
+        {{ end }}
+    </ol>
+</article>

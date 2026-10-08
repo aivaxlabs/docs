@@ -1,4 +1,5 @@
 import { initSearch } from './search.js';
+import { initLearn } from './learn.js';
 
 const root = document.documentElement;
 const darkQuery = matchMedia('(prefers-color-scheme: dark)');
@@ -141,3 +142,4 @@ if (diagrams.length) {
 }
 
 initSearch();
+initLearn();

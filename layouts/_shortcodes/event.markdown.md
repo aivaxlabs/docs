@@ -1,0 +1,1 @@
+- **{{ .Get "date" }} — {{ .Get "title" }}**: {{ .Inner | strings.TrimSpace }}

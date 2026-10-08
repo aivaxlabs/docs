@@ -1,0 +1,67 @@
+{{ $type := .Get "type" | default "bar" }}
+{{ $data := .Get "data" | transform.Unmarshal }}
+{{ $unit := .Get "unit" | default "" }}
+{{ $palette := slice (safeCSS "var(--chart-1)") (safeCSS "var(--chart-2)") (safeCSS "var(--chart-3)") (safeCSS "var(--chart-4)") (safeCSS "var(--chart-5)") (safeCSS "var(--chart-6)") }}
+<figure class="chart chart-type-{{ $type }}">
+    {{ with .Get "title" }}<figcaption class="chart-title">{{ . }}</figcaption>{{ end }}
+    {{ if eq $type "bar" }}
+    {{ $max := 0.0 }}{{ range $data }}{{ if gt .value $max }}{{ $max = .value }}{{ end }}{{ end }}
+    <div class="chart-bars" role="img" aria-label="{{ $.Get "title" }}">
+        {{ range $index, $item := $data }}
+        <div class="chart-row">
+            <span class="chart-label">{{ .label }}</span>
+            <span class="chart-track"><span class="chart-bar" style="--value: {{ if gt $max 0.0 }}{{ div (mul .value 100.0) $max }}{{ else }}0{{ end }}%; --color: {{ index $palette (mod $index (len $palette)) }}"></span></span>
+            <span class="chart-value">{{ .value }}{{ $unit }}</span>
+        </div>
+        {{ end }}
+    </div>
+    {{ else if or (eq $type "pie") (eq $type "donut") }}
+    {{ $total := 0.0 }}{{ range $data }}{{ $total = add $total .value }}{{ end }}
+    {{ $offset := 0.0 }}
+    <div class="chart-pie-wrap">
+        <svg class="chart-pie" viewBox="0 0 42 42" role="img" aria-label="{{ $.Get "title" }}">
+            {{ range $index, $item := $data }}
+            {{ $share := cond (gt $total 0.0) (div (mul .value 100.0) $total) 0.0 }}
+            <circle r="{{ if eq $type "donut" }}15.915{{ else }}9.5{{ end }}" cx="21" cy="21" fill="transparent" stroke="{{ index $palette (mod $index (len $palette)) }}" stroke-width="{{ if eq $type "donut" }}7{{ else }}19{{ end }}" pathLength="100" stroke-dasharray="{{ $share }} {{ sub 100.0 $share }}" stroke-dashoffset="{{ sub 25.0 $offset }}"></circle>
+            {{ $offset = add $offset $share }}
+            {{ end }}
+        </svg>
+        <ul class="chart-legend">
+            {{ range $index, $item := $data }}
+            <li><span class="chart-swatch" style="--color: {{ index $palette (mod $index (len $palette)) }}"></span>{{ .label }} <span class="chart-value">{{ .value }}{{ $unit }}{{ if gt $total 0.0 }} · {{ math.Round (div (mul .value 100.0) $total) }}%{{ end }}</span></li>
+            {{ end }}
+        </ul>
+    </div>
+    {{ else if eq $type "line" }}
+    {{ $labels := $data.labels }}
+    {{ $max := 0.0 }}{{ range $data.series }}{{ range .values }}{{ if gt . $max }}{{ $max = . }}{{ end }}{{ end }}{{ end }}
+    {{ $width := 600.0 }}{{ $height := 220.0 }}{{ $pad := 24.0 }}
+    {{ $count := len $labels }}
+    <svg class="chart-line" viewBox="0 0 {{ $width }} {{ add $height 36.0 }}" role="img" aria-label="{{ $.Get "title" }}">
+        {{ range $tick := slice 0 1 2 3 4 }}
+        {{ $y := sub (sub $height $pad) (mul (div (sub $height (mul $pad 2.0)) 4.0) $tick) }}
+        <line class="chart-grid" x1="{{ $pad }}" y1="{{ $y }}" x2="{{ sub $width $pad }}" y2="{{ $y }}"></line>
+        {{ end }}
+        {{ range $seriesIndex, $series := $data.series }}
+        {{ $points := slice }}
+        {{ range $index, $value := $series.values }}
+        {{ $x := cond (gt $count 1) (add $pad (mul (div (sub $width (mul $pad 2.0)) (sub $count 1)) $index)) (div $width 2.0) }}
+        {{ $y := sub (sub $height $pad) (cond (gt $max 0.0) (mul (div $value $max) (sub $height (mul $pad 2.0))) 0.0) }}
+        {{ $points = $points | append (printf "%.1f,%.1f" $x $y) }}
+        {{ end }}
+        <polyline class="chart-series" points="{{ delimit $points " " }}" style="--color: {{ index $palette (mod $seriesIndex (len $palette)) }}"></polyline>
+        {{ range $points }}{{ $xy := split . "," }}<circle class="chart-point" cx="{{ index $xy 0 }}" cy="{{ index $xy 1 }}" r="3.5" style="--color: {{ index $palette (mod $seriesIndex (len $palette)) }}"></circle>{{ end }}
+        {{ end }}
+        {{ range $index, $label := $labels }}
+        {{ $x := cond (gt $count 1) (add $pad (mul (div (sub $width (mul $pad 2.0)) (sub $count 1)) $index)) (div $width 2.0) }}
+        <text class="chart-axis" x="{{ $x }}" y="{{ add $height 8.0 }}" text-anchor="middle">{{ $label }}</text>
+        {{ end }}
+    </svg>
+    {{ if gt (len $data.series) 1 }}
+    <ul class="chart-legend chart-legend-inline">
+        {{ range $index, $series := $data.series }}<li><span class="chart-swatch" style="--color: {{ index $palette (mod $index (len $palette)) }}"></span>{{ .name }}</li>{{ end }}
+    </ul>
+    {{ end }}
+    {{ end }}
+    {{ with .Get "caption" }}<p class="chart-caption">{{ . | markdownify }}</p>{{ end }}
+</figure>

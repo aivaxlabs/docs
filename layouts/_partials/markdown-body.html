@@ -1,5 +1,6 @@
 {{- $page := . -}}
 {{- $body := .RawContent -}}
+{{- if eq .Section "learn" }}{{ $body = .RenderShortcodes | string | replaceRE `\n{3,}` "\n\n" }}{{ end -}}
 {{- range findRE `<script\s+src="https://inference\.aivax\.net/apidocs\?[^"\n]+"\s*>\s*</script>` $body -}}
     {{- $src := replaceRE `^<script\s+src="([^"]+)"[\s\S]*$` "$1" . | htmlUnescape -}}
     {{- $endpoint := replaceRE `^.*[?&]embed-target=([^&]+).*$` "$1" $src -}}
