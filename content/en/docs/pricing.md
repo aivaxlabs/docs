@@ -35,6 +35,12 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | `@respan/span-01` | **$0.020** |
 | `@respan/span-01-lite` | **$0.000** |
 | `@jaredpalmer/kev-4b` | **$0.042** |
+| `@upstage/solar-decide` | **$0.050** |
+| `@cloudflare/clef` | **$0.240** |
+| `@cloudflare/clef-flash` | **$0.090** |
+| `@liquid/d1` | **$0.040** |
+| `@perplexity/pplx-decider-v1-27b` | **$0.040** |
+| `@openai/gpt-6-luna-decisions` | **$0.100** |
 
 See [Semantic decisions](generations/decisions.md) for model selection and how input usage is measured.
 

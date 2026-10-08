@@ -63,6 +63,7 @@ With the default naming convention, the read tool is named:
 It accepts:
 
 - `search_terms` (`string[]`): one or more search terms.
+- `filter` (`string`, optional): a [document filter](../filters/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
 The MCP read tool enforces two request-shaping limits:
 

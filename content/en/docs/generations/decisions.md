@@ -21,6 +21,12 @@ All models below support `choice`, `noul`, and `score`. See [Pricing](../pricing
 | `@respan/span-01` |
 | `@respan/span-01-lite` |
 | `@jaredpalmer/kev-4b` |
+| `@upstage/solar-decide` |
+| `@cloudflare/clef` |
+| `@cloudflare/clef-flash` |
+| `@liquid/d1` |
+| `@perplexity/pplx-decider-v1-27b` |
+| `@openai/gpt-6-luna-decisions` |
 
 `@typesafe/jev` is also accepted and currently resolves to `@typesafe/jev-1.13`. An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 

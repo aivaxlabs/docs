@@ -24,7 +24,9 @@ Watch the failure modes of messy sources. Tables lose their headers, OCR drops l
 
 Supply complete source text whenever possible. Segments are most useful when the source has clear headings, paragraphs, and complete statements. Review results from tables, OCR, transcripts, or documents with repeated headers before indexing them.
 
-Use sanitization only when omitted content is genuinely irrelevant to retrieval. When exact source wording, legal fidelity, or full traceability matters, retain and review the source text instead.
+Without sanitization, segments target about 300 tokens and cover the whole document in source order, without overlap. Boundaries follow the document structure and the semantic similarity of neighboring passages; documents of about that size or smaller are returned as one segment.
+
+Use sanitization only when omitted content is genuinely irrelevant to retrieval. Sanitized requests are processed by a language model and take longer. When exact source wording, legal fidelity, or full traceability matters, retain and review the source text instead.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 

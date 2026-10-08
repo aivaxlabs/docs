@@ -215,7 +215,7 @@ Use `idempotency_key` and `metadata` to correlate these records with your own wo
 
 ## Multimodal pre-processing
 
-Use `multimodal_preprocess` when the main model should receive a textual description of media instead of the original media object. This is useful for text-first models or when you want AIVAX to normalize files before the main inference.
+Use `multimodal_resolver` when the main model should receive a textual description of media instead of the original media object. This is useful for text-first models or when you want AIVAX to normalize files before the main inference. The object chooses an engine for each content type; omitted or `null` types are sent to the main model unchanged.
 
 ```json
 {
@@ -238,20 +238,46 @@ Use `multimodal_preprocess` when the main model should receive a textual descrip
             ]
         }
     ],
-    "multimodal_preprocess": "File"
+    "multimodal_resolver": {
+        "imageEngine": "InferenceLow",
+        "audioEngine": "Stt",
+        "fileEngine": "InferenceHigh"
+    }
 }
 ```
 
-Available pre-processing flags are:
+| Field | Accepted engines |
+| --- | --- |
+| `imageEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
+| `audioEngine` | `InferenceLow`, `InferenceHigh`, `Stt` |
+| `videoEngine` | `InferenceLow`, `InferenceHigh` |
+| `fileEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
 
-- `Image`
-- `Audio`
-- `Video`
-- `File`
-- `OtherFiles`
-- `All`
+`Inference` is accepted as an alias of `InferenceLow`. The engines work as follows:
 
-The resolver caches media descriptions by content hash for reuse. `Image`, `Audio`, `Video`, and PDF `File` pre-processing use auxiliary multimodal inference. Supported non-PDF files use local text extraction.
+- `InferenceLow` describes the content with a smaller, lower-cost multimodal model.
+- `InferenceHigh` describes the content with a larger multimodal model that is more accurate and costs more.
+- `Ocr` extracts the text of images and files with the same extraction service as [Fetch and OCR](../web-foundation/fetch-and-ocr.md), billed in Processing Units. It accepts base64 data URIs and public URLs.
+- `Stt` transcribes the speech in the audio with the default [speech-to-text](../pricing.md) model and is billed per second of audio. Music and ambient sounds are not described.
+
+With `InferenceLow` or `InferenceHigh`, `fileEngine` sends PDFs to the multimodal model and converts other file types with OCR. With `Ocr`, every file, including PDFs, is converted with OCR.
+
+Inference results are cached by content and engine for reuse, so the same media is not billed again. OCR and speech-to-text results are not cached and are billed on every request.
+
+### Deprecated `multimodal_preprocess`
+
+The `multimodal_preprocess` flags remain accepted for compatibility but are deprecated. Use `multimodal_resolver` instead; when both are sent, `multimodal_resolver` is used. The flags map to the new engines as follows:
+
+| Legacy flag | Equivalent |
+| --- | --- |
+| `Image` | `imageEngine: "InferenceLow"` |
+| `Audio` | `audioEngine: "InferenceLow"` |
+| `Video` | `videoEngine: "InferenceLow"` |
+| `File` | `fileEngine: "InferenceLow"` |
+| `OtherFiles` | `fileEngine: "Ocr"` |
+| `All` | All of the above, with `fileEngine: "InferenceLow"` |
+
+Because one engine now covers every file type, `OtherFiles` alone also converts PDFs with OCR, and `File` alone also converts non-PDF files with OCR. Previously, the file types outside the selected flag were sent to the main model unchanged.
 
 Multimodal inputs can have account requirements. Review [Pricing](../pricing.md) and [Plans and limits](../limits.md) before using them in production.
 
@@ -259,7 +285,7 @@ When a multimodal inference fails, narrow down the problem:
 
 1. Test a simple text message with the same model.
 2. Test one small attachment.
-3. Test the same attachment with `multimodal_preprocess`.
+3. Test the same attachment with `multimodal_resolver`.
 4. Review the URL, format, size, and model modality support.
 
 ## Structured responses

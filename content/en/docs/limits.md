@@ -94,6 +94,12 @@ These model-specific limits apply in addition to the account-level request quota
 | `@respan/span-01` | Not specified in the current catalog |
 | `@respan/span-01-lite` | Not specified in the current catalog |
 | `@jaredpalmer/kev-4b` | 8,192 tokens |
+| `@upstage/solar-decide` | 524,288 tokens |
+| `@cloudflare/clef` | 65,536 tokens |
+| `@cloudflare/clef-flash` | 65,536 tokens |
+| `@liquid/d1` | 65,536 tokens |
+| `@perplexity/pplx-decider-v1-27b` | 262,144 tokens |
+| `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
 
 Julia-1 has additional serving limits:
 

@@ -34,7 +34,12 @@ The field accepts a string or an array of strings. Array items are combined with
 
 A missing or `null` field means no filter. The field name is `filter`; other names, such as `filters`, are ignored and the search runs without a filter.
 
-Filters are not available in AI gateway RAG or in the [Collections MCP](../mcp-utilities/collections-mcp.md).
+Models can also send a filter string in the optional `filter` argument of these tools:
+
+- The search tool of the [Collections MCP](../mcp-utilities/collections-mcp.md#generated-tools).
+- The `query` tool of AI gateways that use the `QueryFunction` [query strategy](../inference/pipelines.md).
+
+Automatic gateway RAG, which searches before the model call, does not apply filters. An invalid filter in a tool call is returned to the model as a tool error with the same message as the API.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 

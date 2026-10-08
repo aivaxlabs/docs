@@ -27,7 +27,7 @@ Query strategies:
 - `Concatenate`: Joins the latest configured number of user messages line by line and searches with the combined text.
 - `UserRewrite`: Rewrites recent user messages into one or more search queries using a resolver model.
 - `FullRewrite`: Rewrites recent user and assistant messages into one or more search queries using a resolver model.
-- `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses.
+- `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses. The model can narrow a search with an optional [document filter](/docs/filters/document-filters).
 
 Rewrite strategies add resolver-model cost (see [Pricing](/docs/pricing)) and latency. They are useful when users ask follow-up questions such as "what about this case?" because the resolver can turn the recent conversation into a clearer search query.
 
@@ -54,11 +54,13 @@ Read more about [skills](/docs/features/skills).
 
 ## Multimodal pre-processing
 
-Multimodal pre-processing converts selected media content into text before the main model call. The available flags are `Image`, `Audio`, `Video`, `File`, `OtherFiles`, and `All`.
+Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](/docs/inference/inference#multimodal-pre-processing) for the accepted engines.
+
+The gateway setting `multimodalResolverParameters` replaces the deprecated `enabledMultimodalFeatures` flags. Gateways that still use the flags keep working with the equivalent engines until `multimodalResolverParameters` is set.
 
 Use pre-processing when the main model is text-first or when you want AIVAX to normalize media into textual context. For direct multimodal models, send the original media without pre-processing so the model can inspect it directly.
 
-Media descriptions are cached by content hash for reuse.
+Inference results are cached by content and engine for reuse. OCR and speech-to-text are billed on every use.
 
 ## Parameterization
 
