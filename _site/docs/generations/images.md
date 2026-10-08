@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/docs/generations/images.html
+Source: http://localhost:1313/docs/generations/images.html
 
 # Image Generation
 
 Use Image Generation to create images from a text prompt in an application workflow. Typical uses include draft illustrations for editorial review, product mockups, marketing variations for A/B testing, and placeholder art that a designer refines later.
 
-Authenticate requests with an AIVAX API key. See [Authentication](https://docs.aivax.net/docs/authentication.md) for authorization guidance.
+Authenticate requests with an AIVAX API key. See [Authentication](http://localhost:1313/docs/authentication.md) for authorization guidance.
 
 ## Choose a model
 
@@ -24,7 +24,7 @@ The embedded reference is the source of truth for the request shape, supported o
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Generate%20images)
 
-To let an MCP-compatible agent or IDE generate images without calling this endpoint directly, use the [Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md).
+To let an MCP-compatible agent or IDE generate images without calling this endpoint directly, use the [Media generation MCP](http://localhost:1313/docs/mcp-utilities/media-generation-mcp.md).
 
 ## Pricing, limits, and errors
 
@@ -32,4 +32,4 @@ The Models catalog lists a fixed price per output image and, where applicable, a
 
 These tariffs use rounded-up estimates where the provider bills tokens or megapixels; they are not the provider's exact charge for each request. Prompt processing is included in the output tariff, with no separate token charge. No AIVAX image-generation markup or account and plan pricing multiplier is added. Only delivered images count toward the image charge.
 
-For current pricing, availability, and account limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md). If a request fails, revise the reported validation issue before retrying.
+For current pricing, availability, and account limits, see [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](http://localhost:1313/docs/limits.md). If a request fails, revise the reported validation issue before retrying.

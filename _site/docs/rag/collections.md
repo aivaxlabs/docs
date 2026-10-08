@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/rag/collections.html
+Source: http://localhost:1313/docs/rag/collections.html
 
 # Collections and Documents
 
@@ -12,7 +12,9 @@ Compare vector storage with the surrounding ingestion and retrieval pipeline in 
 
 Use collections to group documents that belong to the same knowledge base, product, tenant, language, or operational purpose.
 
-A collection is the container you create before adding searchable knowledge. Think of it as the boundary for a knowledge base: a support collection can hold help-center answers, a legal collection can hold contract clauses, and a product collection can hold descriptions, policies, and troubleshooting notes. Later, you can search the collection directly with the [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md) API, expose it through [Collections MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md), or attach it to an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) so retrieved documents are placed into the model context automatically.
+Create a collection before adding searchable knowledge. For example, a support collection can hold help-center answers, a legal collection can hold contract clauses, and a product collection can hold descriptions, policies, and troubleshooting notes.
+
+After adding and indexing documents, search the collection directly with the [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md) API, expose it through [Collections MCP](http://localhost:1313/docs/mcp-utilities/collections-mcp.md), or attach it to an [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md) so retrieved documents are placed into the model context automatically.
 
 Each collection has:
 
@@ -22,7 +24,7 @@ Each collection has:
 - A set of documents.
 - Usage statistics based on RAG transactions.
 
-Collection availability and account limits depend on the current account configuration. See [Plans and limits](https://docs.aivax.net/docs/limits.md) before creating collections for production use.
+Collection availability and account limits depend on the current account configuration. See [Plans and limits](http://localhost:1313/docs/limits.md) before creating collections for production use.
 
 ## Documents
 
@@ -38,11 +40,13 @@ A good document usually has:
 - Optional metadata for application-specific data.
 - An optional reference ID when the document is one chunk of a larger logical item.
 
-For example, a car manual should not be indexed as one document. Index separate documents for topics such as starting the vehicle, checking tire pressure, pairing Bluetooth, and replacing a headlight. Each document should include enough context to be read independently. For broader chunking guidance, see [Best Practices for RAG](https://docs.aivax.net/docs/rag/best-practices.md); for query behavior after indexing, see [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md).
+For example, a car manual should not be indexed as one document. Index separate documents for topics such as starting the vehicle, checking tire pressure, pairing Bluetooth, and replacing a headlight. Each document should include enough context to be read independently. For broader chunking guidance, see [Best Practices for RAG](http://localhost:1313/docs/rag/best-practices.md); for query behavior after indexing, see [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md).
 
 ## Document Fields
 
-When you import documents in JSONL, each line represents one document that can be created or updated. The important field is `docid`: it is the stable name AIVAX uses to recognize the same document on future imports. If you send the same `docid` again with different text, the existing document is updated and reindexed. If you only need to preserve extra application data, use `__meta` instead of mixing that data into the searchable text.
+When you import documents in JSONL, each line represents one document that can be created or updated. Use a stable `docid` so AIVAX can recognize the same document on future imports. Sending the same `docid` with different text updates and reindexes the existing document.
+
+For extra application data that does not belong in the searchable text, use `__meta`.
 
 The JSONL import endpoint accepts one JSON object per line:
 
@@ -77,7 +81,7 @@ When search reference expansion is enabled, if one chunk matches, other document
 
 ## Media File Import
 
-The AIVAX dashboard can upload a source file and process it into RAG documents with [Media Injector](https://docs.aivax.net/docs/rag/media-injector.md). Use it when you have a source file but do not already have focused, self-contained document text prepared for direct or JSONL import.
+The AIVAX dashboard can upload a source file and process it into RAG documents with [Media Injector](http://localhost:1313/docs/rag/media-injector.md). Use it when you have a source file but do not already have focused, self-contained document text prepared for direct or JSONL import.
 
 The original file name is normalized to Unicode NFC and preserved during upload, including accented letters, non-Latin scripts, typographic punctuation, and other Unicode characters. You do not need to rename a file to an ASCII-only name before importing it.
 
@@ -87,9 +91,9 @@ A Media Injector job is created only after every file chunk has uploaded and the
 
 Batch import is sent as a JSONL file in the `documents` multipart field.
 
-Use batch import when you already have many documents prepared outside AIVAX, such as chunks generated from PDFs, product catalogs, policies, or help-center articles. If you are creating or updating one document from an application flow, the single-document endpoint below is usually easier. If you are preparing a large knowledge base, import in batches, wait for indexing, and then test retrieval through [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md) before attaching the collection to a production gateway.
+Use batch import when you already have many documents prepared outside AIVAX, such as chunks generated from PDFs, product catalogs, policies, or help-center articles. If you are creating or updating one document from an application flow, the single-document endpoint below is usually easier. If you are preparing a large knowledge base, import in batches, wait for indexing, and then test retrieval through [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md) before attaching the collection to a production gateway.
 
-Per-request JSONL line limits and daily RAG insertion limits vary by plan; see [Plans and limits](https://docs.aivax.net/docs/limits.md#plan-limits). If your import exceeds the request limit, split it into multiple files. If your account reaches the daily insertion limit, wait for the rate window to reset or upgrade the plan.
+Per-request JSONL line limits and daily RAG insertion limits vary by plan; see [Plans and limits](http://localhost:1313/docs/limits.md#plan-limits). If your import exceeds the request limit, split it into multiple files. If your account reaches the daily insertion limit, wait for the rate window to reset or upgrade the plan.
 
 > [!WARNING]
 > Indexing incurs cost based on document text tokens when documents are created or when their text changes.

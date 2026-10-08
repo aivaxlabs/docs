@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/inference/workers.html
+Source: http://localhost:1313/docs/inference/workers.html
 
 # AI Workers
 
@@ -100,8 +100,8 @@ Available rewrite actions:
 | `remove-message` | Removes a message by index. | `index`: zero-based message index. |
 | `add-system` | Adds a system instruction. | `message`: instruction text. |
 | `add-tool` | Adds an OpenAI-compatible tool definition. | `tool`: tool JSON object. |
-| `add-protocol-tool` | Adds a [protocol function](https://docs.aivax.net/docs/tools/protocol-functions.md). | `tool`: protocol function definition. |
-| `add-mcp-source` | Adds the tools discovered from an [MCP](https://docs.aivax.net/docs/tools/mcp.md) source to the context. | `source`: MCP source object with `url`, `headers`, `name`, and/or `cacheDuration`. |
+| `add-protocol-tool` | Adds a [protocol function](http://localhost:1313/docs/tools/protocol-functions.md). | `tool`: protocol function definition. |
+| `add-mcp-source` | Adds the tools discovered from an [MCP](http://localhost:1313/docs/tools/mcp.md) source to the context. | `source`: MCP source object with `url`, `headers`, `name`, and/or `cacheDuration`. |
 
 ### Replace the user context
 
@@ -298,4 +298,4 @@ export default {
 
 This pattern prevents exposing the internal API directly to the model. The worker remains responsible for authenticating the request, validating the user, calling the internal system, and deciding how much data can return to the model context.
 
-For how workers fit into gateway execution, see [Pipelines](https://docs.aivax.net/docs/inference/pipelines.md).
+For how workers fit into gateway execution, see [Pipelines](http://localhost:1313/docs/inference/pipelines.md).

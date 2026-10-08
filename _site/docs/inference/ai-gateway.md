@@ -1,8 +1,8 @@
-Source: https://docs.aivax.net/docs/inference/ai-gateway.html
+Source: http://localhost:1313/docs/inference/ai-gateway.html
 
 # AI Gateway
 
-An AI Gateway is a persistent inference configuration. It lets you call a gateway by model name while AIVAX applies the gateway's model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
+An AI Gateway stores a reusable inference configuration. Pass the gateway's ID or slug in the request's `model` field, and AIVAX applies its model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
 
 Use a gateway when the same behavior must be reused by multiple clients or changed without redeploying the calling application.
 
@@ -36,6 +36,8 @@ When choosing a model, validate three points before putting it into production:
 - The model supports function calling if the gateway uses tools, RAG through `QueryFunction`, MCP, protocol functions, skills, or built-in functions.
 - The model accepts the parameters you configure. Some integrated models reject assistant prefill, temperature, stop sequences, or reasoning effort.
 
+Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist.
+
 Gateways can also use model routing. For the complexity router, AIVAX classifies the latest user request as low, medium, or high complexity, selects the configured model for that level, and emits `X-Model-Routed-Complexity` on the HTTP response when available.
 
 ## Using an AI Gateway
@@ -44,11 +46,11 @@ AIVAX provides an OpenAI-compatible chat completions endpoint:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Inference%20(chat%20completions))
 
-Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](https://docs.aivax.net/docs/inference/inference.md).
+Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](http://localhost:1313/docs/inference/inference.md).
 
 ## Using SDKs
 
-Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs.
+Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs. In the example below, replace `my-gateway:50c3` with your gateway's full ID or slug and load your private API key from secure configuration. See [Getting Started](http://localhost:1313/docs/getting-started.md) for an environment-variable example.
 
 ```python
 from openai import OpenAI
@@ -92,6 +94,8 @@ Use workers when an external system must decide something during the inference f
 
 Validate your gateway configuration with a [simulated-user and LLM-judge scenario](https://aivax.net/blog/introducing-agentic-tests/) before relying on it in production.
 
+When you enable moderation, see [LLM input moderation: system prompt or separate moderation step?](https://aivax.net/blog/aivax-gateway-moderation/) for what it covers, its failure behavior, and what still needs application-level checks.
+
 ## Inference MCP
 
-To expose an integrated model or AI Gateway as a tool for an external MCP client, see [Inference MCP](https://docs.aivax.net/docs/mcp-utilities/inference-mcp.md).
+To expose an integrated model or AI Gateway as a tool for an external MCP client, see [Inference MCP](http://localhost:1313/docs/mcp-utilities/inference-mcp.md).

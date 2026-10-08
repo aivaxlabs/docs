@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/pt-br/docs/generations/images.html
+Source: http://localhost:1313/pt-br/docs/generations/images.html
 
 # Geração de Imagem
 
 Use a Geração de Imagem para criar imagens a partir de um prompt de texto em um fluxo de trabalho de aplicativo. Usos típicos incluem rascunhos de ilustrações para revisão editorial, maquetes de produtos, variações de marketing para testes A/B e arte de espaço reservado que um designer refina depois.
 
-Autentique solicitações com uma chave de API AIVAX. Consulte [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md) para orientações de autorização.
+Autentique solicitações com uma chave de API AIVAX. Consulte [Authentication](http://localhost:1313/pt-br/docs/authentication.md) para orientações de autorização.
 
 ## Escolha um modelo
 
@@ -24,7 +24,7 @@ A referência incorporada é a fonte de verdade para a forma da solicitação, o
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Generate%20images)
 
-Para permitir que um agente ou IDE compatível com MCP gere imagens sem chamar este endpoint diretamente, use o [Media generation MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md).
+Para permitir que um agente ou IDE compatível com MCP gere imagens sem chamar este endpoint diretamente, use o [Media generation MCP](http://localhost:1313/pt-br/docs/mcp-utilities/media-generation-mcp.md).
 
 ## Preços, limites e erros
 
@@ -32,4 +32,4 @@ O catálogo de Modelos lista um preço fixo por imagem de saída e, quando aplic
 
 Essas tarifas usam estimativas arredondadas onde o provedor cobra tokens ou megapixels; elas não são a cobrança exata do provedor por cada solicitação. O processamento do prompt está incluído na tarifa de saída, sem cobrança de token separada. Não há marcação de geração de imagem AIVAX ou multiplicador de preço de conta e plano. Apenas imagens entregues contam para a cobrança de imagem.
 
-Para preços atuais, disponibilidade e limites de conta, veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md). Se uma solicitação falhar, revise o problema de validação relatado antes de tentar novamente.
+Para preços atuais, disponibilidade e limites de conta, veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md). Se uma solicitação falhar, revise o problema de validação relatado antes de tentar novamente.

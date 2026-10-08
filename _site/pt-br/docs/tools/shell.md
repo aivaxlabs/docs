@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/tools/shell.html
+Source: http://localhost:1313/pt-br/docs/tools/shell.html
 
 # Shell
 
@@ -20,7 +20,7 @@ Na interface de shell virtual, utilitários padrão de linha de comando e módul
 get-users --filter active --format csv | grep "John Doe" | awk -F, '{print $1, $2}'
 ```
 
-Na linha acima, `get-users` é uma ferramenta personalizada que retorna uma lista de usuários em formato CSV. O comando `grep` filtra os resultados para encontrar "John Doe", e `awk` extrai e formata as colunas desejadas. Essa ferramenta pode ter sido definida por [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md), [ferramentas internas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md) ou ser uma [ferramenta de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md).
+Na linha acima, `get-users` é uma ferramenta personalizada que retorna uma lista de usuários em formato CSV. O comando `grep` filtra os resultados para encontrar "John Doe", e `awk` extrai e formata as colunas desejadas. Essa ferramenta pode ter sido definida por [MCP](http://localhost:1313/pt-br/docs/tools/mcp.md), [ferramentas internas](http://localhost:1313/pt-br/docs/tools/builtin-tools.md) ou ser uma [ferramenta de protocolo](http://localhost:1313/pt-br/docs/tools/protocol-functions.md).
 
 Ferramentas movidas para o shell não são mais expostas como funções diretas do modelo, exceto ferramentas reservadas como `shell` e `read_skill`. Configure a lista de ferramentas do shell como:
 

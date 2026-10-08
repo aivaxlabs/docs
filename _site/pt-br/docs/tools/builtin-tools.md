@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/pt-br/docs/tools/builtin-tools.html
+Source: http://localhost:1313/pt-br/docs/tools/builtin-tools.html
 
 # Ferramentas Incorporadas
 
-AIVAX fornece uma lista de ferramentas incorporadas que você pode habilitar em seu modelo. Essas ferramentas podem ser usadas juntamente com as [funções do lado do servidor](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md).
+AIVAX fornece uma lista de ferramentas incorporadas que você pode habilitar em seu modelo. Essas ferramentas podem ser usadas juntamente com as [funções do lado do servidor](http://localhost:1313/pt-br/docs/tools/protocol-functions.md).
 
-Algumas funções têm custos de uso. Consulte a [Precificação](https://docs.aivax.net/pt-br/docs/pricing.md) antes de habilitá‑las em um fluxo de produção.
+Algumas funções têm custos de uso. Consulte a [Precificação](http://localhost:1313/pt-br/docs/pricing.md) antes de habilitá‑las em um fluxo de produção.
 
 Observe que cada modelo decide qual função chamar e seus parâmetros. Nem todos os modelos podem obedecer às regras de chamada.
 
@@ -12,7 +12,7 @@ Observe que cada modelo decide qual função chamar e seus parâmetros. Nem todo
 
 Ferramentas incorporadas devem ser habilitadas como capacidades de trabalho, não como decoração de agente. Cada ferramenta adiciona uma decisão ao modelo: ele precisa perceber que a ferramenta existe, entender quando usá‑la, montar argumentos válidos, aguardar o resultado e continuar a resposta. Quanto mais ferramentas semelhantes estiverem disponíveis ao mesmo tempo, maior a chance de uso redundante ou escolha inadequada. Comece com o menor conjunto que resolve o caso de uso e escreva instruções claras sobre quando usar cada uma.
 
-Use `WebSearch` quando a resposta depender de informações públicas, recentes ou variáveis. Use `OpenUrl` quando o usuário já forneceu uma URL e deseja que o assistente analise aquele conteúdo específico. `AdvancedWebUsage` está desativada e retorna uma resposta indisponível; veja os [Changelogs](https://docs.aivax.net/pt-br/docs/changelogs.md). Use `Code` para cálculo, transformação de dados e pequeno raciocínio algorítmico. Use `Request` quando o modelo precisar chamar uma API HTTP com método, cabeçalhos ou corpo customizado. Use `Remember` e `Calendar` apenas em clientes de chat ou chamadas com um usuário identificável, pois essas ferramentas dependem de contexto persistente por usuário.
+Use `WebSearch` quando a resposta depender de informações públicas, recentes ou variáveis. Use `OpenUrl` quando o usuário já forneceu uma URL e deseja que o assistente analise aquele conteúdo específico. `AdvancedWebUsage` está desativada e retorna uma resposta indisponível; veja os [Changelogs](http://localhost:1313/pt-br/docs/changelogs.md). Use `Code` para cálculo, transformação de dados e pequeno raciocínio algorítmico. Use `Request` quando o modelo precisar chamar uma API HTTP com método, cabeçalhos ou corpo customizado. Use `Remember` e `Calendar` apenas em clientes de chat ou chamadas com um usuário identificável, pois essas ferramentas dependem de contexto persistente por usuário.
 
 Ferramentas de geração, como imagem, documento e página web, devem ser tratadas como ações de saída. Elas fazem mais do que melhorar uma resposta; criam artefatos hospedados ou anexados à conversa. Portanto, instrua o modelo sobre quando gerar um artefato e quando responder em texto. Em suporte, por exemplo, gerar um documento pode ser útil para um orçamento, proposta ou resumo formal; gerar uma página web pode ser útil para um relatório visual; gerar uma imagem pode ser útil para ideação criativa. Se o usuário apenas pediu uma explicação, texto simples geralmente é suficiente.
 
@@ -67,7 +67,7 @@ AIVAX fornece dois tipos de buscas configuráveis via painel:
 - **Full**: a busca realizada é completa, inserindo todo o conteúdo de cada resultado no contexto da conversa.
 - **Summarized**: a busca realizada é resumida, inserindo no contexto da conversa um resumo gerado por IA pelo próprio provedor da busca.
 
-O modo `Full` pode consumir mais tokens de entrada da conversa, mas pode fornecer resultados mais precisos. Consulte a [Precificação](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) antes de habilitar a busca na internet em produção.
+O modo `Full` pode consumir mais tokens de entrada da conversa, mas pode fornecer resultados mais precisos. Consulte a [Precificação](http://localhost:1313/pt-br/docs/pricing.md) e [Planos e limites](http://localhost:1313/pt-br/docs/limits.md) antes de habilitar a busca na internet em produção.
 
 > [!NOTE] 
 >
@@ -89,7 +89,7 @@ Ativação via `builtin_tools`:
 
 ## Busca Avançada na Internet
 
-`AdvancedWebUsage` está desativada e retorna uma resposta indisponível. Veja os [Changelogs](https://docs.aivax.net/pt-br/docs/changelogs.md) para detalhes.
+`AdvancedWebUsage` está desativada e retorna uma resposta indisponível. Veja os [Changelogs](http://localhost:1313/pt-br/docs/changelogs.md) para detalhes.
 
 ## Execução de Código
 
@@ -137,7 +137,7 @@ Ativação via `builtin_tools`:
 
 Essa função permite que o modelo armazene conteúdo relevante para ser usado em múltiplas conversas.
 
-> Atualmente, essa função está disponível apenas quando usada em [clientes de chat](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) e quando a sessão é identificada por um `tag`.
+> Atualmente, essa função está disponível apenas quando usada em [clientes de chat](http://localhost:1313/pt-br/docs/features/chat-clients.md) e quando a sessão é identificada por um `tag`.
 
 Através do `tag` da sessão, o modelo armazena um fragmento relevante de dados da conversa, como preferências de nome ou contexto persistente que o assistente deve lembrar.
 
@@ -168,11 +168,11 @@ Essa função permite que o modelo crie imagens de IA.
 
 Imagens geradas por IA são anexadas ao contexto da conversa, mas não são diretamente visíveis ao assistente.
 
-A geração de imagens pode gerar custos de uso. Consulte a [Precificação](https://docs.aivax.net/pt-br/docs/pricing.md) antes de habilitá‑la em produção.
+A geração de imagens pode gerar custos de uso. Consulte a [Precificação](http://localhost:1313/pt-br/docs/pricing.md) antes de habilitá‑la em produção.
 
 Você também pode habilitar a geração de imagens explícitas e adultas. Quando esse recurso está ativado, o modelo será permitido a gerar material adulto. Para que isso ocorra, o modelo também deve “concordar” em gerar esse conteúdo. Alguns modelos têm filtro de segurança mais baixo que outros. Por exemplo, modelos Gemini têm o filtro de segurança mais baixo, tornando‑os uma opção viável para role‑play e geração desse tipo de material.
 
-Você é sempre responsável pelo [material que gera](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md) e o material gerado deve ser compatível com nossos termos de serviço.
+Você é sempre responsável pelo [material que gera](http://localhost:1313/pt-br/docs/legal/terms-of-service.md) e o material gerado deve ser compatível com nossos termos de serviço.
 
 Os modelos de geração de imagem disponíveis estão listados no console AIVAX.
 
@@ -203,7 +203,7 @@ Essa função permite que o modelo procure posts no X (antigo Twitter) e leia um
 
 Não é recomendado usar ambas as funções juntas porque têm o mesmo propósito.
 
-Essa função pode gerar custos de uso. Consulte a [Precificação](https://docs.aivax.net/pt-br/docs/pricing.md) antes de habilitá‑la em produção.
+Essa função pode gerar custos de uso. Consulte a [Precificação](http://localhost:1313/pt-br/docs/pricing.md) antes de habilitá‑la em produção.
 
 Ativação via `builtin_tools`:
 

@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/docs/rag/media-injector.html
+Source: http://localhost:1313/docs/rag/media-injector.html
 
 # Media Injector
 
 Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the source, identifies materially useful knowledge, writes concise factual documents in the source's predominant language, and queues those documents for semantic indexing.
 
-Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, use [Create or Update Document or JSONL import](https://docs.aivax.net/docs/rag/collections.md#document-fields) instead; those paths are more predictable and avoid the additional processing needed to interpret a source file.
+Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, use [Create or Update Document or JSONL import](http://localhost:1313/docs/rag/collections.md#document-fields) instead; those paths are more predictable and avoid the additional processing needed to interpret a source file.
 
 ## When to use it
 
@@ -16,7 +16,7 @@ Media Injector is useful for:
 
 It is not a general file-storage feature and does not preserve the source as one searchable document. The output is a set of generated RAG documents. Review those documents after processing when wording, coverage, legal fidelity, or sensitive-data handling is important.
 
-Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use [Text Segmentation](https://docs.aivax.net/docs/rag/text-segmentation.md) when you only need cohesive source-text segments returned to your application without creating collection documents.
+Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use [Text Segmentation](http://localhost:1313/docs/rag/text-segmentation.md) when you only need cohesive source-text segments returned to your application without creating collection documents.
 
 Use this [RAG responsibility checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to decide which preparation steps to manage.
 
@@ -29,11 +29,11 @@ In the AIVAX dashboard:
 3. Optionally provide processing context. The same context is applied to every selected file.
 4. Confirm the import. The dashboard uploads the files sequentially, and a separate job is created for each file after all of its chunks have reached AIVAX.
 5. Follow the jobs under **Batch > Media Processing**.
-6. After each job completes, review the generated documents and wait for their indexing state before testing [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md).
+6. After each job completes, review the generated documents and wait for their indexing state before testing [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md).
 
 A job can be `queued`, `processing`, `completed`, `failed`, or `cancelled`. The dashboard reports the source file, elapsed time, number of documents produced, and current cost. Failed or cancelled jobs may be retried when their recoverable uploaded data is still available.
 
-Audio and video can be divided into time-based segments for processing. Segmentation is automatic and does not change the original file name shown for the job. See [Plans and limits](https://docs.aivax.net/docs/limits.md) for current upload limits.
+Audio and video can be divided into time-based segments for processing. Segmentation is automatic and does not change the original file name shown for the job. See [Plans and limits](http://localhost:1313/docs/limits.md) for current upload limits.
 
 ## Define processing context
 
@@ -82,10 +82,10 @@ Each generated item is designed to be a useful knowledge unit rather than a page
 
 Generated documents are tagged so they can be identified as automatically produced content. They are then indexed like other collection documents and incur the collection's normal text-embedding cost in addition to Media Injector processing.
 
-For retrieval-quality guidance after ingestion, see [Best Practices for RAG](https://docs.aivax.net/docs/rag/best-practices.md). In particular, inspect documents generated from tables, scans, and sources with repeated layouts before relying on them in production.
+For retrieval-quality guidance after ingestion, see [Best Practices for RAG](http://localhost:1313/docs/rag/best-practices.md). In particular, inspect documents generated from tables, scans, and sources with repeated layouts before relying on them in production.
 
 ## Usage, pricing, and limits
 
-Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See [Pricing](https://docs.aivax.net/docs/pricing.md#media-injector) for the final rates.
+Media Injector usage depends on the source, optional context, generated questions and answers, cache reuse, and media tokens when applicable. Billing aggregates input, cached input, output, and media usage for the processing job without exposing the underlying processing model. See [Pricing](http://localhost:1313/docs/pricing.md#media-injector) for the final rates.
 
-Media Injector availability and operational limits depend on the account configuration. See [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md) before uploading files in production.
+Media Injector availability and operational limits depend on the account configuration. See [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and limits](http://localhost:1313/docs/limits.md) before uploading files in production.

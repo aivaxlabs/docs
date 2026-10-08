@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/legal/terms-of-service.html
+Source: http://localhost:1313/pt-br/docs/legal/terms-of-service.html
 
 # Termos de Uso
 
@@ -9,7 +9,7 @@ Last updated: September 26, 2026
 
 ---  
 
-Bem‑vindo à AIVAX. Estes Termos de Uso ("Termos") regulam seu acesso e uso de nossos serviços de inferência de IA, APIs, site e quaisquer softwares associados (coletivamente, os "Serviços"). Estes Termos não constituem aconselhamento jurídico.Ao criar uma conta, acessar ou usar nossos Serviços, você ("Gerente de Conta AIVAX") concorda em se vincular a estes Termos e à nossa [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md). Se você não concorda com estes Termos, não utilize nossos Serviços.
+Bem‑vindo à AIVAX. Estes Termos de Uso ("Termos") regulam seu acesso e uso de nossos serviços de inferência de IA, APIs, site e quaisquer softwares associados (coletivamente, os "Serviços"). Estes Termos não constituem aconselhamento jurídico.Ao criar uma conta, acessar ou usar nossos Serviços, você ("Gerente de Conta AIVAX") concorda em se vincular a estes Termos e à nossa [Política de Privacidade](http://localhost:1313/pt-br/docs/legal/privacy-policy.md). Se você não concorda com estes Termos, não utilize nossos Serviços.
 
 ### 1. Definições  
 
@@ -19,7 +19,7 @@ Bem‑vindo à AIVAX. Estes Termos de Uso ("Termos") regulam seu acesso e uso de
 - **Generated Content:** Respostas, texto, imagens, arquivos ou quaisquer outros dados gerados por modelos de IA ou ferramentas da plataforma como resultado do processamento de Input Content.  
 - **Conversations:** Sequências armazenadas de Input Content, Generated Content, metadados, informações de modelo, dados de uso, ferramentas e informações técnicas relacionadas quando o registro de conversas está habilitado.  
 - **RAG Data:** Coleções, documentos, metadados de documentos, referências, tags e vetores de incorersão armazenados para geração aumentada por recuperação.  
-- **Semantic Training Data:** Conteúdo elegível de RAG e reranking anonimizado coletado após o Gerente de Conta AIVAX habilitar a coleta de dados semânticos, conforme descrito em [Data Collecting](https://docs.aivax.net/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos estão excluídos.  
+- **Semantic Training Data:** Conteúdo elegível de RAG e reranking anonimizado coletado após o Gerente de Conta AIVAX habilitar a coleta de dados semânticos, conforme descrito em [Data Collecting](http://localhost:1313/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos estão excluídos.  
 
 Na Política de Privacidade, "Inference Data" abrange conjuntamente Input Content e Generated Content.  
 
@@ -109,7 +109,7 @@ Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, o 
 
 A AIVAX anonimiza esses registros antes do armazenamento, removendo a relação com a conta e excluindo identificadores operacionais, nomes de documentos, dados de faturamento e timestamps de coleta.  
 
-A configuração está desabilitada por padrão. Desabilitá‑la tem efeito prospectivo: interrompe a nova coleta e encerra o desconto para operações futuras elegíveis, mas não exclui automaticamente registros já coletados nem exige que a AIVAX reverta treinamentos concluídos. Como a AIVAX não mantém um mapeamento conta‑registro, os registros não podem ser localizados ou excluídos seletivamente apenas pelo ID da conta. Solicitações de exclusão permanecem sujeitas à Política de Privacidade e à legislação aplicável. Os termos operacionais completos estão documentados em [Data Collecting](https://docs.aivax.net/pt-br/docs/data-collecting.md).  
+A configuração está desabilitada por padrão. Desabilitá‑la tem efeito prospectivo: interrompe a nova coleta e encerra o desconto para operações futuras elegíveis, mas não exclui automaticamente registros já coletados nem exige que a AIVAX reverta treinamentos concluídos. Como a AIVAX não mantém um mapeamento conta‑registro, os registros não podem ser localizados ou excluídos seletivamente apenas pelo ID da conta. Solicitações de exclusão permanecem sujeitas à Política de Privacidade e à legislação aplicável. Os termos operacionais completos estão documentados em [Data Collecting](http://localhost:1313/pt-br/docs/data-collecting.md).  
 
 #### 3.3. Conteúdo Adulto, Explícito e Sensível  
 
@@ -126,7 +126,7 @@ A AIVAX não endossa esse tipo de conteúdo e pode investigar ou suspender conta
 
 A AIVAX coleta e registra o conteúdo de conversas apenas quando o Gerente de Conta habilita o recurso de observabilidade ("Conversations") para a solicitação individual ou globalmente para a conta. Se nenhum habilitar o registro para a solicitação, seu conteúdo de conversa não é coletado, registrado ou armazenado. Processar Input Content e Generated Content para executar uma solicitação não cria um registro de conversa armazenado. A AIVAX não pode recuperar ou fornecer conversas que nunca foram coletadas, mesmo sob ordem judicial.  
 
-Logs técnicos e metadados são separados do conteúdo de conversa. A AIVAX retém logs de inferência e acesso e metadados, incluindo endereços IP e strings de agente de usuário, por até 1 ano. Informações de conta e recursos armazenados, incluindo memórias de usuário, gateways de IA e suas configurações, e coleções e documentos RAG, podem permanecer em backups de até 3 meses. Esses períodos não garantem que todo registro permaneça disponível; retenção de conversas e outros limites aplicáveis são descritos na [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md).  
+Logs técnicos e metadados são separados do conteúdo de conversa. A AIVAX retém logs de inferência e acesso e metadados, incluindo endereços IP e strings de agente de usuário, por até 1 ano. Informações de conta e recursos armazenados, incluindo memórias de usuário, gateways de IA e suas configurações, e coleções e documentos RAG, podem permanecer em backups de até 3 meses. Esses períodos não garantem que todo registro permaneça disponível; retenção de conversas e outros limites aplicáveis são descritos na [Política de Privacidade](http://localhost:1313/pt-br/docs/legal/privacy-policy.md).  
 
 Para divulgação judicial de dados de conta, a AIVAX executa apenas ordens emitidas por tribunais competentes do Brasil. Ordens de outros países devem ser submetidas através dos tribunais brasileiros e resultar em ordem judicial brasileira antes que os dados sejam divulgados. Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto conduzem esses processos. A preservação por si só não autoriza a divulgação, restauração de registros indisponíveis ou coleta de conteúdo de conversa que não foi registrado.  
 

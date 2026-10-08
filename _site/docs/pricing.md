@@ -1,17 +1,17 @@
-Source: https://docs.aivax.net/docs/pricing.html
+Source: http://localhost:1313/docs/pricing.html
 
 # Pricing
 
 Service usage prices are listed below in USD. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
 
-See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](https://docs.aivax.net/docs/limits.md) for quotas. Usage rates are subject to the plan multiplier:
+See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](http://localhost:1313/docs/limits.md) for quotas. Usage rates are subject to the plan multiplier:
 - Free: **+25%** on inference taxes;
 - Pro: **+5%** on inference taxes;
 - Max: **0%** on inference taxes.
 
 BYOK are not affected by inference taxes.
 
-Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, Julia-1 semantic decisions, and Fetch/OCR extraction. The rates below apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled.
+Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, Julia-1 semantic decisions, and Fetch/OCR extraction. The rates below apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](http://localhost:1313/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled.
 
 ## Inference and Moderation
 
@@ -24,7 +24,7 @@ Inference rates depend on the selected model, provider, input size, and media ty
 
 ## Semantic decisions
 
-The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments. Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances); other decision models are billed normally.
+The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments. Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described in [Plans and limits](http://localhost:1313/docs/limits.md#included-daily-subscription-allowances); other decision models are billed normally.
 
 | Model | Input price / million tokens |
 | --- | ---: |
@@ -33,8 +33,14 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | `@respan/span-01` | **$0.020** |
 | `@respan/span-01-lite` | **$0.000** |
 | `@jaredpalmer/kev-4b` | **$0.042** |
+| `@upstage/solar-decide` | **$0.050** |
+| `@cloudflare/clef` | **$0.240** |
+| `@cloudflare/clef-flash` | **$0.090** |
+| `@liquid/d1` | **$0.040** |
+| `@perplexity/pplx-decider-v1-27b` | **$0.040** |
+| `@openai/gpt-6-luna-decisions` | **$0.100** |
 
-See [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md) for model selection and how input usage is measured.
+See [Semantic decisions](http://localhost:1313/docs/generations/decisions.md) for model selection and how input usage is measured.
 
 ## Agentic Tests
 
@@ -96,7 +102,7 @@ Generation and transcription rates depend on the selected model. Media descripti
 | Image generation | Fixed output and reference-image tariffs by model |
 | Media descriptions | **~$1.50/M tokens** |
 
-Image generation charges each delivered output at the selected model's fixed output price, plus its per-reference price for every reference sent with that output. Prompt processing is included. Token- and megapixel-priced providers use rounded-up estimates, not exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs are listed in the Models catalog; see [Image generation](https://docs.aivax.net/docs/generations/images.md).
+Image generation charges each delivered output at the selected model's fixed output price, plus its per-reference price for every reference sent with that output. Prompt processing is included. Token- and megapixel-priced providers use rounded-up estimates, not exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs are listed in the Models catalog; see [Image generation](http://localhost:1313/docs/generations/images.md).
 
 ## Web Search, OCR and Fetch
 
@@ -112,7 +118,7 @@ Web and X searches are billed per search. Advanced web search is billed by token
 | Fetch and OCR extraction - Max | **5× Pro** daily allowance; uncovered items **$0.02/1k PUs** |
 | Fetch JSON conversion (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
 
-For the [Fetch API](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md), `processingUnits` reports text/OCR extraction usage and `jsonProcessingUnits` reports the additional schema-guided JSON conversion usage. JSON PUs account for input, cached input, and output token usage at the processing model and provider's rates; they are not priced at the plan's OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge.
+For the [Fetch API](http://localhost:1313/docs/web-foundation/fetch-and-ocr.md), `processingUnits` reports text/OCR extraction usage and `jsonProcessingUnits` reports the additional schema-guided JSON conversion usage. JSON PUs account for input, cached input, and output token usage at the processing model and provider's rates; they are not priced at the plan's OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge.
 
 ## Storage
 

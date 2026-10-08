@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/inference/agentic-tests.html
+Source: http://localhost:1313/pt-br/docs/inference/agentic-tests.html
 
 # Testes Agênicos
 
@@ -126,7 +126,7 @@ As respostas dos ganchos seguem a convenção de worker: qualquer resposta `2xx`
 
 ### Executar e inspecionar um teste
 
-Selecione **Run test** para colocar uma execução na fila. As execuções podem estar `pending`, `running`, `succeeded`, `failed` ou `cancelled`. Tanto a taxa de novas execuções quanto a simultaneidade ao nível da conta dependem do plano atual. Consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#plan-limits) para valores atuais.
+Selecione **Run test** para colocar uma execução na fila. As execuções podem estar `pending`, `running`, `succeeded`, `failed` ou `cancelled`. Tanto a taxa de novas execuções quanto a simultaneidade ao nível da conta dependem do plano atual. Consulte [Planos e limites](http://localhost:1313/pt-br/docs/limits.md#plan-limits) para valores atuais.
 
 Execuções manuais, execuções agendadas e avaliações diretas via API compartilham um quota de novas execuções entre as chaves de API da conta. Uma execução persistente conta quando é enfileirada e não conta novamente quando a execução começa. Turnos de conversa não consomem unidades de execução adicionais, embora limites de inferência aplicáveis ainda se apliquem. Uma solicitação de execução manual acima da quota retorna HTTP 429 sem criar uma execução; aguarde a janela de limite de taxa limpar antes de tentar novamente.
 
@@ -181,11 +181,11 @@ Execuções com sucesso e falhas são retidas por um mês. Execuções cancelada
 
 Reduza `max_turns` para verificações de regressão rápidas e limitadas. Aumente para fluxos que naturalmente exigem descoberta ou várias chamadas de ferramenta. `minimum_turns` e `judge_start_turn` devem ser menores que `max_turns`; são independentes. Adie `judge_start_turn` quando se espera esclarecimento precoce e pontuações intermediárias não são úteis. Desative `allow_user_exit` quando apenas o juiz ou o orçamento de turnos devem encerrar o teste; `minimum_turns` controla apenas quando o usuário simulado vê sua opção de saída e não atrasa as decisões do juiz. Mantenha uma grande diferença entre os limites de perda e sucesso, a menos que a política tenha sido calibrada contra conversas representativas.
 
-Testes Agênicos cobram a inferência do gateway selecionado mais o uso do usuário simulado e do juiz nas taxas do perfil selecionado. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#agentic-tests) para as taxas atuais.
+Testes Agênicos cobram a inferência do gateway selecionado mais o uso do usuário simulado e do juiz nas taxas do perfil selecionado. Consulte [Preços](http://localhost:1313/pt-br/docs/pricing.md#agentic-tests) para as taxas atuais.
 
 ## Execução direta via API
 
-Cada avaliação direta consome uma unidade da mesma quota de conta que as execuções persistentes. Se essa quota for excedida, a solicitação retorna HTTP 429 antes de abrir o stream SSE. Verifique o status HTTP antes de processar eventos e use tentativas limitadas com backoff. Consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#semantic-decision-and-agentic-test-rate-limits).
+Cada avaliação direta consome uma unidade da mesma quota de conta que as execuções persistentes. Se essa quota for excedida, a solicitação retorna HTTP 429 antes de abrir o stream SSE. Verifique o status HTTP antes de processar eventos e use tentativas limitadas com backoff. Consulte [Planos e limites](http://localhost:1313/pt-br/docs/limits.md#semantic-decision-and-agentic-test-rate-limits).
 
 Use o endpoint de geração direta quando uma aplicação precisar executar um teste efêmero e consumir seus eventos imediatamente. Uma execução direta **não** cria um caso de teste persistente nem uma execução no painel.
 
@@ -359,4 +359,4 @@ Os resultados finais são:
 
 Uma chave ausente ou inválida retorna `401 Unauthorized`; uma chave de API pública retorna `403 Forbidden`; saldo insuficiente retorna `402 Payment Required`; campos malformados, slugs de gateway indisponíveis ou combinações de limites inválidas retornam `400 Bad Request`. Uma falha de inferência pode chegar como um evento SSE após o início da transmissão.
 
-Para investigar uma falha de inferência, revise a [configuração do AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) usada pelo teste.
+Para investigar uma falha de inferência, revise a [configuração do AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) usada pelo teste.

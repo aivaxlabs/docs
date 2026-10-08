@@ -1,12 +1,12 @@
-Source: https://docs.aivax.net/docs/rag/reflex.html
+Source: http://localhost:1313/docs/rag/reflex.html
 
 # Reflex
 
 Reflex is AIVAX's collection-less search for RAG. Send a query together with candidate document strings and receive the most relevant items in ranked order—without indexing, storing, or maintaining a RAG collection first.
 
-Reflex is the default ranker of the autonomous [reranking endpoint](https://docs.aivax.net/docs/rag/reranking.md): calling that endpoint without a `model` selects Reflex. This page covers when to reach for Reflex; that page covers candidate preparation and ranker comparison in depth.
+Reflex is the default ranker of the autonomous [reranking endpoint](http://localhost:1313/docs/rag/reranking.md): calling that endpoint without a `model` selects Reflex. This page covers when to reach for Reflex; that page covers candidate preparation and ranker comparison in depth.
 
-Use Reflex when your application already owns the candidate documents, the candidate set changes frequently, or you want a retrieval step without collection indexing and storage. Use [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md) when AIVAX should store, index, and search a persistent knowledge base or narrow a corpus that is too large to submit as candidates on every request.
+Use Reflex when your application already owns the candidate documents, the candidate set changes frequently, or you want a retrieval step without collection indexing and storage. Use [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md) when AIVAX should store, index, and search a persistent knowledge base or narrow a corpus that is too large to submit as candidates on every request.
 
 ## Reflex or Semantic Search?
 
@@ -35,4 +35,4 @@ For the supported request, response, authentication, and error contract, use the
 
 Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. In this flow, it can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.
 
-Free, Pro, and Max include a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances).
+Free, Pro, and Max include a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](http://localhost:1313/docs/limits.md#included-daily-subscription-allowances).

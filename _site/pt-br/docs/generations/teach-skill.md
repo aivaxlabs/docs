@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/generations/teach-skill.html
+Source: http://localhost:1313/pt-br/docs/generations/teach-skill.html
 
 # Ensinar Habilidade
 
@@ -17,7 +17,7 @@ Envie vídeos tutoriais como partes de conteúdo `video_url` — URLs hospedados
 
 Organize as gravações na ordem em que o procedimento deve ser compreendido. A resposta usa o envelope JSON padrão. `data.resultText` contém um rascunho Markdown estruturado que pode incluir front matter, etapas, notas e suposições quando a gravação deixa o contexto necessário implícito. `data.usage.processedUnits` relata as unidades de uso processadas para a requisição.
 
-Um rascunho gerado não é publicado automaticamente como uma habilidade de conta. Valide cada etapa contra o fluxo de trabalho real, remova detalhes específicos da gravação (tamanhos de janela, nomes de teste, valores pontuais), confirme pré-requisitos e reescreva etapas vagas como instruções imperativas antes de salvá‑lo. Consulte [Skills](https://docs.aivax.net/pt-br/docs/features/skills.md) para a estrutura da habilidade e orientações de ativação.
+Um rascunho gerado não é publicado automaticamente como uma habilidade de conta. Valide cada etapa contra o fluxo de trabalho real, remova detalhes específicos da gravação (tamanhos de janela, nomes de teste, valores pontuais), confirme pré-requisitos e reescreva etapas vagas como instruções imperativas antes de salvá‑lo. Consulte [Skills](http://localhost:1313/pt-br/docs/features/skills.md) para a estrutura da habilidade e orientações de ativação.
 
 A referência incorporada é a fonte de verdade para a entrada de vídeo aceita e o comportamento da resposta.
 
@@ -25,4 +25,4 @@ A referência incorporada é a fonte de verdade para a entrada de vídeo aceita 
 
 ## Preços, limites e erros
 
-Para disponibilidade atual e limites de conta, veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md). Corrija conteúdo de vídeo inválido ou inacessível antes de tentar novamente uma requisição que falhou.
+Para disponibilidade atual e limites de conta, veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md). Corrija conteúdo de vídeo inválido ou inacessível antes de tentar novamente uma requisição que falhou.

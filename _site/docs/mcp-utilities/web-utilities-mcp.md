@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/mcp-utilities/web-utilities-mcp.html
+Source: http://localhost:1313/docs/mcp-utilities/web-utilities-mcp.html
 
 # Web utilities MCP
 
@@ -18,7 +18,7 @@ The server uses Streamable HTTP. Authenticate requests with an account API key:
 Authorization: Bearer <AIVAX_API_KEY>
 ```
 
-For key types and authentication options, see [Authentication](https://docs.aivax.net/docs/authentication.md).
+For key types and authentication options, see [Authentication](http://localhost:1313/docs/authentication.md).
 
 ## Configuration example
 
@@ -112,9 +112,9 @@ The tool returns the search results as MCP text using the same response format a
 
 ## Pricing and limits
 
-Calls use the same pricing as the corresponding AIVAX built-in tools and are charged to the authenticated account. See [Pricing](https://docs.aivax.net/docs/pricing.md) for current charges and billing rules.
+Calls use the same pricing as the corresponding AIVAX built-in tools and are charged to the authenticated account. See [Pricing](http://localhost:1313/docs/pricing.md) for current charges and billing rules.
 
-Web operations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](https://docs.aivax.net/docs/limits.md) for current limits and enforcement behavior.
+Web operations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](http://localhost:1313/docs/limits.md) for current limits and enforcement behavior.
 
 A positive account balance is required to use these tools.
 

@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/tools/shell.html
+Source: http://localhost:1313/docs/tools/shell.html
 
 # Shell
 
@@ -12,7 +12,7 @@ When enabled in an AI Gateway, the model sees a `shell` tool with one argument: 
 
 The 60-second timeout and 4,096-character output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
 
-Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/features/batch.md) or an external job, and let the shell handle the interactive slices.
+Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](http://localhost:1313/docs/features/batch.md) or an external job, and let the shell handle the interactive slices.
 
 ## Adapting tools for shell
 
@@ -22,7 +22,7 @@ In the virtual shell interface, standard command-line utilities and registered s
 get-users --filter active --format csv | grep "John Doe" | awk -F, '{print $1, $2}'
 ```
 
-In the line above, `get-users` is a custom tool that returns a list of users in CSV format. The `grep` command filters the results to find "John Doe", and `awk` extracts and formats the desired columns. This tool may have been defined by [MCP](https://docs.aivax.net/docs/tools/mcp.md), [built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) or be a [protocol tool](https://docs.aivax.net/docs/tools/protocol-functions.md).
+In the line above, `get-users` is a custom tool that returns a list of users in CSV format. The `grep` command filters the results to find "John Doe", and `awk` extracts and formats the desired columns. This tool may have been defined by [MCP](http://localhost:1313/docs/tools/mcp.md), [built-in tools](http://localhost:1313/docs/tools/builtin-tools.md) or be a [protocol tool](http://localhost:1313/docs/tools/protocol-functions.md).
 
 Tools moved into the shell are no longer exposed as direct model functions, except reserved tools such as `shell` and `read_skill`. Configure the shell tool list as either:
 

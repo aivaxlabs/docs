@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/inference/workers.html
+Source: http://localhost:1313/pt-br/docs/inference/workers.html
 
 # Trabalhadores de IA
 
@@ -100,8 +100,8 @@ Ações de reescrita disponíveis:
 | `remove-message` | Remove uma mensagem por índice. | `index`: índice da mensagem (baseado em zero). |
 | `add-system` | Adiciona uma instrução de sistema. | `message`: texto da instrução. |
 | `add-tool` | Adiciona uma definição de ferramenta compatível com OpenAI. | `tool`: objeto JSON da ferramenta. |
-| `add-protocol-tool` | Adiciona uma [função de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md). | `tool`: definição da função de protocolo. |
-| `add-mcp-source` | Adiciona as ferramentas descobertas de uma fonte [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ao contexto. | `source`: objeto de fonte MCP com `url`, `headers`, `name` e/ou `cacheDuration`. |
+| `add-protocol-tool` | Adiciona uma [função de protocolo](http://localhost:1313/pt-br/docs/tools/protocol-functions.md). | `tool`: definição da função de protocolo. |
+| `add-mcp-source` | Adiciona as ferramentas descobertas de uma fonte [MCP](http://localhost:1313/pt-br/docs/tools/mcp.md) ao contexto. | `source`: objeto de fonte MCP com `url`, `headers`, `name` e/ou `cacheDuration`. |
 
 ### Substituir o contexto do usuário
 
@@ -298,4 +298,4 @@ export default {
 
 Esse padrão impede a exposição direta da API interna ao modelo. O trabalhador continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanta informação pode ser retornada ao contexto do modelo.
 
-Para entender como os trabalhadores se encaixam na execução do gateway, veja [Pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md).
+Para entender como os trabalhadores se encaixam na execução do gateway, veja [Pipelines](http://localhost:1313/pt-br/docs/inference/pipelines.md).

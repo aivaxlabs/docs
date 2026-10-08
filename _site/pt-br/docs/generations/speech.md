@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/pt-br/docs/generations/speech.html
+Source: http://localhost:1313/pt-br/docs/generations/speech.html
 
 # Geração de Voz
 
 Use a Geração de Voz quando seu aplicativo já tem o texto final e precisa de áudio reproduzível sem executar uma conclusão de chat. Os usos típicos incluem narrar um artigo ou notificação, dar voz a um prompt de IVR, produzir um rascunho de locução para revisão ou gerar arquivos de áudio para reprodução offline.
 
-Autentique solicitações com uma chave de API AIVAX. Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md) para orientações de autorização.
+Autentique solicitações com uma chave de API AIVAX. Consulte [Autenticação](http://localhost:1313/pt-br/docs/authentication.md) para orientações de autorização.
 
 ## Escolha a forma de entrega
 
@@ -25,12 +25,12 @@ A referência embutida é a fonte de verdade para modelos e vozes disponíveis, 
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Generate%20speech)
 
-Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar diretamente este endpoint, use o [Geração de mídia MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md). Ele retorna uma URL pública para áudio MP3 ao invés de áudio inline.
+Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar diretamente este endpoint, use o [Geração de mídia MCP](http://localhost:1313/pt-br/docs/mcp-utilities/media-generation-mcp.md). Ele retorna uma URL pública para áudio MP3 ao invés de áudio inline.
 
 ## Sessões de fala ou voz
 
-Use a Geração de Voz para síntese única de texto conhecido. Use [Sessões de Voz](https://docs.aivax.net/pt-br/docs/inference/voice-session.md) quando a experiência for uma conversa falada interativa com interrupções, troca de turnos e chamadas de ferramentas — encadear transcrição, inferência e síntese manualmente adiciona latência que a sessão em tempo real evita.
+Use a Geração de Voz para síntese única de texto conhecido. Use [Sessões de Voz](http://localhost:1313/pt-br/docs/inference/voice-session.md) quando a experiência for uma conversa falada interativa com interrupções, troca de turnos e chamadas de ferramentas — encadear transcrição, inferência e síntese manualmente adiciona latência que a sessão em tempo real evita.
 
 ## Preços, limites e erros
 
-Para preços, disponibilidade e limites de conta atuais, veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md). Revise os erros de validação relatados antes de tentar novamente uma solicitação com falha.
+Para preços, disponibilidade e limites de conta atuais, veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md). Revise os erros de validação relatados antes de tentar novamente uma solicitação com falha.

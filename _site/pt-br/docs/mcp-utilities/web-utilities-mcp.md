@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.html
+Source: http://localhost:1313/pt-br/docs/mcp-utilities/web-utilities-mcp.html
 
 # Utilitários da Web MCP
 
@@ -18,7 +18,7 @@ O servidor usa HTTP transmitido em fluxo. Autentique as solicitações com uma c
 Authorization: Bearer <AIVAX_API_KEY>
 ```
 
-Para tipos de chave e opções de autenticação, veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md).
+Para tipos de chave e opções de autenticação, veja [Authentication](http://localhost:1313/pt-br/docs/authentication.md).
 
 ## Exemplo de configuração
 
@@ -112,9 +112,9 @@ A ferramenta retorna os resultados da busca como texto MCP usando o mesmo format
 
 ## Preços e limites
 
-As chamadas usam o mesmo preço das ferramentas integradas correspondentes da AIVAX e são cobradas na conta autenticada. Veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) para tarifas atuais e regras de faturamento.
+As chamadas usam o mesmo preço das ferramentas integradas correspondentes da AIVAX e são cobradas na conta autenticada. Veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md) para tarifas atuais e regras de faturamento.
 
-Operações web estão sujeitas aos limites de serviço e limites de taxa aplicáveis da conta. Veja [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md) para limites atuais e comportamento de aplicação.
+Operações web estão sujeitas aos limites de serviço e limites de taxa aplicáveis da conta. Veja [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md) para limites atuais e comportamento de aplicação.
 
 Um saldo de conta positivo é necessário para usar essas ferramentas.
 

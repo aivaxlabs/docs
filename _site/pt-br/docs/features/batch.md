@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/features/batch.html
+Source: http://localhost:1313/pt-br/docs/features/batch.html
 
 # Lote
 
@@ -32,7 +32,7 @@ Lote é uma boa escolha quando:
 - você quer usar ferramentas internas, como busca na web, para cada item;
 - você precisa medir confiança e taxa de sucesso por execução.
 
-Não **use** Lote para conversas em tempo real, fluxos onde um item depende da resposta do item anterior, indexação de documentos para RAG, ou tarefas puramente determinísticas que não exigem um modelo de IA. Para indexar conhecimento pesquisável, use [RAG collections](https://docs.aivax.net/pt-br/docs/rag/collections.md). Para uma resposta imediata a um usuário, use [inference](https://docs.aivax.net/pt-br/docs/inference/inference.md).
+Não **use** Lote para conversas em tempo real, fluxos onde um item depende da resposta do item anterior, indexação de documentos para RAG, ou tarefas puramente determinísticas que não exigem um modelo de IA. Para indexar conhecimento pesquisável, use [RAG collections](http://localhost:1313/pt-br/docs/rag/collections.md). Para uma resposta imediata a um usuário, use [inference](http://localhost:1313/pt-br/docs/inference/inference.md).
 
 ## Conceitos
 
@@ -152,7 +152,7 @@ Use a API quando quiser integrar o Lote ao seu sistema interno, pipeline de dado
 
 O fluxo da API é o mesmo do fluxo do console, apenas expresso como operações separadas. Primeiro crie o fluxo de trabalho, que é a receita reutilizável. Depois crie um trabalho, importe os itens e inicie o trabalho quando a carga estiver pronta. Após o início do processamento, use os endpoints de listagem, tentativa de nova execução, limpeza e exportação para operar o trabalho sem perder o controle dos registros individuais.
 
-Se ainda estiver decidindo se o Lote é o recurso certo, compare-o com [RAG collections](https://docs.aivax.net/pt-br/docs/rag/collections.md) e [direct inference](https://docs.aivax.net/pt-br/docs/inference/inference.md). Lote é para raciocínio repetido sobre itens independentes. Coleções RAG são para conhecimento pesquisável que deve ser recuperado depois. Inferência direta é para uma resposta imediata.
+Se ainda estiver decidindo se o Lote é o recurso certo, compare-o com [RAG collections](http://localhost:1313/pt-br/docs/rag/collections.md) e [direct inference](http://localhost:1313/pt-br/docs/inference/inference.md). Lote é para raciocínio repetido sobre itens independentes. Coleções RAG são para conhecimento pesquisável que deve ser recuperado depois. Inferência direta é para uma resposta imediata.
 
 ### Criar fluxo de trabalho
 
@@ -220,7 +220,7 @@ Use o endpoint de exportação para selecionar os resultados concluídos que sua
 
 ## Disponibilidade
 
-Consulte [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md) antes de processar uma carga de trabalho grande.
+Consulte [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md) antes de processar uma carga de trabalho grande.
 
 ## Melhores práticas
 

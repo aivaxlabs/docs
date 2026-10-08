@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-lang="pt-br" data-copy-failed="Falha ao copiar; use Ver como Markdown">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lista de verificação de implantação | AIVAX Documentation</title>
+<meta name="description" content="Transforme um agente promissor em um lançamento controlado com responsáveis claros, evidências, limites operacionais e uma implantação gradual.">
+<link rel="canonical" href="http://localhost:1313/pt-br/learn/production/deployment-checklist.html">
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="alternate" hreflang="en-US" href="http://localhost:1313/learn/production/deployment-checklist.html">
+
+<link rel="alternate" hreflang="pt-BR" href="http://localhost:1313/pt-br/learn/production/deployment-checklist.html">
+
+
+<link rel="alternate" hreflang="x-default" href="http://localhost:1313/learn/production/deployment-checklist.html">
+
+
+
+<link rel="alternate" type="text/markdown" href="/pt-br/learn/production/deployment-checklist.md" title="Markdown">
+
+<link rel="help" type="text/plain" href="/pt-br/llms.txt" title="llms.txt">
+
+<meta property="og:title" content="Lista de verificação de implantação">
+<meta property="og:site_name" content="AIVAX Documentation">
+<meta property="og:url" content="http://localhost:1313/pt-br/learn/production/deployment-checklist.html">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="http://localhost:1313/assets/img/aivax.png">
+
+
+<script>
+    (() => {
+        const theme = localStorage.getItem('theme') || 'auto';
+        const dark = theme === 'dark' || (theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.themePreference = theme;
+    })();
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="/styles/main.min.b389ddaa2ca26c179dddd4f1adfccc3e1b41d335726a845b6968fc0c6efc26f4.css" integrity="sha256-s4ndqiyibBed3dTxrfzMPhtB0zVyaoRbaWj8DG78JvQ=">
+
+</head>
+<body class="layout-learn" data-learn-labels="{&#34;characters&#34;:&#34;caracteres&#34;,&#34;contextSize&#34;:&#34;Janela de contexto&#34;,&#34;dropped&#34;:&#34;Empurrada para fora da janela&#34;,&#34;fits&#34;:&#34;Cabe na janela&#34;,&#34;monthlyCost&#34;:&#34;Custo mensal estimado&#34;,&#34;play&#34;:&#34;Reproduzir&#34;,&#34;replay&#34;:&#34;Repetir&#34;,&#34;sample&#34;:&#34;Escolher a próxima palavra&#34;,&#34;temperature&#34;:&#34;Temperatura&#34;,&#34;tokens&#34;:&#34;tokens&#34;}">
+    <a class="skip-link" href="#content">Pular para o conteúdo</a>
+    
+<header class="header">
+    <div class="header-inner">
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="sidebar" aria-expanded="false" data-nav-toggle>
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"/></svg>
+
+        </button>
+
+        <a class="brand" href="/pt-br/index.html">
+            <img src="/assets/img/aivax.png" alt="AIVAX" width="108">
+        </a>
+
+        <nav class="header-nav" aria-label="Main">
+            <a href="/pt-br/index.html" >Introdução</a>
+            
+            <a href="/pt-br/docs/index.html" >Documentação</a>
+            
+            
+            <a href="/pt-br/learn/index.html" aria-current="page">Learn</a>
+            
+            <a href="https://inference.aivax.net/apidocs">Referência da API</a>
+        </nav>
+
+        <button class="search-trigger" type="button" data-search-open aria-label="Pesquisar">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></svg>
+
+            <span class="search-trigger-label">Pesquisar</span>
+            <kbd class="search-trigger-key">Ctrl K</kbd>
+        </button>
+
+        <div class="header-tools">
+            
+
+
+<details class="menu" data-menu>
+    <summary class="icon-button language-trigger" aria-label="Idioma" title="Idioma">
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.5 10L22.9 21H20.745L19.544 18H15.454L14.255 21H12.101L16.5 10H18.5ZM10 2V4H16V6L14.0322 6.0006C13.2425 8.36616 11.9988 10.5057 10.4115 12.301C11.1344 12.9457 11.917 13.5176 12.7475 14.0079L11.9969 15.8855C10.9237 15.2781 9.91944 14.5524 8.99961 13.7249C7.21403 15.332 5.10914 16.5553 2.79891 17.2734L2.26257 15.3442C4.2385 14.7203 6.04543 13.6737 7.59042 12.3021C6.46277 11.0281 5.50873 9.57985 4.76742 8.00028L7.00684 8.00037C7.57018 9.03885 8.23979 10.0033 8.99967 10.877C10.2283 9.46508 11.2205 7.81616 11.9095 6.00101L2 6V4H8V2H10ZM17.5 12.8852L16.253 16H18.745L17.5 12.8852Z"/></svg>
+
+        <span class="language-code">PT</span>
+    </summary>
+    <div class="menu-panel">
+        
+        
+        <a class="menu-item" href="/learn/production/deployment-checklist.html" hreflang="en-US" lang="en-US" data-lang-link="en"
+            >
+            English
+        </a>
+        
+        
+        <a class="menu-item" href="/pt-br/learn/production/deployment-checklist.html" hreflang="pt-BR" lang="pt-BR" data-lang-link="pt-br"
+            aria-current="true">
+            Português
+        </a>
+        
+    </div>
+</details>
+
+
+            <details class="menu" data-menu>
+                <summary class="icon-button" aria-label="Tema" title="Tema">
+                    <span class="theme-icon theme-icon-light"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></svg>
+</span>
+                    <span class="theme-icon theme-icon-dark"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/></svg>
+</span>
+                </summary>
+                <div class="menu-panel">
+                    <button type="button" class="menu-item" data-theme-set="light"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></svg>
+Claro</button>
+                    <button type="button" class="menu-item" data-theme-set="dark"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/></svg>
+Escuro</button>
+                    <button type="button" class="menu-item" data-theme-set="auto"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C17.5228 1.9967 22 6.47386 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967ZM12 19.9967C16.4183 19.9967 20 16.415 20 11.9967C20 7.57843 16.4183 3.9967 12 3.9967C7.58172 3.9967 4 7.57843 4 11.9967C4 16.415 7.58172 19.9967 12 19.9967ZM7.00035 15.316C9.07995 15.1646 11.117 14.2939 12.7071 12.7038C14.2972 11.1137 15.1679 9.07666 15.3193 6.99706C15.6454 7.21408 15.955 7.46642 16.2426 7.75406C18.5858 10.0972 18.5858 13.8962 16.2426 16.2393C13.8995 18.5825 10.1005 18.5825 7.75736 16.2393C7.46971 15.9517 7.21738 15.6421 7.00035 15.316Z"/></svg>
+Sistema</button>
+                </div>
+            </details>
+
+            <a class="icon-button" href="https://github.com/aivaxlabs/docs" aria-label="GitHub" title="GitHub" rel="noopener">
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"/></svg>
+
+            </a>
+        </div>
+    </div>
+</header>
+
+
+    <div class="shell">
+        
+
+<aside class="sidebar sidebar-learn" id="sidebar" aria-label="Learn">
+    <nav class="sidebar-nav">
+        <a class="sidebar-learn-home" href="/pt-br/learn/index.html"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"/></svg>
+Todos os módulos</a>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 11.3333L0 9L12 2L24 9V17.5H22V10.1667L20 11.3333V18.0113L19.7774 18.2864C17.9457 20.5499 15.1418 22 12 22C8.85817 22 6.05429 20.5499 4.22263 18.2864L4 18.0113V11.3333ZM6 12.5V17.2917C7.46721 18.954 9.61112 20 12 20C14.3889 20 16.5328 18.954 18 17.2917V12.5L12 16L6 12.5ZM3.96927 9L12 13.6846L20.0307 9L12 4.31541L3.96927 9Z"/></svg>
+
+                <span class="nav-module-title">Introdução</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/introduction/what-is-learn.html&#34;,&#34;/pt-br/learn/introduction/introduction-to-ai.html&#34;]">2</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/introduction/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/introduction/what-is-learn.html" data-learn-unit="/pt-br/learn/introduction/what-is-learn.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>O que é Learn</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/introduction/introduction-to-ai.html" data-learn-unit="/pt-br/learn/introduction/introduction-to-ai.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Introdução à IA</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.5 2C13.5 2.44425 13.3069 2.84339 13 3.11805V5H18C19.6569 5 21 6.34315 21 8V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V8C3 6.34315 4.34315 5 6 5H11V3.11805C10.6931 2.84339 10.5 2.44425 10.5 2C10.5 1.17157 11.1716 0.5 12 0.5C12.8284 0.5 13.5 1.17157 13.5 2ZM6 7C5.44772 7 5 7.44772 5 8V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V8C19 7.44772 18.5523 7 18 7H13H11H6ZM2 10H0V16H2V10ZM22 10H24V16H22V10ZM9 14.5C9.82843 14.5 10.5 13.8284 10.5 13C10.5 12.1716 9.82843 11.5 9 11.5C8.17157 11.5 7.5 12.1716 7.5 13C7.5 13.8284 8.17157 14.5 9 14.5ZM15 14.5C15.8284 14.5 16.5 13.8284 16.5 13C16.5 12.1716 15.8284 11.5 15 11.5C14.1716 11.5 13.5 12.1716 13.5 13C13.5 13.8284 14.1716 14.5 15 14.5Z"/></svg>
+
+                <span class="nav-module-title">Agentes</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/agents/introduction-to-ai-agents.html&#34;,&#34;/pt-br/learn/agents/what-is-an-llm.html&#34;,&#34;/pt-br/learn/agents/from-llms-to-agents.html&#34;,&#34;/pt-br/learn/agents/adding-context.html&#34;,&#34;/pt-br/learn/agents/adding-tools.html&#34;,&#34;/pt-br/learn/agents/adding-skills.html&#34;,&#34;/pt-br/learn/agents/adding-guardrails.html&#34;,&#34;/pt-br/learn/agents/adding-knowledge.html&#34;,&#34;/pt-br/learn/agents/connecting-to-the-world.html&#34;,&#34;/pt-br/learn/agents/connecting-to-existing-systems.html&#34;,&#34;/pt-br/learn/agents/agent-to-agent-communication.html&#34;,&#34;/pt-br/learn/agents/workflows-as-skills.html&#34;,&#34;/pt-br/learn/agents/writing-good-prompts-and-instructions.html&#34;]">13</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/agents/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/introduction-to-ai-agents.html" data-learn-unit="/pt-br/learn/agents/introduction-to-ai-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Introdução a agentes de IA</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/what-is-an-llm.html" data-learn-unit="/pt-br/learn/agents/what-is-an-llm.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>O que é um LLM</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/from-llms-to-agents.html" data-learn-unit="/pt-br/learn/agents/from-llms-to-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>De LLMs para agentes</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/adding-context.html" data-learn-unit="/pt-br/learn/agents/adding-context.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adicionando contexto</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/adding-tools.html" data-learn-unit="/pt-br/learn/agents/adding-tools.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adicionando ferramentas</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/adding-skills.html" data-learn-unit="/pt-br/learn/agents/adding-skills.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adicionando habilidades</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/adding-guardrails.html" data-learn-unit="/pt-br/learn/agents/adding-guardrails.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adicionando barreiras de segurança</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/adding-knowledge.html" data-learn-unit="/pt-br/learn/agents/adding-knowledge.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adicionando conhecimento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/connecting-to-the-world.html" data-learn-unit="/pt-br/learn/agents/connecting-to-the-world.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Conectando ao mundo</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/connecting-to-existing-systems.html" data-learn-unit="/pt-br/learn/agents/connecting-to-existing-systems.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Conectando a sistemas existentes</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/agent-to-agent-communication.html" data-learn-unit="/pt-br/learn/agents/agent-to-agent-communication.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Comunicação entre agentes</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/workflows-as-skills.html" data-learn-unit="/pt-br/learn/agents/workflows-as-skills.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Fluxos de trabalho como habilidades</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/agents/writing-good-prompts-and-instructions.html" data-learn-unit="/pt-br/learn/agents/writing-good-prompts-and-instructions.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Escrevendo prompts e instruções eficazes</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M5 12.5C5 12.8134 5.46101 13.3584 6.53047 13.8931C7.91405 14.5849 9.87677 15 12 15C14.1232 15 16.0859 14.5849 17.4695 13.8931C18.539 13.3584 19 12.8134 19 12.5V10.3287C17.35 11.3482 14.8273 12 12 12C9.17273 12 6.64996 11.3482 5 10.3287V12.5ZM19 15.3287C17.35 16.3482 14.8273 17 12 17C9.17273 17 6.64996 16.3482 5 15.3287V17.5C5 17.8134 5.46101 18.3584 6.53047 18.8931C7.91405 19.5849 9.87677 20 12 20C14.1232 20 16.0859 19.5849 17.4695 18.8931C18.539 18.3584 19 17.8134 19 17.5V15.3287ZM3 17.5V7.5C3 5.01472 7.02944 3 12 3C16.9706 3 21 5.01472 21 7.5V17.5C21 19.9853 16.9706 22 12 22C7.02944 22 3 19.9853 3 17.5ZM12 10C14.1232 10 16.0859 9.58492 17.4695 8.89313C18.539 8.3584 19 7.81342 19 7.5C19 7.18658 18.539 6.6416 17.4695 6.10687C16.0859 5.41508 14.1232 5 12 5C9.87677 5 7.91405 5.41508 6.53047 6.10687C5.46101 6.6416 5 7.18658 5 7.5C5 7.81342 5.46101 8.3584 6.53047 8.89313C7.91405 9.58492 9.87677 10 12 10Z"/></svg>
+
+                <span class="nav-module-title">Ensinando agentes</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/teaching-agents/introduction-to-knowledge-creation.html&#34;,&#34;/pt-br/learn/teaching-agents/what-is-a-rag.html&#34;,&#34;/pt-br/learn/teaching-agents/finding-and-preparing-knowledge.html&#34;,&#34;/pt-br/learn/teaching-agents/writing-good-documents.html&#34;,&#34;/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.html&#34;,&#34;/pt-br/learn/teaching-agents/retrieval-strategies.html&#34;,&#34;/pt-br/learn/teaching-agents/preparing-documents-for-knowledge.html&#34;,&#34;/pt-br/learn/teaching-agents/dynamic-context.html&#34;]">8</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/teaching-agents/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/introduction-to-knowledge-creation.html" data-learn-unit="/pt-br/learn/teaching-agents/introduction-to-knowledge-creation.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Criação de conhecimento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/what-is-a-rag.html" data-learn-unit="/pt-br/learn/teaching-agents/what-is-a-rag.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>O que é um RAG</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/finding-and-preparing-knowledge.html" data-learn-unit="/pt-br/learn/teaching-agents/finding-and-preparing-knowledge.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Encontrar e preparar conhecimento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/writing-good-documents.html" data-learn-unit="/pt-br/learn/teaching-agents/writing-good-documents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Escrever documentos bons</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.html" data-learn-unit="/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Medir qualidade do conhecimento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/retrieval-strategies.html" data-learn-unit="/pt-br/learn/teaching-agents/retrieval-strategies.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Estratégias de recuperação</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/preparing-documents-for-knowledge.html" data-learn-unit="/pt-br/learn/teaching-agents/preparing-documents-for-knowledge.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Preparando documentos para conhecimento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/teaching-agents/dynamic-context.html" data-learn-unit="/pt-br/learn/teaching-agents/dynamic-context.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Contexto dinâmico</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.29117 20.8242L2 22L3.17581 16.7088C2.42544 15.3056 2 13.7025 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.2975 22 8.6944 21.5746 7.29117 20.8242ZM7.58075 18.711L8.23428 19.0605C9.38248 19.6745 10.6655 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 13.3345 4.32549 14.6175 4.93949 15.7657L5.28896 16.4192L4.63416 19.3658L7.58075 18.711Z"/></svg>
+
+                <span class="nav-module-title">Engenharia de Prompt e Contexto</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/prompt-engineering/anatomy-of-a-prompt.html&#34;,&#34;/pt-br/learn/prompt-engineering/prompting-techniques.html&#34;,&#34;/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.html&#34;,&#34;/pt-br/learn/prompt-engineering/memory.html&#34;,&#34;/pt-br/learn/prompt-engineering/common-prompt-mistakes.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/prompt-engineering/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/prompt-engineering/anatomy-of-a-prompt.html" data-learn-unit="/pt-br/learn/prompt-engineering/anatomy-of-a-prompt.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Anatomia de um prompt</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/prompt-engineering/prompting-techniques.html" data-learn-unit="/pt-br/learn/prompt-engineering/prompting-techniques.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Técnicas de Prompting</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.html" data-learn-unit="/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Contexto, tokens e custo</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/prompt-engineering/memory.html" data-learn-unit="/pt-br/learn/prompt-engineering/memory.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Memória de curto e longo prazo</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/prompt-engineering/common-prompt-mistakes.html" data-learn-unit="/pt-br/learn/prompt-engineering/common-prompt-mistakes.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Erros comuns de prompt</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6 18H18V6H6V18ZM14 20H10V22H8V20H5C4.44772 20 4 19.5523 4 19V16H2V14H4V10H2V8H4V5C4 4.44772 4.44772 4 5 4H8V2H10V4H14V2H16V4H19C19.5523 4 20 4.44772 20 5V8H22V10H20V14H22V16H20V19C20 19.5523 19.5523 20 19 20H16V22H14V20ZM8 8H16V16H8V8Z"/></svg>
+
+                <span class="nav-module-title">Modelos e parâmetros</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/models/model-families-and-choosing.html&#34;,&#34;/pt-br/learn/models/parameters.html&#34;,&#34;/pt-br/learn/models/multimodality.html&#34;,&#34;/pt-br/learn/models/embeddings-and-semantic-search.html&#34;,&#34;/pt-br/learn/models/reasoning-vs-standard-models.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/models/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/models/model-families-and-choosing.html" data-learn-unit="/pt-br/learn/models/model-families-and-choosing.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Famílias de modelos</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/models/parameters.html" data-learn-unit="/pt-br/learn/models/parameters.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Parâmetros</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/models/multimodality.html" data-learn-unit="/pt-br/learn/models/multimodality.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Multimodalidade</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/models/embeddings-and-semantic-search.html" data-learn-unit="/pt-br/learn/models/embeddings-and-semantic-search.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Embeddings e busca</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/models/reasoning-vs-standard-models.html" data-learn-unit="/pt-br/learn/models/reasoning-vs-standard-models.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Modelos de raciocínio</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13 18V20H19V22H13C11.8954 22 11 21.1046 11 20V18H8C5.79086 18 4 16.2091 4 14V7C4 6.44772 4.44772 6 5 6H8V2H10V6H14V2H16V6H19C19.5523 6 20 6.44772 20 7V14C20 16.2091 18.2091 18 16 18H13ZM8 16H16C17.1046 16 18 15.1046 18 14V11H6V14C6 15.1046 6.89543 16 8 16ZM18 8H6V9H18V8ZM12 14.5C11.4477 14.5 11 14.0523 11 13.5C11 12.9477 11.4477 12.5 12 12.5C12.5523 12.5 13 12.9477 13 13.5C13 14.0523 12.5523 14.5 12 14.5Z"/></svg>
+
+                <span class="nav-module-title">Ferramentas e integrações</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/tools-and-integrations/function-calling.html&#34;,&#34;/pt-br/learn/tools-and-integrations/model-context-protocol.html&#34;,&#34;/pt-br/learn/tools-and-integrations/authentication-and-permissions.html&#34;,&#34;/pt-br/learn/tools-and-integrations/integrating-channels.html&#34;,&#34;/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/tools-and-integrations/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/tools-and-integrations/function-calling.html" data-learn-unit="/pt-br/learn/tools-and-integrations/function-calling.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Chamada de função</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/tools-and-integrations/model-context-protocol.html" data-learn-unit="/pt-br/learn/tools-and-integrations/model-context-protocol.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>MCP e padrões de ferramentas</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/tools-and-integrations/authentication-and-permissions.html" data-learn-unit="/pt-br/learn/tools-and-integrations/authentication-and-permissions.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Autenticação e permissões</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/tools-and-integrations/integrating-channels.html" data-learn-unit="/pt-br/learn/tools-and-integrations/integrating-channels.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Integrando canais</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.html" data-learn-unit="/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Webhooks e automações</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.10508 15.2101C8.21506 15.6501 9 16.7334 9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.6938 3.83481 15.5825 5 15.1707V8.82929C3.83481 8.41746 3 7.30622 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6C9 7.30622 8.16519 8.41746 7 8.82929V11.9996C7.83566 11.3719 8.87439 11 10 11H14C15.3835 11 16.5482 10.0635 16.8949 8.78991C15.7849 8.34988 15 7.26661 15 6C15 4.34315 16.3431 3 18 3C19.6569 3 21 4.34315 21 6C21 7.3332 20.1303 8.46329 18.9274 8.85392C18.5222 11.2085 16.4703 13 14 13H10C8.61653 13 7.45179 13.9365 7.10508 15.2101ZM6 17C5.44772 17 5 17.4477 5 18C5 18.5523 5.44772 19 6 19C6.55228 19 7 18.5523 7 18C7 17.4477 6.55228 17 6 17ZM6 5C5.44772 5 5 5.44772 5 6C5 6.55228 5.44772 7 6 7C6.55228 7 7 6.55228 7 6C7 5.44772 6.55228 5 6 5ZM18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"/></svg>
+
+                <span class="nav-module-title">Agentes avançados e fluxos de trabalho</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/advanced-agents/planning-and-reasoning-loops.html&#34;,&#34;/pt-br/learn/advanced-agents/multi-agent-architectures.html&#34;,&#34;/pt-br/learn/advanced-agents/human-in-the-loop.html&#34;,&#34;/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.html&#34;,&#34;/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/advanced-agents/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/advanced-agents/planning-and-reasoning-loops.html" data-learn-unit="/pt-br/learn/advanced-agents/planning-and-reasoning-loops.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Loops de planejamento e raciocínio</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/advanced-agents/multi-agent-architectures.html" data-learn-unit="/pt-br/learn/advanced-agents/multi-agent-architectures.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Arquiteturas multi-agente</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/advanced-agents/human-in-the-loop.html" data-learn-unit="/pt-br/learn/advanced-agents/human-in-the-loop.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Humano-no-loop</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.html" data-learn-unit="/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Erros, tentativas e alternativas</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.html" data-learn-unit="/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Agentes de longa duração e assíncronos</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M15.9994 2V4H14.9994V7.24291C14.9994 8.40051 15.2506 9.54432 15.7357 10.5954L20.017 19.8714C20.3641 20.6236 20.0358 21.5148 19.2836 21.8619C19.0865 21.9529 18.8721 22 18.655 22H5.34375C4.51532 22 3.84375 21.3284 3.84375 20.5C3.84375 20.2829 3.89085 20.0685 3.98181 19.8714L8.26306 10.5954C8.74816 9.54432 8.99939 8.40051 8.99939 7.24291V4H7.99939V2H15.9994ZM13.3873 10.0012H10.6115C10.5072 10.3644 10.3823 10.7221 10.2371 11.0724L10.079 11.4335L6.12439 20H17.8734L13.9198 11.4335C13.7054 10.9691 13.5276 10.4902 13.3873 10.0012ZM10.9994 7.24291C10.9994 7.49626 10.9898 7.7491 10.9706 8.00087H13.0282C13.0189 7.87982 13.0119 7.75852 13.0072 7.63704L12.9994 7.24291V4H10.9994V7.24291Z"/></svg>
+
+                <span class="nav-module-title">Qualidade, avaliação e observabilidade</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/quality/testing-and-evaluating-agents.html&#34;,&#34;/pt-br/learn/quality/metrics.html&#34;,&#34;/pt-br/learn/quality/logs-traces-and-monitoring.html&#34;,&#34;/pt-br/learn/quality/continuous-improvement.html&#34;,&#34;/pt-br/learn/quality/ab-testing.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/quality/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/quality/testing-and-evaluating-agents.html" data-learn-unit="/pt-br/learn/quality/testing-and-evaluating-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Testando e avaliações</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/quality/metrics.html" data-learn-unit="/pt-br/learn/quality/metrics.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Métricas de qualidade</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/quality/logs-traces-and-monitoring.html" data-learn-unit="/pt-br/learn/quality/logs-traces-and-monitoring.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Logs e monitoramento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/quality/continuous-improvement.html" data-learn-unit="/pt-br/learn/quality/continuous-improvement.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Melhoria contínua</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/quality/ab-testing.html" data-learn-unit="/pt-br/learn/quality/ab-testing.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Testes A/B</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 1L20.2169 2.82598C20.6745 2.92766 21 3.33347 21 3.80217V13.7889C21 15.795 19.9974 17.6684 18.3282 18.7812L12 23L5.6718 18.7812C4.00261 17.6684 3 15.795 3 13.7889V3.80217C3 3.33347 3.32553 2.92766 3.78307 2.82598L12 1ZM12 3.04879L5 4.60434V13.7889C5 15.1263 5.6684 16.3752 6.7812 17.1171L12 20.5963L17.2188 17.1171C18.3316 16.3752 19 15.1263 19 13.7889V4.60434L12 3.04879ZM16.4524 8.22183L17.8666 9.63604L11.5026 16L7.25999 11.7574L8.67421 10.3431L11.5019 13.1709L16.4524 8.22183Z"/></svg>
+
+                <span class="nav-module-title">Segurança, ética e conformidade</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/safety/prompt-injection-and-jailbreaks.html&#34;,&#34;/pt-br/learn/safety/privacy-lgpd-gdpr.html&#34;,&#34;/pt-br/learn/safety/bias-fairness-responsible-ai.html&#34;,&#34;/pt-br/learn/safety/content-moderation-and-policies.html&#34;,&#34;/pt-br/learn/safety/transparency-and-human-escalation.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/safety/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/safety/prompt-injection-and-jailbreaks.html" data-learn-unit="/pt-br/learn/safety/prompt-injection-and-jailbreaks.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Injeção de prompt e quebras de segurança</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/safety/privacy-lgpd-gdpr.html" data-learn-unit="/pt-br/learn/safety/privacy-lgpd-gdpr.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Privacidade e dados sensíveis</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/safety/bias-fairness-responsible-ai.html" data-learn-unit="/pt-br/learn/safety/bias-fairness-responsible-ai.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Viés e IA responsável</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/safety/content-moderation-and-policies.html" data-learn-unit="/pt-br/learn/safety/content-moderation-and-policies.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Moderação e políticas de uso</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/safety/transparency-and-human-escalation.html" data-learn-unit="/pt-br/learn/safety/transparency-and-human-escalation.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Transparência e escalonamento</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" open>
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4.99958 12.9999C4.99958 7.91198 7.90222 3.5636 11.9996 1.81799C16.0969 3.5636 18.9996 7.91198 18.9996 12.9999C18.9996 13.8229 18.9236 14.6264 18.779 15.4027L20.7194 17.2353C20.8845 17.3913 20.9238 17.6389 20.815 17.8383L18.3196 22.4133C18.1873 22.6557 17.8836 22.7451 17.6412 22.6128C17.5993 22.59 17.5608 22.5612 17.5271 22.5274L15.2925 20.2928C15.1049 20.1053 14.8506 19.9999 14.5854 19.9999H9.41379C9.14857 19.9999 8.89422 20.1053 8.70668 20.2928L6.47209 22.5274C6.27683 22.7227 5.96025 22.7227 5.76498 22.5274C5.73122 22.4937 5.70246 22.4552 5.67959 22.4133L3.18412 17.8383C3.07537 17.6389 3.11464 17.3913 3.27975 17.2353L5.22014 15.4027C5.07551 14.6264 4.99958 13.8229 4.99958 12.9999ZM6.47542 19.6957L7.29247 18.8786C7.85508 18.316 8.61814 17.9999 9.41379 17.9999H14.5854C15.381 17.9999 16.1441 18.316 16.7067 18.8786L17.5237 19.6957L18.5056 17.8955L17.4058 16.8568C16.9117 16.3901 16.6884 15.7045 16.8128 15.0364C16.9366 14.3722 16.9996 13.6911 16.9996 12.9999C16.9996 9.13037 15.0045 5.69965 11.9996 4.04033C8.99462 5.69965 6.99958 9.13037 6.99958 12.9999C6.99958 13.6911 7.06255 14.3722 7.18631 15.0364C7.31078 15.7045 7.08746 16.3901 6.59338 16.8568L5.49353 17.8955L6.47542 19.6957ZM11.9996 12.9999C10.895 12.9999 9.99958 12.1045 9.99958 10.9999C9.99958 9.89537 10.895 8.99994 11.9996 8.99994C13.1041 8.99994 13.9996 9.89537 13.9996 10.9999C13.9996 12.1045 13.1041 12.9999 11.9996 12.9999Z"/></svg>
+
+                <span class="nav-module-title">Produção e escala</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/production/cost-optimization-and-caching.html&#34;,&#34;/pt-br/learn/production/performance-and-latency.html&#34;,&#34;/pt-br/learn/production/versioning.html&#34;,&#34;/pt-br/learn/production/deployment-checklist.html&#34;]">4</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/production/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/production/cost-optimization-and-caching.html" data-learn-unit="/pt-br/learn/production/cost-optimization-and-caching.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Custos e cache</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/production/performance-and-latency.html" data-learn-unit="/pt-br/learn/production/performance-and-latency.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Desempenho e latência</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/production/versioning.html" data-learn-unit="/pt-br/learn/production/versioning.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Versionamento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/production/deployment-checklist.html" data-learn-unit="/pt-br/learn/production/deployment-checklist.html" aria-current="page">
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Lista de verificação de implantação</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM16.5 7.5L14 14L7.5 16.5L10 10L16.5 7.5ZM12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"/></svg>
+
+                <span class="nav-module-title">Guias práticos e estudos de caso</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/pt-br/learn/guides/customer-support-agent.html&#34;,&#34;/pt-br/learn/guides/sales-qualification-agent.html&#34;,&#34;/pt-br/learn/guides/internal-knowledge-assistant.html&#34;,&#34;/pt-br/learn/guides/use-cases-by-industry.html&#34;,&#34;/pt-br/learn/guides/glossary-and-cheat-sheet.html&#34;,&#34;/pt-br/learn/guides/faq-and-learning-paths.html&#34;]">6</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/pt-br/learn/guides/index.html" >Módulo</a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/guides/customer-support-agent.html" data-learn-unit="/pt-br/learn/guides/customer-support-agent.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Agente de suporte ao cliente</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/guides/sales-qualification-agent.html" data-learn-unit="/pt-br/learn/guides/sales-qualification-agent.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Vendas e qualificação</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/guides/internal-knowledge-assistant.html" data-learn-unit="/pt-br/learn/guides/internal-knowledge-assistant.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Assistente interno de conhecimento</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/guides/use-cases-by-industry.html" data-learn-unit="/pt-br/learn/guides/use-cases-by-industry.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Casos de uso por setor</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/guides/glossary-and-cheat-sheet.html" data-learn-unit="/pt-br/learn/guides/glossary-and-cheat-sheet.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Glossário e folha de dicas</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/pt-br/learn/guides/faq-and-learning-paths.html" data-learn-unit="/pt-br/learn/guides/faq-and-learning-paths.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>FAQ e caminhos de aprendizado</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+    </nav>
+</aside>
+
+
+        <main id="content" class="main">
+            
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+        
+        
+        
+    
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<article class="article learn-unit" data-pagefind-body data-pagefind-meta="section:learn">
+    <div class="article-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore>
+            <a href="/pt-br/learn/index.html">Learn</a>
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+<a href="/pt-br/learn/production/index.html">Produção e escala</a>
+        </nav>
+        <details class="menu page-actions" data-menu data-pagefind-ignore>
+    <summary class="button button-ghost">
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"/></svg>
+
+        <span>Copiar página</span>
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"/></svg>
+
+    </summary>
+    <div class="menu-panel">
+        
+        <button type="button" class="menu-item" data-copy-markdown="/pt-br/learn/production/deployment-checklist.md" data-copied-label="Copiado">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM4 5V19H20V5H4ZM7 15.5H5V8.5H7L9 10.5L11 8.5H13V15.5H11V11.5L9 13.5L7 11.5V15.5ZM18 12.5H20L17 15.5L14 12.5H16V8.5H18V12.5Z"/></svg>
+<span>Copiar como Markdown</span>
+        </button>
+        <a class="menu-item" href="/pt-br/learn/production/deployment-checklist.md" type="text/markdown">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"/></svg>
+<span>Ver como Markdown</span>
+        </a>
+        
+        <button type="button" class="menu-item" data-copy-link data-copied-label="Copiado">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.3638 15.5355L16.9496 14.1213L18.3638 12.7071C20.3164 10.7545 20.3164 7.58866 18.3638 5.63604C16.4112 3.68341 13.2453 3.68341 11.2927 5.63604L9.87849 7.05025L8.46428 5.63604L9.87849 4.22182C12.6122 1.48815 17.0443 1.48815 19.778 4.22182C22.5117 6.95549 22.5117 11.3876 19.778 14.1213L18.3638 15.5355ZM15.5353 18.364L14.1211 19.7782C11.3875 22.5118 6.95531 22.5118 4.22164 19.7782C1.48797 17.0445 1.48797 12.6123 4.22164 9.87868L5.63585 8.46446L7.05007 9.87868L5.63585 11.2929C3.68323 13.2455 3.68323 16.4113 5.63585 18.364C7.58847 20.3166 10.7543 20.3166 12.7069 18.364L14.1211 16.9497L15.5353 18.364ZM14.8282 7.75736L16.2425 9.17157L9.17139 16.2426L7.75717 14.8284L14.8282 7.75736Z"/></svg>
+<span>Copiar link</span>
+        </button>
+        
+        <a class="menu-item" href="https://github.com/aivaxlabs/docs/edit/master/content/en/learn/production/deployment-checklist.md" rel="noopener">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6.41421 15.89L16.5563 5.74785L15.1421 4.33363L5 14.4758V15.89H6.41421ZM7.24264 17.89H3V13.6473L14.435 2.21231C14.8256 1.82179 15.4587 1.82179 15.8492 2.21231L18.6777 5.04074C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89ZM3 19.89H21V21.89H3V19.89Z"/></svg>
+<span>Editar fonte em inglês</span>
+        </a>
+        
+    </div>
+</details>
+
+    </div>
+
+    
+
+<p class="translation-notice" data-pagefind-ignore>
+    <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.5 10L22.9 21H20.745L19.544 18H15.454L14.255 21H12.101L16.5 10H18.5ZM10 2V4H16V6L14.0322 6.0006C13.2425 8.36616 11.9988 10.5057 10.4115 12.301C11.1344 12.9457 11.917 13.5176 12.7475 14.0079L11.9969 15.8855C10.9237 15.2781 9.91944 14.5524 8.99961 13.7249C7.21403 15.332 5.10914 16.5553 2.79891 17.2734L2.26257 15.3442C4.2385 14.7203 6.04543 13.6737 7.59042 12.3021C6.46277 11.0281 5.50873 9.57985 4.76742 8.00028L7.00684 8.00037C7.57018 9.03885 8.23979 10.0033 8.99967 10.877C10.2283 9.46508 11.2205 7.81616 11.9095 6.00101L2 6V4H8V2H10ZM17.5 12.8852L16.253 16H18.745L17.5 12.8852Z"/></svg>
+
+    <span>Esta página foi traduzida automaticamente do inglês e pode estar desatualizada. <a href="/learn/production/deployment-checklist.html" hreflang="en">Leia o original</a></span>
+</p>
+
+
+
+
+    <header class="unit-header">
+        <p class="unit-eyebrow"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4.99958 12.9999C4.99958 7.91198 7.90222 3.5636 11.9996 1.81799C16.0969 3.5636 18.9996 7.91198 18.9996 12.9999C18.9996 13.8229 18.9236 14.6264 18.779 15.4027L20.7194 17.2353C20.8845 17.3913 20.9238 17.6389 20.815 17.8383L18.3196 22.4133C18.1873 22.6557 17.8836 22.7451 17.6412 22.6128C17.5993 22.59 17.5608 22.5612 17.5271 22.5274L15.2925 20.2928C15.1049 20.1053 14.8506 19.9999 14.5854 19.9999H9.41379C9.14857 19.9999 8.89422 20.1053 8.70668 20.2928L6.47209 22.5274C6.27683 22.7227 5.96025 22.7227 5.76498 22.5274C5.73122 22.4937 5.70246 22.4552 5.67959 22.4133L3.18412 17.8383C3.07537 17.6389 3.11464 17.3913 3.27975 17.2353L5.22014 15.4027C5.07551 14.6264 4.99958 13.8229 4.99958 12.9999ZM6.47542 19.6957L7.29247 18.8786C7.85508 18.316 8.61814 17.9999 9.41379 17.9999H14.5854C15.381 17.9999 16.1441 18.316 16.7067 18.8786L17.5237 19.6957L18.5056 17.8955L17.4058 16.8568C16.9117 16.3901 16.6884 15.7045 16.8128 15.0364C16.9366 14.3722 16.9996 13.6911 16.9996 12.9999C16.9996 9.13037 15.0045 5.69965 11.9996 4.04033C8.99462 5.69965 6.99958 9.13037 6.99958 12.9999C6.99958 13.6911 7.06255 14.3722 7.18631 15.0364C7.31078 15.7045 7.08746 16.3901 6.59338 16.8568L5.49353 17.8955L6.47542 19.6957ZM11.9996 12.9999C10.895 12.9999 9.99958 12.1045 9.99958 10.9999C9.99958 9.89537 10.895 8.99994 11.9996 8.99994C13.1041 8.99994 13.9996 9.89537 13.9996 10.9999C13.9996 12.1045 13.1041 12.9999 11.9996 12.9999Z"/></svg>
+Produção e escala</p>
+        <h1>Lista de verificação de implantação</h1>
+        <p class="lead">Transforme um agente promissor em um lançamento controlado com responsáveis claros, evidências, limites operacionais e uma implantação gradual.</p>
+        <ul class="unit-meta" data-pagefind-ignore>
+            <li><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM11 13H4V19H11V13ZM20 13H13V19H20V13ZM11 5H4V11H11V5ZM20 5H13V11H20V5Z"/></svg>
+Unidade 4 de 4</li>
+            <li><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM13 12H17V14H11V7H13V12Z"/></svg>
+13 min</li>
+            <li><span class="level level-advanced">Avançado</span>
+</li>
+        </ul>
+    </header>
+
+    
+    <section class="objectives">
+        <p class="objectives-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M9.97308 18H11V13H13V18H14.0269C14.1589 16.7984 14.7721 15.8065 15.7676 14.7226C15.8797 14.6006 16.5988 13.8564 16.6841 13.7501C17.5318 12.6931 18 11.385 18 10C18 6.68629 15.3137 4 12 4C8.68629 4 6 6.68629 6 10C6 11.3843 6.46774 12.6917 7.31462 13.7484C7.40004 13.855 8.12081 14.6012 8.23154 14.7218C9.22766 15.8064 9.84103 16.7984 9.97308 18ZM10 20V21H14V20H10ZM5.75395 14.9992C4.65645 13.6297 4 11.8915 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10C20 11.8925 19.3428 13.6315 18.2443 15.0014C17.624 15.7748 16 17 16 18.5V21C16 22.1046 15.1046 23 14 23H10C8.89543 23 8 22.1046 8 21V18.5C8 17 6.37458 15.7736 5.75395 14.9992Z"/></svg>
+Nesta unidade, você vai aprender</p>
+        <ul>
+            <li>Revisar as áreas essenciais de prontidão antes que um agente entre em produção.</li><li>Anexar evidências e responsabilidade às decisões de implantação.</li><li>Planejar um piloto, expansão gradual e um procedimento de parada segura.</li><li>Reconhecer questões não resolvidas que devem impedir o lançamento.</li>
+        </ul>
+    </section>
+    
+
+    <div class="prose">
+        <p>A demonstração prova que um agente pode funcionar em uma situação selecionada. <strong>Implantação</strong> o disponibiliza em seu ambiente pretendido; entrar em produção significa que pessoas reais podem depender dele. Isso muda a pergunta de “Ele pode responder?” para “Podemos operá‑lo de forma responsável quando a resposta está errada, o serviço está lento ou a solicitação está fora do seu escopo?”</p>
+<p>Use esta lista de verificação como uma revisão de lançamento, não como uma cerimônia. Cada item marcado deve apontar para evidências e um responsável. Uma captura de tela da configuração pode provar que uma configuração existe; um resultado de teste mostra se funciona. Nenhum substitui uma pessoa nomeada que pode tomar uma decisão quando algo dá errado.</p>
+<h2 id="defina-o-que-significa-prontidão">Defina o que significa prontidão <a class="heading-anchor" href="#defina-o-que-significa-prontid%c3%a3o" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>Comece com uma promessa de serviço precisa. Um agente de suporte que explica políticas publicadas tem riscos diferentes de um que altera detalhes de contas. Declare quem pode usá‑lo, quais tarefas ele trata e quais ações permanecem decisões humanas. A decisão de lançamento deve aplicar‑se a esse escopo, não a uma ideia indefinida de um “assistente inteligente”.</p>
+<p>Um <strong>problema bloqueante</strong> é um problema suficientemente sério para impedir o lançamento, como informações privadas chegando ao cliente errado ou uma ação não autorizada sendo bem‑sucedida. Outras questões podem ser aceitáveis dentro de um piloto restrito se tiverem um responsável, uma mitigação e uma data de revisão. Registre essas decisões explicitamente; uma lista quase completa não é razão para ignorar a questão de segurança restante.</p>
+<div class="concept-cards">
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM16.5 7.5L14 14L7.5 16.5L10 10L16.5 7.5ZM12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"/></svg>
+Promessa de serviço</p>
+    <p>Objetivos, instruções e conhecimento definem o que o agente deve fazer e o que sustenta suas respostas.</p>
+
+</section>
+
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 1L20.2169 2.82598C20.6745 2.92766 21 3.33347 21 3.80217V13.7889C21 15.795 19.9974 17.6684 18.3282 18.7812L12 23L5.6718 18.7812C4.00261 17.6684 3 15.795 3 13.7889V3.80217C3 3.33347 3.32553 2.92766 3.78307 2.82598L12 1ZM12 3.04879L5 4.60434V13.7889C5 15.1263 5.6684 16.3752 6.7812 17.1171L12 20.5963L17.2188 17.1171C18.3316 16.3752 19 15.1263 19 13.7889V4.60434L12 3.04879ZM16.4524 8.22183L17.8666 9.63604L11.5026 16L7.25999 11.7574L8.67421 10.3431L11.5019 13.1709L16.4524 8.22183Z"/></svg>
+Limites</p>
+    <p>Ferramentas, permissões, segurança e privacidade definem quais informações e ações devem permanecer protegidas.</p>
+
+</section>
+
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12.0003 3C17.3924 3 21.8784 6.87976 22.8189 12C21.8784 17.1202 17.3924 21 12.0003 21C6.60812 21 2.12215 17.1202 1.18164 12C2.12215 6.87976 6.60812 3 12.0003 3ZM12.0003 19C16.2359 19 19.8603 16.052 20.7777 12C19.8603 7.94803 16.2359 5 12.0003 5C7.7646 5 4.14022 7.94803 3.22278 12C4.14022 16.052 7.7646 19 12.0003 19ZM12.0003 16.5C9.51498 16.5 7.50026 14.4853 7.50026 12C7.50026 9.51472 9.51498 7.5 12.0003 7.5C14.4855 7.5 16.5003 9.51472 16.5003 12C16.5003 14.4853 14.4855 16.5 12.0003 16.5ZM12.0003 14.5C13.381 14.5 14.5003 13.3807 14.5003 12C14.5003 10.6193 13.381 9.5 12.0003 9.5C10.6196 9.5 9.50026 10.6193 9.50026 12C9.50026 13.3807 10.6196 14.5 12.0003 14.5Z"/></svg>
+Evidência e operação</p>
+    <p>Avaliação, monitoramento e controles de custo mostram se o serviço funciona e permanece dentro dos limites acordados.</p>
+
+</section>
+
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 22C4 17.5817 7.58172 14 12 14C16.4183 14 20 17.5817 20 22H18C18 18.6863 15.3137 16 12 16C8.68629 16 6 18.6863 6 22H4ZM12 13C8.685 13 6 10.315 6 7C6 3.685 8.685 1 12 1C15.315 1 18 3.685 18 7C18 10.315 15.315 13 12 13ZM12 11C14.21 11 16 9.21 16 7C16 4.79 14.21 3 12 3C9.79 3 8 4.79 8 7C8 9.21 9.79 11 12 11Z"/></svg>
+Pessoas e lançamento</p>
+    <p>Suporte, escalonamento e implantação estabelecem quem responde, quem decide e como a exposição aumenta de forma segura.</p>
+
+</section>
+
+</div>
+
+<h2 id="revisar-a-lista-de-verificação-de-lançamento">Revisar a lista de verificação de lançamento <a class="heading-anchor" href="#revisar-a-lista-de-verifica%c3%a7%c3%a3o-de-lan%c3%a7amento" aria-label="#" data-pagefind-ignore>#</a></h2>
+
+
+
+<div class="tab-group learn-tabs">
+    <div role="tablist">
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-0" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-0" aria-selected="true" tabindex="0">Objetivos e escopo</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-1" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-1" aria-selected="false" tabindex="-1">Instruções</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-2" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-2" aria-selected="false" tabindex="-1">Conhecimento</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-3" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-3" aria-selected="false" tabindex="-1">Ferramentas e permissões</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-4" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-4" aria-selected="false" tabindex="-1">Segurança e privacidade</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-5" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-5" aria-selected="false" tabindex="-1">Avaliação</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-6" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-6" aria-selected="false" tabindex="-1">Observabilidade</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-7" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-7" aria-selected="false" tabindex="-1">Controles de custo</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-8" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-8" aria-selected="false" tabindex="-1">Suporte e escalonamento</button>
+        
+        <button type="button" role="tab" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-9" aria-controls="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-9" aria-selected="false" tabindex="-1">Plano de implantação</button>
+        
+    </div>
+    
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-0" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-0"><ul>
+<li><input disabled="" type="checkbox"> Definir o público e as tarefas suportadas — isso estabelece expectativas de serviço compartilhadas.</li>
+<li><input disabled="" type="checkbox"> Listar solicitações excluídas e ações proibidas — isso evita promessas abertas.</li>
+<li><input disabled="" type="checkbox"> Nomear o responsável e os critérios de sucesso — isso torna o lançamento responsável e mensurável.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-1" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-1" hidden><ul>
+<li><input disabled="" type="checkbox"> Declarar o papel, limites e comportamento em incerteza — isso orienta as respostas quando informações estão faltando.</li>
+<li><input disabled="" type="checkbox"> Verificar regras conflitantes — isso reduz escolhas imprevisíveis.</li>
+<li><input disabled="" type="checkbox"> Salvar a versão aprovada da instrução — isso conecta o comportamento à sua configuração revisada.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-2" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-2" hidden><ul>
+<li><input disabled="" type="checkbox"> Confirmar a propriedade da fonte, datas de vigência e atualidade — isso reduz respostas obsoletas.</li>
+<li><input disabled="" type="checkbox"> Testar a recuperação com formulação realista — isso verifica se a evidência pode ser encontrada.</li>
+<li><input disabled="" type="checkbox"> Separar conhecimento por permissões de acesso — isso protege material restrito.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-3" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-3" hidden><ul>
+<li><input disabled="" type="checkbox"> Habilitar apenas ações necessárias e acesso mínimo — isso limita danos potenciais.</li>
+<li><input disabled="" type="checkbox"> Exigir aprovação para ações consequentes — isso preserva o controle humano.</li>
+<li><input disabled="" type="checkbox"> Testar tempos limite e prevenção de duplicatas — isso evita ações repetidas após confirmações perdidas.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-4" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-4" hidden><ul>
+<li><input disabled="" type="checkbox"> Revisar instruções maliciosas em mensagens e documentos — isso testa a resistência a tentativas de redirecionar o agente.</li>
+<li><input disabled="" type="checkbox"> Documentar objetivo dos dados, acesso, retenção e exclusão — isso torna o tratamento de dados pessoais deliberado e revisável.</li>
+<li><input disabled="" type="checkbox"> Explicar o papel da IA e limitações relevantes — isso ajuda as pessoas a decidir quando solicitar assistência humana.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-5" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-5" hidden><ul>
+<li><input disabled="" type="checkbox"> Executar casos representativos, difíceis e fora do escopo — isso testa além de exemplos fáceis.</li>
+<li><input disabled="" type="checkbox"> Confirmar precisão, segurança e critérios de falha — isso expõe erros prejudiciais.</li>
+<li><input disabled="" type="checkbox"> Salvar resultados para a versão exata — isso vincula a aprovação ao que será lançado.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-6" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-6" hidden><ul>
+<li><input disabled="" type="checkbox"> Registrar resultados, tempos e rótulos de lançamento — isso ajuda a localizar falhas.</li>
+<li><input disabled="" type="checkbox"> Remover conteúdo sensível desnecessário dos logs — isso reduz a exposição diagnóstica.</li>
+<li><input disabled="" type="checkbox"> Testar alertas e atribuir respondedores — isso garante que os problemas cheguem a alguém capaz de agir.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-7" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-7" hidden><ul>
+<li><input disabled="" type="checkbox"> Estimar custo por tarefa concluída e volume — isso conecta gastos aos resultados.</li>
+<li><input disabled="" type="checkbox"> Limitar tentativas, loops de ferramentas e trabalho simultâneo — isso limita o processamento descontrolado.</li>
+<li><input disabled="" type="checkbox"> Definir alertas de orçamento e comportamento de parada segura — isso torna o excesso de gastos gerenciável.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-8" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-8" hidden><ul>
+<li><input disabled="" type="checkbox"> Fornecer um caminho visível para uma pessoa — isso dá aos usuários uma alternativa quando a automação não pode ajudar.</li>
+<li><input disabled="" type="checkbox"> Testar detalhes de transferência e disponibilidade do serviço — isso evita que casos desapareçam entre equipes.</li>
+<li><input disabled="" type="checkbox"> Atribuir responsáveis por incidentes e comunicação — isso dá à equipe um caminho claro para decisões urgentes.</li>
+</ul>
+</div>
+
+
+<div role="tabpanel" id="tabs-9084337ec7a22c92ec55657f972d4f41-1-panel-9" aria-labelledby="tabs-9084337ec7a22c92ec55657f972d4f41-1-tab-9" hidden><ul>
+<li><input disabled="" type="checkbox"> Iniciar com um público piloto limitado e adequado — isso revela problemas antes da expansão.</li>
+<li><input disabled="" type="checkbox"> Definir critérios de expansão e pausa antecipadamente — isso reduz a pressão para justificar resultados ruins.</li>
+<li><input disabled="" type="checkbox"> Ensaiar a parada e restauração de uma configuração segura — isso torna a recuperação prática.</li>
+</ul>
+</div>
+
+
+</div>
+
+<h2 id="inspecione-os-limites-não-apenas-as-respostas">Inspecione os limites, não apenas as respostas <a class="heading-anchor" href="#inspecione-os-limites-n%c3%a3o-apenas-as-respostas" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p><strong>Permissões</strong> determinam o que um usuário ou sistema pode ler ou mudar. Não confie apenas em uma instrução dizendo “Nunca acessar o pedido de outro cliente”. A aplicação e o serviço conectado devem impor esse limite. Teste com um usuário que deveria ser recusado, uma identidade ausente e uma conexão expirada, assim como uma solicitação válida. Recusar corretamente é um resultado de segurança bem‑sucedido, não um defeito a ser contornado.</p>
+<p><strong>Dados pessoais</strong> são informações relacionadas a uma pessoa identificável. Decida o que o agente realmente precisa e evite coletar o restante. Registros de conversas, resultados de ferramentas e logs de diagnóstico podem conter material sensível. Confirme quem pode acessá‑los, por quanto tempo são mantidos e como as solicitações de exclusão são tratadas. Requisitos legais dependem da situação; use <a href="/pt-br/learn/safety/privacy-lgpd-gdpr.html">Privacy, LGPD and GDPR</a> para enquadrar as perguntas para seu revisor de privacidade ou jurídico responsável.</p>
+<p>Verificações de conhecimento devem testar acesso assim como atualidade. Um manual interno pode estar atualizado, mas inadequado para um canal de suporte público. Uma busca bem‑sucedida não basta: o trecho recuperado deve aplicar‑se à situação do usuário e ser permitido para esse público. Quando a fonte não responde à pergunta, teste se o agente reconhece a lacuna e segue o próximo passo acordado.</p>
+<h2 id="torne-as-falhas-visíveis-e-acionáveis">Torne as falhas visíveis e acionáveis <a class="heading-anchor" href="#torne-as-falhas-vis%c3%adveis-e-acion%c3%a1veis" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p><strong>Observabilidade</strong> significa ser capaz de entender o que um sistema está fazendo a partir de seus sinais registrados. Um <strong>log</strong> registra eventos; um <strong>trace</strong> conecta etapas pertencentes a uma solicitação. Capture informações suficientes para distinguir uma busca falha de uma ferramenta falha ou de uma resposta de modelo inadequada, sem registrar conteúdo privado desnecessário. <a href="/pt-br/learn/quality/logs-traces-and-monitoring.html">Logs, traces and monitoring</a> explica como transformar esses sinais em evidências operacionais úteis.</p>
+<p>Teste um alerta criando deliberadamente uma falha segura em um ambiente de teste. Confirme que ele chega à pessoa certa e inclui contexto suficiente para ação. Um painel que ninguém verifica não é um plano de resposta a incidentes. Anote como pausar a capacidade afetada, preservar evidências adequadas e explicar a situação aos usuários sem adivinhar a causa.</p>
+<p>Uma <strong>escalonamento humano</strong> transfere um caso ou decisão para uma pessoa. Especifique o que a dispara: incerteza não resolvida, solicitação explícita do usuário, decisão sensível ou falhas repetidas. Inclua o histórico relevante e as etapas tentadas, com apenas as informações que a equipe receptora precisa. <a href="/pt-br/learn/advanced-agents/human-in-the-loop.html">Human in the loop</a> descreve onde a aprovação e revisão humana pertencem em um fluxo de trabalho do agente.</p>
+<p>Não prometa ajuda imediata quando a equipe de suporte estiver indisponível. Explique a próxima rota disponível e o que o usuário deve esperar. Teste o que acontece quando a própria transferência falha, e garanta que o usuário possa distinguir “Seu caso foi recebido” de “Alguém resolveu seu caso”. São compromissos diferentes.</p>
+<h2 id="implantar-gradualmente-usando-evidências">Implantar gradualmente, usando evidências <a class="heading-anchor" href="#implantar-gradualmente-usando-evid%c3%aancias" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>Um <strong>piloto</strong> é um período deliberadamente limitado de uso real com um público adequado. Não é permissão para expor usuários a comportamentos conhecidos como inseguros. Escolha tarefas de menor risco primeiro, mantenha o suporte disponível e explique as limitações do serviço. A implantação gradual então aumenta a exposição apenas depois que a fase atual atende aos critérios de aceitação pré‑definidos.</p>
+<div class="steps" data-steps data-label-of="Passo %d de %d">
+    <div class="steps-toolbar">
+        <button type="button" class="button button-ghost steps-play" data-steps-play data-label-play="Reproduzir" data-label-replay="Repetir"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M16.3944 12.0001L10 7.7371V16.263L16.3944 12.0001ZM19.376 12.4161L8.77735 19.4818C8.54759 19.635 8.23715 19.5729 8.08397 19.3432C8.02922 19.261 8 19.1645 8 19.0658V4.93433C8 4.65818 8.22386 4.43433 8.5 4.43433C8.59871 4.43433 8.69522 4.46355 8.77735 4.5183L19.376 11.584C19.6057 11.7372 19.6678 12.0477 19.5146 12.2774C19.478 12.3323 19.4309 12.3795 19.376 12.4161Z"/></svg>
+<span>Reproduzir</span></button>
+        <span class="steps-counter" data-steps-counter></span>
+        <span class="steps-nav">
+            <button type="button" class="icon-button" data-steps-prev aria-label="Passo anterior"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"/></svg>
+</button>
+            <button type="button" class="icon-button" data-steps-next aria-label="Próximo passo"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+</button>
+        </span>
+    </div>
+    <ol class="steps-list">
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Ensaiar em um ambiente controlado</p>
+        <p>Execute a jornada completa com dados de teste protegidos, incluindo acesso negado, ferramentas indisponíveis e o procedimento de parada.</p>
+
+    </div>
+</li>
+
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Executar um piloto limitado</p>
+        <p>Ofereça o escopo aprovado a um pequeno público adequado. Revise falhas e transferências juntamente com interações bem‑sucedidas.</p>
+
+    </div>
+</li>
+
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Expandir em etapas</p>
+        <p>Aumente deliberadamente o público ou o escopo de tarefas, não ambos por acidente. Reavalie capacidade, qualidade, custo e prontidão do suporte.</p>
+
+    </div>
+</li>
+
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Operar e revisar</p>
+        <p>Mantenha responsáveis e revisões regulares após o lançamento. Repita as verificações de prontidão relevantes quando instruções, ferramentas, conhecimento ou modelos mudarem.</p>
+
+    </div>
+</li>
+
+</ol>
+</div>
+
+<p>Use a conclusão de tarefas, resultados inseguros, tempo de espera, escalonamento e custo em conjunto. Uma alta taxa de conclusão não é aceitável se o agente a alcançar fazendo promessas não autorizadas. Falhas graves infrequentes merecem revisão individual ao invés de serem ocultas por uma média alta. Decida antes do lançamento quais evidências fariam a expansão parar.</p>
+<p>Para uma revisão ilustrativa, imagine que a maioria dos itens está concluída, mas um problema de controle de acesso permanece. Contar caixas concluídas ajuda a coordenar o trabalho, mas não pode superar esse bloqueador. Os números abaixo descrevem apenas essa revisão fictícia e não são limites recomendados ou prova de prontidão.</p>
+<div class="stats">
+<div class="stat">
+    <strong class="stat-value">27</strong>
+    <span class="stat-label">verificações concluídas em uma revisão ilustrativa</span>
+</div>
+
+<div class="stat">
+    <strong class="stat-value">2</strong>
+    <span class="stat-label">verificações aguardando evidência na mesma revisão</span>
+</div>
+
+<div class="stat">
+    <strong class="stat-value">1</strong>
+    <span class="stat-label">problema de acesso bloqueante: lançamento permanece pausado</span>
+</div>
+
+</div>
+
+<details class="accordion">
+    <summary><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+Podemos lançar com uma lista de verificação incompleta?</summary>
+    <div class="accordion-body"><p>Somente dentro de um escopo que permaneça seguro e explicitamente aprovado. Um recurso ausente pode ser excluído do piloto; um limite de permissão quebrado não pode ser justificado limitando o público. Registre cada exceção, responsável, mitigação e data de revisão. Se a equipe não puder explicar como os usuários permanecem protegidos, mantenha a capacidade afetada indisponível.</p>
+</div>
+</details>
+
+<p>O que vem a seguir: aplique esta lista de verificação a um serviço concreto em <a href="/pt-br/learn/guides/customer-support-agent.html">Customer support agent</a>.</p>
+
+
+<section class="quiz" data-quiz data-answer="3" data-label-correct="Correto." data-label-incorrect="Ainda não. Tente outra opção.">
+    <p class="quiz-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM13 13.3551V14H11V12.5C11 11.9477 11.4477 11.5 12 11.5C12.8284 11.5 13.5 10.8284 13.5 10C13.5 9.17157 12.8284 8.5 12 8.5C11.2723 8.5 10.6656 9.01823 10.5288 9.70577L8.56731 9.31346C8.88637 7.70919 10.302 6.5 12 6.5C13.933 6.5 15.5 8.067 15.5 10C15.5 11.5855 14.4457 12.9248 13 13.3551Z"/></svg>
+Verifique seu conhecimento</p>
+    <div class="quiz-question" id="quiz-9084337ec7a22c92ec55657f972d4f41-5-question"><p>Uma revisão de lançamento encontra um problema não resolvido que expõe registros de outro cliente. O que a equipe deve fazer?</p>
+</div>
+    <div class="quiz-options" role="radiogroup" aria-labelledby="quiz-9084337ec7a22c92ec55657f972d4f41-5-question">
+        
+        <label class="quiz-option"><input type="radio" name="quiz-9084337ec7a22c92ec55657f972d4f41-5" value="1"><span>Lançar porque a maioria das caixas está marcada</span></label>
+        
+        <label class="quiz-option"><input type="radio" name="quiz-9084337ec7a22c92ec55657f972d4f41-5" value="2"><span>Ignorar o problema se o público do piloto for pequeno</span></label>
+        
+        <label class="quiz-option"><input type="radio" name="quiz-9084337ec7a22c92ec55657f972d4f41-5" value="3"><span>Pausar o lançamento afetado até que o limite de acesso seja corrigido e verificado</span></label>
+        
+        <label class="quiz-option"><input type="radio" name="quiz-9084337ec7a22c92ec55657f972d4f41-5" value="4"><span>Remover o teste falho das evidências de lançamento</span></label>
+        
+    </div>
+    <div class="quiz-actions">
+        <button type="button" class="button button-primary" data-quiz-check>Verificar resposta</button>
+        <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+    </div>
+    <p class="quiz-explanation" data-quiz-explanation hidden>Uma falha de permissão é um bloqueador de lançamento mesmo quando outras verificações passam. Um público menor não torna o acesso não autorizado seguro; corrija e verifique o limite antes de expor os usuários a essa capacidade.</p>
+</section>
+
+
+    </div>
+
+    <div class="unit-complete" data-pagefind-ignore>
+        <button type="button" class="button button-ghost" data-learn-complete="/pt-br/learn/production/deployment-checklist.html"
+            data-label-todo="Marcar como concluída" data-label-done="Concluída">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12ZM12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM17.4571 9.45711L16.0429 8.04289L11 13.0858L8.20711 10.2929L6.79289 11.7071L11 15.9142L17.4571 9.45711Z"/></svg>
+<span>Marcar como concluída</span>
+        </button>
+    </div>
+
+    <nav class="pager" aria-label="Pagination" data-pagefind-ignore>
+        
+        <a class="pager-link pager-prev" href="/pt-br/learn/production/versioning.html" rel="prev">
+            <span><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"/></svg>
+Anterior</span>
+            <strong>Versionamento</strong>
+        </a>
+        
+        
+        <a class="pager-link pager-next" href="/pt-br/learn/guides/customer-support-agent.html" rel="next" data-learn-advance="/pt-br/learn/production/deployment-checklist.html">
+            <span>Próximo módulo<svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+</span>
+            <strong>Guias práticos e estudos de caso</strong>
+        </a>
+        
+    </nav>
+</article>
+<footer class="site-footer" data-pagefind-ignore>
+    <p>Documentação AIVAX</p>
+    <nav aria-label="Resources">
+        <a href="/pt-br/llms.txt">llms.txt</a>
+        <a href="/pt-br/llms-full.txt">llms-full.txt</a>
+        <a href="https://github.com/aivaxlabs/docs" rel="noopener">GitHub</a>
+    </nav>
+</footer>
+
+
+        </main>
+
+        
+
+<aside class="toc" aria-label="Nesta página">
+    <div class="toc-inner" data-toc>
+        <p class="toc-title">Nesta página</p>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#defina-o-que-significa-prontidão">Defina o que significa prontidão</a></li>
+    <li><a href="#revisar-a-lista-de-verificação-de-lançamento">Revisar a lista de verificação de lançamento</a></li>
+    <li><a href="#inspecione-os-limites-não-apenas-as-respostas">Inspecione os limites, não apenas as respostas</a></li>
+    <li><a href="#torne-as-falhas-visíveis-e-acionáveis">Torne as falhas visíveis e acionáveis</a></li>
+    <li><a href="#implantar-gradualmente-usando-evidências">Implantar gradualmente, usando evidências</a></li>
+  </ul>
+</nav>
+    </div>
+</aside>
+
+
+    </div>
+
+    <dialog class="search-dialog" aria-label="Pesquisar" data-search
+    data-docs-bundle="/pagefind/">
+    <div class="search-panel">
+        <div class="search-field">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></svg>
+
+            <input type="search" placeholder="Pesquisar na documentação" autocomplete="off" spellcheck="false"
+                aria-label="Pesquisar" aria-controls="search-results" data-search-input>
+            <button type="button" class="search-close" data-search-close aria-label="fechar"><kbd>Esc</kbd></button>
+        </div>
+
+        <div class="search-results" id="search-results" role="listbox" aria-label="Pesquisar" data-search-results
+            data-label-docs="Documentação"
+            data-label-empty="Nenhum resultado encontrado.">
+            <p class="search-message" data-search-hint>Digite para pesquisar na documentação.</p>
+        </div>
+
+        <footer class="search-footer">
+            <span><kbd>↑</kbd><kbd>↓</kbd> navegar</span>
+            <span><kbd>↵</kbd> abrir</span>
+            <span><kbd>Esc</kbd> fechar</span>
+        </footer>
+    </div>
+</dialog>
+
+
+    
+    <script src="/scripts/main.9b68ce99cae66e13fb0464000653e8df05883fba0bd2108f60dfb3c816ab8211.js" integrity="sha256-m2jOmcrmbhP7BGQABlPo3wWIP7oL0hCPYN&#43;zyBarghE=" defer></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-US" data-lang="en" data-copy-failed="Copy failed; use View as Markdown">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn | AIVAX Documentation</title>
+<meta name="description" content="Understand AI agents from the first concept to production, with visual, hands-on lessons written for people who do not come from computing.">
+<link rel="canonical" href="http://localhost:1313/learn/index.html">
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="alternate" hreflang="en-US" href="http://localhost:1313/learn/index.html">
+
+<link rel="alternate" hreflang="pt-BR" href="http://localhost:1313/pt-br/learn/index.html">
+
+
+<link rel="alternate" hreflang="x-default" href="http://localhost:1313/learn/index.html">
+
+
+
+<link rel="alternate" type="text/markdown" href="/learn/index.md" title="Markdown">
+
+<link rel="help" type="text/plain" href="/llms.txt" title="llms.txt">
+
+<meta property="og:title" content="Learn">
+<meta property="og:site_name" content="AIVAX Documentation">
+<meta property="og:url" content="http://localhost:1313/learn/index.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://localhost:1313/assets/img/aivax.png">
+
+
+<script>
+    (() => {
+        const theme = localStorage.getItem('theme') || 'auto';
+        const dark = theme === 'dark' || (theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.themePreference = theme;
+    })();
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="/styles/main.min.b389ddaa2ca26c179dddd4f1adfccc3e1b41d335726a845b6968fc0c6efc26f4.css" integrity="sha256-s4ndqiyibBed3dTxrfzMPhtB0zVyaoRbaWj8DG78JvQ=">
+
+</head>
+<body class="layout-learn-hub" data-learn-labels="{&#34;characters&#34;:&#34;characters&#34;,&#34;contextSize&#34;:&#34;Context window&#34;,&#34;dropped&#34;:&#34;Pushed out of the window&#34;,&#34;fits&#34;:&#34;Fits in the window&#34;,&#34;monthlyCost&#34;:&#34;Estimated monthly cost&#34;,&#34;play&#34;:&#34;Play&#34;,&#34;replay&#34;:&#34;Replay&#34;,&#34;sample&#34;:&#34;Pick the next word&#34;,&#34;temperature&#34;:&#34;Temperature&#34;,&#34;tokens&#34;:&#34;tokens&#34;}">
+    <a class="skip-link" href="#content">Skip to content</a>
+    
+<header class="header">
+    <div class="header-inner">
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="sidebar" aria-expanded="false" data-nav-toggle>
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"/></svg>
+
+        </button>
+
+        <a class="brand" href="/index.html">
+            <img src="/assets/img/aivax.png" alt="AIVAX" width="108">
+        </a>
+
+        <nav class="header-nav" aria-label="Main">
+            <a href="/index.html" >Introduction</a>
+            
+            <a href="/docs/index.html" >Documentation</a>
+            
+            
+            <a href="/learn/index.html" aria-current="page">Learn</a>
+            
+            <a href="https://inference.aivax.net/apidocs">API Reference</a>
+        </nav>
+
+        <button class="search-trigger" type="button" data-search-open aria-label="Search">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></svg>
+
+            <span class="search-trigger-label">Search</span>
+            <kbd class="search-trigger-key">Ctrl K</kbd>
+        </button>
+
+        <div class="header-tools">
+            
+
+
+<details class="menu" data-menu>
+    <summary class="icon-button language-trigger" aria-label="Language" title="Language">
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.5 10L22.9 21H20.745L19.544 18H15.454L14.255 21H12.101L16.5 10H18.5ZM10 2V4H16V6L14.0322 6.0006C13.2425 8.36616 11.9988 10.5057 10.4115 12.301C11.1344 12.9457 11.917 13.5176 12.7475 14.0079L11.9969 15.8855C10.9237 15.2781 9.91944 14.5524 8.99961 13.7249C7.21403 15.332 5.10914 16.5553 2.79891 17.2734L2.26257 15.3442C4.2385 14.7203 6.04543 13.6737 7.59042 12.3021C6.46277 11.0281 5.50873 9.57985 4.76742 8.00028L7.00684 8.00037C7.57018 9.03885 8.23979 10.0033 8.99967 10.877C10.2283 9.46508 11.2205 7.81616 11.9095 6.00101L2 6V4H8V2H10ZM17.5 12.8852L16.253 16H18.745L17.5 12.8852Z"/></svg>
+
+        <span class="language-code">EN</span>
+    </summary>
+    <div class="menu-panel">
+        
+        
+        <a class="menu-item" href="/learn/index.html" hreflang="en-US" lang="en-US" data-lang-link="en"
+            aria-current="true">
+            English
+        </a>
+        
+        
+        <a class="menu-item" href="/pt-br/learn/index.html" hreflang="pt-BR" lang="pt-BR" data-lang-link="pt-br"
+            >
+            Português
+        </a>
+        
+    </div>
+</details>
+
+
+            <details class="menu" data-menu>
+                <summary class="icon-button" aria-label="Theme" title="Theme">
+                    <span class="theme-icon theme-icon-light"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></svg>
+</span>
+                    <span class="theme-icon theme-icon-dark"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/></svg>
+</span>
+                </summary>
+                <div class="menu-panel">
+                    <button type="button" class="menu-item" data-theme-set="light"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></svg>
+Light</button>
+                    <button type="button" class="menu-item" data-theme-set="dark"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/></svg>
+Dark</button>
+                    <button type="button" class="menu-item" data-theme-set="auto"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C17.5228 1.9967 22 6.47386 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967ZM12 19.9967C16.4183 19.9967 20 16.415 20 11.9967C20 7.57843 16.4183 3.9967 12 3.9967C7.58172 3.9967 4 7.57843 4 11.9967C4 16.415 7.58172 19.9967 12 19.9967ZM7.00035 15.316C9.07995 15.1646 11.117 14.2939 12.7071 12.7038C14.2972 11.1137 15.1679 9.07666 15.3193 6.99706C15.6454 7.21408 15.955 7.46642 16.2426 7.75406C18.5858 10.0972 18.5858 13.8962 16.2426 16.2393C13.8995 18.5825 10.1005 18.5825 7.75736 16.2393C7.46971 15.9517 7.21738 15.6421 7.00035 15.316Z"/></svg>
+System</button>
+                </div>
+            </details>
+
+            <a class="icon-button" href="https://github.com/aivaxlabs/docs" aria-label="GitHub" title="GitHub" rel="noopener">
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"/></svg>
+
+            </a>
+        </div>
+    </div>
+</header>
+
+
+    <div class="shell">
+        
+
+        <main id="content" class="main">
+            
+
+<section class="learn-hero">
+    <p class="learn-eyebrow"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 11.3333L0 9L12 2L24 9V17.5H22V10.1667L20 11.3333V18.0113L19.7774 18.2864C17.9457 20.5499 15.1418 22 12 22C8.85817 22 6.05429 20.5499 4.22263 18.2864L4 18.0113V11.3333ZM6 12.5V17.2917C7.46721 18.954 9.61112 20 12 20C14.3889 20 16.5328 18.954 18 17.2917V12.5L12 16L6 12.5ZM3.96927 9L12 13.6846L20.0307 9L12 4.31541L3.96927 9Z"/></svg>
+AIVAX Learn</p>
+    <h1>Learn</h1>
+    <p class="learn-lead">Understand AI agents from the first concept to production, with visual, hands-on lessons written for people who do not come from computing.</p>
+    
+    <div class="hero-actions">
+        <a class="button button-primary" href="/learn/introduction/what-is-learn.html">Get started<svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+</a>
+    </div>
+    
+</section>
+
+
+<section class="learn-paths" aria-label="Learning paths">
+    
+    <article class="learn-path">
+        <h2><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 11.3333L0 9L12 2L24 9V17.5H22V10.1667L20 11.3333V18.0113L19.7774 18.2864C17.9457 20.5499 15.1418 22 12 22C8.85817 22 6.05429 20.5499 4.22263 18.2864L4 18.0113V11.3333ZM6 12.5V17.2917C7.46721 18.954 9.61112 20 12 20C14.3889 20 16.5328 18.954 18 17.2917V12.5L12 16L6 12.5ZM3.96927 9L12 13.6846L20.0307 9L12 4.31541L3.96927 9Z"/></svg>
+Beginner</h2>
+        <p>You have never built anything with AI. Start with the basics and learn what an agent is, piece by piece.</p>
+        <ol>
+            
+            <li><a href="/learn/introduction/index.html">Introduction</a></li>
+            
+            <li><a href="/learn/agents/index.html">Agents</a></li>
+            
+            <li><a href="/learn/prompt-engineering/index.html">Prompt engineering and context</a></li>
+            
+            <li><a href="/learn/safety/index.html">Safety, ethics and compliance</a></li>
+            
+        </ol>
+    </article>
+    
+    <article class="learn-path">
+        <h2><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6 18H18V6H6V18ZM14 20H10V22H8V20H5C4.44772 20 4 19.5523 4 19V16H2V14H4V10H2V8H4V5C4 4.44772 4.44772 4 5 4H8V2H10V4H14V2H16V4H19C19.5523 4 20 4.44772 20 5V8H22V10H20V14H22V16H20V19C20 19.5523 19.5523 20 19 20H16V22H14V20ZM8 8H16V16H8V8Z"/></svg>
+Developer</h2>
+        <p>You write software and want to design, connect, test and ship agents with confidence.</p>
+        <ol>
+            
+            <li><a href="/learn/agents/index.html">Agents</a></li>
+            
+            <li><a href="/learn/models/index.html">Models and parameters</a></li>
+            
+            <li><a href="/learn/tools-and-integrations/index.html">Tools and integrations</a></li>
+            
+            <li><a href="/learn/advanced-agents/index.html">Advanced agents and workflows</a></li>
+            
+            <li><a href="/learn/quality/index.html">Quality, evaluation and observability</a></li>
+            
+            <li><a href="/learn/production/index.html">Production and scale</a></li>
+            
+        </ol>
+    </article>
+    
+    <article class="learn-path">
+        <h2><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"/></svg>
+Business</h2>
+        <p>You lead a team or a company and need to decide where agents create value, what they cost and what risks to manage.</p>
+        <ol>
+            
+            <li><a href="/learn/introduction/index.html">Introduction</a></li>
+            
+            <li><a href="/learn/teaching-agents/index.html">Teaching agents</a></li>
+            
+            <li><a href="/learn/quality/index.html">Quality, evaluation and observability</a></li>
+            
+            <li><a href="/learn/safety/index.html">Safety, ethics and compliance</a></li>
+            
+            <li><a href="/learn/guides/index.html">Practical guides and case studies</a></li>
+            
+        </ol>
+    </article>
+    
+</section>
+
+
+<section class="learn-modules" aria-label="All modules">
+    <h2>All modules</h2>
+    <div class="module-grid">
+        
+        
+        <a class="module-card" href="/learn/introduction/index.html">
+            <img class="module-card-cover" src="/images/learn/introduction_hu_3fc127ad379d0685.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-beginner">Beginner</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 11.3333L0 9L12 2L24 9V17.5H22V10.1667L20 11.3333V18.0113L19.7774 18.2864C17.9457 20.5499 15.1418 22 12 22C8.85817 22 6.05429 20.5499 4.22263 18.2864L4 18.0113V11.3333ZM6 12.5V17.2917C7.46721 18.954 9.61112 20 12 20C14.3889 20 16.5328 18.954 18 17.2917V12.5L12 16L6 12.5ZM3.96927 9L12 13.6846L20.0307 9L12 4.31541L3.96927 9Z"/></svg>
+Introduction</strong>
+                <span class="module-card-description">What Learn is, how to use it, and a plain-language introduction to artificial intelligence for people who have never studied computing.</span>
+                <span class="module-card-meta">2 units · 20 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/introduction/what-is-learn.html&#34;,&#34;/learn/introduction/introduction-to-ai.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/agents/index.html">
+            <img class="module-card-cover" src="/images/learn/agents_hu_a93db79b235fb7d6.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-beginner">Beginner</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.5 2C13.5 2.44425 13.3069 2.84339 13 3.11805V5H18C19.6569 5 21 6.34315 21 8V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V8C3 6.34315 4.34315 5 6 5H11V3.11805C10.6931 2.84339 10.5 2.44425 10.5 2C10.5 1.17157 11.1716 0.5 12 0.5C12.8284 0.5 13.5 1.17157 13.5 2ZM6 7C5.44772 7 5 7.44772 5 8V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V8C19 7.44772 18.5523 7 18 7H13H11H6ZM2 10H0V16H2V10ZM22 10H24V16H22V10ZM9 14.5C9.82843 14.5 10.5 13.8284 10.5 13C10.5 12.1716 9.82843 11.5 9 11.5C8.17157 11.5 7.5 12.1716 7.5 13C7.5 13.8284 8.17157 14.5 9 14.5ZM15 14.5C15.8284 14.5 16.5 13.8284 16.5 13C16.5 12.1716 15.8284 11.5 15 11.5C14.1716 11.5 13.5 12.1716 13.5 13C13.5 13.8284 14.1716 14.5 15 14.5Z"/></svg>
+Agents</strong>
+                <span class="module-card-description">How a language model becomes an agent: context, tools, skills, guardrails, knowledge, connections to the world and to other agents, and the instructions that hold it all together.</span>
+                <span class="module-card-meta">13 units · 146 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/agents/introduction-to-ai-agents.html&#34;,&#34;/learn/agents/what-is-an-llm.html&#34;,&#34;/learn/agents/from-llms-to-agents.html&#34;,&#34;/learn/agents/adding-context.html&#34;,&#34;/learn/agents/adding-tools.html&#34;,&#34;/learn/agents/adding-skills.html&#34;,&#34;/learn/agents/adding-guardrails.html&#34;,&#34;/learn/agents/adding-knowledge.html&#34;,&#34;/learn/agents/connecting-to-the-world.html&#34;,&#34;/learn/agents/connecting-to-existing-systems.html&#34;,&#34;/learn/agents/agent-to-agent-communication.html&#34;,&#34;/learn/agents/workflows-as-skills.html&#34;,&#34;/learn/agents/writing-good-prompts-and-instructions.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/teaching-agents/index.html">
+            <img class="module-card-cover" src="/images/learn/teaching-agents_hu_8c84367e2ab1af3f.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-beginner">Beginner</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M5 12.5C5 12.8134 5.46101 13.3584 6.53047 13.8931C7.91405 14.5849 9.87677 15 12 15C14.1232 15 16.0859 14.5849 17.4695 13.8931C18.539 13.3584 19 12.8134 19 12.5V10.3287C17.35 11.3482 14.8273 12 12 12C9.17273 12 6.64996 11.3482 5 10.3287V12.5ZM19 15.3287C17.35 16.3482 14.8273 17 12 17C9.17273 17 6.64996 16.3482 5 15.3287V17.5C5 17.8134 5.46101 18.3584 6.53047 18.8931C7.91405 19.5849 9.87677 20 12 20C14.1232 20 16.0859 19.5849 17.4695 18.8931C18.539 18.3584 19 17.8134 19 17.5V15.3287ZM3 17.5V7.5C3 5.01472 7.02944 3 12 3C16.9706 3 21 5.01472 21 7.5V17.5C21 19.9853 16.9706 22 12 22C7.02944 22 3 19.9853 3 17.5ZM12 10C14.1232 10 16.0859 9.58492 17.4695 8.89313C18.539 8.3584 19 7.81342 19 7.5C19 7.18658 18.539 6.6416 17.4695 6.10687C16.0859 5.41508 14.1232 5 12 5C9.87677 5 7.91405 5.41508 6.53047 6.10687C5.46101 6.6416 5 7.18658 5 7.5C5 7.81342 5.46101 8.3584 6.53047 8.89313C7.91405 9.58492 9.87677 10 12 10Z"/></svg>
+Teaching agents</strong>
+                <span class="module-card-description">How to give an agent knowledge it was never trained on: what RAG is, how to find, write and prepare documents, how to measure whether the agent sticks to them, and how to feed context that changes over time.</span>
+                <span class="module-card-meta">8 units · 91 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/teaching-agents/introduction-to-knowledge-creation.html&#34;,&#34;/learn/teaching-agents/what-is-a-rag.html&#34;,&#34;/learn/teaching-agents/finding-and-preparing-knowledge.html&#34;,&#34;/learn/teaching-agents/writing-good-documents.html&#34;,&#34;/learn/teaching-agents/measuring-adherence-and-hallucination.html&#34;,&#34;/learn/teaching-agents/retrieval-strategies.html&#34;,&#34;/learn/teaching-agents/preparing-documents-for-knowledge.html&#34;,&#34;/learn/teaching-agents/dynamic-context.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/prompt-engineering/index.html">
+            <img class="module-card-cover" src="/images/learn/prompt-engineering_hu_b333e02d75bbb42d.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-beginner">Beginner</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.29117 20.8242L2 22L3.17581 16.7088C2.42544 15.3056 2 13.7025 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.2975 22 8.6944 21.5746 7.29117 20.8242ZM7.58075 18.711L8.23428 19.0605C9.38248 19.6745 10.6655 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 13.3345 4.32549 14.6175 4.93949 15.7657L5.28896 16.4192L4.63416 19.3658L7.58075 18.711Z"/></svg>
+Prompt engineering and context</strong>
+                <span class="module-card-description">The anatomy of a prompt, the techniques that make models reliable, how tokens and the context window drive cost, how memory works, and the mistakes almost everyone makes first.</span>
+                <span class="module-card-meta">5 units · 56 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/prompt-engineering/anatomy-of-a-prompt.html&#34;,&#34;/learn/prompt-engineering/prompting-techniques.html&#34;,&#34;/learn/prompt-engineering/context-window-tokens-and-cost.html&#34;,&#34;/learn/prompt-engineering/memory.html&#34;,&#34;/learn/prompt-engineering/common-prompt-mistakes.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/models/index.html">
+            <img class="module-card-cover" src="/images/learn/models_hu_86bcc33a8704b9db.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-intermediate">Intermediate</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6 18H18V6H6V18ZM14 20H10V22H8V20H5C4.44772 20 4 19.5523 4 19V16H2V14H4V10H2V8H4V5C4 4.44772 4.44772 4 5 4H8V2H10V4H14V2H16V4H19C19.5523 4 20 4.44772 20 5V8H22V10H20V14H22V16H20V19C20 19.5523 19.5523 20 19 20H16V22H14V20ZM8 8H16V16H8V8Z"/></svg>
+Models and parameters</strong>
+                <span class="module-card-description">Model families and how to choose between them, the parameters that change behaviour, multimodal inputs, embeddings and semantic search, and when reasoning models are worth their cost.</span>
+                <span class="module-card-meta">5 units · 60 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/models/model-families-and-choosing.html&#34;,&#34;/learn/models/parameters.html&#34;,&#34;/learn/models/multimodality.html&#34;,&#34;/learn/models/embeddings-and-semantic-search.html&#34;,&#34;/learn/models/reasoning-vs-standard-models.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/tools-and-integrations/index.html">
+            <img class="module-card-cover" src="/images/learn/tools-and-integrations_hu_f3d6faa7abba1b8a.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-intermediate">Intermediate</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13 18V20H19V22H13C11.8954 22 11 21.1046 11 20V18H8C5.79086 18 4 16.2091 4 14V7C4 6.44772 4.44772 6 5 6H8V2H10V6H14V2H16V6H19C19.5523 6 20 6.44772 20 7V14C20 16.2091 18.2091 18 16 18H13ZM8 16H16C17.1046 16 18 15.1046 18 14V11H6V14C6 15.1046 6.89543 16 8 16ZM18 8H6V9H18V8ZM12 14.5C11.4477 14.5 11 14.0523 11 13.5C11 12.9477 11.4477 12.5 12 12.5C12.5523 12.5 13 12.9477 13 13.5C13 14.0523 12.5523 14.5 12 14.5Z"/></svg>
+Tools and integrations</strong>
+                <span class="module-card-description">Function calling step by step, the Model Context Protocol, authentication and permissions for tools, channels such as WhatsApp, web chat, e-mail and voice, and webhooks, events and automations.</span>
+                <span class="module-card-meta">5 units · 59 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/tools-and-integrations/function-calling.html&#34;,&#34;/learn/tools-and-integrations/model-context-protocol.html&#34;,&#34;/learn/tools-and-integrations/authentication-and-permissions.html&#34;,&#34;/learn/tools-and-integrations/integrating-channels.html&#34;,&#34;/learn/tools-and-integrations/webhooks-events-and-automations.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/advanced-agents/index.html">
+            <img class="module-card-cover" src="/images/learn/advanced-agents_hu_6494f5b815792cd0.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-advanced">Advanced</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.10508 15.2101C8.21506 15.6501 9 16.7334 9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.6938 3.83481 15.5825 5 15.1707V8.82929C3.83481 8.41746 3 7.30622 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6C9 7.30622 8.16519 8.41746 7 8.82929V11.9996C7.83566 11.3719 8.87439 11 10 11H14C15.3835 11 16.5482 10.0635 16.8949 8.78991C15.7849 8.34988 15 7.26661 15 6C15 4.34315 16.3431 3 18 3C19.6569 3 21 4.34315 21 6C21 7.3332 20.1303 8.46329 18.9274 8.85392C18.5222 11.2085 16.4703 13 14 13H10C8.61653 13 7.45179 13.9365 7.10508 15.2101ZM6 17C5.44772 17 5 17.4477 5 18C5 18.5523 5.44772 19 6 19C6.55228 19 7 18.5523 7 18C7 17.4477 6.55228 17 6 17ZM6 5C5.44772 5 5 5.44772 5 6C5 6.55228 5.44772 7 6 7C6.55228 7 7 6.55228 7 6C7 5.44772 6.55228 5 6 5ZM18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"/></svg>
+Advanced agents and workflows</strong>
+                <span class="module-card-description">Planning and reasoning loops, multi-agent architectures, human-in-the-loop approvals, error handling with retries and fallbacks, and long-running asynchronous agents.</span>
+                <span class="module-card-meta">5 units · 61 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/advanced-agents/planning-and-reasoning-loops.html&#34;,&#34;/learn/advanced-agents/multi-agent-architectures.html&#34;,&#34;/learn/advanced-agents/human-in-the-loop.html&#34;,&#34;/learn/advanced-agents/errors-retries-and-fallbacks.html&#34;,&#34;/learn/advanced-agents/long-running-and-asynchronous-agents.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/quality/index.html">
+            <img class="module-card-cover" src="/images/learn/quality_hu_5d4577dc63f01fdf.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-intermediate">Intermediate</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M15.9994 2V4H14.9994V7.24291C14.9994 8.40051 15.2506 9.54432 15.7357 10.5954L20.017 19.8714C20.3641 20.6236 20.0358 21.5148 19.2836 21.8619C19.0865 21.9529 18.8721 22 18.655 22H5.34375C4.51532 22 3.84375 21.3284 3.84375 20.5C3.84375 20.2829 3.89085 20.0685 3.98181 19.8714L8.26306 10.5954C8.74816 9.54432 8.99939 8.40051 8.99939 7.24291V4H7.99939V2H15.9994ZM13.3873 10.0012H10.6115C10.5072 10.3644 10.3823 10.7221 10.2371 11.0724L10.079 11.4335L6.12439 20H17.8734L13.9198 11.4335C13.7054 10.9691 13.5276 10.4902 13.3873 10.0012ZM10.9994 7.24291C10.9994 7.49626 10.9898 7.7491 10.9706 8.00087H13.0282C13.0189 7.87982 13.0119 7.75852 13.0072 7.63704L12.9994 7.24291V4H10.9994V7.24291Z"/></svg>
+Quality, evaluation and observability</strong>
+                <span class="module-card-description">How to test and evaluate agents, which metrics matter, how to log, trace and monitor in production, how to improve from real conversations, and how to A/B test prompts and models.</span>
+                <span class="module-card-meta">5 units · 58 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/quality/testing-and-evaluating-agents.html&#34;,&#34;/learn/quality/metrics.html&#34;,&#34;/learn/quality/logs-traces-and-monitoring.html&#34;,&#34;/learn/quality/continuous-improvement.html&#34;,&#34;/learn/quality/ab-testing.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/safety/index.html">
+            <img class="module-card-cover" src="/images/learn/safety_hu_2c65a83366df3ac4.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-intermediate">Intermediate</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 1L20.2169 2.82598C20.6745 2.92766 21 3.33347 21 3.80217V13.7889C21 15.795 19.9974 17.6684 18.3282 18.7812L12 23L5.6718 18.7812C4.00261 17.6684 3 15.795 3 13.7889V3.80217C3 3.33347 3.32553 2.92766 3.78307 2.82598L12 1ZM12 3.04879L5 4.60434V13.7889C5 15.1263 5.6684 16.3752 6.7812 17.1171L12 20.5963L17.2188 17.1171C18.3316 16.3752 19 15.1263 19 13.7889V4.60434L12 3.04879ZM16.4524 8.22183L17.8666 9.63604L11.5026 16L7.25999 11.7574L8.67421 10.3431L11.5019 13.1709L16.4524 8.22183Z"/></svg>
+Safety, ethics and compliance</strong>
+                <span class="module-card-description">Prompt injection and jailbreaks, privacy under LGPD and GDPR, bias and responsible AI, content moderation and usage policies, transparency and human escalation.</span>
+                <span class="module-card-meta">5 units · 61 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/safety/prompt-injection-and-jailbreaks.html&#34;,&#34;/learn/safety/privacy-lgpd-gdpr.html&#34;,&#34;/learn/safety/bias-fairness-responsible-ai.html&#34;,&#34;/learn/safety/content-moderation-and-policies.html&#34;,&#34;/learn/safety/transparency-and-human-escalation.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/production/index.html">
+            <img class="module-card-cover" src="/images/learn/production_hu_d97dc95170540e5e.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-advanced">Advanced</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4.99958 12.9999C4.99958 7.91198 7.90222 3.5636 11.9996 1.81799C16.0969 3.5636 18.9996 7.91198 18.9996 12.9999C18.9996 13.8229 18.9236 14.6264 18.779 15.4027L20.7194 17.2353C20.8845 17.3913 20.9238 17.6389 20.815 17.8383L18.3196 22.4133C18.1873 22.6557 17.8836 22.7451 17.6412 22.6128C17.5993 22.59 17.5608 22.5612 17.5271 22.5274L15.2925 20.2928C15.1049 20.1053 14.8506 19.9999 14.5854 19.9999H9.41379C9.14857 19.9999 8.89422 20.1053 8.70668 20.2928L6.47209 22.5274C6.27683 22.7227 5.96025 22.7227 5.76498 22.5274C5.73122 22.4937 5.70246 22.4552 5.67959 22.4133L3.18412 17.8383C3.07537 17.6389 3.11464 17.3913 3.27975 17.2353L5.22014 15.4027C5.07551 14.6264 4.99958 13.8229 4.99958 12.9999ZM6.47542 19.6957L7.29247 18.8786C7.85508 18.316 8.61814 17.9999 9.41379 17.9999H14.5854C15.381 17.9999 16.1441 18.316 16.7067 18.8786L17.5237 19.6957L18.5056 17.8955L17.4058 16.8568C16.9117 16.3901 16.6884 15.7045 16.8128 15.0364C16.9366 14.3722 16.9996 13.6911 16.9996 12.9999C16.9996 9.13037 15.0045 5.69965 11.9996 4.04033C8.99462 5.69965 6.99958 9.13037 6.99958 12.9999C6.99958 13.6911 7.06255 14.3722 7.18631 15.0364C7.31078 15.7045 7.08746 16.3901 6.59338 16.8568L5.49353 17.8955L6.47542 19.6957ZM11.9996 12.9999C10.895 12.9999 9.99958 12.1045 9.99958 10.9999C9.99958 9.89537 10.895 8.99994 11.9996 8.99994C13.1041 8.99994 13.9996 9.89537 13.9996 10.9999C13.9996 12.1045 13.1041 12.9999 11.9996 12.9999Z"/></svg>
+Production and scale</strong>
+                <span class="module-card-description">Cost optimisation and caching, performance and latency practices, versioning of prompts, agents and knowledge, and a deployment checklist before going live.</span>
+                <span class="module-card-meta">4 units · 48 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/production/cost-optimization-and-caching.html&#34;,&#34;/learn/production/performance-and-latency.html&#34;,&#34;/learn/production/versioning.html&#34;,&#34;/learn/production/deployment-checklist.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+        
+        <a class="module-card" href="/learn/guides/index.html">
+            <img class="module-card-cover" src="/images/learn/guides_hu_75d6c5ba1270d084.webp" width="640" height="349" alt="" loading="lazy">
+            <div class="module-card-body">
+                <p class="module-card-level"><span class="level level-beginner">Beginner</span>
+</p>
+                <strong><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM16.5 7.5L14 14L7.5 16.5L10 10L16.5 7.5ZM12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"/></svg>
+Practical guides and case studies</strong>
+                <span class="module-card-description">Step-by-step builds for support, sales and internal assistants, common use cases by industry, a glossary and cheat sheet, and FAQ with learning paths by profile.</span>
+                <span class="module-card-meta">6 units · 75 min</span>
+                <span class="progress" data-learn-progress data-learn-units="[&#34;/learn/guides/customer-support-agent.html&#34;,&#34;/learn/guides/sales-qualification-agent.html&#34;,&#34;/learn/guides/internal-knowledge-assistant.html&#34;,&#34;/learn/guides/use-cases-by-industry.html&#34;,&#34;/learn/guides/glossary-and-cheat-sheet.html&#34;,&#34;/learn/guides/faq-and-learning-paths.html&#34;]" data-template="%d of %d units completed">
+                    <span class="progress-bar"><span class="progress-value"></span></span>
+                    <span class="progress-text"></span>
+                </span>
+            </div>
+        </a>
+        
+    </div>
+</section>
+
+<article class="article learn-hub-article"><div class="prose"><h2 id="how-learn-works">How Learn works <a class="heading-anchor" href="#how-learn-works" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>Each module groups a handful of short units. A unit explains one idea with diagrams, step-by-step animations, charts and small interactive demos, then ends with a knowledge check. Units take between eight and fifteen minutes.</p>
+<p>Your progress is stored in this browser only. Mark a unit as complete at the end of the page, or move to the next unit and it is marked for you. Nothing is sent to a server.</p>
+<p>Learn is about concepts, not product screens. When a unit mentions something you can do on AIVAX today, it links to the matching page in the <a href="/docs/index.html">Documentation</a>.</p>
+</div></article>
+
+<footer class="site-footer" data-pagefind-ignore>
+    <p>AIVAX documentation</p>
+    <nav aria-label="Resources">
+        <a href="/llms.txt">llms.txt</a>
+        <a href="/llms-full.txt">llms-full.txt</a>
+        <a href="https://github.com/aivaxlabs/docs" rel="noopener">GitHub</a>
+    </nav>
+</footer>
+
+
+        </main>
+
+        
+    </div>
+
+    <dialog class="search-dialog" aria-label="Search" data-search
+    data-docs-bundle="/pagefind/">
+    <div class="search-panel">
+        <div class="search-field">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></svg>
+
+            <input type="search" placeholder="Search documentation" autocomplete="off" spellcheck="false"
+                aria-label="Search" aria-controls="search-results" data-search-input>
+            <button type="button" class="search-close" data-search-close aria-label="close"><kbd>Esc</kbd></button>
+        </div>
+
+        <div class="search-results" id="search-results" role="listbox" aria-label="Search" data-search-results
+            data-label-docs="Documentation"
+            data-label-empty="No results found.">
+            <p class="search-message" data-search-hint>Type to search the documentation.</p>
+        </div>
+
+        <footer class="search-footer">
+            <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+            <span><kbd>↵</kbd> open</span>
+            <span><kbd>Esc</kbd> close</span>
+        </footer>
+    </div>
+</dialog>
+
+
+    
+    <script src="/scripts/main.9b68ce99cae66e13fb0464000653e8df05883fba0bd2108f60dfb3c816ab8211.js" integrity="sha256-m2jOmcrmbhP7BGQABlPo3wWIP7oL0hCPYN&#43;zyBarghE=" defer></script>
+
+    
+</body>
+</html>

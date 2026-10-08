@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/tools/protocol-functions.html
+Source: http://localhost:1313/pt-br/docs/tools/protocol-functions.html
 
 # Funções de Protocolo
 
@@ -19,7 +19,7 @@ Essa separação mantém os detalhes de implementação fora do prompt, ao mesmo
 
 Use funções de protocolo quando você deseja expor uma ação HTTP específica para um AI Gateway sem criar um servidor MCP completo. Elas são boas para integrações pontuais, como verificar um pedido, abrir um ticket, buscar um usuário, validar um cupom, registrar um lead ou invocar uma automação interna. O AIVAX mantém a URL invisível ao modelo, envia a requisição do lado do servidor e adiciona o resultado textual ao contexto da conversa.
 
-Se você tem muitas ferramentas, ferramentas dinâmicas ou um sistema que já implementa o Modelo Contexto Protocolo, prefira [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md). Se quiser usar capacidades já mantidas pelo AIVAX, prefira [ferramentas embutidas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md). Se precisar tomar decisões antes ou depois de eventos de inferência, prefira [workers](https://docs.aivax.net/pt-br/docs/inference/workers.md). As funções de protocolo ficam no meio: são mais simples que o MCP e mais específicas que os workers, mas ainda dão ao modelo uma ferramenta controlada para executar uma ação externa.
+Se você tem muitas ferramentas, ferramentas dinâmicas ou um sistema que já implementa o Modelo Contexto Protocolo, prefira [MCP](http://localhost:1313/pt-br/docs/tools/mcp.md). Se quiser usar capacidades já mantidas pelo AIVAX, prefira [ferramentas embutidas](http://localhost:1313/pt-br/docs/tools/builtin-tools.md). Se precisar tomar decisões antes ou depois de eventos de inferência, prefira [workers](http://localhost:1313/pt-br/docs/inference/workers.md). As funções de protocolo ficam no meio: são mais simples que o MCP e mais específicas que os workers, mas ainda dão ao modelo uma ferramenta controlada para executar uma ação externa.
 
 Uma função de protocolo deve ter um nome de ferramenta, uma descrição, uma URL de callback e um esquema de argumentos. O nome ajuda o modelo a reconhecer a ação; a descrição explica quando chamar; o esquema limita o formato dos argumentos. Os nomes das funções devem ser identificadores JavaScript válidos com pelo menos três caracteres. A URL de callback e os detalhes de autenticação não são visíveis ao modelo. Isso permite criar ferramentas especializadas sem expor endpoints internos, desde que seu serviço valide o `X-Request-Nonce`, valide os argumentos recebidos e aplique sua própria autorização quando a chamada depender do usuário.
 
@@ -28,9 +28,9 @@ Use a seguinte regra prática:
 | Necessidade | Preferir |
 | --- | --- |
 | Um ou poucos callbacks HTTP estáveis de propriedade da sua aplicação | Funções de protocolo |
-| Um catálogo de ferramentas maior, descoberta padronizada ou um servidor MCP existente | [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) |
-| Ferramentas de busca na web, leitura de URLs, execução de código, geração de imagens, memória, calendário ou requisições HTTP mantidas pelo AIVAX | [Ferramentas embutidas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md) |
-| Política em tempo de evento, reescrita de mensagens, injeção dinâmica de ferramentas ou bloqueio de chamada de ferramenta antes da execução | [Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) |
+| Um catálogo de ferramentas maior, descoberta padronizada ou um servidor MCP existente | [MCP](http://localhost:1313/pt-br/docs/tools/mcp.md) |
+| Ferramentas de busca na web, leitura de URLs, execução de código, geração de imagens, memória, calendário ou requisições HTTP mantidas pelo AIVAX | [Ferramentas embutidas](http://localhost:1313/pt-br/docs/tools/builtin-tools.md) |
+| Política em tempo de evento, reescrita de mensagens, injeção dinâmica de ferramentas ou bloqueio de chamada de ferramenta antes da execução | [Workers](http://localhost:1313/pt-br/docs/inference/workers.md) |
 | Definições de ferramentas nativas do provedor que seu próprio cliente executará | Raw `tools` em uma requisição compatível com OpenAI |
 
 ### Escolhendo o nome da função
@@ -63,7 +63,7 @@ Isso dá ao modelo uma ação clara, gatilho e limitação. Uma descrição vaga
 
 ## Definindo funções de protocolo
 
-Funções de protocolo são definidas no [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Você pode declará‑las diretamente no gateway quando a lista é estável, ou fornecer uma fonte remota que retorne a lista de funções quando o catálogo for gerenciado por outro serviço.
+Funções de protocolo são definidas no [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md). Você pode declará‑las diretamente no gateway quando a lista é estável, ou fornecer uma fonte remota que retorne a lista de funções quando o catálogo for gerenciado por outro serviço.
 
 A forma direta é a opção mais simples. Use‑a quando a lista de funções muda raramente e pertence à própria configuração do gateway.
 
@@ -212,13 +212,13 @@ O AIVAX cria `context` separadamente dos argumentos gerados pelo modelo em `func
 
 | Campo | Tipo JSON | Significado e disponibilidade |
 | --- | --- | --- |
-| `context.externalUserId` | `string` ou `null` | Identificador externo do usuário a partir do contexto de inferência. Para uma [sessão de chat](https://docs.aivax.net/pt-br/docs/features/chat-clients.md), este é o ID externo do usuário da sessão; para completions de chat, vem do campo `user` da requisição. Pode ser `null` quando nenhum usuário foi identificado. Não é um ID de conta AIVAX nem credencial de autenticação. |
+| `context.externalUserId` | `string` ou `null` | Identificador externo do usuário a partir do contexto de inferência. Para uma [sessão de chat](http://localhost:1313/pt-br/docs/features/chat-clients.md), este é o ID externo do usuário da sessão; para completions de chat, vem do campo `user` da requisição. Pode ser `null` quando nenhum usuário foi identificado. Não é um ID de conta AIVAX nem credencial de autenticação. |
 | `context.metadata` | `object` | Pares chave/valor de string fornecidos pela aplicação a partir da requisição de inferência ou sessão de chat. Para completions de chat, são as entradas `metadata` da requisição. O objeto está vazio (`{}`) quando nada é fornecido. Os `tenant_id` e `request_id` do exemplo são campos personalizados, não nomes gerados pelo AIVAX. |
-| `context.callSource` | `string` | Origem da inferência, como `WebChatClient`, `ChatCompletionsApi` ou `IntegrationBot`. Não descreve o transporte do callback: chamar uma função de protocolo não faz automaticamente o valor `FunctionsApi`. Veja os valores compartilhados de [fonte de chamada](https://docs.aivax.net/pt-br/docs/tools/mcp.md#call-source-values) para todos os valores atuais. |
+| `context.callSource` | `string` | Origem da inferência, como `WebChatClient`, `ChatCompletionsApi` ou `IntegrationBot`. Não descreve o transporte do callback: chamar uma função de protocolo não faz automaticamente o valor `FunctionsApi`. Veja os valores compartilhados de [fonte de chamada](http://localhost:1313/pt-br/docs/tools/mcp.md#call-source-values) para todos os valores atuais. |
 | `context.conversationToken` | `string` ou `null` | Token de correlação da conversa carregado pela sessão ou requisição de inferência. Para completions de chat, vem de `idempotency_key` quando fornecido. Pode ser `null`, e várias chamadas de função podem compartilhá‑lo. Não o trate como um ID de callback único, credencial ou garantia de que a operação ainda não foi executada. |
 | `context.moment` | `string` | Carimbo de data‑hora JSON criado quando o AIVAX prepara o callback, usando o relógio local do servidor. Não é o horário local do usuário nem o horário de início da conversa. Analise como data‑hora com seu deslocamento UTC ao invés de confiar em precisão fixa de frações de segundo; converta para o fuso horário da sua aplicação quando necessário. |
 
-Metadados personalizados permanecem aninhados em `context.metadata`; não são mesclados em `context`. Isso difere dos [metadados MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md#metadata-sent-with-tool-calls), onde as mesmas entradas personalizadas ficam ao lado dos campos reservados `_aiv_*` em `params._meta`.
+Metadados personalizados permanecem aninhados em `context.metadata`; não são mesclados em `context`. Isso difere dos [metadados MCP](http://localhost:1313/pt-br/docs/tools/mcp.md#metadata-sent-with-tool-calls), onde as mesmas entradas personalizadas ficam ao lado dos campos reservados `_aiv_*` em `params._meta`.
 
 O nonce de autenticação **não** é um campo `context` ou `metadata`. Funções de protocolo o recebem no cabeçalho HTTP `X-Request-Nonce` quando a conta tem uma chave de hook. As chamadas de ferramenta MCP carregam o valor equivalente em `params._meta._aiv_nonce`. Esses campos de contexto descrevem requisições POST de execução; não presuma que requisições de listagem de funções de origem tenham esse corpo JSON.
 
@@ -240,7 +240,7 @@ A resposta da função deve ser escrita para o modelo, não para o usuário fina
 
 A autenticação da requisição é feita via o cabeçalho `X-Request-Nonce` enviado nas chamadas de funções de protocolo e nas requisições de listagem de origem.
 
-Consulte o manual de [autenticação](https://docs.aivax.net/pt-br/docs/authentication.md) para entender como autenticar requisições reversas do AIVAX.
+Consulte o manual de [autenticação](http://localhost:1313/pt-br/docs/authentication.md) para entender como autenticar requisições reversas do AIVAX.
 
 #### Autenticação de usuário
 
@@ -254,7 +254,7 @@ Para o modelo de IA, apenas o nome, a descrição e o formato da função são v
 
 ## Funções especializadas
 
-Além das [funções embutidas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md), você pode definir funções especializadas que realizam tarefas específicas em sua conta AIVAX.
+Além das [funções embutidas](http://localhost:1313/pt-br/docs/tools/builtin-tools.md), você pode definir funções especializadas que realizam tarefas específicas em sua conta AIVAX.
 
 Você define funções especializadas usando o esquema de URL `aivax://`, seguindo o exemplo abaixo:
 
@@ -287,7 +287,7 @@ Você define funções especializadas usando o esquema de URL `aivax://`, seguin
 }
 ```
 
-A função acima cria uma ferramenta para que a IA consulte uma [coleção de documentos](https://docs.aivax.net/pt-br/docs/rag/collections.md) específica, orientando o assistente sobre o que buscar nessa coleção e o que esperar de uma resposta. Dessa forma, você pode vincular múltiplas coleções RAG para que o assistente recupere conteúdo especializado.
+A função acima cria uma ferramenta para que a IA consulte uma [coleção de documentos](http://localhost:1313/pt-br/docs/rag/collections.md) específica, orientando o assistente sobre o que buscar nessa coleção e o que esperar de uma resposta. Dessa forma, você pode vincular múltiplas coleções RAG para que o assistente recupere conteúdo especializado.
 
 Você pode personalizar a descrição das propriedades do JSON Schema para funções especializadas, mas sua estrutura é fixa. Os parâmetros da função especializada são fornecidos na URL via parâmetros de consulta.
 

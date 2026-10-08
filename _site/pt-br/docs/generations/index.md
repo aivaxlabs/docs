@@ -1,14 +1,14 @@
 # Gerações
 
-Source: https://docs.aivax.net/pt-br/docs/generations/index.html
+Source: http://localhost:1313/pt-br/docs/generations/index.html
 
 
 ## Gerações
 
-- [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md)
-- [Geração de Voz](https://docs.aivax.net/pt-br/docs/generations/speech.md)
-- [Transcrições de Áudio](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
-- [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/generations/media-descriptions.md)
-- [Ensinar Habilidade](https://docs.aivax.net/pt-br/docs/generations/teach-skill.md)
-- [Geração de Imagem](https://docs.aivax.net/pt-br/docs/generations/images.md)
+- [Decisões semânticas](http://localhost:1313/pt-br/docs/generations/decisions.md)
+- [Geração de Voz](http://localhost:1313/pt-br/docs/generations/speech.md)
+- [Transcrições de Áudio](http://localhost:1313/pt-br/docs/generations/audio-transcriptions.md)
+- [Descrições de Mídia](http://localhost:1313/pt-br/docs/generations/media-descriptions.md)
+- [Ensinar Habilidade](http://localhost:1313/pt-br/docs/generations/teach-skill.md)
+- [Geração de Imagem](http://localhost:1313/pt-br/docs/generations/images.md)
 

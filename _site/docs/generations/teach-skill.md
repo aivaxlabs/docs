@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/generations/teach-skill.html
+Source: http://localhost:1313/docs/generations/teach-skill.html
 
 # Teach Skill
 
@@ -19,7 +19,7 @@ The quality of the draft follows the quality of the recording. Before submitting
 
 Organize recordings in the order in which the procedure should be understood. The response uses the standard JSON envelope. `data.resultText` contains a structured Markdown draft that can include front matter, steps, notes, and assumptions when the recording leaves required context implicit. `data.usage.processedUnits` reports the processed usage units for the request.
 
-A generated draft is not automatically published as an account skill. Validate every step against the real workflow, remove recording-specific details (window sizes, test names, one-off values), confirm prerequisites, and rewrite vague steps as imperative instructions before saving it. See [Skills](https://docs.aivax.net/docs/features/skills.md) for skill structure and activation guidance.
+A generated draft is not automatically published as an account skill. Validate every step against the real workflow, remove recording-specific details (window sizes, test names, one-off values), confirm prerequisites, and rewrite vague steps as imperative instructions before saving it. See [Skills](http://localhost:1313/docs/features/skills.md) for skill structure and activation guidance.
 
 The embedded reference is the source of truth for accepted video input and response behavior.
 
@@ -27,4 +27,4 @@ The embedded reference is the source of truth for accepted video input and respo
 
 ## Pricing, limits, and errors
 
-For current availability and account limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md). Correct invalid or inaccessible video content before retrying a failed request.
+For current availability and account limits, see [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](http://localhost:1313/docs/limits.md). Correct invalid or inaccessible video content before retrying a failed request.

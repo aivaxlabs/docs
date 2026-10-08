@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/limits.html
+Source: http://localhost:1313/docs/limits.html
 
 # Plans and Limits
 
@@ -76,8 +76,8 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 
 These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing: included usage still consumes the applicable request or run quota.
 
-- **Semantic decisions:** each request consumes one unit, regardless of how many questions it contains or which decision model it selects. A request exceeding the account's limit returns `429 Too Many Requests` before evaluation. See [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md).
-- **Agentic Tests:** manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits. See [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md).
+- **Semantic decisions:** each request consumes one unit, regardless of how many questions it contains or which decision model it selects. A request exceeding the account's limit returns `429 Too Many Requests` before evaluation. See [Semantic decisions](http://localhost:1313/docs/generations/decisions.md).
+- **Agentic Tests:** manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits. See [Agentic Tests](http://localhost:1313/docs/inference/agentic-tests.md).
 
 Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit for these two quotas, but other applicable limits remain in effect.
 
@@ -92,6 +92,12 @@ These model-specific limits apply in addition to the account-level request quota
 | `@respan/span-01` | Not specified in the current catalog |
 | `@respan/span-01-lite` | Not specified in the current catalog |
 | `@jaredpalmer/kev-4b` | 8,192 tokens |
+| `@upstage/solar-decide` | 524,288 tokens |
+| `@cloudflare/clef` | 65,536 tokens |
+| `@cloudflare/clef-flash` | 65,536 tokens |
+| `@liquid/d1` | 65,536 tokens |
+| `@perplexity/pplx-decider-v1-27b` | 262,144 tokens |
+| `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
 
 Julia-1 has additional serving limits:
 
@@ -105,11 +111,11 @@ Julia-1 has additional serving limits:
 | Description of an individual option | At most 48 tokens |
 | Decision payload limit | 256 KiB |
 
-These limits interact: twenty options can exceed the combined question/options budget even if each description fits its individual limit. The current AIVAX Julia-1 serving limits apply even if an upstream model card lists a larger context. See [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md) for usage and error guidance.
+These limits interact: twenty options can exceed the combined question/options budget even if each description fits its individual limit. The current AIVAX Julia-1 serving limits apply even if an upstream model card lists a larger context. See [Semantic decisions](http://localhost:1313/docs/generations/decisions.md) for usage and error guidance.
 
 ### Included daily subscription allowances
 
-Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Reseller accounts do not receive subscription allowances.
+Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Custom accounts do not receive subscription allowances.
 
 | Included service | Free | Pro | Max |
 | --- | --- | --- | --- |
@@ -122,9 +128,9 @@ RAG searches and document insertions share the embedding allowance. It does not 
 
 Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.
 
-Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements, rate limits, or Reflex's separate processing-time cap. See [Pricing](https://docs.aivax.net/docs/pricing.md) for charges when an item is not covered.
+Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements, rate limits, or Reflex's separate processing-time cap. See [Pricing](http://localhost:1313/docs/pricing.md) for charges when an item is not covered.
 
-Reseller accounts support 8 concurrent agentic test runs per account.
+Custom accounts support 8 concurrent agentic test runs per account. Their rate limits are the Pro plan limits multiplied by a factor agreed for the account, or have no plan rate limits when no factor is set.
 
 Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:
 
@@ -145,7 +151,7 @@ Standalone text-to-speech and audio transcription each use their own plan reques
 
 The JSONL import endpoint rejects a request when it reaches the plan's per-request document limit. The reranking limit applies to the autonomous reranking endpoint and to RAG searches that use a reranker, including searches performed through AI Gateways and MCP tools.
 
-The Reflex limit counts the time spent processing Reflex requests. It applies to the autonomous reranking endpoint and RAG searches that use Reflex; cached input does not consume the quota separately. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](https://docs.aivax.net/docs/rag/reflex.md) for request limits, cache behavior, and pricing.
+The Reflex limit counts the time spent processing Reflex requests. It applies to the autonomous reranking endpoint and RAG searches that use Reflex; cached input does not consume the quota separately. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](http://localhost:1313/docs/rag/reflex.md) for request limits, cache behavior, and pricing.
 
 General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.
 
@@ -163,4 +169,4 @@ Public keys have additional limits independent of the account plan.
 | Per remote address | 100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day |
 | Global per key | 500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day |
 
-Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](https://docs.aivax.net/docs/authentication.md).
+Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](http://localhost:1313/docs/authentication.md).

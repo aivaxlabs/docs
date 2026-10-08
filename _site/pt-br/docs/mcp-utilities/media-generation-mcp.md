@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.html
+Source: http://localhost:1313/pt-br/docs/mcp-utilities/media-generation-mcp.html
 
 # Geração de mídia MCP
 
 O MCP de geração de mídia expõe a geração de imagens e de fala (texto‑para‑fala) da AIVAX para qualquer cliente compatível com MCP. Use‑o quando um agente, IDE, assistente de desktop ou ambiente de automação precisar criar imagens ou áudio falado sem chamar as APIs de geração diretamente ou executar uma inferência de modelo AIVAX.
 
-A AIVAX hospeda este servidor MCP e realiza as gerações para a conta autenticada. As ferramentas usam os mesmos modelos, faturamento e limites aplicáveis que a [Image Generation](https://docs.aivax.net/pt-br/docs/generations/images.md) e a [Speech Generation](https://docs.aivax.net/pt-br/docs/generations/speech.md).
+A AIVAX hospeda este servidor MCP e realiza as gerações para a conta autenticada. As ferramentas usam os mesmos modelos, faturamento e limites aplicáveis que a [Image Generation](http://localhost:1313/pt-br/docs/generations/images.md) e a [Speech Generation](http://localhost:1313/pt-br/docs/generations/speech.md).
 
 ## Endpoint
 
@@ -18,7 +18,7 @@ O servidor usa HTTP Streamable. Autentique as requisições com uma chave de API
 Authorization: Bearer <AIVAX_API_KEY>
 ```
 
-Para tipos de chave e opções de autenticação, veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md).
+Para tipos de chave e opções de autenticação, veja [Authentication](http://localhost:1313/pt-br/docs/authentication.md).
 
 ## Exemplo de configuração
 
@@ -112,7 +112,7 @@ Argumentos de exemplo:
 
 A ferramenta devolve as URLs das imagens geradas como texto MCP. As URLs são de acesso público, portanto quem as tem pode abrir a imagem. Baixe e armazene as imagens se seu fluxo de trabalho precisar mantê‑las sob seu próprio controle de acesso.
 
-Para orientação de prompt e comportamento de imagens de referência, veja [Image Generation](https://docs.aivax.net/pt-br/docs/generations/images.md).
+Para orientação de prompt e comportamento de imagens de referência, veja [Image Generation](http://localhost:1313/pt-br/docs/generations/images.md).
 
 ### `generate_speech`
 
@@ -139,13 +139,13 @@ Argumentos de exemplo:
 
 A ferramenta devolve a URL do áudio MP3 como texto MCP. A URL é pública, então quem a possui pode reproduzir o áudio. Ao contrário da API de geração de fala, esta ferramenta não devolve o áudio embutido nem oferece outros formatos de saída; converta o arquivo baixado se seu fluxo de trabalho precisar de WAV ou OGG.
 
-As vozes variam por modelo de fala. Para seleção de voz e orientação de preparação de texto, veja [Speech Generation](https://docs.aivax.net/pt-br/docs/generations/speech.md).
+As vozes variam por modelo de fala. Para seleção de voz e orientação de preparação de texto, veja [Speech Generation](http://localhost:1313/pt-br/docs/generations/speech.md).
 
 ## Preços e limites
 
-Chamadas de geração usam o mesmo preço da [Image Generation](https://docs.aivax.net/pt-br/docs/generations/images.md) e da [Speech Generation](https://docs.aivax.net/pt-br/docs/generations/speech.md) e são cobradas na conta autenticada. Consulte [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) para taxas atuais e regras de faturamento.
+Chamadas de geração usam o mesmo preço da [Image Generation](http://localhost:1313/pt-br/docs/generations/images.md) e da [Speech Generation](http://localhost:1313/pt-br/docs/generations/speech.md) e são cobradas na conta autenticada. Consulte [Pricing](http://localhost:1313/pt-br/docs/pricing.md) para taxas atuais e regras de faturamento.
 
-As gerações estão sujeitas aos limites de serviço e taxas de conta da conta. Consulte [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md) para limites atuais e comportamento de aplicação.
+As gerações estão sujeitas aos limites de serviço e taxas de conta da conta. Consulte [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md) para limites atuais e comportamento de aplicação.
 
 Um saldo de conta positivo é necessário para usar essas ferramentas.
 

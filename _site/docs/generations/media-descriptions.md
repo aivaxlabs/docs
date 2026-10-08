@@ -1,17 +1,17 @@
-Source: https://docs.aivax.net/docs/generations/media-descriptions.html
+Source: http://localhost:1313/docs/generations/media-descriptions.html
 
 # Media Descriptions
 
 Use Media Descriptions when an application needs structured information from audio, images, video, or PDF content. Typical uses include preparing media for search, moderation review, accessibility workflows, and downstream automation.
 
-Choose the more specialized API when the task is limited to a single medium, such as [Audio Transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md) for speech-to-text.
+Choose the more specialized API when the task is limited to a single medium, such as [Audio Transcriptions](http://localhost:1313/docs/generations/audio-transcriptions.md) for speech-to-text.
 
 ## Describe media or reason over it directly
 
 There are two ways to extract information from media, and they serve different needs:
 
 - **Describe media, then decide** — use this endpoint when you need a reusable text artifact: a description stored for search, a transcript-like record for audit, or input text for a later workflow stage that runs independently.
-- **Multimodal inference in one request** — send the media straight to a chat model that supports the input type when the model should reason over it immediately and no intermediate artifact is needed. See [Inference](https://docs.aivax.net/docs/inference/inference.md).
+- **Multimodal inference in one request** — send the media straight to a chat model that supports the input type when the model should reason over it immediately and no intermediate artifact is needed. See [Inference](http://localhost:1313/docs/inference/inference.md).
 
 Prefer Describe when the extraction guidance is stable and the result feeds several consumers; prefer direct multimodal inference when the question about the media changes on every request.
 
@@ -29,4 +29,4 @@ The embedded reference is the source of truth for accepted media forms, request 
 
 ## Pricing, limits, and errors
 
-For current pricing, media availability, and account limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md). Correct inaccessible media or invalid content before retrying.
+For current pricing, media availability, and account limits, see [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](http://localhost:1313/docs/limits.md). Correct inaccessible media or invalid content before retrying.

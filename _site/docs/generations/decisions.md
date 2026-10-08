@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/generations/decisions.html
+Source: http://localhost:1313/docs/generations/decisions.html
 
 # Semantic decisions
 
@@ -6,11 +6,11 @@ Semantic decisions evaluate named questions against a shared state and return st
 
 A request supplies the model, the evidence in `state`, and a `questions` object. Each question has an ID you choose; the response uses the same ID in `answers`. You can ask different question types in one request without making separate API calls.
 
-Use [structured responses](https://docs.aivax.net/docs/inference/structured-responses.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](https://docs.aivax.net/docs/rag/classification.md).
+Use [structured responses](http://localhost:1313/docs/inference/structured-responses.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](http://localhost:1313/docs/rag/classification.md).
 
 ## Choose a model
 
-All models below support `choice`, `noul`, and `score`. See [Pricing](https://docs.aivax.net/docs/pricing.md#semantic-decisions) for model rates and [Plans and limits](https://docs.aivax.net/docs/limits.md#semantic-decision-model-limits) for model-specific limits.
+All models below support `choice`, `noul`, and `score`. See [Pricing](http://localhost:1313/docs/pricing.md#semantic-decisions) for model rates and [Plans and limits](http://localhost:1313/docs/limits.md#semantic-decision-model-limits) for model-specific limits.
 
 | Model |
 | --- |
@@ -19,10 +19,16 @@ All models below support `choice`, `noul`, and `score`. See [Pricing](https://do
 | `@respan/span-01` |
 | `@respan/span-01-lite` |
 | `@jaredpalmer/kev-4b` |
+| `@upstage/solar-decide` |
+| `@cloudflare/clef` |
+| `@cloudflare/clef-flash` |
+| `@liquid/d1` |
+| `@perplexity/pplx-decider-v1-27b` |
+| `@openai/gpt-6-luna-decisions` |
 
 `@typesafe/jev` is also accepted and currently resolves to `@typesafe/jev-1.13`. An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
-An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing.md), and [Plans and limits](https://docs.aivax.net/docs/limits.md).
+An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](http://localhost:1313/docs/authentication.md), [Pricing](http://localhost:1313/docs/pricing.md), and [Plans and limits](http://localhost:1313/docs/limits.md).
 
 ### Discover models programmatically
 
@@ -151,13 +157,13 @@ Other models may omit optional fields such as `probabilities`, `legend`, or `con
 
 ## Account rate limits
 
-Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#plan-limits) for the Free, Pro, and Max thresholds.
+Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. See [Plans and Limits](http://localhost:1313/docs/limits.md#plan-limits) for the Free, Pro, and Max thresholds.
 
 Requests above the limit return `429 Too Many Requests` before evaluation. Pace calls across the account and retry with backoff after the rate-limit window clears; changing API keys within the same account does not provide a separate quota.
 
 ## Model-specific limits
 
-See [Semantic decision model limits](https://docs.aivax.net/docs/limits.md#semantic-decision-model-limits) for the current context, question, option, and payload limits. Limits interact: shorten descriptions or reduce the option count instead of assuming every maximum can be used at once.
+See [Semantic decision model limits](http://localhost:1313/docs/limits.md#semantic-decision-model-limits) for the current context, question, option, and payload limits. Limits interact: shorten descriptions or reduce the option count instead of assuming every maximum can be used at once.
 
 Inputs exceeding the context or question/options budget are rejected, not silently truncated. The literal `<mask>` is reserved and cannot appear in Julia-1 state, instructions, or option descriptions.
 
@@ -165,9 +171,9 @@ Inputs exceeding the context or question/options budget are rejected, not silent
 
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question. Multiple questions over one state do not have the same input usage as one question over that state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
-Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across eligible decision calls, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
+Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across eligible decision calls, not reserved for each question or API key. See [Plans and Limits](http://localhost:1313/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
 
-When not covered, Julia-1 input is billed at the [listed rate](https://docs.aivax.net/docs/pricing.md#semantic-decisions), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
+When not covered, Julia-1 input is billed at the [listed rate](http://localhost:1313/docs/pricing.md#semantic-decisions), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 
 ## Errors and reliable use
 

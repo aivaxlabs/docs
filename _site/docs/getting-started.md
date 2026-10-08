@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/docs/getting-started.html
+Source: http://localhost:1313/docs/getting-started.html
 
 # Getting Started
 
@@ -13,7 +13,7 @@ You need:
 - An AIVAX account with dashboard access and permission to create a private API key.
 - Python 3.8 or later with `pip` available.
 
-For pricing and operational limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md).
+For pricing and operational limits, see [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and limits](http://localhost:1313/docs/limits.md).
 
 Production API base URL:
 
@@ -33,9 +33,9 @@ Create a **private** key from the API Keys area of the AIVAX dashboard. Copy the
 
 Private keys are intended for trusted server-side applications. Public keys are restricted credentials for intentionally exposed client-side routes and are not a substitute for a backend key.
 
-If you are building a public web widget or messaging experience, review [Chat clients](https://docs.aivax.net/docs/features/chat-clients.md) before exposing any credential. Chat sessions provide a clearer boundary for user identity, conversation history, and attachments.
+If you are building a public web widget or messaging experience, review [Chat clients](http://localhost:1313/docs/features/chat-clients.md) before exposing any credential. Chat sessions provide a clearer boundary for user identity, conversation history, and attachments.
 
-See [Authentication](https://docs.aivax.net/docs/authentication.md) for supported authentication schemes, private and public key behavior, and secret-handling guidance.
+See [Authentication](http://localhost:1313/docs/authentication.md) for supported authentication schemes, private and public key behavior, and secret-handling guidance.
 
 ## 2. Install the OpenAI SDK
 
@@ -58,7 +58,7 @@ Use a **hosted model** for a direct, one-off call or early experiment. Use an **
 
 Gateway slugs are supported with private keys. Public-key chat completions must use the full gateway UUID and cannot call integrated models directly.
 
-Reference:
+Use the model listing reference below to choose a hosted model. If you already have an AI Gateway, use its identifier instead.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Model%20listing)
 
@@ -88,7 +88,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Replace `<MODEL_OR_GATEWAY_ID>` with the exact hosted model name or gateway identifier selected in the previous step. Do not replace `AIVAX_API_KEY` with the key itself; the code reads the secret from the environment.
+Replace `<MODEL_OR_GATEWAY_ID>` with the exact hosted model name or gateway identifier selected in the previous step. Keep `AIVAX_API_KEY` unchanged in the code: it is the environment variable name, not the key value. Set that variable before running the file.
 
 Run the file:
 
@@ -106,7 +106,7 @@ Reference:
 
 Confirm that the generated response matches the prompt and comes from the model or AI Gateway selected in the previous step. This verifies the endpoint, credential, and model selection used by your application.
 
-Before increasing traffic or processing large inputs, review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md).
+Before increasing traffic or processing large inputs, review [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and limits](http://localhost:1313/docs/limits.md).
 
 ## Troubleshoot the first request
 
@@ -119,9 +119,9 @@ AIVAX uses two response styles:
 | --- | --- |
 | `400 Bad Request` | Confirm the model or gateway identifier and remove unsupported parameters from the request. |
 | `401 Unauthorized` | Confirm that the private key is present, complete, active, and sent through the SDK configuration. |
-| `402 Payment Required` | Review [Pricing](https://docs.aivax.net/docs/pricing.md) and confirm that the account is ready for a billable request. |
+| `402 Payment Required` | Review [Pricing](http://localhost:1313/docs/pricing.md) and confirm that the account is ready for a billable request. |
 | `403 Forbidden` | Confirm that the key type, model, or selected resource allows this operation. |
-| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. |
+| `429 Too Many Requests` | Retry later and review [Plans and limits](http://localhost:1313/docs/limits.md) before increasing request volume. |
 | `500 Internal Server Error` | An unexpected AIVAX failure occurred. Retry later; the response does not include internal details. |
 | `503 Service Unavailable` | A service AIVAX depends on is temporarily unavailable. Retry after the interval in the `Retry-After` header. |
 
@@ -172,13 +172,13 @@ print(response.choices[0].message.content)
 
 Once the minimal request works, add one capability at a time:
 
-- [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) — make the assistant configuration reusable across requests and users.
-- [Structured responses](https://docs.aivax.net/docs/inference/structured-responses.md) — require generated JSON to follow an application schema.
-- [RAG collections](https://docs.aivax.net/docs/rag/collections.md) — index your documents, test retrieval, and attach grounded knowledge to a gateway.
-- [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md), [MCP](https://docs.aivax.net/docs/tools/mcp.md), or [Protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) — let the assistant retrieve live information or take action.
-- [Chat clients](https://docs.aivax.net/docs/features/chat-clients.md) — deliver a gateway through web chat or supported messaging channels.
-- [Text and media products](https://docs.aivax.net/docs/overview.md#process-text-documents-and-media) — classify or segment documents, generate images or speech, transcribe audio, and describe media.
-- [Batch](https://docs.aivax.net/docs/features/batch.md) — apply the same workflow to many independent records asynchronously.
-- [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) — evaluate a complete gateway conversation before and after configuration changes.
+- [AI Gateways](http://localhost:1313/docs/inference/ai-gateway.md) — make the assistant configuration reusable across requests and users.
+- [Structured responses](http://localhost:1313/docs/inference/structured-responses.md) — require generated JSON to follow an application schema.
+- [RAG collections](http://localhost:1313/docs/rag/collections.md) — index your documents, test retrieval, and attach grounded knowledge to a gateway.
+- [Built-in tools](http://localhost:1313/docs/tools/builtin-tools.md), [MCP](http://localhost:1313/docs/tools/mcp.md), or [Protocol functions](http://localhost:1313/docs/tools/protocol-functions.md) — let the assistant retrieve live information or take action.
+- [Chat clients](http://localhost:1313/docs/features/chat-clients.md) — deliver a gateway through web chat or supported messaging channels.
+- [Text and media products](http://localhost:1313/docs/overview.md#process-text-documents-and-media) — classify or segment documents, generate images or speech, transcribe audio, and describe media.
+- [Batch](http://localhost:1313/docs/features/batch.md) — apply the same workflow to many independent records asynchronously.
+- [Agentic Tests](http://localhost:1313/docs/inference/agentic-tests.md) — evaluate a complete gateway conversation before and after configuration changes.
 
-Before increasing traffic or processing large inputs, review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md).
+Before increasing traffic or processing large inputs, review [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and limits](http://localhost:1313/docs/limits.md).

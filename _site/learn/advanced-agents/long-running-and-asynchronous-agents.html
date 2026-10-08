@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en-US" data-lang="en" data-copy-failed="Copy failed; use View as Markdown">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Long-running and asynchronous agents | AIVAX Documentation</title>
+<meta name="description" content="Plan background agent work with durable progress, safe restarts, honest notifications and limits on time and spending.">
+<link rel="canonical" href="http://localhost:1313/learn/advanced-agents/long-running-and-asynchronous-agents.html">
+<link rel="icon" href="/favicon.ico">
+
+
+<link rel="alternate" hreflang="en-US" href="http://localhost:1313/learn/advanced-agents/long-running-and-asynchronous-agents.html">
+
+<link rel="alternate" hreflang="pt-BR" href="http://localhost:1313/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.html">
+
+
+<link rel="alternate" hreflang="x-default" href="http://localhost:1313/learn/advanced-agents/long-running-and-asynchronous-agents.html">
+
+
+
+<link rel="alternate" type="text/markdown" href="/learn/advanced-agents/long-running-and-asynchronous-agents.md" title="Markdown">
+
+<link rel="help" type="text/plain" href="/llms.txt" title="llms.txt">
+
+<meta property="og:title" content="Long-running and asynchronous agents">
+<meta property="og:site_name" content="AIVAX Documentation">
+<meta property="og:url" content="http://localhost:1313/learn/advanced-agents/long-running-and-asynchronous-agents.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://localhost:1313/assets/img/aivax.png">
+
+
+<script>
+    (() => {
+        const theme = localStorage.getItem('theme') || 'auto';
+        const dark = theme === 'dark' || (theme === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.themePreference = theme;
+    })();
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="/styles/main.min.b389ddaa2ca26c179dddd4f1adfccc3e1b41d335726a845b6968fc0c6efc26f4.css" integrity="sha256-s4ndqiyibBed3dTxrfzMPhtB0zVyaoRbaWj8DG78JvQ=">
+
+</head>
+<body class="layout-learn" data-learn-labels="{&#34;characters&#34;:&#34;characters&#34;,&#34;contextSize&#34;:&#34;Context window&#34;,&#34;dropped&#34;:&#34;Pushed out of the window&#34;,&#34;fits&#34;:&#34;Fits in the window&#34;,&#34;monthlyCost&#34;:&#34;Estimated monthly cost&#34;,&#34;play&#34;:&#34;Play&#34;,&#34;replay&#34;:&#34;Replay&#34;,&#34;sample&#34;:&#34;Pick the next word&#34;,&#34;temperature&#34;:&#34;Temperature&#34;,&#34;tokens&#34;:&#34;tokens&#34;}">
+    <a class="skip-link" href="#content">Skip to content</a>
+    
+<header class="header">
+    <div class="header-inner">
+        <button class="icon-button nav-toggle" type="button" aria-label="Menu" aria-controls="sidebar" aria-expanded="false" data-nav-toggle>
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3 4H21V6H3V4ZM3 11H21V13H3V11ZM3 18H21V20H3V18Z"/></svg>
+
+        </button>
+
+        <a class="brand" href="/index.html">
+            <img src="/assets/img/aivax.png" alt="AIVAX" width="108">
+        </a>
+
+        <nav class="header-nav" aria-label="Main">
+            <a href="/index.html" >Introduction</a>
+            
+            <a href="/docs/index.html" >Documentation</a>
+            
+            
+            <a href="/learn/index.html" aria-current="page">Learn</a>
+            
+            <a href="https://inference.aivax.net/apidocs">API Reference</a>
+        </nav>
+
+        <button class="search-trigger" type="button" data-search-open aria-label="Search">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></svg>
+
+            <span class="search-trigger-label">Search</span>
+            <kbd class="search-trigger-key">Ctrl K</kbd>
+        </button>
+
+        <div class="header-tools">
+            
+
+
+<details class="menu" data-menu>
+    <summary class="icon-button language-trigger" aria-label="Language" title="Language">
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.5 10L22.9 21H20.745L19.544 18H15.454L14.255 21H12.101L16.5 10H18.5ZM10 2V4H16V6L14.0322 6.0006C13.2425 8.36616 11.9988 10.5057 10.4115 12.301C11.1344 12.9457 11.917 13.5176 12.7475 14.0079L11.9969 15.8855C10.9237 15.2781 9.91944 14.5524 8.99961 13.7249C7.21403 15.332 5.10914 16.5553 2.79891 17.2734L2.26257 15.3442C4.2385 14.7203 6.04543 13.6737 7.59042 12.3021C6.46277 11.0281 5.50873 9.57985 4.76742 8.00028L7.00684 8.00037C7.57018 9.03885 8.23979 10.0033 8.99967 10.877C10.2283 9.46508 11.2205 7.81616 11.9095 6.00101L2 6V4H8V2H10ZM17.5 12.8852L16.253 16H18.745L17.5 12.8852Z"/></svg>
+
+        <span class="language-code">EN</span>
+    </summary>
+    <div class="menu-panel">
+        
+        
+        <a class="menu-item" href="/learn/advanced-agents/long-running-and-asynchronous-agents.html" hreflang="en-US" lang="en-US" data-lang-link="en"
+            aria-current="true">
+            English
+        </a>
+        
+        
+        <a class="menu-item" href="/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.html" hreflang="pt-BR" lang="pt-BR" data-lang-link="pt-br"
+            >
+            Português
+        </a>
+        
+    </div>
+</details>
+
+
+            <details class="menu" data-menu>
+                <summary class="icon-button" aria-label="Theme" title="Theme">
+                    <span class="theme-icon theme-icon-light"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></svg>
+</span>
+                    <span class="theme-icon theme-icon-dark"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/></svg>
+</span>
+                </summary>
+                <div class="menu-panel">
+                    <button type="button" class="menu-item" data-theme-set="light"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/></svg>
+Light</button>
+                    <button type="button" class="menu-item" data-theme-set="dark"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/></svg>
+Dark</button>
+                    <button type="button" class="menu-item" data-theme-set="auto"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C17.5228 1.9967 22 6.47386 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967ZM12 19.9967C16.4183 19.9967 20 16.415 20 11.9967C20 7.57843 16.4183 3.9967 12 3.9967C7.58172 3.9967 4 7.57843 4 11.9967C4 16.415 7.58172 19.9967 12 19.9967ZM7.00035 15.316C9.07995 15.1646 11.117 14.2939 12.7071 12.7038C14.2972 11.1137 15.1679 9.07666 15.3193 6.99706C15.6454 7.21408 15.955 7.46642 16.2426 7.75406C18.5858 10.0972 18.5858 13.8962 16.2426 16.2393C13.8995 18.5825 10.1005 18.5825 7.75736 16.2393C7.46971 15.9517 7.21738 15.6421 7.00035 15.316Z"/></svg>
+System</button>
+                </div>
+            </details>
+
+            <a class="icon-button" href="https://github.com/aivaxlabs/docs" aria-label="GitHub" title="GitHub" rel="noopener">
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"/></svg>
+
+            </a>
+        </div>
+    </div>
+</header>
+
+
+    <div class="shell">
+        
+
+<aside class="sidebar sidebar-learn" id="sidebar" aria-label="Learn">
+    <nav class="sidebar-nav">
+        <a class="sidebar-learn-home" href="/learn/index.html"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"/></svg>
+All modules</a>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 11.3333L0 9L12 2L24 9V17.5H22V10.1667L20 11.3333V18.0113L19.7774 18.2864C17.9457 20.5499 15.1418 22 12 22C8.85817 22 6.05429 20.5499 4.22263 18.2864L4 18.0113V11.3333ZM6 12.5V17.2917C7.46721 18.954 9.61112 20 12 20C14.3889 20 16.5328 18.954 18 17.2917V12.5L12 16L6 12.5ZM3.96927 9L12 13.6846L20.0307 9L12 4.31541L3.96927 9Z"/></svg>
+
+                <span class="nav-module-title">Introduction</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/introduction/what-is-learn.html&#34;,&#34;/learn/introduction/introduction-to-ai.html&#34;]">2</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/introduction/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/introduction/what-is-learn.html" data-learn-unit="/learn/introduction/what-is-learn.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>What is Learn</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/introduction/introduction-to-ai.html" data-learn-unit="/learn/introduction/introduction-to-ai.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Introduction to AI</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.5 2C13.5 2.44425 13.3069 2.84339 13 3.11805V5H18C19.6569 5 21 6.34315 21 8V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V8C3 6.34315 4.34315 5 6 5H11V3.11805C10.6931 2.84339 10.5 2.44425 10.5 2C10.5 1.17157 11.1716 0.5 12 0.5C12.8284 0.5 13.5 1.17157 13.5 2ZM6 7C5.44772 7 5 7.44772 5 8V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V8C19 7.44772 18.5523 7 18 7H13H11H6ZM2 10H0V16H2V10ZM22 10H24V16H22V10ZM9 14.5C9.82843 14.5 10.5 13.8284 10.5 13C10.5 12.1716 9.82843 11.5 9 11.5C8.17157 11.5 7.5 12.1716 7.5 13C7.5 13.8284 8.17157 14.5 9 14.5ZM15 14.5C15.8284 14.5 16.5 13.8284 16.5 13C16.5 12.1716 15.8284 11.5 15 11.5C14.1716 11.5 13.5 12.1716 13.5 13C13.5 13.8284 14.1716 14.5 15 14.5Z"/></svg>
+
+                <span class="nav-module-title">Agents</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/agents/introduction-to-ai-agents.html&#34;,&#34;/learn/agents/what-is-an-llm.html&#34;,&#34;/learn/agents/from-llms-to-agents.html&#34;,&#34;/learn/agents/adding-context.html&#34;,&#34;/learn/agents/adding-tools.html&#34;,&#34;/learn/agents/adding-skills.html&#34;,&#34;/learn/agents/adding-guardrails.html&#34;,&#34;/learn/agents/adding-knowledge.html&#34;,&#34;/learn/agents/connecting-to-the-world.html&#34;,&#34;/learn/agents/connecting-to-existing-systems.html&#34;,&#34;/learn/agents/agent-to-agent-communication.html&#34;,&#34;/learn/agents/workflows-as-skills.html&#34;,&#34;/learn/agents/writing-good-prompts-and-instructions.html&#34;]">13</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/agents/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/introduction-to-ai-agents.html" data-learn-unit="/learn/agents/introduction-to-ai-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Introduction to AI agents</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/what-is-an-llm.html" data-learn-unit="/learn/agents/what-is-an-llm.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>What is an LLM</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/from-llms-to-agents.html" data-learn-unit="/learn/agents/from-llms-to-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>From LLMs to agents</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/adding-context.html" data-learn-unit="/learn/agents/adding-context.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adding context</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/adding-tools.html" data-learn-unit="/learn/agents/adding-tools.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adding tools</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/adding-skills.html" data-learn-unit="/learn/agents/adding-skills.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adding skills</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/adding-guardrails.html" data-learn-unit="/learn/agents/adding-guardrails.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adding guardrails</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/adding-knowledge.html" data-learn-unit="/learn/agents/adding-knowledge.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Adding knowledge</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/connecting-to-the-world.html" data-learn-unit="/learn/agents/connecting-to-the-world.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Connecting to the world</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/connecting-to-existing-systems.html" data-learn-unit="/learn/agents/connecting-to-existing-systems.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Connecting to existing systems</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/agent-to-agent-communication.html" data-learn-unit="/learn/agents/agent-to-agent-communication.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Agent-to-agent communication</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/workflows-as-skills.html" data-learn-unit="/learn/agents/workflows-as-skills.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Workflows as skills</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/agents/writing-good-prompts-and-instructions.html" data-learn-unit="/learn/agents/writing-good-prompts-and-instructions.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Writing good prompts and instructions</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M5 12.5C5 12.8134 5.46101 13.3584 6.53047 13.8931C7.91405 14.5849 9.87677 15 12 15C14.1232 15 16.0859 14.5849 17.4695 13.8931C18.539 13.3584 19 12.8134 19 12.5V10.3287C17.35 11.3482 14.8273 12 12 12C9.17273 12 6.64996 11.3482 5 10.3287V12.5ZM19 15.3287C17.35 16.3482 14.8273 17 12 17C9.17273 17 6.64996 16.3482 5 15.3287V17.5C5 17.8134 5.46101 18.3584 6.53047 18.8931C7.91405 19.5849 9.87677 20 12 20C14.1232 20 16.0859 19.5849 17.4695 18.8931C18.539 18.3584 19 17.8134 19 17.5V15.3287ZM3 17.5V7.5C3 5.01472 7.02944 3 12 3C16.9706 3 21 5.01472 21 7.5V17.5C21 19.9853 16.9706 22 12 22C7.02944 22 3 19.9853 3 17.5ZM12 10C14.1232 10 16.0859 9.58492 17.4695 8.89313C18.539 8.3584 19 7.81342 19 7.5C19 7.18658 18.539 6.6416 17.4695 6.10687C16.0859 5.41508 14.1232 5 12 5C9.87677 5 7.91405 5.41508 6.53047 6.10687C5.46101 6.6416 5 7.18658 5 7.5C5 7.81342 5.46101 8.3584 6.53047 8.89313C7.91405 9.58492 9.87677 10 12 10Z"/></svg>
+
+                <span class="nav-module-title">Teaching agents</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/teaching-agents/introduction-to-knowledge-creation.html&#34;,&#34;/learn/teaching-agents/what-is-a-rag.html&#34;,&#34;/learn/teaching-agents/finding-and-preparing-knowledge.html&#34;,&#34;/learn/teaching-agents/writing-good-documents.html&#34;,&#34;/learn/teaching-agents/measuring-adherence-and-hallucination.html&#34;,&#34;/learn/teaching-agents/retrieval-strategies.html&#34;,&#34;/learn/teaching-agents/preparing-documents-for-knowledge.html&#34;,&#34;/learn/teaching-agents/dynamic-context.html&#34;]">8</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/teaching-agents/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/introduction-to-knowledge-creation.html" data-learn-unit="/learn/teaching-agents/introduction-to-knowledge-creation.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Knowledge creation</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/what-is-a-rag.html" data-learn-unit="/learn/teaching-agents/what-is-a-rag.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>What is a RAG</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/finding-and-preparing-knowledge.html" data-learn-unit="/learn/teaching-agents/finding-and-preparing-knowledge.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Find and prepare knowledge</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/writing-good-documents.html" data-learn-unit="/learn/teaching-agents/writing-good-documents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Write good documents</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/measuring-adherence-and-hallucination.html" data-learn-unit="/learn/teaching-agents/measuring-adherence-and-hallucination.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Measure knowledge quality</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/retrieval-strategies.html" data-learn-unit="/learn/teaching-agents/retrieval-strategies.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Retrieval strategies</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/preparing-documents-for-knowledge.html" data-learn-unit="/learn/teaching-agents/preparing-documents-for-knowledge.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Preparing documents for knowledge</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/teaching-agents/dynamic-context.html" data-learn-unit="/learn/teaching-agents/dynamic-context.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Dynamic context</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.29117 20.8242L2 22L3.17581 16.7088C2.42544 15.3056 2 13.7025 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C10.2975 22 8.6944 21.5746 7.29117 20.8242ZM7.58075 18.711L8.23428 19.0605C9.38248 19.6745 10.6655 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 13.3345 4.32549 14.6175 4.93949 15.7657L5.28896 16.4192L4.63416 19.3658L7.58075 18.711Z"/></svg>
+
+                <span class="nav-module-title">Prompt engineering and context</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/prompt-engineering/anatomy-of-a-prompt.html&#34;,&#34;/learn/prompt-engineering/prompting-techniques.html&#34;,&#34;/learn/prompt-engineering/context-window-tokens-and-cost.html&#34;,&#34;/learn/prompt-engineering/memory.html&#34;,&#34;/learn/prompt-engineering/common-prompt-mistakes.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/prompt-engineering/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/prompt-engineering/anatomy-of-a-prompt.html" data-learn-unit="/learn/prompt-engineering/anatomy-of-a-prompt.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Anatomy of a prompt</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/prompt-engineering/prompting-techniques.html" data-learn-unit="/learn/prompt-engineering/prompting-techniques.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Prompting techniques</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/prompt-engineering/context-window-tokens-and-cost.html" data-learn-unit="/learn/prompt-engineering/context-window-tokens-and-cost.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Context, tokens and cost</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/prompt-engineering/memory.html" data-learn-unit="/learn/prompt-engineering/memory.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Short-term and long-term memory</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/prompt-engineering/common-prompt-mistakes.html" data-learn-unit="/learn/prompt-engineering/common-prompt-mistakes.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Common prompt mistakes</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6 18H18V6H6V18ZM14 20H10V22H8V20H5C4.44772 20 4 19.5523 4 19V16H2V14H4V10H2V8H4V5C4 4.44772 4.44772 4 5 4H8V2H10V4H14V2H16V4H19C19.5523 4 20 4.44772 20 5V8H22V10H20V14H22V16H20V19C20 19.5523 19.5523 20 19 20H16V22H14V20ZM8 8H16V16H8V8Z"/></svg>
+
+                <span class="nav-module-title">Models and parameters</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/models/model-families-and-choosing.html&#34;,&#34;/learn/models/parameters.html&#34;,&#34;/learn/models/multimodality.html&#34;,&#34;/learn/models/embeddings-and-semantic-search.html&#34;,&#34;/learn/models/reasoning-vs-standard-models.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/models/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/models/model-families-and-choosing.html" data-learn-unit="/learn/models/model-families-and-choosing.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Model families</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/models/parameters.html" data-learn-unit="/learn/models/parameters.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Parameters</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/models/multimodality.html" data-learn-unit="/learn/models/multimodality.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Multimodality</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/models/embeddings-and-semantic-search.html" data-learn-unit="/learn/models/embeddings-and-semantic-search.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Embeddings and search</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/models/reasoning-vs-standard-models.html" data-learn-unit="/learn/models/reasoning-vs-standard-models.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Reasoning models</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13 18V20H19V22H13C11.8954 22 11 21.1046 11 20V18H8C5.79086 18 4 16.2091 4 14V7C4 6.44772 4.44772 6 5 6H8V2H10V6H14V2H16V6H19C19.5523 6 20 6.44772 20 7V14C20 16.2091 18.2091 18 16 18H13ZM8 16H16C17.1046 16 18 15.1046 18 14V11H6V14C6 15.1046 6.89543 16 8 16ZM18 8H6V9H18V8ZM12 14.5C11.4477 14.5 11 14.0523 11 13.5C11 12.9477 11.4477 12.5 12 12.5C12.5523 12.5 13 12.9477 13 13.5C13 14.0523 12.5523 14.5 12 14.5Z"/></svg>
+
+                <span class="nav-module-title">Tools and integrations</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/tools-and-integrations/function-calling.html&#34;,&#34;/learn/tools-and-integrations/model-context-protocol.html&#34;,&#34;/learn/tools-and-integrations/authentication-and-permissions.html&#34;,&#34;/learn/tools-and-integrations/integrating-channels.html&#34;,&#34;/learn/tools-and-integrations/webhooks-events-and-automations.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/tools-and-integrations/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/tools-and-integrations/function-calling.html" data-learn-unit="/learn/tools-and-integrations/function-calling.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Function calling</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/tools-and-integrations/model-context-protocol.html" data-learn-unit="/learn/tools-and-integrations/model-context-protocol.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>MCP and tool standards</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/tools-and-integrations/authentication-and-permissions.html" data-learn-unit="/learn/tools-and-integrations/authentication-and-permissions.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Authentication and permissions</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/tools-and-integrations/integrating-channels.html" data-learn-unit="/learn/tools-and-integrations/integrating-channels.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Integrating channels</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/tools-and-integrations/webhooks-events-and-automations.html" data-learn-unit="/learn/tools-and-integrations/webhooks-events-and-automations.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Webhooks and automations</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" open>
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.10508 15.2101C8.21506 15.6501 9 16.7334 9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.6938 3.83481 15.5825 5 15.1707V8.82929C3.83481 8.41746 3 7.30622 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6C9 7.30622 8.16519 8.41746 7 8.82929V11.9996C7.83566 11.3719 8.87439 11 10 11H14C15.3835 11 16.5482 10.0635 16.8949 8.78991C15.7849 8.34988 15 7.26661 15 6C15 4.34315 16.3431 3 18 3C19.6569 3 21 4.34315 21 6C21 7.3332 20.1303 8.46329 18.9274 8.85392C18.5222 11.2085 16.4703 13 14 13H10C8.61653 13 7.45179 13.9365 7.10508 15.2101ZM6 17C5.44772 17 5 17.4477 5 18C5 18.5523 5.44772 19 6 19C6.55228 19 7 18.5523 7 18C7 17.4477 6.55228 17 6 17ZM6 5C5.44772 5 5 5.44772 5 6C5 6.55228 5.44772 7 6 7C6.55228 7 7 6.55228 7 6C7 5.44772 6.55228 5 6 5ZM18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"/></svg>
+
+                <span class="nav-module-title">Advanced agents and workflows</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/advanced-agents/planning-and-reasoning-loops.html&#34;,&#34;/learn/advanced-agents/multi-agent-architectures.html&#34;,&#34;/learn/advanced-agents/human-in-the-loop.html&#34;,&#34;/learn/advanced-agents/errors-retries-and-fallbacks.html&#34;,&#34;/learn/advanced-agents/long-running-and-asynchronous-agents.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/advanced-agents/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/advanced-agents/planning-and-reasoning-loops.html" data-learn-unit="/learn/advanced-agents/planning-and-reasoning-loops.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Planning and reasoning loops</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/advanced-agents/multi-agent-architectures.html" data-learn-unit="/learn/advanced-agents/multi-agent-architectures.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Multi-agent architectures</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/advanced-agents/human-in-the-loop.html" data-learn-unit="/learn/advanced-agents/human-in-the-loop.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Human-in-the-loop</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/advanced-agents/errors-retries-and-fallbacks.html" data-learn-unit="/learn/advanced-agents/errors-retries-and-fallbacks.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Errors, retries and fallbacks</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/advanced-agents/long-running-and-asynchronous-agents.html" data-learn-unit="/learn/advanced-agents/long-running-and-asynchronous-agents.html" aria-current="page">
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Long-running and asynchronous agents</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M15.9994 2V4H14.9994V7.24291C14.9994 8.40051 15.2506 9.54432 15.7357 10.5954L20.017 19.8714C20.3641 20.6236 20.0358 21.5148 19.2836 21.8619C19.0865 21.9529 18.8721 22 18.655 22H5.34375C4.51532 22 3.84375 21.3284 3.84375 20.5C3.84375 20.2829 3.89085 20.0685 3.98181 19.8714L8.26306 10.5954C8.74816 9.54432 8.99939 8.40051 8.99939 7.24291V4H7.99939V2H15.9994ZM13.3873 10.0012H10.6115C10.5072 10.3644 10.3823 10.7221 10.2371 11.0724L10.079 11.4335L6.12439 20H17.8734L13.9198 11.4335C13.7054 10.9691 13.5276 10.4902 13.3873 10.0012ZM10.9994 7.24291C10.9994 7.49626 10.9898 7.7491 10.9706 8.00087H13.0282C13.0189 7.87982 13.0119 7.75852 13.0072 7.63704L12.9994 7.24291V4H10.9994V7.24291Z"/></svg>
+
+                <span class="nav-module-title">Quality, evaluation and observability</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/quality/testing-and-evaluating-agents.html&#34;,&#34;/learn/quality/metrics.html&#34;,&#34;/learn/quality/logs-traces-and-monitoring.html&#34;,&#34;/learn/quality/continuous-improvement.html&#34;,&#34;/learn/quality/ab-testing.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/quality/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/quality/testing-and-evaluating-agents.html" data-learn-unit="/learn/quality/testing-and-evaluating-agents.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Testing and evals</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/quality/metrics.html" data-learn-unit="/learn/quality/metrics.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Quality metrics</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/quality/logs-traces-and-monitoring.html" data-learn-unit="/learn/quality/logs-traces-and-monitoring.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Logs and monitoring</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/quality/continuous-improvement.html" data-learn-unit="/learn/quality/continuous-improvement.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Continuous improvement</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/quality/ab-testing.html" data-learn-unit="/learn/quality/ab-testing.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>A/B testing</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 1L20.2169 2.82598C20.6745 2.92766 21 3.33347 21 3.80217V13.7889C21 15.795 19.9974 17.6684 18.3282 18.7812L12 23L5.6718 18.7812C4.00261 17.6684 3 15.795 3 13.7889V3.80217C3 3.33347 3.32553 2.92766 3.78307 2.82598L12 1ZM12 3.04879L5 4.60434V13.7889C5 15.1263 5.6684 16.3752 6.7812 17.1171L12 20.5963L17.2188 17.1171C18.3316 16.3752 19 15.1263 19 13.7889V4.60434L12 3.04879ZM16.4524 8.22183L17.8666 9.63604L11.5026 16L7.25999 11.7574L8.67421 10.3431L11.5019 13.1709L16.4524 8.22183Z"/></svg>
+
+                <span class="nav-module-title">Safety, ethics and compliance</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/safety/prompt-injection-and-jailbreaks.html&#34;,&#34;/learn/safety/privacy-lgpd-gdpr.html&#34;,&#34;/learn/safety/bias-fairness-responsible-ai.html&#34;,&#34;/learn/safety/content-moderation-and-policies.html&#34;,&#34;/learn/safety/transparency-and-human-escalation.html&#34;]">5</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/safety/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/safety/prompt-injection-and-jailbreaks.html" data-learn-unit="/learn/safety/prompt-injection-and-jailbreaks.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Prompt injection and jailbreaks</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/safety/privacy-lgpd-gdpr.html" data-learn-unit="/learn/safety/privacy-lgpd-gdpr.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Privacy and sensitive data</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/safety/bias-fairness-responsible-ai.html" data-learn-unit="/learn/safety/bias-fairness-responsible-ai.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Bias and responsible AI</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/safety/content-moderation-and-policies.html" data-learn-unit="/learn/safety/content-moderation-and-policies.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Moderation and usage policies</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/safety/transparency-and-human-escalation.html" data-learn-unit="/learn/safety/transparency-and-human-escalation.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Transparency and escalation</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4.99958 12.9999C4.99958 7.91198 7.90222 3.5636 11.9996 1.81799C16.0969 3.5636 18.9996 7.91198 18.9996 12.9999C18.9996 13.8229 18.9236 14.6264 18.779 15.4027L20.7194 17.2353C20.8845 17.3913 20.9238 17.6389 20.815 17.8383L18.3196 22.4133C18.1873 22.6557 17.8836 22.7451 17.6412 22.6128C17.5993 22.59 17.5608 22.5612 17.5271 22.5274L15.2925 20.2928C15.1049 20.1053 14.8506 19.9999 14.5854 19.9999H9.41379C9.14857 19.9999 8.89422 20.1053 8.70668 20.2928L6.47209 22.5274C6.27683 22.7227 5.96025 22.7227 5.76498 22.5274C5.73122 22.4937 5.70246 22.4552 5.67959 22.4133L3.18412 17.8383C3.07537 17.6389 3.11464 17.3913 3.27975 17.2353L5.22014 15.4027C5.07551 14.6264 4.99958 13.8229 4.99958 12.9999ZM6.47542 19.6957L7.29247 18.8786C7.85508 18.316 8.61814 17.9999 9.41379 17.9999H14.5854C15.381 17.9999 16.1441 18.316 16.7067 18.8786L17.5237 19.6957L18.5056 17.8955L17.4058 16.8568C16.9117 16.3901 16.6884 15.7045 16.8128 15.0364C16.9366 14.3722 16.9996 13.6911 16.9996 12.9999C16.9996 9.13037 15.0045 5.69965 11.9996 4.04033C8.99462 5.69965 6.99958 9.13037 6.99958 12.9999C6.99958 13.6911 7.06255 14.3722 7.18631 15.0364C7.31078 15.7045 7.08746 16.3901 6.59338 16.8568L5.49353 17.8955L6.47542 19.6957ZM11.9996 12.9999C10.895 12.9999 9.99958 12.1045 9.99958 10.9999C9.99958 9.89537 10.895 8.99994 11.9996 8.99994C13.1041 8.99994 13.9996 9.89537 13.9996 10.9999C13.9996 12.1045 13.1041 12.9999 11.9996 12.9999Z"/></svg>
+
+                <span class="nav-module-title">Production and scale</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/production/cost-optimization-and-caching.html&#34;,&#34;/learn/production/performance-and-latency.html&#34;,&#34;/learn/production/versioning.html&#34;,&#34;/learn/production/deployment-checklist.html&#34;]">4</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/production/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/production/cost-optimization-and-caching.html" data-learn-unit="/learn/production/cost-optimization-and-caching.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Cost and caching</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/production/performance-and-latency.html" data-learn-unit="/learn/production/performance-and-latency.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Performance and latency</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/production/versioning.html" data-learn-unit="/learn/production/versioning.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Versioning</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/production/deployment-checklist.html" data-learn-unit="/learn/production/deployment-checklist.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Deployment checklist</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+        
+        <details class="nav-module" >
+            <summary>
+                <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM16.5 7.5L14 14L7.5 16.5L10 10L16.5 7.5ZM12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"/></svg>
+
+                <span class="nav-module-title">Practical guides and case studies</span>
+                <span class="nav-module-count" data-learn-count data-learn-units="[&#34;/learn/guides/customer-support-agent.html&#34;,&#34;/learn/guides/sales-qualification-agent.html&#34;,&#34;/learn/guides/internal-knowledge-assistant.html&#34;,&#34;/learn/guides/use-cases-by-industry.html&#34;,&#34;/learn/guides/glossary-and-cheat-sheet.html&#34;,&#34;/learn/guides/faq-and-learning-paths.html&#34;]">6</span>
+            </summary>
+            <ul>
+                <li>
+                    <a class="nav-module-overview" href="/learn/guides/index.html" >Module</a>
+                </li>
+                
+                <li>
+                    <a href="/learn/guides/customer-support-agent.html" data-learn-unit="/learn/guides/customer-support-agent.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Customer support agent</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/guides/sales-qualification-agent.html" data-learn-unit="/learn/guides/sales-qualification-agent.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Sales and qualification</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/guides/internal-knowledge-assistant.html" data-learn-unit="/learn/guides/internal-knowledge-assistant.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Internal knowledge assistant</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/guides/use-cases-by-industry.html" data-learn-unit="/learn/guides/use-cases-by-industry.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Use cases by industry</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/guides/glossary-and-cheat-sheet.html" data-learn-unit="/learn/guides/glossary-and-cheat-sheet.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>Glossary and cheat sheet</span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="/learn/guides/faq-and-learning-paths.html" data-learn-unit="/learn/guides/faq-and-learning-paths.html" >
+                        <span class="unit-check"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM17.4571 9.45711L11 15.9142L6.79289 11.7071L8.20711 10.2929L11 13.0858L16.0429 8.04289L17.4571 9.45711Z"/></svg>
+</span>
+                        <span>FAQ and learning paths</span>
+                    </a>
+                </li>
+                
+            </ul>
+        </details>
+        
+    </nav>
+</aside>
+
+
+        <main id="content" class="main">
+            
+
+
+
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+        
+        
+        
+    
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<article class="article learn-unit" data-pagefind-body data-pagefind-meta="section:learn">
+    <div class="article-header">
+        <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore>
+            <a href="/learn/index.html">Learn</a>
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+<a href="/learn/advanced-agents/index.html">Advanced agents and workflows</a>
+        </nav>
+        <details class="menu page-actions" data-menu data-pagefind-ignore>
+    <summary class="button button-ghost">
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6.9998 6V3C6.9998 2.44772 7.44752 2 7.9998 2H19.9998C20.5521 2 20.9998 2.44772 20.9998 3V17C20.9998 17.5523 20.5521 18 19.9998 18H16.9998V20.9991C16.9998 21.5519 16.5499 22 15.993 22H4.00666C3.45059 22 3 21.5554 3 20.9991L3.0026 7.00087C3.0027 6.44811 3.45264 6 4.00942 6H6.9998ZM5.00242 8L5.00019 20H14.9998V8H5.00242ZM8.9998 6H16.9998V16H18.9998V4H8.9998V6Z"/></svg>
+
+        <span>Copy page</span>
+        <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"/></svg>
+
+    </summary>
+    <div class="menu-panel">
+        
+        <button type="button" class="menu-item" data-copy-markdown="/learn/advanced-agents/long-running-and-asynchronous-agents.md" data-copied-label="Copied">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM4 5V19H20V5H4ZM7 15.5H5V8.5H7L9 10.5L11 8.5H13V15.5H11V11.5L9 13.5L7 11.5V15.5ZM18 12.5H20L17 15.5L14 12.5H16V8.5H18V12.5Z"/></svg>
+<span>Copy as Markdown</span>
+        </button>
+        <a class="menu-item" href="/learn/advanced-agents/long-running-and-asynchronous-agents.md" type="text/markdown">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"/></svg>
+<span>View as Markdown</span>
+        </a>
+        
+        <button type="button" class="menu-item" data-copy-link data-copied-label="Copied">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.3638 15.5355L16.9496 14.1213L18.3638 12.7071C20.3164 10.7545 20.3164 7.58866 18.3638 5.63604C16.4112 3.68341 13.2453 3.68341 11.2927 5.63604L9.87849 7.05025L8.46428 5.63604L9.87849 4.22182C12.6122 1.48815 17.0443 1.48815 19.778 4.22182C22.5117 6.95549 22.5117 11.3876 19.778 14.1213L18.3638 15.5355ZM15.5353 18.364L14.1211 19.7782C11.3875 22.5118 6.95531 22.5118 4.22164 19.7782C1.48797 17.0445 1.48797 12.6123 4.22164 9.87868L5.63585 8.46446L7.05007 9.87868L5.63585 11.2929C3.68323 13.2455 3.68323 16.4113 5.63585 18.364C7.58847 20.3166 10.7543 20.3166 12.7069 18.364L14.1211 16.9497L15.5353 18.364ZM14.8282 7.75736L16.2425 9.17157L9.17139 16.2426L7.75717 14.8284L14.8282 7.75736Z"/></svg>
+<span>Copy link</span>
+        </button>
+        
+        <a class="menu-item" href="https://github.com/aivaxlabs/docs/edit/master/content/en/learn/advanced-agents/long-running-and-asynchronous-agents.md" rel="noopener">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6.41421 15.89L16.5563 5.74785L15.1421 4.33363L5 14.4758V15.89H6.41421ZM7.24264 17.89H3V13.6473L14.435 2.21231C14.8256 1.82179 15.4587 1.82179 15.8492 2.21231L18.6777 5.04074C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89ZM3 19.89H21V21.89H3V19.89Z"/></svg>
+<span>Edit English source</span>
+        </a>
+        
+    </div>
+</details>
+
+    </div>
+
+    
+
+
+    <header class="unit-header">
+        <p class="unit-eyebrow"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M7.10508 15.2101C8.21506 15.6501 9 16.7334 9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.6938 3.83481 15.5825 5 15.1707V8.82929C3.83481 8.41746 3 7.30622 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6C9 7.30622 8.16519 8.41746 7 8.82929V11.9996C7.83566 11.3719 8.87439 11 10 11H14C15.3835 11 16.5482 10.0635 16.8949 8.78991C15.7849 8.34988 15 7.26661 15 6C15 4.34315 16.3431 3 18 3C19.6569 3 21 4.34315 21 6C21 7.3332 20.1303 8.46329 18.9274 8.85392C18.5222 11.2085 16.4703 13 14 13H10C8.61653 13 7.45179 13.9365 7.10508 15.2101ZM6 17C5.44772 17 5 17.4477 5 18C5 18.5523 5.44772 19 6 19C6.55228 19 7 18.5523 7 18C7 17.4477 6.55228 17 6 17ZM6 5C5.44772 5 5 5.44772 5 6C5 6.55228 5.44772 7 6 7C6.55228 7 7 6.55228 7 6C7 5.44772 6.55228 5 6 5ZM18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"/></svg>
+Advanced agents and workflows</p>
+        <h1>Long-running and asynchronous agents</h1>
+        <p class="lead">Plan background agent work with durable progress, safe restarts, honest notifications and limits on time and spending.</p>
+        <ul class="unit-meta" data-pagefind-ignore>
+            <li><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M21 3C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H21ZM11 13H4V19H11V13ZM20 13H13V19H20V13ZM11 5H4V11H11V5ZM20 5H13V11H20V5Z"/></svg>
+Unit 5 of 5</li>
+            <li><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM13 12H17V14H11V7H13V12Z"/></svg>
+13 min</li>
+            <li><span class="level level-advanced">Advanced</span>
+</li>
+        </ul>
+    </header>
+
+    
+    <section class="objectives">
+        <p class="objectives-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M9.97308 18H11V13H13V18H14.0269C14.1589 16.7984 14.7721 15.8065 15.7676 14.7226C15.8797 14.6006 16.5988 13.8564 16.6841 13.7501C17.5318 12.6931 18 11.385 18 10C18 6.68629 15.3137 4 12 4C8.68629 4 6 6.68629 6 10C6 11.3843 6.46774 12.6917 7.31462 13.7484C7.40004 13.855 8.12081 14.6012 8.23154 14.7218C9.22766 15.8064 9.84103 16.7984 9.97308 18ZM10 20V21H14V20H10ZM5.75395 14.9992C4.65645 13.6297 4 11.8915 4 10C4 5.58172 7.58172 2 12 2C16.4183 2 20 5.58172 20 10C20 11.8925 19.3428 13.6315 18.2443 15.0014C17.624 15.7748 16 17 16 18.5V21C16 22.1046 15.1046 23 14 23H10C8.89543 23 8 22.1046 8 21V18.5C8 17 6.37458 15.7736 5.75395 14.9992Z"/></svg>
+In this unit, you will learn</p>
+        <ul>
+            <li>Distinguish a live response from a background job and a scheduled task.</li><li>Design checkpoints and progress reports that survive interruptions.</li><li>Explain how idempotency prevents duplicate effects during retries.</li><li>Set completion, notification, cancellation and spending rules for long tasks.</li>
+        </ul>
+    </section>
+    
+
+    <div class="prose">
+        <p>A customer asking for opening hours expects an answer while the conversation is open. A manager asking for a review of a large document collection may be willing to return later. Both are agent tasks, but they need different delivery arrangements. Keeping a chat window spinning for hours does not make long work reliable. The application needs a record of the work that exists independently of the conversation.</p>
+<p>Long-running tasks include researching a market, processing a list of records and preparing reports from several sources. Scheduled follow-ups add another kind of waiting: the work should happen at an agreed future time. In each case, the agent needs a defined scope, an owner and a way to report what actually happened, including partial completion or failure.</p>
+<h2 id="synchronous-and-asynchronous-work">Synchronous and asynchronous work <a class="heading-anchor" href="#synchronous-and-asynchronous-work" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p><strong>Synchronous</strong> work keeps the caller waiting for the result of the current request. <strong>Asynchronous</strong> work acknowledges the request and completes it separately, so the caller can leave and check later. Think of waiting at a counter for a copy versus leaving a print order and collecting it when notified. Asynchronous does not mean faster; it means the result is delivered through a different lifecycle.</p>
+<div class="compare">
+
+<section class="compare-side">
+    <p class="compare-title">Synchronous response</p>
+    <p>The user waits in the current interaction. It suits short, bounded questions and actions whose results are needed immediately. A slow dependency can keep the whole interaction waiting.</p>
+
+</section>
+
+
+<section class="compare-side">
+    <p class="compare-title">Asynchronous job</p>
+    <p>The application returns a receipt and maintains a separate work record. It suits longer tasks, queued work and later delivery. The interface must explain status, cancellation and where the result will appear.</p>
+
+</section>
+
+</div>
+
+<p>A <strong>background job</strong> is a recorded unit of work processed independently of the original request. A <strong>queue</strong> holds jobs waiting to run, and a <strong>worker</strong> is the process that takes a job and performs its steps. These are ordinary software responsibilities around the model. A model saying “I will keep working” is not proof that a background job was created.</p>
+<p>A <strong>scheduled task</strong> has an agreed time or trigger for starting. Be precise about the time zone, recurrence and stopping rule. A recurring customer follow-up also needs permission for future contact and a way to cancel it. Verify the customer&rsquo;s current status when the task runs; a message that made sense when scheduled may become inappropriate after the issue is resolved.</p>
+<h2 id="match-expectations-to-the-kind-of-task">Match expectations to the kind of task <a class="heading-anchor" href="#match-expectations-to-the-kind-of-task" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>A research job may spend time finding and comparing sources. A batch job repeats a process over independent records. A follow-up may spend most of its lifetime waiting for its due time rather than using a model. The user should be able to distinguish time in a queue, time waiting for approval and time actively processing.</p>
+
+
+
+
+<figure class="chart chart-type-bar">
+    <figcaption class="chart-title">Example active processing durations (illustrative)</figcaption>
+    
+    
+    <div class="chart-bars" role="img" aria-label="Example active processing durations (illustrative)">
+        
+        <div class="chart-row">
+            <span class="chart-label">Brief research task</span>
+            <span class="chart-track"><span class="chart-bar" style="--value: 13.333333333333334%; --color: var(--chart-1)"></span></span>
+            <span class="chart-value">12 minutes</span>
+        </div>
+        
+        <div class="chart-row">
+            <span class="chart-label">Document comparison</span>
+            <span class="chart-track"><span class="chart-bar" style="--value: 27.77777777777778%; --color: var(--chart-2)"></span></span>
+            <span class="chart-value">25 minutes</span>
+        </div>
+        
+        <div class="chart-row">
+            <span class="chart-label">Independent-record batch</span>
+            <span class="chart-track"><span class="chart-bar" style="--value: 100%; --color: var(--chart-3)"></span></span>
+            <span class="chart-value">90 minutes</span>
+        </div>
+        
+    </div>
+    
+    <p class="chart-caption">Invented planning examples, not benchmarks, service promises or product limits. Queue time and scheduled waiting are excluded; real duration depends on scope, tools and failures.</p>
+</figure>
+
+<p>Do not present these examples as a delivery estimate for a real task. Estimate from observed workloads where possible, state what the estimate includes and update it when conditions change. An exact finish time is misleading when the amount of work is still being discovered. A clear current stage can be more useful than a precise-looking countdown.</p>
+<h2 id="give-the-job-a-visible-lifecycle">Give the job a visible lifecycle <a class="heading-anchor" href="#give-the-job-a-visible-lifecycle" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>A <strong>lifecycle</strong> is the set of stages a job passes through, from acceptance to a final outcome. “Accepted” means the application has recorded the request, not that the task is finished. “Completed” should mean the agreed deliverable exists and passed its checks. Make blocked, failed, cancelled and partially completed outcomes visible rather than grouping all stopped work under success.</p>
+<ol class="timeline">
+<li class="timeline-event">
+    <span class="timeline-date">Accepted</span>
+    <div class="timeline-body">
+        <p class="timeline-title">Record the agreement</p>
+        <p>Store the goal, scope, owner, delivery channel, limits and a receipt the user can revisit.</p>
+
+    </div>
+</li>
+
+<li class="timeline-event">
+    <span class="timeline-date">Queued</span>
+    <div class="timeline-body">
+        <p class="timeline-title">Wait without pretending to work</p>
+        <p>Show that the job is waiting for capacity or its scheduled start. Preserve the ability to cancel.</p>
+
+    </div>
+</li>
+
+<li class="timeline-event">
+    <span class="timeline-date">Running</span>
+    <div class="timeline-body">
+        <p class="timeline-title">Work and save progress</p>
+        <p>Process the next permitted unit, validate its result and record a checkpoint before moving on.</p>
+
+    </div>
+</li>
+
+<li class="timeline-event">
+    <span class="timeline-date">Paused if needed</span>
+    <div class="timeline-body">
+        <p class="timeline-title">Request a concrete decision</p>
+        <p>Explain missing information, exhausted budget or required approval. Do not keep spending while a human decision is needed.</p>
+
+    </div>
+</li>
+
+<li class="timeline-event">
+    <span class="timeline-date">Finished</span>
+    <div class="timeline-body">
+        <p class="timeline-title">Deliver an honest outcome</p>
+        <p>Make the checked result available, disclose omissions and notify the user through the agreed channel.</p>
+
+    </div>
+</li>
+
+</ol>
+
+<p>A job needs a durable record: information stored so it survives a closed browser, a lost connection or a restarted worker. That record should identify completed items, current work, unresolved errors, approved actions and remaining budget. Do not rely on the model&rsquo;s conversation alone as the only record. Conversation history may be shortened or become too large, while the job still needs an accurate account of what changed.</p>
+<h2 id="use-checkpoints-to-resume-safely">Use checkpoints to resume safely <a class="heading-anchor" href="#use-checkpoints-to-resume-safely" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>A <strong>checkpoint</strong> is a saved position from which work can resume. Imagine placing a bookmark after each verified section of a report. For a record-processing job, save the result of each completed item or manageable group of items. After an interruption, continue from the saved state instead of rerunning the entire list.</p>
+<div class="steps" data-steps data-label-of="Step %d of %d">
+    <div class="steps-toolbar">
+        <button type="button" class="button button-ghost steps-play" data-steps-play data-label-play="Play" data-label-replay="Replay"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M16.3944 12.0001L10 7.7371V16.263L16.3944 12.0001ZM19.376 12.4161L8.77735 19.4818C8.54759 19.635 8.23715 19.5729 8.08397 19.3432C8.02922 19.261 8 19.1645 8 19.0658V4.93433C8 4.65818 8.22386 4.43433 8.5 4.43433C8.59871 4.43433 8.69522 4.46355 8.77735 4.5183L19.376 11.584C19.6057 11.7372 19.6678 12.0477 19.5146 12.2774C19.478 12.3323 19.4309 12.3795 19.376 12.4161Z"/></svg>
+<span>Play</span></button>
+        <span class="steps-counter" data-steps-counter></span>
+        <span class="steps-nav">
+            <button type="button" class="icon-button" data-steps-prev aria-label="Previous step"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"/></svg>
+</button>
+            <button type="button" class="icon-button" data-steps-next aria-label="Next step"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+</button>
+        </span>
+    </div>
+    <ol class="steps-list">
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Define a unit of work</p>
+        <p>Choose an item that can be checked and recorded independently, such as one document or one input row. Document any dependency on earlier results.</p>
+
+    </div>
+</li>
+
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Perform and validate the unit</p>
+        <p>Run the permitted operation, check the output and distinguish success from a missing or invalid result.</p>
+
+    </div>
+</li>
+
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Save outcome and position together</p>
+        <p>Record the result, completion state and information needed to avoid repeating its external effects. A progress counter alone is not enough.</p>
+
+    </div>
+</li>
+
+<li class="step" data-step>
+    <span class="step-marker" aria-hidden="true"></span>
+    <div class="step-body">
+        <p class="step-title">Resume from confirmed state</p>
+        <p>Skip verified completed work, reconcile uncertain actions and retry only the remaining eligible items within the original limits.</p>
+
+    </div>
+</li>
+
+</ol>
+</div>
+
+<p>Some operations create a dangerous gap between the external effect and the checkpoint. An e-mail may be sent just before the worker stops, leaving no local record of completion. Blindly resuming could send it again. <strong>Idempotency</strong> means repeated processing of the same intended operation does not create additional effects. A service can support this by recognising a stable operation reference and returning the earlier outcome rather than repeating the action.</p>
+<p>That protection must exist in the receiving system or in a carefully designed action process; adding a label to a prompt does not make an operation idempotent. When the remote outcome cannot be established, pause for reconciliation instead of assuming it failed. Distinguish “retry this same operation” from “the user deliberately requested a new operation”. They must not accidentally share the same completion record.</p>
+<h2 id="report-progress-without-inventing-it">Report progress without inventing it <a class="heading-anchor" href="#report-progress-without-inventing-it" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>For a fixed list, show counts of completed, failed and remaining items, with clear definitions. If a retry is in progress, do not count the same record twice. For open-ended research, use stages and findings: “Source collection complete; comparing conflicting delivery terms” is more honest than an unsupported percentage. Progress should describe verified work, not how much text the agent has written.</p>
+<div class="concept-cards">
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M8 4H21V6H8V4ZM3 3.5H6V6.5H3V3.5ZM3 10.5H6V13.5H3V10.5ZM3 17.5H6V20.5H3V17.5ZM8 11H21V13H8V11ZM8 18H21V20H8V18Z"/></svg>
+Useful progress</p>
+    <p>Show completed work, the current stage and any decision blocking the next step. Label estimates as estimates.</p>
+
+</section>
+
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6 5H8V19H6V5ZM16 5H18V19H16V5Z"/></svg>
+Controlled cancellation</p>
+    <p>Stop starting new work and explain whether an operation is already in progress. Cancellation does not undo a completed external action.</p>
+
+</section>
+
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M2 8.99374C2 5.68349 4.67654 3 8.00066 3H15.9993C19.3134 3 22 5.69478 22 8.99374V21H8.00066C4.68659 21 2 18.3052 2 15.0063V8.99374ZM20 19V8.99374C20 6.79539 18.2049 5 15.9993 5H8.00066C5.78458 5 4 6.78458 4 8.99374V15.0063C4 17.2046 5.79512 19 8.00066 19H20ZM14 11H16V13H14V11ZM8 11H10V13H8V11Z"/></svg>
+Reliable notification</p>
+    <p>Send an agreed completion notice with a safe link to the result. Keep the result accessible even if notification delivery fails.</p>
+
+</section>
+
+<section class="concept-card">
+    <p class="concept-card-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M14.0049 2.00281C18.4232 2.00281 22.0049 5.58453 22.0049 10.0028C22.0049 13.2474 20.0733 16.0409 17.2973 17.296C16.0422 20.0718 13.249 22.0028 10.0049 22.0028C5.5866 22.0028 2.00488 18.4211 2.00488 14.0028C2.00488 10.7587 3.9359 7.96554 6.71122 6.71012C7.96681 3.93438 10.7603 2.00281 14.0049 2.00281ZM10.0049 8.00281C6.69117 8.00281 4.00488 10.6891 4.00488 14.0028C4.00488 17.3165 6.69117 20.0028 10.0049 20.0028C13.3186 20.0028 16.0049 17.3165 16.0049 14.0028C16.0049 10.6891 13.3186 8.00281 10.0049 8.00281ZM11.0049 9.00281V10.0028H13.0049V12.0028H9.00488C8.72874 12.0028 8.50488 12.2267 8.50488 12.5028C8.50488 12.7483 8.68176 12.9524 8.91501 12.9948L9.00488 13.0028H11.0049C12.3856 13.0028 13.5049 14.1221 13.5049 15.5028C13.5049 16.8835 12.3856 18.0028 11.0049 18.0028V19.0028H9.00488V18.0028H7.00488V16.0028H11.0049C11.281 16.0028 11.5049 15.7789 11.5049 15.5028C11.5049 15.2573 11.328 15.0532 11.0948 15.0109L11.0049 15.0028H9.00488C7.62417 15.0028 6.50488 13.8835 6.50488 12.5028C6.50488 11.1221 7.62417 10.0028 9.00488 10.0028V9.00281H11.0049ZM14.0049 4.00281C12.2214 4.00281 10.6196 4.78097 9.52064 6.01629C9.68133 6.00764 9.84254 6.00281 10.0049 6.00281C14.4232 6.00281 18.0049 9.58453 18.0049 14.0028C18.0049 14.1655 18 14.327 17.9905 14.4873C19.2265 13.3885 20.0049 11.7866 20.0049 10.0028C20.0049 6.6891 17.3186 4.00281 14.0049 4.00281Z"/></svg>
+Bounded spending</p>
+    <p>Count model calls, tool use, retries and delegated work toward the same task budget. Pause before authorised resources are exhausted.</p>
+
+</section>
+
+</div>
+
+<p>Notifications deserve their own status. “The report is ready” and “the user received the notification” are different facts. Avoid putting sensitive results directly into an e-mail or notification that might be viewed on a shared screen. Prefer the agreed channel and an authenticated route to the full result. Do not notify a new recipient merely because the original contact failed.</p>
+<h2 id="keep-long-work-within-its-original-authority">Keep long work within its original authority <a class="heading-anchor" href="#keep-long-work-within-its-original-authority" aria-label="#" data-pagefind-ignore>#</a></h2>
+<p>Time can change the context. Before a consequential action, recheck permissions, approval validity and facts that may have become stale. An approved draft is not permission to send a materially changed version tomorrow. Longer execution makes this separation more important, because people may update records or cancel instructions while the job is waiting.</p>
+<p>A <strong>cost cap</strong> is an enforced maximum spending budget for the task. Apply it across retries and workers, and check the remaining allowance before starting more work. Also set a deadline and a limit on simultaneously active workers. More simultaneous work may shorten a queue but can increase rate-limit errors and make spending harder to control. When a cap is reached, preserve progress and ask whether to stop or extend the authorised scope.</p>
+<p><strong>Related:</strong> On AIVAX, <a href="/docs/features/batch.html">Batch</a> processes the same workflow over independent items in the background. It is not a general replacement for dependent multi-step jobs. <a href="/docs/inference/pipelines.html">Gateway pipelines</a> describe processing within gateway requests, not a durable background-job scheduler. Use <a href="/learn/tools-and-integrations/webhooks-events-and-automations.html">Webhooks, events and automations</a> to understand event-driven coordination around these capabilities.</p>
+<p>What&rsquo;s next: learn to prove that these designs work in <a href="/learn/quality/testing-and-evaluating-agents.html">Testing and evaluating agents</a>.</p>
+
+
+<section class="quiz" data-quiz data-answer="2" data-label-correct="Correct." data-label-incorrect="Not quite. Try another option.">
+    <p class="quiz-title"><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 15H13V17H11V15ZM13 13.3551V14H11V12.5C11 11.9477 11.4477 11.5 12 11.5C12.8284 11.5 13.5 10.8284 13.5 10C13.5 9.17157 12.8284 8.5 12 8.5C11.2723 8.5 10.6656 9.01823 10.5288 9.70577L8.56731 9.31346C8.88637 7.70919 10.302 6.5 12 6.5C13.933 6.5 15.5 8.067 15.5 10C15.5 11.5855 14.4457 12.9248 13 13.3551Z"/></svg>
+Knowledge check</p>
+    <div class="quiz-question" id="quiz-61d489336f458e8cb26d01124fc9bfdd-5-question"><p>A background job restarts after an interruption. Which recovery approach is most reliable?</p>
+</div>
+    <div class="quiz-options" role="radiogroup" aria-labelledby="quiz-61d489336f458e8cb26d01124fc9bfdd-5-question">
+        
+        <label class="quiz-option"><input type="radio" name="quiz-61d489336f458e8cb26d01124fc9bfdd-5" value="1"><span>Restart the entire job because repeated work is always safer</span></label>
+        
+        <label class="quiz-option"><input type="radio" name="quiz-61d489336f458e8cb26d01124fc9bfdd-5" value="2"><span>Resume from confirmed checkpoints, reconcile uncertain external actions and preserve the original limits</span></label>
+        
+        <label class="quiz-option"><input type="radio" name="quiz-61d489336f458e8cb26d01124fc9bfdd-5" value="3"><span>Mark the job complete because some results were saved</span></label>
+        
+        <label class="quiz-option"><input type="radio" name="quiz-61d489336f458e8cb26d01124fc9bfdd-5" value="4"><span>Remove the cost cap until every item succeeds</span></label>
+        
+    </div>
+    <div class="quiz-actions">
+        <button type="button" class="button button-primary" data-quiz-check>Check answer</button>
+        <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+    </div>
+    <p class="quiz-explanation" data-quiz-explanation hidden>Durable checkpoints avoid unnecessary repetition, but uncertain external effects still need reconciliation or idempotency protection. A restart does not grant new spending or action authority.</p>
+</section>
+
+
+    </div>
+
+    <div class="unit-complete" data-pagefind-ignore>
+        <button type="button" class="button button-ghost" data-learn-complete="/learn/advanced-agents/long-running-and-asynchronous-agents.html"
+            data-label-todo="Mark as complete" data-label-done="Completed">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12ZM12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM17.4571 9.45711L16.0429 8.04289L11 13.0858L8.20711 10.2929L6.79289 11.7071L11 15.9142L17.4571 9.45711Z"/></svg>
+<span>Mark as complete</span>
+        </button>
+    </div>
+
+    <nav class="pager" aria-label="Pagination" data-pagefind-ignore>
+        
+        <a class="pager-link pager-prev" href="/learn/advanced-agents/errors-retries-and-fallbacks.html" rel="prev">
+            <span><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"/></svg>
+Previous</span>
+            <strong>Errors, retries and fallbacks</strong>
+        </a>
+        
+        
+        <a class="pager-link pager-next" href="/learn/quality/testing-and-evaluating-agents.html" rel="next" data-learn-advance="/learn/advanced-agents/long-running-and-asynchronous-agents.html">
+            <span>Next module<svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"/></svg>
+</span>
+            <strong>Quality, evaluation and observability</strong>
+        </a>
+        
+    </nav>
+</article>
+<footer class="site-footer" data-pagefind-ignore>
+    <p>AIVAX documentation</p>
+    <nav aria-label="Resources">
+        <a href="/llms.txt">llms.txt</a>
+        <a href="/llms-full.txt">llms-full.txt</a>
+        <a href="https://github.com/aivaxlabs/docs" rel="noopener">GitHub</a>
+    </nav>
+</footer>
+
+
+        </main>
+
+        
+
+<aside class="toc" aria-label="On this page">
+    <div class="toc-inner" data-toc>
+        <p class="toc-title">On this page</p>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#synchronous-and-asynchronous-work">Synchronous and asynchronous work</a></li>
+    <li><a href="#match-expectations-to-the-kind-of-task">Match expectations to the kind of task</a></li>
+    <li><a href="#give-the-job-a-visible-lifecycle">Give the job a visible lifecycle</a></li>
+    <li><a href="#use-checkpoints-to-resume-safely">Use checkpoints to resume safely</a></li>
+    <li><a href="#report-progress-without-inventing-it">Report progress without inventing it</a></li>
+    <li><a href="#keep-long-work-within-its-original-authority">Keep long work within its original authority</a></li>
+  </ul>
+</nav>
+    </div>
+</aside>
+
+
+    </div>
+
+    <dialog class="search-dialog" aria-label="Search" data-search
+    data-docs-bundle="/pagefind/">
+    <div class="search-panel">
+        <div class="search-field">
+            <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"/></svg>
+
+            <input type="search" placeholder="Search documentation" autocomplete="off" spellcheck="false"
+                aria-label="Search" aria-controls="search-results" data-search-input>
+            <button type="button" class="search-close" data-search-close aria-label="close"><kbd>Esc</kbd></button>
+        </div>
+
+        <div class="search-results" id="search-results" role="listbox" aria-label="Search" data-search-results
+            data-label-docs="Documentation"
+            data-label-empty="No results found.">
+            <p class="search-message" data-search-hint>Type to search the documentation.</p>
+        </div>
+
+        <footer class="search-footer">
+            <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+            <span><kbd>↵</kbd> open</span>
+            <span><kbd>Esc</kbd> close</span>
+        </footer>
+    </div>
+</dialog>
+
+
+    
+    <script src="/scripts/main.9b68ce99cae66e13fb0464000653e8df05883fba0bd2108f60dfb3c816ab8211.js" integrity="sha256-m2jOmcrmbhP7BGQABlPo3wWIP7oL0hCPYN&#43;zyBarghE=" defer></script>
+
+    
+</body>
+</html>

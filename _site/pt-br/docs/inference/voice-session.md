@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/pt-br/docs/inference/voice-session.html
+Source: http://localhost:1313/pt-br/docs/inference/voice-session.html
 
 # Sessão de Voz
 
 Sessão de Voz é a API de voz com baixa latência e com estado da AIVAX. Ela mantém o endpoint WebSocket autenticado da AIVAX ao conectar-se a um serviço de inferência em tempo real. Os eventos seguem o protocolo JSON GA Realtime compatível com OpenAI após a conexão ser atualizada.
 
-Use a Sessão de Voz para conversas faladas naturais com áudio em streaming, transcrições de fala do assistente, detecção de atividade de voz (VAD) no servidor, interrupções e chamadas de ferramentas. Use [Audio Transcriptions](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md) para cargas de trabalho apenas de transcrição ou [Speech Generation](https://docs.aivax.net/pt-br/docs/generations/speech.md) quando o texto a ser sintetizado já for conhecido.
+Use a Sessão de Voz para conversas faladas naturais com áudio em streaming, transcrições de fala do assistente, detecção de atividade de voz (VAD) no servidor, interrupções e chamadas de ferramentas. Use [Audio Transcriptions](http://localhost:1313/pt-br/docs/generations/audio-transcriptions.md) para cargas de trabalho apenas de transcrição ou [Speech Generation](http://localhost:1313/pt-br/docs/generations/speech.md) quando o texto a ser sintetizado já for conhecido.
 
 ## Conectar com segurança
 
@@ -161,7 +161,7 @@ Seu manipulador de ferramentas deve validar argumentos, preservar identificadore
 
 ## Faturamento e limites
 
-Para preços, disponibilidade e limites de conta atuais, veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md).
+Para preços, disponibilidade e limites de conta atuais, veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md).
 
 ## Desconectar graciosamente
 

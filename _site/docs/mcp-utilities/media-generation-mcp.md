@@ -1,10 +1,10 @@
-Source: https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.html
+Source: http://localhost:1313/docs/mcp-utilities/media-generation-mcp.html
 
 # Media generation MCP
 
 The media generation MCP exposes AIVAX image generation and speech generation (text-to-speech) to any MCP-compatible client. Use it when an agent, IDE, desktop assistant, or automation environment needs to create images or spoken audio without calling the generation APIs directly or running an AIVAX model inference.
 
-AIVAX hosts this MCP server and performs the generations for the authenticated account. The tools use the same models, billing, and applicable limits as [Image Generation](https://docs.aivax.net/docs/generations/images.md) and [Speech Generation](https://docs.aivax.net/docs/generations/speech.md).
+AIVAX hosts this MCP server and performs the generations for the authenticated account. The tools use the same models, billing, and applicable limits as [Image Generation](http://localhost:1313/docs/generations/images.md) and [Speech Generation](http://localhost:1313/docs/generations/speech.md).
 
 ## Endpoint
 
@@ -18,7 +18,7 @@ The server uses Streamable HTTP. Authenticate requests with an account API key:
 Authorization: Bearer <AIVAX_API_KEY>
 ```
 
-For key types and authentication options, see [Authentication](https://docs.aivax.net/docs/authentication.md).
+For key types and authentication options, see [Authentication](http://localhost:1313/docs/authentication.md).
 
 ## Configuration example
 
@@ -112,7 +112,7 @@ Example arguments:
 
 The tool returns the generated image URLs as MCP text. The URLs are publicly accessible, so anyone with a URL can open the image. Download and store the images if your workflow needs to keep them under its own access control.
 
-For prompt guidance and reference-image behavior, see [Image Generation](https://docs.aivax.net/docs/generations/images.md).
+For prompt guidance and reference-image behavior, see [Image Generation](http://localhost:1313/docs/generations/images.md).
 
 ### `generate_speech`
 
@@ -139,13 +139,13 @@ Example arguments:
 
 The tool returns the URL of the MP3 audio as MCP text. The URL is publicly accessible, so anyone with it can play the audio. Unlike the Speech Generation API, this tool does not return the audio inline and does not offer other output formats; convert the downloaded file if your workflow needs WAV or OGG.
 
-Voices differ per speech model. For voice selection and text preparation guidance, see [Speech Generation](https://docs.aivax.net/docs/generations/speech.md).
+Voices differ per speech model. For voice selection and text preparation guidance, see [Speech Generation](http://localhost:1313/docs/generations/speech.md).
 
 ## Pricing and limits
 
-Generation calls use the same pricing as [Image Generation](https://docs.aivax.net/docs/generations/images.md) and [Speech Generation](https://docs.aivax.net/docs/generations/speech.md) and are charged to the authenticated account. See [Pricing](https://docs.aivax.net/docs/pricing.md) for current charges and billing rules.
+Generation calls use the same pricing as [Image Generation](http://localhost:1313/docs/generations/images.md) and [Speech Generation](http://localhost:1313/docs/generations/speech.md) and are charged to the authenticated account. See [Pricing](http://localhost:1313/docs/pricing.md) for current charges and billing rules.
 
-Generations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](https://docs.aivax.net/docs/limits.md) for current limits and enforcement behavior.
+Generations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](http://localhost:1313/docs/limits.md) for current limits and enforcement behavior.
 
 A positive account balance is required to use these tools.
 

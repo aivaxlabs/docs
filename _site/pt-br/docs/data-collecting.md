@@ -1,4 +1,4 @@
-Source: https://docs.aivax.net/pt-br/docs/data-collecting.html
+Source: http://localhost:1313/pt-br/docs/data-collecting.html
 
 # Coleta de Dados
 
@@ -53,4 +53,4 @@ O Gerente de Conta pode controlar a coleta em **Dashboard > My account > Semanti
 
 Como identificadores de conta e mapeamentos conta‑registro não são armazenados, a AIVAX não pode recuperar ou excluir registros de treinamento apenas a partir de um ID de conta. Solicitações referentes a dados pessoais presentes no conteúdo semântico submetido podem ser enviadas para **privacy@aivax.net** ou **wm@aivax.net** e devem incluir informações suficientes para localizar o conteúdo, quando aplicável. Os registros de origem são mantidos apenas pelo tempo razoavelmente necessário para os propósitos documentados, obrigações legais, segurança e requisitos de auditoria, e podem ser excluídos posteriormente. A exclusão de registros de origem não exige que a AIVAX re‑treine ou destrua modelos ou artefatos agregados que já não identificam uma pessoa, exceto quando exigido por lei aplicável.
 
-Consulte a [Privacy Policy](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md) e os [Terms of Use](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md) para os termos legais vigentes.
+Consulte a [Privacy Policy](http://localhost:1313/pt-br/docs/legal/privacy-policy.md) e os [Terms of Use](http://localhost:1313/pt-br/docs/legal/terms-of-service.md) para os termos legais vigentes.

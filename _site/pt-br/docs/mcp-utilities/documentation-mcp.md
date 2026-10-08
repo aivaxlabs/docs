@@ -1,13 +1,13 @@
-Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/documentation-mcp.html
+Source: http://localhost:1313/pt-br/docs/mcp-utilities/documentation-mcp.html
 
 # Documentação MCP
 
 O MCP de documentação da AIVAX expõe a documentação da AIVAX, conteúdo de referência da API e metadados do modelo para clientes compatíveis com MCP. É projetado para assistentes, IDEs, agentes internos e fluxos de trabalho de implementação que precisam do contexto atual da AIVAX antes de responder, escrever código, configurar um gateway ou solucionar problemas de integração.
 
-Este MCP é orientado à leitura. Não expõe uma ferramenta genérica de invocação de API de conta. Use-o quando um agente precisar entender recursos da AIVAX, encontrar a rota correta da API, comparar capacidades de modelo ou fundamentar sua resposta no manual do produto. Use o [account management MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/account-management-mcp.md) apenas quando o cliente também precisar inspecionar ou alterar recursos de conta autenticados por chamadas de API.
+Este MCP é orientado à leitura. Não expõe uma ferramenta genérica de invocação de API de conta. Use-o quando um agente precisar entender recursos da AIVAX, encontrar a rota correta da API, comparar capacidades de modelo ou fundamentar sua resposta no manual do produto. Use o [account management MCP](http://localhost:1313/pt-br/docs/mcp-utilities/account-management-mcp.md) apenas quando o cliente também precisar inspecionar ou alterar recursos de conta autenticados por chamadas de API.
 
 > [!NOTE]
-> Não configure o MCP de documentação junto com o [account management MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/account-management-mcp.md) no mesmo cliente, a menos que tenha um motivo específico para duplicar ferramentas. O MCP de gerenciamento de conta já inclui funções de busca na documentação, portanto, adicionar ambos os servidores geralmente cria ferramentas de documentação redundantes e pode tornar a seleção de ferramentas menos previsível.
+> Não configure o MCP de documentação junto com o [account management MCP](http://localhost:1313/pt-br/docs/mcp-utilities/account-management-mcp.md) no mesmo cliente, a menos que tenha um motivo específico para duplicar ferramentas. O MCP de gerenciamento de conta já inclui funções de busca na documentação, portanto, adicionar ambos os servidores geralmente cria ferramentas de documentação redundantes e pode tornar a seleção de ferramentas menos previsível.
 
 ## Endpoint
 
@@ -21,7 +21,7 @@ Autentique‑se com uma chave de API de conta AIVAX:
 Authorization: Bearer <AIVAX_PRIVATE_API_KEY>
 ```
 
-Para tipos de chave e opções de autenticação, veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md).
+Para tipos de chave e opções de autenticação, veja [Authentication](http://localhost:1313/pt-br/docs/authentication.md).
 
 ## Exemplo de configuração
 
@@ -72,11 +72,11 @@ Argumentos de exemplo:
 
 Use frases mais completas quando a pergunta tem uma intenção clara, como `semantic search reranker settings` ou `public key chat completion restrictions`. Use múltiplos termos quando quiser cobrir conceitos vizinhos, nomes alternativos ou termos prováveis da referência da API.
 
-Chamadas de busca utilizam as cotas por conta documentadas em [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#plan-limits).
+Chamadas de busca utilizam as cotas por conta documentadas em [Plans and limits](http://localhost:1313/pt-br/docs/limits.md#plan-limits).
 
 ### `aivax_list_models`
 
-Lista modelos de chat integrados da AIVAX e devolve um resumo legível para cada correspondência. Use quando o assistente precisar escolher um modelo, explicar se um modelo está disponível no plano atual, comparar capacidades ou entender preços (veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md)).
+Lista modelos de chat integrados da AIVAX e devolve um resumo legível para cada correspondência. Use quando o assistente precisar escolher um modelo, explicar se um modelo está disponível no plano atual, comparar capacidades ou entender preços (veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md)).
 
 A ferramenta aceita:
 
@@ -84,7 +84,7 @@ A ferramenta aceita:
 | --- | --- | --- | --- |
 | `name_filter` | `string` | Não | Filtro difuso opcional para nomes de modelo, como `gpt 5`, `sonnet`, `qwen coder` ou `@openai/gpt-5-mini`. |
 
-A resposta inclui descrição do modelo, estabilidade, tipo, capacidades, flags, grupo de limite de taxa, modelo de roteamento, multiplicador de assinatura, metadados técnicos, preços por token, provedores e disponibilidade para o plano de conta autenticada. Para detalhes de preços atuais, veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md).
+A resposta inclui descrição do modelo, estabilidade, tipo, capacidades, flags, grupo de limite de taxa, modelo de roteamento, multiplicador de assinatura, metadados técnicos, preços por token, provedores e disponibilidade para o plano de conta autenticada. Para detalhes de preços atuais, veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md).
 
 Argumentos de exemplo:
 
@@ -94,13 +94,13 @@ Argumentos de exemplo:
 }
 ```
 
-Chamadas de listagem de modelos utilizam as cotas por conta documentadas em [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#plan-limits).
+Chamadas de listagem de modelos utilizam as cotas por conta documentadas em [Plans and limits](http://localhost:1313/pt-br/docs/limits.md#plan-limits).
 
 ## Quando usar
 
 Use o MCP de documentação quando quiser que um assistente responda perguntas sobre a AIVAX a partir de contexto respaldado por fonte em vez de memória. Isso é útil em IDEs, ferramentas de suporte, agentes de integração, copilotos de implementação internos e fluxos de avaliação onde o assistente deve buscar no manual antes de recomendar uma rota, parâmetro, recurso, modelo ou passo de depuração.
 
-Também é útil para fluxos de trabalho de construção de agentes. Antes de criar ou editar um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md), um assistente pode buscar o recurso relevante, verificar capacidades do modelo e então explicar qual configuração deve ser usada e por quê. Por exemplo, pode comparar ferramentas embutidas, funções MCP, funções do lado do servidor, workers, coleções RAG, respostas estruturadas e pré‑processamento multimodal antes de sugerir um design.
+Também é útil para fluxos de trabalho de construção de agentes. Antes de criar ou editar um [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md), um assistente pode buscar o recurso relevante, verificar capacidades do modelo e então explicar qual configuração deve ser usada e por quê. Por exemplo, pode comparar ferramentas embutidas, funções MCP, funções do lado do servidor, workers, coleções RAG, respostas estruturadas e pré‑processamento multimodal antes de sugerir um design.
 
 Para solução de problemas, o MCP de documentação ajuda o assistente a passar de uma mensagem de erro para a provável fronteira do produto. Ele pode buscar regras de autenticação, limites de plano, requisitos de equilíbrio multimodal, parâmetros de busca RAG, comportamento do gateway ou restrições de chave pública e então gerar uma lista de verificação focada que reflita o comportamento da AIVAX.
 
