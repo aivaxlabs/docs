@@ -115,6 +115,20 @@ Julia-1 has additional serving limits:
 
 These limits interact: twenty options can exceed the combined question/options budget even if each description fits its individual limit. The current AIVAX Julia-1 serving limits apply even if an upstream model card lists a larger context. See [Semantic decisions](generations/decisions.md) for usage and error guidance.
 
+### Request and payload limits
+
+These limits apply to every plan and are independent of the plan limits above.
+
+| Service | Limit |
+| --- | --- |
+| [Reflex](rag/reflex.md) reranking | 10,000 candidate documents per request; at most 200 ranked results returned |
+| [Audio transcription](generations/audio-transcriptions.md) | 75 MB of decoded audio per request |
+| [Media descriptions](generations/media-descriptions.md) | Remote files are downloaded by AIVAX up to 5 MB each under the `auto` preset |
+| [Fetch and OCR](web-foundation/fetch-and-ocr.md) | 10 MB per item |
+| [Web search](web-foundation/web-search.md) | 1–25 results per direct API request (`topn`) |
+| [Remote instruction sources](inference/pipelines.md) | 10 MB maximum response size |
+| [Agentic Tests](inference/agentic-tests.md) | Up to 16 `resources` and 16 `hooks` per test |
+
 ### Included daily subscription allowances
 
 Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Custom accounts do not receive subscription allowances.

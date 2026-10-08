@@ -86,7 +86,7 @@ The tool accepts:
 | --- | --- | --- | --- |
 | `name_filter` | `string` | No | Optional fuzzy filter for model names, such as `gpt 5`, `sonnet`, `qwen coder`, or `@openai/gpt-5-mini`. |
 
-The response includes model description, stability, type, capabilities, flags, rate-limit group, routing model, subscription multiplier, technical metadata, token pricing, providers, and availability for the authenticated account plan. For current pricing details, see [Pricing](/docs/pricing).
+The response includes each model's description, stability, type, capabilities, flags, and availability for the authenticated account plan. For current prices, see [Pricing](/docs/pricing).
 
 Example arguments:
 

@@ -42,7 +42,7 @@ Instruction settings shape the provider-facing prompt:
 - **User prompt template**: Replaces `{prompt}` with each user message's text before sending it to the model.
 - **Assistant prefill**: Adds initial assistant content before generation when the model supports prefill.
 
-Remote instruction sources are fetched as text with a 10 MB maximum response size. Their cache duration is configurable; the default is 600 seconds.
+Remote instruction sources are fetched as text, within a response size limit (see [Request and payload limits](../limits.md#request-and-payload-limits)). Their cache duration is configurable; the default is 600 seconds.
 
 Some models do not support assistant prefill, temperature, stop sequences, or reasoning effort. Integrated model validation rejects incompatible gateway settings when those limitations are known.
 

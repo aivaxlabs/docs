@@ -132,6 +132,10 @@ Each plan includes storage. Pro and Max overages are billed hourly at the monthl
 | Pro storage | **2 GB included**; excess **$0.50/GB/month** |
 | Max storage | **20 GB included**; excess **$0.20/GB/month** |
 
+## Data Collection Discount
+
+Accounts that enable [Data collecting](data-collecting.md) receive a 10% discount on eligible RAG query-embedding usage and eligible reranking operations performed while collection is enabled. Other services keep their regular prices.
+
 ## Other Tools
 
 The following tools have no separate tool charge. Model inference used to invoke them is still billed at its regular rate.

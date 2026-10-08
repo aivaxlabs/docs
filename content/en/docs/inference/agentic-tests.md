@@ -36,7 +36,7 @@ Keeping these criteria separate prevents the simulated user from unnaturally ste
 
 Use **Start messages** when the scenario requires an established context, such as a customer objection, a prior assistant response, or a specific point in an existing flow. Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
 
-Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide up to 16 objects with a `type` and non-empty `data` value. `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
+Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; the number of resources per test is capped (see [Plans and limits](../limits.md#request-and-payload-limits)). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
 
 ```json
 {
@@ -169,8 +169,8 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 | Setting | Default | Accepted values | Description |
 | --- | ---: | --- | --- |
 | `validation_criteria` | `null` | String, message part, or list of message parts | Optional requirements supplied only to the judge. They do not guide the simulated user or the gateway under test. |
-| `resources` | `[]` | Up to 16 `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
-| `hooks` | `[]` | Up to 16 `{ "event", "url" }` objects | External callbacks for persisted runs. Supported events are `before-test`, `after-test`, `before-inference`, `after-inference`, and `context-changed`; `before-inference` and `after-inference` require an AI Gateway. |
+| `resources` | `[]` | `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
+| `hooks` | `[]` | `{ "event", "url" }` objects | External callbacks for persisted runs. Supported events are `before-test`, `after-test`, `before-inference`, `after-inference`, and `context-changed`; `before-inference` and `after-inference` require an AI Gateway. |
 | `profile` | `medium` | `low`, `medium`, `high` | Selects the capability and price tier used by the simulated user and judge. It does not replace the model configured on the gateway under test. |
 | `max_turns` | `10` | `2`–`64` | Maximum number of simulated-user turns before the run ends. |
 | `minimum_turns` | `1` | `1`–`63`, less than `max_turns` | First turn when the simulated user may receive the option to end the conversation. |

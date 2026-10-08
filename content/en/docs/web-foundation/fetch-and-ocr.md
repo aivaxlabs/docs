@@ -53,7 +53,7 @@ The integrations have different input contracts. In particular, the MCP tool acc
 
 ## Fetch content with the API
 
-Authenticate with an AIVAX API key; see [Authentication](/docs/authentication). Supply a non-empty `contents` array containing URLs or base64 data URIs. Each item is limited to 10 MB.
+Authenticate with an AIVAX API key; see [Authentication](/docs/authentication). Supply a non-empty `contents` array containing URLs or base64 data URIs. Each item is subject to a size limit; see [Request and payload limits](/docs/limits#request-and-payload-limits).
 
 The `system.v1.web.fetch` operation accepts these JSON request fields:
 

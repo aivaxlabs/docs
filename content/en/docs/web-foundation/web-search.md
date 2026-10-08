@@ -20,7 +20,7 @@ Web Search retrieves current information from the internet for research, fact ch
 
 Write a focused query that includes the topic and any relevant date, product version, or location. For several independent questions, use separate searches rather than combining unrelated topics into one query.
 
-For direct API requests, narrow results with `country` (a two-letter country code), `language` (a language code), and `includeDomains` (trusted domains). Set `topn` to request up to 25 results when recall matters, such as when surveying competing sources; otherwise, keep the default small count. For parameters of the built-in Web Search tool, see its [reference](/docs/tools/builtin-tools).
+For direct API requests, narrow results with `country` (a two-letter country code), `language` (a language code), and `includeDomains` (trusted domains). Set `topn` to request more results (see [Request and payload limits](/docs/limits#request-and-payload-limits)) when recall matters, such as when surveying competing sources; otherwise, keep the default small count. For parameters of the built-in Web Search tool, see its [reference](/docs/tools/builtin-tools).
 
 Search results help locate evidence; they do not guarantee that a source is accurate or current. Check publication dates, prefer primary sources, and fetch the relevant pages before relying on details that a result summary may omit. Keep source links with the answer so readers can verify the claims.
 

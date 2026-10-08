@@ -21,7 +21,7 @@ Prefer Describe when the extraction guidance is stable and the result feeds seve
 
 Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. The optional `extractionGuidance` instruction narrows the output — "identify the main subject and visible text" for an image, "summarize the sequence of events" for a video — so write it as the question your workflow needs answered.
 
-Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Remote file URLs are downloaded before processing under the `auto` preset (up to 5 MB); switch to `high` when the service should receive the remote URL directly.
+Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Remote file URLs are downloaded before processing under the `auto` preset, within a size limit (see [Request and payload limits](/docs/limits#request-and-payload-limits)); switch to `high` when the service should receive the remote URL directly.
 
 For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.
 

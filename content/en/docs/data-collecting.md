@@ -10,8 +10,8 @@ AIVAX offers an optional semantic data collection program for accounts that choo
 
 While the setting is enabled:
 
-- eligible RAG query-embedding usage receives a 10% discount;
-- eligible reranking operations receive a 10% discount; and
+- eligible RAG query-embedding usage receives a discount (see [Pricing](/docs/pricing#data-collection-discount));
+- eligible reranking operations receive the same discount; and
 - document indexing, storage, unrelated inference, tools, and other services keep their regular prices.
 
 The discount applies only to eligible operations performed while collection is enabled. Disabling collection removes the discount from future operations.
