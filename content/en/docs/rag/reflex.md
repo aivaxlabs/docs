@@ -19,7 +19,7 @@ Use Reflex when your application already owns the candidate documents, the candi
 | The candidate set is dynamic or request-specific. | The corpus is too large to submit as candidates on every request. |
 | You want collection-less ranking. | You want collection filtering, stored metadata, document references, and managed retrieval. |
 
-Reflex returns ranked text candidates; it does not generate an answer. Pass the selected documents to your language model or AI Gateway as RAG context.
+Reflex returns ranked text candidates; it does not generate an answer. Pass the selected documents to your language model or AI Gateway as RAG context. To decide between Reflex and a cross-encoder reranker, see [reranking RAG results without a cross-encoder](https://aivax.net/blog/reflex-retrieval-built-for-recurring-documents/).
 
 ## Use Reflex
 

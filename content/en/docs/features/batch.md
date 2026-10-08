@@ -235,3 +235,4 @@ Review [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits) before proc
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
 - Retry low‐confidence items separately; low confidence does not mean error, but indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.
+- For an operational walkthrough of rate limits, retries, and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).

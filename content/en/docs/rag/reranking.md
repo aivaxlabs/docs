@@ -32,6 +32,6 @@ Start with the default reranker unless you have a measured reason to select anot
 
 To compare options, fix a set of representative queries with known relevant documents from your own workload — covering your languages, document lengths, and jargon — and measure whether swapping rankers moves the right document upward. If the relevant document is missing from the candidates entirely, improve candidate retrieval, chunking, query formulation, or candidate count before comparing rerankers: no ranker recovers what was never submitted.
 
-To separate missing-candidate failures from poor-ordering failures before you add a reranker, see [Do I need a reranker for RAG?](https://aivax.net/blog/semantic-search-vs-reranking/).
+To separate missing-candidate failures from poor-ordering failures before you add a reranker, see [Do I need a reranker for RAG?](https://aivax.net/blog/semantic-search-vs-reranking/). To judge when Reflex is enough compared with a cross-encoder, see [reranking RAG results without a cross-encoder](https://aivax.net/blog/reflex-retrieval-built-for-recurring-documents/).
 
 For current availability, supported options, and account limits, see the API Reference and [Plans and Limits](../limits.md).

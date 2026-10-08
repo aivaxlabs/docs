@@ -169,7 +169,7 @@ The JSONL import endpoint rejects a request when it reaches the plan's per-reque
 
 The Reflex limit counts the time spent processing Reflex requests. It applies to the autonomous reranking endpoint and RAG searches that use Reflex; cached input does not consume the quota separately. Requests that exceed the plan limit return `429 Too Many Requests`. See [Reflex](rag/reflex.md) for request limits, cache behavior, and pricing.
 
-General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account.
+General service actions share the service-action quota shown above. Batch processing is asynchronous; if processing is paused or fails because of quota, retry after the quota window resets or upgrade the account. For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Public API keys
 
