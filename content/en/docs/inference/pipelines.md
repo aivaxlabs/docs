@@ -97,7 +97,7 @@ On lower plans, the effective input context may be capped even when a larger con
 [tool response truncated - call this tool again]
 ```
 
-This can reduce context usage in long agentic conversations. It can also hurt chains where an old tool result remains important, so use it only when the model can safely call the tool again.
+This can reduce context usage in long agentic conversations. It can also hurt chains where an old tool result remains important, so use it only when the model can safely call the tool again. Rewriting older tool messages also changes the request prefix, which can lower the prompt cache hit rate; to check this on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ## Server-side tools
 
