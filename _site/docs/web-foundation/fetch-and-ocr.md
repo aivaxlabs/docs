@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.html
 
 Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. The Fetch API can also convert the extracted text into structured JSON using a schema you provide. Use [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) first if you need to discover sources rather than read a known URL.
 
-Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result.
+Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result. For an end-to-end walkthrough with a code example, see [how to extract text from a URL, scanned PDF or image for an LLM pipeline](https://aivax.net/blog/fetch-messy-web-to-text/).
 
 ## What you can extract
 

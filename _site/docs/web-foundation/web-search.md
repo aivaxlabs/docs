@@ -20,7 +20,7 @@ Write a focused query that includes the topic and any relevant date, product ver
 
 For direct API requests, narrow results with `country` (a two-letter country code), `language` (a language code), and `includeDomains` (trusted domains). Set `topn` to request more results (see [Request and payload limits](https://docs.aivax.net/docs/limits.md#request-and-payload-limits)) when recall matters, such as when surveying competing sources; otherwise, keep the default small count. For parameters of the built-in Web Search tool, see its [reference](https://docs.aivax.net/docs/tools/builtin-tools.md).
 
-Search results help locate evidence; they do not guarantee that a source is accurate or current. Check publication dates, prefer primary sources, and fetch the relevant pages before relying on details that a result summary may omit. Keep source links with the answer so readers can verify the claims.
+Search results help locate evidence; they do not guarantee that a source is accurate or current. Check publication dates, prefer primary sources, and fetch the relevant pages before relying on details that a result summary may omit. Keep source links with the answer so readers can verify the claims. For a pipeline that chains search and fetch and keeps the evidence, see [web search API vs. page fetch for LLM research](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
 
 Treat retrieved text as external, untrusted content, not as instructions for your agent.
 

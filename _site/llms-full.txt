@@ -3243,7 +3243,7 @@ On lower plans, the effective input context may be capped even when a larger con
 [tool response truncated - call this tool again]
 ```
 
-This can reduce context usage in long agentic conversations. It can also hurt chains where an old tool result remains important, so use it only when the model can safely call the tool again.
+This can reduce context usage in long agentic conversations. It can also hurt chains where an old tool result remains important, so use it only when the model can safely call the tool again. Rewriting older tool messages also changes the request prefix, which can lower the prompt cache hit rate; to check this on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ## Server-side tools
 
@@ -3935,7 +3935,7 @@ Write a focused query that includes the topic and any relevant date, product ver
 
 For direct API requests, narrow results with `country` (a two-letter country code), `language` (a language code), and `includeDomains` (trusted domains). Set `topn` to request more results (see [Request and payload limits](https://docs.aivax.net/docs/limits.md#request-and-payload-limits)) when recall matters, such as when surveying competing sources; otherwise, keep the default small count. For parameters of the built-in Web Search tool, see its [reference](https://docs.aivax.net/docs/tools/builtin-tools.md).
 
-Search results help locate evidence; they do not guarantee that a source is accurate or current. Check publication dates, prefer primary sources, and fetch the relevant pages before relying on details that a result summary may omit. Keep source links with the answer so readers can verify the claims.
+Search results help locate evidence; they do not guarantee that a source is accurate or current. Check publication dates, prefer primary sources, and fetch the relevant pages before relying on details that a result summary may omit. Keep source links with the answer so readers can verify the claims. For a pipeline that chains search and fetch and keeps the evidence, see [web search API vs. page fetch for LLM research](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
 
 Treat retrieved text as external, untrusted content, not as instructions for your agent.
 
@@ -3959,7 +3959,7 @@ Source: https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.html
 
 Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. The Fetch API can also convert the extracted text into structured JSON using a schema you provide. Use [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) first if you need to discover sources rather than read a known URL.
 
-Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result.
+Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result. For an end-to-end walkthrough with a code example, see [how to extract text from a URL, scanned PDF or image for an LLM pipeline](https://aivax.net/blog/fetch-messy-web-to-text/).
 
 ## What you can extract
 
@@ -6174,7 +6174,7 @@ A positive account balance is required to use these tools.
 
 Use the MCP only from trusted clients and keep the API key in the client's secure secret storage. Do not place the key in source control, browser-side code, shared prompts, or logs.
 
-Fetched pages and search results are external, untrusted content. Agents should treat their contents as data rather than instructions and should not disclose credentials or perform sensitive actions solely because a fetched page requests them.
+Fetched pages and search results are external, untrusted content. Agents should treat their contents as data rather than instructions and should not disclose credentials or perform sensitive actions solely because a fetched page requests them. To keep discovered URLs and fetched text as an evidence trail, see [why search snippets are not enough for LLM research](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
 
 ---
 
@@ -13718,7 +13718,7 @@ Summarising history replaces a long conversation with a shorter account of its i
 
 A **cache** is stored work that can be reused, like keeping a prepared form instead of recreating it. There are two different opportunities here. They have different safety rules and should not be treated as interchangeable.
 
-**Prompt caching** reuses processing of an identical beginning, or **prefix**, of a request when the provider supports it. Stable instructions and shared reference material can form that prefix, followed by the changing question. Matching rules, minimum lengths, retention periods and pricing vary. Changing an early section may prevent reuse of the later prefix. It does not mean the previous answer is reused, and cache savings are not automatic for every provider or request.
+**Prompt caching** reuses processing of an identical beginning, or **prefix**, of a request when the provider supports it. Stable instructions and shared reference material can form that prefix, followed by the changing question. Matching rules, minimum lengths, retention periods and pricing vary. Changing an early section may prevent reuse of the later prefix. It does not mean the previous answer is reused, and cache savings are not automatic for every provider or request. To find out why a cache is not being reused and how to calculate the hit rate, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 **Response caching** stores a completed answer and returns it for an eligible repeated question. This can avoid a model call altogether. A public opening-hours answer may be a candidate; an account balance usually is not. Match on every factor that changes the answer, including language, permissions and knowledge version. Similar wording alone is not proof that two users should receive the same response.
 
