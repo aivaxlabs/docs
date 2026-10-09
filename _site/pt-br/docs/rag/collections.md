@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/rag/collections.html
+Source: https://docs.aivax.net/pt-br/docs/rag/collections.html
 
 # Coleções e Documentos
 
@@ -14,7 +14,7 @@ Use coleções para agrupar documentos que pertencem à mesma base de conhecimen
 
 Crie uma coleção antes de adicionar conhecimento pesquisável. Por exemplo, uma coleção de suporte pode conter respostas do centro de ajuda, uma coleção jurídica pode conter cláusulas de contrato e uma coleção de produto pode conter descrições, políticas e notas de solução de problemas.
 
-Após adicionar e indexar documentos, pesquise a coleção diretamente com a API [Semantic Search](http://localhost:1313/pt-br/docs/rag/semantic-search.md), exponha‑a através de [Collections MCP](http://localhost:1313/pt-br/docs/mcp-utilities/collections-mcp.md) ou anexe‑a a um [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) para que documentos recuperados sejam colocados automaticamente no contexto do modelo.
+Após adicionar e indexar documentos, pesquise a coleção diretamente com a API [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md), exponha‑a através de [Collections MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md) ou anexe‑a a um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) para que documentos recuperados sejam colocados automaticamente no contexto do modelo.
 
 Cada coleção possui:
 
@@ -24,7 +24,7 @@ Cada coleção possui:
 - Um conjunto de documentos.
 - Estatísticas de uso baseadas em transações RAG.
 
-A disponibilidade da coleção e os limites da conta dependem da configuração atual da conta. Consulte [Plans and limits](http://localhost:1313/pt-br/docs/limits.md) antes de criar coleções para uso em produção.
+A disponibilidade da coleção e os limites da conta dependem da configuração atual da conta. Consulte [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) antes de criar coleções para uso em produção.
 
 ## Documentos
 
@@ -40,7 +40,7 @@ Um bom documento geralmente tem:
 - Metadados opcionais para dados específicos da aplicação.
 - Um ID de referência opcional quando o documento é um fragmento de um item lógico maior.
 
-Por exemplo, um manual de carro não deve ser indexado como um único documento. Indexe documentos separados para tópicos como ligar o veículo, verificar a pressão dos pneus, emparelhar Bluetooth e substituir um farol. Cada documento deve incluir contexto suficiente para ser lido de forma independente. Para orientações mais amplas de fragmentação, veja [Best Practices for RAG](http://localhost:1313/pt-br/docs/rag/best-practices.md); para comportamento de consulta após indexação, veja [Semantic Search](http://localhost:1313/pt-br/docs/rag/semantic-search.md).
+Por exemplo, um manual de carro não deve ser indexado como um único documento. Indexe documentos separados para tópicos como ligar o veículo, verificar a pressão dos pneus, emparelhar Bluetooth e substituir um farol. Cada documento deve incluir contexto suficiente para ser lido de forma independente. Para orientações mais amplas de fragmentação, veja [Best Practices for RAG](https://docs.aivax.net/pt-br/docs/rag/best-practices.md); para comportamento de consulta após indexação, veja [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md).
 
 ## Campos do Documento
 
@@ -81,7 +81,7 @@ Quando a expansão de referência de busca está habilitada, se um fragmento cor
 
 ## Importação de Arquivo de Mídia
 
-O painel AIVAX pode fazer upload de um arquivo fonte e processá‑lo em documentos RAG com o [Media Injector](http://localhost:1313/pt-br/docs/rag/media-injector.md). Use‑o quando você tem um arquivo fonte mas ainda não possui texto de documento focado e autocontido preparado para importação direta ou JSONL.
+O painel AIVAX pode fazer upload de um arquivo fonte e processá‑lo em documentos RAG com o [Media Injector](https://docs.aivax.net/pt-br/docs/rag/media-injector.md). Use‑o quando você tem um arquivo fonte mas ainda não possui texto de documento focado e autocontido preparado para importação direta ou JSONL.
 
 O nome original do arquivo é normalizado para Unicode NFC e preservado durante o upload, incluindo letras acentuadas, scripts não latinos, pontuação tipográfica e outros caracteres Unicode. Você não precisa renomear o arquivo para um nome somente ASCII antes de importá‑lo.
 
@@ -91,9 +91,9 @@ Um trabalho do Media Injector é criado somente depois que cada fragmento do arq
 
 A importação em lote é enviada como um arquivo JSONL no campo multipart `documents`.
 
-Use importação em lote quando você já tem muitos documentos preparados fora do AIVAX, como fragmentos gerados a partir de PDFs, catálogos de produtos, políticas ou artigos do centro de ajuda. Se você está criando ou atualizando um documento a partir de um fluxo de aplicação, o endpoint de documento único abaixo costuma ser mais fácil. Se estiver preparando uma grande base de conhecimento, importe em lotes, aguarde a indexação e depois teste a recuperação através de [Semantic Search](http://localhost:1313/pt-br/docs/rag/semantic-search.md) antes de anexar a coleção a um gateway de produção.
+Use importação em lote quando você já tem muitos documentos preparados fora do AIVAX, como fragmentos gerados a partir de PDFs, catálogos de produtos, políticas ou artigos do centro de ajuda. Se você está criando ou atualizando um documento a partir de um fluxo de aplicação, o endpoint de documento único abaixo costuma ser mais fácil. Se estiver preparando uma grande base de conhecimento, importe em lotes, aguarde a indexação e depois teste a recuperação através de [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) antes de anexar a coleção a um gateway de produção.
 
-Os limites de linhas JSONL por requisição e os limites diários de inserção RAG variam conforme o plano; veja [Plans and limits](http://localhost:1313/pt-br/docs/limits.md#plan-limits). Se sua importação exceder o limite de requisição, divida em vários arquivos. Se sua conta atingir o limite diário de inserção, aguarde o intervalo de taxa reiniciar ou faça upgrade do plano.
+Os limites de linhas JSONL por requisição e os limites diários de inserção RAG variam conforme o plano; veja [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#plan-limits). Se sua importação exceder o limite de requisição, divida em vários arquivos. Se sua conta atingir o limite diário de inserção, aguarde o intervalo de taxa reiniciar ou faça upgrade do plano.
 
 > [!WARNING]
 > A indexação gera custo baseado nos tokens de texto do documento quando documentos são criados ou quando seu texto muda.

@@ -1,10 +1,10 @@
-Source: http://localhost:1313/pt-br/docs/mcp-utilities/inference-mcp.html
+Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/inference-mcp.html
 
 # MCP de Inferência
 
 O MCP de Inferência expõe um modelo integrado AIVAX ou AI Gateway como uma ferramenta para clientes MCP compatíveis. Use‑o quando outro modelo, agente, IDE ou assistente de desktop precisar chamar o modelo ou gateway AIVAX configurado como um sub‑agente.
 
-Para informações sobre configuração de modelos, instruções, RAG, ferramentas e workers no gateway subjacente, veja [AI Gateways](http://localhost:1313/pt-br/docs/inference/ai-gateway.md).
+Para informações sobre configuração de modelos, instruções, RAG, ferramentas e workers no gateway subjacente, veja [AI Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md).
 
 ## Endpoint
 

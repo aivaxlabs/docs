@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/generations/decisions.html
+Source: https://docs.aivax.net/pt-br/docs/generations/decisions.html
 
 # Decisões semânticas
 
@@ -6,11 +6,11 @@ Decisões semânticas avaliam perguntas nomeadas contra um estado compartilhado 
 
 Uma solicitação fornece o modelo, as evidências em `state` e um objeto `questions`. Cada pergunta tem um ID que você escolhe; a resposta usa o mesmo ID em `answers`. Você pode fazer diferentes tipos de pergunta em uma única solicitação sem precisar de chamadas de API separadas.
 
-Use [structured responses](http://localhost:1313/pt-br/docs/inference/structured-responses.md) quando precisar de um objeto gerado maior ou de uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, veja [Text classification](http://localhost:1313/pt-br/docs/rag/classification.md).
+Use [structured responses](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md) quando precisar de um objeto gerado maior ou de uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, veja [Text classification](https://docs.aivax.net/pt-br/docs/rag/classification.md).
 
 ## Escolha um modelo
 
-Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Pricing](http://localhost:1313/pt-br/docs/pricing.md#semantic-decisions) para as tarifas dos modelos e [Plans and limits](http://localhost:1313/pt-br/docs/limits.md#semantic-decision-model-limits) para limites específicos de cada modelo.
+Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md#semantic-decisions) para as tarifas dos modelos e [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#semantic-decision-model-limits) para limites específicos de cada modelo.
 
 | Modelo |
 | --- |
@@ -28,7 +28,7 @@ Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Pricing](
 
 `@typesafe/jev` também é aceito e atualmente resolve para `@typesafe/jev-1.13`. Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos de modelo e interpretação de pontuações podem diferir; valide um modelo em exemplos representativos antes de mudar o tráfego de produção.
 
-É necessária uma chave de API autenticada e um saldo de conta positivo, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Authentication](http://localhost:1313/pt-br/docs/authentication.md), [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and limits](http://localhost:1313/pt-br/docs/limits.md).
+É necessária uma chave de API autenticada e um saldo de conta positivo, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md), [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md).
 
 ### Descobrir modelos programaticamente
 
@@ -157,13 +157,13 @@ Outros modelos podem omitir campos opcionais como `probabilities`, `legend` ou `
 
 ## Limites de taxa da conta
 
-Solicitações de decisão semântica compartilham um limite de taxa a nível de conta entre modelos e chaves de API. Cada solicitação conta uma vez, mesmo contendo múltiplas perguntas. Essa cota é separada da alocação diária de assinatura e se aplica tanto ao uso incluído quanto ao pago. Consulte [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md#plan-limits) para os limites do Free, Pro e Max.
+Solicitações de decisão semântica compartilham um limite de taxa a nível de conta entre modelos e chaves de API. Cada solicitação conta uma vez, mesmo contendo múltiplas perguntas. Essa cota é separada da alocação diária de assinatura e se aplica tanto ao uso incluído quanto ao pago. Consulte [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md#plan-limits) para os limites do Free, Pro e Max.
 
 Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Distribua as chamadas ao longo da conta e tente novamente com backoff após a janela de limite de taxa ser liberada; mudar chaves de API dentro da mesma conta não fornece uma cota separada.
 
 ## Limites específicos de modelo
 
-Consulte [Semantic decision model limits](http://localhost:1313/pt-br/docs/limits.md#semantic-decision-model-limits) para os limites atuais de contexto, pergunta, opção e payload. Os limites interagem: encurte descrições ou reduza a contagem de opções ao invés de assumir que todo máximo pode ser usado simultaneamente.
+Consulte [Semantic decision model limits](https://docs.aivax.net/pt-br/docs/limits.md#semantic-decision-model-limits) para os limites atuais de contexto, pergunta, opção e payload. Os limites interagem: encurte descrições ou reduza a contagem de opções ao invés de assumir que todo máximo pode ser usado simultaneamente.
 
 Entradas que excedem o orçamento de contexto ou de perguntas/opções são rejeitadas, não truncadas silenciosamente. O literal `<mask>` é reservado e não pode aparecer no estado, instruções ou descrições de opção do Julia-1.
 
@@ -171,9 +171,9 @@ Entradas que excedem o orçamento de contexto ou de perguntas/opções são reje
 
 Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo preenchimento. O estado compartilhado, portanto, é contado novamente para cada pergunta. Múltiplas perguntas sobre um estado não têm o mesmo uso de entrada que uma única pergunta sobre esse estado. Julia-1 não gera texto, portanto seu valor `output_tokens` é zero.
 
-Julia-1 está atualmente elegível para a alocação diária de decisões semânticas nos planos Free, Pro e Max. Outros modelos de decisão são cobrados normalmente. A alocação é compartilhada entre chamadas de decisão elegíveis, não reservada para cada pergunta ou chave de API. Consulte [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md#included-daily-subscription-allowances) para a capacidade relativa do plano e regras de cobertura.
+Julia-1 está atualmente elegível para a alocação diária de decisões semânticas nos planos Free, Pro e Max. Outros modelos de decisão são cobrados normalmente. A alocação é compartilhada entre chamadas de decisão elegíveis, não reservada para cada pergunta ou chave de API. Consulte [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) para a capacidade relativa do plano e regras de cobertura.
 
-Quando não coberto, a entrada do Julia-1 é cobrada à [tarifa listada](http://localhost:1313/pt-br/docs/pricing.md#semantic-decisions), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor efetivamente cobrado; ele é zero quando a entrada está totalmente coberta pela alocação.
+Quando não coberto, a entrada do Julia-1 é cobrada à [tarifa listada](https://docs.aivax.net/pt-br/docs/pricing.md#semantic-decisions), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor efetivamente cobrado; ele é zero quando a entrada está totalmente coberta pela alocação.
 
 ## Erros e uso confiável
 

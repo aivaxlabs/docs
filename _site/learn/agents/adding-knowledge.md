@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/agents/adding-knowledge.html
+Source: https://docs.aivax.net/learn/agents/adding-knowledge.html
 
 Imagine hiring an experienced customer-service adviser. They know how to explain a return politely, but they do not know your company's return policy. Experience is not a substitute for your handbook. The same distinction applies to an agent: a language model can write a convincing answer about refunds without knowing what your business actually promises.
 
@@ -14,9 +14,10 @@ Knowledge also creates accountability. A supervisor can compare an answer with a
 
 ## Retrieve first, answer second
 
-**Retrieval-augmented generation**, usually shortened to **RAG**, means finding relevant documents before asking the model to answer with their help. Think of an adviser opening the right handbook page rather than reading the entire filing cabinet before every call. The system searches the available material, places useful passages alongside the question, and asks the model to produce an answer supported by those passages. This normally does not retrain the model or permanently change what it learned. The detailed mechanics belong in [What is a RAG](http://localhost:1313/learn/teaching-agents/what-is-a-rag.md); for now, remember the order: find evidence, then explain it.
+**Retrieval-augmented generation**, usually shortened to **RAG**, means finding relevant documents before asking the model to answer with their help. Think of an adviser opening the right handbook page rather than reading the entire filing cabinet before every call. The system searches the available material, places useful passages alongside the question, and asks the model to produce an answer supported by those passages. This normally does not retrain the model or permanently change what it learned. The detailed mechanics belong in [What is a RAG](https://docs.aivax.net/learn/teaching-agents/what-is-a-rag.md); for now, remember the order: find evidence, then explain it.
 
 Customer question → Find relevant documents → Read the evidence → Answer with a source
+
 
 Searching is not the same as answering. A search can find a document about returns without finding the clause that covers a damaged item. Before relying on a passage, the agent must consider whether it addresses the actual question, applies to the right product or audience, and is still valid. If the needed evidence is missing, asking a follow-up question or contacting a person is better than completing the policy from imagination.
 
@@ -26,6 +27,8 @@ The demonstration below uses invented documents for a fictional shop. It illustr
 
 > **Interactive demo: Try it: find the relevant company document.** This interactive demo is available on the web page. Notice that finding the damaged-delivery document supports an explanation of the review process. It does not establish that a particular replacement has been approved.
 
+
+
 A useful exercise is to ask a question the collection cannot answer, such as whether a particular parcel has arrived. None of these documents is a live shipment record. A good knowledge design makes that boundary visible. The agent should use an authorised tracking tool or explain that it cannot confirm the current status from these documents.
 
 ## Choose the first documents deliberately
@@ -34,11 +37,15 @@ Start with a recurring task, not every file the company owns. For a support agen
 
 Ask the people doing that work which questions recur, where the authoritative answers live, and which mistakes cause the most rework. Select documents that answer those questions directly. A short, approved policy is often a better starting point than a large folder of presentations containing contradictory drafts. More material is useful only when it adds relevant, trustworthy evidence.
 
+
 - **Policies** — State what is allowed, what is excluded, and who can approve an exception. Include the scope and effective date.
 
 - **Catalogues** — Describe products and services consistently. Distinguish stable specifications from prices or availability that need a live check.
 
 - **Manuals** — Explain how to complete a task, including prerequisites, warnings, and the point at which a person must take over.
+
+
+
 
 Before adding a document, read it as a newcomer would. Does “standard package” refer to a named offer? Does “contact the usual team” identify an actual responsibility? Does the exception appear beside the rule it modifies? Material that depends on unwritten background knowledge is difficult for both a new employee and an agent to use reliably.
 
@@ -50,27 +57,35 @@ Keep private information out unless the use case genuinely requires it and acces
 
 Assign a business owner to each subject. That owner decides which version is authoritative, when it takes effect, and what should happen to the previous version. Keep those decisions visible through a title, owner, scope, review date, and source reference. These details are often called **metadata**: information describing a document rather than the main document text.
 
+
 1. **Choose the authoritative source**
 
 Ask the policy owner which document should govern answers. Resolve competing drafts before adding them.
+
 
 2. **Prepare and publish the approved version**
 
 Make headings and exceptions explicit. Check that the searchable content matches the approved original.
 
+
 3. **Test ordinary and difficult questions**
 
 Include questions with missing facts, conflicting wording, and no answer in the collection. Check the evidence as well as the final wording.
+
 
 4. **Review and retire**
 
 Recheck answers after changes. Remove or clearly exclude superseded material from current-policy searches while preserving records where required.
 
+
+
+
+
 A review calendar helps, but event-driven updates matter too. When the business changes a policy, updating the agent's sources should be part of the same release checklist. Otherwise the website and the agent can give different answers even though both teams believe they published the new rules.
 
-On AIVAX, groups of searchable documents are called [collections](http://localhost:1313/docs/rag/collections.md). [Semantic search](http://localhost:1313/docs/rag/semantic-search.md) finds relevant material by meaning rather than requiring an exact wording match. These features support retrieval; your team still owns document quality, access decisions, and the business meaning of the answer.
+On AIVAX, groups of searchable documents are called [collections](https://docs.aivax.net/docs/rag/collections.md). [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) finds relevant material by meaning rather than requiring an exact wording match. These features support retrieval; your team still owns document quality, access decisions, and the business meaning of the answer.
 
-What's next: learn when an agent should leave its stored documents and [connect to the world](http://localhost:1313/learn/agents/connecting-to-the-world.md) for current information.
+What's next: learn when an agent should leave its stored documents and [connect to the world](https://docs.aivax.net/learn/agents/connecting-to-the-world.md) for current information.
 
 **Knowledge check.** What is the most reliable starting point for an agent that explains your company's policies?
 

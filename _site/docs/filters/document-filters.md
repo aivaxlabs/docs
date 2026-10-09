@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/filters/document-filters.html
+Source: https://docs.aivax.net/docs/filters/document-filters.html
 
 # Document Filters
 
@@ -14,7 +14,7 @@ tags has "finance" and createdAt >= now-30d
 
 Send the filter in the `filter` field of these endpoints:
 
-- [Semantic search](http://localhost:1313/docs/rag/semantic-search.md)
+- [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md)
 - Answer generation
 
 The field accepts a string or an array of strings. Array items are combined with `and`:
@@ -34,8 +34,8 @@ A missing or `null` field means no filter. The field name is `filter`; other nam
 
 Models can also send a filter string in the optional `filter` argument of these tools:
 
-- The search tool of the [Collections MCP](http://localhost:1313/docs/mcp-utilities/collections-mcp.md#generated-tools).
-- The `query` tool of AI gateways that use the `QueryFunction` [query strategy](http://localhost:1313/docs/inference/pipelines.md).
+- The search tool of the [Collections MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md#generated-tools).
+- The `query` tool of AI gateways that use the `QueryFunction` [query strategy](https://docs.aivax.net/docs/inference/pipelines.md).
 
 Automatic gateway RAG, which searches before the model call, does not apply filters. An invalid filter in a tool call is returned to the model as a tool error with the same message as the API.
 
@@ -73,7 +73,7 @@ A value must be a literal. Functions, arithmetic, type conversions, and comparis
 | `updatedAt` | date and time | When the document was last updated. |
 | `metadata.<key>` | JSON value | A value inside the document metadata (`__meta`). |
 
-See [Collections](http://localhost:1313/docs/rag/collections.md#document-fields) for how these fields are set.
+See [Collections](https://docs.aivax.net/docs/rag/collections.md#document-fields) for how these fields are set.
 
 ## Operators
 

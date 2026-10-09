@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/advanced-agents/planning-and-reasoning-loops.html
+Source: https://docs.aivax.net/learn/advanced-agents/planning-and-reasoning-loops.html
 
 Suppose you ask an assistant to find a supplier and draft an enquiry. A useful result requires more than a convincing paragraph. The assistant must understand what you need, find current offers, compare equivalent products and handle missing details. Some of those decisions become possible only after an earlier search returns. A plan helps organise the work; a loop lets the assistant adapt when the facts change.
 
@@ -10,6 +10,7 @@ The **plan** states the next useful steps toward a defined result. To **act**, t
 
 Plan the next useful step → Act through an authorised tool → Observe the actual result → Revise, then continue or stop
 
+
 This approach is often called **ReAct-style**: reasoning and acting alternate. In plain words, the agent does not settle everything before checking the world. It considers the current evidence, acts, and considers the new evidence. You do not need a transcript of the model's private internal reasoning to supervise it. A short action summary, the tool result and the reason for the next step provide a more useful operational record.
 
 The distinction between a plan and evidence matters. “Check delivery costs” is an intention. “The supplier's quote includes delivery” is a claim that needs a source. A search that returned no result is not evidence that delivery is free. The loop should preserve these differences so that a confident draft cannot quietly turn an unknown into a fact.
@@ -20,39 +21,49 @@ A **one-shot answer** is produced in a single model response without an applicat
 
 For a supplier comparison, a first search might reveal that an attractive offer has the wrong pack size. The next search should narrow the product specification rather than collect more of the same offers. A fixed answer written before that discovery could compare unlike products. The loop earns its cost by making a materially better decision, not by appearing busy.
 
-A model designed for more deliberate reasoning and an agent loop are different choices. A model can spend more effort on one response without contacting a supplier database. An application can also run a tool loop with a standard model. [Reasoning versus standard models](http://localhost:1313/learn/models/reasoning-vs-standard-models.md) explains the model choice; neither choice removes the need to check external facts.
+A model designed for more deliberate reasoning and an agent loop are different choices. A model can spend more effort on one response without contacting a supplier database. An application can also run a tool loop with a standard model. [Reasoning versus standard models](https://docs.aivax.net/learn/models/reasoning-vs-standard-models.md) explains the model choice; neither choice removes the need to check external facts.
 
 ## Worked example: find the cheapest supplier and draft an e-mail
 
 Begin by defining “cheapest” and “finished”. For this example, the buyer wants the lowest total quoted cost for a specified product and quantity, including delivery, among suppliers the business is allowed to use. The result is a comparison and an unsent enquiry draft. Placing an order and sending the e-mail are outside scope. If the buyer has not supplied a destination or deadline, ask before pretending the comparison is meaningful.
 
+
 1. **Agree the comparison**
 
 Record the product specification, quantity, delivery destination and acceptable suppliers. Mark any missing requirement that would change the choice.
+
 
 2. **Gather current offers**
 
 Use an authorised search or catalogue tool. Keep each offer's source, date, pack size, stock status and delivery terms together.
 
+
 3. **Observe a mismatch**
 
 The lowest advertised price is for a smaller pack. Exclude it or convert it to an equivalent quantity using a calculation tool; do not compare headline prices directly.
+
 
 4. **Revise the next action**
 
 One otherwise suitable offer omits delivery. Ask for that missing information or mark the total as unknown rather than quietly ranking it first.
 
+
 5. **Return the bounded result**
 
 Present the lowest verified total among the offers checked, note unresolved quotes and draft the enquiry. Stop without sending or purchasing.
 
+
+
+
+
 Notice the wording “among the offers checked”. It is a defensible conclusion, unlike “the cheapest supplier anywhere”. The agent cannot establish a universal claim from a limited search. A useful final response explains the comparison boundary and any fact that might change the recommendation. The draft can ask an unresolved delivery question without implying that the supplier has already answered it.
 
-Tool descriptions also shape the loop. If a search tool and a purchasing tool are both available, the agent must know their different effects. Software should enforce the allowed operations rather than relying only on a sentence in the prompt. Review [Adding tools](http://localhost:1313/learn/agents/adding-tools.md) for the difference between requesting an action and executing it.
+Tool descriptions also shape the loop. If a search tool and a purchasing tool are both available, the agent must know their different effects. Software should enforce the allowed operations rather than relying only on a sentence in the prompt. Review [Adding tools](https://docs.aivax.net/learn/agents/adding-tools.md) for the difference between requesting an action and executing it.
 
 ## Design the exits before the entry
 
 A loop needs **stopping conditions**: explicit situations in which it must finish, pause or hand control back. “Continue until confident” is too vague. Models can sound certain without better evidence, and repeated searches can keep uncovering something else to check. Decide what evidence is sufficient for this particular business decision.
+
 
 - **Success** — The agreed comparison is complete and the unsent draft is ready. More searching would not satisfy an additional requirement.
 
@@ -62,6 +73,9 @@ A loop needs **stopping conditions**: explicit situations in which it must finis
 
 - **Resource limit** — The step, time or spending budget is reached. Return a clearly labelled partial result, not a false success.
 
+
+
+
 A **step limit** bounds how many actions or model calls the application permits. Define which events count: a retry still consumes resources, and a delegated search should not escape the budget. Add an elapsed-time limit and a spending limit as separate controls. Software outside the model should enforce these limits, because an instruction to be economical is not a reliable spending barrier.
 
 Keep the success test observable. “Compared the permitted suppliers with equivalent quantities and recorded missing delivery costs” can be inspected. “Researched thoroughly” cannot. When the agent stops early, the user should see what was completed, what remains unknown and what decision is needed. Partial work can still be valuable if its boundaries are visible.
@@ -69,6 +83,7 @@ Keep the success test observable. “Compared the permitted suppliers with equiv
 ## Every iteration has a price
 
 Model calls process **tokens**, the pieces of text a model reads and writes. Each iteration may repeat instructions, previous messages and tool results as input, then generate a new response. Tool services may add their own charges. As history grows, later iterations can cost more than earlier ones; twice as many iterations need not mean only twice the total cost.
+
 
 **Cumulative work cost versus iterations (illustrative)**
 
@@ -78,11 +93,13 @@ Model calls process **tokens**, the pieces of text a model reads and writes. Eac
 
 Arbitrary teaching units, not prices or measured performance. Later calls in this example process more accumulated context.
 
+
+
 Reduce waste by requesting focused tool results, keeping a concise factual work record and avoiding repeated checks of unchanged information. Summaries should preserve important evidence, uncertainty and approval boundaries; shortening history must not remove the fact that sending is forbidden. Choose a budget appropriate to the value of the decision, then measure completed outcomes rather than rewarding longer plans.
 
-**Related:** On AIVAX, reusable instructions, tools and context settings belong to an [AI gateway](http://localhost:1313/docs/inference/ai-gateway.md). Those settings are part of configuring the agent; your application still needs explicit completion criteria and control over the overall task.
+**Related:** On AIVAX, reusable instructions, tools and context settings belong to an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). Those settings are part of configuring the agent; your application still needs explicit completion criteria and control over the overall task.
 
-What's next: explore how the same boundaries apply when work is divided in [Multi-agent architectures and orchestration](http://localhost:1313/learn/advanced-agents/multi-agent-architectures.md).
+What's next: explore how the same boundaries apply when work is divided in [Multi-agent architectures and orchestration](https://docs.aivax.net/learn/advanced-agents/multi-agent-architectures.md).
 
 **Knowledge check.** The buyer requested a supplier comparison and an e-mail draft, not a purchase. Which outcome best respects the task?
 

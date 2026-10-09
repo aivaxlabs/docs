@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/models/model-families-and-choosing.html
+Source: https://docs.aivax.net/learn/models/model-families-and-choosing.html
 
 Choosing an AI model is like assigning work to a colleague. You would not send every short customer message to your most experienced specialist, nor ask a receptionist to approve a complicated contract. The useful question is not “Which model is most powerful?” but “Which model can do this job reliably, within the time and budget available?”
 
@@ -8,11 +8,15 @@ A **model** is a trained system that transforms an input, such as a question or 
 
 People often describe models as small, medium, or large. These are relative categories rather than an industry-wide measurement. The labels usually reflect the scale of the model and the resources needed to run it. New training techniques can make a newer small model more effective on a task than an older large one.
 
+
 - **Small** — A useful starting point for narrow, repetitive work: classify messages, extract a date, or rewrite a short reply. Check its handling of unusual cases.
 
 - **Medium** — A candidate for broader conversation and instructions with several conditions. It may provide enough flexibility without the overhead of a larger model.
 
 - **Large** — A candidate for difficult interpretation and tasks involving several interacting requirements. Its additional capacity matters only if your tests show a benefit.
+
+
+
 
 Size alone does not tell you whether a model can read images, call a business tool, or follow an output format. A large text-only model cannot inspect a photograph simply because it is large. Likewise, a model that writes elegant sales copy may extract invoice fields less reliably than a smaller model selected for that task.
 
@@ -38,6 +42,7 @@ Before comparing writing quality, eliminate candidates that cannot perform the r
 
 **Quality** means meeting the task's requirements, not merely sounding polished. **Latency** means how long a user waits for a response. **Cost** includes the model's usage and any surrounding work, such as document search, retries, and human review. These factors interact: a cheap answer that repeatedly needs correction may cost more overall than a stronger first attempt.
 
+
 **Illustrative relative processing cost by tier**
 
 | Item | Value |
@@ -48,31 +53,42 @@ Before comparing writing quality, eliminate candidates that cannot perform the r
 
 Invented teaching values, not prices or a universal relationship. Actual cost depends on the model, hosting, input length, output length, and workload.
 
+
+
 The triangle is a decision aid, not a law that says improvement always costs more. A well-matched specialist can improve both speed and quality. Shorter inputs, clearer instructions, or better source documents can help without changing models. Measure the whole workflow before assuming that the model itself is the bottleneck.
 
 A live voice assistant has little room for long pauses. An overnight report can tolerate more waiting if the result is better. A back-office queue handling many similar records may value predictable operating cost. Write these needs down before testing so that an impressive demonstration does not quietly change the acceptance criteria.
 
 ## A repeatable selection procedure
 
+
 1. **Define an acceptable result**
 
 Describe the job, required evidence, format, languages, and unacceptable mistakes. Decide which actions still require a person.
+
 
 2. **Filter for capability and policy**
 
 Check media support, tools, data handling, and practical input limits. Remove incompatible options before comparing their prose.
 
+
 3. **Start with a modest candidate**
 
 Try a small or medium model that fits the requirements. Add a more capable candidate when the task or observed failures justify it.
+
 
 4. **Test the same work**
 
 Use the same questions, source documents, and scoring rules for each candidate. Record correctness, waiting time, and total work required.
 
+
 5. **Choose and keep checking**
 
 Select the least costly arrangement that meets the quality and timing requirements. Recheck after changing models, instructions, or business policies.
+
+
+
+
 
 Use examples from actual work, with private information removed or replaced. Include ordinary requests, unclear requests, missing information, conflicting instructions, and cases that should be handed to a person. Reserve some examples for the final comparison instead of repeatedly adjusting the prompt to the entire test set. Otherwise you may learn how to pass the examples rather than serve new customers.
 
@@ -80,21 +96,28 @@ Score the result before looking at which model produced it when practical. For s
 
 ## Match the recommendation to the task
 
+
 **Support triage**
 
 Start with a small candidate for assigning messages to a fixed list of teams. Test mixed-topic messages and provide an “unclear” route instead of forcing a confident category.
+
 
 **Sales drafting**
 
 Try a general-purpose candidate with approved product facts and a clear audience. Compare editing effort, not just how enthusiastic the first draft sounds.
 
+
 **Complex internal advice**
 
 Compare stronger candidates using the same source documents and review process. Require evidence and escalation when the documents do not settle the question.
 
-On AIVAX, reusable model choices and instructions can be managed through an [AI gateway](http://localhost:1313/docs/inference/ai-gateway.md). Related: the [inference guide](http://localhost:1313/docs/inference/inference.md) describes direct model requests and supported options. Treat configuration as part of the tested system: changing the model behind a stable assistant name can still change its behaviour.
 
-What's next: learn how [parameters](http://localhost:1313/learn/models/parameters.md) adjust the behaviour of the model you selected.
+
+
+
+On AIVAX, reusable model choices and instructions can be managed through an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). Related: the [inference guide](https://docs.aivax.net/docs/inference/inference.md) describes direct model requests and supported options. Treat configuration as part of the tested system: changing the model behind a stable assistant name can still change its behaviour.
+
+What's next: learn how [parameters](https://docs.aivax.net/learn/models/parameters.md) adjust the behaviour of the model you selected.
 
 **Knowledge check.** A support team needs to classify messages reliably without making customers wait. How should it choose a model?
 

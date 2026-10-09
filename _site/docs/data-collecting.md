@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/data-collecting.html
+Source: https://docs.aivax.net/docs/data-collecting.html
 
 # Data Collecting
 
@@ -8,8 +8,8 @@ AIVAX offers an optional semantic data collection program for accounts that choo
 
 While the setting is enabled:
 
-- eligible RAG query-embedding usage receives a 10% discount;
-- eligible reranking operations receive a 10% discount; and
+- eligible RAG query-embedding usage receives a discount (see [Pricing](https://docs.aivax.net/docs/pricing.md#data-collection-discount));
+- eligible reranking operations receive the same discount; and
 - document indexing, storage, unrelated inference, tools, and other services keep their regular prices.
 
 The discount applies only to eligible operations performed while collection is enabled. Disabling collection removes the discount from future operations.
@@ -53,4 +53,4 @@ The Account Manager can control collection in **Dashboard > My account > Semanti
 
 Because account identifiers and account-to-record mappings are not stored, AIVAX cannot retrieve or delete training records merely from an account ID. Requests concerning personal data present inside submitted semantic content can be sent to **privacy@aivax.net** or **wm@aivax.net** and must include enough information to locate the content where applicable. Source records are retained only for as long as reasonably necessary for the documented purposes, legal obligations, security, and audit requirements, and may then be deleted. Deletion of source records does not require AIVAX to retrain or destroy models or aggregated artifacts that no longer identify a person, except where required by applicable law.
 
-See the [Privacy Policy](http://localhost:1313/docs/legal/privacy-policy.md) and [Terms of Use](http://localhost:1313/docs/legal/terms-of-service.md) for the governing legal terms.
+See the [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md) and [Terms of Use](https://docs.aivax.net/docs/legal/terms-of-service.md) for the governing legal terms.

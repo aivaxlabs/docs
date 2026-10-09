@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/tools/protocol-functions.html
+Source: https://docs.aivax.net/docs/tools/protocol-functions.html
 
 # Protocol Functions
 
@@ -19,7 +19,7 @@ This separation keeps implementation details out of the prompt while still givin
 
 Use protocol functions when you want to expose a specific HTTP action to an AI Gateway without creating a full MCP server. They are good for point integrations, such as checking an order, opening a ticket, fetching a user, validating a coupon, registering a lead, or invoking an internal automation. AIVAX keeps the URL invisible to the model, sends the request from the server side, and adds the textual result to the conversation context.
 
-If you have many tools, dynamic tools, or a system that already implements Model Context Protocol, prefer [MCP](http://localhost:1313/docs/tools/mcp.md). If you want to use capabilities already maintained by AIVAX, prefer [built-in tools](http://localhost:1313/docs/tools/builtin-tools.md). If you need to make decisions before or after inference events, prefer [workers](http://localhost:1313/docs/inference/workers.md). Protocol functions sit in the middle: they are simpler than MCP and more specific than workers, but still give the model a controlled tool to execute an external action.
+If you have many tools, dynamic tools, or a system that already implements Model Context Protocol, prefer [MCP](https://docs.aivax.net/docs/tools/mcp.md). If you want to use capabilities already maintained by AIVAX, prefer [built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md). If you need to make decisions before or after inference events, prefer [workers](https://docs.aivax.net/docs/inference/workers.md). Protocol functions sit in the middle: they are simpler than MCP and more specific than workers, but still give the model a controlled tool to execute an external action.
 
 A protocol function must have a tool name, a description, a callback URL, and an argument schema. The name helps the model recognize the action; the description explains when to call; the schema limits the argument format. Function names must be valid JavaScript identifiers with at least three characters. The callback URL and authentication details are not visible to the model. This allows creating specialized tools without exposing internal endpoints, provided your service validates the `X-Request-Nonce`, validates received arguments, and applies its own authorization when the call depends on the user.
 
@@ -28,9 +28,9 @@ Use the following rule of thumb:
 | Need | Prefer |
 |---|---|
 | One or a few stable HTTP callbacks owned by your app | Protocol functions |
-| A larger tool catalog, standardized discovery, or an existing MCP server | [MCP](http://localhost:1313/docs/tools/mcp.md) |
-| Web search, URL reading, code execution, image generation, memory, calendar, or HTTP request tools maintained by AIVAX | [Built-in tools](http://localhost:1313/docs/tools/builtin-tools.md) |
-| Event-time policy, message rewriting, dynamic tool injection, or blocking a tool call before execution | [Workers](http://localhost:1313/docs/inference/workers.md) |
+| A larger tool catalog, standardized discovery, or an existing MCP server | [MCP](https://docs.aivax.net/docs/tools/mcp.md) |
+| Web search, URL reading, code execution, image generation, memory, calendar, or HTTP request tools maintained by AIVAX | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) |
+| Event-time policy, message rewriting, dynamic tool injection, or blocking a tool call before execution | [Workers](https://docs.aivax.net/docs/inference/workers.md) |
 | Provider-native tool definitions that your own client will execute | Raw `tools` in an OpenAI-compatible request |
 
 ### Choosing the function name
@@ -63,7 +63,7 @@ That gives the model a clear action, trigger, and limitation. A vague descriptio
 
 ## Defining protocol functions
 
-Protocol functions are defined in the [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md). You can declare them directly in the gateway when the list is stable, or provide a remote source that returns the function list when the catalog is managed by another service.
+Protocol functions are defined in the [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). You can declare them directly in the gateway when the list is stable, or provide a remote source that returns the function list when the catalog is managed by another service.
 
 The direct form is the simplest option. Use it when the function list changes rarely and belongs to the gateway configuration itself.
 
@@ -212,13 +212,13 @@ AIVAX builds `context` separately from the model-generated arguments in `functio
 
 | Field | JSON type | Meaning and availability |
 | --- | --- | --- |
-| `context.externalUserId` | `string` or `null` | External user identifier from the inference context. For a [chat session](http://localhost:1313/docs/features/chat-clients.md), this is the session's external user ID; for chat completions, it comes from the request's `user` field. It can be `null` when no user was identified. It is not an AIVAX account ID or an authentication credential. |
+| `context.externalUserId` | `string` or `null` | External user identifier from the inference context. For a [chat session](https://docs.aivax.net/docs/features/chat-clients.md), this is the session's external user ID; for chat completions, it comes from the request's `user` field. It can be `null` when no user was identified. It is not an AIVAX account ID or an authentication credential. |
 | `context.metadata` | `object` | Application-supplied string key/value pairs from the inference request or chat session. For chat completions, these are the request's `metadata` entries. The object is empty (`{}`) when none are supplied. The example's `tenant_id` and `request_id` are custom fields, not names generated by AIVAX. |
-| `context.callSource` | `string` | Origin of the inference, such as `WebChatClient`, `ChatCompletionsApi`, or `IntegrationBot`. It does not describe the callback transport: calling a protocol function does not automatically make the value `FunctionsApi`. See the shared [call source values](http://localhost:1313/docs/tools/mcp.md#call-source-values) for all current values. |
+| `context.callSource` | `string` | Origin of the inference, such as `WebChatClient`, `ChatCompletionsApi`, or `IntegrationBot`. It does not describe the callback transport: calling a protocol function does not automatically make the value `FunctionsApi`. See the shared [call source values](https://docs.aivax.net/docs/tools/mcp.md#call-source-values) for all current values. |
 | `context.conversationToken` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it comes from `idempotency_key` when supplied. It can be `null`, and multiple function calls may share it. Do not treat it as a unique callback ID, a credential, or a guarantee that an operation has not already run. |
 | `context.moment` | `string` | JSON date-time timestamp created when AIVAX prepares the callback, using the server's local clock. It is not the user's local time or the conversation start time. Parse it as a date-time with its UTC offset rather than relying on a fixed fractional-second precision; convert to your application's timezone when needed. |
 
-Custom metadata stays nested under `context.metadata`; it is not merged into `context`. This differs from [MCP metadata](http://localhost:1313/docs/tools/mcp.md#metadata-sent-with-tool-calls), where the same custom entries sit alongside reserved `_aiv_*` fields in `params._meta`.
+Custom metadata stays nested under `context.metadata`; it is not merged into `context`. This differs from [MCP metadata](https://docs.aivax.net/docs/tools/mcp.md#metadata-sent-with-tool-calls), where the same custom entries sit alongside reserved `_aiv_*` fields in `params._meta`.
 
 The authentication nonce is **not** a `context` or `metadata` field. Protocol functions receive it in the `X-Request-Nonce` HTTP header when the account has a hook key. MCP tool calls carry the equivalent value in `params._meta._aiv_nonce` instead. These context fields describe execution POST requests; do not assume that function source-listing requests have this JSON body.
 
@@ -240,7 +240,7 @@ The function response should be written for the model, not for the end user. It 
 
 Request authentication is done via the `X-Request-Nonce` header sent in protocol function calls and source-listing requests.
 
-See the [authentication](http://localhost:1313/docs/authentication.md) manual to understand how to authenticate reverse requests from AIVAX.
+See the [authentication](https://docs.aivax.net/docs/authentication.md) manual to understand how to authenticate reverse requests from AIVAX.
 
 #### User authentication
 
@@ -254,7 +254,7 @@ For the AI model, only the name, description, and format of the function are vis
 
 ## Specialist functions
 
-In addition to [built-in functions](http://localhost:1313/docs/tools/builtin-tools.md), you can define specialist functions that perform specific tasks in your AIVAX account.
+In addition to [built-in functions](https://docs.aivax.net/docs/tools/builtin-tools.md), you can define specialist functions that perform specific tasks in your AIVAX account.
 
 You define specialist functions using the `aivax://` URL scheme, following the example below:
 
@@ -287,7 +287,7 @@ You define specialist functions using the `aivax://` URL scheme, following the e
 }
 ```
 
-The above function creates a tool for the AI to query a specific [document collection](http://localhost:1313/docs/rag/collections.md), guiding the assistant on what to search in that collection and what to expect from a response. This way, you can link multiple RAG collections for an assistant to retrieve specialist content.
+The above function creates a tool for the AI to query a specific [document collection](https://docs.aivax.net/docs/rag/collections.md), guiding the assistant on what to search in that collection and what to expect from a response. This way, you can link multiple RAG collections for an assistant to retrieve specialist content.
 
 You can customize the description of the JSON Schema properties for specialist functions, but their structure is fixed. Specialist function parameters are supplied in the URL via query parameters.
 

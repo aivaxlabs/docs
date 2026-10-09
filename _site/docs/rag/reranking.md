@@ -1,10 +1,10 @@
-Source: http://localhost:1313/docs/rag/reranking.html
+Source: https://docs.aivax.net/docs/rag/reranking.html
 
 # Rerankers
 
-Rerankers reorder an existing set of candidate documents for a query. They do not search a collection or recover text that is absent from the input. Use the autonomous reranking API when your application already owns the candidates, or use [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md) to retrieve candidates from an AIVAX collection before reranking them.
+Rerankers reorder an existing set of candidate documents for a query. They do not search a collection or recover text that is absent from the input. Use the autonomous reranking API when your application already owns the candidates, or use [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md) to retrieve candidates from an AIVAX collection before reranking them.
 
-[Reflex](http://localhost:1313/docs/rag/reflex.md) is the collection-less search experience built on this same endpoint with the default ranker — see that page when you want retrieval-style ranking without managing a collection.
+[Reflex](https://docs.aivax.net/docs/rag/reflex.md) is the collection-less search experience built on this same endpoint with the default ranker — see that page when you want retrieval-style ranking without managing a collection.
 
 ## Rerank documents directly
 
@@ -18,7 +18,7 @@ For the supported request, response, authentication, and error contract, use the
 
 ## Build candidates worth ranking
 
-Reranking only reorders what it receives, so candidate quality decides the ceiling. Keep each candidate string focused on one idea — a paragraph or a short section rather than a whole page — so the relevance score reflects one topic instead of an average over many. When candidates come from chunking, prefer boundaries that preserve complete statements; see [Text segmentation](http://localhost:1313/docs/rag/text-segmentation.md).
+Reranking only reorders what it receives, so candidate quality decides the ceiling. Keep each candidate string focused on one idea — a paragraph or a short section rather than a whole page — so the relevance score reflects one topic instead of an average over many. When candidates come from chunking, prefer boundaries that preserve complete statements; see [Text segmentation](https://docs.aivax.net/docs/rag/text-segmentation.md).
 
 Use the [RAG pipeline checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to distinguish preparation, retrieval, and ordering failures.
 
@@ -30,6 +30,6 @@ Start with the default reranker unless you have a measured reason to select anot
 
 To compare options, fix a set of representative queries with known relevant documents from your own workload — covering your languages, document lengths, and jargon — and measure whether swapping rankers moves the right document upward. If the relevant document is missing from the candidates entirely, improve candidate retrieval, chunking, query formulation, or candidate count before comparing rerankers: no ranker recovers what was never submitted.
 
-To separate missing-candidate failures from poor-ordering failures before you add a reranker, see [Do I need a reranker for RAG?](https://aivax.net/blog/semantic-search-vs-reranking/).
+To separate missing-candidate failures from poor-ordering failures before you add a reranker, see [Do I need a reranker for RAG?](https://aivax.net/blog/semantic-search-vs-reranking/). To judge when Reflex is enough compared with a cross-encoder, see [reranking RAG results without a cross-encoder](https://aivax.net/blog/reflex-retrieval-built-for-recurring-documents/).
 
-For current availability, supported options, and account limits, see the API Reference and [Plans and Limits](http://localhost:1313/docs/limits.md).
+For current availability, supported options, and account limits, see the API Reference and [Plans and Limits](https://docs.aivax.net/docs/limits.md).

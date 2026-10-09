@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/limits.html
+Source: https://docs.aivax.net/pt-br/docs/limits.html
 
 # Planos e Limites
 
@@ -72,8 +72,8 @@ Um travessão (`—`) indica que o plano não impõe um limite. Limites específ
 
 Esses limites por minuto são compartilhados entre as chaves de API pertencentes à mesma conta. Eles são independentes das alocações de assinatura e faturamento: o uso incluído ainda consome a cota de solicitação ou execução aplicável.
 
-- **Decisões semânticas:** cada solicitação consome uma unidade, independentemente de quantas perguntas contém ou qual modelo de decisão seleciona. Uma solicitação que excede o limite da conta retorna `429 Too Many Requests` antes da avaliação. Veja [Semantic decisions](http://localhost:1313/pt-br/docs/generations/decisions.md).
-- **Testes agênticos:** execuções manuais, programadas e avaliações diretas compartilham uma cota de novas execuções. Uma execução persistente consome sua unidade quando é enfileirada, não novamente quando a execução começa; turnos individuais de conversa não consomem unidades adicionais. Solicitações de execuções manuais excessivas e avaliações diretas retornam `429 Too Many Requests`. Um teste programado sem cota disponível aguarda uma verificação de agendamento posterior ao invés de criar uma execução extra. Execuções existentes permanecem sujeitas aos seus limites separados de simultaneidade e inferência. Veja [Agentic Tests](http://localhost:1313/pt-br/docs/inference/agentic-tests.md).
+- **Decisões semânticas:** cada solicitação consome uma unidade, independentemente de quantas perguntas contém ou qual modelo de decisão seleciona. Uma solicitação que excede o limite da conta retorna `429 Too Many Requests` antes da avaliação. Veja [Semantic decisions](https://docs.aivax.net/pt-br/docs/generations/decisions.md).
+- **Testes agênticos:** execuções manuais, programadas e avaliações diretas compartilham uma cota de novas execuções. Uma execução persistente consome sua unidade quando é enfileirada, não novamente quando a execução começa; turnos individuais de conversa não consomem unidades adicionais. Solicitações de execuções manuais excessivas e avaliações diretas retornam `429 Too Many Requests`. Um teste programado sem cota disponível aguarda uma verificação de agendamento posterior ao invés de criar uma execução extra. Execuções existentes permanecem sujeitas aos seus limites separados de simultaneidade e inferência. Veja [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md).
 
 Regule as solicitações em toda a conta e use tentativas limitadas com backoff após um 429. Uma tentativa imediata ainda encontra a janela de limite de taxa ativa. Max não tem limite imposto pelo plano para essas duas cotas, mas outros limites aplicáveis permanecem em vigor.
 
@@ -107,7 +107,7 @@ Julia-1 tem limites de serviço adicionais:
 | Descrição de uma opção individual | No máximo 48 tokens |
 | Limite de payload de decisão | 256 KiB |
 
-Esses limites interagem: vinte opções podem exceder o orçamento combinado de pergunta/opções mesmo que cada descrição se enquadre em seu limite individual. Os atuais limites de serviço Julia-1 da AIVAX se aplicam mesmo se um cartão de modelo upstream listar um contexto maior. Veja [Semantic decisions](http://localhost:1313/pt-br/docs/generations/decisions.md) para orientações de uso e erros.
+Esses limites interagem: vinte opções podem exceder o orçamento combinado de pergunta/opções mesmo que cada descrição se enquadre em seu limite individual. Os atuais limites de serviço Julia-1 da AIVAX se aplicam mesmo se um cartão de modelo upstream listar um contexto maior. Veja [Semantic decisions](https://docs.aivax.net/pt-br/docs/generations/decisions.md) para orientações de uso e erros.
 
 ### Alocações diárias de assinatura incluídas
 
@@ -124,7 +124,7 @@ Buscas RAG e inserções de documentos compartilham a cota de embeddings. Ela n�
 
 A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, um embedding de termo de consulta individual, uma chamada de reordenação, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas tarifas normais. Itens incluídos são acompanhados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As atuais alocações permitem uma margem de 10% acima de sua capacidade base. Um item que excederia essa margem deixa a alocação inalterada e é cobrado normalmente. Uma solicitação pode conter vários itens, de modo que alguns podem ser incluídos enquanto outros são cobrados.
 
-As alocações diárias são reiniciadas à meia‑noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de reinício; o uso pode exceder 100% dentro da margem. A cobertura de assinatura LLM está atualmente desativada, portanto a inferência de modelo de texto e a geração de respostas RAG permanecem medidas separadamente. As alocações não contornam requisitos de saldo, limites de taxa ou o teto de tempo de processamento separado do Reflex. Veja [Pricing](http://localhost:1313/pt-br/docs/pricing.md) para cobranças quando um item não está coberto.
+As alocações diárias são reiniciadas à meia‑noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de reinício; o uso pode exceder 100% dentro da margem. A cobertura de assinatura LLM está atualmente desativada, portanto a inferência de modelo de texto e a geração de respostas RAG permanecem medidas separadamente. As alocações não contornam requisitos de saldo, limites de taxa ou o teto de tempo de processamento separado do Reflex. Veja [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) para cobranças quando um item não está coberto.
 
 ## Chaves de API públicas
 
@@ -140,4 +140,4 @@ Chaves públicas têm limites adicionais independentes do plano da conta.
 | Por endereço remoto | 100.000/5min, 500.000/30min, 2.000.000/6h, 5.000.000/dia |
 | Global por chave | 500.000/5min, 2.000.000/30min, 10.000.000/6h, 25.000.000/dia |
 
-Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e completações de chat. Para completações de chat, chaves públicas também exigem um UUID completo do AI Gateway, restringem parâmetros de solicitação e omitem superfícies de ferramentas do lado do servidor. Veja [Authentication](http://localhost:1313/pt-br/docs/authentication.md).
+Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e completações de chat. Para completações de chat, chaves públicas também exigem um UUID completo do AI Gateway, restringem parâmetros de solicitação e omitem superfícies de ferramentas do lado do servidor. Veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md).

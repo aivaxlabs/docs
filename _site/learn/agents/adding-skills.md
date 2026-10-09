@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/agents/adding-skills.html
+Source: https://docs.aivax.net/learn/agents/adding-skills.html
 
 An experienced support adviser does more than know the returns policy. They know which question to ask first, when to check an order, how to explain an exception and when to involve a supervisor. Giving a new employee that method saves them from rediscovering it in every conversation. An agent can benefit from the same kind of playbook.
 
@@ -8,11 +8,15 @@ A **skill** is a reusable bundle of instructions for a particular kind of work. 
 
 A useful way to distinguish the parts of an agent is to ask three questions: How should I work? What can I do? What information supports my answer? These questions often appear together in a conversation, but their answers belong in different places.
 
+
 - **Skill: the method** — A refund-review playbook says to clarify the request, consult the current policy, check the permitted order record and summarise unresolved points.
 
 - **Tool: the action** — An order-lookup operation retrieves a record. A review-request operation submits a case. Software executes these actions and enforces access.
 
 - **Knowledge: the evidence** — The approved returns policy explains eligibility and exceptions. The skill tells the agent to consult it rather than guessing its contents.
+
+
+
 
 Think of a kitchen: the recipe describes the method, the oven provides a capability, and the ingredient label supplies facts. A recipe cannot heat anything by itself. Similarly, a skill that says “check the order” still needs an available, authorised lookup tool. If that tool is missing, the agent should explain the limitation rather than pretend that the check happened.
 
@@ -30,15 +34,21 @@ The same refund-review skill can be attached to a website support agent and an i
 
 Start with a clear purpose and a description of when the skill should be used. This description acts like the label on a training folder: it must help someone choose the right folder before opening it. “Use when a customer requests a refund review” is more informative than “Excellent customer service.” Also explain when a closely related task belongs elsewhere.
 
+
 **An aspiration**
 
 “Handle refunds professionally. Keep customers happy and resolve their issues quickly.”
 
 This does not say what to check, what counts as resolution or when to stop.
 
+
 **A usable method**
 
 “Clarify the requested outcome. Consult the current policy and authorised order record. Explain what is confirmed. If an exception needs approval, prepare a review request without promising a refund.”
+
+
+
+
 
 The full instructions should identify the information required before proceeding, the sequence of checks, the tools that may help and the expected response format. Include what to do when information is missing or contradictory. A playbook that covers only the happy path leaves the agent to invent a procedure precisely when the situation becomes difficult.
 
@@ -48,17 +58,24 @@ For example, if the customer says an item arrived damaged but the order cannot b
 
 The following examples are illustrative playbook outlines, not complete business policies. Notice that each specifies a task and an end state rather than merely choosing a tone of voice.
 
+
 **Support**
 
 **Refund review:** establish what the customer wants, consult the applicable policy, check the authorised order record and identify any approval requirement. Finish with confirmed facts, missing information and the next permitted action. Do not describe a review request as an approved refund.
+
 
 **Sales**
 
 **Quotation drafting:** confirm the requested products, quantities and delivery needs. Obtain current commercial information from approved sources. Separate confirmed terms from assumptions and flag exceptions for review. Finish with a draft quotation; do not imply that drafting it accepts an order.
 
+
 **Back office**
 
 **Invoice query:** clarify the discrepancy, compare the invoice with authorised supporting records and summarise the difference. Ask the responsible person to resolve missing evidence. Finish with a reviewable explanation, not an unapproved change to the accounting record.
+
+
+
+
 
 A good first draft usually comes from someone who already does the work. Ask them to explain the reasoning behind their decisions, not just the clicks they make. “Open this panel” is fragile if the screen changes. “Check whether a refund was already recorded before submitting another request” captures a business requirement that remains useful across interfaces.
 
@@ -68,27 +85,35 @@ A good first draft usually comes from someone who already does the work. Ask the
 
 Do not assume that changing the skill automatically updates every copy or attachment in every platform. Check how your system distributes changes. Before release, verify the instructions each affected agent will actually receive, alongside its available tools and standing rules. A playbook tested with an internal support agent may fail with a public agent that cannot access the same records.
 
+
 1. **Draft with a task owner**
 
 Capture the purpose, prerequisites, decision points and limits. Use sanitised examples that contain no customer records or credentials.
+
 
 2. **Test selection and execution**
 
 Check whether the agent chooses the skill for relevant requests and avoids it for unrelated ones. Then check that it follows the method.
 
+
 3. **Review before sharing**
 
 Have the responsible team approve the revision. Test each attached agent's permissions and missing-tool behaviour before wider use.
+
 
 4. **Monitor and revise**
 
 Keep the previous approved revision, investigate failures and repeat the checks after changes to policies, tools or instructions.
 
+
+
+
+
 Testing needs more than a polite final answer. Include a normal request, missing facts, a disputed exception and an unavailable tool. Check whether the agent consulted the right source, preserved uncertainty and stopped at the approval boundary. Also test a conversation that changes topic: a refund playbook should not distort a later question about product care.
 
-**Related:** On AIVAX, this reusable instruction bundle is called a [skill](http://localhost:1313/docs/features/skills.md), and selected skills can be enabled for an agent's configured runtime. [Teach Skill](http://localhost:1313/docs/generations/teach-skill.md) can turn a recorded demonstration into draft instructions. Review that draft against the real process before saving it; generating it does not automatically publish a skill.
+**Related:** On AIVAX, this reusable instruction bundle is called a [skill](https://docs.aivax.net/docs/features/skills.md), and selected skills can be enabled for an agent's configured runtime. [Teach Skill](https://docs.aivax.net/docs/generations/teach-skill.md) can turn a recorded demonstration into draft instructions. Review that draft against the real process before saving it; generating it does not automatically publish a skill.
 
-**What's next:** A method needs boundaries. [Adding guardrails](http://localhost:1313/learn/agents/adding-guardrails.md) explains how to limit actions and handle requests the agent should not fulfil.
+**What's next:** A method needs boundaries. [Adding guardrails](https://docs.aivax.net/learn/agents/adding-guardrails.md) explains how to limit actions and handle requests the agent should not fulfil.
 
 **Knowledge check.** Which item is a skill in a support agent's design?
 

@@ -1,23 +1,23 @@
 # Agents
 
-Source: http://localhost:1313/learn/agents/index.html
+Source: https://docs.aivax.net/learn/agents/index.html
 
 How a language model becomes an agent: context, tools, skills, guardrails, knowledge, connections to the world and to other agents, and the instructions that hold it all together.
 
 
 ## Agents
 
-- [Introduction to AI agents](http://localhost:1313/learn/agents/introduction-to-ai-agents.md)
-- [What is an LLM](http://localhost:1313/learn/agents/what-is-an-llm.md)
-- [From LLMs to agents](http://localhost:1313/learn/agents/from-llms-to-agents.md)
-- [Adding context](http://localhost:1313/learn/agents/adding-context.md)
-- [Adding tools](http://localhost:1313/learn/agents/adding-tools.md)
-- [Adding skills](http://localhost:1313/learn/agents/adding-skills.md)
-- [Adding guardrails](http://localhost:1313/learn/agents/adding-guardrails.md)
-- [Adding knowledge](http://localhost:1313/learn/agents/adding-knowledge.md)
-- [Connecting to the world](http://localhost:1313/learn/agents/connecting-to-the-world.md)
-- [Connecting to existing systems](http://localhost:1313/learn/agents/connecting-to-existing-systems.md)
-- [Agent-to-agent communication](http://localhost:1313/learn/agents/agent-to-agent-communication.md)
-- [Workflows as skills](http://localhost:1313/learn/agents/workflows-as-skills.md)
-- [Writing good prompts and instructions](http://localhost:1313/learn/agents/writing-good-prompts-and-instructions.md)
+- [Introduction to AI agents](https://docs.aivax.net/learn/agents/introduction-to-ai-agents.md)
+- [What is an LLM](https://docs.aivax.net/learn/agents/what-is-an-llm.md)
+- [From LLMs to agents](https://docs.aivax.net/learn/agents/from-llms-to-agents.md)
+- [Adding context](https://docs.aivax.net/learn/agents/adding-context.md)
+- [Adding tools](https://docs.aivax.net/learn/agents/adding-tools.md)
+- [Adding skills](https://docs.aivax.net/learn/agents/adding-skills.md)
+- [Adding guardrails](https://docs.aivax.net/learn/agents/adding-guardrails.md)
+- [Adding knowledge](https://docs.aivax.net/learn/agents/adding-knowledge.md)
+- [Connecting to the world](https://docs.aivax.net/learn/agents/connecting-to-the-world.md)
+- [Connecting to existing systems](https://docs.aivax.net/learn/agents/connecting-to-existing-systems.md)
+- [Agent-to-agent communication](https://docs.aivax.net/learn/agents/agent-to-agent-communication.md)
+- [Workflows as skills](https://docs.aivax.net/learn/agents/workflows-as-skills.md)
+- [Writing good prompts and instructions](https://docs.aivax.net/learn/agents/writing-good-prompts-and-instructions.md)
 

@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/models/parameters.html
+Source: https://docs.aivax.net/learn/models/parameters.html
 
 Imagine asking a colleague to write an announcement. You can request a conventional version, invite unusual wording, or limit the response to a short paragraph. Model **parameters** are settings that influence similar aspects of generation. They do not supply missing company facts, grant permission to perform actions, or guarantee that an answer is true.
 
@@ -12,7 +12,10 @@ For an assistant extracting delivery dates from messages, repeatable wording is 
 
 > **Interactive demo: Try it: change the spread of possible words.** This interactive demo is available on the web page. Move the temperature control and sample several times. This simplified illustration uses invented candidates and probabilities; it does not contact a real model. Notice that widening the choices can produce variety without improving usefulness.
 
+
+
 A temperature of zero, when supported, usually requests the most likely continuation rather than a random draw. Do not treat it as a guarantee of identical output. Provider implementation, model updates, and other execution details can still affect results. More importantly, an answer can be consistently wrong: low variation is not the same thing as high accuracy.
+
 
 **Low-temperature style**
 
@@ -22,6 +25,7 @@ A temperature of zero, when supported, usually requests the most likely continua
 
 This illustrative draft stays close to conventional wording.
 
+
 **Higher-temperature style**
 
 **Same prompt:** “Write one friendly opening for a message announcing our revised help centre.”
@@ -29,6 +33,10 @@ This illustrative draft stays close to conventional wording.
 “A clearer route to answers starts with our revised help centre.”
 
 This illustrative draft explores a different expression. A real run might still return conventional wording.
+
+
+
+
 
 Notice what the comparison does not show: more factual knowledge or better policy compliance. If the help centre has not launched, neither style should announce that it has. Fix the instruction or source information before adjusting the sampling settings. **Sampling** is the process of selecting from the model's possible next tokens.
 
@@ -48,11 +56,15 @@ The limit is not a promise that the model will write exactly that amount. It can
 
 Ask for the desired length in ordinary language, then set a budget with room for a complete answer. “Give a short summary followed by the action owner” describes the result better than a token limit alone. Measure typical outputs in your actual languages: a token is not a fixed number of characters or words, and different text can consume different amounts.
 
+
 - **Instruction** — “Use a short paragraph and state what is missing.” This describes the shape and purpose of the answer.
 
 - **Generation budget** — The output limit restricts how much the model may generate. Leave enough room for a complete response and any supported reasoning budget.
 
 - **Completion check** — Your application checks whether generation ended normally and whether the required result is complete before using it.
+
+
+
 
 For a back-office extractor, a shortened result should be treated as incomplete, not silently accepted because it contains some plausible fields. For a customer-facing answer, the application should avoid presenting a broken sentence as a finished recommendation. Increasing the ceiling may help with truncation, but it will not fix an unclear request that encourages unnecessary detail.
 
@@ -80,9 +92,11 @@ A **stop sequence** is a configured piece of text that tells generation to stop 
 
 Not immediately. First check whether the prompt asks for the same point several times or whether duplicated source passages encourage repetition. A penalty can suppress necessary terms without solving the underlying instruction problem. Test the change on cases where a product name or field label must appear again.
 
-On AIVAX, these settings are part of supported [inference parameters](http://localhost:1313/docs/inference/inference.md) and reusable [AI gateway configuration](http://localhost:1313/docs/inference/ai-gateway.md). Related: check those guides for model-specific restrictions rather than assuming every parameter works for every model.
 
-What's next: explore [multimodality](http://localhost:1313/learn/models/multimodality.md), where the inputs and outputs extend beyond text.
+
+On AIVAX, these settings are part of supported [inference parameters](https://docs.aivax.net/docs/inference/inference.md) and reusable [AI gateway configuration](https://docs.aivax.net/docs/inference/ai-gateway.md). Related: check those guides for model-specific restrictions rather than assuming every parameter works for every model.
+
+What's next: explore [multimodality](https://docs.aivax.net/learn/models/multimodality.md), where the inputs and outputs extend beyond text.
 
 **Knowledge check.** An assistant gives a confidently wrong refund rule. What is the most useful first response?
 

@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/teaching-agents/what-is-a-rag.html
+Source: https://docs.aivax.net/learn/teaching-agents/what-is-a-rag.html
 
 Suppose you ask a librarian whether a local club allows guests at its events. A good librarian does not answer from a vague memory of how clubs usually work. They find the current club handbook, locate the guest policy and help you interpret it. If the handbook says nothing about a particular event, they tell you that the answer is missing rather than inventing a rule.
 
@@ -12,29 +12,38 @@ The library analogy also explains why uploading material is not enough. A shelf 
 
 A **chunk** is a portion of a source prepared as a searchable unit. It might be a self-contained section about guest eligibility rather than the entire club handbook. Chunks help the system bring relevant information into a limited reading space without including every page. They need enough context to make sense alone: “This is prohibited” is a poor chunk if the missing previous paragraph identifies what “this” means.
 
-Many retrieval systems use **embeddings**, numerical representations of text that place related meanings near one another. Think of a map where “bringing a visitor” and “guest attendance” occupy nearby areas even though the words differ. The map helps find candidates; it does not certify that a passage is true or applicable. Some systems also search exact words. The unit [Embeddings and semantic search](http://localhost:1313/learn/models/embeddings-and-semantic-search.md) explains the numerical approach in more detail.
+Many retrieval systems use **embeddings**, numerical representations of text that place related meanings near one another. Think of a map where “bringing a visitor” and “guest attendance” occupy nearby areas even though the words differ. The map helps find candidates; it does not certify that a passage is true or applicable. Some systems also search exact words. The unit [Embeddings and semantic search](https://docs.aivax.net/learn/models/embeddings-and-semantic-search.md) explains the numerical approach in more detail.
 
 ## Follow one question through the system
 
 The **context** is the information available to the model while it produces a response. In RAG, retrieved passages become part of that context alongside instructions and the user's question. The model is not browsing the entire knowledge store in its head; it sees what the surrounding system provides.
 
+
 1. **Receive the question**
 
 A club member asks whether a guest may attend the introductory workshop. The wording identifies a topic and a particular event.
+
 
 2. **Retrieve candidate evidence**
 
 The search finds passages about guest access and workshop restrictions. The system selects relevant, authorised material rather than forwarding the whole handbook.
 
+
 3. **Write from the evidence**
 
 The model combines the selected passages into a plain-language answer. It should preserve conditions and distinguish what the source states from what remains unknown.
+
 
 4. **Show the basis or the gap**
 
 The response points to the source when available. If the evidence does not cover the workshop, the agent explains that limitation and offers a suitable next step.
 
+
+
+
+
 Question → Search approved sources → Select passages → Model reads evidence → Answer with limits
+
 
 The order matters. Searching after an answer has already been invented is not equivalent to using evidence before answering. A source added as decoration can make a response look trustworthy even when it does not support the claim. Good checking asks whether each important statement actually follows from the selected passages.
 
@@ -42,11 +51,14 @@ The order matters. Searching after an answer has already been invented is not eq
 
 > **Interactive demo: Try it: find a policy passage.** This interactive demo is available on the web page. Try “guest”, “workshop” and “equipment”. This simplified keyword demonstration illustrates selecting passages, not a real embedding model or a guarantee of retrieval quality. Notice that the guest and workshop passages answer different parts of the question.
 
+
+
 In a real conversation, a member might ask “Can my friend come along?” rather than using the word “guest”. A retrieval method needs to handle that language or ask a clarifying question. It may also need the preceding conversation to know which event “along” refers to. Choosing evidence is therefore more than matching a document title to a sentence.
 
 ## Grounding changes the answer
 
 **Grounding** means tying an answer's factual claims to evidence available for the task. It does not mean copying entire paragraphs. A helpful grounded answer can summarise, compare or explain, provided that it does not quietly add unsupported conditions.
+
 
 **Without supplied club evidence**
 
@@ -54,11 +66,16 @@ In a real conversation, a member might ask “Can my friend come along?” rathe
 
 This sounds plausible but invents the booking condition.
 
+
 **With relevant evidence**
 
 “The introductory workshop is open to visitors, and the workshop policy says booking is required before attendance.”
 
 The answer preserves the actual condition instead of borrowing a general expectation.
+
+
+
+
 
 The first answer is not necessarily wrong for every club. It is unsupported for this one. That distinction matters: a model's general knowledge can be useful for explaining common concepts, but organisation-specific claims need organisation-specific evidence. A convincing tone is not a substitute for the current policy.
 
@@ -72,11 +89,11 @@ Design the agent to recognise missing evidence. “I found the general guest pol
 
 ## Connect the technique to an implementation
 
-Related: on AIVAX, [collections](http://localhost:1313/docs/rag/collections.md) organise documents, and [semantic search](http://localhost:1313/docs/rag/semantic-search.md) retrieves relevant material. Collections can also be connected to an AI gateway so retrieved material is available during a conversation. The feature names describe parts of the workflow, not a guarantee that every answer is correct.
+Related: on AIVAX, [collections](https://docs.aivax.net/docs/rag/collections.md) organise documents, and [semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) retrieves relevant material. Collections can also be connected to an AI gateway so retrieved material is available during a conversation. The feature names describe parts of the workflow, not a guarantee that every answer is correct.
 
 Begin with approved sources and questions whose answers you can check. Look at what was retrieved before judging the final response. If the evidence was absent, improve the knowledge or search. If the evidence was present but misused, improve the instructions and evaluation. This simple distinction avoids trying to repair every problem by changing the model.
 
-What's next: build a reliable source set in [How to find and prepare knowledge](http://localhost:1313/learn/teaching-agents/finding-and-preparing-knowledge.md).
+What's next: build a reliable source set in [How to find and prepare knowledge](https://docs.aivax.net/learn/teaching-agents/finding-and-preparing-knowledge.md).
 
 **Knowledge check.** What is the central idea of Retrieval-Augmented Generation?
 

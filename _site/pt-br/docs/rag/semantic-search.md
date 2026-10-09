@@ -1,14 +1,14 @@
-Source: http://localhost:1313/pt-br/docs/rag/semantic-search.html
+Source: https://docs.aivax.net/pt-br/docs/rag/semantic-search.html
 
 # Busca Semântica
 
 A API de busca semântica procura uma ou mais coleções e devolve os documentos indexados mais relevantes para os termos de busca fornecidos.
 
-Se sua aplicação já possui as strings dos documentos candidatos, considere [Reflex](http://localhost:1313/pt-br/docs/rag/reflex.md): uma busca RAG sem coleção que classifica documentos fornecidos sem indexação ou armazenamento. Use a busca semântica gerenciada quando a AIVAX deve armazenar e buscar um corpus persistente ou quando o corpus é grande demais para ser enviado como candidatos em cada requisição.
+Se sua aplicação já possui as strings dos documentos candidatos, considere [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md): uma busca RAG sem coleção que classifica documentos fornecidos sem indexação ou armazenamento. Use a busca semântica gerenciada quando a AIVAX deve armazenar e buscar um corpus persistente ou quando o corpus é grande demais para ser enviado como candidatos em cada requisição.
 
 Compare [busca vetorial com o pipeline completo de RAG](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) antes de decidir o que construir.
 
-Antes de buscar, adicione documentos a uma [coleção](http://localhost:1313/pt-br/docs/rag/collections.md) e aguarde a indexação. Busque com perguntas completas ou frases que reflitam o que um usuário perguntaria. A resposta pode incluir os documentos correspondentes e seus dados de coleção associados para uso em sua aplicação ou fluxo do AI Gateway.
+Antes de buscar, adicione documentos a uma [coleção](https://docs.aivax.net/pt-br/docs/rag/collections.md) e aguarde a indexação. Busque com perguntas completas ou frases que reflitam o que um usuário perguntaria. A resposta pode incluir os documentos correspondentes e seus dados de coleção associados para uso em sua aplicação ou fluxo do AI Gateway.
 
 Para o contrato suportado de requisição, resposta, autenticação e erros, use a Referência da API:
 
@@ -16,11 +16,11 @@ Para o contrato suportado de requisição, resposta, autenticação e erros, use
 
 ## Filtrando Documentos
 
-Use o campo `filter` para buscar apenas documentos que correspondam a tags, metadados, nomes ou datas, como `tags has "finance" and createdAt >= now-30d`. Consulte [Filtros de Documento](http://localhost:1313/pt-br/docs/filters/document-filters.md) para a sintaxe e exemplos.
+Use o campo `filter` para buscar apenas documentos que correspondam a tags, metadados, nomes ou datas, como `tags has "finance" and createdAt >= now-30d`. Consulte [Filtros de Documento](https://docs.aivax.net/pt-br/docs/filters/document-filters.md) para a sintaxe e exemplos.
 
 ## Reclassificação
 
-Um reclassificador pode ajustar a ordem dos candidatos retornados pela busca semântica. Ele não busca documentos adicionais nem recupera texto que a etapa de recuperação não selecionou. Consulte [Reclassificadores](http://localhost:1313/pt-br/docs/rag/reranking.md) para orientações de seleção.
+Um reclassificador pode ajustar a ordem dos candidatos retornados pela busca semântica. Ele não busca documentos adicionais nem recupera texto que a etapa de recuperação não selecionou. Consulte [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md) para orientações de seleção.
 
 ## Múltiplos Termos
 
@@ -55,6 +55,6 @@ Se a busca retornar resultados pobres:
 
 ## MCP de Coleções
 
-Para expor coleções da AIVAX como ferramentas para um cliente MCP externo, veja [MCP de Coleções](http://localhost:1313/pt-br/docs/mcp-utilities/collections-mcp.md).
+Para expor coleções da AIVAX como ferramentas para um cliente MCP externo, veja [MCP de Coleções](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md).
 
-Para a disponibilidade atual do serviço e limites de conta, veja [Planos e Limites](http://localhost:1313/pt-br/docs/limits.md).
+Para a disponibilidade atual do serviço e limites de conta, veja [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md).

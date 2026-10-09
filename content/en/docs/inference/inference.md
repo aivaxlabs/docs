@@ -40,9 +40,9 @@ Available routing preferences are:
 
 ### Configure routing in an AI Gateway
 
-Use an AI Gateway when the same routing preference should apply to every request. In the gateway editor, select an integrated model, open **Routing preference**, choose the preferred strategy, and save the gateway.
+Use an AI Gateway when the same routing should apply to every request. In the gateway editor, select an integrated model, choose the strategy in **Routing preference**, list provider tags in order in **Allowed providers**, and save the gateway.
 
-The equivalent gateway configuration uses `parameters.routingOption`:
+The equivalent gateway configuration uses `parameters.routingOption` and `parameters.allowedProviders`:
 
 ```json
 {
@@ -50,16 +50,19 @@ The equivalent gateway configuration uses `parameters.routingOption`:
     "parameters": {
         "baseAddress": "@integrated",
         "modelName": "YOUR_INTEGRATED_MODEL",
-        "routingOption": "Cheapest"
+        "routingOption": "Cheapest",
+        "allowedProviders": [ "azure-us", "azure-eu", "*" ]
     }
 }
 ```
+
+`allowedProviders` follows the same rules as `routing_options.allowed_providers` below. It defaults to `["*"]`, and an empty list is rejected when saving the gateway.
 
 After saving, call the gateway normally by using its ID or slug as `model`. AIVAX applies the stored routing preference while preserving the gateway's instructions, tools, RAG configuration, and other settings. See [AI Gateway](/docs/inference/ai-gateway) for the complete gateway workflow.
 
 ### Override routing in `chat/completions`
 
-Use `routing_preset` to choose a provider strategy for one request. The override works with a direct integrated model or an AI Gateway that uses an integrated model:
+Use `routing_options` to choose how providers are selected for one request. The override works with a direct integrated model or an AI Gateway that uses an integrated model:
 
 ```json
 {
@@ -70,11 +73,46 @@ Use `routing_preset` to choose a provider strategy for one request. The override
             "content": "Summarize this incident report."
         }
     ],
-    "routing_preset": "Fastest"
+    "routing_options": {
+        "preset": "Balanced",
+        "allowed_providers": [
+            "azure-us",
+            "azure-eu",
+            "*"
+        ]
+    }
 }
 ```
 
-The accepted values are `Balanced`, `Cheapest`, `Fastest`, and `Quality`. The request value overrides the gateway's saved `routingOption` for that request only; it does not update the gateway. Because `routing_preset` is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK. Request-level routing overrides require a private API key.
+| Field | Description |
+|---|---|
+| `preset` | Routing preference: `Balanced`, `Cheapest`, `Fastest`, or `Quality`. When omitted, the gateway's saved `routingOption` is used. |
+| `allowed_providers` | Ordered list of provider tags. AIVAX tries the first tag and moves to the next one only when no matching provider is available or compatible with the request. `"*"` matches any provider. When omitted, the gateway's saved `allowedProviders` is used, which defaults to `["*"]`. |
+
+Within each step, `preset` chooses among the matching providers. Without `"*"` at the end, the request fails when none of the listed providers is available. An empty `allowed_providers` list is rejected. Tag matching is case-insensitive.
+
+Each provider's tag is shown in the provider details of the dashboard **Models** page, where it can be copied, and returned as `tag` in the provider list of `GET /v1/models`. A tag identifies a provider endpoint, including its region or variant when one exists, such as `azure-us` or `azure-eu`.
+
+`GET /v1/models` accepts an optional `filter` query parameter with a model name, such as `?filter=@openai/gpt-4o`. The response then contains only entries whose name equals it or is a dated snapshot of it (a trailing numeric suffix of at least four digits), ordered from the closest match, with the newest snapshot first. Without `filter`, the full list is returned.
+
+The request values override the gateway's saved routing for that request only; they do not update the gateway. Because `routing_options` is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK.
+
+The previous `routing_preset` field is deprecated but still accepted. Replace `"routing_preset": "Fastest"` with `"routing_options": { "preset": "Fastest" }`. When both are sent, `routing_options.preset` takes precedence.
+
+### Provider in responses
+
+Responses for integrated models include a `provider` field next to `model` with the tag of the provider that served the request. In streaming responses, every chunk includes it. The field is `null` for gateways that use your own provider credentials.
+
+```json
+{
+    "object": "chat.completion.chunk",
+    "model": "@openai/gpt-5-mini",
+    "provider": "azure-us",
+    "choices": [ ... ]
+}
+```
+
+If a provider fails and AIVAX retries the request on another provider, `provider` reflects the provider that produced the response.
 
 ## Input and multimodality
 

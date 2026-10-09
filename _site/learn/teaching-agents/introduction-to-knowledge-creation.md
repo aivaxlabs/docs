@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/teaching-agents/introduction-to-knowledge-creation.html
+Source: https://docs.aivax.net/learn/teaching-agents/introduction-to-knowledge-creation.html
 
 Imagine hiring a receptionist who speaks clearly, learns procedures quickly and has never worked at your company. You would not expect that person to know your cancellation policy from general experience. You would provide a handbook, show where current information lives and explain whom to ask when the handbook is incomplete. An AI agent needs the same support.
 
@@ -16,6 +16,7 @@ Consider a fictional bicycle shop. Customers repeatedly ask whether an assembled
 
 Knowledge is not limited to a formal manual. It includes facts, explanations and procedures that can be approved and reused. The important distinction is between a source that merely exists and a source your organisation is willing to rely on.
 
+
 - **Policies** — Rules and exceptions: who qualifies, what is allowed and which conditions apply.
 
 - **Questions and answers** — Approved responses to recurring questions, including when an answer needs clarification.
@@ -24,9 +25,12 @@ Knowledge is not limited to a formal manual. It includes facts, explanations and
 
 - **Procedures** — Ordered actions, prerequisites and escalation routes for completing a task safely.
 
+
+
+
 A good source also explains its scope. A warranty document should identify the product range and applicable region. An expense policy should say which employees it covers. If two departments use the same word differently, include the distinction rather than expecting the agent to infer it. “Standard delivery” is not a useful fact until the conditions behind that label are clear.
 
-Some information belongs elsewhere. A customer's current delivery status changes too often to treat like a permanent handbook entry. An account password must not become searchable knowledge. Broadly reusable policies belong in a knowledge base, an organised set of approved sources. Customer-specific facts usually belong in a controlled lookup during a conversation. [Adding knowledge](http://localhost:1313/learn/agents/adding-knowledge.md) places this component alongside instructions and tools.
+Some information belongs elsewhere. A customer's current delivery status changes too often to treat like a permanent handbook entry. An account password must not become searchable knowledge. Broadly reusable policies belong in a knowledge base, an organised set of approved sources. Customer-specific facts usually belong in a controlled lookup during a conversation. [Adding knowledge](https://docs.aivax.net/learn/agents/adding-knowledge.md) places this component alongside instructions and tools.
 
 ## Follow a lifecycle, not a one-time upload
 
@@ -34,21 +38,29 @@ The work repeats because organisations change. A policy can be correct when publ
 
 Collect → Prepare → Index → Retrieve → Measure → Maintain
 
+
 **Collect** means locating candidate sources and checking who can approve them. **Prepare** means removing noise, resolving contradictions and preserving conditions. **Index** means organising the prepared information so software can search it. **Retrieve** means selecting relevant material for a particular question. **Measure** means checking whether the resulting answers are supported and useful. **Maintain** means updating or retiring sources and repeating those checks.
 
 These stages depend on one another. Excellent search cannot turn an obsolete policy into a current one. Clear writing cannot help if the relevant document was never indexed. A correct answer in one demonstration cannot prove that the agent will handle a changed policy tomorrow. Looking at the whole lifecycle makes failures easier to diagnose and responsibilities easier to assign.
+
 
 1. **Choose one narrow question family**
 
 Begin with a recurring topic such as returns. Write the questions customers actually ask, including common exceptions.
 
+
 2. **Create an approved source set**
 
 Select current documents, record their owners and remove conflicting drafts from the searchable set.
 
+
 3. **Test before expanding**
 
 Check ordinary questions, ambiguous questions and questions that the sources cannot answer. Improve the source set before adding another topic.
+
+
+
+
 
 For the bicycle shop, the first cycle might reveal that the policy mentions unopened accessories but says nothing about assembled bicycles. The right next step is not to encourage a more confident answer. It is to ask the policy owner for a decision, publish the approved wording and test that wording with realistic questions. Until then, the agent should explain that it cannot confirm the condition and direct the customer to support.
 
@@ -66,9 +78,9 @@ A useful initial result is a set of approved sources that answers a defined grou
 
 Keep a short record of failures. Was the answer absent from the source, difficult to find, or present but misused? Those cases need different repairs. This record turns feedback into a maintenance queue instead of a vague instruction to make the agent smarter.
 
-Related: on AIVAX, searchable knowledge is organised in [collections and documents](http://localhost:1313/docs/rag/collections.md). The platform feature stores and retrieves material; your organisation still owns the decisions about what should be trusted.
+Related: on AIVAX, searchable knowledge is organised in [collections and documents](https://docs.aivax.net/docs/rag/collections.md). The platform feature stores and retrieves material; your organisation still owns the decisions about what should be trusted.
 
-What's next: learn how an agent looks up evidence before answering in [What is a RAG](http://localhost:1313/learn/teaching-agents/what-is-a-rag.md).
+What's next: learn how an agent looks up evidence before answering in [What is a RAG](https://docs.aivax.net/learn/teaching-agents/what-is-a-rag.md).
 
 **Knowledge check.** What is the strongest foundation for an agent's knowledge?
 

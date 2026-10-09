@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/tools-and-integrations/function-calling.html
+Source: https://docs.aivax.net/learn/tools-and-integrations/function-calling.html
 
 A customer asks a support assistant, “Has my order left the warehouse?” A language model can write a convincing shipping update, but its training does not contain this customer's current order. The assistant needs a way to ask the order system. **Function calling**, also called tool calling, gives the model a structured way to request that operation rather than inventing an answer.
 
@@ -18,25 +18,34 @@ A valid form is not necessarily a valid business request. A reference can have t
 
 The **platform** here means the application software surrounding the model. Depending on the integration, that could be an agent service or your own application. It supplies tool definitions, checks requests, runs approved operations and returns results to the model.
 
+
 1. **Offer the available tools**
 
 The platform gives the model the conversation and the definition of `lookup_order`. Only tools appropriate for this user and task should be offered.
+
 
 2. **Request an operation**
 
 The model emits a structured request: the tool name and an order reference. This is a request to execute, not evidence that anything has happened.
 
+
 3. **Check and execute**
 
 The platform checks the arguments and permissions, then asks the order system for the current status. If the reference is missing, the assistant should ask the customer rather than guess.
+
 
 4. **Return the result**
 
 The platform sends the result back as a tool message associated with that request. A useful result states what was found, or why the lookup failed.
 
+
 5. **Answer from the evidence**
 
 The model reads the result and explains it in ordinary language. It should distinguish a confirmed dispatch from an estimated delivery date.
+
+
+
+
 
 ```mermaid
 sequenceDiagram
@@ -57,9 +66,12 @@ This separation matters whenever an action has consequences. “I have cancelled
 
 > **Interactive demo: Inspect the evidence behind the answer.** This interactive demo is available on the web page. Notice what the final answer leaves out. The tool confirms dispatch, but supplies no delivery date. This is a teaching demonstration, not a live lookup.
 
+
+
 ## Descriptions guide decisions
 
 Models use tool descriptions to decide which operation fits the request. Descriptions therefore need to explain meaning, not merely repeat the tool name. Imagine giving instructions to a colleague who has never used the system: what would help them choose the right form without opening every application?
+
 
 **Vague description**
 
@@ -67,11 +79,16 @@ Models use tool descriptions to decide which operation fits the request. Descrip
 
 This leaves the model guessing whether the tool searches, edits or cancels an order, and whether it needs a reference.
 
+
 **Useful description**
 
 “Read the current shipping status of one order using its order reference. Use for dispatch and delivery-status questions. This tool does not change orders or guarantee a delivery date.”
 
 The purpose, required input and boundary are explicit.
+
+
+
+
 
 Good descriptions also clarify confusing neighbours. A tool that searches product information should not sound like one that checks live stock. Their results answer different questions. Where a parameter has a business-specific meaning, explain it: “requested arrival date” is not interchangeable with “dispatch date”. Include a short example only when it removes a real ambiguity.
 
@@ -93,9 +110,9 @@ Return only the information needed for the question. A shipping-status tool usua
 
 Before enabling a tool for customers, try a small set of realistic requests. Include a clear request, a missing reference, a request for someone else's record and an unavailable service. Inspect the requested arguments and the actual business outcome, not just the final sentence. An answer can sound correct while referring to the wrong record. Also test whether the assistant asks a useful question when it lacks required information. If two tools have similar names, give the assistant questions that should select each one and check the distinction. These examples reveal whether the definition explains the job well enough and whether the execution layer protects the boundaries the description promises.
 
-**Related:** On AIVAX, ready-made operations are [built-in tools](http://localhost:1313/docs/tools/builtin-tools.md), while custom server-side callbacks are [protocol functions](http://localhost:1313/docs/tools/protocol-functions.md). [Structured responses](http://localhost:1313/docs/inference/structured-responses.md) shape the final output for another program; they do not, by themselves, execute a tool.
+**Related:** On AIVAX, ready-made operations are [built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md), while custom server-side callbacks are [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md). [Structured responses](https://docs.aivax.net/docs/inference/structured-responses.md) shape the final output for another program; they do not, by themselves, execute a tool.
 
-What's next: discover how [MCP and tool standards](http://localhost:1313/learn/tools-and-integrations/model-context-protocol.md) make integrations reusable across compatible agents.
+What's next: discover how [MCP and tool standards](https://docs.aivax.net/learn/tools-and-integrations/model-context-protocol.md) make integrations reusable across compatible agents.
 
 **Knowledge check.** Which sequence correctly describes function calling?
 

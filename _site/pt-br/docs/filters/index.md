@@ -1,9 +1,9 @@
 # Filtros
 
-Source: http://localhost:1313/pt-br/docs/filters/index.html
+Source: https://docs.aivax.net/pt-br/docs/filters/index.html
 
 
 ## Filtros
 
-- [Filtros de Documento](http://localhost:1313/pt-br/docs/filters/document-filters.md)
+- [Filtros de Documento](https://docs.aivax.net/pt-br/docs/filters/document-filters.md)
 

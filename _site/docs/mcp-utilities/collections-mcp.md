@@ -1,10 +1,10 @@
-Source: http://localhost:1313/docs/mcp-utilities/collections-mcp.html
+Source: https://docs.aivax.net/docs/mcp-utilities/collections-mcp.html
 
 # Collections MCP
 
 The Collections MCP exposes one or more AIVAX RAG collections as tools for compatible MCP clients. Use it when an external model, agent, IDE, or desktop assistant should decide when to search an AIVAX knowledge base.
 
-For information about creating collections, preparing documents, and improving retrieval quality, see [Collections and Documents](http://localhost:1313/docs/rag/collections.md) and [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md).
+For information about creating collections, preparing documents, and improving retrieval quality, see [Collections and Documents](https://docs.aivax.net/docs/rag/collections.md) and [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md).
 
 ## Endpoint
 
@@ -61,7 +61,7 @@ With the default naming convention, the read tool is named:
 It accepts:
 
 - `search_terms` (`string[]`): one or more search terms.
-- `filter` (`string`, optional): a [document filter](http://localhost:1313/docs/filters/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
+- `filter` (`string`, optional): a [document filter](https://docs.aivax.net/docs/filters/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
 The MCP read tool enforces two request-shaping limits:
 
@@ -72,4 +72,4 @@ When `X-Mcp-Allow-Write` is disabled, only the search tool is exposed. This is t
 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
 
-Use Collections MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md) and let the gateway RAG pipeline retrieve documents automatically.
+Use Collections MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) and let the gateway RAG pipeline retrieve documents automatically.

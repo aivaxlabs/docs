@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.html
+Source: https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.html
 
 Um assistente pode parecer ler toda a conversa, mas ainda assim perder algo que foi dito anteriormente. Também pode custar mais responder a um acompanhamento curto do que a uma pergunta inicial mais longa. Ambos os comportamentos se tornam mais fáceis de entender quando você distingue o chat visível da entrada completa que a aplicação envia ao modelo.
 
@@ -12,6 +12,8 @@ Um **tokenizador** é o componente que divide o texto em tokens. Dependendo do m
 
 > **Demonstração interativa: Try it: change the text, not just its length.** Esta demonstração interativa está disponível na página web. Experimente uma frase cotidiana curta e depois substitua uma palavra por um nome de produto inventado longo. Esta é uma ilustração simplificada da divisão de tokens, não o tokenizador exato ou medidor de faturamento de nenhum modelo. Não insira informações confidenciais em exemplos de aprendizado.
 
+
+
 Contar tokens fornece aos serviços uma maneira prática de descrever o tamanho da entrada, o tamanho da saída e o uso de geração de texto. Relaciona‑se mais estreitamente ao que o modelo processa do que páginas ou bolhas de chat. Um documento de uma página pode conter tabelas densas; um chat que parece curto pode carregar instruções extensas nos bastidores. As contagens de tokens tornam essas diferenças ocultas visíveis.
 
 **Tokens de entrada** são o conteúdo apresentado ao modelo. **Tokens de saída** são o conteúdo que ele gera. Taxas ou regras diferentes podem ser aplicadas a cada um, e alguns modelos de raciocínio também contabilizam tokens de raciocínio interno. Verifique o comportamento documentado do modelo selecionado em vez de supor que a resposta visível representa todo o uso gerado.
@@ -22,15 +24,21 @@ O orçamento de contexto é compartilhado, não uma alocação separada para cad
 
 A alocação fictícia a seguir é deliberadamente pequena para que a aritmética seja fácil de seguir. Esses valores são apenas ilustrativos: não são limites de plano AIVAX, limites de produto ou uma configuração de produção recomendada.
 
+
 - **8,000** — illustrative total token budget
 
 - **6,000** — illustrative input allocation
 
 - **2,000** — illustrative answer reserve
 
+
+
+
 Dentro dessa alocação de entrada, inclua as instruções permanentes, descrições das ferramentas disponíveis, conhecimento recuperado, histórico relevante e a nova pergunta. Reserve espaço também para resultados de ferramentas prováveis, se o assistente as solicitar antes de responder. Uma ferramenta que devolve um documento grande pode consumir inesperadamente mais espaço do que todo o chat do cliente.
 
 > **Demonstração interativa: Try it: a context budget fills up (illustrative).** Esta demonstração interativa está disponível na página web. Altere o espaço disponível e observe quais blocos permanecem. Esta demonstração remove os blocos mais antigos primeiro e sempre mantém o último. Ilustra uma política de aparo possível, não um comportamento universal do modelo ou uma recomendação para descartar instruções do sistema. Aplicações reais devem proteger regras e dependências essenciais explicitamente.
+
+
 
 Um orçamento de contexto útil reflete a tarefa. Um assistente de políticas pode precisar de material de referência substancial, mas de pouco histórico de conversa. Um assistente de redação revisando uma proposta precisa do rascunho atual e das decisões editoriais recentes, não de todas as versões abandonadas. Fornecer menos material irrelevante pode tornar a evidência mais fácil de encontrar e também reduzir o uso de entrada.
 
@@ -53,11 +61,13 @@ Um **limite de saída** é uma fronteira diferente: ele limita quanto o modelo p
 
 **Resumir** comprime histórico útil em um relato mais curto. Para um assistente interno, um resumo pode reter o resultado solicitado, decisões já confirmadas, perguntas não resolvidas e quaisquer restrições. Marque incerteza como incerteza. Se a mensagem original dizia “talvez no próximo mês”, o resumo não deve transformá‑la em um prazo confirmado. Mantenha evidências importantes disponíveis para verificação.
 
+
 **Short, but missing the constraint**
 
 “Cliente quer um substituto.”
 
 O resumo omite o requisito do cliente de que a entrega não deve ocorrer antes de seu retorno da viagem.
+
 
 **Short and decision-ready**
 
@@ -65,9 +75,13 @@ O resumo omite o requisito do cliente de que a entrega não deve ocorrer antes d
 
 O resumo preserva a condição não resolvida que altera a próxima ação.
 
+
+
+
+
 **Cache** reutiliza trabalho anterior em vez de processar o mesmo material da mesma forma todas as vezes. O cache de entrada pode reduzir o processamento repetido para conteúdo suportado e inalterado; o cache de resposta pode reutilizar uma resposta quando a solicitação e o estado relevante realmente correspondem. São mecanismos diferentes com requisitos diferentes de frescor e privacidade.
 
-O cache normalmente não faz o texto em cache desaparecer da janela de contexto. É principalmente uma otimização de processamento ou custo, não capacidade extra de memória. Uma resposta reutilizada também pode se tornar errada quando uma política ou status de pedido muda. Explore esses trade‑offs em [cost optimisation and caching](http://localhost:1313/pt-br/learn/production/cost-optimization-and-caching.md).
+O cache normalmente não faz o texto em cache desaparecer da janela de contexto. É principalmente uma otimização de processamento ou custo, não capacidade extra de memória. Uma resposta reutilizada também pode se tornar errada quando uma política ou status de pedido muda. Explore esses trade‑offs em [cost optimisation and caching](https://docs.aivax.net/pt-br/learn/production/cost-optimization-and-caching.md).
 
 ## Estime um fluxo de trabalho, não um balão de chat
 
@@ -75,11 +89,13 @@ Para uma chamada de texto simples, a estimativa começa com o uso de entrada mul
 
 > **Demonstração interativa: Try it: estimate text cost with illustrative assumptions.** Esta demonstração interativa está disponível na página web. Considere todos os valores neste calculador como suposições ilustrativas, não preços atuais ou previsão de fatura. Compare um briefing compacto com um histórico longo reproduzido. Esta estimativa simplificada não modela toda ferramenta, cache, raciocínio, tentativa ou cobrança de múltiplas chamadas.
 
+
+
 Uma primeira medição prática é um conjunto representativo de tarefas concluídas: quanto de entrada foi enviado, quanto de saída foi gerado, quantas chamadas ocorreram e se o usuário realmente recebeu uma resposta correta. Reduzir o custo por chamada não é uma melhoria se os clientes precisarem repetir a tarefa. Compare o custo por resultado bem‑sucedido assim como os totais brutos de tokens.
 
-Relacionado: para AIVAX, [see current pricing](http://localhost:1313/pt-br/docs/pricing.md) ao transformar medições em orçamento. Mantenha as medições e as suposições de preço separadas para que uma estimativa possa ser atualizada sem reescrever o design da tarefa.
+Relacionado: para AIVAX, [see current pricing](https://docs.aivax.net/pt-br/docs/pricing.md) ao transformar medições em orçamento. Mantenha as medições e as suposições de preço separadas para que uma estimativa possa ser atualizada sem reescrever o design da tarefa.
 
-**Próximos passos:** Explore [short-term and long-term memory](http://localhost:1313/pt-br/learn/prompt-engineering/memory.md) para decidir o que pertence à conversa atual e o que deve ser armazenado para recordação futura.
+**Próximos passos:** Explore [short-term and long-term memory](https://docs.aivax.net/pt-br/learn/prompt-engineering/memory.md) para decidir o que pertence à conversa atual e o que deve ser armazenado para recordação futura.
 
 **Verifique seu conhecimento.** Qual afirmação é a base mais segura para planejar uma requisição ao modelo?
 

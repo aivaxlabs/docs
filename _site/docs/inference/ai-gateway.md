@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/inference/ai-gateway.html
+Source: https://docs.aivax.net/docs/inference/ai-gateway.html
 
 # AI Gateway
 
@@ -46,11 +46,11 @@ AIVAX provides an OpenAI-compatible chat completions endpoint:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Inference%20(chat%20completions))
 
-Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](http://localhost:1313/docs/inference/inference.md).
+Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](https://docs.aivax.net/docs/inference/inference.md).
 
 ## Using SDKs
 
-Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs. In the example below, replace `my-gateway:50c3` with your gateway's full ID or slug and load your private API key from secure configuration. See [Getting Started](http://localhost:1313/docs/getting-started.md) for an environment-variable example.
+Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs. In the example below, replace `my-gateway:50c3` with your gateway's full ID or slug and load your private API key from secure configuration. See [Getting Started](https://docs.aivax.net/docs/getting-started.md) for an environment-variable example.
 
 ```python
 from openai import OpenAI
@@ -98,4 +98,4 @@ When you enable moderation, see [LLM input moderation: system prompt or separate
 
 ## Inference MCP
 
-To expose an integrated model or AI Gateway as a tool for an external MCP client, see [Inference MCP](http://localhost:1313/docs/mcp-utilities/inference-mcp.md).
+To expose an integrated model or AI Gateway as a tool for an external MCP client, see [Inference MCP](https://docs.aivax.net/docs/mcp-utilities/inference-mcp.md).

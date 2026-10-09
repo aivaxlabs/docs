@@ -1,10 +1,10 @@
-Source: http://localhost:1313/pt-br/docs/rag/reranking.html
+Source: https://docs.aivax.net/pt-br/docs/rag/reranking.html
 
 # Reordenadores
 
-Os reordenadores reorganizam um conjunto existente de documentos candidatos para uma consulta. Eles não pesquisam uma coleção nem recuperam texto que está ausente da entrada. Use a API de reordenação autônoma quando sua aplicação já possui os candidatos, ou use [Semantic Search](http://localhost:1313/pt-br/docs/rag/semantic-search.md) para recuperar candidatos de uma coleção AIVAX antes de reordená‑los.
+Os reordenadores reorganizam um conjunto existente de documentos candidatos para uma consulta. Eles não pesquisam uma coleção nem recuperam texto que está ausente da entrada. Use a API de reordenação autônoma quando sua aplicação já possui os candidatos, ou use [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) para recuperar candidatos de uma coleção AIVAX antes de reordená‑los.
 
-[Reflex](http://localhost:1313/pt-br/docs/rag/reflex.md) é a experiência de busca sem coleção construída neste mesmo endpoint com o ranker padrão — veja essa página quando quiser classificação ao estilo de recuperação sem gerenciar uma coleção.
+[Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md) é a experiência de busca sem coleção construída neste mesmo endpoint com o ranker padrão — veja essa página quando quiser classificação ao estilo de recuperação sem gerenciar uma coleção.
 
 ## Reordenar documentos diretamente
 
@@ -18,7 +18,7 @@ Para a solicitação, resposta, autenticação e contrato de erro suportados, us
 
 ## Construir candidatos que valem a classificação
 
-A reordenação apenas reorganiza o que recebe, portanto a qualidade dos candidatos determina o teto. Mantenha cada string de candidato focada em uma ideia — um parágrafo ou uma seção curta em vez de uma página inteira — para que a pontuação de relevância reflita um único tópico ao invés de uma média de vários. Quando os candidatos vêm de fragmentação, prefira limites que preservem declarações completas; veja [Text segmentation](http://localhost:1313/pt-br/docs/rag/text-segmentation.md).
+A reordenação apenas reorganiza o que recebe, portanto a qualidade dos candidatos determina o teto. Mantenha cada string de candidato focada em uma ideia — um parágrafo ou uma seção curta em vez de uma página inteira — para que a pontuação de relevância reflita um único tópico ao invés de uma média de vários. Quando os candidatos vêm de fragmentação, prefira limites que preservem declarações completas; veja [Text segmentation](https://docs.aivax.net/pt-br/docs/rag/text-segmentation.md).
 
 Use a [RAG pipeline checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) para distinguir falhas de preparação, recuperação e ordenação.
 
@@ -32,4 +32,4 @@ Para comparar opções, fixe um conjunto de consultas representativas com docume
 
 Para separar falhas de candidato ausente de falhas de má ordenação antes de adicionar um reordenador, veja [Do I need a reranker for RAG?](https://aivax.net/blog/semantic-search-vs-reranking/).
 
-Para disponibilidade atual, opções suportadas e limites de conta, veja a Referência da API e [Plans and Limits](http://localhost:1313/pt-br/docs/limits.md).
+Para disponibilidade atual, opções suportadas e limites de conta, veja a Referência da API e [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md).

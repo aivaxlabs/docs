@@ -1,11 +1,11 @@
 # Documentos legais
 
-Source: http://localhost:1313/pt-br/docs/legal/index.html
+Source: https://docs.aivax.net/pt-br/docs/legal/index.html
 
 
 ## Documentos legais
 
-- [Política de Privacidade](http://localhost:1313/pt-br/docs/legal/privacy-policy.md)
-- [Termos de Uso](http://localhost:1313/pt-br/docs/legal/terms-of-service.md)
-- [Processadores de Dados](http://localhost:1313/pt-br/docs/legal/third-party-processors.md)
+- [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
+- [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
+- [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
 

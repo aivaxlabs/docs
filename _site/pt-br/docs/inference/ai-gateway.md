@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/inference/ai-gateway.html
+Source: https://docs.aivax.net/pt-br/docs/inference/ai-gateway.html
 
 # Gateway de IA
 
@@ -46,11 +46,11 @@ AIVAX fornece um endpoint de conclusões de chat compatível com OpenAI:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Inference%20(chat%20completions))
 
-Valores do gateway podem ser sobrescritos pela solicitação para parâmetros suportados, como `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, o depreciado `multimodal_preprocess` e `tool_invocation_explanations`. Para comportamento de inferência direta, incluindo opções de renderização de resposta, veja [Inference](http://localhost:1313/pt-br/docs/inference/inference.md).
+Valores do gateway podem ser sobrescritos pela solicitação para parâmetros suportados, como `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, o depreciado `multimodal_preprocess` e `tool_invocation_explanations`. Para comportamento de inferência direta, incluindo opções de renderização de resposta, veja [Inference](https://docs.aivax.net/pt-br/docs/inference/inference.md).
 
 ## Usando SDKs
 
-Como o endpoint segue o formato de conclusões de chat do OpenAI, você pode usar SDKs compatíveis existentes. No exemplo abaixo, substitua `my-gateway:50c3` pelo ID completo ou slug do seu gateway e carregue sua chave de API privada a partir da configuração segura. Consulte [Getting Started](http://localhost:1313/pt-br/docs/getting-started.md) para um exemplo de variável de ambiente.
+Como o endpoint segue o formato de conclusões de chat do OpenAI, você pode usar SDKs compatíveis existentes. No exemplo abaixo, substitua `my-gateway:50c3` pelo ID completo ou slug do seu gateway e carregue sua chave de API privada a partir da configuração segura. Consulte [Getting Started](https://docs.aivax.net/pt-br/docs/getting-started.md) para um exemplo de variável de ambiente.
 
 ```python
 from openai import OpenAI
@@ -98,4 +98,4 @@ Quando habilitar moderação, veja [LLM input moderation: system prompt or separ
 
 ## Inference MCP
 
-Para expor um modelo integrado ou Gateway de IA como ferramenta para um cliente MCP externo, veja [Inference MCP](http://localhost:1313/pt-br/docs/mcp-utilities/inference-mcp.md).
+Para expor um modelo integrado ou Gateway de IA como ferramenta para um cliente MCP externo, veja [Inference MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/inference-mcp.md).

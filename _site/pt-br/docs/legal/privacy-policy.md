@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/legal/privacy-policy.html
+Source: https://docs.aivax.net/pt-br/docs/legal/privacy-policy.html
 
 # Política de Privacidade
 
@@ -21,7 +21,7 @@ Ao usar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com os te
 - **Dados da Conta:** Dados de registro e administrativos, como nome, e‑mail, empresa, cargo, identificadores internos, preferências e configurações de chave de API.  
 - **Dados de Cobrança:** Dados necessários para faturas, recibos, saldo da conta, créditos, eventos de pagamento e processamento de pagamento por processadores terceirizados.  
 - **Dados de Inferência:** Entradas enviadas aos modelos e resultados produzidos. Nos Termos de Uso, isso corresponde a Conteúdo de Entrada e Conteúdo Gerado.  
-- **Dados de Treinamento Semântico:** Conteúdo elegível anonimizado de RAG e reranking coletado após o Gerente de Conta habilitar a coleta de dados semânticos, conforme descrito em [Data Collecting](http://localhost:1313/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos são excluídos.  
+- **Dados de Treinamento Semântico:** Conteúdo elegível anonimizado de RAG e reranking coletado após o Gerente de Conta habilitar a coleta de dados semânticos, conforme descrito em [Data Collecting](https://docs.aivax.net/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos são excluídos.  
 - **Conversas:** Sequências armazenadas de interações de inferência, incluindo mensagens, metadados, nome do modelo, objeto de uso, ferramentas, recursos e informações de erro quando o registro de conversas está habilitado.  
 - **Metadados Técnicos:** Logs de inferência e acesso, endereços IP ou informações de encaminhamento, strings de agente de usuário, timestamps, latência, identificadores de sessão, uso de tokens, códigos de resposta, identificadores de requisição e sinais de segurança ou abuso.  
 - **Processador:** AIVAX quando processa dados de acordo com as instruções do Gerente de Conta.  
@@ -105,7 +105,7 @@ As cotas de armazenamento são baseadas no plano. O armazenamento incluído atua
 
 ### 7. Coleta Opcional de Dados Semânticos e Treinamento de Modelo
 
-Por padrão, a AIVAX não usa Dados de Inferência ou Conversas do Gerente de Conta para treinar modelos proprietários da AIVAX. Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, a AIVAX pode usar registros elegíveis anonimados de RAG e reranking gerados enquanto a configuração está habilitada para as finalidades descritas em [Data Collecting](http://localhost:1313/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos RAG não são incluídos e não recebem desconto de programa.
+Por padrão, a AIVAX não usa Dados de Inferência ou Conversas do Gerente de Conta para treinar modelos proprietários da AIVAX. Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, a AIVAX pode usar registros elegíveis anonimados de RAG e reranking gerados enquanto a configuração está habilitada para as finalidades descritas em [Data Collecting](https://docs.aivax.net/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos RAG não são incluídos e não recebem desconto de programa.
 
 Antes do armazenamento, a AIVAX anonimiza esses registros removendo o relacionamento de conta e excluindo identificadores operacionais, nomes de documentos, dados de cobrança e timestamps de coleta. A conta é consultada apenas para verificar o consentimento e aplicar o desconto elegível. A AIVAX não mantém um mapeamento conta‑para‑registro.
 
@@ -150,7 +150,7 @@ Funções incluem comunicação com titulares e a ANPD, orientação interna de 
 
 ### 10. Subprocessadores e Provedores Terceirizados
 
-A AIVAX utiliza serviços terceirizados para infraestrutura, armazenamento de objetos, e‑mail transacional, cobrança, busca web, geração de imagens, reranking e inferência de modelo de IA. A lista técnica atual é mantida em [Data Processors](http://localhost:1313/pt-br/docs/legal/third-party-processors.md).
+A AIVAX utiliza serviços terceirizados para infraestrutura, armazenamento de objetos, e‑mail transacional, cobrança, busca web, geração de imagens, reranking e inferência de modelo de IA. A lista técnica atual é mantida em [Data Processors](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md).
 
 Ao selecionar um modelo ou habilitar uma ferramenta, o Gerente de Conta pode fazer com que o conteúdo seja enviado ao provedor de modelo, agregador ou provedor de ferramenta selecionado. A AIVAX não controla as políticas de terceiros e recomenda revisão prévia.
 

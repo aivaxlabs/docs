@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/inference/agentic-tests.html
+Source: https://docs.aivax.net/docs/inference/agentic-tests.html
 
 # Agentic Tests
 
@@ -34,7 +34,7 @@ Keeping these criteria separate prevents the simulated user from unnaturally ste
 
 Use **Start messages** when the scenario requires an established context, such as a customer objection, a prior assistant response, or a specific point in an existing flow. Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
 
-Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide up to 16 objects with a `type` and non-empty `data` value. `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
+Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; the number of resources per test is capped (see [Plans and limits](https://docs.aivax.net/docs/limits.md#request-and-payload-limits)). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
 
 ```json
 {
@@ -126,7 +126,7 @@ Hook responses follow the worker convention: any `2xx` response continues the ru
 
 ### Run and inspect a test
 
-Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Both the rate of new runs and account-level concurrency depend on the current plan. See [Plans and limits](http://localhost:1313/docs/limits.md#plan-limits) for current values.
+Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Both the rate of new runs and account-level concurrency depend on the current plan. See [Plans and limits](https://docs.aivax.net/docs/limits.md#plan-limits) for current values.
 
 Manual runs, scheduled runs, and direct API evaluations share one new-run quota across the account's API keys. A persisted run counts when it is queued and does not count again when execution begins. Conversation turns do not consume additional run units, although applicable inference limits still apply. A manual run request above the quota returns HTTP 429 without creating a run; wait for the rate-limit window to clear before retrying.
 
@@ -167,8 +167,8 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 | Setting | Default | Accepted values | Description |
 | --- | ---: | --- | --- |
 | `validation_criteria` | `null` | String, message part, or list of message parts | Optional requirements supplied only to the judge. They do not guide the simulated user or the gateway under test. |
-| `resources` | `[]` | Up to 16 `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
-| `hooks` | `[]` | Up to 16 `{ "event", "url" }` objects | External callbacks for persisted runs. Supported events are `before-test`, `after-test`, `before-inference`, `after-inference`, and `context-changed`; `before-inference` and `after-inference` require an AI Gateway. |
+| `resources` | `[]` | `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
+| `hooks` | `[]` | `{ "event", "url" }` objects | External callbacks for persisted runs. Supported events are `before-test`, `after-test`, `before-inference`, `after-inference`, and `context-changed`; `before-inference` and `after-inference` require an AI Gateway. |
 | `profile` | `medium` | `low`, `medium`, `high` | Selects the capability and price tier used by the simulated user and judge. It does not replace the model configured on the gateway under test. |
 | `max_turns` | `10` | `2`–`64` | Maximum number of simulated-user turns before the run ends. |
 | `minimum_turns` | `1` | `1`–`63`, less than `max_turns` | First turn when the simulated user may receive the option to end the conversation. |
@@ -181,11 +181,11 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 
 Reduce `max_turns` for fast, bounded regression checks. Increase it for flows that naturally require discovery or several tool calls. `minimum_turns` and `judge_start_turn` must each be less than `max_turns`; they are otherwise independent. Delay `judge_start_turn` when early clarification is expected and intermediate scores are not useful. Disable `allow_user_exit` when only the judge or the turn budget should end the test; `minimum_turns` controls only when the simulated user sees its exit option and does not delay judge decisions. Keep a wide gap between the loss and success thresholds unless the policy has been calibrated against representative conversations.
 
-Agentic Tests bills the selected gateway inference plus simulated-user and judge usage at the rates of the selected profile. See [Pricing](http://localhost:1313/docs/pricing.md#agentic-tests) for current rates.
+Agentic Tests bills the selected gateway inference plus simulated-user and judge usage at the rates of the selected profile. See [Pricing](https://docs.aivax.net/docs/pricing.md#agentic-tests) for current rates.
 
 ## Direct API execution
 
-Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Plans and limits](http://localhost:1313/docs/limits.md#semantic-decision-and-agentic-test-rate-limits).
+Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Plans and limits](https://docs.aivax.net/docs/limits.md#semantic-decision-and-agentic-test-rate-limits).
 
 Use the direct generation endpoint when an application needs to run an ephemeral test and consume its events immediately. A direct execution does **not** create a persistent test case or run in the dashboard.
 
@@ -359,4 +359,4 @@ Final outcomes are:
 
 A missing or invalid key returns `401 Unauthorized`; a public API key returns `403 Forbidden`; insufficient balance returns `402 Payment Required`; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return `400 Bad Request`. An inference failure can instead arrive as an SSE event after streaming begins.
 
-To investigate an inference failure, review the [AI Gateway configuration](http://localhost:1313/docs/inference/ai-gateway.md) used by the test.
+To investigate an inference failure, review the [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateway.md) used by the test.

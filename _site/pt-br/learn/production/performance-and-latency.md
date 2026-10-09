@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/production/performance-and-latency.html
+Source: https://docs.aivax.net/pt-br/learn/production/performance-and-latency.html
 
 Um recepcionista que diz “Estou verificando sua reserva” parece diferente de uma linha telefônica silenciosa. Ambos os chamadores podem esperar o mesmo tempo pela reserva, mas um sabe que a solicitação foi compreendida. Um bom agente precisa de ambos os tipos de desempenho: trabalho que termina rapidamente e uma experiência que torne qualquer espera necessária compreensível.
 
@@ -12,7 +12,9 @@ Considere um cliente perguntando se um item entregue pode ser trocado. A aplica�
 
 Receber e verificar acesso → Recuperar política → Consultar pedido → Gerar resposta → Entregar resposta
 
+
 Esse fluxo mostra uma sequência simples, não uma exigência de que cada etapa seja executada separadamente. Instrumente cada fronteira real: registre quando ela começa, termina ou falha. **Instrumentação** significa adicionar medições à aplicação, como colocar relógios nas estações de uma rota de entrega. Inclua tempo de rede, espera por um trabalhador disponível e preparação da resposta; caso contrário, o tempo ausente pode ser confundido com geração lenta do modelo.
+
 
 **Onde uma solicitação gasta tempo (ilustrativo)**
 
@@ -26,6 +28,8 @@ Esse fluxo mostra uma sequência simples, não uma exigência de que cada etapa 
 
 Partes ilustrativas para uma solicitação serial, não um benchmark. Trabalho sobreposto não pode ser simplesmente adicionado como partes de tempo decorrido separadas.
 
+
+
 A maior fatia é um ponto de partida para investigação, não prova da correção certa. Um serviço de pedidos pode ser lento apenas durante um período de pico; a geração pode dominar somente quando o agente escreve respostas desnecessariamente longas. Agrupe medições por tarefa e resultado. Combinar uma resposta curta de política com um relatório detalhado oculta diferenças úteis.
 
 ## Mostre texto útil mais cedo com streaming
@@ -36,13 +40,19 @@ Meça o **tempo até o primeiro token** desde a solicitação ao modelo até seu
 
 Streaming não é adequado para toda saída. Um aplicativo que espera um registro estruturado completo pode precisar esperar até que todo o registro seja válido. Conteúdo sensível à segurança pode exigir verificação antes da exibição. Uma frase parcial que parece uma aprovação de reembolso não deve aparecer antes que a autorização seja confirmada. Se houver interrupção, marque claramente a resposta incompleta em vez de apresentá‑la como concluída.
 
+
 **Parece rápido mas engana**
 
 “Sua troca foi aprovada” aparece imediatamente enquanto a verificação do pedido ainda está em andamento. Uma recusa posterior contradiz a primeira mensagem e danifica a confiança.
 
+
 **Responsivo e preciso**
 
 “Estou verificando o pedido e a política de troca” aparece enquanto essas etapas são executadas. A aprovação só aparece após a conclusão das verificações necessárias.
+
+
+
+
 
 ## Reduza o trabalho que deve acontecer
 
@@ -54,45 +64,57 @@ Mantenha as solicitações focadas. Enviar documentos irrelevantes aumenta o tra
 
 Não paralelize etapas que dependem uma da outra. Um reembolso deve esperar pela aprovação, e a consulta de um pedido pode exigir primeiro a verificação de identidade do cliente. Solicitações simultâneas também podem sobrecarregar um serviço downstream ou aumentar o custo. Defina um limite para trabalho concorrente, ou seja, quantas operações podem rodar ao mesmo tempo, e garanta que cada operação tenha as permissões necessárias.
 
+
 - **Consultas independentes** — Considere execução paralela quando ambas as solicitações já têm entradas válidas e nenhuma altera o que a outra deve fazer.
 
 - **Ações dependentes** — Mantenha a ordem necessária: verificar identidade, checar elegibilidade, obter aprovação, então executar a ação autorizada.
 
 - **Geração focada** — Forneça ao modelo contexto relevante e um comprimento de resposta adequado. Brevidade ainda deve responder à pergunta real.
 
-Relacionado: no AIVAX, escolhas reutilizáveis sobre modelo, conhecimento e ferramentas são armazenadas em um [AI gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md). Trate qualquer mudança de configuração como algo a ser medido, não como promessa de que toda conversa ficará mais rápida.
+
+
+
+Relacionado: no AIVAX, escolhas reutilizáveis sobre modelo, conhecimento e ferramentas são armazenadas em um [AI gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Trate qualquer mudança de configuração como algo a ser medido, não como promessa de que toda conversa ficará mais rápida.
 
 ## Limite a espera e trate falhas com honestidade
 
 Um **timeout** é um limite de quanto tempo uma operação pode esperar. Dê limites sensatos aos ferramentas individuais dentro de um prazo geral para a tarefa. Sem um prazo geral, várias tentativas podem atender seus próprios limites enquanto o usuário espera muito tempo. Um **retry** repete uma tentativa falhada; um **fallback** usa uma rota alternativa quando a rota preferida está indisponível.
 
-Um timeout nem sempre significa que nada aconteceu. Um pagamento ou criação de ticket pode ter sido bem‑sucedido mesmo que sua confirmação tenha se perdido. Verifique seu status antes de tentar a ação novamente, usando controles de prevenção de duplicatas quando disponíveis. Ofereça um próximo passo seguro quando não for possível estabelecer o resultado. [Errors, retries and fallbacks](http://localhost:1313/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md) explica como evitar transformar um atraso em efeitos colaterais repetidos.
+Um timeout nem sempre significa que nada aconteceu. Um pagamento ou criação de ticket pode ter sido bem‑sucedido mesmo que sua confirmação tenha se perdido. Verifique seu status antes de tentar a ação novamente, usando controles de prevenção de duplicatas quando disponíveis. Ofereça um próximo passo seguro quando não for possível estabelecer o resultado. [Errors, retries and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md) explica como evitar transformar um atraso em efeitos colaterais repetidos.
 
 ## Meça a experiência ordinária e a lenta
 
 Um **percentil** descreve onde um valor se posiciona em um conjunto ordenado de medições. **p50**, a mediana, é o ponto em que metade das solicitações medidas está abaixo. **p95** é o ponto em que 95 % está abaixo; as solicitações restantes são mais lentas. Essas medidas distinguem melhor uma experiência normal de uma lenta do que uma média única.
 
-Reporte o período de observação, tamanho da amostra e o que aconteceu com solicitações expiradas ou falhas. Excluir todas as falhas pode fazer a performance parecer mais saudável do que realmente é. Compare cargas de trabalho semelhantes e inspecione o comportamento de primeiro uso separadamente do trabalho repetido que se beneficia de cache. Use [Metrics](http://localhost:1313/pt-br/learn/quality/metrics.md) para combinar medições de tempo com sucesso e confiabilidade, em vez de recompensar apenas velocidade.
+Reporte o período de observação, tamanho da amostra e o que aconteceu com solicitações expiradas ou falhas. Excluir todas as falhas pode fazer a performance parecer mais saudável do que realmente é. Compare cargas de trabalho semelhantes e inspecione o comportamento de primeiro uso separadamente do trabalho repetido que se beneficia de cache. Use [Metrics](https://docs.aivax.net/pt-br/learn/quality/metrics.md) para combinar medições de tempo com sucesso e confiabilidade, em vez de recompensar apenas velocidade.
+
 
 1. **Definir a experiência**
 
 Escolha um intervalo como conteúdo útil inicial ou conclusão de tarefa confirmada, e concorde o que espera tempo aceitável para essa tarefa.
 
+
 2. **Medir a rota completa**
 
 Capture os tempos das etapas junto com a duração total, falhas e categorias de solicitação. Identifique qual etapa causa os casos lentos.
+
 
 3. **Testar uma melhoria**
 
 Experimente uma solicitação focada, buscas paralelas elegíveis ou streaming. Verifique a precisão da tarefa e a carga downstream, além da velocidade.
 
+
 4. **Observar o uso real**
 
 Compare p50 e p95 após um lançamento limitado. Mantenha a configuração anterior disponível se a confiabilidade ou segurança piorar.
 
+
+
+
+
 Um indicador de “digitando…” é um reconhecimento útil, não substituto de progresso. Prefira mensagens verdadeiras como “O serviço de pedidos está demorando mais que o habitual” quando esse estado for conhecido. Não invente um percentual concluído ou um tempo de conclusão. Para trabalhos mais longos, permita cancelamento quando suportado e explique se interromper a espera não puder desfazer uma ação já executada.
 
-Próximo passo: torne as mudanças de desempenho rastreáveis e reversíveis com [Versioning prompts, agents and knowledge](http://localhost:1313/pt-br/learn/production/versioning.md).
+Próximo passo: torne as mudanças de desempenho rastreáveis e reversíveis com [Versioning prompts, agents and knowledge](https://docs.aivax.net/pt-br/learn/production/versioning.md).
 
 **Verifique seu conhecimento.** Qual mudança pode reduzir a espera sem pular verificações necessárias?
 

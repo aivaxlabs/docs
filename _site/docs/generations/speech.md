@@ -1,10 +1,10 @@
-Source: http://localhost:1313/docs/generations/speech.html
+Source: https://docs.aivax.net/docs/generations/speech.html
 
 # Speech Generation
 
 Use Speech Generation when your application already has final text and needs playable audio without running a chat completion. Typical uses include narrating an article or notification, voicing an IVR prompt, producing a draft voice-over for review, or generating audio files for offline playback.
 
-Authenticate requests with an AIVAX API key. See [Authentication](http://localhost:1313/docs/authentication.md) for authorization guidance.
+Authenticate requests with an AIVAX API key. See [Authentication](https://docs.aivax.net/docs/authentication.md) for authorization guidance.
 
 ## Choose the delivery form
 
@@ -25,12 +25,12 @@ The embedded reference is the source of truth for available models and voices, r
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Generate%20speech)
 
-To let an MCP-compatible agent or IDE synthesize speech without calling this endpoint directly, use the [Media generation MCP](http://localhost:1313/docs/mcp-utilities/media-generation-mcp.md). It returns a public URL to MP3 audio instead of inline audio.
+To let an MCP-compatible agent or IDE synthesize speech without calling this endpoint directly, use the [Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md). It returns a public URL to MP3 audio instead of inline audio.
 
 ## Speech or Voice Sessions
 
-Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions](http://localhost:1313/docs/inference/voice-session.md) when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls — chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.
+Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls — chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.
 
 ## Pricing, limits, and errors
 
-For current pricing, availability, and account limits, see [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](http://localhost:1313/docs/limits.md). Review reported validation errors before retrying a failed request.
+For current pricing, availability, and account limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md). Review reported validation errors before retrying a failed request.

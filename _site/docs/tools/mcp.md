@@ -1,8 +1,8 @@
-Source: http://localhost:1313/docs/tools/mcp.html
+Source: https://docs.aivax.net/docs/tools/mcp.html
 
 # Support for Model Context Protocol (MCP)
 
-You can bind external MCP protocol tools to your [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md). The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
+You can bind external MCP protocol tools to your [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
 
 AIVAX acts as an MCP client for gateway inference: it connects to the configured MCP source, lists tools, converts each tool schema into a model-callable function, and calls the remote MCP server when the model selects that tool.
 
@@ -12,7 +12,7 @@ AIVAX acts as an MCP client for gateway inference: it connects to the configured
 
 Use MCP when you already have external tools that need to be discovered and called by models in a standardized way. An MCP server is suitable for tool catalogs, integrations with internal systems, stateful operations, tools shared among multiple agents, and environments where you want to keep logic outside of AIVAX.
 
-Do not use MCP only to replace a single simple HTTP call. When you need to expose an isolated function with a specific callback and nonce authentication, [protocol functions](http://localhost:1313/docs/tools/protocol-functions.md) are usually simpler. When the capability already exists in AIVAX, such as web search, URL opening, code execution, or image generation, [built‐in tools](http://localhost:1313/docs/tools/builtin-tools.md) are usually the most direct path. MCP is better when there is a set of tools with their own schema, when another system already speaks MCP, or when you want the same server to be used by different clients.
+Do not use MCP only to replace a single simple HTTP call. When you need to expose an isolated function with a specific callback and nonce authentication, [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) are usually simpler. When the capability already exists in AIVAX, such as web search, URL opening, code execution, or image generation, [built‐in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) are usually the most direct path. MCP is better when there is a set of tools with their own schema, when another system already speaks MCP, or when you want the same server to be used by different clients.
 
 In production, treat the MCP server as an API exposed to an agent. Tool descriptions should be clear, schemas should be restrictive, and authentication should be configured in the server headers. The model should not receive overly generic tools such as `execute`, `request`, or `search` without strong descriptions and controlled parameters. Ambiguous tools increase wrong calls; specific tools like `lookup_customer_by_email` or `create_support_ticket` help the model decide better.
 
@@ -103,7 +103,7 @@ All paths below are relative to `params._meta`. Names beginning with `_aiv` are 
 
 | Field | JSON type | Meaning and availability |
 | --- | --- | --- |
-| `_aiv_nonce` | `string` or `null` | BCrypt hash derived from the calling account's hook key. Without a configured hook key, its value is `null`. Verify the configured plain-text hook key against this hash as described in [hook authentication](http://localhost:1313/docs/authentication.md#hook-authentication); do not compare hash strings or expect the hook key itself. |
+| `_aiv_nonce` | `string` or `null` | BCrypt hash derived from the calling account's hook key. Without a configured hook key, its value is `null`. Verify the configured plain-text hook key against this hash as described in [hook authentication](https://docs.aivax.net/docs/authentication.md#hook-authentication); do not compare hash strings or expect the hook key itself. |
 | `_aiv_external_user_id` | `string` or `null` | External user identifier carried by the inference context. For chat clients it comes from the session; for chat completions it comes from the request's `user` field. It can be `null` when no user was identified. Use it to look up the user in your application, not as an AIVAX account ID or proof of authorization. |
 | `_aiv_call_source` | `string` | Origin of the inference, not the outbound tool transport. An MCP tool called during web chat inference still receives `WebChatClient`, not `McpClient`. See the values below. |
 | `_aiv_conversation_token` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it comes from `idempotency_key` when supplied. It can be `null`; it is neither an authentication credential nor a unique tool-call ID. Multiple calls in the same conversation may share it. |
@@ -133,7 +133,7 @@ Do not send secrets in custom metadata: these values are forwarded to the remote
 
 The nonce authenticates the configured account hook key; it is not a signature of the arguments, a unique request ID, or a replay-prevention mechanism. Keep HTTPS and the MCP server's configured authentication headers, and apply your own authorization and duplicate-operation controls. If your server requires nonce authentication, reject a missing or invalid nonce.
 
-For the equivalent HTTP callback envelope, see [protocol function context](http://localhost:1313/docs/tools/protocol-functions.md#context-fields).
+For the equivalent HTTP callback envelope, see [protocol function context](https://docs.aivax.net/docs/tools/protocol-functions.md#context-fields).
 
 ## Tool results
 

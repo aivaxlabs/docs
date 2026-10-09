@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/production/versioning.html
+Source: https://docs.aivax.net/pt-br/learn/production/versioning.html
 
 Um restaurante registra alterações em sua receita, ingredientes e instruções de preparo. Se os clientes relatarem um problema, a equipe precisa saber qual combinação produziu suas refeições. Um agente precisa da mesma disciplina. Alterar uma frase em suas instruções, substituir um documento de política ou adicionar uma ferramenta pode mudar o que os usuários recebem, mesmo quando a aplicação parece inalterada.
 
@@ -10,6 +10,7 @@ Um **prompt** é o conjunto de instruções e outros textos fornecidos a um mode
 
 Não pare no prompt. Um agente também depende de definições de ferramentas, permissões, escolhas de modelo e fontes de conhecimento. Uma definição de ferramenta descreve uma ação disponível, suas entradas exigidas e o significado de seus resultados. Alterar “criar um rascunho” para “enviar uma mensagem” é uma mudança de comportamento material, não uma correção de redação. O registro de lançamento deve tornar essa diferença visível.
 
+
 - **Instruções** — Registre o papel, limites, exemplos e regras para montar o contexto. Mantenha um motivo para cada alteração significativa.
 
 - **Ferramentas e acesso** — Registre definições de ferramentas, comportamento esperado e políticas de permissão. Referencie locais secretos sem copiar valores secretos para o histórico de versão.
@@ -18,15 +19,19 @@ Não pare no prompt. Um agente também depende de definições de ferramentas, p
 
 - **Modelo e configurações** — Registre o modelo selecionado, configurações relevantes e regras de roteamento, ou seja, as regras que escolhem um modelo para uma requisição.
 
+
+
+
 Um **lançamento** é uma combinação aprovada desses artefatos disponibilizada aos usuários. Dê a cada lançamento um rótulo claro e mantenha um inventário curto de suas partes. Isso evita um erro comum: testar um prompt contra um conjunto de conhecimento e, acidentalmente, publicá‑lo com uma configuração de ferramenta diferente. O rótulo deve viajar para os registros operacionais para que um problema relatado possa ser conectado à combinação correta.
 
-Relacionado: no AIVAX, a configuração reutilizável que reúne essas escolhas é chamada de [AI gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md). Manter um inventário de lançamentos é uma prática operacional; não presuma que um editor de configuração fornece automaticamente sua aprovação completa, versionamento ou processo de reversão.
+Relacionado: no AIVAX, a configuração reutilizável que reúne essas escolhas é chamada de [AI gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Manter um inventário de lançamentos é uma prática operacional; não presuma que um editor de configuração fornece automaticamente sua aprovação completa, versionamento ou processo de reversão.
 
 ## Escrever um registro de alterações para decisões
 
 Um **registro de alterações** é um relato conciso do que mudou e por quê. “Prompt melhorado” não basta. Uma entrada útil diz que as instruções de suporte agora exigem uma fonte para um prazo de troca, identifica a avaliação relevante, registra quem aprovou a mudança e anota seu efeito esperado. Inclua limitações conhecidas, especialmente se uma mudança ajuda uma tarefa enquanto torna outra mais lenta ou menos confiável.
 
 Um exemplo de histórico de versões abaixo segue um assistente de suporte fictício. Os rótulos descrevem lançamentos, não versões de produto ou compromissos de calendário. Observe que o motivo de cada passo está visível, incluindo a decisão de não promover um candidato.
+
 
 - **Lançamento A — Apenas respostas de política**: O assistente aprovado responde a partir de documentos de política revisados e encaminha solicitações específicas de conta a uma pessoa. O registro de lançamento inclui seus resultados de avaliação.
 
@@ -36,25 +41,34 @@ Um exemplo de histórico de versões abaixo segue um assistente de suporte fict�
 
 - **Lançamento C — Atualizar o conhecimento de política**: Uma revisão de política de troca aprovada substitui o documento anterior. Avaliações relevantes são reexecutadas e respostas em cache afetadas pela mudança são removidas.
 
+
+
+
 Separe o rótulo do lançamento da data efetiva do documento. Uma política de troca pode ser enviada hoje, mas aplicar‑se apenas a compras feitas após uma data posterior. Registre qual data governa a situação do cliente em vez de simplesmente dizer ao agente para usar o arquivo mais recente. Arquive material antigo quando necessário para perguntas históricas legítimas, evitando que seja confundido com a regra atual.
 
 ## Testar a versão que será publicada
 
 Uma **avaliação**, frequentemente abreviada para **eval**, é um teste estruturado do agente contra tarefas representativas e critérios de aceitação. Salve os casos de teste, comportamento esperado, método de pontuação e resultados ao lado do registro de lançamento. Caso contrário, “teste aprovado” pode referir‑se a um prompt, modelo ou conjunto de conhecimento diferentes do que está atendendo os usuários atualmente.
 
-Inclua tanto melhorias pretendidas quanto **verificações de regressão**, testes que confirmam que comportamentos previamente funcionais não foram quebrados. Se um novo prompt torna respostas mais curtas, verifique se ainda declara exceções importantes. Se um documento mudar, teste perguntas onde a resposta deve mudar e perguntas onde não deve. [Testando e avaliando agentes](http://localhost:1313/pt-br/learn/quality/testing-and-evaluating-agents.md) explica como transformar essas expectativas em evidência repetível.
+Inclua tanto melhorias pretendidas quanto **verificações de regressão**, testes que confirmam que comportamentos previamente funcionais não foram quebrados. Se um novo prompt torna respostas mais curtas, verifique se ainda declara exceções importantes. Se um documento mudar, teste perguntas onde a resposta deve mudar e perguntas onde não deve. [Testando e avaliando agentes](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md) explica como transformar essas expectativas em evidência repetível.
 
 **Teste** é um ambiente controlado para verificar um candidato antes que ele chegue aos usuários comuns. **Produção** é o ambiente que serve esses usuários. Mantenha seus propósitos e limites de acesso separados. Use dados de teste sintéticos ou adequadamente protegidos e evite que ferramentas de teste enviem mensagens reais ou modifiquem contas reais acidentalmente. Um teste aparentemente inofensivo ainda pode causar uma ação externa se conectado a uma ferramenta ao vivo.
+
 
 **Alteração não versionada**
 
 Alguém edita as instruções ao vivo e envia uma política. Relatos de respostas incorretas chegam, mas ninguém consegue identificar a configuração anterior ou os testes usados.
 
+
 **Alteração versionada**
 
 Um candidato combina instruções nomeadas, revisões de ferramenta e conhecimento. Seu registro de avaliação, aprovação e escopo de implantação são salvos antes de chegar aos usuários.
 
-Para casos de baixo risco adequados, um **teste A/B** compara duas versões com grupos separados sob condições definidas. Registre qual lançamento cada grupo recebe e qual resultado decidirá a comparação. Não combine várias mudanças não relacionadas e depois afirme saber qual causou a melhoria. [Teste A/B](http://localhost:1313/pt-br/learn/quality/ab-testing.md) cobre o desenho e os limites dessa abordagem.
+
+
+
+
+Para casos de baixo risco adequados, um **teste A/B** compara duas versões com grupos separados sob condições definidas. Registre qual lançamento cada grupo recebe e qual resultado decidirá a comparação. Não combine várias mudanças não relacionadas e depois afirme saber qual causou a melhoria. [Teste A/B](https://docs.aivax.net/pt-br/learn/quality/ab-testing.md) cobre o desenho e os limites dessa abordagem.
 
 ## Fixar modelos quando possível e planejar substituição
 
@@ -66,21 +80,29 @@ Fixar não garante respostas idênticas para sempre. Saídas de modelo podem var
 
 Um **rollback** restaura uma configuração aprovada anteriormente quando uma mais nova causa problemas. É mais fácil quando todo o inventário de lançamento é conhecido, incluindo compatibilidade de conhecimento e ferramenta. Decida previamente quem pode acioná‑lo, que evidência o justifica e como a equipe confirma que a versão pretendida está realmente atendendo às requisições.
 
+
 1. **Montar o candidato**
 
 Congele as revisões de instruções, ferramenta, conhecimento e modelo pretendidas em um registro de lançamento. Explique o propósito e os riscos da mudança.
+
 
 2. **Avaliar em teste**
 
 Execute verificações representativas e de regressão contra essa combinação exata. Resolva falhas bloqueadoras e registre as limitações restantes.
 
+
 3. **Aprovar e pilotar**
 
 Designe um revisor responsável e exponha o candidato a um público limitado e adequado. Mantenha a configuração segura anterior disponível onde compatível.
 
+
 4. **Observar e decidir**
 
 Compare o piloto com os critérios de aceitação. Expanda, pause ou faça rollback, então registre a decisão e a versão que permanece ativa.
+
+
+
+
 
 Restaurar a configuração não reverte ações externas. Uma mensagem já enviada permanece enviada; uma transação aprovada pode exigir correção separada. Também pode ser errado restaurar conhecimento obsoleto após uma atualização de política legalmente exigida. Nesse caso, interrompa a capacidade afetada ou publique um lançamento corrigido em vez de reintroduzir informações conhecidas como falsas.
 
@@ -88,7 +110,9 @@ Restaurar a configuração não reverte ações externas. Uma mensagem já envia
 
 Uma versão identifica uma revisão específica. Uma data de frescor registra quando alguém verificou se seu conteúdo ainda estava preciso. Um documento inalterado pode ficar obsoleto porque o mundo mudou. Dê a fontes importantes um proprietário, uma data efetiva quando relevante e um cronograma de revisão; dispare revisão antecipada quando o proprietário da política anunciar uma mudança.
 
-Próximo passo: reúna esses hábitos de lançamento na [Checklist de implantação](http://localhost:1313/pt-br/learn/production/deployment-checklist.md).
+
+
+Próximo passo: reúna esses hábitos de lançamento na [Checklist de implantação](https://docs.aivax.net/pt-br/learn/production/deployment-checklist.md).
 
 **Verifique seu conhecimento.** O que um registro útil de lançamento de agente deve identificar?
 

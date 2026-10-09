@@ -1,8 +1,8 @@
-Source: http://localhost:1313/pt-br/docs/features/chat-clients.html
+Source: https://docs.aivax.net/pt-br/docs/features/chat-clients.html
 
 # Clientes de Chat
 
-Um cliente de chat fornece uma interface de usuário através de um [Gateway de IA](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) que permite ao usuário conversar com seu assistente. Um cliente de chat é integrado à inferência do gateway de IA e suporta pensamento profundo, busca, conversa em texto e envio de imagens. Os recursos de áudio dependem da integração e da configuração do cliente.
+Um cliente de chat fornece uma interface de usuário através de um [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) que permite ao usuário conversar com seu assistente. Um cliente de chat é integrado à inferência do gateway de IA e suporta pensamento profundo, busca, conversa em texto e envio de imagens. Os recursos de áudio dependem da integração e da configuração do cliente.
 
 Você pode personalizar a interface do cliente de chat com CSS, JavaScript personalizado, cores, rótulos, botões de sugestão, origens de quadros, modos de entrada e o idioma usado pelos recursos de chat.
 
@@ -85,4 +85,4 @@ Antes de abrir um canal ao público, revise a configuração do cliente de chat 
 
 Trate a memória persistente separadamente do histórico da sessão. Consulte [o guia de envenenamento de memória](https://aivax.net/blog/persistent-memory-is-a-write-path/) para revisar o contexto armazenado e testar sua influência entre conversas.
 
-Para os próximos passos, revise a [configuração do Gateway de IA](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) e [Autenticação](http://localhost:1313/pt-br/docs/authentication.md), especialmente a fronteira entre acesso público ao chat e credenciais de API.
+Para os próximos passos, revise a [configuração do Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) e [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md), especialmente a fronteira entre acesso público ao chat e credenciais de API.

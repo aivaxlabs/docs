@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/agents/agent-to-agent-communication.html
+Source: https://docs.aivax.net/learn/agents/agent-to-agent-communication.html
 
 A customer asks a shop to explain a product fault and correct a billing mistake. In a human team, the receptionist might involve technical support and accounts rather than answer everything personally. Agents can divide work in a similar way, with different instructions, knowledge, and permissions for different responsibilities.
 
@@ -12,23 +12,33 @@ For example, an intake agent may identify whether a request concerns product use
 
 However, additional agents do not automatically improve quality. Two agents can share the same misunderstanding, repeat the same work, or disagree without evidence. Before splitting a task, identify a concrete benefit: a distinct permission boundary, a separate body of knowledge, independent review, or work that can proceed separately. If one agent with well-chosen tools can do the job clearly, keep that simpler design.
 
+
 **One agent with several tools**
 
 Often suitable when the task has one clear owner, a shared knowledge base, and a short sequence of actions. There are fewer messages to coordinate and fewer places to lose context.
+
 
 **Several specialised agents**
 
 Useful when responsibilities genuinely differ or independent pieces of work can run separately. The benefit must justify extra requests, waiting, context exchange, and coordination.
 
+
+
+
+
 ## Handoff, delegation, and orchestration
 
 These terms describe different ways of sharing responsibility. Teams sometimes use the words loosely, so define what they mean in your design. The important questions are who owns the user-facing answer, who can take actions, and whether the original agent waits for a result.
+
 
 - **Handoff** — Responsibility moves to another agent. A triage agent routes a billing case to the billing specialist, which continues the conversation within its own authority.
 
 - **Delegation** — The original agent asks another agent to perform a bounded subtask and return a result. The original agent remains responsible for the overall answer.
 
 - **Orchestration** — A coordinator manages several steps or participants: deciding what runs next, collecting results, resolving dependencies, and determining when the work is complete.
+
+
+
 
 A handoff resembles transferring a call. Delegation resembles asking a colleague to check one clause while you keep speaking to the customer. Orchestration resembles a project coordinator arranging contributions from several departments. A coordinator can be ordinary software, an agent, or a combination; it does not have to be another model making every scheduling decision.
 
@@ -68,6 +78,7 @@ Preserve uncertainty as carefully as facts. If identity has not been verified or
 
 Define the subtask → Share relevant facts and limits → Perform bounded work → Return evidence and status → Check the result
 
+
 ## Put limits on the collaboration
 
 A **loop** occurs when the system repeats without useful progress. One agent may keep asking another to clarify, or two specialists may repeatedly send a case back to each other. Prevent this by defining what each participant owns, what a useful result looks like, and when unresolved work should return to a person.
@@ -84,9 +95,9 @@ A sensible first design might use a triage agent that chooses a specialist, or a
 
 Record who received each subtask, what it returned, and why the overall task stopped. This makes a multi-agent failure explainable: perhaps routing was wrong, relevant facts were omitted, or a specialist could not access its source. Without that history, the team may look busy while leaving you unable to tell what happened.
 
-The [multi-agent architectures](http://localhost:1313/learn/advanced-agents/multi-agent-architectures.md) unit develops these patterns further. Here, the main lesson is simpler: divide responsibilities only when the boundary is useful, and make the messages, ownership, and stopping rules explicit.
+The [multi-agent architectures](https://docs.aivax.net/learn/advanced-agents/multi-agent-architectures.md) unit develops these patterns further. Here, the main lesson is simpler: divide responsibilities only when the boundary is useful, and make the messages, ownership, and stopping rules explicit.
 
-What's next: turn a repeatable business procedure into [workflows as skills](http://localhost:1313/learn/agents/workflows-as-skills.md), so the agent follows a defined path instead of inventing one each time.
+What's next: turn a repeatable business procedure into [workflows as skills](https://docs.aivax.net/learn/agents/workflows-as-skills.md), so the agent follows a defined path instead of inventing one each time.
 
 **Knowledge check.** Which example describes delegation rather than a handoff?
 

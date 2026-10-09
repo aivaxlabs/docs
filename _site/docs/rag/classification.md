@@ -1,10 +1,10 @@
-Source: http://localhost:1313/docs/rag/classification.html
+Source: https://docs.aivax.net/docs/rag/classification.html
 
 # Text Classification
 
 Use text classification to rank a fixed set of labels for one or more documents without training a custom classifier. AIVAX embeds every document and label with the default embedding model, compares their vectors using cosine similarity, and returns every label from the most similar to the least similar for each document.
 
-Before calling this endpoint, [create an API key](http://localhost:1313/docs/authentication.md) and make sure the account has a positive balance.
+Before calling this endpoint, [create an API key](https://docs.aivax.net/docs/authentication.md) and make sure the account has a positive balance.
 
 ## Endpoint
 

@@ -1,8 +1,8 @@
-Source: http://localhost:1313/pt-br/docs/tools/mcp.html
+Source: https://docs.aivax.net/pt-br/docs/tools/mcp.html
 
 # Suporte ao Protocolo de Contexto de Modelo (MCP)
 
-Você pode conectar ferramentas externas de protocolo MCP ao seu [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md). O protocolo define ferramentas que são executadas no lado do servidor e permitem que o assistente interaja com serviços em tempo real.
+Você pode conectar ferramentas externas de protocolo MCP ao seu [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). O protocolo define ferramentas que são executadas no lado do servidor e permitem que o assistente interaja com serviços em tempo real.
 
 AIVAX funciona como um cliente MCP para inferência de gateway: ele se conecta à fonte MCP configurada, lista as ferramentas, converte cada esquema de ferramenta em uma função chamável pelo modelo e chama o servidor MCP remoto quando o modelo seleciona essa ferramenta.
 
@@ -12,7 +12,7 @@ AIVAX funciona como um cliente MCP para inferência de gateway: ele se conecta �
 
 Use MCP quando você já tem ferramentas externas que precisam ser descobertas e chamadas pelos modelos de forma padronizada. Um servidor MCP é adequado para catálogos de ferramentas, integrações com sistemas internos, operações com estado, ferramentas compartilhadas entre vários agentes e ambientes onde você deseja manter a lógica fora do AIVAX.
 
-Não use MCP apenas para substituir uma única chamada HTTP simples. Quando você precisar expor uma função isolada com um callback específico e autenticação por nonce, [funções de protocolo](http://localhost:1313/pt-br/docs/tools/protocol-functions.md) geralmente são mais simples. Quando a capacidade já existe no AIVAX, como busca na web, abertura de URLs, execução de código ou geração de imagens, [ferramentas embutidas](http://localhost:1313/pt-br/docs/tools/builtin-tools.md) são normalmente o caminho mais direto. MCP é melhor quando há um conjunto de ferramentas com seus próprios esquemas, quando outro sistema já fala MCP ou quando você quer que o mesmo servidor seja usado por diferentes clientes.
+Não use MCP apenas para substituir uma única chamada HTTP simples. Quando você precisar expor uma função isolada com um callback específico e autenticação por nonce, [funções de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) geralmente são mais simples. Quando a capacidade já existe no AIVAX, como busca na web, abertura de URLs, execução de código ou geração de imagens, [ferramentas embutidas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md) são normalmente o caminho mais direto. MCP é melhor quando há um conjunto de ferramentas com seus próprios esquemas, quando outro sistema já fala MCP ou quando você quer que o mesmo servidor seja usado por diferentes clientes.
 
 Em produção, trate o servidor MCP como uma API exposta a um agente. As descrições das ferramentas devem ser claras, os esquemas devem ser restritivos e a autenticação deve ser configurada nos cabeçalhos do servidor. O modelo não deve receber ferramentas genéricas demais, como `execute`, `request` ou `search`, sem descrições fortes e parâmetros controlados. Ferramentas ambíguas aumentam chamadas erradas; ferramentas específicas como `lookup_customer_by_email` ou `create_support_ticket` ajudam o modelo a decidir melhor.
 
@@ -103,7 +103,7 @@ Todos os caminhos abaixo são relativos a `params._meta`. Nomes que começam com
 
 | Campo | Tipo JSON | Significado e disponibilidade |
 | --- | --- | --- |
-| `_aiv_nonce` | `string` ou `null` | Hash BCrypt derivado da chave de hook da conta chamadora. Sem uma chave de hook configurada, seu valor é `null`. Verifique a chave de hook em texto plano configurada contra esse hash conforme descrito em [autenticação de hook](http://localhost:1313/pt-br/docs/authentication.md#hook-authentication); não compare strings de hash nem espere a própria chave de hook. |
+| `_aiv_nonce` | `string` ou `null` | Hash BCrypt derivado da chave de hook da conta chamadora. Sem uma chave de hook configurada, seu valor é `null`. Verifique a chave de hook em texto plano configurada contra esse hash conforme descrito em [autenticação de hook](https://docs.aivax.net/pt-br/docs/authentication.md#hook-authentication); não compare strings de hash nem espere a própria chave de hook. |
 | `_aiv_external_user_id` | `string` ou `null` | Identificador externo do usuário transportado pelo contexto de inferência. Para clientes de chat vem da sessão; para conclusões de chat vem do campo `user` da requisição. Pode ser `null` quando nenhum usuário foi identificado. Use para buscar o usuário na sua aplicação, não como ID de conta AIVAX ou prova de autorização. |
 | `_aiv_call_source` | `string` | Origem da inferência, não do transporte da ferramenta. Uma ferramenta MCP chamada durante inferência de chat web ainda recebe `WebChatClient`, não `McpClient`. Veja os valores abaixo. |
 | `_aiv_conversation_token` | `string` ou `null` | Token de correlação de conversa transportado pela sessão ou requisição de inferência. Para conclusões de chat, vem de `idempotency_key` quando fornecido. Pode ser `null`; não é credencial de autenticação nem ID único de chamada de ferramenta. Chamadas múltiplas na mesma conversa podem compartilhá‑lo. |
@@ -133,7 +133,7 @@ Não envie segredos em metadados personalizados: esses valores são encaminhados
 
 O nonce autentica a chave de hook da conta configurada; não é uma assinatura dos argumentos, um ID de requisição único ou um mecanismo de prevenção de replay. Mantenha HTTPS e os cabeçalhos de autenticação configurados no servidor MCP, e aplique suas próprias autorizações e controles de operação duplicada. Se seu servidor exigir autenticação por nonce, rejeite um nonce ausente ou inválido.
 
-Para o envelope de callback HTTP equivalente, veja [campo de contexto de função de protocolo](http://localhost:1313/pt-br/docs/tools/protocol-functions.md#context-fields).
+Para o envelope de callback HTTP equivalente, veja [campo de contexto de função de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md#context-fields).
 
 ## Resultados da ferramenta
 

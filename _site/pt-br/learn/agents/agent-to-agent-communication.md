@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/agents/agent-to-agent-communication.html
+Source: https://docs.aivax.net/pt-br/learn/agents/agent-to-agent-communication.html
 
 Um cliente pede a uma loja que explique uma falha de produto e corrija um erro de cobrança. Em uma equipe humana, a recepcionista pode envolver o suporte técnico e o setor de contas ao invés de responder tudo pessoalmente. Agentes podem dividir o trabalho de maneira similar, com instruções, conhecimentos e permissões diferentes para responsabilidades distintas.
 
@@ -12,23 +12,33 @@ Por exemplo, um agente de triagem pode identificar se uma solicitação diz resp
 
 No entanto, agentes adicionais não melhoram automaticamente a qualidade. Dois agentes podem compartilhar o mesmo mal-entendido, repetir o mesmo trabalho ou discordar sem evidência. Antes de dividir uma tarefa, identifique um benefício concreto: um limite de permissão distinto, um corpo de conhecimento separado, revisão independente ou trabalho que pode prosseguir separadamente. Se um agente com ferramentas bem escolhidas pode fazer o trabalho claramente, mantenha esse design mais simples.
 
+
 **Um agente com várias ferramentas**
 
 Frequentemente adequado quando a tarefa tem um único proprietário claro, uma base de conhecimento compartilhada e uma sequência curta de ações. Há menos mensagens para coordenar e menos lugares onde o contexto pode se perder.
+
 
 **Vários agentes especializados**
 
 Útil quando as responsabilidades realmente diferem ou partes independentes do trabalho podem ser executadas separadamente. O benefício deve justificar solicitações extras, espera, troca de contexto e coordenação.
 
+
+
+
+
 ## Entrega, delegação e orquestração
 
 Esses termos descrevem diferentes formas de compartilhar responsabilidade. As equipes às vezes usam as palavras de forma flexível, então defina o que elas significam no seu design. As perguntas importantes são quem possui a resposta voltada ao usuário, quem pode tomar ações e se o agente original aguarda um resultado.
+
 
 - **Entrega** — A responsabilidade passa para outro agente. Um agente de triagem encaminha um caso de cobrança para o especialista de cobrança, que continua a conversa dentro de sua própria autoridade.
 
 - **Delegação** — O agente original pede a outro agente que execute uma subtarefa limitada e retorne um resultado. O agente original permanece responsável pela resposta geral.
 
 - **Orquestração** — Um coordenador gerencia várias etapas ou participantes: decidindo o que roda a seguir, coletando resultados, resolvendo dependências e determinando quando o trabalho está completo.
+
+
+
 
 Uma entrega se as com transferir uma chamada. Delegação se as com pedir a um colega que verifique uma cláusula enquanto você continua falando com o cliente. Orquestração se parece com um coordenador de projeto organizando contribuições de vários departamentos. Um coordenador pode ser um software comum, um agente ou uma combinação; não precisa ser outro modelo tomando todas as decisões de agendamento.
 
@@ -68,6 +78,7 @@ Preserve a incerteza com o mesmo cuidado que os fatos. Se a identidade não foi 
 
 Definir a subtarefa → Compartilhar fatos e limites relevantes → Executar trabalho limitado → Retornar evidência e status → Verificar o resultado
 
+
 ## Defina limites para a colaboração
 
 Um **loop** ocorre quando o sistema repete sem progresso útil. Um agente pode continuar pedindo esclarecimento ao outro, ou dois especialistas podem enviar o caso de volta um ao outro repetidamente. Previna isso definindo o que cada participante possui, como um resultado útil deve ser e quando o trabalho não resolvido deve retornar a uma pessoa.
@@ -84,9 +95,9 @@ Um design inicial sensato pode usar um agente de triagem que escolhe um especial
 
 Registre quem recebeu cada subtarefa, o que foi retornado e por que a tarefa geral parou. Isso torna uma falha de múltiplos agentes explicável: talvez o roteamento estivesse errado, fatos relevantes foram omitidos ou um especialista não pôde acessar sua fonte. Sem esse histórico, a equipe pode parecer ocupada enquanto você não consegue dizer o que aconteceu.
 
-A unidade de [arquiteturas multi‑agente](http://localhost:1313/pt-br/learn/advanced-agents/multi-agent-architectures.md) desenvolve esses padrões mais adiante. Aqui, a lição principal é mais simples: divida responsabilidades apenas quando o limite for útil e torne as mensagens, a propriedade e as regras de parada explícitas.
+A unidade de [arquiteturas multi‑agente](https://docs.aivax.net/pt-br/learn/advanced-agents/multi-agent-architectures.md) desenvolve esses padrões mais adiante. Aqui, a lição principal é mais simples: divida responsabilidades apenas quando o limite for útil e torne as mensagens, a propriedade e as regras de parada explícitas.
 
-Próximo passo: transformar um procedimento de negócio repetível em [fluxos de trabalho como habilidades](http://localhost:1313/pt-br/learn/agents/workflows-as-skills.md), para que o agente siga um caminho definido ao invés de inventar um a cada vez.
+Próximo passo: transformar um procedimento de negócio repetível em [fluxos de trabalho como habilidades](https://docs.aivax.net/pt-br/learn/agents/workflows-as-skills.md), para que o agente siga um caminho definido ao invés de inventar um a cada vez.
 
 **Verifique seu conhecimento.** Qual exemplo descreve delegação ao invés de entrega?
 

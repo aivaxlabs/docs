@@ -1,10 +1,10 @@
-Source: http://localhost:1313/docs/inference/voice-session.html
+Source: https://docs.aivax.net/docs/inference/voice-session.html
 
 # Voice Session
 
 Voice Session is AIVAX's low-latency, stateful voice API. It keeps the authenticated AIVAX WebSocket endpoint while connecting to a realtime inference service. Events follow the OpenAI-compatible GA Realtime JSON protocol after the connection is upgraded.
 
-Use Voice Session for natural spoken conversations with streaming audio, assistant speech transcripts, server voice activity detection (VAD), interruptions, and tool calls. Use [Audio Transcriptions](http://localhost:1313/docs/generations/audio-transcriptions.md) for transcription-only workloads or [Speech Generation](http://localhost:1313/docs/generations/speech.md) when the text to synthesize is already known.
+Use Voice Session for natural spoken conversations with streaming audio, assistant speech transcripts, server voice activity detection (VAD), interruptions, and tool calls. Use [Audio Transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md) for transcription-only workloads or [Speech Generation](https://docs.aivax.net/docs/generations/speech.md) when the text to synthesize is already known.
 
 ## Connect securely
 
@@ -161,7 +161,7 @@ Your tool handler should validate arguments, preserve call identifiers, enforce 
 
 ## Billing and limits
 
-For current pricing, availability, and account limits, see [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](http://localhost:1313/docs/limits.md).
+For current pricing, availability, and account limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md).
 
 ## Disconnect gracefully
 

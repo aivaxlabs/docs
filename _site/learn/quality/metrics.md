@@ -1,10 +1,11 @@
-Source: http://localhost:1313/learn/quality/metrics.html
+Source: https://docs.aivax.net/learn/quality/metrics.html
 
 A **metric** is a consistently defined measurement used to understand performance. For an agent, “good” has several meanings: giving a correct answer, completing work promptly, using resources responsibly and helping the person who asked. These qualities can move in different directions. A shorter answer may arrive faster but leave out a crucial condition. A longer conversation may cost more yet prevent an expensive mistake.
 
 Think of running a delivery service. Arrival time matters, but delivering the wrong parcel quickly is not success. Likewise, an agent dashboard should not celebrate speed while ignoring correctness. Start with the job the agent exists to do, decide what successful completion looks like, and then select measurements. A **dashboard** is simply a shared view of those measurements over a stated period.
 
 ## Understand the four perspectives
+
 
 - **Accuracy** — Does the agent provide the correct information and complete the required task under the stated rules? Evaluate against verified expectations.
 
@@ -14,9 +15,12 @@ Think of running a delivery service. Arrival time matters, but delivering the wr
 
 - **Satisfaction** — How useful and understandable was the experience to the person using it? Collect feedback, while recognising who did not respond.
 
+
+
+
 **Accuracy** needs a definition that fits the task. For extracting invoice fields, compare each required field with a checked reference. For support, review whether the answer follows the policy and addresses the question. For a booking agent, verify the booking and the required confirmation. A common measure is the proportion of evaluated cases that meet all required criteria. Always state which cases were evaluated and what counted as a pass.
 
-Do not confuse accuracy with confidence in the writing. Nor should you compare two scores calculated with different rules. An agent graded only on factual wording has an easier test than one graded on wording, permissions and completed actions. Use [testing and evaluating agents](http://localhost:1313/learn/quality/testing-and-evaluating-agents.md) to establish a stable checklist. Report serious failures separately, even if the overall pass rate is high.
+Do not confuse accuracy with confidence in the writing. Nor should you compare two scores calculated with different rules. An agent graded only on factual wording has an easier test than one graded on wording, permissions and completed actions. Use [testing and evaluating agents](https://docs.aivax.net/learn/quality/testing-and-evaluating-agents.md) to establish a stable checklist. Report serious failures separately, even if the overall pass rate is high.
 
 **Latency** means elapsed waiting time. Measure it where the user experiences it, not only inside the model. The full delay can include searching documents, contacting a business system and retrying a failed request. If text appears gradually, distinguish time to first visible text from time to a complete useful answer. Starting quickly can reassure someone, but a premature “Done” must never imply that an unfinished action succeeded.
 
@@ -30,11 +34,16 @@ An average combines all measurements into one number, which can hide unusually s
 
 Imagine lining up completed requests from fastest to slowest. The middle request tells you about an ordinary wait; a request near the slow end tells you about a frustrating wait. Neither is the maximum, and p95 does not mean every user will receive an answer before that time. Include the number of observations and the measurement period, because a percentile from a tiny sample is unstable.
 
+
 - **p50** — The middle observation
 
 - **p95** — A view of the slower end
 
 - **Maximum** — The slowest observed case, not a guarantee
+
+
+
+
 
 **Complete-answer waiting time (illustrative)**
 
@@ -46,6 +55,8 @@ Imagine lining up completed requests from fastest to slowest. The middle request
 | Version B p95 | 7 seconds |
 
 Invented observations show why the typical wait and the slow-end wait can move in opposite directions. These are not product benchmarks.
+
+
 
 In this illustrative comparison, version B makes the middle experience slower but improves the slow end. Whether that is desirable depends on the service promise and the task. Also count requests that failed or timed out. Excluding them from the chart without a separate failure measure can make an unreliable service appear fast, because its worst experiences disappeared from the calculation.
 
@@ -62,13 +73,19 @@ The following targets are qualitative starting points, not universal service gua
 | Internal knowledge assistant | Answer supported by current documents | Useful answer while the employee works | Respect access restrictions |
 | Back-office processing | Correct records produced and checked | Finish within the agreed work window | No unauthorised changes |
 
+
 **Optimise one number**
 
 Choose the cheapest response and celebrate lower spending, even though customers repeat questions and staff repair more errors.
 
+
 **Optimise the outcome**
 
 Compare cost per successfully completed task while checking accuracy, waiting time, safety and human correction effort.
+
+
+
+
 
 ## Build a dashboard that supports decisions
 
@@ -76,9 +93,9 @@ Keep the dashboard small enough to read, but show definitions next to the values
 
 Show trends alongside recent values, and mark releases or changes to measurement rules. A trend is a sequence of measurements over time; it helps distinguish a persistent shift from a brief fluctuation. Link concerning results to privacy-safe examples so the team can investigate. Assign an owner to each important measure and an action to each alert, rather than collecting numbers nobody uses.
 
-**Related on AIVAX:** [Agentic Tests](http://localhost:1313/docs/inference/agentic-tests.md) provide evaluation outcomes for configured scenarios. Use those as one source of quality evidence alongside your application's timings, business outcomes and user feedback. A test result and a customer-satisfaction response answer different questions and should remain distinguishable.
+**Related on AIVAX:** [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) provide evaluation outcomes for configured scenarios. Use those as one source of quality evidence alongside your application's timings, business outcomes and user feedback. A test result and a customer-satisfaction response answer different questions and should remain distinguishable.
 
-**What's next:** Learn how to investigate the numbers in [Logs, traces and monitoring](http://localhost:1313/learn/quality/logs-traces-and-monitoring.md).
+**What's next:** Learn how to investigate the numbers in [Logs, traces and monitoring](https://docs.aivax.net/learn/quality/logs-traces-and-monitoring.md).
 
 **Knowledge check.** What does p95 latency tell you?
 

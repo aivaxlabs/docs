@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/rag/best-practices.html
+Source: https://docs.aivax.net/docs/rag/best-practices.html
 
 # Best Practices for RAG
 
@@ -89,7 +89,7 @@ Semantic search works best when documents and queries use compatible language. I
 When search results are poor, check the basics first:
 
 - Confirm the documents are indexed.
-- Test the collection with [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md) before testing through an AI Gateway.
+- Test the collection with [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md) before testing through an AI Gateway.
 - Try a complete question instead of isolated keywords.
 - Compare the query language with the document language.
 - Review whether the relevant answer is split across too many small chunks or buried inside a very large one.

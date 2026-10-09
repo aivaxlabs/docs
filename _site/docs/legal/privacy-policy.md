@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/legal/privacy-policy.html
+Source: https://docs.aivax.net/docs/legal/privacy-policy.html
 
 # Privacy Policy
 
@@ -21,7 +21,7 @@ By using AIVAX services, the Account Manager acknowledges and agrees to the term
 - **Account Data:** Registration and administrative data, such as name, email, company, role, internal identifiers, preferences, and API key settings.
 - **Billing Data:** Data required for invoices, receipts, account balance, credits, payment events, and payment processing through third-party processors.
 - **Inference Data:** Inputs sent to models and resulting outputs. In the Terms of Use, this maps to Input Content and Generated Content.
-- **Semantic Training Data:** Anonymized eligible RAG and reranking content collected after the Account Manager enables semantic data collection, as described in [Data Collecting](http://localhost:1313/docs/data-collecting.md). Document indexing and storage are excluded.
+- **Semantic Training Data:** Anonymized eligible RAG and reranking content collected after the Account Manager enables semantic data collection, as described in [Data Collecting](https://docs.aivax.net/docs/data-collecting.md). Document indexing and storage are excluded.
 - **Conversations:** Stored sequences of inference interactions, including messages, metadata, model name, usage object, tools, resources, and error information when conversation logging is enabled.
 - **Technical Metadata:** Inference and access logs, IP addresses or forwarding information, user-agent strings, timestamps, latency, session identifiers, token usage, response codes, request identifiers, and security or abuse signals.
 - **Processor:** AIVAX when it processes data according to the Account Manager's instructions.
@@ -105,7 +105,7 @@ Storage quotas are plan-based. Current included storage is 30 MB for Free, 2 GB 
 
 ### 7. Optional Semantic Data Collection and Model Training
 
-By default, AIVAX does not use Account Manager Inference Data or Conversations to train proprietary AIVAX models. When an authorized Account Manager enables semantic data collection, AIVAX may use eligible anonymized RAG and reranking records generated while the setting is enabled for the purposes described in [Data Collecting](http://localhost:1313/docs/data-collecting.md). RAG document indexing and storage are not included and receive no program discount.
+By default, AIVAX does not use Account Manager Inference Data or Conversations to train proprietary AIVAX models. When an authorized Account Manager enables semantic data collection, AIVAX may use eligible anonymized RAG and reranking records generated while the setting is enabled for the purposes described in [Data Collecting](https://docs.aivax.net/docs/data-collecting.md). RAG document indexing and storage are not included and receive no program discount.
 
 Before storage, AIVAX anonymizes these records by removing the account relationship and excluding operational identifiers, document names, billing data, and collection timestamps. The account is consulted only to verify consent and apply the eligible discount. AIVAX does not retain an account-to-record mapping.
 
@@ -150,7 +150,7 @@ Functions include communication with data subjects and the ANPD, internal compli
 
 ### 10. Subprocessors and Third-Party Providers
 
-AIVAX uses third-party services for infrastructure, object storage, transactional email, billing, web search, image generation, reranking, and AI model inference. The current technical list is maintained in [Data Processors](http://localhost:1313/docs/legal/third-party-processors.md).
+AIVAX uses third-party services for infrastructure, object storage, transactional email, billing, web search, image generation, reranking, and AI model inference. The current technical list is maintained in [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md).
 
 When selecting a model or enabling a tool, the Account Manager may cause content to be sent to the selected model provider, aggregator, or tool provider. AIVAX does not control third-party policies and recommends prior review.
 

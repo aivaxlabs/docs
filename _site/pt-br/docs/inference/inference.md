@@ -1,10 +1,10 @@
-Source: http://localhost:1313/pt-br/docs/inference/inference.html
+Source: https://docs.aivax.net/pt-br/docs/inference/inference.html
 
 # Inferência
 
 AIVAX expõe uma API `chat/completions` compatível com OpenAI com parâmetros adicionais da AIVAX. As adições são opcionais e foram projetadas para suportar gateways, RAG, ferramentas embutidas, respostas estruturadas, pré‑processamento multimodal, roteamento de modelo e metadados de faturamento.
 
-Use esta página para chamadas de inferência direta. Use o [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
+Use esta página para chamadas de inferência direta. Use o [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
 
 ## Endpoint
 
@@ -53,7 +53,7 @@ A configuração equivalente de gateway usa `parameters.routingOption`:
 }
 ```
 
-Após salvar, chame o gateway normalmente usando seu ID ou slug como `model`. A AIVAX aplica a preferência de roteamento armazenada preservando as instruções, ferramentas, configuração RAG e outras definições do gateway. Consulte [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) para o fluxo completo do gateway.
+Após salvar, chame o gateway normalmente usando seu ID ou slug como `model`. A AIVAX aplica a preferência de roteamento armazenada preservando as instruções, ferramentas, configuração RAG e outras definições do gateway. Consulte [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) para o fluxo completo do gateway.
 
 ### Substituir roteamento em `chat/completions`
 
@@ -255,8 +255,8 @@ Use `multimodal_resolver` quando o modelo principal deve receber uma descrição
 
 - `InferenceLow` descreve o conteúdo com um modelo multimodal menor e de menor custo.
 - `InferenceHigh` descreve o conteúdo com um modelo multimodal maior, mais preciso e mais caro.
-- `Ocr` extrai o texto de imagens e arquivos usando o mesmo serviço de extração de [Fetch and OCR](http://localhost:1313/pt-br/docs/web-foundation/fetch-and-ocr.md), cobrado em Unidades de Processamento. Aceita URIs de dados base64 e URLs públicas.
-- `Stt` transcreve a fala do áudio com o modelo padrão de [speech‑to‑text](http://localhost:1313/pt-br/docs/pricing.md) e é cobrado por segundo de áudio. Música e sons ambientes não são descritos.
+- `Ocr` extrai o texto de imagens e arquivos usando o mesmo serviço de extração de [Fetch and OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md), cobrado em Unidades de Processamento. Aceita URIs de dados base64 e URLs públicas.
+- `Stt` transcreve a fala do áudio com o modelo padrão de [speech‑to‑text](https://docs.aivax.net/pt-br/docs/pricing.md) e é cobrado por segundo de áudio. Música e sons ambientes não são descritos.
 
 Com `InferenceLow` ou `InferenceHigh`, `fileEngine` envia PDFs ao modelo multimodal e converte outros tipos de arquivo com OCR. Com `Ocr`, todo arquivo, incluindo PDFs, é convertido com OCR.
 
@@ -277,7 +277,7 @@ Os flags `multimodal_preprocess` continuam aceitos por compatibilidade, mas est�
 
 Como agora um mecanismo cobre todos os tipos de arquivo, `OtherFiles` sozinho também converte PDFs com OCR, e `File` sozinho também converte arquivos não‑PDF com OCR. Anteriormente, os tipos de arquivo fora do flag selecionado eram enviados ao modelo principal sem alterações.
 
-Entradas multimodais podem ter requisitos de conta. Revise [Pricing](http://localhost:1313/pt-br/docs/pricing.md) e [Plans and limits](http://localhost:1313/pt-br/docs/limits.md) antes de usá‑las em produção.
+Entradas multimodais podem ter requisitos de conta. Revise [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) antes de usá‑las em produção.
 
 Quando uma inferência multimodal falha, reduza o problema:
 
@@ -331,7 +331,7 @@ A AIVAX oferece respostas estruturadas por meio de `response_schema`, `response_
 
 `response_schema` habilita o JSON Healing. A AIVAX pede ao modelo JSON, extrai JSON do texto ou blocos markdown gerados, valida‑o contra o esquema e tenta novamente com feedback de validação até que a saída seja válida ou o limite de tentativas seja alcançado.
 
-Leia mais sobre [Structured responses](http://localhost:1313/pt-br/docs/inference/structured-responses.md).
+Leia mais sobre [Structured responses](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md).
 
 Se sua aplicação não conseguir analisar ou validar o resultado, siga o [invalid JSON troubleshooting guide](https://aivax.net/blog/structured-output-healing-boundary/) antes de aumentar o orçamento de tentativas.
 
@@ -356,9 +356,9 @@ Use `builtin_tools` para habilitar ferramentas embutidas da AIVAX em uma solicit
 }
 ```
 
-Ferramentas embutidas incluem `DateTime`, `WebSearch`, `AdvancedWebUsage` (desativada; retorna resposta indisponível; veja [Changelogs](http://localhost:1313/pt-br/docs/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
+Ferramentas embutidas incluem `DateTime`, `WebSearch`, `AdvancedWebUsage` (desativada; retorna resposta indisponível; veja [Changelogs](https://docs.aivax.net/pt-br/docs/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
 
-`DateTime` expõe `get_date_time`, uma ferramenta sem argumentos que devolve a data atual, hora, dia da semana em inglês, fuso horário, deslocamento UTC e timestamp ISO 8601. Defina `builtin_tools.options.dateTimeTimeZone` com um identificador IANA; o padrão é `America/Los_Angeles` (Horário do Pacífico), com ajustes automáticos de horário de verão. Essa configuração é independente do fuso horário do navegador do usuário. Consulte [Current Date and Time](http://localhost:1313/pt-br/docs/tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
+`DateTime` expõe `get_date_time`, uma ferramenta sem argumentos que devolve a data atual, hora, dia da semana em inglês, fuso horário, deslocamento UTC e timestamp ISO 8601. Defina `builtin_tools.options.dateTimeTimeZone` com um identificador IANA; o padrão é `America/Los_Angeles` (Horário do Pacífico), com ajustes automáticos de horário de verão. Essa configuração é independente do fuso horário do navegador do usuário. Consulte [Current Date and Time](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
 
 Ferramentas sob demanda são adequadas para chamadas ocasionais, protótipos e integrações que não precisam de um gateway persistente. Se a mesma aplicação sempre usar as mesmas ferramentas, prefira configurá‑las em um Gateway de IA para que a política seja centralizada.
 
@@ -507,7 +507,7 @@ I found several candidates and should rank them by cost, speed, and modality sup
 <assistant-answer>
 For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.
 
-Model availability and prices change over time; the picks below are example output — see [Pricing](http://localhost:1313/pt-br/docs/pricing.md) for current values.
+Model availability and prices change over time; the picks below are example output — see [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) for current values.
 
 Top picks:
 
@@ -531,7 +531,7 @@ Quando o usuário responde, mantenha o histórico da conversa focado no resultad
         },
         {
             "role": "assistant",
-            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](http://localhost:1313/pt-br/docs/pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
+            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
         },
         {
             "role": "user",

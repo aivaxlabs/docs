@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/filters/document-filters.html
+Source: https://docs.aivax.net/pt-br/docs/filters/document-filters.html
 
 # Filtros de Documento
 
@@ -14,7 +14,7 @@ tags has "finance" and createdAt >= now-30d
 
 Envie o filtro no campo `filter` desses endpoints:
 
-- [Busca semântica](http://localhost:1313/pt-br/docs/rag/semantic-search.md)
+- [Busca semântica](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 - Geração de respostas
 
 O campo aceita uma string ou um array de strings. It itens do array são combinados com `and`:
@@ -34,8 +34,8 @@ Um campo ausente ou `null` significa sem filtro. O nome do campo é `filter`; ou
 
 Modelos também podem enviar uma string de filtro no argumento opcional `filter` dessas ferramentas:
 
-- A ferramenta de busca do [Collections MCP](http://localhost:1313/pt-br/docs/mcp-utilities/collections-mcp.md#generated-tools).
-- A ferramenta `query` de gateways de IA que utilizam a [estratégia de consulta](http://localhost:1313/pt-br/docs/inference/pipelines.md).
+- A ferramenta de busca do [Collections MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md#generated-tools).
+- A ferramenta `query` de gateways de IA que utilizam a [estratégia de consulta](https://docs.aivax.net/pt-br/docs/inference/pipelines.md).
 
 RAG de gateway automático, que busca antes da chamada ao modelo, não aplica filtros. Um filtro inválido em uma chamada de ferramenta é retornado ao modelo como um erro de ferramenta com a mesma mensagem da API.
 
@@ -73,7 +73,7 @@ Um valor deve ser literal. Funções, aritmética, conversões de tipo e compara
 | `updatedAt` | data e hora | Quando o documento foi atualizado pela última vez. |
 | `metadata.<key>` | valor JSON | Um valor dentro dos metadados do documento (`__meta`). |
 
-Veja [Coleções](http://localhost:1313/pt-br/docs/rag/collections.md#document-fields) para como esses campos são definidos.
+Veja [Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md#document-fields) para como esses campos são definidos.
 
 ## Operadores
 

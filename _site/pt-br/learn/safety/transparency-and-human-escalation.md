@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/safety/transparency-and-human-escalation.html
+Source: https://docs.aivax.net/pt-br/learn/safety/transparency-and-human-escalation.html
 
 Um cliente explica um problema de faturamento, tenta a sugestão do assistente e relata que não funcionou. O assistente oferece a mesma sugestão novamente. Quando uma pessoa entra na conversa, o cliente já repetiu a história várias vezes e está mais frustrado do que quando chegou. Existe um botão de transferência, mas o serviço não entregou uma transferência útil.
 
@@ -12,13 +12,19 @@ A divulgação deve ser fácil de notar, não escondida em uma página longa de 
 
 Descreva as capacidades com precisão. Um agente que pode rascunhar um pedido de reembolso não deve afirmar que pode emitir o reembolso. Um agente que pode criar um caso de suporte não deve prometer uma resposta imediata de uma pessoa. Distinga intenção, pedido submetido e resultado confirmado na redação que os usuários veem.
 
+
 **Unclear and overconfident**
 
 “I've fixed everything. Our expert will reply immediately.” The agent has only drafted a request and has no confirmed response time.
 
+
 **Clear and verifiable**
 
 “I'm an AI assistant. I can prepare the billing issue for our team, but I can't approve the adjustment. Would you like me to submit it? I'll confirm when the support system accepts it.”
+
+
+
+
 
 A honestidade também significa descrever a incerteza de forma que ajude a próxima decisão. “Não consegui encontrar uma política atual para esta exceção” é mais útil que um vago “Posso estar errado.” Diga qual evidência está faltando, evite inventar a resposta e explique o próximo passo disponível.
 
@@ -34,6 +40,7 @@ Se as fontes conflitam, informe isso e encaminhe a decisão não resolvida ao se
 
 Um **gatilho** é uma condição que inicia uma resposta predefinida. Bons gatilhos são observáveis o suficiente para testar, como um pedido direto por um humano ou tentativas repetidas falhas. Não espere a conversa se tornar extrema antes de permitir outra rota ao usuário.
 
+
 - **The user asks** — Respeite um pedido claro por uma pessoa. Não exija que o usuário falhe em mais etapas automatizadas apenas para justificar a transferência.
 
 - **Frustration or repeated failure** — Observe quando o mesmo problema permanece não resolvido ou o usuário diz que as etapas propostas não ajudaram. Ofereça uma rota diferente ao invés de repetir o script.
@@ -42,31 +49,43 @@ Um **gatilho** é uma condição que inicia uma resposta predefinida. Bons gatil
 
 - **Insufficient authority or evidence** — Exceções, registros disputados e alegações de política não suportadas precisam de alguém que possa investigar e decidir. Confiança na redação não é autoridade.
 
+
+
+
 Nem toda menção a um tópico regulamentado requer resposta de emergência. O horário de funcionamento de uma clínica difere de um pedido de diagnóstico. Defina o limite com especialistas relevantes. Para situações de segurança urgentes, use um processo revisado separadamente adequado ao local e ao serviço; uma fila de suporte comum não substitui ajuda de emergência.
 
 A detecção de frustração é imperfeita. Declarações diretas como “Quero falar com alguém” devem ter mais peso do que a suposição do modelo sobre tom emocional. Evite tratar expressões regionais, diferenças de comunicação relacionadas a deficiência ou escrita concisa como evidência de hostilidade. Dê aos usuários um modo visível de solicitar ajuda sem depender de detecção automática de emoções.
 
 ## Transfira o caso, não apenas a janela de chat
 
+
 1. **Recognise the boundary**
 
 Identifique o gatilho e pare de repetir conselhos malsucedidos. Explique brevemente a limitação relevante sem culpar o usuário.
+
 
 2. **Offer the available route**
 
 Diga qual equipe pode ajudar, como funciona a transferência e qual o prazo realmente conhecido. Obtenha qualquer confirmação necessária antes de enviar a transferência.
 
+
 3. **Prepare the handover package**
 
 Resuma o objetivo, fatos estabelecidos, etapas tentadas, resultados e questão não resolvida. Inclua histórico relevante por um canal autorizado, não uma cópia desnecessária para todos.
+
 
 4. **Confirm acceptance**
 
 Verifique se o sistema de suporte ou a pessoa receptora aceitou o caso. Informe ao usuário o status verdadeiro e forneça a referência ou rota de acompanhamento disponível.
 
+
 5. **Keep ownership visible**
 
 Deixe claro quem está respondendo agora e evite respostas automatizadas concorrentes. Se a transferência falhar, explique o motivo e ofereça uma alternativa utilizável.
+
+
+
+
 
 ```mermaid
 flowchart TD
@@ -91,11 +110,15 @@ A **taxa de escalonamento** é a proporção de conversas transferidas ou encami
 
 ### Exemplo de amostra de revisão
 
+
 - **100** — conversas ilustrativas revisadas
 
 - **20** — escalonamentos humanos ilustrativos
 
 - **20%** — taxa de escalonamento ilustrativa
+
+
+
 
 Esses números inventados ensinam o cálculo, não um alvo ou referência de serviço. Defina se transferências repetidas contam uma vez por conversa, se chats abandonados são incluídos e como você distingue transferências solicitadas de handovers concluídos. Um painel que mistura esses estados pode parecer saudável enquanto os clientes aguardam sem um responsável.
 
@@ -103,9 +126,9 @@ Revise razões para escalonamento, tempo até aceitação humana, explicações 
 
 Use os achados para melhorar ambos os lados do limite. Transferências repetidas causadas por horário de funcionamento ausente podem demandar melhor conhecimento. Pedidos repetidos de exceções discricionárias podem confirmar que uma rota de aprovação humana é necessária. Parte do trabalho deve permanecer com pessoas ao invés de ser forçada à automação.
 
-Aprendizado relacionado: [Human in the loop](http://localhost:1313/pt-br/learn/advanced-agents/human-in-the-loop.md) desenvolve padrões de aprovação e revisão, enquanto [Metrics](http://localhost:1313/pt-br/learn/quality/metrics.md) explica como escolher medidas que reflitam resultados reais.
+Aprendizado relacionado: [Human in the loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md) desenvolve padrões de aprovação e revisão, enquanto [Metrics](https://docs.aivax.net/pt-br/learn/quality/metrics.md) explica como escolher medidas que reflitam resultados reais.
 
-Próximo passo: equilibrar custos operacionais com serviço útil em [Cost optimization and caching](http://localhost:1313/pt-br/learn/production/cost-optimization-and-caching.md).
+Próximo passo: equilibrar custos operacionais com serviço útil em [Cost optimization and caching](https://docs.aivax.net/pt-br/learn/production/cost-optimization-and-caching.md).
 
 **Verifique seu conhecimento.** Qual ação melhor transforma um pedido de escalonamento em uma transferência confiável?
 

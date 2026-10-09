@@ -1,17 +1,17 @@
-Source: http://localhost:1313/pt-br/docs/pricing.html
+Source: https://docs.aivax.net/pt-br/docs/pricing.html
 
 # Preços
 
 Os preços de uso do serviço são listados abaixo em USD. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo usado e o trabalho realizado.
 
-Consulte [preços de assinatura](https://aivax.net/pricing) para preços dos planos mensais e [Planos e limites](http://localhost:1313/pt-br/docs/limits.md) para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:
+Consulte [preços de assinatura](https://aivax.net/pricing) para preços dos planos mensais e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) para cotas. As taxas de uso estão sujeitas ao multiplicador do plano:
 - Free: **+25%** nos impostos de inferência;
 - Pro: **+5%** nos impostos de inferência;
 - Max: **0%** nos impostos de inferência.
 
 BYOK não são afetados pelos impostos de inferência.
 
-Free, Pro e Max incluem cotas diárias separadas para incorporações RAG elegíveis, reranking Reflex, decisões semânticas Julia-1 e extração Fetch/OCR. As taxas abaixo se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por solicitação completa: um item que não cabe na cota restante e sua margem permitida é cobrado integralmente. Compare as cotas e verifique exclusões em [Planos e limites](http://localhost:1313/pt-br/docs/limits.md#included-daily-subscription-allowances). A cobertura de assinatura LLM está atualmente desativada.
+Free, Pro e Max incluem cotas diárias separadas para incorporações RAG elegíveis, reranking Reflex, decisões semânticas Julia-1 e extração Fetch/OCR. As taxas abaixo se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por solicitação completa: um item que não cabe na cota restante e sua margem permitida é cobrado integralmente. Compare as cotas e verifique exclusões em [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances). A cobertura de assinatura LLM está atualmente desativada.
 
 ## Inferência e Moderação
 
@@ -24,7 +24,7 @@ As taxas de inferência dependem do modelo selecionado, provedor, tamanho da ent
 
 ## Decisões semânticas
 
-As taxas dos modelos de decisão abaixo são preços base em USD por milhão de tokens de entrada, antes de ajustes de conta e plano. Tokens de saída não têm custo no catálogo atual de modelos de decisão. Julia-1 tem direito à cota diária descrita em [Planos e limites](http://localhost:1313/pt-br/docs/limits.md#included-daily-subscription-allowances); outros modelos de decisão são cobrados normalmente.
+As taxas dos modelos de decisão abaixo são preços base em USD por milhão de tokens de entrada, antes de ajustes de conta e plano. Tokens de saída não têm custo no catálogo atual de modelos de decisão. Julia-1 tem direito à cota diária descrita em [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances); outros modelos de decisão são cobrados normalmente.
 
 | Modelo | Preço de entrada / milhão de tokens |
 | --- | ---: |
@@ -40,7 +40,7 @@ As taxas dos modelos de decisão abaixo são preços base em USD por milhão de 
 | `@perplexity/pplx-decider-v1-27b` | **$0.040** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
 
-Consulte [Decisões semânticas](http://localhost:1313/pt-br/docs/generations/decisions.md) para seleção de modelo e como o uso de entrada é medido.
+Consulte [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md) para seleção de modelo e como o uso de entrada é medido.
 
 ## Testes de Agente
 
@@ -102,7 +102,7 @@ As taxas de geração e transcrição dependem do modelo selecionado. O preço d
 | Geração de imagem | Tarifas fixas de saída e imagem de referência por modelo |
 | Descrições de mídia | **~$1.50/M tokens** |
 
-A geração de imagem cobra cada saída entregue ao preço fixo de saída do modelo selecionado, mais seu preço por referência para cada referência enviada com essa saída. O processamento do prompt está incluído. Provedores com preços por token e megapixel usam estimativas arredondadas para cima, não o repasse exato de custo do provedor. Não há marcação adicional de geração de imagem AIVAX nem multiplicador de conta e plano. As tarifas atuais estão listadas no catálogo de Modelos; veja [Geração de imagem](http://localhost:1313/pt-br/docs/generations/images.md).
+A geração de imagem cobra cada saída entregue ao preço fixo de saída do modelo selecionado, mais seu preço por referência para cada referência enviada com essa saída. O processamento do prompt está incluído. Provedores com preços por token e megapixel usam estimativas arredondadas para cima, não o repasse exato de custo do provedor. Não há marcação adicional de geração de imagem AIVAX nem multiplicador de conta e plano. As tarifas atuais estão listadas no catálogo de Modelos; veja [Geração de imagem](https://docs.aivax.net/pt-br/docs/generations/images.md).
 
 ## Busca Web, OCR e Fetch
 
@@ -118,7 +118,7 @@ Buscas na web e X são cobradas por busca. Busca avançada na web é cobrada por
 | Extração Fetch e OCR - Max | **5× Pro** cota diária; itens não cobertos **$0.02/1k PUs** |
 | Conversão JSON Fetch (`responseSchema`) | Preço variável baseado em inferência por PU; cobrado separadamente, sem cota diária de extração |
 
-Para a [API Fetch](http://localhost:1313/pt-br/docs/web-foundation/fetch-and-ocr.md), `processingUnits` relata uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. Os PUs JSON contabilizam uso de tokens de entrada, entrada em cache e saída nos preços do modelo de processamento e do provedor; eles não são precificados à taxa OCR do plano. O multiplicador de inferência do plano se aplica à conversão JSON. Omitir `responseSchema` ou defini‑lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
+Para a [API Fetch](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md), `processingUnits` relata uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. Os PUs JSON contabilizam uso de tokens de entrada, entrada em cache e saída nos preços do modelo de processamento e do provedor; eles não são precificados à taxa OCR do plano. O multiplicador de inferência do plano se aplica à conversão JSON. Omitir `responseSchema` ou defini‑lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
 
 ## Armazenamento
 

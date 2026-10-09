@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/teaching-agents/preparing-documents-for-knowledge.html
+Source: https://docs.aivax.net/learn/teaching-agents/preparing-documents-for-knowledge.html
 
 A support colleague receives a folder containing the Trail Lamp manual, a warranty spreadsheet and photographs of packaging. The folder contains useful knowledge, but handing it over is not the same as making it easy to use. Repeated page headings interrupt sentences. Spreadsheet cells depend on column labels. A photograph may contain a warning that never appears in the manual.
 
@@ -10,23 +10,32 @@ Preparing documents means turning these sources into accurate, understandable ma
 
 Approved source → Convert and clean → Divide by meaning → Label and review → Index and test
 
+
 Start with a small, representative sample rather than the whole archive. Include a straightforward document and a difficult one, such as a scanned warranty sheet. Decide what questions the agent should answer from each source. These questions become practical checks: can the prepared text still explain whether the Trail Lamp battery is covered, including any exceptions?
+
 
 1. **Confirm the source**
 
 Check ownership, approval, currency and permission to use the content. Keep a reference to the original and identify which version is authoritative.
 
+
 2. **Inspect the extracted text**
 
 Read the converted result beside the original. Check headings, reading order, tables and warnings before making it searchable.
+
 
 3. **Prepare complete knowledge units**
 
 Separate unrelated topics, retain necessary conditions and attach useful labels to each passage.
 
+
 4. **Test representative questions**
 
 Search for facts, exceptions and common paraphrases. Review the passages returned, not only the final answer.
+
+
+
+
 
 ## Clean noise without deleting meaning
 
@@ -40,6 +49,7 @@ Keep cleaning different from rewriting policy. If the source says that a battery
 
 **Extraction** turns information from a source into text or another usable representation. Some PDFs contain selectable text; others contain page images. **Optical character recognition**, usually called OCR, recognises letters in images. OCR can misread small print, punctuation and numbers, so apparently fluent output still needs checking against the source.
 
+
 - **PDF documents** — Check page order, columns and footnotes. A sentence from a neighbouring column must not become part of the warranty rule.
 
 - **Presentation slides** — Keep slide titles and explanatory notes together. A short bullet may rely on a diagram or the presenter's explanation.
@@ -48,11 +58,14 @@ Keep cleaning different from rewriting policy. If the source says that a battery
 
 - **Images** — Use OCR for written text and descriptions for visual relationships. Preserve uncertainty when a label or symbol cannot be read reliably.
 
+
+
+
 For slides, “Extended coverage” beneath a product photograph may not explain what is covered or for whom. Obtain an approved explanation rather than generating missing policy from the picture. For spreadsheets, preserve the difference between a displayed result and the formula used to calculate it. A prepared passage should name the product, the measure and any conditions instead of listing disconnected cells.
 
 A **media description** expresses visual or audible information in words. It can explain that a diagram places the charging port beneath a protective cover, something OCR alone may miss. Descriptions are interpretations, not perfect copies. Check consequential details such as connector labels and safety symbols, and do not infer an unseen feature from a familiar-looking product.
 
-Related: on AIVAX, [Fetch and OCR](http://localhost:1313/docs/web-foundation/fetch-and-ocr.md) extracts readable content, while [Media Descriptions](http://localhost:1313/docs/generations/media-descriptions.md) creates reusable descriptions. [Media Injector](http://localhost:1313/docs/rag/media-injector.md) processes supported media into collection documents. Choose the documented path for the source type; converting slides or spreadsheets may require preparation outside that media-import workflow.
+Related: on AIVAX, [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md) extracts readable content, while [Media Descriptions](https://docs.aivax.net/docs/generations/media-descriptions.md) creates reusable descriptions. [Media Injector](https://docs.aivax.net/docs/rag/media-injector.md) processes supported media into collection documents. Choose the documented path for the source type; converting slides or spreadsheets may require preparation outside that media-import workflow.
 
 ## Divide by meaning, not only by length
 
@@ -60,11 +73,13 @@ A **chunk** is a passage stored or handled as a searchable unit. **Segmentation*
 
 Start with natural boundaries such as headings, complete answers and procedure sections. Keep a rule with its conditions and exceptions. Retain the product name when a passage would otherwise begin with “this device”. If the source already consists of short, self-contained answers, additional splitting may create work without improving retrieval.
 
+
 **Chunk too big**
 
 A single Trail Lamp passage contains charging instructions, warranty rules, packaging disposal and the entire accessory catalogue.
 
 A battery-coverage question brings back a large amount of unrelated material, making the important exception harder to identify.
+
 
 **Right-sized for the question**
 
@@ -72,21 +87,25 @@ A passage named “Trail Lamp battery warranty” contains the coverage rule, in
 
 The passage stays focused while preserving the conditions needed to answer accurately.
 
+
+
+
+
 Too small is also a problem. “Requires inspection” is not useful alone if the product and relevant fault appear in another passage. **Overlap** means repeating some text across neighbouring chunks to preserve continuity. It can help with boundaries, but excessive overlap produces duplicate results and more maintenance. Prefer sensible structure before adding repeated text.
 
-On AIVAX, [Text Segmentation](http://localhost:1313/docs/rag/text-segmentation.md) returns coherent text segments for review and later use. Segmentation itself does not store the submitted documents or create the search index. Review what the process produced before treating it as finished knowledge.
+On AIVAX, [Text Segmentation](https://docs.aivax.net/docs/rag/text-segmentation.md) returns coherent text segments for review and later use. Segmentation itself does not store the submitted documents or create the search index. Review what the process produced before treating it as finished knowledge.
 
 ## Add labels that make maintenance possible
 
 **Metadata** is information about the content rather than the content itself. Useful examples include the document owner, product, source reference, effective date and review date. Distinguish these dates: uploading an old manual today does not make its policy current. When passages are separated, carry the relevant metadata with them so their identity is not lost.
 
-**Classification** assigns content to categories, such as warranty, setup or safety. Categories help people organise material and can support search selection. Define what each category means and how to handle a passage that fits more than one. Review uncertain assignments instead of forcing every document into a misleading label. On AIVAX, this capability is called [Document Classification](http://localhost:1313/docs/rag/classification.md).
+**Classification** assigns content to categories, such as warranty, setup or safety. Categories help people organise material and can support search selection. Define what each category means and how to handle a passage that fits more than one. Review uncertain assignments instead of forcing every document into a misleading label. On AIVAX, this capability is called [Document Classification](https://docs.aivax.net/docs/rag/classification.md).
 
 Labels do not automatically enforce permissions. An “internal” label only protects a document if trusted application rules use it to restrict access. Likewise, a product label cannot repair a passage that silently mixes several products. Combine accurate text, accurate metadata and actual access controls.
 
 Before publishing, try a routine question, an exception and a question the source cannot answer. Confirm that the prepared material supports the first cases without encouraging a guess in the last. When a source changes, replace or retire its outdated passages; otherwise the clean new version may compete with the old one.
 
-What's next: combine durable knowledge with facts that change during a conversation in [Dynamic context](http://localhost:1313/learn/teaching-agents/dynamic-context.md).
+What's next: combine durable knowledge with facts that change during a conversation in [Dynamic context](https://docs.aivax.net/learn/teaching-agents/dynamic-context.md).
 
 **Knowledge check.** What is the safest way to prepare a warranty document for retrieval?
 

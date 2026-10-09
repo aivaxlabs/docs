@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/features/skills.html
+Source: https://docs.aivax.net/pt-br/docs/features/skills.html
 
 # Habilidades
 
@@ -8,13 +8,13 @@ O agente deve carregar uma habilidade somente quando ela for relevante para a ta
 
 ## Como as habilidades funcionam?
 
-As habilidades são fornecidas principalmente por meio de um slug e uma breve descrição do que a habilidade é e quando deve ser usada. Você pode ter várias habilidades em sua conta, mas usar apenas um subconjunto delas em seu [AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md). As habilidades habilitadas no AI Gateway são listadas nas instruções de sistema do modelo e a função `read_skill` é adicionada ao contexto.
+As habilidades são fornecidas principalmente por meio de um slug e uma breve descrição do que a habilidade é e quando deve ser usada. Você pode ter várias habilidades em sua conta, mas usar apenas um subconjunto delas em seu [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). As habilidades habilitadas no AI Gateway são listadas nas instruções de sistema do modelo e a função `read_skill` é adicionada ao contexto.
 
 Quando o modelo chama `read_skill`, ele passa um array de slugs de habilidades. As instruções das habilidades correspondentes são inseridas nas instruções de sistema do próximo turno de contexto dentro de blocos `<activated_skill>`. Mais de uma habilidade pode ser ativada quando uma tarefa abrange múltiplos domínios, e o modelo pode chamar `read_skill` novamente com uma lista diferente quando a tarefa ativa mudar.
 
 Para que isso funcione, o modelo base escolhido deve suportar **chamadas de função** e **instruções de sistema**.
 
-- Se o seu modelo não suportar chamadas de função, considere usar um [manipulador de ferramentas](http://localhost:1313/pt-br/docs/inference/pipelines.md) para lidar com chamadas de função.
+- Se o seu modelo não suportar chamadas de função, considere usar um [manipulador de ferramentas](https://docs.aivax.net/pt-br/docs/inference/pipelines.md) para lidar com chamadas de função.
 - Se o seu modelo não suportar instruções de sistema, considere usar a flag `No system instructions`, que fornece instruções de sistema como uma mensagem de usuário.
 
 Modelos maiores tendem a seguir instruções e chamadas de função de forma muito rígida. Execute testes para confirmar que seu modelo carrega as habilidades corretas e as troca quando a tarefa muda.
@@ -118,4 +118,4 @@ Habilidades são mais úteis em cenários específicos onde você precisa de com
 
 ## Quando escolher RAG ou instruções de sistema em vez
 
-Use habilidades junto com [collections](http://localhost:1313/pt-br/docs/rag/collections.md) quando a tarefa precisar de conhecimento pesquisável, e com [pipelines](http://localhost:1313/pt-br/docs/inference/pipelines.md) quando precisar de política em tempo de evento ou reescrita de mensagens. Para um background mais amplo, consulte o [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building Production‑Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents) e a [Documentação do AI Gateway](http://localhost:1313/pt-br/docs/inference/ai-gateway.md).
+Use habilidades junto com [collections](https://docs.aivax.net/pt-br/docs/rag/collections.md) quando a tarefa precisar de conhecimento pesquisável, e com [pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md) quando precisar de política em tempo de evento ou reescrita de mensagens. Para um background mais amplo, consulte o [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building Production‑Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents) e a [Documentação do AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md).

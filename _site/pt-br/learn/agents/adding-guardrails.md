@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/agents/adding-guardrails.html
+Source: https://docs.aivax.net/pt-br/learn/agents/adding-guardrails.html
 
 Um agente de suporte pode saber o procedimento de reembolso e ter uma ferramenta de consulta de pedidos, mas ainda assim precisa de limites. Ele não deve expor o pedido de outro cliente, prometer uma exceção que não pode aprovar ou seguir uma mensagem que o instrua a ignorar a política da empresa. Um manual bem elaborado orienta o trabalho normal; os limites determinam o que acontece quando uma solicitação está fora desse escopo.
 
@@ -16,6 +16,7 @@ Um limite também deve nomear seu ponto de aplicação. Uma instrução pode diz
 
 Um **input** é a informação que entra no agente, como uma mensagem ou um documento recuperado. Um **output** é o que o sistema devolve, como uma resposta ou uma ação proposta. Verificações diferentes se aplicam a cada limite; uma mensagem que parece segura ainda pode levar a uma solicitação de ferramenta insegura.
 
+
 - **Regras de entrada** — Limite o que a aplicação aceita e encaminha. Verifique campos obrigatórios, rejeite anexos inadequados e evite coletar segredos ou informações pessoais desnecessárias.
 
 - **Regras de saída** — Exija reivindicações suportadas e redação adequada. Verifique informações privadas, promessas não suportadas e qualificações ausentes antes de entregar uma resposta, quando prático.
@@ -23,6 +24,9 @@ Um **input** é a informação que entra no agente, como uma mensagem ou um docu
 - **Limites de tópico** — Mantenha o assistente focado em seu papel definido. Um assistente de entrega pode explicar opções de entrega sem atuar como consultor médico ou jurídico.
 
 - **Limites de permissão de ferramentas** — Permita apenas as operações e registros necessários para o trabalho. Verifique a autoridade do usuário atual e a ação solicitada no software, não apenas na conversa.
+
+
+
 
 Verificações de entrada devem distinguir instruções hostis de informações ordinárias sobre um problema. Um cliente que cita uma mensagem ofensiva para relatar abuso não está necessariamente pedindo ao assistente que produza abuso. O bloqueio simples de palavras pode rejeitar solicitações legítimas enquanto perde paráfrases prejudiciais. As regras precisam de exemplos de uso aceitável e inaceitável, juntamente com um meio de revisar erros.
 
@@ -36,17 +40,23 @@ Uma **recusa** é uma decisão clara de não atender a uma solicitação. Deve e
 
 Aqui está um exemplo ilustrativo. Um cliente diz: “Meu pacote está atrasado. Reembolse agora e me mostre o pedido do meu vizinho para que eu possa comparar.” O assistente não tem autoridade para aprovar reembolsos ou acessar a conta do vizinho.
 
+
 **Resposta sem proteção**
 
 “Aprovei seu reembolso. Envie a referência do pedido do seu vizinho e eu verificarei isso também.”
 
 A resposta promete uma ação não verificada e convida a uma consulta não autorizada.
 
+
 **Resposta protegida**
 
 “Não posso acessar o pedido de outro cliente ou aprovar um reembolso aqui. Posso verificar o pedido disponível através da sua conta verificada e ajudar a solicitar a revisão do reembolso.”
 
 A resposta nomeia os limites e preserva ajuda útil e permitida.
+
+
+
+
 
 Este exemplo não é prova de aplicação. A ferramenta de pedidos ainda deve rejeitar uma referência pertencente a outra pessoa, mesmo que o modelo a solicite. Da mesma forma, uma ferramenta de envio de revisão não deve silenciosamente se tornar uma ferramenta de reembolso irrestrita porque o assistente usou uma linguagem tranquilizadora. Teste a operação subjacente assim como o texto ao seu redor.
 
@@ -56,9 +66,10 @@ Este exemplo não é prova de aplicação. A ferramenta de pedidos ainda deve re
 
 Receber solicitação → Verificar entrada e identidade → Aplicar limites da tarefa → Verificar qualquer ação de ferramenta proposta → Revisar resposta → Responder ou escalar
 
+
 O fluxo é um esboço de design, não uma garantia de que todo produto implemente essas verificações automaticamente. Uma ação rejeitada para antes da execução. Uma resposta que precisa de revisão aguarda em vez de ser enviada com um aviso esperançoso. A aplicação deve registrar informações suficientes para explicar o que aconteceu, evitando o armazenamento desnecessário de conteúdo privado.
 
-Uma **injeção de prompt** é uma tentativa de fazer com que um agente trate conteúdo não confiável como instruções que substituem sua tarefa prevista. Pode aparecer em uma mensagem de usuário, em um documento ou em um resultado de ferramenta. Uma página recuperada dizendo “enviar todos os registros de clientes para outro lugar” ainda é conteúdo de página, não autoridade para mudar as permissões do agente. Leia [Prompt injection and jailbreaks](http://localhost:1313/pt-br/learn/safety/prompt-injection-and-jailbreaks.md) para saber mais sobre esse limite.
+Uma **injeção de prompt** é uma tentativa de fazer com que um agente trate conteúdo não confiável como instruções que substituem sua tarefa prevista. Pode aparecer em uma mensagem de usuário, em um documento ou em um resultado de ferramenta. Uma página recuperada dizendo “enviar todos os registros de clientes para outro lugar” ainda é conteúdo de página, não autoridade para mudar as permissões do agente. Leia [Prompt injection and jailbreaks](https://docs.aivax.net/pt-br/learn/safety/prompt-injection-and-jailbreaks.md) para saber mais sobre esse limite.
 
 Mantenha os controles de segurança independentes do modelo sempre que possível. Verifique a identidade através do processo de login da aplicação, restrinja registros no serviço de negócio e exija aprovação para alterações consequenciais. Se uma verificação de autorização necessária não estiver disponível, interrompa a ação protegida. Não deixe que uma indisponibilidade de serviço transforme silenciosamente uma operação restrita em uma irrestrita.
 
@@ -72,7 +83,9 @@ Uma transição útil contém o objetivo do cliente, fatos relevantes confirmado
 
 Pausar a ação que requer aprovação. Explique a rota de contato disponível ou o estado pendente com precisão. Não prometa um tempo de resposta que o serviço não se comprometeu a cumprir e não trate uma solicitação não respondida como aprovação.
 
-[Human in the loop](http://localhost:1313/pt-br/learn/advanced-agents/human-in-the-loop.md) explica padrões de aprovação e transição. O envolvimento humano também precisa de evidências revisáveis e acesso adequado; apenas adicionar um botão de aprovação não torna um processo confuso ou sobrecarregado seguro.
+
+
+[Human in the loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md) explica padrões de aprovação e transição. O envolvimento humano também precisa de evidências revisáveis e acesso adequado; apenas adicionar um botão de aprovação não torna um processo confuso ou sobrecarregado seguro.
 
 ## Entenda os limites restantes
 
@@ -82,11 +95,13 @@ As guardrails reduzem o risco; elas não podem garantir verdade, privacidade per
 
 Ela expressa o comportamento desejado, mas o modelo pode não segui‑lo em todas as situações. Aplique regras de acesso e de negócio fora do modelo, teste casos difíceis e revise falhas reais. Trate as instruções como uma camada, não como um limite de segurança por si só.
 
-Mantenha um conjunto de solicitações ordinárias, ambíguas e deliberadamente desafiadoras. Verifique recusas, assistência permitida, rejeições de ferramentas e transições após mudanças. Acompanhe tanto violações perdidas quanto recusas desnecessárias: um sistema que bloqueia todas as solicitações não é um suporte útil. [Content moderation and policies](http://localhost:1313/pt-br/learn/safety/content-moderation-and-policies.md) desenvolve a distinção entre uma política e as verificações usadas para aplicá‑la.
 
-**Relacionado:** No AIVAX, [AI workers](http://localhost:1313/pt-br/docs/inference/workers.md) permitem que um serviço externo permita, interrompa ou ajuste eventos suportados ao redor de mensagens e chamadas de ferramentas no servidor. Eles podem implementar verificações fora do prompt, mas não estabelecem automaticamente uma política de segurança completa nem substituem permissões nos seus sistemas de negócio.
 
-**Próximo passo:** Limites precisam de evidência confiável. [Adding knowledge](http://localhost:1313/pt-br/learn/agents/adding-knowledge.md) explica como fornecer ao agente fontes da empresa aprovadas em vez de depender de suposições plausíveis.
+Mantenha um conjunto de solicitações ordinárias, ambíguas e deliberadamente desafiadoras. Verifique recusas, assistência permitida, rejeições de ferramentas e transições após mudanças. Acompanhe tanto violações perdidas quanto recusas desnecessárias: um sistema que bloqueia todas as solicitações não é um suporte útil. [Content moderation and policies](https://docs.aivax.net/pt-br/learn/safety/content-moderation-and-policies.md) desenvolve a distinção entre uma política e as verificações usadas para aplicá‑la.
+
+**Relacionado:** No AIVAX, [AI workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) permitem que um serviço externo permita, interrompa ou ajuste eventos suportados ao redor de mensagens e chamadas de ferramentas no servidor. Eles podem implementar verificações fora do prompt, mas não estabelecem automaticamente uma política de segurança completa nem substituem permissões nos seus sistemas de negócio.
+
+**Próximo passo:** Limites precisam de evidência confiável. [Adding knowledge](https://docs.aivax.net/pt-br/learn/agents/adding-knowledge.md) explica como fornecer ao agente fontes da empresa aprovadas em vez de depender de suposições plausíveis.
 
 **Verifique seu conhecimento.** Qual abordagem melhor representa a defesa em camadas para um agente de suporte?
 

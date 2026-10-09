@@ -1,13 +1,13 @@
-Source: http://localhost:1313/docs/mcp-utilities/documentation-mcp.html
+Source: https://docs.aivax.net/docs/mcp-utilities/documentation-mcp.html
 
 # Documentation MCP
 
 The AIVAX documentation MCP exposes AIVAX documentation, API reference content, and model metadata to MCP-compatible clients. It is designed for assistants, IDEs, internal agents, and implementation workflows that need current AIVAX context before they answer, write code, configure a gateway, or troubleshoot an integration.
 
-This MCP is read-oriented. It does not expose a generic account API invocation tool. Use it when an agent needs to understand AIVAX features, find the right API route, compare model capabilities, or ground its answer in the product manual. Use the [account management MCP](http://localhost:1313/docs/mcp-utilities/account-management-mcp.md) only when the client also needs to inspect or change authenticated account resources through API calls.
+This MCP is read-oriented. It does not expose a generic account API invocation tool. Use it when an agent needs to understand AIVAX features, find the right API route, compare model capabilities, or ground its answer in the product manual. Use the [account management MCP](https://docs.aivax.net/docs/mcp-utilities/account-management-mcp.md) only when the client also needs to inspect or change authenticated account resources through API calls.
 
 > [!NOTE]
-> Do not configure the documentation MCP together with the [account management MCP](http://localhost:1313/docs/mcp-utilities/account-management-mcp.md) in the same client unless you have a specific reason to duplicate tools. The account management MCP already includes documentation search functions, so adding both servers usually creates redundant documentation tools and can make tool selection less predictable.
+> Do not configure the documentation MCP together with the [account management MCP](https://docs.aivax.net/docs/mcp-utilities/account-management-mcp.md) in the same client unless you have a specific reason to duplicate tools. The account management MCP already includes documentation search functions, so adding both servers usually creates redundant documentation tools and can make tool selection less predictable.
 
 ## Endpoint
 
@@ -21,7 +21,7 @@ Authenticate with an AIVAX account API key:
 Authorization: Bearer <AIVAX_PRIVATE_API_KEY>
 ```
 
-For key types and authentication options, see [Authentication](http://localhost:1313/docs/authentication.md).
+For key types and authentication options, see [Authentication](https://docs.aivax.net/docs/authentication.md).
 
 ## Configuration example
 
@@ -72,11 +72,11 @@ Example arguments:
 
 Use more complete phrases when the question has a clear intent, such as `semantic search reranker settings` or `public key chat completion restrictions`. Use multiple terms when you want to cover neighboring concepts, alternate names, or likely API-reference terms.
 
-Search calls use the per-account quotas documented in [Plans and limits](http://localhost:1313/docs/limits.md#plan-limits).
+Search calls use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#plan-limits).
 
 ### `aivax_list_models`
 
-Lists integrated AIVAX chat models and returns a model-readable summary for each match. Use it when the assistant needs to choose a model, explain whether a model is available to the current plan, compare capabilities, or understand pricing (see [Pricing](http://localhost:1313/docs/pricing.md)).
+Lists integrated AIVAX chat models and returns a model-readable summary for each match. Use it when the assistant needs to choose a model, explain whether a model is available to the current plan, compare capabilities, or understand pricing (see [Pricing](https://docs.aivax.net/docs/pricing.md)).
 
 The tool accepts:
 
@@ -84,7 +84,7 @@ The tool accepts:
 | --- | --- | --- | --- |
 | `name_filter` | `string` | No | Optional fuzzy filter for model names, such as `gpt 5`, `sonnet`, `qwen coder`, or `@openai/gpt-5-mini`. |
 
-The response includes model description, stability, type, capabilities, flags, rate-limit group, routing model, subscription multiplier, technical metadata, token pricing, providers, and availability for the authenticated account plan. For current pricing details, see [Pricing](http://localhost:1313/docs/pricing.md).
+The response includes each model's description, stability, type, capabilities, flags, and availability for the authenticated account plan. For current prices, see [Pricing](https://docs.aivax.net/docs/pricing.md).
 
 Example arguments:
 
@@ -94,13 +94,13 @@ Example arguments:
 }
 ```
 
-Model listing calls use the per-account quotas documented in [Plans and limits](http://localhost:1313/docs/limits.md#plan-limits).
+Model listing calls use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#plan-limits).
 
 ## When to use it
 
 Use the documentation MCP when you want an assistant to answer AIVAX questions from source-backed context instead of memory. This is useful in IDEs, support tools, onboarding agents, internal implementation copilots, and evaluation workflows where the assistant should search the manual before recommending a route, parameter, feature, model, or debugging step.
 
-It is also helpful for agent-building workflows. Before creating or editing an [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md), an assistant can search for the relevant feature, check model capabilities, then explain what configuration should be used and why. For example, it can compare built-in tools, MCP functions, server-side functions, workers, RAG collections, structured responses, and multimodal pre-processing before suggesting a design.
+It is also helpful for agent-building workflows. Before creating or editing an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md), an assistant can search for the relevant feature, check model capabilities, then explain what configuration should be used and why. For example, it can compare built-in tools, MCP functions, server-side functions, workers, RAG collections, structured responses, and multimodal pre-processing before suggesting a design.
 
 For troubleshooting, the documentation MCP helps the assistant move from an error message to the likely product boundary. It can search for authentication rules, plan limits, multimodal balance requirements, RAG search parameters, gateway behavior, or public-key restrictions, then produce a focused checklist that reflects AIVAX behavior.
 

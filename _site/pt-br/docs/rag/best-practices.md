@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/rag/best-practices.html
+Source: https://docs.aivax.net/pt-br/docs/rag/best-practices.html
 
 # Melhores Práticas para RAG
 
@@ -89,7 +89,7 @@ A busca semântica funciona melhor quando documentos e consultas usam linguagem 
 Quando os resultados da busca são ruins, verifique o básico primeiro:
 
 - Confirme que os documentos estão indexados.
-- Teste a coleção com [Semantic Search](http://localhost:1313/pt-br/docs/rag/semantic-search.md) antes de testar através de um AI Gateway.
+- Teste a coleção com [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) antes de testar através de um AI Gateway.
 - Experimente uma pergunta completa em vez de palavras‑chave isoladas.
 - Compare a linguagem da consulta com a linguagem do documento.
 - Revise se a resposta relevante está dividida em muitos trechos pequenos ou enterrada em um muito grande.

@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/legal/third-party-processors.html
+Source: https://docs.aivax.net/pt-br/docs/legal/third-party-processors.html
 
 # Processadores de Dados
 
@@ -60,7 +60,7 @@ A coluna de lei de proteção de dados resume as principais estruturas identific
 
 ## Observações sobre o Manuseio de Dados
 
-Por padrão, a AIVAX não utiliza o Conteúdo de Entrada do Gerente de Conta, Conteúdo Gerado ou Conversas para treinar modelos proprietários da AIVAX. Registros elegíveis anonimidados de RAG e reclassificação são usados apenas para desenvolvimento de modelo quando um Gerente de Conta autorizado habilita o programa opcional descrito em [Data Collecting](http://localhost:1313/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos são excluídos.
+Por padrão, a AIVAX não utiliza o Conteúdo de Entrada do Gerente de Conta, Conteúdo Gerado ou Conversas para treinar modelos proprietários da AIVAX. Registros elegíveis anonimidados de RAG e reclassificação são usados apenas para desenvolvimento de modelo quando um Gerente de Conta autorizado habilita o programa opcional descrito em [Data Collecting](https://docs.aivax.net/pt-br/docs/data-collecting.md). Indexação e armazenamento de documentos são excluídos.
 
 Provedores de terceiros e agregadores podem ter suas próprias regras de processamento, retenção, monitoramento de abusos e melhoria de modelo. O modelo, provedor, ferramenta ou integração selecionados determinam qual terceiro recebe os dados para uma solicitação específica.
 

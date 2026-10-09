@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/features/batch.html
+Source: https://docs.aivax.net/docs/features/batch.html
 
 # Batch
 
@@ -32,7 +32,7 @@ Batch is a good choice when:
 - you want to use built-in tools, such as web search, for each item;
 - you need to measure confidence and success rate per run.
 
-Do **not** use Batch for real‐time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](http://localhost:1313/docs/rag/collections.md). For a single immediate response to a user, use [inference](http://localhost:1313/docs/inference/inference.md).
+Do **not** use Batch for real‐time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](https://docs.aivax.net/docs/rag/collections.md). For a single immediate response to a user, use [inference](https://docs.aivax.net/docs/inference/inference.md).
 
 ## Concepts
 
@@ -152,7 +152,7 @@ Use the API when you want to integrate Batch into your internal system, data pip
 
 The API flow is the same as the console flow, only expressed as separate operations. First create the workflow, which is the reusable recipe. Then create a job, import the items, and start the job when the workload is ready. After processing begins, use the listing, retry, cleanup, and export endpoints to operate the job without losing track of individual records.
 
-If you are still deciding whether Batch is the right feature, compare it with [RAG collections](http://localhost:1313/docs/rag/collections.md) and [direct inference](http://localhost:1313/docs/inference/inference.md). Batch is for repeated reasoning over independent items. RAG collections are for searchable knowledge that should be retrieved later. Direct inference is for one immediate answer.
+If you are still deciding whether Batch is the right feature, compare it with [RAG collections](https://docs.aivax.net/docs/rag/collections.md) and [direct inference](https://docs.aivax.net/docs/inference/inference.md). Batch is for repeated reasoning over independent items. RAG collections are for searchable knowledge that should be retrieved later. Direct inference is for one immediate answer.
 
 ### Create workflow
 
@@ -220,7 +220,7 @@ Use the export endpoint to select the completed results that your review or down
 
 ## Availability
 
-Review [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](http://localhost:1313/docs/limits.md) before processing a large workload.
+Review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md) before processing a large workload.
 
 ## Best practices
 
@@ -233,3 +233,4 @@ Review [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and Limits](h
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
 - Retry low‐confidence items separately; low confidence does not mean error, but indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.
+- For an operational walkthrough of rate limits, retries, and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).

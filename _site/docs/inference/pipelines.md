@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/inference/pipelines.html
+Source: https://docs.aivax.net/docs/inference/pipelines.html
 
 # AI Pipelines
 
@@ -8,7 +8,7 @@ Most pipelines are configured in the gateway parameters. Request-level options c
 
 ## RAG
 
-RAG links [collections](http://localhost:1313/docs/rag/collections.md) to an AI Gateway. The gateway controls:
+RAG links [collections](https://docs.aivax.net/docs/rag/collections.md) to an AI Gateway. The gateway controls:
 
 - Collections included in retrieval.
 - Maximum number of retrieved documents.
@@ -25,11 +25,11 @@ Query strategies:
 - `Concatenate`: Joins the latest configured number of user messages line by line and searches with the combined text.
 - `UserRewrite`: Rewrites recent user messages into one or more search queries using a resolver model.
 - `FullRewrite`: Rewrites recent user and assistant messages into one or more search queries using a resolver model.
-- `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses. The model can narrow a search with an optional [document filter](http://localhost:1313/docs/filters/document-filters.md).
+- `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses. The model can narrow a search with an optional [document filter](https://docs.aivax.net/docs/filters/document-filters.md).
 
-Rewrite strategies add resolver-model cost (see [Pricing](http://localhost:1313/docs/pricing.md)) and latency. They are useful when users ask follow-up questions such as "what about this case?" because the resolver can turn the recent conversation into a clearer search query.
+Rewrite strategies add resolver-model cost (see [Pricing](https://docs.aivax.net/docs/pricing.md)) and latency. They are useful when users ask follow-up questions such as "what about this case?" because the resolver can turn the recent conversation into a clearer search query.
 
-Defining many RAG results increases input token usage and can increase final inference cost (see [Pricing](http://localhost:1313/docs/pricing.md)). Start with a small result count and raise it only when the model lacks enough evidence.
+Defining many RAG results increases input token usage and can increase final inference cost (see [Pricing](https://docs.aivax.net/docs/pricing.md)). Start with a small result count and raise it only when the model lacks enough evidence.
 
 ## Instructions
 
@@ -40,7 +40,7 @@ Instruction settings shape the provider-facing prompt:
 - **User prompt template**: Replaces `{prompt}` with each user message's text before sending it to the model.
 - **Assistant prefill**: Adds initial assistant content before generation when the model supports prefill.
 
-Remote instruction sources are fetched as text with a 10 MB maximum response size. Their cache duration is configurable; the default is 600 seconds.
+Remote instruction sources are fetched as text, within a response size limit (see [Request and payload limits](https://docs.aivax.net/docs/limits.md#request-and-payload-limits)). Their cache duration is configurable; the default is 600 seconds.
 
 Some models do not support assistant prefill, temperature, stop sequences, or reasoning effort. Integrated model validation rejects incompatible gateway settings when those limitations are known.
 
@@ -48,17 +48,17 @@ Some models do not support assistant prefill, temperature, stop sequences, or re
 
 Skills are on-demand instruction packs available to the model. When a gateway enables skills, AIVAX loads the account skills configured on the gateway and can expose skill-related built-in functions.
 
-Read more about [skills](http://localhost:1313/docs/features/skills.md).
+Read more about [skills](https://docs.aivax.net/docs/features/skills.md).
 
 ## Multimodal pre-processing
 
-Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](http://localhost:1313/docs/inference/inference.md#multimodal-pre-processing) for the accepted engines.
+Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](https://docs.aivax.net/docs/inference/inference.md#multimodal-pre-processing) for the accepted engines.
 
 The gateway setting `multimodalResolverParameters` replaces the deprecated `enabledMultimodalFeatures` flags. Gateways that still use the flags keep working with the equivalent engines until `multimodalResolverParameters` is set.
 
 Use pre-processing when the main model is text-first or when you want AIVAX to normalize media into textual context. For direct multimodal models, send the original media without pre-processing so the model can inspect it directly.
 
-Inference results are cached by content and engine for reuse. OCR and speech-to-text are billed on every use.
+Results are cached by content and engine for reuse.
 
 ## Parameterization
 
@@ -85,7 +85,7 @@ The context truncation pipeline uses an approximate token count. When `ContextMa
 
 Truncation preserves system messages and keeps at least one user message when possible. If the remaining user message still exceeds the limit, the request fails with a message-size error.
 
-On lower plans, the effective input context may be capped even when a larger context is configured; see [Plans and limits](http://localhost:1313/docs/limits.md#plan-limits).
+On lower plans, the effective input context may be capped even when a larger context is configured; see [Plans and limits](https://docs.aivax.net/docs/limits.md#plan-limits).
 
 ## Tool message truncation
 
@@ -118,7 +118,7 @@ Built-in tools can be configured on a gateway or supplied per request with `buil
 - `DateTime` — current date and time through `get_date_time`; configure `dateTimeTimeZone` in built-in tool options (default: `America/Los_Angeles`, Pacific Time).
 
 - `WebSearch`
-- `AdvancedWebUsage` (disabled; returns an unavailable response. See [Changelogs](http://localhost:1313/docs/changelogs.md).)
+- `AdvancedWebUsage` (disabled; returns an unavailable response. See [Changelogs](https://docs.aivax.net/docs/changelogs.md).)
 - `OpenUrl`
 - `Code`
 - `Request`
@@ -129,7 +129,7 @@ Built-in tools can be configured on a gateway or supplied per request with `buil
 - `XPostsSearch`
 - `ImageGeneration`
 
-See [Built-in tools](http://localhost:1313/docs/tools/builtin-tools.md).
+See [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md).
 
 ## MCP and protocol functions
 
@@ -137,7 +137,7 @@ Tools listed by an MCP source become available to the model with their declared 
 
 Protocol functions expose HTTP callbacks or AIVAX callback URLs as model-callable tools. Remote protocol function sources are fetched and cached before their tools become available to the model.
 
-See [Protocol functions](http://localhost:1313/docs/tools/protocol-functions.md) and [MCP](http://localhost:1313/docs/tools/mcp.md).
+See [Protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) and [MCP](https://docs.aivax.net/docs/tools/mcp.md).
 
 ## Function interpreter
 
@@ -232,4 +232,4 @@ For a decision guide on system prompts, a separate moderation step, and authoriz
 
 ## Workers
 
-Configure worker events and endpoint details in the gateway parameters; implement the event behavior at your external endpoint. See [AI Workers](http://localhost:1313/docs/inference/workers.md).
+Configure worker events and endpoint details in the gateway parameters; implement the event behavior at your external endpoint. See [AI Workers](https://docs.aivax.net/docs/inference/workers.md).

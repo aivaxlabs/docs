@@ -1,10 +1,10 @@
-Source: http://localhost:1313/docs/inference/inference.html
+Source: https://docs.aivax.net/docs/inference/inference.html
 
 # Inference
 
 AIVAX exposes an OpenAI-compatible `chat/completions` API with additional AIVAX parameters. The additions are optional and are designed to support gateways, RAG, built-in tools, structured responses, multimodal pre-processing, model routing, and billing metadata.
 
-Use this page for direct inference calls. Use [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md) when the same configuration must be reused or centrally managed.
+Use this page for direct inference calls. Use [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) when the same configuration must be reused or centrally managed.
 
 ## Endpoint
 
@@ -38,9 +38,9 @@ Available routing preferences are:
 
 ### Configure routing in an AI Gateway
 
-Use an AI Gateway when the same routing preference should apply to every request. In the gateway editor, select an integrated model, open **Routing preference**, choose the preferred strategy, and save the gateway.
+Use an AI Gateway when the same routing should apply to every request. In the gateway editor, select an integrated model, choose the strategy in **Routing preference**, list provider tags in order in **Allowed providers**, and save the gateway.
 
-The equivalent gateway configuration uses `parameters.routingOption`:
+The equivalent gateway configuration uses `parameters.routingOption` and `parameters.allowedProviders`:
 
 ```json
 {
@@ -48,16 +48,19 @@ The equivalent gateway configuration uses `parameters.routingOption`:
     "parameters": {
         "baseAddress": "@integrated",
         "modelName": "YOUR_INTEGRATED_MODEL",
-        "routingOption": "Cheapest"
+        "routingOption": "Cheapest",
+        "allowedProviders": [ "azure-us", "azure-eu", "*" ]
     }
 }
 ```
 
-After saving, call the gateway normally by using its ID or slug as `model`. AIVAX applies the stored routing preference while preserving the gateway's instructions, tools, RAG configuration, and other settings. See [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md) for the complete gateway workflow.
+`allowedProviders` follows the same rules as `routing_options.allowed_providers` below. It defaults to `["*"]`, and an empty list is rejected when saving the gateway.
+
+After saving, call the gateway normally by using its ID or slug as `model`. AIVAX applies the stored routing preference while preserving the gateway's instructions, tools, RAG configuration, and other settings. See [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) for the complete gateway workflow.
 
 ### Override routing in `chat/completions`
 
-Use `routing_preset` to choose a provider strategy for one request. The override works with a direct integrated model or an AI Gateway that uses an integrated model:
+Use `routing_options` to choose how providers are selected for one request. The override works with a direct integrated model or an AI Gateway that uses an integrated model:
 
 ```json
 {
@@ -68,11 +71,46 @@ Use `routing_preset` to choose a provider strategy for one request. The override
             "content": "Summarize this incident report."
         }
     ],
-    "routing_preset": "Fastest"
+    "routing_options": {
+        "preset": "Balanced",
+        "allowed_providers": [
+            "azure-us",
+            "azure-eu",
+            "*"
+        ]
+    }
 }
 ```
 
-The accepted values are `Balanced`, `Cheapest`, `Fastest`, and `Quality`. The request value overrides the gateway's saved `routingOption` for that request only; it does not update the gateway. Because `routing_preset` is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK. Request-level routing overrides require a private API key.
+| Field | Description |
+|---|---|
+| `preset` | Routing preference: `Balanced`, `Cheapest`, `Fastest`, or `Quality`. When omitted, the gateway's saved `routingOption` is used. |
+| `allowed_providers` | Ordered list of provider tags. AIVAX tries the first tag and moves to the next one only when no matching provider is available or compatible with the request. `"*"` matches any provider. When omitted, the gateway's saved `allowedProviders` is used, which defaults to `["*"]`. |
+
+Within each step, `preset` chooses among the matching providers. Without `"*"` at the end, the request fails when none of the listed providers is available. An empty `allowed_providers` list is rejected. Tag matching is case-insensitive.
+
+Each provider's tag is shown in the provider details of the dashboard **Models** page, where it can be copied, and returned as `tag` in the provider list of `GET /v1/models`. A tag identifies a provider endpoint, including its region or variant when one exists, such as `azure-us` or `azure-eu`.
+
+`GET /v1/models` accepts an optional `filter` query parameter with a model name, such as `?filter=@openai/gpt-4o`. The response then contains only entries whose name equals it or is a dated snapshot of it (a trailing numeric suffix of at least four digits), ordered from the closest match, with the newest snapshot first. Without `filter`, the full list is returned.
+
+The request values override the gateway's saved routing for that request only; they do not update the gateway. Because `routing_options` is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK.
+
+The previous `routing_preset` field is deprecated but still accepted. Replace `"routing_preset": "Fastest"` with `"routing_options": { "preset": "Fastest" }`. When both are sent, `routing_options.preset` takes precedence.
+
+### Provider in responses
+
+Responses for integrated models include a `provider` field next to `model` with the tag of the provider that served the request. In streaming responses, every chunk includes it. The field is `null` for gateways that use your own provider credentials.
+
+```json
+{
+    "object": "chat.completion.chunk",
+    "model": "@openai/gpt-5-mini",
+    "provider": "azure-us",
+    "choices": [ ... ]
+}
+```
+
+If a provider fails and AIVAX retries the request on another provider, `provider` reflects the provider that produced the response.
 
 ## Input and multimodality
 
@@ -255,12 +293,12 @@ Use `multimodal_resolver` when the main model should receive a textual descripti
 
 - `InferenceLow` describes the content with a smaller, lower-cost multimodal model.
 - `InferenceHigh` describes the content with a larger multimodal model that is more accurate and costs more.
-- `Ocr` extracts the text of images and files with the same extraction service as [Fetch and OCR](http://localhost:1313/docs/web-foundation/fetch-and-ocr.md), billed in Processing Units. It accepts base64 data URIs and public URLs.
-- `Stt` transcribes the speech in the audio with the default [speech-to-text](http://localhost:1313/docs/pricing.md) model and is billed per second of audio. Music and ambient sounds are not described.
+- `Ocr` extracts the text of images and files with the same extraction service as [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md), billed in Processing Units. It accepts base64 data URIs and public URLs.
+- `Stt` transcribes the speech in the audio with the default [speech-to-text](https://docs.aivax.net/docs/pricing.md) model and is billed per second of audio. Music and ambient sounds are not described.
 
 With `InferenceLow` or `InferenceHigh`, `fileEngine` sends PDFs to the multimodal model and converts other file types with OCR. With `Ocr`, every file, including PDFs, is converted with OCR.
 
-Inference results are cached by content and engine for reuse, so the same media is not billed again. OCR and speech-to-text results are not cached and are billed on every request.
+Results are cached by content and engine for reuse, so the same media resolved with the same engine is not billed again. Changing the engine processes and bills the content again.
 
 ### Deprecated `multimodal_preprocess`
 
@@ -277,7 +315,7 @@ The `multimodal_preprocess` flags remain accepted for compatibility but are depr
 
 Because one engine now covers every file type, `OtherFiles` alone also converts PDFs with OCR, and `File` alone also converts non-PDF files with OCR. Previously, the file types outside the selected flag were sent to the main model unchanged.
 
-Multimodal inputs can have account requirements. Review [Pricing](http://localhost:1313/docs/pricing.md) and [Plans and limits](http://localhost:1313/docs/limits.md) before using them in production.
+Multimodal inputs can have account requirements. Review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md) before using them in production.
 
 When a multimodal inference fails, narrow down the problem:
 
@@ -331,7 +369,7 @@ AIVAX supports structured responses through `response_schema`, `response_format`
 
 `response_schema` enables JSON Healing. AIVAX asks the model for JSON, extracts JSON from the generated text or markdown blocks, validates it against the schema, and retries with validation feedback until the output is valid or the attempt limit is reached.
 
-Read more on [Structured responses](http://localhost:1313/docs/inference/structured-responses.md).
+Read more on [Structured responses](https://docs.aivax.net/docs/inference/structured-responses.md).
 
 If your application cannot parse or validate the result, follow the [invalid JSON troubleshooting guide](https://aivax.net/blog/structured-output-healing-boundary/) before increasing the retry budget.
 
@@ -356,9 +394,9 @@ Use `builtin_tools` to enable AIVAX built-in tools for a direct request without 
 }
 ```
 
-Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage` (disabled; returns an unavailable response; see [Changelogs](http://localhost:1313/docs/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
+Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage` (disabled; returns an unavailable response; see [Changelogs](https://docs.aivax.net/docs/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Calendar`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
 
-`DateTime` exposes `get_date_time`, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set `builtin_tools.options.dateTimeTimeZone` to an IANA identifier; the default is `America/Los_Angeles` (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See [Current Date and Time](http://localhost:1313/docs/tools/builtin-tools.md#current-date-and-time) for configuration and output examples.
+`DateTime` exposes `get_date_time`, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set `builtin_tools.options.dateTimeTimeZone` to an IANA identifier; the default is `America/Los_Angeles` (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See [Current Date and Time](https://docs.aivax.net/docs/tools/builtin-tools.md#current-date-and-time) for configuration and output examples.
 
 On-demand tools are suitable for occasional calls, prototypes, and integrations that do not need a persistent gateway. If the same application always uses the same tools, prefer configuring them in an AI Gateway so the policy is centralized.
 
@@ -507,7 +545,7 @@ I found several candidates and should rank them by cost, speed, and modality sup
 <assistant-answer>
 For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.
 
-Model availability and prices change over time; the picks below are example output — see [Pricing](http://localhost:1313/docs/pricing.md) for current values.
+Model availability and prices change over time; the picks below are example output — see [Pricing](https://docs.aivax.net/docs/pricing.md) for current values.
 
 Top picks:
 
@@ -531,7 +569,7 @@ When the user replies, keep the conversation history focused on the user-visible
         },
         {
             "role": "assistant",
-            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](http://localhost:1313/docs/pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
+            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](https://docs.aivax.net/docs/pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-2.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
         },
         {
             "role": "user",

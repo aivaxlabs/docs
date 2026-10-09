@@ -1,10 +1,11 @@
-Source: http://localhost:1313/pt-br/learn/quality/metrics.html
+Source: https://docs.aivax.net/pt-br/learn/quality/metrics.html
 
 A **métrica** é uma medida definida consistentemente usada para entender o desempenho. Para um agente, “bom” tem vários significados: dar uma resposta correta, concluir o trabalho rapidamente, usar recursos de forma responsável e ajudar a pessoa que solicitou. Essas qualidades podem se mover em direções diferentes. Uma resposta mais curta pode chegar mais rápido, mas deixar de fora uma condição crucial. Uma conversa mais longa pode custar mais e ainda prevenir um erro caro.
 
 Pense em operar um serviço de entrega. O horário de chegada importa, mas entregar o pacote errado rapidamente não é sucesso. Da mesma forma, um painel de agente não deve celebrar a velocidade enquanto ignora a correção. Comece com a tarefa para a qual o agente existe, decida como a conclusão bem‑sucedida se parece e, em seguida, selecione as medições. Um **dashboard** é simplesmente uma visualização compartilhada dessas medições ao longo de um período declarado.
 
 ## Entenda as quatro perspectivas
+
 
 - **Precisão** — O agente fornece a informação correta e completa a tarefa exigida sob as regras declaradas? Avalie contra expectativas verificadas.
 
@@ -14,9 +15,12 @@ Pense em operar um serviço de entrega. O horário de chegada importa, mas entre
 
 - **Satisfação** — Quão útil e compreensível foi a experiência para a pessoa que a utilizou? Colete feedback, reconhecendo quem não respondeu.
 
+
+
+
 **Precisão** precisa de uma definição que se ajuste à tarefa. Para extrair campos de fatura, compare cada campo obrigatório com uma referência verificada. Para suporte, revise se a resposta segue a política e aborda a pergunta. Para um agente de reserva, verifique a reserva e a confirmação necessária. Uma medida comum é a proporção de casos avaliados que atendem a todos os critérios exigidos. Sempre indique quais casos foram avaliados e o que contou como aprovação.
 
-Não confunda precisão com confiança na escrita. Nem deve comparar duas pontuações calculadas com regras diferentes. Um agente avaliado apenas pela formulação factual tem um teste mais fácil do que um avaliado por formulação, permissões e ações concluídas. Use [testing and evaluating agents](http://localhost:1313/pt-br/learn/quality/testing-and-evaluating-agents.md) para estabelecer uma lista de verificação estável. Relate falhas graves separadamente, mesmo que a taxa geral de aprovação seja alta.
+Não confunda precisão com confiança na escrita. Nem deve comparar duas pontuações calculadas com regras diferentes. Um agente avaliado apenas pela formulação factual tem um teste mais fácil do que um avaliado por formulação, permissões e ações concluídas. Use [testing and evaluating agents](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md) para estabelecer uma lista de verificação estável. Relate falhas graves separadamente, mesmo que a taxa geral de aprovação seja alta.
 
 **Latência** significa tempo de espera decorrido. Meça onde o usuário a experimenta, não apenas dentro do modelo. O atraso total pode incluir busca de documentos, contato com um sistema empresarial e novas tentativas de uma solicitação falha. Se o texto aparecer gradualmente, diferencie o tempo até o primeiro texto visível do tempo até uma resposta completa e útil. Começar rápido pode tranquilizar alguém, mas um “Concluído” prematuro nunca deve implicar que uma ação inacabada teve sucesso.
 
@@ -30,11 +34,16 @@ Uma média combina todas as medições em um único número, o que pode esconder
 
 Imagine alinhar solicitações concluídas da mais rápida à mais lenta. A solicitação do meio informa sobre uma espera ordinária; uma solicitação próximo do extremo lento informa sobre uma espera frustrante. Nenhum é o máximo, e p95 não significa que todo usuário receberá uma resposta antes desse tempo. Inclua o número de observações e o período de medição, pois um percentil de uma amostra pequena é instável.
 
+
 - **p50** — A observação do meio
 
 - **p95** — Uma visão do extremo mais lento
 
 - **Maximum** — O caso mais lento observado, não uma garantia
+
+
+
+
 
 **Tempo de espera de resposta completa (ilustrativo)**
 
@@ -46,6 +55,8 @@ Imagine alinhar solicitações concluídas da mais rápida à mais lenta. A soli
 | Version B p95 | 7seconds |
 
 Observações inventadas mostram por que a espera típica e a espera do extremo lento podem mover-se em direções opostas. Estes não são benchmarks de produto.
+
+
 
 Nesta comparação ilustrativa, a versão B torna a experiência média mais lenta, mas melhora o extremo lento. Se isso é desejável depende da promessa do serviço e da tarefa. Também conte solicitações que falharam ou expiraram. Excluí‑las do gráfico sem uma medida de falha separada pode fazer um serviço não confiável parecer rápido, pois suas piores experiências desaparecem do cálculo.
 
@@ -62,13 +73,19 @@ As metas a seguir são pontos de partida qualitativos, não garantias universais
 | Assistente interno de conhecimento | Resposta suportada por documentos atuais | Resposta útil enquanto o colaborador trabalha | Respeitar restrições de acesso |
 | Processamento de back‑office | Registros corretos produzidos e verificados | Concluir dentro da janela de trabalho acordada | Nenhuma alteração não autorizada |
 
+
 **Otimizar um número**
 
 Escolha a resposta mais barata e comemore menor gasto, mesmo que clientes repitam perguntas e a equipe repare mais erros.
 
+
 **Otimizar o resultado**
 
 Compare o custo por tarefa concluída com sucesso enquanto verifica precisão, tempo de espera, segurança e esforço de correção humana.
+
+
+
+
 
 ## Construa um painel que apoie decisões
 
@@ -76,9 +93,9 @@ Mantenha o painel pequeno o suficiente para ser lido, mas mostre definições ao
 
 Mostre tendências ao lado dos valores recentes e marque lançamentos ou mudanças nas regras de medição. Uma tendência é uma sequência de medições ao longo do tempo; ajuda a distinguir uma mudança persistente de uma flutuação breve. Vincule resultados preocupantes a exemplos seguros de privacidade para que a equipe possa investigar. Atribua um responsável a cada medida importante e uma ação a cada alerta, em vez de coletar números que ninguém usa.
 
-**Related on AIVAX:** [Agentic Tests](http://localhost:1313/pt-br/docs/inference/agentic-tests.md) provide evaluation outcomes for configured scenarios. Use those as one source of quality evidence alongside your application's timings, business outcomes and user feedback. A test result and a customer-satisfaction response answer different questions and should remain distinguishable.
+**Related on AIVAX:** [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md) provide evaluation outcomes for configured scenarios. Use those as one source of quality evidence alongside your application's timings, business outcomes and user feedback. A test result and a customer-satisfaction response answer different questions and should remain distinguishable.
 
-**What's next:** Learn how to investigate the numbers in [Logs, traces and monitoring](http://localhost:1313/pt-br/learn/quality/logs-traces-and-monitoring.md).
+**What's next:** Learn how to investigate the numbers in [Logs, traces and monitoring](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md).
 
 **Verifique seu conhecimento.** O que a latência p95 indica?
 

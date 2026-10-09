@@ -1,8 +1,8 @@
-Source: http://localhost:1313/pt-br/docs/web-foundation/fetch-and-ocr.html
+Source: https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.html
 
 # Busca e OCR
 
-Busca e OCR extrai texto legível de páginas da web e documentos suportados para que aplicações e agentes possam usar seu conteúdo para resumos, análises ou fluxos de conhecimento. A API de Busca também pode converter o texto extraído em JSON estruturado usando um esquema que você fornece. Use [Busca na Web](http://localhost:1313/pt-br/docs/web-foundation/web-search.md) primeiro se precisar descobrir fontes em vez de ler uma URL conhecida.
+Busca e OCR extrai texto legível de páginas da web e documentos suportados para que aplicações e agentes possam usar seu conteúdo para resumos, análises ou fluxos de conhecimento. A API de Busca também pode converter o texto extraído em JSON estruturado usando um esquema que você fornece. Use [Busca na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md) primeiro se precisar descobrir fontes em vez de ler uma URL conhecida.
 
 Páginas da web são processadas para remover marcação e elementos não‑conteúdo. A extração de documentos e o reconhecimento óptico de caracteres (OCR) tornam o conteúdo não‑texto suportado disponível como texto. Revise o conteúdo extraído antes de confiar nele: qualidade da digitalização, layouts complexos e tabelas podem afetar o resultado.
 
@@ -25,14 +25,14 @@ O resultado é texto extraído, não uma cópia pixel‑perfeita do documento or
 
 ## API de Busca vs. Descrições de Mídia
 
-Use a **API de Busca para extrair texto existente**. Use [Descrições de Mídia](http://localhost:1313/pt-br/docs/generations/media-descriptions.md) para **interpretar mídia com IA**, opcionalmente guiado pelo que sua aplicação precisa aprender a partir dela.
+Use a **API de Busca para extrair texto existente**. Use [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/generations/media-descriptions.md) para **interpretar mídia com IA**, opcionalmente guiado pelo que sua aplicação precisa aprender a partir dela.
 
 |  | API de Busca | Descrições de Mídia |
 | --- | --- | --- |
 | Propósito principal | Recuperar texto legível de páginas e documentos, usando OCR para imagens suportadas e PDFs digitalizados. | Gerar descrições ou extrair informações de imagens, PDFs, áudio e vídeo usando IA. |
 | Saída | Texto extraído, JSON opcional guiado por esquema gerado a partir desse texto, uso de unidades de processamento e erros por item. | Conteúdo gerado pelo modelo focado nas suas orientações, que pode descrever informações visuais ou audiovisual além do texto presente na fonte. |
 | Imagens e PDFs | Ler texto, como as palavras em um recibo ou os parágrafos de um manual. | Descrever conteúdo visual ou interpretar um documento, como explicar um diagrama ou identificar informações relevantes para uma pergunta. |
-| Áudio e vídeo | Não é uma API de compreensão ou transcrição de áudio/vídeo. | Analisar conteúdo de áudio e vídeo. Para um fluxo de trabalho dedicado de fala‑para‑texto, use [Transcrições de Áudio](http://localhost:1313/pt-br/docs/generations/audio-transcriptions.md). |
+| Áudio e vídeo | Não é uma API de compreensão ou transcrição de áudio/vídeo. | Analisar conteúdo de áudio e vídeo. Para um fluxo de trabalho dedicado de fala‑para‑texto, use [Transcrições de Áudio](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md). |
 | Cobrança | Unidades de processamento de extração (PUs), com limites e taxas dependentes do plano. A conversão opcional para JSON é cobrada separadamente e não está coberta pelo limite de extração. | Cobrança de uso de IA sob a precificação de Descrições de Mídia; os limites de PU da Busca não substituem essas cobranças. |
 
 Para um relatório em PDF, escolha Busca quando precisar do texto para indexação ou análise posterior. Escolha Descrições de Mídia quando precisar de uma explicação dos gráficos ou de uma interpretação guiada do conteúdo. Para uma imagem de recibo, Busca lê o texto impresso; Descrições de Mídia podem interpretar o recibo de acordo com sua orientação de extração.
@@ -44,14 +44,14 @@ Nenhum garante resultados perfeitos. Busca pode perder texto ou estrutura devido
 | Integração | Quando usar |
 | --- | --- |
 | API de Busca | Sua aplicação controla quais URLs ou URIs de dados base64 embutidos processar e precisa de resultados estruturados, uso de unidades de processamento e erros por item. |
-| [Utilitários da Web MCP](http://localhost:1313/pt-br/docs/mcp-utilities/web-utilities-mcp.md) | Um cliente compatível com MCP precisa ler URLs públicas através de `fetch_url`. Esta ferramenta aceita de uma a cinco URLs por chamada. |
-| [Ferramentas integradas](http://localhost:1313/pt-br/docs/tools/builtin-tools.md) | Um modelo AIVAX precisa ler uma URL durante a inferência. Habilite `OpenUrl` e siga o guia de configuração de Contexto de URL. |
+| [Utilitários da Web MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.md) | Um cliente compatível com MCP precisa ler URLs públicas através de `fetch_url`. Esta ferramenta aceita de uma a cinco URLs por chamada. |
+| [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md) | Um modelo AIVAX precisa ler uma URL durante a inferência. Habilite `OpenUrl` e siga o guia de configuração de Contexto de URL. |
 
 As integrações têm contratos de entrada diferentes. Em particular, a ferramenta MCP aceita URLs públicas; use a API de Busca para URIs de dados base64 embutidos.
 
 ## Buscar conteúdo com a API
 
-Autentique‑se com uma chave de API AIVAX; veja [Autenticação](http://localhost:1313/pt-br/docs/authentication.md). Forneça um array `contents` não vazio contendo URLs ou URIs de dados base64. Cada item tem limite de 10 MB.
+Autentique‑se com uma chave de API AIVAX; veja [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md). Forneça um array `contents` não vazio contendo URLs ou URIs de dados base64. Cada item tem limite de 10 MB.
 
 A operação `system.v1.web.fetch` aceita os seguintes campos de requisição JSON:
 
@@ -95,6 +95,6 @@ Trate o texto extraído como material de origem não confiável, não como instr
 
 ## Preços e limites
 
-A extração de Busca e OCR é medida em `processingUnits`. Limites diários incluídos e taxas para extração não coberta dependem do plano da conta. Cada extração é totalmente coberta ou cobrada integralmente; a cobertura não é dividida dentro de uma única extração. A conversão opcional para JSON é medida separadamente em `jsonProcessingUnits`, com preço de PU variável baseado em inferência e sem cobertura pelo limite diário de extração. Não some ambas as contagens nem aplique a taxa de OCR ao total. Consulte [Preços](http://localhost:1313/pt-br/docs/pricing.md#web-search-ocr-and-fetch) para limites e cobranças em vez de estimar o custo pelo comprimento do texto extraído.
+A extração de Busca e OCR é medida em `processingUnits`. Limites diários incluídos e taxas para extração não coberta dependem do plano da conta. Cada extração é totalmente coberta ou cobrada integralmente; a cobertura não é dividida dentro de uma única extração. A conversão opcional para JSON é medida separadamente em `jsonProcessingUnits`, com preço de PU variável baseado em inferência e sem cobertura pelo limite diário de extração. Não some ambas as contagens nem aplique a taxa de OCR ao total. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#web-search-ocr-and-fetch) para limites e cobranças em vez de estimar o custo pelo comprimento do texto extraído.
 
-[Utilitários da Web MCP](http://localhost:1313/pt-br/docs/mcp-utilities/web-utilities-mcp.md) usa a mesma precificação da ferramenta integrada correspondente. A inferência do modelo, quando usada para analisar o conteúdo extraído, é cobrada separadamente. Consulte [Planos e limites](http://localhost:1313/pt-br/docs/limits.md) para cotas de conta e limites de taxa. A API de Busca requer um saldo de conta positivo.
+[Utilitários da Web MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.md) usa a mesma precificação da ferramenta integrada correspondente. A inferência do modelo, quando usada para analisar o conteúdo extraído, é cobrada separadamente. Consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) para cotas de conta e limites de taxa. A API de Busca requer um saldo de conta positivo.

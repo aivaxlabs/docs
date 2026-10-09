@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/inference/structured-responses.html
+Source: https://docs.aivax.net/docs/inference/structured-responses.html
 
 # Structured Responses
 

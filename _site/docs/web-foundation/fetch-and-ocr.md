@@ -1,8 +1,8 @@
-Source: http://localhost:1313/docs/web-foundation/fetch-and-ocr.html
+Source: https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.html
 
 # Fetch and OCR
 
-Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. The Fetch API can also convert the extracted text into structured JSON using a schema you provide. Use [Web Search](http://localhost:1313/docs/web-foundation/web-search.md) first if you need to discover sources rather than read a known URL.
+Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. The Fetch API can also convert the extracted text into structured JSON using a schema you provide. Use [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) first if you need to discover sources rather than read a known URL.
 
 Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result.
 
@@ -25,14 +25,14 @@ The result is extracted text, not a pixel-perfect copy of the original document.
 
 ## Fetch API vs. Media Descriptions
 
-Use the **Fetch API to extract existing text**. Use [Media Descriptions](http://localhost:1313/docs/generations/media-descriptions.md) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
+Use the **Fetch API to extract existing text**. Use [Media Descriptions](https://docs.aivax.net/docs/generations/media-descriptions.md) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
 
 | | Fetch API | Media Descriptions |
 | --- | --- | --- |
 | Main purpose | Retrieve readable text from pages and documents, using OCR for supported images and scanned PDFs. | Generate descriptions or extract information from images, PDFs, audio, and video using AI. |
 | Output | Extracted text, optional schema-guided JSON generated from that text, processing-unit usage, and per-item errors. | Model-generated content focused by your guidance, which can describe visual or audiovisual information beyond the text present in the source. |
 | Images and PDFs | Read text, such as the words on a receipt or the paragraphs in a manual. | Describe visual content or interpret a document, such as explaining a diagram or identifying information relevant to a question. |
-| Audio and video | Not an audio/video understanding or transcription API. | Analyze audio and video content. For a dedicated speech-to-text workflow, use [Audio Transcriptions](http://localhost:1313/docs/generations/audio-transcriptions.md). |
+| Audio and video | Not an audio/video understanding or transcription API. | Analyze audio and video content. For a dedicated speech-to-text workflow, use [Audio Transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md). |
 | Billing | Extraction processing units (PUs), with plan-dependent allowances and rates. Optional JSON conversion is billed separately and is not covered by the extraction allowance. | AI usage charges under Media Descriptions pricing; Fetch PU allowances do not replace these charges. |
 
 For a PDF report, choose Fetch when you need its text for indexing or later analysis. Choose Media Descriptions when you need an explanation of its charts or a guided interpretation of the content. For a receipt image, Fetch reads the printed text; Media Descriptions can interpret the receipt according to your extraction guidance.
@@ -44,14 +44,14 @@ Neither guarantees perfect results. Fetch can lose text or structure because of 
 | Integration | When to use it |
 | --- | --- |
 | Fetch API | Your application controls which URLs or inline base64 data URIs to process and needs structured results, processing-unit usage, and per-item errors. |
-| [Web utilities MCP](http://localhost:1313/docs/mcp-utilities/web-utilities-mcp.md) | An MCP-compatible client needs to read public URLs through `fetch_url`. This tool accepts one to five URLs per call. |
-| [Built-in tools](http://localhost:1313/docs/tools/builtin-tools.md) | An AIVAX model needs to read a URL during inference. Enable `OpenUrl` and follow the URL Context configuration guide. |
+| [Web utilities MCP](https://docs.aivax.net/docs/mcp-utilities/web-utilities-mcp.md) | An MCP-compatible client needs to read public URLs through `fetch_url`. This tool accepts one to five URLs per call. |
+| [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) | An AIVAX model needs to read a URL during inference. Enable `OpenUrl` and follow the URL Context configuration guide. |
 
 The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs.
 
 ## Fetch content with the API
 
-Authenticate with an AIVAX API key; see [Authentication](http://localhost:1313/docs/authentication.md). Supply a non-empty `contents` array containing URLs or base64 data URIs. Each item is limited to 10 MB.
+Authenticate with an AIVAX API key; see [Authentication](https://docs.aivax.net/docs/authentication.md). Supply a non-empty `contents` array containing URLs or base64 data URIs. Each item is subject to a size limit; see [Request and payload limits](https://docs.aivax.net/docs/limits.md#request-and-payload-limits).
 
 The `system.v1.web.fetch` operation accepts these JSON request fields:
 
@@ -95,6 +95,6 @@ Treat extracted text as untrusted source material, not as instructions for your 
 
 ## Pricing and limits
 
-Fetch and OCR extraction is metered in `processingUnits`. Daily included allowances and rates for uncovered extraction depend on the account plan. Each extraction is either fully covered or billed in full; coverage is not split within one extraction. Optional JSON conversion is metered separately in `jsonProcessingUnits`, with a variable inference-based PU price and no coverage from the daily extraction allowance. Do not add both counts and apply the OCR rate to the total. See [Pricing](http://localhost:1313/docs/pricing.md#web-search-ocr-and-fetch) for allowances and charges rather than estimating cost from extracted text length.
+Fetch and OCR extraction is metered in `processingUnits`. Daily included allowances and rates for uncovered extraction depend on the account plan. Each extraction is either fully covered or billed in full; coverage is not split within one extraction. Optional JSON conversion is metered separately in `jsonProcessingUnits`, with a variable inference-based PU price and no coverage from the daily extraction allowance. Do not add both counts and apply the OCR rate to the total. See [Pricing](https://docs.aivax.net/docs/pricing.md#web-search-ocr-and-fetch) for allowances and charges rather than estimating cost from extracted text length.
 
-[Web utilities MCP](http://localhost:1313/docs/mcp-utilities/web-utilities-mcp.md) uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. See [Plans and limits](http://localhost:1313/docs/limits.md) for account quotas and rate limits. The Fetch API requires a positive account balance.
+[Web utilities MCP](https://docs.aivax.net/docs/mcp-utilities/web-utilities-mcp.md) uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. See [Plans and limits](https://docs.aivax.net/docs/limits.md) for account quotas and rate limits. The Fetch API requires a positive account balance.

@@ -1,10 +1,10 @@
-Source: http://localhost:1313/pt-br/docs/rag/classification.html
+Source: https://docs.aivax.net/pt-br/docs/rag/classification.html
 
 # Classificação de Texto
 
 Use a classificação de texto para classificar um conjunto fixo de rótulos para um ou mais documentos sem treinar um classificador personalizado. AIVAX incorpora cada documento e rótulo com o modelo de incorporação padrão, compara seus vetores usando similaridade cossena e devolve cada rótulo, do mais similar ao menos similar para cada documento.
 
-Antes de chamar este endpoint, [crie uma chave de API](http://localhost:1313/pt-br/docs/authentication.md) e certifique‑se de que a conta tem saldo positivo.
+Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt-br/docs/authentication.md) e certifique‑se de que a conta tem saldo positivo.
 
 ## Endpoint
 

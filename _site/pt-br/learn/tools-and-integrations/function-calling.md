@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/tools-and-integrations/function-calling.html
+Source: https://docs.aivax.net/pt-br/learn/tools-and-integrations/function-calling.html
 
 Um cliente pergunta ao assistente de suporte: “Meu pedido já saiu do armazém?” Um modelo de linguagem pode escrever uma atualização de envio convincente, mas seu treinamento não contém o pedido atual desse cliente. O assistente precisa de uma forma de consultar o sistema de pedidos. **Function calling**, também chamado de chamada de ferramenta, oferece ao modelo um modo estruturado de solicitar essa operação em vez de inventar uma resposta.
 
@@ -18,25 +18,34 @@ Um formulário válido não é necessariamente uma solicitação de negócio vá
 
 A **platform** aqui significa o software da aplicação que rodeia o modelo. Dependendo da integração, pode ser um serviço de agente ou sua própria aplicação. Ela fornece definições de ferramentas, verifica solicitações, executa operações aprovadas e devolve resultados ao modelo.
 
+
 1. **Offer the available tools**
 
 A plataforma entrega ao modelo a conversa e a definição de `lookup_order`. Apenas ferramentas adequadas para esse usuário e tarefa devem ser oferecidas.
+
 
 2. **Request an operation**
 
 O modelo emite uma solicitação estruturada: o nome da ferramenta e uma referência de pedido. Isso é uma solicitação de execução, não evidência de que algo aconteceu.
 
+
 3. **Check and execute**
 
 A plataforma verifica os argumentos e permissões, então consulta o sistema de pedidos pelo status atual. Se a referência estiver ausente, o assistente deve perguntar ao cliente em vez de adivinhar.
+
 
 4. **Return the result**
 
 A plataforma envia o resultado de volta como uma mensagem de ferramenta associada àquela solicitação. Um resultado útil indica o que foi encontrado ou por que a busca falhou.
 
+
 5. **Answer from the evidence**
 
 O modelo lê o resultado e o explica em linguagem comum. Deve diferenciar um despacho confirmado de uma data estimada de entrega.
+
+
+
+
 
 ```mermaid
 sequenceDiagram
@@ -57,17 +66,25 @@ Essa separação importa sempre que uma ação tem consequências. “Eu can o p
 
 > **Demonstração interativa: Inspect the evidence behind the answer.** Esta demonstração interativa está disponível na página web. Observe o que a resposta final omite. A ferramenta confirma o despacho, mas não fornece data de entrega. Esta é uma demonstração didática, não uma consulta ao vivo.
 
+
+
 ## Descriptions guide decisions
 
 Os modelos usam descrições de ferramentas para decidir qual operação se encaixa na solicitação. Portanto, as descrições precisam explicar o significado, não apenas repetir o nome da ferramenta. Imagine dar instruções a um colega que nunca usou o sistema: o que o ajudaria a escolher o formulário correto sem abrir cada aplicação?
+
 
 **Vague description**
 
 “Handles orders. Use when needed.”
 
+
 **Useful description**
 
 “Read the current shipping status of one order using its order reference. Use for dispatch and delivery-status questions. This tool does not change orders or guarantee a delivery date.”
+
+
+
+
 
 Descrições boas também esclarecem vizinhos confusos. Uma ferramenta que busca informações de produto não deve soar como uma que verifica estoque em tempo real. Seus resultados respondem a perguntas diferentes. Quando um parâmetro tem significado específico de negócio, explique‑o: “requested arrival date” não é intercambiável com “dispatch date”. Inclua um exemplo curto apenas quando eliminar uma ambiguidade real.
 
@@ -89,9 +106,9 @@ Retorne apenas a informação necessária para a pergunta. Uma ferramenta de sta
 
 Antes de habilitar uma ferramenta para clientes, teste um pequeno conjunto de solicitações realistas. Inclua uma solicitação clara, uma referência ausente, uma solicitação para o registro de outra pessoa e um serviço indisponível. Inspecione os argumentos solicitados e o resultado de negócio real, não apenas a frase final. Uma resposta pode soar correta ao referir‑se ao registro errado. Também teste se o assistente faz uma pergunta útil quando lhe falta informação obrigatória. Se duas ferramentas têm nomes semelhantes, dê ao assistente perguntas que deveriam selecionar cada uma e verifique a distinção. Esses exemplos revelam se a definição explica bem o trabalho e se a camada de execução protege os limites que a descrição promete.
 
-**Related:** On AIVAX, ready-made operations are [built-in tools](http://localhost:1313/pt-br/docs/tools/builtin-tools.md), while custom server-side callbacks are [protocol functions](http://localhost:1313/pt-br/docs/tools/protocol-functions.md). [Structured responses](http://localhost:1313/pt-br/docs/inference/structured-responses.md) shape the final output for another program; they do not, by themselves, execute a tool.
+**Related:** On AIVAX, ready-made operations are [built-in tools](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md), while custom server-side callbacks are [protocol functions](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md). [Structured responses](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md) shape the final output for another program; they do not, by themselves, execute a tool.
 
-What's next: discover how [MCP and tool standards](http://localhost:1313/pt-br/learn/tools-and-integrations/model-context-protocol.md) make integrations reusable across compatible agents.
+What's next: discover how [MCP and tool standards](https://docs.aivax.net/pt-br/learn/tools-and-integrations/model-context-protocol.md) make integrations reusable across compatible agents.
 
 **Verifique seu conhecimento.** Qual sequência descreve corretamente a chamada de função?
 

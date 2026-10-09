@@ -1,12 +1,12 @@
-Source: http://localhost:1313/pt-br/docs/rag/reflex.html
+Source: https://docs.aivax.net/pt-br/docs/rag/reflex.html
 
 # Reflex
 
 Reflex é a pesquisa sem coleção da AIVAX para RAG. Envie uma consulta junto com strings de documentos candidatos e receba os itens mais relevantes em ordem classificada — sem indexação, armazenamento ou manutenção prévia de uma coleção RAG.
 
-Reflex é o ranker padrão do endpoint autônomo de [re‑ranking](http://localhost:1313/pt-br/docs/rag/reranking.md): chamar esse endpoint sem especificar um `model` seleciona o Reflex. Esta página cobre quando usar o Reflex; a outra página aprofunda a preparação de candidatos e a comparação de rankers.
+Reflex é o ranker padrão do endpoint autônomo de [re‑ranking](https://docs.aivax.net/pt-br/docs/rag/reranking.md): chamar esse endpoint sem especificar um `model` seleciona o Reflex. Esta página cobre quando usar o Reflex; a outra página aprofunda a preparação de candidatos e a comparação de rankers.
 
-Use o Reflex quando sua aplicação já possui os documentos candidatos, o conjunto de candidatos muda com frequência ou você deseja uma etapa de recuperação sem indexação e armazenamento de coleção. Use a [Busca Semântica](http://localhost:1313/pt-br/docs/rag/semantic-search.md) quando a AIVAX deve armazenar, indexar e pesquisar uma base de conhecimento persistente ou um corpus demasiado grande para ser enviado como candidatos a cada requisição.
+Use o Reflex quando sua aplicação já possui os documentos candidatos, o conjunto de candidatos muda com frequência ou você deseja uma etapa de recuperação sem indexação e armazenamento de coleção. Use a [Busca Semântica](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) quando a AIVAX deve armazenar, indexar e pesquisar uma base de conhecimento persistente ou um corpus demasiado grande para ser enviado como candidatos a cada requisição.
 
 ## Reflex ou Busca Semântica?
 
@@ -35,4 +35,4 @@ Para o contrato de requisição, resposta, autenticação e erros suportado, use
 
 Reflex também é o reranker padrão após a AIVAX recuperar candidatos de coleções RAG. Nesse fluxo, ele pode melhorar a ordem dos candidatos recuperados, mas não pode recuperar um documento que a etapa de recuperação não selecionou. Se documentos relevantes estiverem consistentemente ausentes, ajuste a recuperação, a fragmentação, a formulação da consulta ou a contagem de candidatos antes de afinar o reranking.
 
-Free, Pro e Max incluem uma cota diária de reranking para o Reflex, compartilhada entre chamadas autônomas e reranking de RAG. Entradas em cache e sem cache consomem essa cota. Ela é separada da cota de embeddings de RAG e do limite de tempo de processamento; outros rerankers são cobrados normalmente. Para capacidade relativa do plano e regras de cobertura, veja [Planos e Limites](http://localhost:1313/pt-br/docs/limits.md#included-daily-subscription-allowances).
+Free, Pro e Max incluem uma cota diária de reranking para o Reflex, compartilhada entre chamadas autônomas e reranking de RAG. Entradas em cache e sem cache consomem essa cota. Ela é separada da cota de embeddings de RAG e do limite de tempo de processamento; outros rerankers são cobrados normalmente. Para capacidade relativa do plano e regras de cobertura, veja [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances).

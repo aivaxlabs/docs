@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/authentication.html
+Source: https://docs.aivax.net/pt-br/docs/authentication.html
 
 # Autenticação
 
@@ -28,7 +28,7 @@ Chaves públicas podem ser usadas para busca semântica RAG, geração de respos
 
 Use chaves privadas para serviços de backend, gerenciamento de conta, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo de trabalho que precise da superfície completa de ferramentas do gateway.
 
-Para a primeira solicitação do lado servidor, continue com [Getting Started](http://localhost:1313/pt-br/docs/getting-started.md). Se você estiver expondo uma experiência de navegador ou widget para usuários finais, revise [Chat Clients](http://localhost:1313/pt-br/docs/features/chat-clients.md) antes de decidir se uma chave pública é o limite adequado.
+Para a primeira solicitação do lado servidor, continue com [Getting Started](https://docs.aivax.net/pt-br/docs/getting-started.md). Se você estiver expondo uma experiência de navegador ou widget para usuários finais, revise [Chat Clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) antes de decidir se uma chave pública é o limite adequado.
 
 ## Criar e listar chaves
 

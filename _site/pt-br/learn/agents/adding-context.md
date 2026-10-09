@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/agents/adding-context.html
+Source: https://docs.aivax.net/pt-br/learn/agents/adding-context.html
 
 Um colega pergunta: “Podemos aprovar isso?” A pergunta tem pouco sentido até que você saiba a que *isso* se refere, quem está perguntando e quais regras se aplicam. Os modelos de linguagem enfrentam o mesmo problema. **Contexto** é a informação disponível ao modelo enquanto ele produz uma resposta. Uma resposta útil depende não apenas da habilidade geral do modelo, mas também da situação específica que lhe foi mostrada.
 
@@ -10,6 +10,7 @@ Pense no contexto como uma mesa preparada antes de cada tarefa. O assistente pod
 
 Uma solicitação costuma conter **instruções do sistema**, que são direções de prioridade mais alta fornecidas pela aplicação; **histórico da conversa**, que são mensagens selecionadas anteriormente; a solicitação atual do usuário; e informações relevantes fornecidas pela aplicação. Essa última categoria pode incluir detalhes de usuário verificados, trechos de documentos ou resultados retornados por ferramentas. Nem todo sistema usa a mesma estrutura de mensagem, mas a distinção entre instruções e evidências continua importante.
 
+
 - **Instruções do sistema** — Defina o papel e os limites do assistente: responder perguntas sobre entrega, distinguir fatos confirmados de estimativas e escalar casos excepcionais.
 
 - **Histórico da conversa** — Preserve detalhes relevantes já discutidos, como qual produto o cliente se refere e quais esclarecimentos foram respondidos.
@@ -17,6 +18,9 @@ Uma solicitação costuma conter **instruções do sistema**, que são direçõe
 - **Dados de usuário verificados** — Forneça fatos permitidos sobre o caso atual. Um relacionamento de conta verificado é diferente de um usuário que apenas afirma ser proprietário.
 
 - **Evidência recuperada** — Forneça trechos relevantes de documentos aprovados ou resultados de uma consulta atual, com informação suficiente da fonte para avaliar sua relevância.
+
+
+
 
 **Recuperado** simplesmente significa encontrado e trazido para a solicitação. Uma política pode viver em um repositório de documentos até que uma busca selecione a seção relevante. Isso pode ser mais eficaz do que inserir o manual inteiro em cada conversa. Também facilita a manutenção da fonte: a organização atualiza a política em vez de esperar que o treinamento anterior do modelo já a reflita.
 
@@ -28,6 +32,8 @@ Se a aplicação omitir uma correção anterior, o modelo pode não conseguir us
 
 > **Demonstração interativa: Inspecionar o que o assistente recebe.** Esta demonstração interativa está disponível na página web. Esta conversa ilustrativa mostra diferentes fontes de contexto. A urgência do cliente explica a necessidade, enquanto o resultado da ferramenta limita o que o assistente pode prometer honestamente. A demonstração exibe mensagens preparadas; ela não consulta um sistema de pedidos.
 
+
+
 Um resultado de ferramenta é evidência sobre uma operação específica, não um novo conjunto de regras para o assistente. O mesmo se aplica a trechos de documentos e mensagens citadas de outras pessoas. Manter essas fontes claramente rotuladas ajuda a impedir que o modelo confunda uma declaração que deve analisar com uma instrução que deve obedecer.
 
 ## A janela de contexto é uma mesa limitada
@@ -38,6 +44,8 @@ Uma mesa maior pode conter mais papéis, mas não decide quais papéis são impo
 
 > **Demonstração interativa: Experimente: encaixe o caso na mesa.** Esta demonstração interativa está disponível na página web. As quantidades de tokens são ilustrativas. Esta demonstração simplificada descarta os blocos mais antigos primeiro e mantém o último bloco. Aplicações reais devem escolher sua própria política de contexto; elas não devem descartar instruções essenciais cegamente apenas porque essas instruções foram adicionadas primeiro.
 
+
+
 Quando a mesa se enche, a aplicação pode selecionar histórico relevante, resumir discussões mais antigas ou recuperar apenas os trechos necessários para a pergunta. Cada escolha tem trade‑offs. Um resumo economiza espaço mas pode perder um detalhe; uma busca estreita pode perder uma exceção relevante. Preserve decisões, perguntas não resolvidas e referências de fonte importantes, em vez de manter apenas as frases mais recentes.
 
 ## Por que começar com contexto em vez de ajuste fino?
@@ -46,13 +54,19 @@ Quando a mesa se enche, a aplicação pode selecionar histórico relevante, resu
 
 Para a maioria das perguntas de negócio sobre políticas e registros em mudança, comece fornecendo contexto confiável. É mais fácil substituir um trecho de política desatualizado do que retreinar o modelo cada vez que a política mudar. O contexto também permite que a aplicação dê informações autorizadas diferentes a usuários diferentes. Um modelo treinado em um fato não estabelece quem pode receber esse fato.
 
+
 **Fornecer contexto atual**
 
 Forneça o trecho de política aprovado para esta pergunta. Atualize a fonte quando a política mudar e selecione o material de acordo com o acesso do usuário.
 
+
 **Alterar comportamento do modelo**
 
 Considere ajuste fino quando exemplos repetidos são necessários para moldar um comportamento estável. Ainda assim, requer avaliação, evidência atual e verificações de permissão separadas.
+
+
+
+
 
 O contexto também não é mágica. O modelo pode interpretar erroneamente o material fornecido, e uma fonte errada pode gerar uma explicação bem fundamentada da regra equivocada. Antes de adicionar complexidade de treinamento, verifique se a informação correta foi fornecida, se as instruções estavam claras e se a tarefa é suportada por ferramentas adequadas. Muitas vezes, essas são melhorias mais diretas.
 
@@ -62,9 +76,9 @@ Para a pergunta de devolução, inclua a seção de política relevante e os fat
 
 Use apenas as informações necessárias para a tarefa. Um endereço ou histórico de conta não relacionado não deve ser incluído apenas porque a aplicação pode acessá‑los. Proteja dados sensíveis antes que cheguem ao modelo, não apenas pedindo ao modelo que evite repeti‑los. A preparação do contexto é tanto uma decisão de qualidade quanto de privacidade.
 
-**Relacionado:** No AIVAX, [collections](http://localhost:1313/pt-br/docs/rag/collections.md) organizam material de referência para recuperação. Elas dão suporte ao lado de conhecimento do contexto; não substituem a necessidade de selecionar a conversa e as informações de caso apropriadas.
+**Relacionado:** No AIVAX, [collections](https://docs.aivax.net/pt-br/docs/rag/collections.md) organizam material de referência para recuperação. Elas dão suporte ao lado de conhecimento do contexto; não substituem a necessidade de selecionar a conversa e as informações de caso apropriadas.
 
-**Próximo passo:** Aprenda como um agente pode solicitar informações frescas ou uma ação permitida em [Adding tools](http://localhost:1313/pt-br/learn/agents/adding-tools.md).
+**Próximo passo:** Aprenda como um agente pode solicitar informações frescas ou uma ação permitida em [Adding tools](https://docs.aivax.net/pt-br/learn/agents/adding-tools.md).
 
 **Verifique seu conhecimento.** Qual é a abordagem inicial mais forte para um assistente que responde perguntas sobre registros de negócio em mudança?
 

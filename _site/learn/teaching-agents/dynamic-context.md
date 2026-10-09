@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/teaching-agents/dynamic-context.html
+Source: https://docs.aivax.net/learn/teaching-agents/dynamic-context.html
 
 The Trail Lamp handbook explains warranty conditions. It cannot tell a support agent which lamp the current customer bought, whether a replacement order is still open or whether their service plan changed this morning. Those facts live in business systems, and they may change while the conversation continues.
 
@@ -10,11 +10,13 @@ The Trail Lamp handbook explains warranty conditions. It cannot tell a support a
 
 The same topic can require both. A policy explains what a service plan includes; a current account record establishes which plan the customer has. The policy cannot establish membership, and the account record cannot explain every exception in the policy. An accurate answer combines the relevant evidence without pretending that either source does the other's job.
 
+
 **Shared knowledge**
 
 The approved Trail Lamp support guide describes warranty conditions and the replacement process.
 
 It applies across relevant conversations and changes through document maintenance.
+
 
 **Dynamic context**
 
@@ -22,13 +24,18 @@ The verified customer's current account record shows their plan and an open repl
 
 It applies to this customer and may need another lookup before the next answer.
 
-For the broader idea of supplying useful information to a model, revisit [Adding context](http://localhost:1313/learn/agents/adding-context.md). Here the emphasis is on **runtime**, the period when the system is actually handling a request. Runtime facts should be selected, checked and supplied at that moment rather than copied into a general instruction document for everyone.
+
+
+
+
+For the broader idea of supplying useful information to a model, revisit [Adding context](https://docs.aivax.net/learn/agents/adding-context.md). Here the emphasis is on **runtime**, the period when the system is actually handling a request. Runtime facts should be selected, checked and supplied at that moment rather than copied into a general instruction document for everyone.
 
 ## Decide where each fact comes from
 
 A **tool** is a controlled operation the agent can request, such as looking up an order. The application executes it and returns a result. A **pre-step** is application work performed before the model receives the request, such as loading the signed-in customer's current plan. Both can supply context; the difference is when and why the lookup happens.
 
 A pre-step suits facts almost every conversation needs. A tool suits details needed only after the question is understood. Loading all orders before a simple product question adds unnecessary information. Waiting for the model to request a verified identity on every message may be equally unnecessary when the application already has an authenticated session, meaning a sign-in state whose identity the system has checked.
+
 
 - **Customer identity** — Use the application's verified sign-in context. A name typed into chat is not proof of account ownership.
 
@@ -38,15 +45,20 @@ A pre-step suits facts almost every conversation needs. A tool suits details nee
 
 - **Today's date** — Supply the date from the application and the relevant time zone. The model should not guess what “today” means.
 
+
+
+
 Do not use the conversation as a shortcut around permissions. “I am the account owner” remains a user statement until the application verifies it. Similarly, a tool response containing a customer's free-text note is still user-authored content inside a system response. Keep it separate from trusted account fields and do not treat instructions inside the note as authority to change agent behaviour.
 
-Related: on AIVAX, [AI Workers](http://localhost:1313/docs/inference/workers.md) can enrich or rewrite gateway context at runtime through an external service. They can support account checks and system-provided facts, but the surrounding service must validate requests and enforce permissions. A worker adds another step before the answer, so its reliability and response time matter.
+Related: on AIVAX, [AI Workers](https://docs.aivax.net/docs/inference/workers.md) can enrich or rewrite gateway context at runtime through an external service. They can support account checks and system-provided facts, but the surrounding service must validate requests and enforce permissions. A worker adds another step before the answer, so its reliability and response time matter.
 
 ## Make current facts visible in the conversation
 
 Dynamic context need not be shown verbatim to the user. The model needs enough information to answer, while the user needs a clear result and any important limitation. Separate instructions about behaviour from facts about the current case. “Explain uncertainty” is an instruction; “replacement status is awaiting dispatch” is a fact from a particular source at a particular time.
 
 > **Interactive demo: Try it: answer from a current order lookup.** This interactive demo is available on the web page. Step through this fictional exchange. The tool result supplies the current state; the assistant does not turn the missing date into a promise. This demo is a prepared example, not a live order lookup.
+
+
 
 Notice that the handbook alone could not answer the question. It could explain the replacement process, but the current order record is needed to describe this replacement. Equally, “awaiting dispatch” does not prove the package will leave tomorrow. Dynamic context narrows uncertainty; it does not justify filling remaining gaps with plausible details.
 
@@ -68,11 +80,13 @@ A model's **context window** is the limited amount of information it can conside
 
 > **Interactive demo: Try it: a context budget (illustrative).** This interactive demo is available on the web page. These token quantities are illustrative, not a product limit. Reduce the available space and see which blocks disappear. This simplified demo drops the oldest blocks first and keeps the last one; it does not represent a recommended production policy.
 
+
+
 A real application should deliberately preserve required instructions and the evidence needed for the current decision rather than blindly discard the oldest block. Prefer a compact, accurate record over a full account export. Do not shorten “awaiting dispatch; no confirmed date” to “dispatch soon”, because that saves space by inventing certainty.
 
-Dynamic context is also not automatically permanent memory. Some facts should disappear when the request or session ends. Persisting information for later conversations requires a separate purpose, retention decision and permission model, as explained in [Memory](http://localhost:1313/learn/prompt-engineering/memory.md). Even when an old fact is remembered, check it again before relying on it for a changing account state.
+Dynamic context is also not automatically permanent memory. Some facts should disappear when the request or session ends. Persisting information for later conversations requires a separate purpose, retention decision and permission model, as explained in [Memory](https://docs.aivax.net/learn/prompt-engineering/memory.md). Even when an old fact is remembered, check it again before relying on it for a changing account state.
 
-What's next: organise instructions, evidence and the current task in [Anatomy of a prompt](http://localhost:1313/learn/prompt-engineering/anatomy-of-a-prompt.md).
+What's next: organise instructions, evidence and the current task in [Anatomy of a prompt](https://docs.aivax.net/learn/prompt-engineering/anatomy-of-a-prompt.md).
 
 **Knowledge check.** A signed-in customer asks whether an open replacement order has shipped. What should the agent rely on?
 

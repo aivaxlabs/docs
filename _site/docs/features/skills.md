@@ -1,4 +1,4 @@
-Source: http://localhost:1313/docs/features/skills.html
+Source: https://docs.aivax.net/docs/features/skills.html
 
 # Skills
 
@@ -8,13 +8,13 @@ The agent should load a skill only when it is relevant to the current task. It l
 
 ## How do skills work?
 
-Skills are primarily provided through a slug and a brief description of what that skill is and when it should be used. You can have multiple skills in your account, but only use a subset of them in your [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md). The skills enabled in the AI Gateway are listed in the model’s system instructions and the `read_skill` function is added to the context.
+Skills are primarily provided through a slug and a brief description of what that skill is and when it should be used. You can have multiple skills in your account, but only use a subset of them in your [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). The skills enabled in the AI Gateway are listed in the model’s system instructions and the `read_skill` function is added to the context.
 
 When the model calls `read_skill`, it passes an array of skill slugs. The instructions for the matching skills are inserted into the system instructions of the next context turn inside `<activated_skill>` blocks. More than one skill can be activated when a task spans multiple domains, and the model can call `read_skill` again with a different list when the active task changes.
 
 For this to work, the chosen base model must support **function calls** and **system instructions**.
 
-- If your model does not support function calls, consider using a [tool handler](http://localhost:1313/docs/inference/pipelines.md) to handle function calls.
+- If your model does not support function calls, consider using a [tool handler](https://docs.aivax.net/docs/inference/pipelines.md) to handle function calls.
 - If your model does not support system instructions, consider using the `No system instructions` flag, which provides system instructions as a user message.
 
 Larger models tend to follow instructions and function calls very strictly. Run tests to confirm that your model loads the right skills and switches them when the task changes.
@@ -120,4 +120,4 @@ Skills are most useful in specific scenarios where you need specialized behavior
 
 ## When to choose RAG or system instructions instead
 
-Use skills together with [collections](http://localhost:1313/docs/rag/collections.md) when the task needs searchable knowledge, and with [pipelines](http://localhost:1313/docs/inference/pipelines.md) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building Production‐Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](http://localhost:1313/docs/inference/ai-gateway.md).
+Use skills together with [collections](https://docs.aivax.net/docs/rag/collections.md) when the task needs searchable knowledge, and with [pipelines](https://docs.aivax.net/docs/inference/pipelines.md) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building Production‐Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](https://docs.aivax.net/docs/inference/ai-gateway.md).

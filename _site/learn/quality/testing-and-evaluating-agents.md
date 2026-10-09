@@ -1,4 +1,4 @@
-Source: http://localhost:1313/learn/quality/testing-and-evaluating-agents.html
+Source: https://docs.aivax.net/learn/quality/testing-and-evaluating-agents.html
 
 A convincing demonstration shows that an agent can succeed once. It does not show how often it succeeds, what happens when information is missing, or whether yesterday's improvement broke another task. **Evaluation**, often shortened to **eval**, means checking behaviour against a stated expectation using a repeatable method. Think of inspecting a new employee's work across a normal working week rather than judging their ability from a rehearsed interview.
 
@@ -10,11 +10,15 @@ A **test set** is a collection of situations you will use to check the agent. Bu
 
 Include common requests because they represent much of the workload. Also include uncommon but consequential situations: an unavailable account record, conflicting policy documents, a request outside the agent's authority, or a tool that cannot complete an action. A **tool** is a connected function the agent can ask to perform work, such as looking up an order. A fluent response cannot substitute for checking whether that work actually happened.
 
+
 - **Ordinary work** — A customer asks about a published return policy. Check that the answer is correct and usable.
 
 - **Missing information** — An employee asks for a procedure without naming their department. Check that the agent asks a useful follow-up question.
 
 - **Boundaries and failures** — A user requests an unauthorised action or a lookup fails. Check that the agent refuses or escalates without pretending to succeed.
+
+
+
 
 Do not let the test set become a collection of easy questions written by the person who wrote the instructions. Ask colleagues who understand the work to contribute cases. Include different wording, incomplete sentences and conversations that change direction. Keep a separate group of cases out of day-to-day prompt editing. This **held-out set** gives a less biased check of whether a change generalises beyond the examples its author already knows.
 
@@ -24,15 +28,21 @@ An **expected outcome** describes observable behaviour, not an exact sentence th
 
 Separate required facts, required actions and forbidden actions. Some requirements allow judgement: a reply should be understandable. Others can be checked directly: a booking must not be created without confirmation. An agent saying “I booked it” is not evidence of a booking. For actions, inspect a safe test system or an independent record of what occurred, not just the conversation transcript.
 
+
 **Hard to evaluate**
 
 “The assistant should provide excellent support and make the customer happy.” Different reviewers can give opposite grades to the same reply.
+
 
 **Observable expectation**
 
 “The assistant explains the policy, identifies missing information and offers the approved escalation path without promising an exception.” Each requirement can be checked.
 
-A **rubric** is the checklist used to make these judgements consistently. Give reviewers examples of a pass, a failure and a borderline case. Track important requirements separately rather than hiding them inside one average score. A friendly tone must not cancel out a privacy violation. The unit on [measuring adherence and hallucination](http://localhost:1313/learn/teaching-agents/measuring-adherence-and-hallucination.md) develops checks for following instructions and avoiding unsupported claims.
+
+
+
+
+A **rubric** is the checklist used to make these judgements consistently. Give reviewers examples of a pass, a failure and a borderline case. Track important requirements separately rather than hiding them inside one average score. A friendly tone must not cancel out a privacy violation. The unit on [measuring adherence and hallucination](https://docs.aivax.net/learn/teaching-agents/measuring-adherence-and-hallucination.md) develops checks for following instructions and avoiding unsupported claims.
 
 ## Use simulation without mistaking it for reality
 
@@ -59,21 +69,29 @@ The diagram shows the conceptual roles, not a required product message route. Th
 
 A **regression** is behaviour that used to work but stops working after a change. A new instruction can crowd out an old one; a replacement document can remove a useful exception. Keep the agent configuration, test cases and judging rules identifiable so that a comparison reflects an actual change rather than an unknown mixture of changes.
 
+
 1. **Record a baseline**
 
 Run the current version and keep the results, case definitions and configuration. This is the reference point for later comparisons.
+
 
 2. **Change one meaningful thing**
 
 Update the prompt, knowledge or tool behaviour with a stated reason. Write down which cases you expect to improve.
 
+
 3. **Re-run the relevant set**
 
 Check the repaired case, related cases and critical safety cases. Run the wider regression set before release.
 
+
 4. **Review and decide**
 
 Inspect failures and changed judgements. Release only when agreed requirements hold, and retain the previous version for recovery.
+
+
+
+
 
 Model responses can vary between runs even when the question stays the same. Repeat consequential or inconsistent scenarios and report the variation rather than selecting the best attempt. If a test fails because a connected system was unavailable, record that cause; do not quietly delete the result. Availability is part of the experience, although diagnosing it separately helps the right team respond.
 
@@ -83,9 +101,11 @@ Use test accounts and controlled tools so evaluation cannot send real messages, 
 
 No. Tests cover selected conditions, and both the world and the agent's dependencies can change. Passing is evidence for a particular version under particular conditions. Keep monitoring real use, adding newly discovered failure cases and reviewing severe outcomes with people who understand the work.
 
-**Related on AIVAX:** [Agentic Tests](http://localhost:1313/docs/inference/agentic-tests.md) use a simulated user and a judge to evaluate conversations with a configured AI gateway. Reusable test definitions produce separate runs. Consult the product guide for goals, judge-only validation criteria and result interpretation; do not assume a test score verifies external business actions by itself.
 
-**What's next:** Choose the measurements that make those results useful in [Metrics: accuracy, latency, cost, satisfaction](http://localhost:1313/learn/quality/metrics.md).
+
+**Related on AIVAX:** [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) use a simulated user and a judge to evaluate conversations with a configured AI gateway. Reusable test definitions produce separate runs. Consult the product guide for goals, judge-only validation criteria and result interpretation; do not assume a test score verifies external business actions by itself.
+
+**What's next:** Choose the measurements that make those results useful in [Metrics: accuracy, latency, cost, satisfaction](https://docs.aivax.net/learn/quality/metrics.md).
 
 **Knowledge check.** Which result provides the strongest evidence for releasing a changed support agent?
 

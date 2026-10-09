@@ -1,82 +1,82 @@
 # Documentation
 
-Source: http://localhost:1313/docs/index.html
+Source: https://docs.aivax.net/docs/index.html
 
 
 ## Introduction
 
-- [Overview](http://localhost:1313/docs/overview.md)
-- [Getting Started](http://localhost:1313/docs/getting-started.md)
-- [Authentication](http://localhost:1313/docs/authentication.md)
-- [Pricing](http://localhost:1313/docs/pricing.md)
-- [Plans and Limits](http://localhost:1313/docs/limits.md)
-- [Data Collecting](http://localhost:1313/docs/data-collecting.md)
-- [Changelogs](http://localhost:1313/docs/changelogs.md)
+- [Overview](https://docs.aivax.net/docs/overview.md)
+- [Getting Started](https://docs.aivax.net/docs/getting-started.md)
+- [Authentication](https://docs.aivax.net/docs/authentication.md)
+- [Pricing](https://docs.aivax.net/docs/pricing.md)
+- [Plans and Limits](https://docs.aivax.net/docs/limits.md)
+- [Data Collecting](https://docs.aivax.net/docs/data-collecting.md)
+- [Changelogs](https://docs.aivax.net/docs/changelogs.md)
 
 ## RAG and collections
 
-- [Collections and Documents](http://localhost:1313/docs/rag/collections.md)
-- [Media Injector](http://localhost:1313/docs/rag/media-injector.md)
-- [Semantic Search](http://localhost:1313/docs/rag/semantic-search.md)
-- [Text Segmentation](http://localhost:1313/docs/rag/text-segmentation.md)
-- [Text Classification](http://localhost:1313/docs/rag/classification.md)
-- [Rerankers](http://localhost:1313/docs/rag/reranking.md)
-- [Reflex](http://localhost:1313/docs/rag/reflex.md)
-- [Best Practices for RAG](http://localhost:1313/docs/rag/best-practices.md)
+- [Collections and Documents](https://docs.aivax.net/docs/rag/collections.md)
+- [Media Injector](https://docs.aivax.net/docs/rag/media-injector.md)
+- [Semantic Search](https://docs.aivax.net/docs/rag/semantic-search.md)
+- [Text Segmentation](https://docs.aivax.net/docs/rag/text-segmentation.md)
+- [Text Classification](https://docs.aivax.net/docs/rag/classification.md)
+- [Rerankers](https://docs.aivax.net/docs/rag/reranking.md)
+- [Reflex](https://docs.aivax.net/docs/rag/reflex.md)
+- [Best Practices for RAG](https://docs.aivax.net/docs/rag/best-practices.md)
 
 ## Filters
 
-- [Document Filters](http://localhost:1313/docs/filters/document-filters.md)
+- [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md)
 
 ## Inference
 
-- [AI Gateway](http://localhost:1313/docs/inference/ai-gateway.md)
-- [Inference](http://localhost:1313/docs/inference/inference.md)
-- [Agentic Tests](http://localhost:1313/docs/inference/agentic-tests.md)
-- [Voice Session](http://localhost:1313/docs/inference/voice-session.md)
-- [AI Pipelines](http://localhost:1313/docs/inference/pipelines.md)
-- [Structured Responses](http://localhost:1313/docs/inference/structured-responses.md)
-- [AI Workers](http://localhost:1313/docs/inference/workers.md)
+- [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md)
+- [Inference](https://docs.aivax.net/docs/inference/inference.md)
+- [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md)
+- [Voice Session](https://docs.aivax.net/docs/inference/voice-session.md)
+- [AI Pipelines](https://docs.aivax.net/docs/inference/pipelines.md)
+- [Structured Responses](https://docs.aivax.net/docs/inference/structured-responses.md)
+- [AI Workers](https://docs.aivax.net/docs/inference/workers.md)
 
 ## Web Foundation
 
-- [Web Search](http://localhost:1313/docs/web-foundation/web-search.md)
-- [Fetch and OCR](http://localhost:1313/docs/web-foundation/fetch-and-ocr.md)
+- [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md)
+- [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md)
 
 ## Generations
 
-- [Semantic decisions](http://localhost:1313/docs/generations/decisions.md)
-- [Speech Generation](http://localhost:1313/docs/generations/speech.md)
-- [Audio Transcriptions](http://localhost:1313/docs/generations/audio-transcriptions.md)
-- [Media Descriptions](http://localhost:1313/docs/generations/media-descriptions.md)
-- [Teach Skill](http://localhost:1313/docs/generations/teach-skill.md)
-- [Image Generation](http://localhost:1313/docs/generations/images.md)
+- [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md)
+- [Speech Generation](https://docs.aivax.net/docs/generations/speech.md)
+- [Audio Transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md)
+- [Media Descriptions](https://docs.aivax.net/docs/generations/media-descriptions.md)
+- [Teach Skill](https://docs.aivax.net/docs/generations/teach-skill.md)
+- [Image Generation](https://docs.aivax.net/docs/generations/images.md)
 
 ## Resources and features
 
-- [Skills](http://localhost:1313/docs/features/skills.md)
-- [Chat Clients](http://localhost:1313/docs/features/chat-clients.md)
-- [Batch](http://localhost:1313/docs/features/batch.md)
+- [Skills](https://docs.aivax.net/docs/features/skills.md)
+- [Chat Clients](https://docs.aivax.net/docs/features/chat-clients.md)
+- [Batch](https://docs.aivax.net/docs/features/batch.md)
 
 ## Tools
 
-- [Built-in Tools](http://localhost:1313/docs/tools/builtin-tools.md)
-- [Support for Model Context Protocol (MCP)](http://localhost:1313/docs/tools/mcp.md)
-- [Protocol Functions](http://localhost:1313/docs/tools/protocol-functions.md)
-- [Shell](http://localhost:1313/docs/tools/shell.md)
+- [Built-in Tools](https://docs.aivax.net/docs/tools/builtin-tools.md)
+- [Support for Model Context Protocol (MCP)](https://docs.aivax.net/docs/tools/mcp.md)
+- [Protocol Functions](https://docs.aivax.net/docs/tools/protocol-functions.md)
+- [Shell](https://docs.aivax.net/docs/tools/shell.md)
 
 ## MCP Utilities
 
-- [Collections MCP](http://localhost:1313/docs/mcp-utilities/collections-mcp.md)
-- [Documentation MCP](http://localhost:1313/docs/mcp-utilities/documentation-mcp.md)
-- [Account management MCP](http://localhost:1313/docs/mcp-utilities/account-management-mcp.md)
-- [Web utilities MCP](http://localhost:1313/docs/mcp-utilities/web-utilities-mcp.md)
-- [Media generation MCP](http://localhost:1313/docs/mcp-utilities/media-generation-mcp.md)
-- [Inference MCP](http://localhost:1313/docs/mcp-utilities/inference-mcp.md)
+- [Collections MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md)
+- [Documentation MCP](https://docs.aivax.net/docs/mcp-utilities/documentation-mcp.md)
+- [Account management MCP](https://docs.aivax.net/docs/mcp-utilities/account-management-mcp.md)
+- [Web utilities MCP](https://docs.aivax.net/docs/mcp-utilities/web-utilities-mcp.md)
+- [Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md)
+- [Inference MCP](https://docs.aivax.net/docs/mcp-utilities/inference-mcp.md)
 
 ## Legal documents
 
-- [Privacy Policy](http://localhost:1313/docs/legal/privacy-policy.md)
-- [Terms of Use](http://localhost:1313/docs/legal/terms-of-service.md)
-- [Data Processors](http://localhost:1313/docs/legal/third-party-processors.md)
+- [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md)
+- [Terms of Use](https://docs.aivax.net/docs/legal/terms-of-service.md)
+- [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md)
 

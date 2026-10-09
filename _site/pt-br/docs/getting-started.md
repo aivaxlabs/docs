@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/docs/getting-started.html
+Source: https://docs.aivax.net/pt-br/docs/getting-started.html
 
 # Começando
 
@@ -13,7 +13,7 @@ Você precisa:
 - Uma conta AIVAX com acesso ao painel e permissão para criar uma chave de API privada.
 - Python 3.8 ou superior com `pip` disponível.
 
-Para preços e limites operacionais, veja [Preços](http://localhost:1313/pt-br/docs/pricing.md) e [Planos e limites](http://localhost:1313/pt-br/docs/limits.md).
+Para preços e limites operacionais, veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
 Production API base URL:
 
@@ -33,9 +33,9 @@ Crie uma chave **privada** na área de Chaves de API do painel AIVAX. Copie a ch
 
 Chaves privadas são destinadas a aplicações confiáveis do lado do servidor. Chaves públicas são credenciais restritas para rotas do lado do cliente intencionalmente expostas e não substituem uma chave de backend.
 
-Se você estiver criando um widget web público ou experiência de mensagens, revise [Chat clients](http://localhost:1313/pt-br/docs/features/chat-clients.md) antes de expor qualquer credencial. As sessões de chat oferecem um limite mais claro para identidade do usuário, histórico de conversas e anexos.
+Se você estiver criando um widget web público ou experiência de mensagens, revise [Chat clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) antes de expor qualquer credencial. As sessões de chat oferecem um limite mais claro para identidade do usuário, histórico de conversas e anexos.
 
-Consulte [Authentication](http://localhost:1313/pt-br/docs/authentication.md) para esquemas de autenticação suportados, comportamento de chaves privadas e públicas, e orientações sobre manuseio de segredos.
+Consulte [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md) para esquemas de autenticação suportados, comportamento de chaves privadas e públicas, e orientações sobre manuseio de segredos.
 
 ## 2. Instale o SDK OpenAI
 
@@ -106,7 +106,7 @@ Reference:
 
 Confirme que a resposta gerada corresponde ao prompt e vem do modelo ou AI Gateway selecionado na etapa anterior. Isso verifica o endpoint, a credencial e a seleção de modelo usada pela sua aplicação.
 
-Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](http://localhost:1313/pt-br/docs/pricing.md) e [Planos e limites](http://localhost:1313/pt-br/docs/limits.md).
+Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
 ## Solucionar problemas da primeira solicitação
 
@@ -119,9 +119,9 @@ AIVAX usa dois estilos de resposta:
 | --- | --- |
 | `400 Bad Request` | Confirme o identificador do modelo ou gateway e remova parâmetros não suportados da solicitação. |
 | `401 Unauthorized` | Confirme que a chave privada está presente, completa, ativa e enviada através da configuração do SDK. |
-| `402 Payment Required` | Revise [Preços](http://localhost:1313/pt-br/docs/pricing.md) e confirme que a conta está pronta para uma solicitação paga. |
+| `402 Payment Required` | Revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e confirme que a conta está pronta para uma solicitação paga. |
 | `403 Forbidden` | Confirme que o tipo de chave, modelo ou recurso selecionado permite esta operação. |
-| `429 Too Many Requests` | Tente novamente mais tarde e revise [Planos e limites](http://localhost:1313/pt-br/docs/limits.md) antes de aumentar o volume de solicitações. |
+| `429 Too Many Requests` | Tente novamente mais tarde e revise [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) antes de aumentar o volume de solicitações. |
 | `500 Internal Server Error` | Ocorreu uma falha inesperada da AIVAX. Tente novamente mais tarde; a resposta não inclui detalhes internos. |
 | `503 Service Unavailable` | Um serviço do qual a AIVAX depende está temporariamente indisponível. Tente novamente após o intervalo no cabeçalho `Retry-After`. |
 
@@ -172,13 +172,13 @@ print(response.choices[0].message.content)
 
 Depois que a solicitação mínima funcionar, adicione uma capacidade de cada vez:
 
-- [AI Gateways](http://localhost:1313/pt-br/docs/inference/ai-gateway.md) — torne a configuração do assistente reutilizável entre solicitações e usuários.
-- [Structured responses](http://localhost:1313/pt-br/docs/inference/structured-responses.md) — exija que o JSON gerado siga um esquema de aplicação.
-- [RAG collections](http://localhost:1313/pt-br/docs/rag/collections.md) — indexe seus documentos, teste recuperação e anexe conhecimento fundamentado a um gateway.
-- [Built-in tools](http://localhost:1313/pt-br/docs/tools/builtin-tools.md), [MCP](http://localhost:1313/pt-br/docs/tools/mcp.md) ou [Protocol functions](http://localhost:1313/pt-br/docs/tools/protocol-functions.md) — permita que o assistente recupere informações ao vivo ou execute ações.
-- [Chat clients](http://localhost:1313/pt-br/docs/features/chat-clients.md) — entregue um gateway via chat web ou canais de mensagem suportados.
-- [Text and media products](http://localhost:1313/pt-br/docs/overview.md#process-text-documents-and-media) — classifique ou segmente documentos, gere imagens ou fala, transcreva áudio e descreva mídia.
-- [Batch](http://localhost:1313/pt-br/docs/features/batch.md) — aplique o mesmo fluxo de trabalho a muitos registros independentes de forma assíncrona.
-- [Agentic Tests](http://localhost:1313/pt-br/docs/inference/agentic-tests.md) — avalie uma conversa completa de gateway antes e depois de alterações de configuração.
+- [AI Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) — torne a configuração do assistente reutilizável entre solicitações e usuários.
+- [Structured responses](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md) — exija que o JSON gerado siga um esquema de aplicação.
+- [RAG collections](https://docs.aivax.net/pt-br/docs/rag/collections.md) — indexe seus documentos, teste recuperação e anexe conhecimento fundamentado a um gateway.
+- [Built-in tools](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md), [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ou [Protocol functions](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) — permita que o assistente recupere informações ao vivo ou execute ações.
+- [Chat clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md) — entregue um gateway via chat web ou canais de mensagem suportados.
+- [Text and media products](https://docs.aivax.net/pt-br/docs/overview.md#process-text-documents-and-media) — classifique ou segmente documentos, gere imagens ou fala, transcreva áudio e descreva mídia.
+- [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md) — aplique o mesmo fluxo de trabalho a muitos registros independentes de forma assíncrona.
+- [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md) — avalie uma conversa completa de gateway antes e depois de alterações de configuração.
 
-Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](http://localhost:1313/pt-br/docs/pricing.md) e [Planos e limites](http://localhost:1313/pt-br/docs/limits.md).
+Antes de aumentar o tráfego ou processar entradas grandes, revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).

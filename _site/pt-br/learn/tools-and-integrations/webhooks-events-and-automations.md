@@ -1,4 +1,4 @@
-Source: http://localhost:1313/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.html
+Source: https://docs.aivax.net/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.html
 
 Um assistente não precisa esperar alguém abrir um chat. Um novo ticket de suporte pode disparar classificação, um pedido enviado pode disparar uma notificação ao cliente e um agendamento pode disparar um relatório matinal. Estes são **automações**: trabalho iniciado e coordenado por software de acordo com uma regra acordada.
 
@@ -8,13 +8,19 @@ A pergunta útil não é “Onde podemos adicionar um agente?” mas “O que ac
 
 Um **evento** é um registro de que algo aconteceu: um ticket foi criado, um pedido mudou de status ou um documento chegou. Um fluxo de trabalho **orientado a eventos** começa em resposta a essa ocorrência. Um **workflow** é o conjunto ordenado de etapas usado para concluir uma tarefa. Em um fluxo de trabalho conversacional, a mensagem de uma pessoa geralmente inicia o trabalho e a resposta retorna àquela conversa.
 
+
 **Trabalho conversacional**
 
 Um cliente pergunta: “Onde está meu pedido?” O assistente verifica o pedido e responde na mesma conversa. O cliente está presente e pode esclarecer uma solicitação ambígua.
 
+
 **Trabalho orientado a eventos**
 
 O sistema de envio relata que um pedido foi despachado. Um workflow verifica as regras de notificação e envia uma atualização para o destino permitido. Nenhuma mensagem do cliente é necessária para iniciá‑lo.
+
+
+
+
 
 As mesmas ferramentas de negócio podem atender ambos os padrões, mas os controles ao redor diferem. Uma tarefa orientada a eventos pode não ter ninguém aguardando para responder a uma pergunta. Ela precisa de um destino definido para sucesso, falha e incerteza. Se o sistema não puder determinar qual cliente notificar, deve parar ou encaminhar o caso para revisão, em vez de adivinhar a partir do texto livre do evento.
 
@@ -50,33 +56,46 @@ Nem todo callback permite esse arranjo. Alguns hooks exigem uma decisão imediat
 
 Considere tickets de suporte entrantes. O sistema de tickets já sabe quando um ticket é criado; a contribuição útil do modelo é interpretar a descrição do cliente. A aplicação ao redor deve lidar com entrega, permissões e restrições de roteamento de forma determinística, ou seja, de acordo com regras fixas e que com julgamento de modelo.
 
+
 1. **Definir o gatilho e o resultado pretendido**
 
 Inicie quando um novo ticket for aceito. O resultado pretendido é uma equipe designada ou um estado de revisão explícito, não apenas um rótulo de categoria gerado.
+
 
 2. **Verificar e minimizar a entrada**
 
 Verifique a origem do evento e carregue apenas os campos do ticket necessários para a triagem. Mantenha anexos privados fora da entrada do modelo, a menos que sejam necessários e permitidos.
 
+
 3. **Solicitar julgamento delimitado**
 
 Faça o modelo escolher entre categorias aprovadas e explique brevemente a incerteza. O texto do cliente é evidência sobre o problema, não autoridade para mudar regras de roteamento.
+
 
 4. **Aplicar regras e lidar com incerteza**
 
 Valide a categoria contra a lista permitida. Encaminhe casos sensíveis e solicitações vagas para a fila humana designada, em vez de inventar um novo destino.
 
+
 5. **Registrar e verificar o resultado**
 
 Confirme que o sistema de tickets aceitou a atribuição. Registre falhas separadamente para que um operador possa distinguir trabalho pendente de trabalho concluído.
 
+
+
+
+
 Uma notificação de envio pode exigir ainda menos envolvimento do modelo. Se a mensagem consiste em um status e um link de rastreamento aprovado, um modelo fixo pode ser mais claro e previsível do que um parágrafo gerado. Use um modelo quando a linguagem variada agrega valor, não para reiterar um fato que o software comum já pode comunicar com precisão.
+
 
 - **Novo ticket → triagem → roteamento** — Use interpretação de linguagem para identificar o problema, depois regras fixas para escolher um destino permitido. Mantenha uma rota de revisão para casos ambíguos ou sensíveis.
 
 - **Pedido enviado → verificar → notificar** — Confirme o status atual, permissão de comunicação e destino antes de enviar. Não invente promessas de entrega que o registro de envio não suporta.
 
 - **Agenda → coletar → relatar** — Inicie em um horário planejado, reúna as entradas definidas e produza um relatório para o público acordado. Registre o período coberto para que uma execução repetida seja reconhecível.
+
+
+
 
 ## Esperar tentativas e duplicatas
 
@@ -92,19 +111,23 @@ Um evento registrado isoladamente não garante que todo efeito downstream esteja
 
 Não. Uma falha de conexão temporária pode justificar uma tentativa limitada com atraso crescente entre as tentativas. Entrada inválida ou permissão ausente geralmente requer correção. Repetir a mesma requisição rejeitada pode desperdiçar recursos e ocultar o problema real. Defina um ponto de parada e uma rota visível para falhas.
 
+
+
 **Como sei que um webhook realmente veio do remetente esperado?**
 
 Use o método de autenticação ou verificação de assinatura documentado pelo remetente. Uma assinatura é evidência calculada a partir da mensagem usando um segredo ou outro mecanismo criptográfico. Valide-a conforme especificado, proteja o endereço de recebimento e rejeite requisições malformadas. Um nome de evento familiar não é autenticação.
+
+
 
 ## Trabalho agendado também precisa de um responsável
 
 Uma **tarefa agendada** inicia de acordo com um relógio ou calendário, e não com um evento de negócio recém‑recebido. Especifique o fuso horário, o período coberto e o que fazer se uma execução anterior ainda estiver em andamento. Um relatório diário não deve ser executado silenciosamente duas vezes porque o relógio mudou ou o processamento foi retomado após uma queda.
 
-Decida como lidar com execuções perdidas: atualizar, pular ou solicitar a um operador. Mantenha um meio de pausar a automação sem excluir seu histórico. O responsável deve poder ver o que está pendente, o que falhou e o que foi concluído. Para padrões de recuperação, continue com [errors, retries and fallbacks](http://localhost:1313/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md) e [long-running and asynchronous agents](http://localhost:1313/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.md).
+Decida como lidar com execuções perdidas: atualizar, pular ou solicitar a um operador. Mantenha um meio de pausar a automação sem excluir seu histórico. O responsável deve poder ver o que está pendente, o que falhou e o que foi concluído. Para padrões de recuperação, continue com [errors, retries and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md) e [long-running and asynchronous agents](https://docs.aivax.net/pt-br/learn/advanced-agents/long-running-and-asynchronous-agents.md).
 
-**Relacionado:** No AIVAX, [AI workers](http://localhost:1313/pt-br/docs/inference/workers.md) são hooks de gateway que podem controlar a execução e exigem respostas oportunas; eles não são intercambiáveis com uma fila de fundo. [Batch](http://localhost:1313/pt-br/docs/features/batch.md) processa itens independentes em segundo plano, enquanto [processing pipelines](http://localhost:1313/pt-br/docs/inference/pipelines.md) descrevem etapas ao redor da inferência. Escolha a funcionalidade cujo contrato de execução corresponda ao fluxo de trabalho.
+**Relacionado:** No AIVAX, [AI workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) são hooks de gateway que podem controlar a execução e exigem respostas oportunas; eles não são intercambiáveis com uma fila de fundo. [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md) processa itens independentes em segundo plano, enquanto [processing pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md) descrevem etapas ao redor da inferência. Escolha a funcionalidade cujo contrato de execução corresponda ao fluxo de trabalho.
 
-Próximo passo: aprenda como agentes coordenam suas próprias etapas em [planning and reasoning loops](http://localhost:1313/pt-br/learn/advanced-agents/planning-and-reasoning-loops.md).
+Próximo passo: aprenda como agentes coordenam suas próprias etapas em [planning and reasoning loops](https://docs.aivax.net/pt-br/learn/advanced-agents/planning-and-reasoning-loops.md).
 
 **Verifique seu conhecimento.** O que deve acontecer quando o mesmo evento de notificação de envio é entregue novamente?
 

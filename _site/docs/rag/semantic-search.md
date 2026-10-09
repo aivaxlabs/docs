@@ -1,14 +1,14 @@
-Source: http://localhost:1313/docs/rag/semantic-search.html
+Source: https://docs.aivax.net/docs/rag/semantic-search.html
 
 # Semantic Search
 
 The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied search terms.
 
-If your application already owns the candidate document strings, consider [Reflex](http://localhost:1313/docs/rag/reflex.md): a collection-less RAG search that ranks supplied documents without indexing or storage. Use managed semantic search when AIVAX should store and search a persistent corpus or when the corpus is too large to submit as candidates with every request.
+If your application already owns the candidate document strings, consider [Reflex](https://docs.aivax.net/docs/rag/reflex.md): a collection-less RAG search that ranks supplied documents without indexing or storage. Use managed semantic search when AIVAX should store and search a persistent corpus or when the corpus is too large to submit as candidates with every request.
 
 Compare [vector search with the complete RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) before deciding what to build.
 
-Before searching, add documents to a [collection](http://localhost:1313/docs/rag/collections.md) and wait for indexing. Search with complete questions or phrases that reflect what a user would ask. The response can include the matched documents and their associated collection data for use in your application or AI Gateway flow.
+Before searching, add documents to a [collection](https://docs.aivax.net/docs/rag/collections.md) and wait for indexing. Search with complete questions or phrases that reflect what a user would ask. The response can include the matched documents and their associated collection data for use in your application or AI Gateway flow.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 
@@ -16,11 +16,11 @@ For the supported request, response, authentication, and error contract, use the
 
 ## Filtering Documents
 
-Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](http://localhost:1313/docs/filters/document-filters.md) for the syntax and examples.
+Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md) for the syntax and examples.
 
 ## Reranking
 
-A reranker can adjust the order of candidates returned by semantic search. It does not search additional documents or recover text that the retrieval stage did not select. See [Rerankers](http://localhost:1313/docs/rag/reranking.md) for selection guidance.
+A reranker can adjust the order of candidates returned by semantic search. It does not search additional documents or recover text that the retrieval stage did not select. See [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) for selection guidance.
 
 ## Multiple Terms
 
@@ -55,6 +55,6 @@ If search returns poor results:
 
 ## Collections MCP
 
-To expose AIVAX collections as tools for an external MCP client, see [Collections MCP](http://localhost:1313/docs/mcp-utilities/collections-mcp.md).
+To expose AIVAX collections as tools for an external MCP client, see [Collections MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md).
 
-For current service availability and account limits, see [Plans and Limits](http://localhost:1313/docs/limits.md).
+For current service availability and account limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
