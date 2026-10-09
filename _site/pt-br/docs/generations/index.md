@@ -10,5 +10,5 @@ Source: https://docs.aivax.net/pt-br/docs/generations/index.html
 - [Transcrições de Áudio](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
 - [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/generations/media-descriptions.md)
 - [Ensinar Habilidade](https://docs.aivax.net/pt-br/docs/generations/teach-skill.md)
-- [Geração de Imagem](https://docs.aivax.net/pt-br/docs/generations/images.md)
+- [Geração de Imagens](https://docs.aivax.net/pt-br/docs/generations/images.md)
 

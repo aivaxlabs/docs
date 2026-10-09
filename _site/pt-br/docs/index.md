@@ -11,7 +11,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)
 - [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md)
 - [Coleta de Dados](https://docs.aivax.net/pt-br/docs/data-collecting.md)
-- [Registros de alterações](https://docs.aivax.net/pt-br/docs/changelogs.md)
+- [Logs de alterações](https://docs.aivax.net/pt-br/docs/changelogs.md)
 
 ## RAG e coleções
 
@@ -20,7 +20,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Busca Semântica](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 - [Segmentação de Texto](https://docs.aivax.net/pt-br/docs/rag/text-segmentation.md)
 - [Classificação de Texto](https://docs.aivax.net/pt-br/docs/rag/classification.md)
-- [Reordenadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
+- [Classificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
 - [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
 - [Melhores Práticas para RAG](https://docs.aivax.net/pt-br/docs/rag/best-practices.md)
 
@@ -32,7 +32,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 - [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md)
 - [Inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md)
-- [Testes Agênicos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
+- [Testes Agentes](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 - [Sessão de Voz](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
 - [Pipelines de IA](https://docs.aivax.net/pt-br/docs/inference/pipelines.md)
 - [Respostas Estruturadas](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md)
@@ -50,7 +50,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Transcrições de Áudio](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
 - [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/generations/media-descriptions.md)
 - [Ensinar Habilidade](https://docs.aivax.net/pt-br/docs/generations/teach-skill.md)
-- [Geração de Imagem](https://docs.aivax.net/pt-br/docs/generations/images.md)
+- [Geração de Imagens](https://docs.aivax.net/pt-br/docs/generations/images.md)
 
 ## Recursos e funcionalidades
 
