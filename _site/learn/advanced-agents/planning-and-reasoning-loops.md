@@ -10,7 +10,6 @@ The **plan** states the next useful steps toward a defined result. To **act**, t
 
 Plan the next useful step → Act through an authorised tool → Observe the actual result → Revise, then continue or stop
 
-
 This approach is often called **ReAct-style**: reasoning and acting alternate. In plain words, the agent does not settle everything before checking the world. It considers the current evidence, acts, and considers the new evidence. You do not need a transcript of the model's private internal reasoning to supervise it. A short action summary, the tool result and the reason for the next step provide a more useful operational record.
 
 The distinction between a plan and evidence matters. “Check delivery costs” is an intention. “The supplier's quote includes delivery” is a claim that needs a source. A search that returned no result is not evidence that delivery is free. The loop should preserve these differences so that a confident draft cannot quietly turn an unknown into a fact.
@@ -27,34 +26,25 @@ A model designed for more deliberate reasoning and an agent loop are different c
 
 Begin by defining “cheapest” and “finished”. For this example, the buyer wants the lowest total quoted cost for a specified product and quantity, including delivery, among suppliers the business is allowed to use. The result is a comparison and an unsent enquiry draft. Placing an order and sending the e-mail are outside scope. If the buyer has not supplied a destination or deadline, ask before pretending the comparison is meaningful.
 
-
 1. **Agree the comparison**
 
 Record the product specification, quantity, delivery destination and acceptable suppliers. Mark any missing requirement that would change the choice.
-
 
 2. **Gather current offers**
 
 Use an authorised search or catalogue tool. Keep each offer's source, date, pack size, stock status and delivery terms together.
 
-
 3. **Observe a mismatch**
 
 The lowest advertised price is for a smaller pack. Exclude it or convert it to an equivalent quantity using a calculation tool; do not compare headline prices directly.
-
 
 4. **Revise the next action**
 
 One otherwise suitable offer omits delivery. Ask for that missing information or mark the total as unknown rather than quietly ranking it first.
 
-
 5. **Return the bounded result**
 
 Present the lowest verified total among the offers checked, note unresolved quotes and draft the enquiry. Stop without sending or purchasing.
-
-
-
-
 
 Notice the wording “among the offers checked”. It is a defensible conclusion, unlike “the cheapest supplier anywhere”. The agent cannot establish a universal claim from a limited search. A useful final response explains the comparison boundary and any fact that might change the recommendation. The draft can ask an unresolved delivery question without implying that the supplier has already answered it.
 
@@ -64,7 +54,6 @@ Tool descriptions also shape the loop. If a search tool and a purchasing tool ar
 
 A loop needs **stopping conditions**: explicit situations in which it must finish, pause or hand control back. “Continue until confident” is too vague. Models can sound certain without better evidence, and repeated searches can keep uncovering something else to check. Decide what evidence is sufficient for this particular business decision.
 
-
 - **Success** — The agreed comparison is complete and the unsent draft is ready. More searching would not satisfy an additional requirement.
 
 - **Missing authority or information** — The next step needs permission or a material detail from the user. Pause and ask a focused question.
@@ -72,9 +61,6 @@ A loop needs **stopping conditions**: explicit situations in which it must finis
 - **No useful progress** — Repeated attempts return the same missing or unusable evidence. Explain the gap instead of circling indefinitely.
 
 - **Resource limit** — The step, time or spending budget is reached. Return a clearly labelled partial result, not a false success.
-
-
-
 
 A **step limit** bounds how many actions or model calls the application permits. Define which events count: a retry still consumes resources, and a delegated search should not escape the budget. Add an elapsed-time limit and a spending limit as separate controls. Software outside the model should enforce these limits, because an instruction to be economical is not a reliable spending barrier.
 
@@ -84,7 +70,6 @@ Keep the success test observable. “Compared the permitted suppliers with equiv
 
 Model calls process **tokens**, the pieces of text a model reads and writes. Each iteration may repeat instructions, previous messages and tool results as input, then generate a new response. Tool services may add their own charges. As history grows, later iterations can cost more than earlier ones; twice as many iterations need not mean only twice the total cost.
 
-
 **Cumulative work cost versus iterations (illustrative)**
 
 | | 1 | 2 | 3 | 4 | 5 |
@@ -92,8 +77,6 @@ Model calls process **tokens**, the pieces of text a model reads and writes. Eac
 | Growing conversation history | 1 cost units | 2.3 cost units | 3.9 cost units | 5.8 cost units | 8 cost units |
 
 Arbitrary teaching units, not prices or measured performance. Later calls in this example process more accumulated context.
-
-
 
 Reduce waste by requesting focused tool results, keeping a concise factual work record and avoiding repeated checks of unchanged information. Summaries should preserve important evidence, uncertainty and approval boundaries; shortening history must not remove the fact that sending is forbidden. Choose a budget appropriate to the value of the decision, then measure completed outcomes rather than rewarding longer plans.
 

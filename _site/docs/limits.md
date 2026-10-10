@@ -98,6 +98,11 @@ These model-specific limits apply in addition to the account-level request quota
 | `@liquid/d1` | 65,536 tokens |
 | `@perplexity/pplx-decider-v1-27b` | 262,144 tokens |
 | `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
+| `@microsoft/microsoft-decision-1` | 32,768 tokens |
+| `@nace-ai/drex-v1.5` | 131,072 tokens |
+| `@cloudflare/clef-omni` | 65,536 tokens |
+
+Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only.
 
 Julia-1 has additional serving limits:
 

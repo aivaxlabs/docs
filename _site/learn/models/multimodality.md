@@ -8,7 +8,6 @@ Think of a colleague receiving a folder containing a letter, a photograph, and a
 
 A model may accept images and return text, accept text and produce speech, or handle several combinations. Understanding an image does not imply being able to create one. Likewise, turning a recording into written words does not imply the ability to hold a live spoken conversation. Check both sides of the task: what goes in and what must come out.
 
-
 - **Images** — Inputs may include photographs, screenshots, or diagrams. Outputs may be descriptions or extracted facts; creating or editing an image requires an appropriate generation capability.
 
 - **Audio** — Inputs may include speech or other sounds. Tasks include transcription and audio interpretation. Spoken output uses speech generation or a compatible live voice system.
@@ -16,9 +15,6 @@ A model may accept images and return text, accept text and produce speech, or ha
 - **Documents** — A document can mix selectable text, scanned pages, charts, and tables. Its file extension alone does not tell you which information can be extracted reliably.
 
 - **Video** — A recording combines images over time and may include audio. Summarising it requires deciding which moments and sounds are available to the processing system.
-
-
-
 
 A document format is a container rather than a single kind of meaning. One PDF might contain clean text that can be extracted directly. Another might be a collection of scanned photographs. A third might contain a chart whose message depends on colours and spatial layout. Treating all three as plain text can produce very different results.
 
@@ -30,52 +26,37 @@ The first route is **direct media input**: send the media to a model or service 
 
 **Transcription** turns spoken words into written text. **Optical character recognition**, usually called **OCR**, reads characters from images or scanned pages. A **media description** expresses visible or audible information in words, such as “a cardboard box with a torn corner.” These are different products: a description of a receipt is not necessarily a faithful transcription of every amount.
 
-
 **Direct media**
 
 Ask a vision-capable model about the original package photo. This can retain useful visual relationships, such as where the damage appears. Supported formats, detail, cost, and quality depend on the selected service.
-
 
 **Text first**
 
 Create a description or transcript, then let a text model handle the conversation. The text can be reused and searched, but anything omitted during conversion is unavailable to that later model.
 
-
-
-
-
 A text-first route is useful when the important information is mainly words and will be reused. A support voice note can become a transcript that is easier to search and review. A direct route is useful when the task depends on layout, visual relationships, or other information that a text conversion may lose. Neither route guarantees that small print or unclear speech will be understood correctly.
 
 Receive media → Check access and format → Read directly or convert to text → Answer the specific question → Verify consequential details
-
 
 Before processing, state what you need to learn. “Read this invoice” is less useful than “Extract the supplier name, invoice date, total, and currency; mark anything unreadable.” A focused request makes it easier to evaluate success and avoids collecting unrelated details from a document or recording.
 
 ## Choose the route for the work
 
-
 **Invoice photograph**
 
 Use OCR or image understanding to extract required fields. Check the original image for ambiguous digits, decimal separators, and currency. Require review before creating or approving a payment.
-
 
 **Customer voice note**
 
 Transcribe the recording when the task is to capture the customer's words. Preserve uncertainty around names, addresses, and dates. Ask for confirmation before acting on a detail that sounds unclear.
 
-
 **Product PDF**
 
 Extract selectable text when available. Use OCR for scanned pages and image understanding when diagrams matter. Keep page references so a reviewer can find the evidence behind the answer.
 
-
 **Training video**
 
 Decide whether speech, screen changes, or both are essential. A transcript alone may explain the narration while missing which button the presenter selected. Validate against the relevant moment in the recording.
-
-
-
-
 
 For the invoice example, separate recognition from business validation. A model can read a total that appears on a page, but that does not prove the invoice is genuine, the supplier is approved, or the payment is authorised. Those checks belong to the surrounding business process. A clear photograph improves recognition; it does not establish trust in the document.
 

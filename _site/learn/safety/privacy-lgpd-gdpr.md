@@ -13,15 +13,11 @@ Privacy starts with this ordinary question: what does each part of the workflow 
 
 Some personal information receives additional protection. Under Brazil's **LGPD**, the General Personal Data Protection Law, this includes categories such as health and biometric data in defined circumstances. The European Union's **GDPR**, the General Data Protection Regulation, has comparable **special categories** with its own definitions and conditions. Do not assume that the categories or exceptions are identical.
 
-
 - **Visible information** — A message, photograph or attachment may contain personal details. Ask users for the minimum information needed instead of inviting them to upload everything.
 
 - **Information around the message** — Account references, conversation histories and technical logs can reveal who a person is or what they did. Privacy controls must cover these records too.
 
 - **Inferences about people** — An agent's summary may infer health, financial circumstances or personal preferences. Generated information can still be personal data and can also be wrong.
-
-
-
 
 Business secrets and passwords also require protection, even when they are not personal data. A privacy review and a security review overlap, but neither replaces the other. For example, encrypting a record protects it against some unauthorised access; it does not establish a valid reason to collect the record in the first place.
 
@@ -49,19 +45,13 @@ These similarities help organise questions; the table does not mean the laws hav
 
 **Masking** replaces identifying details with placeholders. **Pseudonymisation** replaces identifiers while preserving a way to reconnect the record to a person, such as a separate lookup table. That data generally remains personal data. **Anonymisation** aims to prevent identification under the applicable legal standard; replacing a name alone is not enough to claim it.
 
-
 **Raw message: illustrative placeholders**
 
 “My name is [FULL NAME], and I live at [HOME ADDRESS]. Please move my delivery because I have [MEDICAL DETAIL]. My order is [ORDER REFERENCE].” Sending all of this to a model for topic classification is unnecessary.
 
-
 **Masked message for classification**
 
 “The customer wants to reschedule a delivery for a personal reason.” The application retains the verified order reference separately for an authorised delivery tool. The model can identify the task without seeing the omitted details.
-
-
-
-
 
 Perform masking before transmission, not only when displaying logs afterwards. Review attachments and conversation summaries too: either can reintroduce a detail removed from the newest message. If placeholders must be restored, keep that mapping in a protected system and restore only the fields needed for the authorised output.
 
@@ -69,34 +59,25 @@ Over-removal can also damage the task. A language preference may be needed to re
 
 ## Make a data-handling checklist
 
-
 1. **Map the journey**
 
 List where messages, attachments, model inputs, outputs and logs travel. Include external services and staff access, not only the chat interface.
-
 
 2. **Justify each field**
 
 Record the purpose, legal basis, required notice and responsible owner. Remove information that does not help complete the authorised task.
 
-
 3. **Protect what remains**
 
 Apply masking before transmission, restrict access and review provider settings. Avoid copying sensitive messages into broad debugging or analytics systems.
-
 
 4. **Set retention and deletion**
 
 Choose how long each category must be kept, document exceptions and implement deletion. Include backups, exports, search indexes and provider-held copies where applicable.
 
-
 5. **Rehearse a rights request**
 
 Verify the requester's identity proportionately, find the relevant records and route the request to its owner. Test access and deletion handling without exposing another person's data.
-
-
-
-
 
 **Retention** is how long information is kept. Different purposes may justify different periods: an unresolved support case and a legal accounting record need not share one schedule. “Keep everything just in case” is not a useful policy. Neither is promising immediate deletion when a documented legal duty requires some records to remain.
 
@@ -109,8 +90,6 @@ A **data processing agreement**, or DPA, records responsibilities between a cont
 **Does disabling training mean nothing is retained?**
 
 No. Training, conversation storage, security logging and temporary processing are different activities. Review each separately. A setting that stops future collection may not delete past records or reverse completed model training. Promise users only the controls and rights your complete service can actually deliver.
-
-
 
 Related on AIVAX: read the [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md), [Third-Party Processors](https://docs.aivax.net/docs/legal/third-party-processors.md) and [Data Collecting](https://docs.aivax.net/docs/data-collecting.md) documentation together. The optional semantic data collection program has a specific scope and is disabled by default; review its conditions rather than treating it as a universal setting for all processing.
 

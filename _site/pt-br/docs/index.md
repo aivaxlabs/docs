@@ -11,7 +11,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)
 - [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md)
 - [Coleta de Dados](https://docs.aivax.net/pt-br/docs/data-collecting.md)
-- [Registro de alterações](https://docs.aivax.net/pt-br/docs/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/changelogs.md)
 
 ## RAG e coleções
 

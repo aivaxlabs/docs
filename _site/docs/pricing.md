@@ -39,6 +39,9 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | `@liquid/d1` | **$0.040** |
 | `@perplexity/pplx-decider-v1-27b` | **$0.040** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
+| `@microsoft/microsoft-decision-1` | **$0.042** |
+| `@nace-ai/drex-v1.5` | **$0.040** |
+| `@cloudflare/clef-omni` | **$0.150** |
 
 See [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md) for model selection and how input usage is measured.
 

@@ -12,15 +12,11 @@ Uma **estratégia de recuperação** é o método usado para selecionar informa�
 
 **Busca híbrida** combina sinais de recuperação por palavra‑chave e semântica. Busca manter correspondências exatas ao mesmo tempo em que lida com paráfrases, diferentes formas de expressar a mesma ideia. Combinar métodos adiciona escolhas sobre como os resultados são mesclados e classificados, portanto ainda requer avaliação. “Híbrida” descreve uma abordagem, não uma promessa de respostas melhores em toda coleção.
 
-
 - **Keyword** — Útil quando as palavras precisas carregam a identidade, como um formulário nomeado ou uma mensagem de erro copiada.
 
 - **Semantic** — Útil quando o usuário descreve uma necessidade em linguagem cotidiana ao invés de repetir a redação do documento.
 
 - **Hybrid** — Útil quando tanto termos exatos quanto significado mais amplo importam dentro do mesmo conjunto de perguntas.
-
-
-
 
 Imagine um dispositivo fictício chamado Trail Lamp. Uma pergunta sobre “Substituição da bateria da Trail Lamp” se beneficia do nome exato do produto. “Minha luz externa não mantém carga” se beneficia da correspondência baseada em significado, mas pode primeiro exigir esclarecimento sobre qual produto a pessoa possui. A busca não deve adivinhar silenciosamente o produto apenas porque um documento aparece em primeiro lugar.
 
@@ -31,7 +27,6 @@ Imagine um dispositivo fictício chamado Trail Lamp. Uma pergunta sobre “Subst
 Um reclassificador pode melhorar a ordem dos candidatos disponíveis, mas não pode resgatar um documento que nunca entrou no conjunto de candidatos. Ele também adiciona processamento, o que pode afetar o tempo de resposta e o custo. Use‑o quando trechos relevantes estão sendo encontrados, mas enterrados abaixo de correspondências mais fracas, e verifique se a melhoria importa para as respostas finais.
 
 Question → Select eligible documents → Retrieve candidates → Rerank if useful → Select evidence → Generate answer
-
 
 Relacionado: no AIVAX, [reranking](https://docs.aivax.net/pt-br/docs/rag/reranking.md) fornece reordenação por relevância, e [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md) é uma opção de reclassificação documentada. Esses guias de produto descrevem as opções disponíveis. A lição geral é julgar a evidência selecionada, não assumir que adicionar outra etapa de processamento a melhora automaticamente.
 
@@ -66,29 +61,21 @@ Altere essas configurações usando exemplos reais. Uma pergunta sobre uma únic
 
 A reescrita pode expandir abreviações, preservar termos exatos e dividir uma pergunta composta em buscas separadas. Mantenha a pergunta original disponível para comparação. Se o detalhe ausente não puder ser inferido com segurança a partir da conversa, pergunte ao usuário. Uma reescrita fluente da pergunta errada pode produzir evidência muito convincente porém irrelevante.
 
-
 **Exact error message**
 
 Preserve a redação do erro e a versão confirmada do produto. Comece verificando correspondências exatas, depois use significado mais amplo se a documentação aprovada usar explicação diferente.
-
 
 **Everyday question**
 
 Use recuperação semântica para necessidades parafraseadas. Confirme o assunto antes de aplicar filtros restritivos de produto e verifique se o trecho selecionado responde à intenção do usuário.
 
-
 **Several plausible passages**
 
 Inspecione o conjunto de candidatos e considere reclassificação. Se todos os candidatos são fracos, melhore a fonte ou a busca inicial ao invés de apenas reordenar a mesma evidência fraca.
 
-
-
-
-
 ## Escolha com base em evidências, não em ranking
 
 **Precisão** mede quanto do material recuperado é relevante sob uma regra de revisão definida. Difere da **revocação**, que pergunta quanto do material relevante necessário foi encontrado. Uma lista de resultados muito curta pode ser precisa ao mesmo tempo que perde uma exceção essencial. Avalie tanto a recuperação quanto a qualidade da resposta final.
-
 
 **Relevant passages in a fictional evaluation (illustrative)**
 
@@ -100,8 +87,6 @@ Inspecione o conjunto de candidatos e considere reclassificação. Se todos os c
 | Hybrid plus reranking | 79% |
 
 Invented precision figures for one teaching scenario, not a benchmark or expected ordering. Exact-code questions or different documents can reverse this pattern.
-
-
 
 Use as mesmas perguntas rotuladas ao comparar uma mudança e registre o tempo de resposta junto com a qualidade. Selecione a abordagem mais simples que atenda aos requisitos da tarefa. Mantenha exemplos onde a mudança ajudou e onde prejudicou, para que o próximo ajuste aborde fraquezas observadas ao invés de um gráfico atraente.
 

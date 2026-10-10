@@ -8,19 +8,13 @@ Em [Adding skills](https://docs.aivax.net/pt-br/learn/agents/adding-skills.md), 
 
 Por exemplo, “escrever mensagens de boas‑vindas amigáveis” descreve uma capacidade. “Verificar se a conta está aprovada, confirmar o canal de contato, rascunhar a mensagem de boas‑vindas, obter revisão e então enviar pela ferramenta autorizada” descreve um procedimento. O procedimento torna as dependências visíveis. Uma boa mensagem não é útil se for enviada antes que o acesso do cliente exista.
 
-
 **Conversa livre**
 
 O próximo passo segue as perguntas do usuário e as informações que surgem. Útil para exploração, explicação e descoberta de requisitos. A conclusão pode ser uma resposta satisfatória em vez de um registro alterado.
 
-
 **Fluxo de trabalho definido**
 
 O próximo passo depende de um procedimento declarado e progresso registrado. Útil para operações repetíveis com verificações necessárias. A conclusão tem evidência explícita, como uma configuração aprovada e um resultado confirmado.
-
-
-
-
 
 Nenhum estilo deve substituir o outro em todas as situações. Um cliente pode precisar de uma conversa aberta para entender suas opções antes de iniciar a integração. Uma vez iniciada a integração, o sistema deve saber qual procedimento está ativo e não deve pular verificações necessárias apenas porque a conversa muda de direção.
 
@@ -36,34 +30,25 @@ Em seguida, separe etapas obrigatórias de ramificações opcionais. Uma **ramif
 
 A sequência abaixo é ilustrativa e deve ser adaptada às políticas reais da organização. É um exemplo de design, não uma afirmação de que qualquer plataforma específica executa automaticamente essas etapas ou concede essas permissões.
 
-
 1. **Confirmar a solicitação e pré-requisitos**
 
 Identifique o solicitante autorizado e o cliente pretendido. Verifique se a aprovação comercial necessária existe e procure uma conta existente.
-
 
 2. **Coletar e validar os detalhes da configuração**
 
 Solicite apenas as informações necessárias. Verifique os campos obrigatórios e resolva ambiguidades antes de preparar uma alteração.
 
-
 3. **Apresentar a configuração proposta**
 
 Exiba o registro do cliente, o nível de acesso e a comunicação planejada em um resumo revisável. Torne as informações ausentes visíveis.
-
 
 4. **Obter a aprovação necessária**
 
 Registre quem aprovou qual versão da mudança proposta. Se detalhes importantes mudarem depois, solicite uma nova aprovação.
 
-
 5. **Executar e verificar**
 
 Utilize ferramentas autorizadas, inspecione seus resultados e registre o que realmente foi bem‑sucedido. Não anuncie a conclusão apenas porque uma solicitação foi enviada.
-
-
-
-
 
 O procedimento também deve indicar o que não fazer. Se a aprovação for recusada, interrompa ao invés de buscar outra rota para a mesma mudança. Se o registro do cliente for ambíguo, peça esclarecimento ao invés de escolher o nome mais próximo. Se uma ferramenta estiver indisponível, preserve as verificações concluídas e explique qual etapa permanece aberta.
 
@@ -74,7 +59,6 @@ Um **ponto de verificação** é um momento em que o processo verifica evidênci
 Para aprovações, especifique a decisão, o aprovador autorizado e a ação proposta. O entusiasmo geral do cliente não é aprovação para alterar um contrato. Um gerente que aprova um rascunho não autoriza necessariamente enviá‑lo a todo contato. A unidade [human-in-the-loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md) explica como projetar a participação humana sem tornar a responsabilidade confusa.
 
 Começar com pré-requisitos → Preparar o trabalho → Verificar evidências → Obter aprovação → Executar → Verificar conclusão
-
 
 Registre o progresso em um local que a aplicação possa consultar de forma confiável. Esse **estado** registrado informa ao sistema quais etapas estão concluídas, pendentes ou falhadas. O texto da conversa sozinho é uma lista de verificação frágil: pode se tornar longo, ser resumido ou conter declarações contraditórias. Um processo confiável não deve esquecer um limite de aprovação porque uma mensagem anterior não está mais visível ao modelo.
 
@@ -90,13 +74,9 @@ Uma habilidade contendo etapas numeradas não é automaticamente um mecanismo de
 
 Para uma tarefa de baixo impacto, como rascunhar um resumo de reunião, instruções reutilizáveis e revisão humana podem ser suficientes. A consequência de uma etapa perdida é limitada e a saída é fácil de inspecionar. Ainda assim, defina o que um rascunhar completo deve conter.
 
-
-
 **Quando o software deve impor o fluxo de trabalho?**
 
 Use controles mais fortes quando as etapas alteram registros, envolvem dinheiro, requerem verificações reguladas ou devem ser retomadas após uma interrupção. Aprovações necessárias e cálculos de negócio não devem depender apenas do modelo escolher seguir uma lista de verificação.
-
-
 
 A unidade [planning and reasoning loops](https://docs.aivax.net/pt-br/learn/advanced-agents/planning-and-reasoning-loops.md) explora casos em que um agente decide seu próximo passo a partir de observações. Essa flexibilidade é valiosa para trabalhos incertos. É menos apropriada quando o negócio já conhece a sequência necessária e precisa de evidências de que cada condição foi atendida.
 

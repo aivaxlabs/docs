@@ -97,6 +97,12 @@ The request values override the gateway's saved routing for that request only; t
 
 The previous `routing_preset` field is deprecated but still accepted. Replace `"routing_preset": "Fastest"` with `"routing_options": { "preset": "Fastest" }`. When both are sent, `routing_options.preset` takes precedence.
 
+### Zero data retention providers only
+
+Enable **Zero data retention providers only** in the dashboard account settings to route text inference with integrated models only to providers that do not retain prompts. Providers that are not zero data retention are excluded before `allowed_providers` and `preset` are applied. When the model has no zero data retention provider available, the request fails instead of falling back to another provider; choose a model with a zero data retention provider or disable the option.
+
+The option applies only to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
+
 ### Provider in responses
 
 Responses for integrated models include a `provider` field next to `model` with the tag of the provider that served the request. In streaming responses, every chunk includes it. The field is `null` for gateways that use your own provider credentials.
@@ -244,6 +250,8 @@ Set `metadata` to attach string key/value information to the inference request. 
 ## Response and conversation records
 
 The standard `/v1/chat/completions` response envelope includes `generation_context`. Its `generated_usage` entries contain `sku`, `amount`, `unit_price`, `quantity`, and `description`. Set `json_only: true` to return only the final JSON without this envelope.
+
+Set `allow_logging: false` in a `/v1/chat/completions` request to keep that request out of the account conversation logs. It defaults to `true`, and it cannot enable logging when conversation logging is disabled for the account. Usage and billing records are still created.
 
 When conversation logging is enabled, the stored record includes its ID, origin, model name, request ID, response schema, tools and tool input schemas, usage, linked resources, created and updated timestamps, token count, external user ID, error message, messages, and metadata. Gateway and API key context is available through the linked resources.
 

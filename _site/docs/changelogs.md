@@ -4,6 +4,13 @@ Source: https://docs.aivax.net/docs/changelogs.html
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Saturday, October 10th, 2026
+
+Changes:
+
+- **Account — Zero data retention providers only.** The account settings page has a new **Zero data retention providers only** option, disabled by default. When enabled, text inference with integrated models is routed only to providers that do not retain prompts, and other providers are excluded. Requests fail when the model has no zero data retention provider available. The option does not change conversation logging. See [Zero data retention providers only](https://docs.aivax.net/docs/inference/inference.md#zero-data-retention-providers-only).
+- **Inference — `allow_logging` per request.** Chat completions accept `allow_logging`. Set it to `false` to keep that request out of the account conversation logs; it defaults to `true` and cannot enable logging when it is disabled for the account. See [Response and conversation records](https://docs.aivax.net/docs/inference/inference.md#response-and-conversation-records).
+
 ## Friday, October 9th, 2026
 
 Breaking changes:
@@ -17,6 +24,8 @@ Breaking changes:
 
 Changes:
 
+- **Models — Three new semantic decision models.** Adds `@microsoft/microsoft-decision-1` (Microsoft-Decision-1), `@nace-ai/drex-v1.5` (Nace.AI Drex v1.5), and `@cloudflare/clef-omni` (Cloudflare Clef Omni) to the semantic decision catalog. All three support `noul`, `choice`, and `score` questions and are billed per input token at $0.042, $0.04, and $0.15 per million tokens respectively, with no output token charge. They are not covered by the daily semantic decision allowance. See [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md) and [Pricing](https://docs.aivax.net/docs/pricing.md#semantic-decisions).
+- **Semantic decisions — Image input.** Image-capable decision models (`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni`, and `@openai/gpt-6-luna-decisions`) now accept images in `state` as `image_url` parts with base64 `image/png`, `image/jpeg`, or `image/webp` data URLs, in the same format as OpenRouter. Clef models accept up to 4 images and GPT-6 Luna Decisions up to 128; other models reject images with `400`. `GET /api/v1/information/decisions-models.json` now returns `maxImages` for each model. See [Send images](https://docs.aivax.net/docs/generations/decisions.md#send-images).
 - **Memory — Collection storage and search.** Memories are stored as documents in the account's `@memories` collection, created on first save, with user and conversation metadata. `memory_search` accepts exactly one of a semantic `query` or a document `filter`, returning up to 10 results restricted to the current user. Semantic searches use no-cost `rrf` reranking; filter searches return newest matches first without embedding charges. Saves and updates incur document-embedding charges, semantic searches incur query-embedding charges, and both tools use the account's RAG rate limits and return tool errors when balance or rate limits prevent access. Allow a few seconds for indexing after writes. See [Memory](https://docs.aivax.net/docs/tools/builtin-tools.md#memory) and [Pricing](https://docs.aivax.net/docs/pricing.md).
 - **Memory — Existing records migrated.** Non-expired memories moved to `@memories`, preserving their IDs, user identifiers, creation dates, and expiration dates, with `conversation_token` set to `null`. Non-expired calendar reminders became text memories in the form `Reminder at <date> (<n> minutes): <description>`. Migrated records are re-indexed and incur document-embedding charges. Review the collection and update integrations that used the removed memory or calendar features.
 

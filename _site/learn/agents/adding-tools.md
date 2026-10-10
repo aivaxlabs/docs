@@ -10,15 +10,11 @@ A tool normally has a name, a description and a definition of the information it
 
 A clear description helps the model decide when a tool is appropriate. “Look up the delivery status of an order the user is authorised to access” is more useful than “Manage orders.” The narrower description makes the expected result and limits easier to understand. It also makes it easier for the application to reject requests that do not fit the operation.
 
-
 - **Look up information** — Read an order status or search an approved catalogue. The operation should not change the record, but it still needs access controls.
 
 - **Prepare work** — Create a draft reply or prepare a ticket for review. Make clear whether the result is only a draft or already visible to another person.
 
 - **Change the world** — Send an e-mail, confirm a booking or update a record. These actions can have consequences beyond the conversation and need suitable safeguards.
-
-
-
 
 **Read-only** means an operation is intended to retrieve information without modifying it. It does not mean harmless: reading the wrong customer's records can still disclose private data. A **write operation** changes something. Separating these categories helps you decide which tools to expose first and which need additional checks or human confirmation.
 
@@ -28,29 +24,21 @@ In the tool-calling pattern described here, the model never executes the request
 
 This division is important because the model can make mistakes. It might select the wrong operation, omit a required field or confuse a customer-provided reference with a verified one. The application must treat the request as proposed input to validate, not as an instruction that automatically overrides access rules.
 
-
 1. **Decide whether an action is needed**
 
 The customer asks where an order is. The model recognises that a live lookup is needed rather than answering from general shipping knowledge.
-
 
 2. **Request the tool**
 
 The model supplies the requested operation and its arguments. If necessary details are missing, it should ask a focused question instead of inventing them.
 
-
 3. **Validate and execute**
 
 The application checks the arguments and the current user's access. Only an allowed request reaches the business system.
 
-
 4. **Return the outcome**
 
 The tool reports success, failure or an uncertain outcome. The model uses that evidence to answer, ask another question or stop.
-
-
-
-
 
 The result becomes part of the next context available to the model. It may contain a status, a limited set of record details or an explanation that the operation could not complete. The assistant should base claims about the action on that result. A request to create a ticket is not proof that a ticket was created.
 
@@ -74,8 +62,6 @@ The diagram shows the successful path. If the permission check fails, the applic
 ## Read the conversation as evidence
 
 > **Interactive demo: Inspect the difference between a request and a result.** This interactive demo is available on the web page. This is an illustrative, prepared conversation. The tool role carries the lookup result; the assistant's earlier intention to check would not be enough to support the final claim. No live customer record is accessed by this demo.
-
-
 
 Now imagine the tool instead returns “Service unavailable.” A sound reply would say that the status could not be checked, not that the parcel is probably on its way. If the system returns “Submission pending,” the reply should preserve that state. Users rely on these distinctions when deciding whether they still need to act.
 

@@ -8,15 +8,11 @@ Um assistente pode preparar uma solicitação de pagamento sem estar autorizado 
 
 Avalie o impacto, a reversibilidade e a visibilidade da ação. Pagamentos alteram a posição financeira. Exclusões podem remover informações que não podem ser recuperadas. Mensagens externas podem divulgar informações ou criar expectativas mesmo que o aplicativo ofereça um botão de exclusão posteriormente. Para essas ações, exija aprovação a menos que uma política organizacional estreita e explícita já tenha autorizado a classe exata de ação sob condições definidas.
 
-
 - **Preparar e inspecionar** — Resumir um documento autorizado ou rascunhar uma resposta não enviada. Essas ações geralmente requerem menos interrupções, mas as regras de acesso e privacidade ainda se aplicam.
 
 - **Mudança interna limitada** — Atualizar um registro interno reversível sob uma política explícita. Verifique a propriedade, campos permitidos e opções de recuperação antes de permitir a execução automática.
 
 - **Ação consequencial** — Pagar, excluir, publicar ou enviar informações externamente. Apresente o efeito exato e obtenha aprovação de alguém com a autoridade necessária.
-
-
-
 
 Essas são categorias de design, não regras legais universais. Ler um registro médico sensível pode ser de alto risco mesmo que nada seja alterado, enquanto um lembrete de rotina acordado pode já ter permissão para ser enviado. Decida a política com as pessoas responsáveis pelo processo. Evite que o modelo crie uma categoria de menor risco apenas porque uma tarefa seria mais fácil sem revisão.
 
@@ -26,34 +22,25 @@ Acesso técnico e aprovação são verificações diferentes. Uma conta de servi
 
 Uma **visualização de aprovação** é uma descrição legível da mudança proposta exata. Para um e-mail, mostre a identidade do remetente, destinatários, assunto, corpo e anexos. Para exclusão, identifique os registros e as consequências da recuperação. Para pagamento, mostre o destinatário, valor, moeda e propósito. Inclua incertezas importantes antes da decisão, não em um recibo depois.
 
-
 1. **Preparar sem executar**
 
 O agente coleta os fatos necessários e cria a ação proposta. Ele permanece como rascunho sem efeito externo.
-
 
 2. **Mostrar a visualização completa**
 
 Explique o alvo, conteúdo, consequência e qualquer questão não resolvida. Ofereça opções claras de Confirmar, Editar e Cancelar.
 
-
 3. **Verificar a autoridade do aprovador**
 
 A aplicação verifica se a pessoa pode aprovar esta ação. Ela registra a decisão dela contra esta proposta específica.
-
 
 4. **Executar a versão aprovada**
 
 Verifique novamente se a proposta está inalterada e ainda permitida. Um destinatário, valor ou anexo alterado requer uma nova decisão.
 
-
 5. **Reportar o resultado real**
 
 Mostre sucesso apenas após o sistema externo confirmá-lo. Caso contrário, relate uma falha ou um resultado incerto sem repetir silenciosamente a ação.
-
-
-
-
 
 A aprovação deve estar vinculada a uma versão específica da proposta. Uma pessoa que aprovou um destinatário não aprovou um novo destinatário adicionado posteriormente. Defina um prazo de validade adequado ao processo, pois preços antigos, detalhes de conta ou permissões podem não ser mais válidos. Não trate silêncio, uma janela fechada ou uma resposta ambígua como consentimento.
 
@@ -78,23 +65,17 @@ A aplicação deve impor esse limite antes da ação externa, mesmo que o modelo
 
 A fadiga de aprovação ocorre quando as pessoas enfrentam tantas confirmações de baixo valor que deixam de lê-las. Perguntar sobre cada mudança de formatação inofensiva pode fazer com que um aviso de pagamento realmente importante seja mais fácil de ignorar. Reduza prompts desnecessários permitindo um trabalho de preparação claramente delimitado, então coloque uma pausa deliberada no limite da ação significativa.
 
-
 **Aprovação pouco clara**
 
 “Tudo pronto. Continuar?”
 
 A pessoa não pode ver o destinatário, o anexo ou se continuar enviará a mensagem.
 
-
 **Aprovação revisável**
 
 “Enviar este rascunho para o contato do fornecedor abaixo, com a solicitação de cotação anexada? Nenhum pedido será feito.”
 
 O rascunho completo e o anexo estão disponíveis para inspeção, com opções separadas de Enviar, Editar e Cancelar.
-
-
-
-
 
 Ofereça à pessoa contexto suficiente para julgar, mas não enterre a decisão sob um longo transcrito interno. Um resumo útil indica o que o agente verificou, o que permanece incerto e o que acontecerá se aprovado. Destaque diferenças materiais de uma proposta revisada anteriormente. O revisor não deve precisar comparar dois rascunhos longos sem ajuda para descobrir que um anexo mudou.
 
@@ -109,8 +90,6 @@ Quando um humano assume a responsabilidade, o agente não deve continuar enviand
 **E se o aprovador estiver indisponível?**
 
 Mantenha a ação pendente ou canela de acordo com a política. Mostre o estado de espera e uma rota alternativa autorizada, se existir. Um prazo não converte a falta de aprovação em permissão, e o agente não deve escolher silenciosamente outra pessoa sem verificar sua autoridade.
-
-
 
 ## Transforme o feedback em uma melhoria controlada
 

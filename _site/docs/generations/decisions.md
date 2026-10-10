@@ -25,6 +25,9 @@ All models below support `choice`, `noul`, and `score`. See [Pricing](https://do
 | `@liquid/d1` |
 | `@perplexity/pplx-decider-v1-27b` |
 | `@openai/gpt-6-luna-decisions` |
+| `@microsoft/microsoft-decision-1` |
+| `@nace-ai/drex-v1.5` |
+| `@cloudflare/clef-omni` |
 
 `@typesafe/jev` is also accepted and currently resolves to `@typesafe/jev-1.13`. An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
@@ -37,6 +40,7 @@ An authenticated API key and a positive account balance are required, including 
 - `name`: the canonical identifier to use in a decision request.
 - `aliases`: other accepted identifiers for that model.
 - `contextLength`: the advertised context in tokens, or `null` when unspecified.
+- `maxImages`: the number of images accepted per request, or `0` for text-only models.
 - `releaseDate`: the catalog release date in `yyyy-MM-dd` format.
 - `capabilities`: supported question types (`noul`, `choice`, and/or `score`).
 - `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base USD prices, before account and plan adjustments.
@@ -97,6 +101,33 @@ Send the following JSON body to `POST /api/v1/generations/decisions`. The exampl
 ```
 
 Keep only relevant evidence in the state. Instructions should explain the decision, not ask for a chain of reasoning or additional text. Avoid overlapping choice descriptions unless that ambiguity is intentional.
+
+### Send images
+
+`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni`, and `@openai/gpt-6-luna-decisions` accept images. Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
+
+```json
+{
+  "model": "@cloudflare/clef-omni",
+  "state": [
+    "Listing title: Red square sticker",
+    { "type": "image_url", "image_url": { "url": "data:image/png;base64,<BASE64_IMAGE>" } }
+  ],
+  "questions": {
+    "matches_title": {
+      "type": "noul",
+      "instructions": "The photo shows the item in the title.",
+      "criteria": { "true": "The item in the title is visible", "false": "The item is not visible" }
+    }
+  }
+}
+```
+
+- `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are not fetched and are rejected.
+- Images nested inside objects in `state` are not read as images. A top-level `images` field, `input_image` parts, and base64 without the `data:image/...;base64,` prefix are not supported.
+- Clef models accept up to 4 images per request and GPT-6 Luna Decisions up to 128. Sending images to any other model, or more than the model accepts, returns `400`.
+- Clef and Clef Flash reject requests that exceed their processing window; keep each image under about 300 KB before encoding. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
+- Clef and Clef Flash read roughly the first 2,000 tokens of text in `state`; images are counted separately.
 
 ### Read the response
 

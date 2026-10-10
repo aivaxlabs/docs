@@ -6,15 +6,11 @@ That assumption shapes every page. Terms are defined the first time they appear,
 
 ## Who Learn is for
 
-
 - **Entrepreneurs and directors** — You decide where agents create value, what they cost and which risks are acceptable. Learn gives you vocabulary and judgement without asking you to write code.
 
 - **Developers** — You already build software and need the mental model behind prompts, tools, retrieval and evaluation so your first agent is not your last.
 
 - **Curious people** — You keep hearing *agent*, *RAG* and *context window* and want the real meaning, explained once, properly.
-
-
-
 
 These three audiences share one need: a common vocabulary. A director who understands what a context window is can ask a developer a precise question about cost; a developer who understands why a retrieval system can still produce a wrong answer can explain a risk to a director without hand-waving. Learn is written so that both can read the same unit and come away with the same picture.
 
@@ -23,7 +19,6 @@ Learn is deliberately neutral. Units describe how agents work in general; when s
 ## How the content is organised
 
 Module → Unit → Section → Knowledge check
-
 
 A **module** is a theme, such as *Agents* or *Safety, ethics and compliance*. Each module has a cover page that lists its **units** in a recommended order and shows how much of it you have completed.
 
@@ -35,48 +30,35 @@ You do not need to follow modules in order. The home page proposes three learnin
 
 A **learning path** is a suggested sequence of modules for a particular kind of reader. The paths overlap on purpose: the Agents module, for example, is the backbone of both the beginner and the developer path, because the same ideas are needed whichever role you have.
 
-
 - **Beginner** — Introduction; Agents; Prompt engineering and context; Safety, ethics and compliance. Start here if you have never built anything with AI and want to understand what an agent is, piece by piece.
 
 - **Developer** — Agents; Models and parameters; Tools and integrations; Advanced agents and workflows; Quality, evaluation and observability; Production and scale. Follow this if you will design, connect, test and ship agents.
 
 - **Business** — Introduction; Teaching agents; Quality, evaluation and observability; Safety, ethics and compliance; Practical guides and case studies. Follow this if you need to decide where agents create value, what they cost and which risks to manage.
 
-
-
-
 Paths are a recommendation, not a gate. Nothing is locked, and the Practical guides module in particular is useful to everyone: it applies the ideas from the other modules to complete scenarios such as a customer-support agent or an internal knowledge assistant.
 
 ## The visual blocks you will meet
-
 
 1. **Step-by-step animations**
 
 Blocks like this one walk through a process one step at a time. Press **Play** to advance automatically, use the arrows, or click any step.
 
-
 2. **Timelines**
 
 Timelines show how an idea evolved, so you understand *why* the current approach exists and not only *what* it is.
-
 
 3. **Charts and tables**
 
 Bar, line and pie charts compare numbers; tables compare options. Values in Learn are illustrative unless the unit says otherwise.
 
-
 4. **Interactive demos**
 
 Small simulations let you move a slider or type a sentence and watch what changes. They run entirely in your browser and never call a model.
 
-
 5. **Knowledge checks**
 
 One question at the end of each unit. There is no score; it is there to confirm you can apply the idea.
-
-
-
-
 
 Two other blocks appear often. A **comparison** places two short examples side by side, usually a weak version and a better one, so you can see the difference rather than read about it. A **flow** is the horizontal chain of boxes you saw above; it shows an order or a pipeline at a glance.
 
@@ -86,19 +68,13 @@ The ideas never live only inside a visual block. If you prefer reading, or if yo
 
 Progress is stored only in your browser. Nothing is sent anywhere, and switching devices starts fresh.
 
-
 **Marked automatically**
 
 When you click **Next unit** at the bottom of a page, the current unit is marked as complete.
 
-
 **Marked by you**
 
 Click **Mark as complete** at the end of a unit at any time. Click it again to undo.
-
-
-
-
 
 The sidebar shows a check next to each finished unit, and module cards on the home page show a progress bar. If your browser blocks local storage, you can still mark units and read every page; you simply lose the check marks when you leave the page.
 
