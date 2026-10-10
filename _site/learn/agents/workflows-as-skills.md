@@ -12,19 +12,13 @@ For example, “write friendly welcome messages” describes a capability. “Ch
 
 A written procedure still leaves room for language judgement. The agent might explain a missing field in a friendly way or adapt a summary for a busy manager. What should remain stable is the business meaning: which checks happened, whether an approval exists, and whether the claimed action actually succeeded.
 
-
 **Free conversation**
 
 The next step follows the user's questions and the information that emerges. Useful for exploration, explanation, and discovering requirements. Completion may be a satisfactory answer rather than a changed record.
 
-
 **Defined workflow**
 
 The next step depends on a stated procedure and recorded progress. Useful for repeatable operations with required checks. Completion has explicit evidence, such as an approved setup and a confirmed result.
-
-
-
-
 
 Neither style should replace the other everywhere. A customer may need an open conversation to understand their options before starting onboarding. Once onboarding begins, the system should know which procedure is active and should not skip required checks merely because the conversation changes direction.
 
@@ -40,34 +34,25 @@ Then separate mandatory steps from optional branches. A **branch** is an alterna
 
 The sequence below is illustrative and must be adapted to the organisation's actual policies. It is a design example, not a claim that any particular platform automatically performs these steps or grants these permissions.
 
-
 1. **Confirm the request and prerequisites**
 
 Identify the authorised requester and the intended customer. Check that required business approval exists and look for an existing account.
-
 
 2. **Collect and validate the setup details**
 
 Ask only for necessary information. Check required fields and resolve ambiguity before preparing a change.
 
-
 3. **Present the proposed setup**
 
 Show the customer record, access level, and planned communication in a reviewable summary. Make missing information visible.
-
 
 4. **Obtain the required approval**
 
 Record who approved which version of the proposed change. If important details change afterward, request a new approval.
 
-
 5. **Execute and verify**
 
 Use authorised tools, inspect their results, and record what actually succeeded. Do not announce completion merely because a request was sent.
-
-
-
-
 
 The procedure should also say what not to do. If the approval is refused, stop rather than finding another route to the same change. If the customer record is ambiguous, ask for clarification rather than choosing the closest name. If a tool is unavailable, preserve the completed checks and explain which step remains open.
 
@@ -78,7 +63,6 @@ A **checkpoint** is a point where the process checks evidence before continuing.
 For approvals, specify the decision, the authorised approver, and the proposed action. A customer's general enthusiasm is not approval to change a contract. A manager approving a draft does not necessarily authorise sending it to every contact. The [human-in-the-loop](https://docs.aivax.net/learn/advanced-agents/human-in-the-loop.md) unit explains how to design human participation without making responsibility unclear.
 
 Start with prerequisites → Prepare the work → Check evidence → Obtain approval → Execute → Verify completion
-
 
 Record progress somewhere the application can reliably consult. This recorded **state** tells the system which steps are complete, pending, or failed. Conversation text alone is a fragile checklist: it can become long, be summarised, or contain contradictory statements. A reliable process should not forget an approval boundary because an earlier message is no longer visible to the model.
 
@@ -94,13 +78,9 @@ A skill containing numbered steps is not automatically a deterministic workflow 
 
 For a low-impact task such as drafting a meeting brief, reusable instructions and human review may be sufficient. The consequence of a missed step is limited and the output is easy to inspect. Still define what a complete draft should contain.
 
-
-
 **When should software enforce the workflow?**
 
 Use stronger controls when steps change records, involve money, require regulated checks, or must resume after an interruption. Required approvals and business calculations should not depend only on the model choosing to follow a checklist.
-
-
 
 The [planning and reasoning loops](https://docs.aivax.net/learn/advanced-agents/planning-and-reasoning-loops.md) unit explores cases where an agent decides its next move from observations. That flexibility is valuable for uncertain work. It is less appropriate when the business already knows the required sequence and needs evidence that each condition was met.
 

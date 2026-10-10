@@ -12,8 +12,6 @@ The model receives a sequence of tokens. For each next position, it estimates wh
 
 > **Interactive demo: Try it: text becomes tokens.** This interactive demo is available on the web page. Change the sentence, add punctuation or try another language. This is a simplified teaching demonstration, not an exact measurement for a particular model. Real tokenizers can split the same text differently.
 
-
-
 Token counts matter because there is a limit to how much text a model can work with in a request, and usage is often measured through input and output tokens. For now, remember that a longer message usually consumes more of that space, but character counts are not a precise substitute. [Context window, tokens and cost](https://docs.aivax.net/learn/prompt-engineering/context-window-tokens-and-cost.md) explores the practical consequences.
 
 ## Training is different from answering
@@ -22,15 +20,11 @@ During **training**, the model repeatedly works with examples and adjusts its in
 
 After this broad training, additional training can encourage following instructions, responding helpfully or refusing certain requests. This changes tendencies, not the need for checking. When you later send a question, the model normally uses its existing parameters rather than being retrained on the spot. Producing an answer with an already trained model is called **inference**.
 
-
 - **Before use — Learn patterns**: Training adjusts the model using examples of text. It learns regularities that can transfer to questions it has not seen before.
 
 - **Before use — Shape behaviour**: Further training can encourage instruction following and other desired responses. It does not turn every answer into a verified fact.
 
 - **During use — Generate a response**: The application supplies instructions and information. The model generates tokens using what it learned and what it receives now.
-
-
-
 
 This distinction explains a common misunderstanding: correcting a model in a conversation does not necessarily teach the underlying model permanently. It can use the correction while that information remains available in the conversation. Lasting memory or a later training process is a separate mechanism. Likewise, sending a company document gives the model material for the current work; it does not automatically update every future conversation.
 
@@ -42,19 +36,13 @@ But a model's learned information is not a live connection to the world. It may 
 
 A **hallucination** is an output that presents invented, incorrect or unsupported information as though it were grounded. For example, a model may produce a plausible-looking policy exception or citation when no supporting source was supplied. This is not evidence of deliberate deception. The process that produces useful language can also produce a convincing continuation where the correct response would have been “I do not have enough information.”
 
-
 **Plausible wording**
 
 “Your replacement has already been approved.” The sentence sounds helpful, but no approval record has been checked.
 
-
 **Grounded wording**
 
 “I do not have an approval result yet. I can check the request or help you contact the team responsible.” The reply distinguishes evidence from possibility.
-
-
-
-
 
 ## Temperature changes variety, not truth
 
@@ -62,23 +50,17 @@ The model may assign a high probability to several possible next tokens. **Tempe
 
 > **Interactive demo: Try it: choose the next word.** This interactive demo is available on the web page. These probabilities are illustrative, not a weather forecast. Change the temperature and draw several continuations. Notice how the distribution affects variety without adding any evidence about tomorrow's weather.
 
-
-
 A low temperature does not make an unsupported claim factual. It may simply make the same wrong answer more repeatable. A high temperature does not give the model more knowledge. For a creative title, variation can be useful; for an order status, the decisive improvement is a trustworthy lookup. Treat generation settings and evidence as different controls.
 
 ## Strengths to use and limits to design around
 
 LLMs are often useful when the task involves interpreting or transforming language. A manager can ask for a shorter version of a long memo. A support team can organise incoming messages into categories. A salesperson can turn approved product notes into an initial draft. In each case, the model helps with expression and interpretation rather than becoming the authority for the business decision.
 
-
 - **Strong fit: transform supplied text** — Summarise, rewrite or translate material while preserving its important meaning. Check that exceptions and qualifications survive the transformation.
 
 - **Strong fit: interpret varied wording** — Recognise that different customer phrases may describe the same need. Ask a clarifying question when several interpretations remain possible.
 
 - **Needs support: exact or live facts** — Use dependable calculation software and current records rather than relying on a plausible answer produced from training alone.
-
-
-
 
 A model can also make reasoning mistakes, overlook a condition in a long document or choose an inappropriate next action. Supplying better information helps, but it is not a guarantee of correct use. For important tasks, define what counts as a successful answer, compare it with trusted examples and decide who reviews the result. The model is a capable component in a system, not the entire system.
 

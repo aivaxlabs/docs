@@ -14,44 +14,33 @@ Throughout this unit, imagine a delivery assistant helping a customer with a dam
 
 The following build-up is a teaching sequence, not a requirement to postpone safety until the end. In a real application, permission boundaries should exist before any consequential action becomes available. The layers work together, and some applications organise them under different names.
 
-
 1. **Instructions: define the job**
 
 Explain that the assistant handles delivery questions, asks for missing information and never promises a replacement without confirmation. Instructions describe desired behaviour, not technical permission.
-
 
 2. **Context: provide the current case**
 
 Include the customer's question, relevant conversation history and verified details the application is allowed to share. The model now has a case to work on rather than an abstract problem.
 
-
 3. **Tools: expose permitted actions**
 
 Provide a way to look up the order or prepare a ticket. The model can request an operation, while the surrounding software validates and executes it.
-
 
 4. **Knowledge: supply authoritative material**
 
 Make the current damaged-delivery policy available. The assistant can base its explanation on approved guidance instead of a generic expectation about retail returns.
 
-
 5. **Skills: package repeatable methods**
 
 Provide a reusable playbook for gathering evidence and writing a review request. This avoids re-creating the procedure independently in every assistant.
-
 
 6. **Guardrails: enforce the boundaries**
 
 Check access, restrict available actions and route exceptions to a person. A request outside the assistant's authority should not become a system change merely because it is well worded.
 
-
 7. **Memory: retain selected information**
 
 Where justified and permitted, save useful information for later interactions. Keep temporary case evidence separate from information intended to survive across conversations.
-
-
-
-
 
 Instructions answer “How should you work?” Context answers “What is happening now?” Tools answer “What operations can you request?” Knowledge answers “Which reference material should support the answer?” These distinctions make failures easier to diagnose. If a policy answer is outdated, changing the assistant's tone will not fix it. If an order lookup is forbidden, adding more policy text should not make it allowed.
 
@@ -63,15 +52,11 @@ A policy document might say that eligible customers can receive replacements. Th
 
 Keep this separation visible when designing the assistant. The model can explain a policy, ask a question or propose an action. The software responsible for a business record must decide whether the requested action is authorised and valid. That decision should not depend only on the model remembering a sentence from its instructions.
 
-
 - **Information** — “The policy allows replacement after review.” This helps explain the process but does not prove this case qualifies.
 
 - **Proposed action** — “Prepare a replacement request for this order.” This is a request to software, not evidence that a replacement exists.
 
 - **Confirmed result** — “The review request was created.” This statement needs a successful result from the responsible system.
-
-
-
 
 This distinction also helps users. The assistant should say whether it is drafting, requesting, waiting or confirming. Those are different states. A reassuring sentence that blurs them can cause someone to stop seeking help when no real action has happened.
 
@@ -80,7 +65,6 @@ This distinction also helps users. The assistant should say whether it is drafti
 Suppose the customer explains that the parcel arrived damaged. The application supplies the assistant's instructions and the available case information. The model may decide it needs the order status before answering. The application checks whether the user may access that order, runs the lookup and returns an allowed result. A relevant policy excerpt is also supplied when needed.
 
 Customer request → Instructions and relevant context → Model chooses next step → Application checks and runs action → Result informs the reply
-
 
 The model now has better grounds for its response. It might explain how to submit evidence, prepare a review ticket or ask a clarifying question. If the order service is unavailable, the answer should reflect that limitation. If the policy excludes the case, the assistant should explain the next available route rather than reinterpret the policy to satisfy the customer.
 

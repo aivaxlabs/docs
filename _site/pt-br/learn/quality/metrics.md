@@ -6,7 +6,6 @@ Pense em operar um serviço de entrega. O horário de chegada importa, mas entre
 
 ## Entenda as quatro perspectivas
 
-
 - **Precisão** — O agente fornece a informação correta e completa a tarefa exigida sob as regras declaradas? Avalie contra expectativas verificadas.
 
 - **Latência** — Quanto tempo a pessoa espera? Meça um intervalo claramente definido, como enviar uma mensagem até receber uma resposta completa.
@@ -14,9 +13,6 @@ Pense em operar um serviço de entrega. O horário de chegada importa, mas entre
 - **Custo** — Quais recursos são consumidos para entregar o resultado? Inclua tentativas falhas, serviços conectados e trabalho humano quando relevante.
 
 - **Satisfação** — Quão útil e compreensível foi a experiência para a pessoa que a utilizou? Colete feedback, reconhecendo quem não respondeu.
-
-
-
 
 **Precisão** precisa de uma definição que se ajuste à tarefa. Para extrair campos de fatura, compare cada campo obrigatório com uma referência verificada. Para suporte, revise se a resposta segue a política e aborda a pergunta. Para um agente de reserva, verifique a reserva e a confirmação necessária. Uma medida comum é a proporção de casos avaliados que atendem a todos os critérios exigidos. Sempre indique quais casos foram avaliados e o que contou como aprovação.
 
@@ -34,16 +30,11 @@ Uma média combina todas as medições em um único número, o que pode esconder
 
 Imagine alinhar solicitações concluídas da mais rápida à mais lenta. A solicitação do meio informa sobre uma espera ordinária; uma solicitação próximo do extremo lento informa sobre uma espera frustrante. Nenhum é o máximo, e p95 não significa que todo usuário receberá uma resposta antes desse tempo. Inclua o número de observações e o período de medição, pois um percentil de uma amostra pequena é instável.
 
-
 - **p50** — A observação do meio
 
 - **p95** — Uma visão do extremo mais lento
 
 - **Maximum** — O caso mais lento observado, não uma garantia
-
-
-
-
 
 **Tempo de espera de resposta completa (ilustrativo)**
 
@@ -55,8 +46,6 @@ Imagine alinhar solicitações concluídas da mais rápida à mais lenta. A soli
 | Version B p95 | 7seconds |
 
 Observações inventadas mostram por que a espera típica e a espera do extremo lento podem mover-se em direções opostas. Estes não são benchmarks de produto.
-
-
 
 Nesta comparação ilustrativa, a versão B torna a experiência média mais lenta, mas melhora o extremo lento. Se isso é desejável depende da promessa do serviço e da tarefa. Também conte solicitações que falharam ou expiraram. Excluí‑las do gráfico sem uma medida de falha separada pode fazer um serviço não confiável parecer rápido, pois suas piores experiências desaparecem do cálculo.
 
@@ -73,19 +62,13 @@ As metas a seguir são pontos de partida qualitativos, não garantias universais
 | Assistente interno de conhecimento | Resposta suportada por documentos atuais | Resposta útil enquanto o colaborador trabalha | Respeitar restrições de acesso |
 | Processamento de back‑office | Registros corretos produzidos e verificados | Concluir dentro da janela de trabalho acordada | Nenhuma alteração não autorizada |
 
-
 **Otimizar um número**
 
 Escolha a resposta mais barata e comemore menor gasto, mesmo que clientes repitam perguntas e a equipe repare mais erros.
 
-
 **Otimizar o resultado**
 
 Compare o custo por tarefa concluída com sucesso enquanto verifica precisão, tempo de espera, segurança e esforço de correção humana.
-
-
-
-
 
 ## Construa um painel que apoie decisões
 

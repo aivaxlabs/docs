@@ -122,7 +122,6 @@ Built-in tools can be configured on a gateway or supplied per request with `buil
 - `OpenUrl`
 - `Code`
 - `Request`
-- `Calendar`
 - `Remember`
 - `GenerateWebPage`
 - `GenerateDocument`

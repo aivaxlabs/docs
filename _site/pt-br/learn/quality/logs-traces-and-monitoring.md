@@ -12,7 +12,6 @@ Um **rastreamento** agrupa eventos e tempos relacionados para uma solicitação,
 
 Pergunta recebida → Recuperar conhecimento → Perguntar ao modelo → Chamar uma ferramenta se necessário → Entregar a resposta
 
-
 **Recuperação** significa encontrar material relevante, como um parágrafo de política, para ajudar o agente a responder. Um modelo é o sistema que interpreta a solicitação e produz linguagem ou solicita ações. Algumas perguntas não precisam de recuperação ou chamada de ferramenta; outras envolvem várias rodadas. O fluxo é um exemplo de ensino, não uma regra que todo agente segue exatamente nessa ordem.
 
 ```mermaid
@@ -35,7 +34,6 @@ Suponha que a busca na política tenha sido bem‑sucedida e o modelo tenha soli
 
 Registre o suficiente para responder a perguntas práticas: o que foi solicitado, qual versão o processou, quais etapas foram executadas, quanto tempo levaram, quais resultados foram relatados e o que o usuário recebeu ao final. Uma **versão** identifica uma configuração específica de instruções, modelo, conhecimento e ferramentas. Sem ela, uma falha antiga pode ser impossível de reproduzir após mudanças na configuração.
 
-
 - **Tempo e status** — Capture os horários de início e término da etapa, estado de conclusão, timeouts e tentativas. Isso explica problemas de espera e disponibilidade.
 
 - **Configuração e evidência** — Registre a versão de configuração relevante e referências seguras de documentos. Isso ajuda a distinguir comportamento em mudança de conhecimento em mudança.
@@ -43,9 +41,6 @@ Registre o suficiente para responder a perguntas práticas: o que foi solicitado
 - **Ações e resultados** — Registre o tipo de ação solicitada e seu resultado confirmado. Evite copiar segredos ou entradas de ferramenta desnecessárias no registro.
 
 - **Resultado visível ao usuário** — Vincule amostras de conversas autorizadas a feedback, escalonamento e conclusão de tarefa. Uma solicitação tecnicamente bem‑sucedida ainda pode falhar para a pessoa.
-
-
-
 
 Prefira campos estruturados, ou seja, entradas nomeadas como etapa, duração e resultado, em vez de uma frase livre diferente para cada evento. A consistência torna possível agrupar falhas e comparar períodos. Mantenha as categorias de erro compreensíveis: uma recusa de permissão, registro ausente e interrupção temporária de serviço exigem respostas diferentes. Não agrupe tudo em “erro desconhecido” se o sistema de origem fornecer uma distinção segura e útil.
 
@@ -63,37 +58,27 @@ Evidências de produção e exemplos de treinamento são usos diferentes dos dad
 
 Um **alerta** é uma notificação de que uma condição requer atenção. Alertas úteis descrevem um problema acionável, como um aumento sustentado em buscas de pedidos falhas ou solicitações que deixam de ser concluídas. Eles nomeiam um responsável e vinculam a um procedimento de resposta curto. Alertar a cada frase incomum cria ruído e pode treinar as pessoas a ignorar o sinal que realmente importa.
 
-
 1. **Observe uma mudança significativa**
 
 Use uma janela de medição definida e observações suficientes. Trate um único incidente grave de segurança de forma diferente de um pequeno movimento na velocidade média.
-
 
 2. **Abra rastreamentos representativos**
 
 Compare solicitações afetadas com solicitações bem‑sucedidas do mesmo período. Verifique a etapa onde seus caminhos divergem.
 
-
 3. **Conter o impacto**
 
 Direcione o trabalho para um humano, desative a ação afetada ou retorne a uma configuração conhecida quando a evidência assim o exigir.
 
-
 4. **Registre a causa e o acompanhamento**
 
 Documente o que aconteceu, a evidência e o responsável pela correção. Adicione um caso de regressão seguro assim que a falha for compreendida.
-
-
-
-
 
 Revise conversas assim como erros do sistema. Amostre sessões que parecem bem‑sucedidas, sessões abandonadas, escalonamentos e feedback negativo. Leia mensagens circundantes suficientes para entender o objetivo do usuário; uma resposta isolada pode parecer errada quando era uma pergunta de acompanhamento razoável. Use a mesma lista de verificação de revisão entre revisores e distinga uma resposta não suportada de uma recusa justificada. O primeiro precisa de correção; o segundo pode indicar que expectativas ou rotas de escalonamento precisam de esclarecimento.
 
 **Devemos armazenar todas as conversas para simplificar a depuração?**
 
 Não. Retenção ilimitada aumenta a exposição e torna mais difícil gerenciar evidências úteis. Escolha registros, direitos de acesso e retenção com base no propósito e nas obrigações aplicáveis. Prefira medições agregadas para tendências de longo prazo e retenha amostras detalhadas apenas onde for justificado. Teste se seu processo de investigação ainda funciona com esses limites.
-
-
 
 **Relacionado no AIVAX:** Um [AI gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) armazena a configuração do agente, portanto identifique qual configuração foi usada na interação revisada. O guia [Data Collecting](https://docs.aivax.net/pt-br/docs/data-collecting.md) descreve um programa separado e opcional para dados elegíveis de busca semântica e reranking. Não é um interruptor de registro de solicitações, e habilitá‑lo não inclui por si só conversas ou chamadas de ferramenta não relacionadas. Revise seus termos independentemente do seu design de monitoramento.
 

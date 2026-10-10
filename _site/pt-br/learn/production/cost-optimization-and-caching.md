@@ -10,6 +10,7 @@ Um **token** é um pequeno fragmento de texto processado por um modelo, às veze
 
 Em uma conversa de suporte, a primeira pergunta pode ser breve, mas a próxima solicitação costuma incluir novamente as mensagens anteriores. Reenviar o histórico é como entregar ao recepcionista a pasta completa do caso sempre que você acrescenta uma frase. Conversas longas podem, portanto, tornar‑se progressivamente mais caras. [Janela de contexto, tokens e custo](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md) explica como a quantidade de material que um modelo pode ler se relaciona com essa despesa.
 
+
 - **Leitura e escrita** — Instruções e contexto contribuem com tokens de entrada. Explicações longas e rascunhos repetidos contribuem com tokens de saída.
 
 - **Busca de conhecimento** — Recuperação significa encontrar material relevante em uma fonte de conhecimento. Preparar documentos, buscá‑los e classificar resultados pode ter custos separados.
@@ -18,9 +19,11 @@ Em uma conversa de suporte, a primeira pergunta pode ser breve, mas a próxima s
 
 
 
+
 Meça essas partes separadamente antes de mudar qualquer coisa. Uma equipe pode culpar respostas longas quando, na verdade, buscas repetidas dominam a conta. Registre o uso por categoria de tarefa, bem como por dia: qualificação de vendas, suporte e processamento de documentos noturno têm padrões de custo diferentes. Compare‑os usando a mesma definição de sucesso.
 
 > **Demonstração interativa: Experimente: uma estimativa ilustrativa de custo por token.** Esta demonstração interativa está disponível na página web. Altere o volume de conversas, o comprimento da entrada e o comprimento da saída separadamente. Considere todo preço neste exercício como ilustrativo. Esta estimativa simplificada exclui ferramentas, recuperação, tentativas e outras cobranças, portanto não é uma conta completa nem uma cotação de produto.
+
 
 
 ## Gaste esforço onde importa
@@ -41,6 +44,7 @@ Um **cache** é trabalho armazenado que pode ser reutilizado, como manter um for
 
 **Cache de resposta** armazena uma resposta concluída e a devolve para uma pergunta repetida elegível. Isso pode evitar uma chamada ao modelo completamente. Uma resposta de horário de funcionamento público pode ser candidata; um saldo de conta geralmente não é. Corresponda a todo fator que muda a resposta, incluindo idioma, permissões e versão do conhecimento. Apenas uma formulação semelhante não prova que dois usuários devam receber a mesma resposta.
 
+
 **Cache de prompt**
 
 Reutiliza o processamento de um prefixo de solicitação não alterado. O modelo ainda produz uma nova resposta para a pergunta atual. Verifique as regras de correspondência e retenção do provedor.
@@ -49,6 +53,7 @@ Reutiliza o processamento de um prefixo de solicitação não alterado. O modelo
 **Cache de resposta**
 
 Reutiliza uma resposta já concluída. Defina quem pode recebê‑la, por quanto tempo permanece válida e quais mudanças devem removê‑la do cache.
+
 
 
 
@@ -74,6 +79,7 @@ O gráfico abaixo mostra unidades de custo fictícias para a mesma carga de trab
 Experimentos independentes ilustrativos, não preços ou economias esperadas. Aceite uma mudança apenas se a qualidade e a segurança da tarefa permanecerem aceitáveis.
 
 
+
 Para **processamento em lote**, itens independentes são tratados como um grupo em segundo plano, em vez de durante uma conversa ao vivo. Um trabalho de classificação de tickets noturno pode tolerar espera de forma que um cliente ativo não pode. O trabalho em lote pode simplificar o agendamento, controlar trabalho simultâneo e evitar a repetição de itens concluídos. Não presuma que ele seja automaticamente descontado: os termos do provedor e o fluxo de trabalho escolhido determinam seu custo.
 
 Relacionado: no AIVAX, processar listas de itens independentes dessa forma é chamado de [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md). Para tarifas reais, [veja a precificação atual](https://docs.aivax.net/pt-br/docs/pricing.md) em vez de usar as figuras ilustrativas neste módulo.
@@ -81,6 +87,7 @@ Relacionado: no AIVAX, processar listas de itens independentes dessa forma é ch
 ## Defina um orçamento para o experimento
 
 Um **orçamento** é a quantia de gasto que você está disposto a permitir para um período ou carga de trabalho definidos. Um **alerta** informa a alguém que uma condição precisa de atenção; ele não necessariamente interrompe o gasto. Atribua um responsável que possa responder e decida o que acontece quando um limite é atingido: pause trabalhos em segundo plano, restrinja trabalho opcional ou ofereça uma rota humana.
+
 
 1. **Medir uma linha de base**
 
@@ -100,6 +107,7 @@ Defina alertas de uso, tentativas limitadas e limites de gasto onde suportado. T
 4. **Revisar resultados reais**
 
 Compare a economia de gasto com o esforço de correção e os resultados para o cliente. Mantenha a mudança apenas quando toda a tarefa melhorar.
+
 
 
 

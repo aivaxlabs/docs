@@ -8,19 +8,13 @@ A pergunta útil não é “Onde podemos adicionar um agente?” mas “O que ac
 
 Um **evento** é um registro de que algo aconteceu: um ticket foi criado, um pedido mudou de status ou um documento chegou. Um fluxo de trabalho **orientado a eventos** começa em resposta a essa ocorrência. Um **workflow** é o conjunto ordenado de etapas usado para concluir uma tarefa. Em um fluxo de trabalho conversacional, a mensagem de uma pessoa geralmente inicia o trabalho e a resposta retorna àquela conversa.
 
-
 **Trabalho conversacional**
 
 Um cliente pergunta: “Onde está meu pedido?” O assistente verifica o pedido e responde na mesma conversa. O cliente está presente e pode esclarecer uma solicitação ambígua.
 
-
 **Trabalho orientado a eventos**
 
 O sistema de envio relata que um pedido foi despachado. Um workflow verifica as regras de notificação e envia uma atualização para o destino permitido. Nenhuma mensagem do cliente é necessária para iniciá‑lo.
-
-
-
-
 
 As mesmas ferramentas de negócio podem atender ambos os padrões, mas os controles ao redor diferem. Uma tarefa orientada a eventos pode não ter ninguém aguardando para responder a uma pergunta. Ela precisa de um destino definido para sucesso, falha e incerteza. Se o sistema não puder determinar qual cliente notificar, deve parar ou encaminhar o caso para revisão, em vez de adivinhar a partir do texto livre do evento.
 
@@ -56,46 +50,33 @@ Nem todo callback permite esse arranjo. Alguns hooks exigem uma decisão imediat
 
 Considere tickets de suporte entrantes. O sistema de tickets já sabe quando um ticket é criado; a contribuição útil do modelo é interpretar a descrição do cliente. A aplicação ao redor deve lidar com entrega, permissões e restrições de roteamento de forma determinística, ou seja, de acordo com regras fixas e que com julgamento de modelo.
 
-
 1. **Definir o gatilho e o resultado pretendido**
 
 Inicie quando um novo ticket for aceito. O resultado pretendido é uma equipe designada ou um estado de revisão explícito, não apenas um rótulo de categoria gerado.
-
 
 2. **Verificar e minimizar a entrada**
 
 Verifique a origem do evento e carregue apenas os campos do ticket necessários para a triagem. Mantenha anexos privados fora da entrada do modelo, a menos que sejam necessários e permitidos.
 
-
 3. **Solicitar julgamento delimitado**
 
 Faça o modelo escolher entre categorias aprovadas e explique brevemente a incerteza. O texto do cliente é evidência sobre o problema, não autoridade para mudar regras de roteamento.
-
 
 4. **Aplicar regras e lidar com incerteza**
 
 Valide a categoria contra a lista permitida. Encaminhe casos sensíveis e solicitações vagas para a fila humana designada, em vez de inventar um novo destino.
 
-
 5. **Registrar e verificar o resultado**
 
 Confirme que o sistema de tickets aceitou a atribuição. Registre falhas separadamente para que um operador possa distinguir trabalho pendente de trabalho concluído.
 
-
-
-
-
 Uma notificação de envio pode exigir ainda menos envolvimento do modelo. Se a mensagem consiste em um status e um link de rastreamento aprovado, um modelo fixo pode ser mais claro e previsível do que um parágrafo gerado. Use um modelo quando a linguagem variada agrega valor, não para reiterar um fato que o software comum já pode comunicar com precisão.
-
 
 - **Novo ticket → triagem → roteamento** — Use interpretação de linguagem para identificar o problema, depois regras fixas para escolher um destino permitido. Mantenha uma rota de revisão para casos ambíguos ou sensíveis.
 
 - **Pedido enviado → verificar → notificar** — Confirme o status atual, permissão de comunicação e destino antes de enviar. Não invente promessas de entrega que o registro de envio não suporta.
 
 - **Agenda → coletar → relatar** — Inicie em um horário planejado, reúna as entradas definidas e produza um relatório para o público acordado. Registre o período coberto para que uma execução repetida seja reconhecível.
-
-
-
 
 ## Esperar tentativas e duplicatas
 
@@ -111,13 +92,9 @@ Um evento registrado isoladamente não garante que todo efeito downstream esteja
 
 Não. Uma falha de conexão temporária pode justificar uma tentativa limitada com atraso crescente entre as tentativas. Entrada inválida ou permissão ausente geralmente requer correção. Repetir a mesma requisição rejeitada pode desperdiçar recursos e ocultar o problema real. Defina um ponto de parada e uma rota visível para falhas.
 
-
-
 **Como sei que um webhook realmente veio do remetente esperado?**
 
 Use o método de autenticação ou verificação de assinatura documentado pelo remetente. Uma assinatura é evidência calculada a partir da mensagem usando um segredo ou outro mecanismo criptográfico. Valide-a conforme especificado, proteja o endereço de recebimento e rejeite requisições malformadas. Um nome de evento familiar não é autenticação.
-
-
 
 ## Trabalho agendado também precisa de um responsável
 

@@ -21,10 +21,6 @@ When a configured worker event fires, AIVAX sends a `POST` request to the gatewa
         "data": {
             "messages": [
                 {
-                    "role": "system",
-                    "content": "User local date is Monday, December 29, 2025 (timezone is America/Sao_Paulo)"
-                },
-                {
                     "role": "user",
                     "content": "Good morning"
                 }

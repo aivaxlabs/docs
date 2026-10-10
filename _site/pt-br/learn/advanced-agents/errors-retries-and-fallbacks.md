@@ -8,7 +8,6 @@ O tratamento de erros começa antes da primeira falha. Decida quais operações 
 
 Uma **falha** ocorre quando uma etapa não pode fornecer o resultado exigido pela tarefa. Algumas falhas são **transientes**, ou seja, podem desaparecer rapidamente sem mudar a solicitação. Outras são persistentes: permissões ausentes ou uma referência de pedido inválida normalmente não são corrigidas aguardando. Uma resposta de modelo fluente porém não suportada é outra falha, mesmo que nenhum erro técnico apareça.
 
-
 - **Ferramenta ou serviço indisponível** — O sistema por trás de uma ferramenta está fora ou inacessível. Uma tentativa limitada pode ajudar se a operação for segura para repetir.
 
 - **Limite de taxa** — Um serviço está recebendo trabalho mais rápido do que permite. Reduza a velocidade, respeite a espera sugerida e evite adicionar mais solicitações simultâneas.
@@ -18,9 +17,6 @@ Uma **falha** ocorre quando uma etapa não pode fornecer o resultado exigido pel
 - **Tempo limite expirado** — O período de espera expirou. O chamador pode não saber se a operação remota falhou, concluiu ou ainda está em execução.
 
 - **Argumentos de ferramenta inventados** — O modelo forneceu parâmetros de ação não suportados ou adivinhou uma referência de registro. Rejeite a solicitação e obtenha informações válidas em vez de adivinhar novamente.
-
-
-
 
 **Argumentos de ferramenta** são os valores fornecidos a uma ferramenta, como qual pedido consultar. Verifique sua estrutura e significado antes da execução. Uma referência de pedido pode ter o formato esperado mas ainda pertencer a outro cliente. Verificações de permissão e regras de negócio devem permanecer fora da discrição do modelo. Uma instrução para produzir argumentos válidos não substitui essas verificações.
 
@@ -32,34 +28,25 @@ Uma **nova tentativa** repete uma operação após uma tentativa falhada. **Back
 
 Algumas aplicações adicionam **jitter**, uma pequena variação aleatória no período de espera. Isso impede que muitos trabalhadores tentem novamente exatamente no mesmo momento após uma interrupção compartilhada. O timing preciso pertence à política da aplicação, não a uma decisão improvisada do modelo. Mantenha um número máximo de tentativas, um prazo geral e um orçamento de gasto para que problemas temporários não criem trabalho indefinido.
 
-
 1. **Classificar a falha**
 
 Registre se o serviço está indisponível, se a solicitação é inválida ou se o resultado é incerto. Verifique se a operação altera algo fora da conversa.
-
 
 2. **Decidir se a repetição é segura**
 
 Uma consulta somente leitura pode ser repetida com frequência. Um pagamento ou envio de mensagem precisa de proteção contra duplicatas ou de status confirmado antes de outra tentativa.
 
-
 3. **Aguardar dentro do orçamento**
 
 Respeite a orientação do serviço e aplique atrasos crescentes quando apropriado. Conte as tentativas contra os mesmos limites da tarefa que o trabalho comum.
-
 
 4. **Verificar o novo resultado**
 
 Valide a resposta em vez de tratar qualquer retorno como sucesso. Continue apenas quando a evidência ou confirmação exigida existir.
 
-
 5. **Parar ou usar uma alternativa aprovada**
 
 Quando o orçamento de tentativas for esgotado, troque para um fallback permitido ou retorne um resultado parcial claro e rota de escalonamento.
-
-
-
-
 
 Um tempo limite merece cuidado especial porque descreve a espera do chamador, não necessariamente o resultado remoto. Se o serviço de pagamento aceitou a transferência mas sua confirmação foi perdida, submeter uma nova transferência pode pagar duas vezes. Consulte o status ou use o mecanismo de prevenção de duplicatas do serviço antes de tentar novamente. Quando nenhum estiver disponível, marque o resultado como incerto e solicite reconciliação humana.
 
@@ -85,21 +72,15 @@ Trocar de modelo não repara um banco de dados de pedidos quebrado. Nem o conhec
 
 **Degradação graciosa** significa manter funcionalidade útil e honesta quando a funcionalidade completa está indisponível. O agente pode explicar etapas gerais de devolução enquanto deixa claro que não pôde verificar o pedido deste cliente. Separe a política geral dos fatos do caso atual. Se for permitido mostrar informações recuperadas anteriormente, rotule quando foram obtidas e não as apresente como uma verificação recente.
 
-
 **Oculta a falha**
 
 “Seu pedido está a caminho. Por favor, aguarde.”
 
 A consulta falhou, portanto o status e o conselho não são suportados.
 
-
 **Preserva a confiança**
 
 “Não consegui verificar seu pedido agora porque o serviço de pedidos está indisponível. Não alterei seu pedido. Você pode tentar novamente mais tarde, ou posso ajudar a preparar uma solicitação para a equipe de suporte.”
-
-
-
-
 
 Só ofereça uma transferência ou nova tentativa posterior que a aplicação realmente possa fornecer. Declare se alguma alteração foi feita e se o resultado permanece incerto. Evite expor segredos técnicos ou culpar o cliente por um erro de serviço. Uma mensagem de falha clara dá à pessoa um próximo passo sem disfarçar a falta de evidência como garantia.
 
@@ -112,8 +93,6 @@ Isso difere de um atraso de tentativa para uma única solicitação. Um disjunto
 **Todo resposta de modelo inválida deve ser enviada de volta para correção?**
 
 Uma tentativa limitada de correção pode ajudar com um campo ausente ou erro de formatação quando os fatos necessários já existem. Não pode fabricar evidência faltante com segurança. Explique a falha de validação, preserve os requisitos originais e pare quando o orçamento de correção for esgotado. Reescrever repetidamente não prova que o resultado final é verdadeiro.
-
-
 
 ## Deixe um registro que explique o resultado
 

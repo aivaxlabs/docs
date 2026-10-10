@@ -29,7 +29,7 @@ Use the following rule of thumb:
 |---|---|
 | One or a few stable HTTP callbacks owned by your app | Protocol functions |
 | A larger tool catalog, standardized discovery, or an existing MCP server | [MCP](https://docs.aivax.net/docs/tools/mcp.md) |
-| Web search, URL reading, code execution, image generation, memory, calendar, or HTTP request tools maintained by AIVAX | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) |
+| Web search, URL reading, code execution, image generation, memory, or HTTP request tools maintained by AIVAX | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) |
 | Event-time policy, message rewriting, dynamic tool injection, or blocking a tool call before execution | [Workers](https://docs.aivax.net/docs/inference/workers.md) |
 | Provider-native tool definitions that your own client will execute | Raw `tools` in an OpenAI-compatible request |
 

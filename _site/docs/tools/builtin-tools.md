@@ -12,7 +12,7 @@ Note that each model decides which function to call and its parameters. Not all 
 
 Built-in tools should be enabled as work capabilities, not as agent decoration. Each tool adds a decision to the model: it needs to perceive that the tool exists, understand when to use it, assemble valid arguments, wait for the result, and continue the response. The more similar tools are available at the same time, the higher the chance of redundant use or poor choice. Start with the smallest set that solves the use case and write clear instructions on when to use each.
 
-Use `WebSearch` when the answer depends on public, recent, or variable information. Use `OpenUrl` when the user has already provided a URL and wants the assistant to analyze that specific content. `AdvancedWebUsage` is disabled and returns an unavailable response; see [Changelogs](https://docs.aivax.net/docs/changelogs.md). Use `Code` for calculation, data transformation, and small algorithmic reasoning. Use `Request` when the model needs to call an HTTP API with method, headers, or custom body. Use `Remember` and `Calendar` only in chat clients or calls with an identifiable user, because these tools depend on persistent per-user context.
+Use `WebSearch` when the answer depends on public, recent, or variable information. Use `OpenUrl` when the user has already provided a URL and wants the assistant to analyze that specific content. `AdvancedWebUsage` is disabled and returns an unavailable response; see [Changelogs](https://docs.aivax.net/docs/changelogs.md). Use `Code` for calculation, data transformation, and small algorithmic reasoning. Use `Request` when the model needs to call an HTTP API with method, headers, or custom body. Use `Remember` only in chat clients or calls with an identifiable user, because memory tools store and retrieve persistent information for that user.
 
 Generation tools, such as image, document, and web page, should be treated as output actions. They do more than improve an answer; they create artifacts hosted or attached to the conversation. Therefore, instruct the model on when to generate an artifact and when to reply in text. In support, for example, generating a document can be useful for a quote, proposal, or formal summary; generating a web page can be useful for a visual report; generating an image can be useful for creative ideation. If the user only asked for an explanation, plain text is usually sufficient.
 
@@ -135,17 +135,16 @@ Activation via `builtin_tools`:
 
 ## Memory
 
-This function allows the model to store relevant content to be used across multiple conversations.
+Enable `Remember` when the assistant needs to save information across conversations and retrieve it when relevant. It exposes exactly two tools: `memory_save` and `memory_search`.
 
-> Currently, this function is only available when used in [chat clients](https://docs.aivax.net/docs/features/chat-clients.md) and when the session is identified by a `tag`.
+Both tools require an identified user: set a stable `tag` in a [chat client](https://docs.aivax.net/docs/features/chat-clients.md), or `$.user` in a chat/completions request. Without that identifier, the tools return an error. Memory searches are automatically restricted to the current user. Each memory records the gateway that saved it, and `parameters.builtinFunctionsOptions.allowSharedMemory` controls visibility:
 
-Through the session `tag`, the model stores a relevant piece of conversation data, such as name preferences or persistent context the assistant should remember.
+| `allowSharedMemory` | Behavior |
+| --- | --- |
+| `true` (default) | The gateway reads, replaces, and deletes the user's memories saved by any gateway in the account. |
+| `false` | The gateway only reads, replaces, and deletes the user's memories that it saved itself. |
 
-The memory tool requires an identifiable session. Without a user reference ID, memory operations return an error instead of storing or searching information. The memory instruction tells the model not to save sensitive or personal data, however, it is not guaranteed that the model will always follow this rule.
-
-Each saved memory can include a retention period. Memory items can be searched, updated, removed individually, or cleared for the user.
-
-> Note: in chat/completions requests, the `tag` is specified in the `$.user` parameter.
+In the dashboard, this is the **Memory visibility** option in the gateway's tool settings. Memories saved outside a saved gateway, and memories migrated from the earlier memory tools, have no gateway and are visible only to gateways with shared memory.
 
 Activation via `builtin_tools`:
 
@@ -153,14 +152,82 @@ Activation via `builtin_tools`:
 {
     "tools": [
         "Remember"
-    ],
-    "options": {
-        "include_all_memory_context": true
-    }
+    ]
 }
 ```
 
-For application-level controls around memory writes, retention, and review, see [How to protect LLM agent memory from poisoning](https://aivax.net/blog/persistent-memory-is-a-write-path/).
+Memories are **not automatically added to system instructions**. Tell the model when to call `memory_search`, such as before answering a question about a saved preference. The removed `include_all_memory_context` option, including its `IncludeAllMemoryContext` spelling, is ignored if sent.
+
+### Save, Replace, or Delete a Memory
+
+`memory_save(id?, content?, expiresInDays?)` combines creation, replacement, and deletion. `id` is the memory's ID; `content` is the text to save, limited to **10 KB**; `expiresInDays` is an optional whole number of days, from 1 to 365, after which the memory is deleted automatically.
+
+| Arguments | Result |
+| --- | --- |
+| `content`, with `id` omitted or `null` | Creates a memory and returns its ID. Without `expiresInDays`, it never expires. |
+| `id` and `content` | Replaces that memory's content. Without `expiresInDays`, the current expiration is kept. |
+| `id` and `expiresInDays`, with `content` omitted or `null` | Changes only that memory's expiration, counted from now. |
+| Only `id` | Deletes that memory. |
+| `id` and `content` both omitted or `null` | Returns an error. |
+
+Only memories belonging to the current user can be replaced or deleted. The former `memory_update`, `memory_remove`, and `memory_clear` tools are no longer available; update instructions and tool-call handling to use `memory_save` for individual changes.
+
+### Search Memories
+
+`memory_search(query?, filter?)` requires **exactly one** argument: `query` or `filter`. Sending both, or neither, returns an error.
+
+| Argument | Behavior |
+| --- | --- |
+| `query` | A text query for semantic search over the current user's memories, reranked with `rrf` (Reciprocal Rank Fusion). Returns up to 10 results. |
+| `filter` | A string using [AIVAX document filter syntax](https://docs.aivax.net/docs/filters/document-filters.md). Returns up to 10 matching memories, newest first, without generating query embeddings. |
+
+Each result contains `id`, `content`, `createdAt`, `updatedAt`, and `expiresAt` (`null` when the memory never expires). Expired memories are never returned. Use `query` to find meaning; use `filter` for exact text, metadata, or creation and update dates:
+
+| Goal | `filter` |
+| --- | --- |
+| Created in the last 7 days | `createdAt >= now-7d` |
+| Changed in the last 24 hours | `updatedAt >= now-24h` |
+| Created in October 2026 | `createdAt >= "2026-10-01" and createdAt < "2026-11-01"` |
+| Not updated for 90 days, for example stale candidates to review | `updatedAt < now-90d` |
+| Mentions a birthday and was created in the last 30 days | `content contains "birthday" and createdAt >= now-30d` |
+| Saved in a specific conversation | `metadata.conversation_token = "<conversation token>"` |
+
+Dates and timestamps without an offset use the server reference time zone described in [Document filters — Dates](https://docs.aivax.net/docs/filters/document-filters.md#dates). A memory's creation or update date is not the date of an event mentioned in its text.
+
+### Storage and Management
+
+Memories are documents in the `@memories` RAG collection in your AIVAX account. The collection is created automatically on the first save. Each document's content is the memory text, and its metadata identifies the user and originating conversation:
+
+```json
+{
+    "external_user_id": "<user tag>",
+    "conversation_token": "<conversation token>",
+    "gateway_id": "<gateway ID>",
+    "expires_at": 1791580376
+}
+```
+
+When no conversation token is available, `conversation_token` is JSON `null`, not a string. `gateway_id` is the ID of the gateway that saved the memory, or `null` when it was not saved by a saved gateway. `expires_at` is a Unix timestamp in seconds, or `null` when the memory never expires. Newly saved or updated memories become searchable after indexing completes, usually within a few seconds.
+
+Memories saved with `expiresInDays` are deleted in a periodic cleanup after they expire; until then they are hidden from `memory_search`. Memories without an expiration are kept until deleted. When managing the collection directly, set or remove `metadata.expires_at` to control expiration. Inspect and manage them in the dashboard's Collections and Documents pages or through the [Collections and Documents APIs](https://docs.aivax.net/docs/rag/collections.md). The dedicated Memories API and dashboard Memories page are removed. **Deleting the `@memories` collection erases every user's memories in the account**; the collection is recreated on the next save.
+
+The automatic user restriction applies to the memory tools. When managing the collection directly, use `metadata.external_user_id` to select the intended user's records and preserve the user metadata.
+
+### Billing, Limits, and Errors
+
+Saving or replacing memory content indexes it like any collection document, with document-embedding charges. A `query` search is billed as a RAG query embedding. A `filter` search has no embedding cost, and the `rrf` reranker has no reranking cost. See [Pricing](https://docs.aivax.net/docs/pricing.md).
+
+Both memory tools use the account's [RAG rate limits](https://docs.aivax.net/docs/limits.md#plan-limits). If the account has no balance or reaches a rate limit, the tool returns an error to the model. Instruct the model to report the failure rather than claim it saved or recalled information. For a recent save that is not yet found, allow indexing to finish before searching again.
+
+### Migration from Earlier Memory and Calendar Tools
+
+Existing non-expired memories were moved to each account's `@memories` collection, preserving their original IDs, user identifiers in `external_user_id`, creation dates, and expiration dates in `expires_at`. Migrated records have `conversation_token: null`. They are re-indexed, which is billed as document embedding.
+
+The `Calendar` built-in tool and its appointment tools were removed from the API and dashboard. Existing gateways and Batch workflows have the flag removed automatically, but requests that still include `Calendar` in `builtin_tools.tools` fail: remove it from your requests. Non-expired calendar reminders were migrated to text memories in the form `Reminder at <date> (<n> minutes): <description>`. These are stored text, not scheduled reminders or a replacement calendar service.
+
+The former Memories API, including list, get, delete, and migration prompt generation, is no longer available. Move application-level memory management to the Collections and Documents APIs. Update gateway instructions to search explicitly. Gateways with private memory do not see migrated memories, because migrated records have no `gateway_id`. The former `retentionDays` argument is now `expiresInDays`; omitting it creates a memory that never expires, where the old default was 30 days.
+
+For application-level controls around memory writes, deletion policies, and review, see [How to protect LLM agent memory from poisoning](https://aivax.net/blog/persistent-memory-is-a-write-path/).
 
 ## Image Generation
 
@@ -275,28 +342,10 @@ Activation via `builtin_tools`:
 }
 ```
 
-## Calendar
-
-Calendar is backed by the same persistent information store as memory, but stores date-based reminder objects instead of loose memory text. It can create, search, find, update, and delete appointments for an identified user.
-
-It is not recommended to activate this function together with the memory function or message scheduling functions of the chat client.
-
-Activation via `builtin_tools`:
-
-```json
-{
-    "tools": [
-        "Calendar"
-    ],
-    "options": {
-    }
-}
-```
-
 ## Tool Diagnosis
 
 When a tool is not called, first confirm that it is enabled in the gateway or in the `builtin_tools` field of the request. Then, check whether the selected model supports function calls or if a tool handler is configured for models without native support. Next, review the instruction: if it does not specify when to search, open a URL, generate an image, or query memory, the model may respond only with its own knowledge. Finally, test a direct question that clearly requires the tool, such as requesting a recent news article for `WebSearch` or asking to open a specific URL for `OpenUrl`.
 
-When a tool is called too often, reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link; `Remember` and `Calendar` can overlap when the user talks about preferences and dates. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use workers to block or replace calls in specific scenarios.
+When a tool is called too often, reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link. For `Remember`, distinguish a request to save information from a question that requires retrieving an existing memory. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use workers to block or replace calls in specific scenarios.
 
 When a tool fails, treat it as a normal part of the experience. Searches may return little content, URLs may block bots, APIs may deny authorization, image generation may refuse content, and code execution may receive ambiguous input. Instruct the model to explain the limitation objectively and offer the next step, such as requesting another link, trying a more specific query, asking for authorization, or responding based only on the available context. Do not rely on an external tool as the sole way to conclude a critical conversation without an experience fallback.

@@ -10,7 +10,6 @@ Start with the channels people already use when they need an answer. A **wiki** 
 
 These sources do not have equal authority. A resolved ticket shows what happened in one case, not necessarily what should happen in every case. An e-mail from a specialist may explain a workaround but lack approval as a standard procedure. Treat such material as evidence for drafting better knowledge, not as automatic permission to publish the original conversation.
 
-
 - **Published guidance** — Check help centres, manuals and policy libraries for current, approved explanations.
 
 - **Work records** — Use tickets and e-mails to discover real questions and gaps, after appropriate privacy screening.
@@ -19,9 +18,6 @@ These sources do not have equal authority. A resolved ticket shows what happened
 
 - **People's experience** — Interview specialists to uncover unwritten steps, then ask the responsible owner to approve the resulting document.
 
-
-
-
 For each source, record its location, topic, owner, intended audience, effective date and review status. Add the questions it should answer. A file named “final policy” is not enough evidence of approval; look for a responsible team and a current decision. If nobody can explain whether the material still applies, mark it as requiring review rather than quietly treating it as trusted.
 
 ## Prioritise useful coverage
@@ -29,7 +25,6 @@ For each source, record its location, topic, owner, intended audience, effective
 **Coverage** means how much of a defined question set your approved knowledge can answer. It is not the proportion of your shared drive that has been uploaded. A short, clear return policy may cover many more customer questions than a long company-history presentation.
 
 Group recurring questions by intent, meaning what the person wants to accomplish. “Can I send this back?” and “How do returns work?” belong to a related group even though their wording differs. Count how often groups occur in an appropriate sample, without retaining unnecessary personal data. Then map each group to an approved source or an explicit gap.
-
 
 **Support questions covered by each source alone (illustrative)**
 
@@ -42,37 +37,27 @@ Group recurring questions by intent, meaning what the person wants to accomplish
 
 Fictional planning example. Sources overlap, so these percentages must not be added. Coverage depends on the sampled questions, not document length.
 
-
-
 Question frequency is only one priority signal. A rare safety question can matter more than a common opening-hours question. Consider the consequence of an incorrect answer, the effort needed to prepare the source and whether a reliable source already exists. Do not turn the chart into a promise of automation: having an answer in a source does not prove that retrieval and response generation will use it correctly.
 
 Start with a manageable question family. For example, prepare returns before attempting all customer support. This gives reviewers a coherent subject to approve and lets you see whether the process works before expanding it. Keep uncovered topics visible so the agent can acknowledge its limits rather than pretending the collection is complete.
 
 ## Turn candidates into approved knowledge
 
-
 1. **Group duplicates**
 
 Find copies and near-copies of the same policy. Identify the authoritative version and preserve its provenance, meaning where it came from and who approved it.
-
 
 2. **Resolve disagreements**
 
 List conflicting statements and ask the accountable owner which rule applies. Check whether apparently conflicting rules actually cover different products, regions or dates.
 
-
 3. **Retire stale material**
 
 Exclude expired drafts from the searchable set. Keep any required archive separately, with its access and retention rules intact.
 
-
 4. **Fill and review gaps**
 
 Draft missing answers from approved decisions, confirm them with the owner and record when they become effective.
-
-
-
-
 
 **Deduplication** means removing unnecessary repeated copies. It helps because repeated passages can occupy search results that should contain different useful evidence. It also prevents an obsolete version from appearing more authoritative simply because many teams copied it. Preserve legitimate differences: a regional variation is not a duplicate if it changes the rule.
 
@@ -80,24 +65,17 @@ Do not ask the agent to settle policy disputes. If one document permits cancella
 
 ## Adapt the process to the team
 
-
 **Support**
 
 Begin with repeated ticket topics. Convert successful resolutions into general instructions, remove customer details and have support operations approve the result. Separate normal procedures from discretionary exceptions.
-
 
 **Sales**
 
 Compare presentations with the current product catalogue. Remove expired offers and unsupported promises. Ask product owners to confirm capabilities, limitations and which claims require qualification.
 
-
 **HR**
 
 Separate organisation-wide policies from individual employee cases. Confirm location and employment-category scope. Keep personal records out of the general knowledge collection and route sensitive questions appropriately.
-
-
-
-
 
 Interviewing a specialist works best with concrete situations. Ask, “What do you check before approving this request?” rather than “Tell me everything you know.” Follow with questions about exceptions, evidence and when to stop. Read the resulting procedure back to the specialist using a fictional case. This often reveals missing conditions that a broad interview would miss.
 
