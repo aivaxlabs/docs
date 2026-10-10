@@ -8,6 +8,7 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 Changes:
 
+- **API — `Consumed-Credits` response header documented.** Responses that charge usage include `Consumed-Credits` with the request's total cost in USD, including the plan multiplier. It is omitted when nothing was charged and does not cover streamed responses or usage recorded after the response. See [Request cost header](https://docs.aivax.net/docs/pricing.md#request-cost-header).
 - **Account — Zero data retention providers only.** The account settings page has a new **Zero data retention providers only** option, disabled by default. When enabled, text inference with integrated models is routed only to providers that do not retain prompts, and other providers are excluded. Requests fail when the model has no zero data retention provider available. The option does not change conversation logging. See [Zero data retention providers only](https://docs.aivax.net/docs/inference/inference.md#zero-data-retention-providers-only).
 - **Inference — `allow_logging` per request.** Chat completions accept `allow_logging`. Set it to `false` to keep that request out of the account conversation logs; it defaults to `true` and cannot enable logging when it is disabled for the account. See [Response and conversation records](https://docs.aivax.net/docs/inference/inference.md#response-and-conversation-records).
 

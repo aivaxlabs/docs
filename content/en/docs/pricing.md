@@ -135,6 +135,14 @@ Each plan includes storage. Pro and Max overages are billed hourly at the monthl
 | Pro storage | **2 GB included**; excess **$0.50/GB/month** |
 | Max storage | **20 GB included**; excess **$0.20/GB/month** |
 
+## Request cost header
+
+API responses include a `Consumed-Credits` header when the request charged usage to your account balance. Its value is the total charged by that request in USD, written as a decimal number with a dot separator, for example `Consumed-Credits: 0.000184`. It already includes the plan multiplier and covers every item charged during the request, such as inference, embeddings, reranking, and tool usage.
+
+The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance. Treat a missing header as zero.
+
+The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](features/batch.md) work, is not included. Streamed responses send their headers before generation completes, so do not rely on this header for them; read the usage reported at the end of the stream instead. Use your account usage records as the source of truth for billing.
+
 ## Data Collection Discount
 
 Accounts that enable [Data collecting](data-collecting.md) receive a 10% discount on eligible RAG query-embedding usage and eligible reranking operations performed while collection is enabled. Other services keep their regular prices.

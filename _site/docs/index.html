@@ -29,141 +29,94 @@ System</button></div></details><a class=icon-button href=https://github.com/aiva
 </button>
 <a class=menu-item href=https://github.com/aivaxlabs/docs/edit/master/content/en/docs/_index.md rel=noopener><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M6.41421 15.89 16.5563 5.74785 15.1421 4.33363 5 14.4758V15.89H6.41421zm.82843 2H3V13.6473L14.435 2.21231c.390599999999999-.39052 1.0237-.39052 1.4142.0l2.8285 2.82843C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89zM3 19.89H21v2H3v-2z"/></svg>
 <span>Edit English source</span></a></div></details></div><h1>Documentation</h1><div class=summary><section class=summary-group><h2 id=introduction>Introduction</h2><div class=summary-grid><a class=summary-card href=/docs/overview.html><strong>Overview</strong>
-<span>Overview
-AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account, API surface, and …</span>
+<span>Overview AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account, API surface, and …</span>
 </a><a class=summary-card href=/docs/getting-started.html><strong>Getting Started</strong>
-<span>Getting Started
-This guide takes you from an AIVAX account to a verified OpenAI-compatible chat completion. The example uses Python and a …</span>
+<span>Getting Started This guide takes you from an AIVAX account to a verified OpenAI-compatible chat completion. The example uses Python and a …</span>
 </a><a class=summary-card href=/docs/authentication.html><strong>Authentication</strong>
-<span>Authentication
-AIVAX authenticates API requests with account API keys. AIVAX accepts API keys via:
+<span>Authentication AIVAX authenticates API requests with account API keys. AIVAX accepts API keys via:
 Authorization: Bearer &lt;API_KEY> …</span>
 </a><a class=summary-card href=/docs/pricing.html><strong>Pricing</strong>
-<span>Pricing
-Service usage prices are listed below in USD. M means one million tokens; 1k means one thousand units. Approximate prices (~) vary …</span>
+<span>Pricing Service usage prices are listed below in USD. M means one million tokens; 1k means one thousand units. Approximate prices (~) vary …</span>
 </a><a class=summary-card href=/docs/limits.html><strong>Plans and Limits</strong>
-<span>Plans and Limits
-AIVAX has three account plans: Free, Pro, and Max. The current plan is stored on the account and controls model access, …</span>
+<span>Plans and Limits AIVAX has three account plans: Free, Pro, and Max. The current plan is stored on the account and controls model access, …</span>
 </a><a class=summary-card href=/docs/data-collecting.html><strong>Data Collecting</strong>
-<span>Data Collecting
-AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking …</span>
+<span>Data Collecting AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking …</span>
 </a><a class=summary-card href=/docs/changelogs.html><strong>Changelogs</strong>
-<span>Changelogs
-Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not …</span></a></div></section><section class=summary-group><h2 id=rag-and-collections>RAG and collections</h2><div class=summary-grid><a class=summary-card href=/docs/rag/collections.html><strong>Collections and Documents</strong>
-<span>Collections and Documents
-AIVAX provides a RAG (Retrieval-Augmented Generation) service for storing documents and retrieving them later …</span>
+<span>Changelogs Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not …</span></a></div></section><section class=summary-group><h2 id=rag-and-collections>RAG and collections</h2><div class=summary-grid><a class=summary-card href=/docs/rag/collections.html><strong>Collections and Documents</strong>
+<span>Collections and Documents AIVAX provides a RAG (Retrieval-Augmented Generation) service for storing documents and retrieving them later …</span>
 </a><a class=summary-card href=/docs/rag/media-injector.html><strong>Media Injector</strong>
-<span>Media Injector
-Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the …</span>
+<span>Media Injector Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the …</span>
 </a><a class=summary-card href=/docs/rag/semantic-search.html><strong>Semantic Search</strong>
-<span>Semantic Search
-The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied …</span>
+<span>Semantic Search The semantic search API searches one or more collections and returns the most relevant indexed documents for the supplied …</span>
 </a><a class=summary-card href=/docs/rag/text-segmentation.html><strong>Text Segmentation</strong>
-<span>Text Segmentation
-Text segmentation divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG …</span>
+<span>Text Segmentation Text segmentation divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG …</span>
 </a><a class=summary-card href=/docs/rag/classification.html><strong>Text Classification</strong>
-<span>Text Classification
-Use text classification to rank a fixed set of labels for one or more documents without training a custom classifier. …</span>
+<span>Text Classification Use text classification to rank a fixed set of labels for one or more documents without training a custom classifier. …</span>
 </a><a class=summary-card href=/docs/rag/reranking.html><strong>Rerankers</strong>
-<span>Rerankers
-Rerankers reorder an existing set of candidate documents for a query. They do not search a collection or recover text that is …</span>
+<span>Rerankers Rerankers reorder an existing set of candidate documents for a query. They do not search a collection or recover text that is …</span>
 </a><a class=summary-card href=/docs/rag/reflex.html><strong>Reflex</strong>
-<span>Reflex
-Reflex is AIVAX&rsquo;s collection-less search for RAG. Send a query together with candidate document strings and receive the most …</span>
+<span>Reflex Reflex is AIVAX&rsquo;s collection-less search for RAG. Send a query together with candidate document strings and receive the most …</span>
 </a><a class=summary-card href=/docs/rag/best-practices.html><strong>Best Practices for RAG</strong>
-<span>Best Practices for RAG
-Use this guide when preparing documents for AIVAX collections and semantic search. The search pipeline indexes …</span></a></div></section><section class=summary-group><h2 id=filters>Filters</h2><div class=summary-grid><a class=summary-card href=/docs/filters/document-filters.html><strong>Document Filters</strong>
-<span>Document Filters
-A document filter restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a …</span></a></div></section><section class=summary-group><h2 id=inference>Inference</h2><div class=summary-grid><a class=summary-card href=/docs/inference/ai-gateway.html><strong>AI Gateway</strong>
-<span>AI Gateway
-An AI Gateway stores a reusable inference configuration. Pass the gateway&rsquo;s ID or slug in the request&rsquo;s model field, …</span>
+<span>Best Practices for RAG Use this guide when preparing documents for AIVAX collections and semantic search. The search pipeline indexes …</span></a></div></section><section class=summary-group><h2 id=filters>Filters</h2><div class=summary-grid><a class=summary-card href=/docs/filters/document-filters.html><strong>Document Filters</strong>
+<span>Document Filters A document filter restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a …</span></a></div></section><section class=summary-group><h2 id=inference>Inference</h2><div class=summary-grid><a class=summary-card href=/docs/inference/ai-gateway.html><strong>AI Gateway</strong>
+<span>AI Gateway An AI Gateway stores a reusable inference configuration. Pass the gateway&rsquo;s ID or slug in the request&rsquo;s model field, …</span>
 </a><a class=summary-card href=/docs/inference/inference.html><strong>Inference</strong>
-<span>Inference
-AIVAX exposes an OpenAI-compatible chat/completions API with additional AIVAX parameters. The additions are optional and are …</span>
+<span>Inference AIVAX exposes an OpenAI-compatible chat/completions API with additional AIVAX parameters. The additions are optional and are …</span>
 </a><a class=summary-card href=/docs/inference/agentic-tests.html><strong>Agentic Tests</strong>
-<span>Agentic Tests
-Agentic Tests evaluates how an AI Gateway behaves across a complete, goal-oriented conversation instead of grading one …</span>
+<span>Agentic Tests Agentic Tests evaluates how an AI Gateway behaves across a complete, goal-oriented conversation instead of grading one …</span>
 </a><a class=summary-card href=/docs/inference/voice-session.html><strong>Voice Session</strong>
-<span>Voice Session
-Voice Session is AIVAX&rsquo;s low-latency, stateful voice API. It keeps the authenticated AIVAX WebSocket endpoint while …</span>
+<span>Voice Session Voice Session is AIVAX&rsquo;s low-latency, stateful voice API. It keeps the authenticated AIVAX WebSocket endpoint while …</span>
 </a><a class=summary-card href=/docs/inference/pipelines.html><strong>AI Pipelines</strong>
-<span>AI Pipelines
-AI Gateway pipelines are the processing steps AIVAX applies before and during inference. They can add context, rewrite queries, …</span>
+<span>AI Pipelines AI Gateway pipelines are the processing steps AIVAX applies before and during inference. They can add context, rewrite queries, …</span>
 </a><a class=summary-card href=/docs/inference/structured-responses.html><strong>Structured Responses</strong>
-<span>Structured Responses
-AIVAX can produce structured JSON through two paths:
+<span>Structured Responses AIVAX can produce structured JSON through two paths:
 response_schema: AIVAX validates the final model output against a …</span>
 </a><a class=summary-card href=/docs/inference/workers.html><strong>AI Workers</strong>
-<span>AI Workers
-AI Gateway workers are HTTP hooks that let an external service control gateway execution at runtime. A worker can allow an event, …</span></a></div></section><section class=summary-group><h2 id=web-foundation>Web Foundation</h2><div class=summary-grid><a class=summary-card href=/docs/web-foundation/web-search.html><strong>Web Search</strong>
-<span>Web Search
-Web Search retrieves current information from the internet for research, fact checking, and answers that need sources beyond the …</span>
+<span>AI Workers AI Gateway workers are HTTP hooks that let an external service control gateway execution at runtime. A worker can allow an event, …</span></a></div></section><section class=summary-group><h2 id=web-foundation>Web Foundation</h2><div class=summary-grid><a class=summary-card href=/docs/web-foundation/web-search.html><strong>Web Search</strong>
+<span>Web Search Web Search retrieves current information from the internet for research, fact checking, and answers that need sources beyond the …</span>
 </a><a class=summary-card href=/docs/web-foundation/fetch-and-ocr.html><strong>Fetch and OCR</strong>
-<span>Fetch and OCR
-Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content …</span></a></div></section><section class=summary-group><h2 id=generations>Generations</h2><div class=summary-grid><a class=summary-card href=/docs/generations/decisions.html><strong>Semantic decisions</strong>
-<span>Semantic decisions
-Semantic decisions evaluate named questions against a shared state and return structured answers rather than a generated …</span>
+<span>Fetch and OCR Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content …</span></a></div></section><section class=summary-group><h2 id=generations>Generations</h2><div class=summary-grid><a class=summary-card href=/docs/generations/decisions.html><strong>Semantic decisions</strong>
+<span>Semantic decisions Semantic decisions evaluate named questions against a shared state and return structured answers rather than a generated …</span>
 </a><a class=summary-card href=/docs/generations/speech.html><strong>Speech Generation</strong>
-<span>Speech Generation
-Use Speech Generation when your application already has final text and needs playable audio without running a chat …</span>
+<span>Speech Generation Use Speech Generation when your application already has final text and needs playable audio without running a chat …</span>
 </a><a class=summary-card href=/docs/generations/audio-transcriptions.html><strong>Audio Transcriptions</strong>
-<span>Audio Transcriptions
-Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. …</span>
+<span>Audio Transcriptions Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. …</span>
 </a><a class=summary-card href=/docs/generations/media-descriptions.html><strong>Media Descriptions</strong>
-<span>Media Descriptions
-Use Media Descriptions when an application needs structured information from audio, images, video, or PDF content. …</span>
+<span>Media Descriptions Use Media Descriptions when an application needs structured information from audio, images, video, or PDF content. …</span>
 </a><a class=summary-card href=/docs/generations/teach-skill.html><strong>Teach Skill</strong>
-<span>Teach Skill
-Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Typical uses include capturing …</span>
+<span>Teach Skill Use Teach Skill to turn recorded demonstrations into reusable, step-by-step skill instructions. Typical uses include capturing …</span>
 </a><a class=summary-card href=/docs/generations/images.html><strong>Image Generation</strong>
-<span>Image Generation
-Use Image Generation to create images from a text prompt in an application workflow. Typical uses include draft …</span></a></div></section><section class=summary-group><h2 id=resources-and-features>Resources and features</h2><div class=summary-grid><a class=summary-card href=/docs/features/skills.html><strong>Skills</strong>
-<span>Skills
-Skills (also known as abilities) can be used to improve how your agent performs on specific tasks. Skills are special instructions …</span>
+<span>Image Generation Use Image Generation to create images from a text prompt in an application workflow. Typical uses include draft …</span></a></div></section><section class=summary-group><h2 id=resources-and-features>Resources and features</h2><div class=summary-grid><a class=summary-card href=/docs/features/skills.html><strong>Skills</strong>
+<span>Skills Skills (also known as abilities) can be used to improve how your agent performs on specific tasks. Skills are special instructions …</span>
 </a><a class=summary-card href=/docs/features/chat-clients.html><strong>Chat Clients</strong>
-<span>Chat Clients
-A chat client provides a user interface via an AI Gateway that allows the user to converse with their assistant. A chat client …</span>
+<span>Chat Clients A chat client provides a user interface via an AI Gateway that allows the user to converse with their assistant. A chat client …</span>
 </a><a class=summary-card href=/docs/features/batch.html><strong>Batch</strong>
-<span>Batch
-Batch is AIVAX&rsquo;s feature for running the same AI workflow over many independent items. It turns a list of inputs into a …</span></a></div></section><section class=summary-group><h2 id=tools>Tools</h2><div class=summary-grid><a class=summary-card href=/docs/tools/builtin-tools.html><strong>Built-in Tools</strong>
-<span>Built-in Tools
-AIVAX provides a list of built-in tools for you to enable in your model. These tools can be used together with the …</span>
+<span>Batch Batch is AIVAX&rsquo;s feature for running the same AI workflow over many independent items. It turns a list of inputs into a …</span></a></div></section><section class=summary-group><h2 id=tools>Tools</h2><div class=summary-grid><a class=summary-card href=/docs/tools/builtin-tools.html><strong>Built-in Tools</strong>
+<span>Built-in Tools AIVAX provides a list of built-in tools for you to enable in your model. These tools can be used together with the …</span>
 </a><a class=summary-card href=/docs/tools/mcp.html><strong>Support for Model Context Protocol (MCP)</strong>
-<span>Support for Model Context Protocol (MCP)
-You can bind external MCP protocol tools to your AI Gateway. The protocol defines tools that run on …</span>
+<span>Support for Model Context Protocol (MCP) You can bind external MCP protocol tools to your AI Gateway. The protocol defines tools that run on …</span>
 </a><a class=summary-card href=/docs/tools/protocol-functions.html><strong>Protocol Functions</strong>
-<span>Protocol Functions
-Protocol functions are AIVAX server-side tools. They let a model request a named action while AIVAX executes the action …</span>
+<span>Protocol Functions Protocol functions are AIVAX server-side tools. They let a model request a named action while AIVAX executes the action …</span>
 </a><a class=summary-card href=/docs/tools/shell.html><strong>Shell</strong>
-<span>Shell
-AIVAX offers a virtual shell environment that can be used by agent assistants to execute terminal commands during inference. This …</span></a></div></section><section class=summary-group><h2 id=mcp-utilities>MCP Utilities</h2><div class=summary-grid><a class=summary-card href=/docs/mcp-utilities/collections-mcp.html><strong>Collections MCP</strong>
-<span>Collections MCP
-The Collections MCP exposes one or more AIVAX RAG collections as tools for compatible MCP clients. Use it when an external …</span>
+<span>Shell AIVAX offers a virtual shell environment that can be used by agent assistants to execute terminal commands during inference. This …</span></a></div></section><section class=summary-group><h2 id=mcp-utilities>MCP Utilities</h2><div class=summary-grid><a class=summary-card href=/docs/mcp-utilities/collections-mcp.html><strong>Collections MCP</strong>
+<span>Collections MCP The Collections MCP exposes one or more AIVAX RAG collections as tools for compatible MCP clients. Use it when an external …</span>
 </a><a class=summary-card href=/docs/mcp-utilities/documentation-mcp.html><strong>Documentation MCP</strong>
-<span>Documentation MCP
-The AIVAX documentation MCP exposes AIVAX documentation, API reference content, and model metadata to MCP-compatible …</span>
+<span>Documentation MCP The AIVAX documentation MCP exposes AIVAX documentation, API reference content, and model metadata to MCP-compatible …</span>
 </a><a class=summary-card href=/docs/mcp-utilities/account-management-mcp.html><strong>Account management MCP</strong>
-<span>Account management MCP
-The account management MCP exposes selected AIVAX account operations to an MCP-compatible client, such as an IDE, …</span>
+<span>Account management MCP The account management MCP exposes selected AIVAX account operations to an MCP-compatible client, such as an IDE, …</span>
 </a><a class=summary-card href=/docs/mcp-utilities/web-utilities-mcp.html><strong>Web utilities MCP</strong>
-<span>Web utilities MCP
-The web utilities MCP exposes AIVAX web retrieval tools to any MCP-compatible client. Use it when an agent, IDE, desktop …</span>
+<span>Web utilities MCP The web utilities MCP exposes AIVAX web retrieval tools to any MCP-compatible client. Use it when an agent, IDE, desktop …</span>
 </a><a class=summary-card href=/docs/mcp-utilities/media-generation-mcp.html><strong>Media generation MCP</strong>
-<span>Media generation MCP
-The media generation MCP exposes AIVAX image generation and speech generation (text-to-speech) to any MCP-compatible …</span>
+<span>Media generation MCP The media generation MCP exposes AIVAX image generation and speech generation (text-to-speech) to any MCP-compatible …</span>
 </a><a class=summary-card href=/docs/mcp-utilities/inference-mcp.html><strong>Inference MCP</strong>
-<span>Inference MCP
-The Inference MCP exposes an AIVAX integrated model or AI Gateway as a tool for compatible MCP clients. Use it when another …</span></a></div></section><section class=summary-group><h2 id=legal-documents>Legal documents</h2><div class=summary-grid><a class=summary-card href=/docs/legal/privacy-policy.html><strong>Privacy Policy</strong>
-<span>Privacy Policy
-Revision: 1.4 Effective date: August 1, 2026 Previous update: July 20, 2026 Last updated: September 26, 2026
+<span>Inference MCP The Inference MCP exposes an AIVAX integrated model or AI Gateway as a tool for compatible MCP clients. Use it when another …</span></a></div></section><section class=summary-group><h2 id=legal-documents>Legal documents</h2><div class=summary-grid><a class=summary-card href=/docs/legal/privacy-policy.html><strong>Privacy Policy</strong>
+<span>Privacy Policy Revision: 1.4 Effective date: August 1, 2026 Previous update: July 20, 2026 Last updated: September 26, 2026
 Welcome to …</span>
 </a><a class=summary-card href=/docs/legal/terms-of-service.html><strong>Terms of Use</strong>
-<span>Terms of Use
-Revision: 1.4 Effective date: August 1, 2026 Previous update: July 20, 2026 Last updated: September 26, 2026
+<span>Terms of Use Revision: 1.4 Effective date: August 1, 2026 Previous update: July 20, 2026 Last updated: September 26, 2026
 Welcome to AIVAX. …</span>
 </a><a class=summary-card href=/docs/legal/third-party-processors.html><strong>Data Processors</strong>
-<span>Data Processors
-AIVAX uses third-party services for specific operations such as infrastructure, object storage, email delivery, payment …</span></a></div></section></div></article><footer class=site-footer data-pagefind-ignore><p>AIVAX documentation</p><nav aria-label=Resources><a href=/llms.txt>llms.txt</a>
+<span>Data Processors AIVAX uses third-party services for specific operations such as infrastructure, object storage, email delivery, payment …</span></a></div></section></div></article><footer class=site-footer data-pagefind-ignore><p>AIVAX documentation</p><nav aria-label=Resources><a href=/llms.txt>llms.txt</a>
 <a href=/llms-full.txt>llms-full.txt</a>
 <a href=https://github.com/aivaxlabs/docs rel=noopener>GitHub</a></nav></footer></main></div><dialog class=search-dialog aria-label=Search data-search data-docs-bundle=/pagefind/><div class=search-panel><div class=search-field><svg class="icon" viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true"><path d="M18.031 16.6168l4.2827 4.2827-1.4142 1.4142-4.2827-4.2827C15.0769 19.263 13.124 20 11 20c-4.968.0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9C20 13.124 19.263 15.0769 18.031 16.6168zM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11c0-3.8675-3.1325-7-7-7S4 7.1325 4 11s3.1325 7 7 7C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748z"/></svg>
 <input type=search placeholder="Search documentation" autocomplete=off spellcheck=false aria-label=Search aria-controls=search-results data-search-input>
