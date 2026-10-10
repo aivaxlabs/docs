@@ -8,6 +8,7 @@ Pense em um colega recebendo uma pasta contendo uma carta, uma fotografia e uma 
 
 Um modelo pode aceitar imagens e retornar texto, aceitar texto e produzir fala, ou lidar com várias combinações. Compreender uma imagem não implica ser capaz de criar uma. Da mesma forma, transformar uma gravação em palavras escritas não implica a capacidade de manter uma conversa falada ao vivo. Verifique ambos os lados da tarefa: o que entra e o que deve sair.
 
+
 - **Imagens** — Entradas podem incluir fotografias, capturas de tela ou diagramas. Saídas podem ser descrições ou fatos extraídos; criar ou editar uma imagem requer uma capacidade de geração adequada.
 
 - **Áudio** — Entradas podem incluir fala ou outros sons. Tarefas incluem transcrição e interpretação de áudio. Saída falada usa geração de fala ou um sistema de voz ao vivo compatível.
@@ -15,6 +16,9 @@ Um modelo pode aceitar imagens e retornar texto, aceitar texto e produzir fala, 
 - **Documentos** — Um documento pode combinar texto selecionável, páginas escaneadas, gráficos e tabelas. Sua extensão de arquivo sozinha não indica quais informações podem ser extraídas de forma confiável.
 
 - **Vídeo** — Uma gravação combina imagens ao longo do tempo e pode incluir áudio. Resumir exige decidir quais momentos e sons estão disponíveis para o sistema de processamento.
+
+
+
 
 Um formato de documento é um contêiner, não um único tipo de significado. Um PDF pode conter texto limpo que pode ser extraído diretamente. Outro pode ser uma coleção de fotografias escaneadas. Um terceiro pode conter um gráfico cuja mensagem depende de cores e layout espacial. Tratar os três como texto simples pode gerar resultados muito diferentes.
 
@@ -26,37 +30,52 @@ O primeiro caminho é **entrada direta de mídia**: enviar a mídia para um mode
 
 **Transcrição** transforma palavras faladas em texto escrito. **Reconhecimento óptico de caracteres**, normalmente chamado de **OCR**, lê caracteres de imagens ou páginas escaneadas. Uma **descrição de mídia** expressa informações visíveis ou audíveis em palavras, como “uma caixa de papelão com um canto rasgado”. Esses são produtos diferentes: uma descrição de um recibo não é necessariamente uma transcrição fiel de cada valor.
 
+
 **Mídia direta**
 
 Pergunte a um modelo com capacidade de visão sobre a foto original do pacote. Isso pode manter relações visuais úteis, como onde o dano aparece. Formatos suportados, detalhe, custo e qualidade dependem do serviço selecionado.
+
 
 **Texto primeiro**
 
 Crie uma descrição ou transcrição, então deixe um modelo de texto lidar com a conversa. O texto pode ser reutilizado e pesquisado, mas tudo o que foi omitido durante a conversão não está disponível para o modelo posterior.
 
+
+
+
+
 Uma rota texto-primeiro é útil quando a informação importante são principalmente palavras e será reutilizada. Uma nota de voz de suporte pode se tornar uma transcrição mais fácil de pesquisar e revisar. Uma rota direta é útil quando a tarefa depende de layout, relações visuais ou outra informação que a conversão para texto pode perder. Nenhum caminho garante que letras miúdas ou fala pouco clara serão compreendidas corretamente.
 
 Receber mídia → Verificar acesso e formato → Ler diretamente ou converter para texto → Responder à pergunta específica → Verificar detalhes consequentes
+
 
 Antes do processamento, declare o que você precisa aprender. “Ler esta fatura” é menos útil do que “Extrair o nome do fornecedor, data da fatura, total e moeda; marcar tudo que esteja ilegível.” Uma solicitação focada facilita a avaliação do sucesso e evita coletar detalhes não relacionados de um documento ou gravação.
 
 ## Escolha a rota para o trabalho
 
+
 **Fotografia de fatura**
 
 Use OCR ou compreensão de imagem para extrair os campos necessários. Verifique a imagem original em busca de dígitos ambíguos, separadores decimais e moeda. Exija revisão antes de criar ou aprovar um pagamento.
+
 
 **Nota de voz do cliente**
 
 Transcreva a gravação quando a tarefa for capturar as palavras do cliente. Preserve a incerteza em nomes, endereços e datas. Peça confirmação antes de agir sobre um detalhe que parece incerto.
 
+
 **PDF do produto**
 
 Extraia texto selecionável quando disponível. Use OCR para páginas escaneadas e compreensão de imagem quando diagramas importam. Mantenha referências de página para que o revisor possa encontrar a evidência por trás da resposta.
 
+
 **Vídeo de treinamento**
 
 Decida se fala, mudanças de tela ou ambos são essenciais. Uma transcrição sozinha pode explicar a narração, mas perder qual botão o apresentador selecionou. Valide contra o momento relevante na gravação.
+
+
+
+
 
 Para o exemplo da fatura, separe o reconhecimento da validação de negócio. Um modelo pode ler um total que aparece em uma página, mas isso não prova que a fatura seja genuína, que o fornecedor esteja aprovado ou que o pagamento esteja autorizado. Essas verificações pertencem ao processo de negócio ao redor. Uma foto clara melhora o reconhecimento; não estabelece confiança no documento.
 

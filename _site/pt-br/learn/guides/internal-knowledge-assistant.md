@@ -8,35 +8,48 @@ Imagine uma organização fictícia chamada Cedar Office. Ela quer um ponto de e
 
 Comece entrevistando as pessoas que respondem a perguntas recorrentes. Pergunte o que os funcionários acham confuso, quais respostas variam por localização ou função, e quais questões devem permanecer privadas. “Ajudar os funcionários a encontrar a política de viagem correta” é um objetivo manejável. “Saber tudo sobre a empresa” não é.
 
+
 - **Shared guidance** — Políticas publicadas para funcionários, instruções do service‑desk e procedimentos de escritório aprovados podem apoiar perguntas gerais quando se aplicam ao funcionário atual.
 
 - **Restricted guidance** — Procedimentos específicos de departamento requerem uma decisão de acesso antes da recuperação. Um documento ser pesquisável não significa que todo funcionário possa lê‑lo.
 
 - **Private records** — Casos de pessoal, detalhes médicos, registros individuais de folha de pagamento e arquivos disciplinares não pertencem à coleção piloto geral.
 
+
+
+
 Um **wiki** é um conjunto de páginas mantidas colaborativamente. Pode conter material útil, mas popularidade não é autoridade. Uma página amplamente vinculada ainda pode estar desatualizada. **Metadata** são rótulos descritivos anexados a um documento, como proprietário, departamento, data de vigência e público permitido. Esses rótulos ajudam a organizar a recuperação; sua precisão também precisa de um proprietário.
 
 ## Prepare uma prateleira de referência confiável
+
 
 1. **Inventory the sources**
 
 Liste políticas candidatas, páginas de wiki e guias de serviço com seus proprietários. Identifique material duplicado, contraditório, rascunho e expirado antes de importá‑lo.
 
+
 2. **Rewrite the difficult answers**
 
 Dê a cada política um título claro, escopo, data de vigência e procedimento concreto. Mantenha exceções ao lado da regra que qualificam, em vez de em um anexo não relacionado.
+
 
 3. **Assign access rules**
 
 Marque o público permitido e conecte as verificações de acesso ao sistema de identidade confiável da organização. Não permita que um funcionário conceda a si mesmo acesso digitando o nome de um departamento.
 
+
 4. **Build answers around evidence**
 
 Recupere apenas trechos permitidos, então responda com o título da fonte e um link que o funcionário possa abrir. Se os trechos não resolverem a pergunta, diga isso.
 
+
 5. **Review and improve**
 
 Faça um piloto com representantes de cada departamento. Colete feedback, inspecione perguntas não resolvidas e dê aos proprietários de políticas uma tarefa recorrente de revisão.
+
+
+
+
 
 Leia [Finding and preparing knowledge](https://docs.aivax.net/pt-br/learn/teaching-agents/finding-and-preparing-knowledge.md) para seleção de fontes e [Writing good documents](https://docs.aivax.net/pt-br/learn/teaching-agents/writing-good-documents.md) para procedimentos claros e autônomos. Material de fonte melhor costuma corrigir uma resposta confusa mais diretamente do que adicionar outra instrução ao agente.
 
@@ -56,33 +69,48 @@ Se o caminho de recuperação escolhido não puder impor a fronteira necessária
 
 Uma **citation** identifica a fonte que sustenta uma afirmação. Ela deve levar ao documento ou seção relevante, não apenas à página inicial da empresa. Mencione o escopo quando ele mudar a resposta: “A política de viagem doméstica diz…” é mais seguro que “Todos podem reivindicar…”. Não trate uma citação como decoração; verifique se o trecho citado realmente sustenta a afirmação.
 
+
 **Confident but unsupported**
 
 “Você pode despachar qualquer equipamento de home‑office. Isso provavelmente está coberto pela política geral de despesas.”
+
 
 **Useful uncertainty**
 
 “Encontrei a política de despesas de viagem, mas ela não cobre equipamento de home‑office. Não posso confirmar a elegibilidade a partir das orientações disponíveis. A rota de ajuda financeira pode esclarecer.”
 
+
+
+
+
 “Não sei” deve vir com um próximo passo útil. Declare o que foi encontrado, o que permanece não resolvido e a equipe responsável. Não revele que um documento restrito existe se sua existência for sensível. Políticas conflitantes também exigem pausa: explique o conflito ao proprietário adequado em vez de inventar um compromisso.
 
 > **Demonstração interativa: Try it: a small fictional employee reference shelf.** Esta demonstração interativa está disponível na página web. Esta pequena demonstração mostra correspondência com documentos de exemplo. Ela não implementa autenticação de funcionário, permissões departamentais ou um sistema de busca semântica de produção. Experimente uma pergunta que a prateleira não consegue responder e perceba por que a falta de evidência importa.
+
+
 
 ## Adapte a resposta ao departamento
 
 O mesmo padrão de resposta funciona em equipes: identifique a pergunta, verifique o escopo, encontre evidência, explique o procedimento e ofereça a rota de ajuda apropriada. O que muda são as informações permitidas e a consequência de estar errado.
 
+
 **HR**
 
 Um funcionário pergunta como solicitar licença. Forneça o procedimento publicado aplicável à sua localização de emprego e explique onde ocorre a aprovação. Não divulgue licenças de colegas ou inferir informações de saúde. Uma disputa pessoal vai para a rota confidencial de RH, não para uma resposta de política geral.
+
 
 **IT**
 
 Um funcionário não consegue conectar o laptop de trabalho. Ofereça solução de problemas aprovada que não enfraqueça a segurança. Nunca peça que ele colete senhas ou códigos de recuperação. Se for necessário recuperar acesso, direcione-o ao processo de recuperação verificado em vez de tratar o chat como prova de identidade.
 
+
 **Finance**
 
 Um funcionário pergunta se um recibo é obrigatório. Cite a regra de despesa aplicável e identifique exceções que realmente estejam documentadas. Não afirme que uma despesa está aprovada nem revele reembolsos de outro funcionário. Uma reivindicação incomum precisa do revisor autorizado.
+
+
+
+
 
 ## Adicione feedback que leve a uma correção
 

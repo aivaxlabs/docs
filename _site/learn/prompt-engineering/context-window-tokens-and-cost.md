@@ -12,6 +12,8 @@ This is why “keep the prompt under a certain number of words” is only a roug
 
 > **Interactive demo: Try it: change the text, not just its length.** This interactive demo is available on the web page. Try a short everyday sentence, then replace one word with a long invented product name. This is a simplified illustration of token splitting, not the exact tokenizer or billing meter of any model. Do not enter confidential information into learning examples.
 
+
+
 Counting tokens gives services a practical way to describe input size, output size and text-generation usage. It relates more closely to what the model processes than pages or chat bubbles do. A one-page document can contain dense tables; a short-looking chat may carry extensive instructions behind the scenes. Token counts make those hidden differences visible.
 
 **Input tokens** are the content presented to the model. **Output tokens** are the content it generates. Different rates or rules can apply to each, and some reasoning models also account for internal reasoning tokens. Check the selected model's documented behaviour rather than assuming that the visible reply represents all generated usage.
@@ -22,15 +24,21 @@ The context budget is shared, not a separate allowance for every component. For 
 
 The following fictional allocation is deliberately small so that the arithmetic is easy to follow. These values are illustrative only: they are not AIVAX plan allowances, product limits or a recommended production configuration.
 
+
 - **8,000** — illustrative total token budget
 
 - **6,000** — illustrative input allocation
 
 - **2,000** — illustrative answer reserve
 
+
+
+
 Within that input allocation, include the standing instructions, descriptions of available tools, retrieved knowledge, relevant history and the new question. Reserve space for likely tool results too, if the assistant will request them before answering. A tool that returns a large document can unexpectedly consume more space than the customer's entire chat.
 
 > **Interactive demo: Try it: a context budget fills up (illustrative).** This interactive demo is available on the web page. Change the available space and watch which blocks remain. This demonstration removes the oldest blocks first and always keeps the last one. It illustrates a possible trimming policy, not a universal model behaviour or a recommendation to discard system instructions. Real applications must protect essential rules and dependencies explicitly.
+
+
 
 A useful context budget reflects the task. A policy assistant may need substantial reference material but little conversation history. A drafting assistant revising a proposal needs the current draft and recent editorial decisions, not every abandoned version. Supplying less irrelevant material can make the evidence easier to find as well as reduce input usage.
 
@@ -53,17 +61,23 @@ An **output limit** is a different boundary: it caps how much the model can gene
 
 **Summarising** compresses useful history into a shorter account. For an internal assistant, a summary might retain the requested outcome, decisions already confirmed, unresolved questions and any constraints. Mark uncertainty as uncertainty. If the original message said “perhaps next month,” a summary must not transform it into a confirmed deadline. Keep important evidence available for checking.
 
+
 **Short, but missing the constraint**
 
 “Customer wants a replacement.”
 
 The summary drops the customer's requirement that delivery must not occur before they return from travel.
 
+
 **Short and decision-ready**
 
 “Customer requests a replacement but has not confirmed a suitable delivery date. Ask before arranging delivery.”
 
 The summary preserves the unresolved condition that changes the next action.
+
+
+
+
 
 **Caching** reuses previous work rather than processing the same material in the same way every time. Input caching can reduce repeated processing for supported, unchanged content; response caching can reuse an answer when the request and relevant state genuinely match. These are different mechanisms with different freshness and privacy requirements.
 
@@ -74,6 +88,8 @@ Caching does not usually make the cached text disappear from the context window.
 For a simple text call, an estimate starts with input usage multiplied by its applicable rate, plus output usage multiplied by its applicable rate. A real business conversation may make several model calls: the first answer, a tool-related follow-up, a correction and a final response. Include those calls, any separately metered capabilities and retries when estimating the whole workflow.
 
 > **Interactive demo: Try it: estimate text cost with illustrative assumptions.** This interactive demo is available on the web page. Treat all values in this calculator as illustrative assumptions, not current prices or a bill forecast. Compare a compact briefing with a long replayed history. This simplified estimate does not model every tool, cache, reasoning, retry or multi-call charge.
+
+
 
 A practical first measurement is a representative set of completed tasks: how much input was sent, how much output was generated, how many calls occurred and whether the user actually got a correct answer. Reducing cost per call is not an improvement if customers must repeat the task. Compare cost per successful outcome as well as raw token totals.
 

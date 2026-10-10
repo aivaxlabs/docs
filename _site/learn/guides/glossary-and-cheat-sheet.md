@@ -8,6 +8,7 @@ The terms below describe general concepts, not guarantees about a particular pro
 
 The tabs group terms alphabetically. Each entry gives a short meaning and points to a lesson that explains its practical use.
 
+
 **A–C**
 
 **A/B test** — A comparison that assigns comparable users or cases to different versions so their outcomes can be evaluated fairly; see [A/B testing](https://docs.aivax.net/learn/quality/ab-testing.md).
@@ -34,6 +35,7 @@ The tabs group terms alphabetically. Each entry gives a short meaning and points
 
 **Context window** — The model's capacity for the tokens considered within a request, with accounting details depending on the model; see [Context window, tokens, and cost](https://docs.aivax.net/learn/prompt-engineering/context-window-tokens-and-cost.md).
 
+
 **D–H**
 
 **Deflection** — An eligible issue resolved without human handling, which should not be confused with an abandoned or blocked conversation; see [Metrics](https://docs.aivax.net/learn/quality/metrics.md).
@@ -57,6 +59,7 @@ The tabs group terms alphabetically. Each entry gives a short meaning and points
 **Hallucination** — An unsupported or incorrect model-generated claim that may sound fluent and confident despite lacking evidence; see [Measuring adherence and hallucination](https://docs.aivax.net/learn/teaching-agents/measuring-adherence-and-hallucination.md).
 
 **Human in the loop** — A person deliberately involved at a defined decision or approval point rather than merely observing afterwards; see [Human in the loop](https://docs.aivax.net/learn/advanced-agents/human-in-the-loop.md).
+
 
 **I–P**
 
@@ -83,6 +86,7 @@ The tabs group terms alphabetically. Each entry gives a short meaning and points
 **Prompt** — The input that asks the model to do something and supplies relevant guidance or material; see [Anatomy of a prompt](https://docs.aivax.net/learn/prompt-engineering/anatomy-of-a-prompt.md).
 
 **Prompt injection** — An attempt to make an assistant treat untrusted content as instructions that override its intended task or boundaries; see [Prompt injection and jailbreaks](https://docs.aivax.net/learn/safety/prompt-injection-and-jailbreaks.md).
+
 
 **R–W**
 
@@ -114,9 +118,14 @@ The tabs group terms alphabetically. Each entry gives a short meaning and points
 
 **Workflow** — An organised sequence of tasks and decisions that defines how work proceeds and where it stops; see [Workflows as skills](https://docs.aivax.net/learn/agents/workflows-as-skills.md).
 
+
+
+
+
 ## The working cheat sheet
 
 These rules fit on a project review agenda. They are questions to verify, not magic phrases to paste into every prompt. Apply them to the actual sources, systems, and people involved.
+
 
 - **Prompts: specify the job** — State the goal, relevant context, output format, and limits. Include an example when the format is hard to describe. Remove contradictory rules. Tell the assistant what to do when information is missing.
 
@@ -128,19 +137,26 @@ These rules fit on a project review agenda. They are questions to verify, not ma
 
 - **Cost: measure useful outcomes** — Track the whole task, including search, tools, retries, review, and rework. Reduce unnecessary context before sacrificing evidence. Compare cost per successfully resolved issue rather than cost per message alone.
 
+
+
+
 ## Resolve common confusions
 
 **Does adding knowledge train the model?**
 
 Usually not. Retrieval places selected documents into the current request, much like putting reference pages on a desk. Training changes the model itself. Updating a searchable document and retraining a model are different operations with different costs and controls.
 
+
 **Does a tool call mean the task succeeded?**
 
 No. The model may request an operation, but software must validate and execute it. The operation can fail or have an uncertain result. Success should be reported only after the system confirms the intended outcome.
 
+
 **Does a citation make an answer correct?**
 
 No. The source might be outdated, outside the user's scope, or unrelated to the claim. Check both the source's authority and whether its actual text supports the answer. A credible-looking link is not evidence by itself.
+
+
 
 What's next: choose a route through the material with [FAQ and learning paths by profile](https://docs.aivax.net/learn/guides/faq-and-learning-paths.md).
 

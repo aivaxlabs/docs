@@ -12,13 +12,19 @@ Disclosure should be easy to notice, not hidden in a long terms page. It does no
 
 Describe capabilities accurately. An agent that can draft a refund request should not claim it can issue a refund. An agent that can create a support case should not promise an immediate reply from a person. Distinguish an intention, a submitted request and a confirmed result in the wording users see.
 
+
 **Unclear and overconfident**
 
 “I've fixed everything. Our expert will reply immediately.” The agent has only drafted a request and has no confirmed response time.
 
+
 **Clear and verifiable**
 
 “I'm an AI assistant. I can prepare the billing issue for our team, but I can't approve the adjustment. Would you like me to submit it? I'll confirm when the support system accepts it.”
+
+
+
+
 
 Honesty also means describing uncertainty in a way that helps the next decision. “I could not find a current policy for this exception” is more useful than a vague “I may be wrong.” Say what evidence is missing, avoid inventing the answer, and explain the available next step.
 
@@ -34,6 +40,7 @@ If sources conflict, say so and route the unresolved decision to its owner. A us
 
 A **trigger** is a condition that starts a predefined response. Good triggers are observable enough to test, such as a direct request for a human or repeated failed attempts. Do not wait until a conversation becomes extreme before allowing the user another route.
 
+
 - **The user asks** — Respect a clear request for a person. Do not require the user to fail more automated steps just to justify the transfer.
 
 - **Frustration or repeated failure** — Notice when the same problem remains unresolved or the user says the proposed steps did not help. Offer a different route rather than repeating the script.
@@ -42,31 +49,43 @@ A **trigger** is a condition that starts a predefined response. Good triggers ar
 
 - **Insufficient authority or evidence** — Exceptions, disputed records and unsupported policy claims need someone who can investigate and decide. Confidence in wording is not authority.
 
+
+
+
 Not every mention of a regulated topic requires an emergency response. A clinic's opening hours differ from a request for diagnosis. Define the boundary with relevant specialists. For urgent safety situations, use a separately reviewed process suited to the location and service; an ordinary support queue is not a substitute for emergency help.
 
 Frustration detection is imperfect. Direct statements such as “I want to speak to someone” should carry more weight than a model's guess about emotional tone. Avoid treating regional expressions, disability-related communication differences or concise writing as evidence of hostility. Give users a visible way to request help without relying on automated emotion detection.
 
 ## Transfer the case, not just the chat window
 
+
 1. **Recognise the boundary**
 
 Identify the trigger and stop repeating unsuccessful advice. Explain the relevant limitation briefly without blaming the user.
+
 
 2. **Offer the available route**
 
 Say what team can help, how the transfer works and what timing is actually known. Obtain any confirmation required before sending the handover.
 
+
 3. **Prepare the handover package**
 
 Summarise the goal, established facts, attempted steps, outcomes and unresolved question. Include relevant history through an authorised channel, not an unnecessary copy to everyone.
+
 
 4. **Confirm acceptance**
 
 Check that the support system or receiving person accepted the case. Tell the user the true status and provide the available reference or follow-up route.
 
+
 5. **Keep ownership visible**
 
 Make clear who is now responding and prevent competing automated replies. If the transfer fails, explain the failure and offer a usable alternative.
+
+
+
+
 
 ```mermaid
 flowchart TD
@@ -91,11 +110,15 @@ The **escalation rate** is the proportion of conversations transferred or referr
 
 ### An illustrative review sample
 
+
 - **100** — illustrative conversations reviewed
 
 - **20** — illustrative human escalations
 
 - **20%** — illustrative escalation rate
+
+
+
 
 These invented figures teach the calculation, not a target or service benchmark. Define whether repeated transfers count once per conversation, whether abandoned chats are included, and how you distinguish requested transfers from completed handovers. A dashboard that mixes these states can look healthy while customers wait without an owner.
 

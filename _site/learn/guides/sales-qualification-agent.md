@@ -10,41 +10,56 @@ Fieldwork wants interested visitors to receive an accurate explanation, an appro
 
 Separate three responsibilities before writing the first instruction:
 
+
 - **Inform** — Answer from approved product information, including known limitations. Let visitors read about the service without requiring their details first.
 
 - **Qualify** — Ask only questions that change the recommendation. Record uncertainty rather than filling gaps with guesses about a visitor's business.
 
 - **Connect** — Offer a human conversation when the visitor wants one. Prepare a concise, confirmed summary instead of making them repeat the whole exchange.
 
+
+
+
 A **conversion** is a defined next step, such as an agreed demonstration. Define it explicitly: sending a calendar link is not the same as booking a meeting, and a booking is not a sale. Otherwise the dashboard can reward activity that creates no benefit for either party.
 
 ## Build the conversation around the visitor
+
 
 1. **Explain the role and ask about the need**
 
 Say that this is an automated assistant. Ask what the visitor is trying to improve: missed appointments, staff scheduling, or another problem. Answer their original question before starting an interview.
 
+
 2. **Explore timing and budget gently**
 
 Ask when they expect to make a change and whether they have an approximate budget range. Explain why the question helps. Allow “not decided” and “prefer not to say”.
+
 
 3. **Summarise and check the facts**
 
 Repeat the stated need, constraints, and requested next step. Ask for corrections. Distinguish the visitor's statements from the agent's interpretation.
 
+
 4. **Propose a routing result**
 
 Use an agreed rubric, a small set of scoring rules, to suggest information-only follow-up or a human sales conversation. Keep missing information visible.
 
+
 5. **Approve, save, and hand over**
 
 Ask permission to share the summary and confirm the intended contact method. Apply the business's required staff approval before the CRM write, then verify the result before saying it was saved.
+
+
+
+
 
 Ask one question at a time and reuse answers already given. If someone says “We need this next month”, do not ask for timing again merely because it is next on a form. A conversational assistant should reduce effort compared with a form, not hide a long mandatory form inside chat bubbles.
 
 The instruction draft can be simple: “Help visitors assess whether our documented service fits. Ask relevant questions without pressure. Do not infer personal characteristics, invent terms, or send follow-ups without the required permission. Record unknown answers as unknown. Offer a person when asked and respect a refusal immediately.”
 
 > **Interactive demo: Example: qualification with an unanswered budget question.** This interactive demo is available on the web page. The visitor's request for a person takes priority over completing every qualification field. This example stops before the review and write, so it does not claim a record or booking exists.
+
+
 
 ## Score evidence, not people
 
@@ -69,23 +84,31 @@ A CRM write is an external action: it changes a business record. Keep the propos
 
 Visitor confirms summary → Staff approves proposed record → Application validates permissions → CRM write → Verify saved result
 
+
 Visitor agreement and staff approval serve different purposes. The visitor confirms what will be shared; the staff member checks whether the business should create or update that record. Neither automatically provides every legal basis needed for processing personal data. Establish the appropriate basis, privacy notice, retention period, and channel rules with the responsible team.
 
 Read [Human in the loop](https://docs.aivax.net/learn/advanced-agents/human-in-the-loop.md) for approval design. The approval screen should show exactly what will change. If important fields change after approval, ask again rather than treating the old approval as unlimited permission.
+
 
 **Pressure and hidden action**
 
 “I need your phone number before I can answer. I have added you to our campaign because you seem interested.”
 
+
 **Choice and a clear boundary**
 
 “Here is the product information. If you want a sales conversation, I can prepare a summary for your review. You can also stop here.”
+
+
+
+
 
 If the CRM request times out, the application may not know whether the write happened. Check for the existing result before retrying so the visitor does not become several duplicate leads. A **webhook** is an event notification sent from one system to another; it can trigger follow-up after a confirmed change. See [Webhooks, events, and automations](https://docs.aivax.net/learn/tools-and-integrations/webhooks-events-and-automations.md) for the connection pattern.
 
 ## Evaluate the funnel without rewarding pressure
 
 A **funnel** shows how many people move through successive stages. Use clearly defined stages and the same observation period. The chart below is illustrative, not a conversion forecast or a claim about any product.
+
 
 **Illustrative pilot funnel**
 
@@ -97,6 +120,8 @@ A **funnel** shows how many people move through successive stages. Use clearly d
 | Confirmed a meeting | 18 visitors |
 
 Invented teaching data. Each stage is a subset of the previous one; declining to continue can be an appropriate outcome.
+
+
 
 Review whether sales staff received accurate briefs, visitors understood the handover, and declined contact was respected. Track incorrect product claims, duplicate records, unwanted messages, and complaints alongside meetings. A rise in bookings accompanied by more pressure complaints is not an unqualified improvement.
 

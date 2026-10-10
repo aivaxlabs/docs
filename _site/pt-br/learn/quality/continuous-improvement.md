@@ -8,6 +8,7 @@ Imagine uma loja recebendo reclamações sobre entregas incorretas. Treinar a eq
 
 Coletar evidência → Classificar falhas → Corrigir a causa → Re-testar → Implantar e observar
 
+
 **Implantar** significa disponibilizar uma versão testada para seus usuários previstos. A observação após a implantação fecha o ciclo: você verifica se a melhoria aparece no trabalho real e se surgem novos problemas. Mantenha a evidência vinculada à mudança para que outro colega entenda por que foi feita. Caso contrário, as instruções acumulam exceções cujo propósito ninguém lembra e que podem se contradizer.
 
 Uma **causa raiz** é a condição subjacente que explica a falha, e não seu sintoma visível. “O agente deu a resposta errada” é um sintoma. “A política aprovada estava ausente do conhecimento pesquisável” é uma causa raiz candidata. Confirme-a usando a conversa, os documentos disponíveis e registros de ações. Se a evidência estiver incompleta, rotule a causa como incerta ao invés de escolher uma explicação conveniente.
@@ -24,6 +25,7 @@ Leia toda a troca relevante, não apenas a última mensagem. Uma resposta breve 
 
 Um **rótulo** é uma marca consistente usada para agrupar casos semelhantes. Comece com um pequeno conjunto de rótulos que sua equipe possa aplicar de forma confiável. Registre o resultado pretendido pelo usuário, o que aconteceu em vez disso, a evidência de apoio e a causa provável. Adicione severidade, que indica a gravidade da consequência, separadamente da frequência. Uma ação não autorizada rara pode merecer atenção mais rápida do que uma saudação estranha comum.
 
+
 - **Instruções** — As informações relevantes estavam disponíveis, mas as diretrizes do agente eram ambíguas ou conflitantes. Esclareça a regra aplicável e seus limites.
 
 - **Conhecimento** — A fonte necessária estava ausente, desatualizada ou difícil de encontrar. Corrija a fonte e verifique se o agente pode recuperá‑la.
@@ -32,7 +34,11 @@ Um **rótulo** é uma marca consistente usada para agrupar casos semelhantes. Co
 
 - **Processo ou causa não resolvida** — A própria regra de negócio é pouco clara, ou a evidência é insuficiente. Atribua investigação ao invés de disfarçar a incerteza como um problema de prompt.
 
+
+
+
 Um único caso pode ter várias causas contributivas. Por exemplo, uma consulta de pedido pode falhar e as instruções podem deixar de indicar como comunicar essa situação. Registre ambas, mas use uma regra consistente ao resumir casos em um gráfico. Se cada caso tem uma categoria primária, indique isso. Se as categorias se sobrepõem, não as apresente como fatias que supostamente explicam o todo.
+
 
 **Causas primárias em uma amostra de falhas revisada (ilustrativa)**
 
@@ -45,6 +51,8 @@ Um único caso pode ter várias causas contributivas. Por exemplo, uma consulta 
 
 Resultados de revisão inventados, com uma categoria primária por caso. Isso não é a taxa de falha de todas as conversas ou um benchmark de produto.
 
+
+
 Essa distribuição ilustrativa sugere onde a investigação pode começar, não o que deve ser corrigido primeiro. Considere a severidade, os usuários afetados e a força do diagnóstico, bem como o tamanho de cada fatia. Uma lacuna de conhecimento frequente pode justificar uma atualização editorial, enquanto um problema de permissão menor pode exigir contenção imediata. Atribua um responsável que possa mudar a causa real ao invés de enviar cada problema ao autor do prompt.
 
 ## Mude a menor coisa que resolve a causa
@@ -53,13 +61,19 @@ Uma **hipótese** é uma explicação específica que pode ser testada. Escreva 
 
 Evite acrescentar a formulação do cliente que falhou às instruções como uma exceção especial. Isso pode corrigir a demonstração enquanto cria contradições ou piora casos próximos. Se a política autoritária está incompleta, repare‑a ao invés de copiar uma resposta privada para um prompt global. Se uma ferramenta está quebrada, um pedido para “tentar mais” não repara a conexão nem autoriza ações adicionais.
 
+
 **Corrigir o exemplo visível**
 
 Adicione “oferecer sempre um reembolso” após uma reclamação. O exemplo agora parece amigável, mas clientes não relacionados recebem promessas fora da política.
 
+
 **Corrigir a regra subjacente**
 
 Esclareça as condições de elegibilidade, repare o material de fonte faltante e verifique tanto casos elegíveis quanto inelegíveis antes do lançamento.
+
+
+
+
 
 Um **teste de regressão** verifica se um comportamento que funcionava antes ainda funciona. Cada falha confirmada deve sugerir um caso seguro e reutilizável, mas o novo caso não basta por si só. Reexecute casos relacionados e críticos, depois o conjunto de avaliação mais amplo. Veja [Testing and evaluating agents](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md) para construir essas expectativas e revisar resultados. Não aceite várias regressões graves apenas porque a média geral melhorou.
 
@@ -67,21 +81,29 @@ Um **teste de regressão** verifica se um comportamento que funcionava antes ain
 
 Uma revisão regular impede que evidências se tornem uma caixa de entrada não lida. Traga uma pessoa que entenda as regras de negócio, alguém que possa modificar o agente ou suas conexões, e alguém responsável pela experiência do usuário. Mantenha a reunião focada em decisões: o que falhou, que evidência apoia a causa, quem é o responsável pela correção e como a equipe saberá que funcionou.
 
+
 1. **Prepare a evidência**
 
 Selecione amostras autorizadas e resuma tendências. Inclua exemplos de comportamento bem‑sucedido para que a equipe veja o que deve ser preservado.
+
 
 2. **Concorde sobre prioridade e responsabilidade**
 
 Separe contenção urgente de melhoria ordinária. Nomeie um responsável e um resultado observável esperado para cada problema selecionado.
 
+
 3. **Revise correções propostas e testes**
 
 Inspecione a menor correção, novos casos de teste e resultados de regressão. Mantenha diagnósticos incertos abertos ao invés de declará‑los resolvidos.
 
+
 4. **Verifique lançamentos anteriores**
 
 Compare a evidência pós‑lançamento com a previsão. Feche um problema quando seu resultado for verificado, não apenas quando um edit for salvo.
+
+
+
+
 
 A revisão semanal não é motivo para adiar um incidente grave. Use uma rota de resposta urgente separada para exposição de privacidade, ações nocivas ou falha generalizada. Para melhorias rotineiras, lance de forma controlada e retenha uma configuração conhecida como funcional. [Versioning](https://docs.aivax.net/pt-br/learn/production/versioning.md) explica como identificar mudanças relacionadas de prompt, conhecimento e ferramenta para que possam ser comparadas e, quando necessário, revertidas.
 

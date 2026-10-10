@@ -8,11 +8,15 @@ Uma **skill** é um conjunto reutilizável de instruções para um tipo particul
 
 Uma forma útil de distinguir as partes de um agente é fazer três perguntas: Como devo trabalhar? O que posso fazer? Que informação sustenta minha resposta? Essas perguntas geralmente aparecem juntas em uma conversa, mas suas respostas pertencem a lugares diferentes.
 
+
 - **Habilidade: o método** — Um playbook de revisão de reembolso indica esclarecer a solicitação, consultar a política atual, verificar o registro de pedido permitido e resumir os pontos não resolvidos.
 
 - **Ferramenta: a ação** — Uma operação de busca de pedido recupera um registro. Uma operação de solicitação de revisão envia um caso. O software executa essas ações e aplica o acesso.
 
 - **Conhecimento: a evidência** — A política de devoluções aprovada explica elegibilidade e exceções. A habilidade instrui o agente a consultá‑la em vez de adivinhar seu conteúdo.
+
+
+
 
 Pense em uma cozinha: a receita descreve o método, o forno fornece uma capacidade e o rótulo do ingrediente fornece fatos. Uma receita não pode aquecer nada por si só. Da mesma forma, uma habilidade que diz “verificar o pedido” ainda precisa de uma ferramenta de busca disponível e autorizada. Se essa ferramenta estiver ausente, o agente deve explicar a limitação em vez de fingir que a verificação ocorreu.
 
@@ -30,13 +34,19 @@ A mesma habilidade de revisão de reembolso pode ser anexada a um agente de supo
 
 Comece com um propósito claro e uma descrição de quando a habilidade deve ser usada. Essa descrição funciona como a etiqueta de uma pasta de treinamento: deve ajudar alguém a escolher a pasta correta antes de abri‑la. “Use quando um cliente solicitar revisão de reembolso” é mais informativo que “Excelente atendimento ao cliente.” Também explique quando uma tarefa estreitamente relacionada pertence a outro lugar.
 
+
 **Uma aspiração**
 
 “Manusear reembolsos profissionalmente. Manter os clientes satisfeitos e resolver seus problemas rapidamente.”
 
+
 **Um método utilizável**
 
 “Esclarecer o resultado solicitado. Consultar a política atual e o registro de pedido autorizado. Explicar o que foi confirmado. Se uma exceção precisar de aprovação, preparar uma solicitação de revisão sem prometer um reembolso.”
+
+
+
+
 
 As instruções completas devem identificar as informações necessárias antes de prosseguir, a sequência de verificações, as ferramentas que podem ajudar e o formato de resposta esperado. Inclua o que fazer quando informações estiverem ausentes ou contraditórias. Um playbook que cobre apenas o caminho feliz deixa o agente inventar um procedimento exatamente quando a situação se torna difícil.
 
@@ -46,17 +56,24 @@ Por exemplo, se o cliente disser que um item chegou danificado, o pedido não pu
 
 Os exemplos a seguir são esboços ilustrativos de playbooks, não políticas de negócio completas. Observe que cada um especifica uma tarefa e um estado final, em vez de apenas escolher um tom de voz.
 
+
 **Suporte**
 
 **Revisão de reembolso:** estabelecer o que o cliente deseja, consultar a política aplicável, verificar o registro de pedido autorizado e identificar qualquer necessidade de aprovação. Concluir com fatos confirmados, informações ausentes e a próxima ação permitida. Não descreva uma solicitação de revisão como um reembolso aprovado.
+
 
 **Vendas**
 
 **Elaboração de cotação:** confirmar os produtos, quantidades e necessidades de entrega solicitados. Obter informações comerciais atuais de fontes aprovadas. Separar termos confirmados de suposições e sinalizar exceções para revisão. Concluir com uma cotação preliminar; não insinuar que elaborá‑la aceita um pedido.
 
+
 **Back office**
 
 **Consulta de fatura:** esclarecer a discrepância, comparar a fatura com registros de apoio autorizados e resumir a diferença. Pedir à pessoa responsável que resolva a evidência ausente. Concluir com uma explicação revisável, não com uma alteração não aprovada no registro contábil.
+
+
+
+
 
 Um bom rascunho costuma vir de quem já realiza o trabalho. Peça que explique o raciocínio por trás de suas decisões, não apenas os cliques que realiza. “Abrir este painel” é frágil se a tela mudar. “Verificar se um reembolso já foi registrado antes de enviar outra solicitação” captura um requisito de negócio que permanece útil em diferentes interfaces.
 
@@ -66,21 +83,29 @@ Um bom rascunho costuma vir de quem já realiza o trabalho. Peça que explique o
 
 Não presuma que mudar a habilidade atualiza automaticamente cada cópia ou anexo em todas as plataformas. Verifique como seu sistema distribui as mudanças. Antes do lançamento, confirme as instruções que cada agente afetado realmente receberá, junto com suas ferramentas disponíveis e regras permanentes. Um playbook testado com um agente interno de suporte pode falhar com um agente público que não tem acesso aos mesmos registros.
 
+
 1. **Rascunhar com o responsável pela tarefa**
 
 Capture o propósito, pré‑requisitos, pontos de decisão e limites. Use exemplos sanitizados que não contenham registros de clientes ou credenciais.
+
 
 2. **Testar seleção e execução**
 
 Verifique se o agente escolhe a habilidade para solicitações relevantes e a evita para as não relacionadas. Em seguida, confirme que ele segue o método.
 
+
 3. **Revisar antes de compartilhar**
 
 Faça com que a equipe responsável aprove a revisão. Teste as permissões de cada agente anexado e o comportamento de ferramenta ausente antes do uso mais amplo.
 
+
 4. **Monitorar e revisar**
 
 Mantenha a revisão aprovada anterior, investigue falhas e repita as verificações após mudanças nas políticas, ferramentas ou instruções.
+
+
+
+
 
 Testar requer mais do que uma resposta educada final. Inclua uma solicitação normal, fatos ausentes, uma exceção disputada e uma ferramenta indisponível. Verifique se o agente consultou a fonte correta, preservou a incerteza e parou no limite de aprovação. Também teste uma conversa que muda de assunto: um playbook de reembolso não deve distorcer uma pergunta posterior sobre cuidados com o produto.
 

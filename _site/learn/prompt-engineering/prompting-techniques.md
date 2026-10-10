@@ -10,6 +10,7 @@ The word **shot** in prompting means a demonstrated example of the task. A zero-
 
 The tabs below use fictional support tasks. Read them as alternative starting points, not a checklist of ingredients that must all be combined. Each technique changes a different part of the briefing.
 
+
 **Zero-shot**
 
 **Use when:** the task and categories are already clear.
@@ -17,6 +18,7 @@ The tabs below use fictional support tasks. Read them as alternative starting po
 “Classify the customer message as delivery, billing or other. Use delivery for shipment-status questions and billing for invoice or payment questions. Return one label only. Message: Where can I download my invoice?”
 
 This is zero-shot because it explains the task without demonstrating a completed case.
+
 
 **Few-shot**
 
@@ -32,6 +34,7 @@ Example: ‘Can I change my contact name?’ → other.
 
 Now classify: ‘The payment appears twice.’ Return one label.”
 
+
 **Step-by-step reasoning**
 
 **Use when:** the task involves several dependent checks.
@@ -39,6 +42,7 @@ Now classify: ‘The payment appears twice.’ Return one label.”
 “Compare the supplied return policy with the supplied purchase details. Check eligibility and identify missing evidence before answering. Give the decision, the relevant policy clause and a brief explanation. Do not invent missing dates.”
 
 This asks for a checkable result rather than a transcript of private internal reasoning.
+
 
 **Structured output**
 
@@ -48,6 +52,7 @@ This asks for a checkable result rather than a transcript of private internal re
 
 An illustrative result is `{"category":"billing","needs_review":true}`. The schema, not just this sentence, defines allowed fields and values.
 
+
 **Role prompting**
 
 **Use when:** viewpoint and audience affect the explanation.
@@ -55,6 +60,7 @@ An illustrative result is `{"category":"billing","needs_review":true}`. The sche
 “Act as a support editor explaining a billing correction to a customer with no accounting background. Use everyday language. Explain the correction using only the supplied account notes; do not approve a credit.”
 
 The role sets a useful communication perspective. It does not grant accounting credentials or payment permissions.
+
 
 **Delimiters**
 
@@ -70,6 +76,10 @@ END CUSTOMER MESSAGE”
 
 These markers are delimiters: visible boundaries between different kinds of text.
 
+
+
+
+
 ## Begin without examples, then add useful ones
 
 Zero-shot prompting is a sensible first experiment for a familiar task such as summarising a short letter. It keeps the input compact and makes the instruction easy to inspect. If the answer fails, first ask whether the goal, evidence or output requirements were missing. An example cannot repair a task whose definition keeps changing.
@@ -78,6 +88,7 @@ Few-shot prompting is especially helpful when your organisation uses unusual cat
 
 Examples guide the current request; they do not normally retrain the model or permanently teach the service. Include them again when they are needed. Check that each example follows the written rules. A demonstration labelled “delivery” for a payment dispute teaches the opposite of the instruction, even if it was simply a copy-and-paste mistake.
 
+
 **Accuracy versus number of examples (illustrative)**
 
 | | 0 examples | 1 example | 3 examples | 5 examples | 8 examples |
@@ -85,6 +96,8 @@ Examples guide the current request; they do not normally retrain the model or pe
 | Correct labels in a fictional test | 62% | 72% | 81% | 83% | 82% |
 
 Invented teaching values, not a benchmark or a prediction. Useful examples can help, but extra examples may add little or introduce confusion.
+
+
 
 To see whether examples help your task, hold back a set of messages that are not in the prompt. Test the short prompt and the example-based prompt on those same messages. Compare incorrect categories, missing fields and cases that should have gone to a human. A pleasing answer to one sample is not evidence that the technique improved the workflow.
 
@@ -96,17 +109,23 @@ To see whether examples help your task, hold back a set of messages that are not
 
 Ask for a brief rationale, cited evidence or a reproducible calculation when those help someone check the answer. These are useful work products, not access to the model's private reasoning. For arithmetic or business rules that must be exact, use an appropriate calculation or validation tool rather than treating a long written explanation as a substitute.
 
+
 **Length mistaken for reliability**
 
 “Think through every possible issue in exhaustive detail. Show every thought and guarantee that the customer qualifies.”
 
 This presupposes a decision and rewards volume rather than verification.
 
+
 **A checkable decision**
 
 “Determine whether the supplied policy permits the request. Return the decision, supporting policy clause and any missing information. If eligibility cannot be established, route for review.”
 
 The result can be compared with evidence and an agreed process.
+
+
+
+
 
 ## Make machine-readable answers explicit
 
@@ -120,11 +139,15 @@ Related: on AIVAX, this capability is documented as [Structured responses](https
 
 Role prompting can make a message more appropriate for its audience, while delimiters make source boundaries easier to read. Neither adds knowledge the model was not given. Neither prevents a malicious document from trying to redirect the assistant. Access controls and validation still belong in the surrounding application.
 
+
 - **Clarify the task** — Start with the outcome, audience and relevant source. Add a role only when it explains how the work should be approached.
 
 - **Demonstrate a boundary** — Use examples for genuine ambiguity. Include a difficult case and make sure its answer agrees with the rules.
 
 - **Check the result** — Specify the required format, validate important facts and define what happens when information is missing.
+
+
+
 
 For the support sorter, a concise instruction, a few boundary examples and a schema may be enough. For drafting a friendly internal note, ordinary prose may be better than JSON. The right technique is the simplest one that improves the measured outcome without adding unnecessary input or maintenance.
 

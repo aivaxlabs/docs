@@ -10,19 +10,26 @@ Sem um protocolo comum, cada equipe de integração deve concordar como listar o
 
 “Conectar qualquer ferramenta a qualquer agente” descreve a ambição, não uma garantia. Ambos os lados devem suportar recursos de protocolo compatíveis e um método de conexão compatível. O agente ainda precisa das credenciais corretas, instruções sensatas e um modelo capaz de escolher a operação. Um conector padrão não pode fazer um serviço indisponível funcionar ou transformar uma operação de negócio arriscada em segura.
 
+
 **Bespoke integration**
 
 Cada aplicação de agente obtém sua própria conexão com o sistema de suporte. Isso pode ser simples para uma necessidade pequena e específica, mas as mudanças podem precisar ser repetidas em várias aplicações.
 
+
 **Standard integration**
 
 O sistema de suporte expõe um servidor MCP. Clientes compatíveis podem descobrir as mesmas definições de ferramenta através de regras de comunicação compartilhadas, enquanto cada implantação ainda controla o acesso.
+
+
+
+
 
 Nenhuma abordagem é sempre melhor. Uma única conexão fixa pode ser mais fácil de manter como uma interface de programação de aplicações ordinária, ou **API**: uma forma definida para um programa solicitar trabalho de outro. O MCP torna‑se útil quando a descoberta e reutilização entre várias aplicações de agente resolvem um problema real. Adotá‑lo apenas porque está na moda pode acrescentar uma camada desnecessária.
 
 ## Conheça o servidor e o cliente
 
 Um **servidor** é o software que oferece capacidades. Um **cliente MCP** é a parte de uma aplicação de agente que se conecta a esse servidor. A pessoa que usa o assistente normalmente não vê essa troca. Ela faz uma pergunta; a aplicação trata a conexão e disponibiliza as ferramentas ao modelo.
+
 
 - **Server** — Oferece um catálogo de capacidades, como pesquisar documentos aprovados ou ler um ticket. Executa as operações solicitadas dentro de seus próprios controles de acesso.
 
@@ -31,6 +38,9 @@ Um **servidor** é o software que oferece capacidades. Um **cliente MCP** é a p
 - **Tools** — Operações nomeadas com entradas e resultados descritos. Uma pesquisa é uma chamada de ferramenta; mudar o proprietário de um ticket é uma ferramenta diferente com consequências distintas.
 
 - **Resources** — Informações disponibilizadas para um cliente ler, como o conteúdo de um documento. O suporte a recursos e como eles aparecem aos usuários dependem do cliente e do servidor.
+
+
+
 
 A distinção entre ferramentas e recursos ajuda a evitar um mal‑entendido comum. O MCP é mais amplo que uma lista de ações, mas um produto específico pode implementar apenas as partes que necessita. Um servidor que oferece recursos não significa que todo assistente conectado lerá automaticamente. Verifique as capacidades dos produtos reais, ao invés de assumir que o nome do protocolo promete todas as funcionalidades.
 
@@ -52,11 +62,15 @@ Por exemplo, um assistente interno pode descobrir uma ferramenta que pesquisa o 
 
 A integração de agentes não chegou de uma só vez. A progressão abaixo é uma orientação, não um histórico preciso de lançamentos. As abordagens se sobrepõem e permanecem úteis juntas: protocolos frequentemente carregam operações que um modelo seleciona por meio de chamadas de função.
 
+
 - **Early 2020s, approximately — Application-specific plugins**: Assistentes ganham extensões construídas para um aplicativo host específico. Uma integração pode ser útil, mas reutilizar em outro lugar costuma exigir novo trabalho de conexão.
 
 - **Around 2023 onwards — Structured function calling**: Modelos solicitam cada nomeadas com argumentos estruturados ao invés de apenas descrever ações em prosa. As aplicações permanecem responsáveis pela execução.
 
 - **Late 2024 onwards — Shared agent protocols**: O MCP oferece regras comuns de descoberta e comunicação. Aplicações compatíveis podem reutilizar servidores ao invés de projetar cada conexão do zero.
+
+
+
 
 A mudança prática está em onde o trabalho de integração reside. Autores de ferramentas podem concentrar‑se em operações de negócio confiáveis e descrições claras. Autores de clientes podem concentrar‑se em ajudar as pessoas a usar ferramentas descobertas com segurança. Contudo, um padrão compartilhado não remove a propriedade: alguém ainda precisa manter o servidor, gerenciar mudanças e responder quando uma dependência falha.
 
@@ -72,9 +86,13 @@ O catálogo útil menor costuma ser mais fácil de gerenciar do que um muito gra
 
 Não. Servidores podem ser usados em diferentes arranjos de implantação, incluindo ambientes locais e remotos, quando o cliente suporta o método de conexão necessário. “Servidor” descreve um papel, não uma promessa de que o serviço seja público. A implantação ainda precisa de uma fronteira de segurança adequada.
 
+
+
 **Can I trust a server because its tools appear in the catalogue?**
 
 A descoberta apenas informa o que o servidor anuncia. Ela não certifica o operador, verifica cada descrição ou aprova cada ação. Avalie o operador e o acesso solicitado, teste as ferramentas e forneça um meio de desativar a conexão.
+
+
 
 ## Escolha uma conexão que você possa operar
 

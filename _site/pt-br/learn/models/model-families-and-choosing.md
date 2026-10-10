@@ -8,11 +8,15 @@ Um **modelo** é um sistema treinado que transforma uma entrada, como uma pergun
 
 As pessoas costumam descrever os modelos como pequeno, médio ou grande. Essas são categorias relativas, não uma medida da indústria. Os rótulos geralmente refletem a escala do modelo e os recursos necessários para executá-lo. Novas técnicas de treinamento podem tornar um modelo pequeno mais recente mais eficaz em uma tarefa do que um modelo grande mais antigo.
 
+
 - **Pequeno** — Um ponto de partida útil para trabalho estreito e repetitivo: classificar mensagens, extrair uma data ou reescrever uma resposta curta. Verifique como lida com casos incomuns.
 
 - **Médio** — Um candidato para conversas mais amplas e instruções com várias condições. Pode oferecer flexibilidade suficiente sem a sobrecarga de um modelo maior.
 
 - **Grande** — Um candidato para interpretação difícil e tarefas que envolvem vários requisitos interativos. Sua capacidade adicional só importa se seus testes demonstrarem um benefício.
+
+
+
 
 O tamanho sozinho não indica se um modelo pode ler imagens, chamar uma ferramenta de negócios ou seguir um formato de saída. Um modelo grande apenas de texto não pode inspecionar uma fotografia simplesmente porque é grande. Da mesma forma, um modelo que escreve textos de vendas elegantes pode extrair campos de fatura com menos confiabilidade do que um modelo menor escolhido para essa tarefa.
 
@@ -38,6 +42,7 @@ Antes de comparar a qualidade da escrita, elimine candidatos que não podem exec
 
 **Qualidade** significa atender aos requisitos da tarefa, não apenas soar polido. **Latência** significa quanto tempo o usuário espera por uma resposta. **Custo** inclui o uso do modelo e quaisquer trabalhos auxiliares, como busca de documentos, tentativas repetidas e revisão humana. Esses fatores interagem: uma resposta barata que precisa de correções recorrentes pode custar mais no total do que uma tentativa inicial mais forte.
 
+
 **Custo relativo ilustrativo de processamento por nível**
 
 | Item | Value |
@@ -48,31 +53,42 @@ Antes de comparar a qualidade da escrita, elimine candidatos que não podem exec
 
 Valores de ensino inventados, não preços ou relação universal. O custo real depende do modelo, hospedagem, comprimento da entrada, comprimento da saída e carga de trabalho.
 
+
+
 O triângulo é uma ajuda de decisão, não uma lei que diz que a melhoria sempre custa mais. Um especialista bem adequado pode melhorar tanto a velocidade quanto a qualidade. Entradas mais curtas, instruções mais claras ou documentos de origem melhores podem ajudar sem mudar os modelos. Meça todo o fluxo de trabalho antes de assumir que o modelo em si é o gargalo.
 
 Um assistente de voz ao vivo tem pouca margem para longas pausas. Um relatório noturno pode tolerar mais espera se o resultado for melhor. Uma fila de back-office que lida com muitos registros semelhantes pode valorizar um custo operacional previsível. Anote essas necessidades antes de testar, para que uma demonstração impressionante não altere silenciosamente os critérios de aceitação.
 
 ## Um procedimento de seleção repetível
 
+
 1. **Definir um resultado aceitável**
 
 Descreva o trabalho, evidências necessárias, formato, idiomas e erros inaceitáveis. Decida quais ações ainda requerem uma pessoa.
+
 
 2. **Filtrar por capacidade e política**
 
 Verifique suporte a mídia, ferramentas, manipulação de dados e limites práticos de entrada. Remova opções incompatíveis antes de comparar seus textos.
 
+
 3. **Começar com um candidato modesto**
 
 Experimente um modelo pequeno ou médio que atenda aos requisitos. Adicione um candidato mais capaz quando a tarefa ou falhas observadas justificarem.
+
 
 4. **Testar o mesmo trabalho**
 
 Use as mesmas perguntas, documentos de origem e regras de pontuação para cada candidato. Registre a correção, tempo de espera e trabalho total necessário.
 
+
 5. **Escolher e continuar verificando**
 
 Selecione o arranjo menos custoso que atenda aos requisitos de qualidade e tempo. Reavalie após mudar modelos, instruções ou políticas de negócios.
+
+
+
+
 
 Use exemplos de trabalho real, com informações privadas removidas ou substituídas. Inclua solicitações ordinárias, solicitações vagas, informações ausentes, instruções conflitantes e casos que devem ser encaminhados a uma pessoa. Reserve alguns exemplos para a comparação final ao invés de ajustar repetidamente o prompt para todo o conjunto de teste. Caso contrário, você pode aprender a passar nos exemplos em vez de atender novos clientes.
 
@@ -80,17 +96,24 @@ Avalie o resultado antes de observar qual modelo o produziu, quando prático. Pa
 
 ## Combine a recomendação à tarefa
 
+
 **Triagem de suporte**
 
 Comece com um candidato pequeno para atribuir mensagens a uma lista fixa de equipes. Teste mensagens com tópicos mistos e forneça uma rota “incerta” ao invés de forçar uma categoria confiante.
+
 
 **Redação de vendas**
 
 Experimente um candidato de uso geral com fatos de produto aprovados e um público claro. Compare o esforço de edição, não apenas o quão entusiasmado o primeiro rascunho soa.
 
+
 **Conselho interno complexo**
 
 Compare candidatos mais fortes usando os mesmos documentos de origem e processo de revisão. Exija evidência e escalonamento quando os documentos não resolverem a questão.
+
+
+
+
 
 No AIVAX, escolhas reutilizáveis de modelo e instruções podem ser gerenciadas através de um [AI gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Relacionado: o [guia de inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md) descreve solicitações diretas ao modelo e opções suportadas. Considere a configuração como parte do sistema testado: mudar o modelo por trás de um nome de assistente estável ainda pode mudar seu comportamento.
 

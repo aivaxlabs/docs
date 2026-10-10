@@ -10,11 +10,15 @@ On a geographical map, places near each other have similar coordinates. In an em
 
 The map is only an analogy. An embedding has many numerical coordinates, not just a north–south and east–west position. Individual coordinates usually do not have simple labels such as “refund” or “customer happiness.” The representation compresses information into a form useful for comparison; it is not a complete, readable copy of the original meaning.
 
+
 - **Text** — The question or passage you want to compare, such as a customer's request or a paragraph from a returns policy.
 
 - **Embedding** — A numerical representation created by an embedding model. The same compatible model setup must be used for the material being compared.
 
 - **Similarity** — A measure of how close two representations are. It helps rank candidates, but it does not prove that a passage answers the question.
+
+
+
 
 An embedding model does not write the answer a customer sees. It helps locate promising source material. A separate language model can read that material and compose a reply, or an ordinary application can display the matching documents without generating anything. Keeping search and answer writing separate makes problems easier to diagnose.
 
@@ -24,21 +28,29 @@ The original text still matters. If you retain only numbers without a connection
 
 **Indexing** means preparing content so the system can search it efficiently later. Long documents are often divided into **chunks**, smaller passages that stay focused on a topic. Splitting a policy at a sensible section boundary helps; splitting a sentence away from its exception can make the resulting passage misleading.
 
+
 1. **Prepare useful passages**
 
 Keep a policy rule together with the conditions needed to understand it. Retain a source reference and remove obsolete duplicates.
+
 
 2. **Create and store representations**
 
 An embedding model converts each passage into numbers. The search system stores those numbers with a way to recover the original passage.
 
+
 3. **Represent the question**
 
 The system converts the user's question using a compatible embedding model and compares it with the stored representations.
 
+
 4. **Return candidates**
 
 The closest eligible passages become candidate results. Check relevance and permissions before using them as evidence in an answer.
+
+
+
+
 
 **Candidates** are possible matches, not verified answers. A question about refund timing might retrieve a general returns policy, a bank-processing note, and an old promotional exception. All may be related to refunds, but only some apply to the customer's situation. Search narrows the reading task; it does not remove the need to interpret the evidence.
 
@@ -47,6 +59,8 @@ A model change can also change the map. Embeddings from unrelated models, or inc
 ## Try related wording
 
 > **Interactive demo: Try it: different words can point to the same topic.** This interactive demo is available on the web page. Try “money back,” “refund,” and “delivery.” This is a simplified local teaching demo with predefined matching terms, not a live embedding model or a measure of search quality. Real semantic search represents content numerically rather than relying on this small term list.
+
+
 
 The useful observation is the change in vocabulary, not a score from the demo. People describe the same need in different ways. Search tests should therefore include customers' language, abbreviations, misspellings, and the terminology used inside your organisation. A test made only from document headings can look successful while failing ordinary user questions.
 
@@ -66,13 +80,18 @@ Do not use similarity as an access-control decision. Whether a person may read a
 
 User question → Eligible source search → Relevant passages → Model reads evidence → Answer with source references
 
+
 RAG does not retrain the model with each search. It places evidence in the current request. If the right passage is missing, outdated, or misunderstood, the answer can still be wrong. An answer with a citation also needs checking: the cited passage must actually support the claim, not merely discuss the same topic.
 
 A **reranker** takes an existing set of candidates and reorders them for the question. It can make the most useful passage easier to select, but cannot recover a document that was never retrieved. This distinction prevents an expensive mistake: adding a reranker when the real problem is missing source material or an incorrect eligibility filter.
 
+
 - **3** — separate checks: evidence exists, retrieval finds it, answer uses it
 
 - **0** — new documents recovered by reranking an unchanged candidate set
+
+
+
 
 For a practical review, collect questions with known supporting passages. Check whether the passages appear among the candidates, whether they are near the top, and whether unrelated material is being included. Then review the final answers separately. This separates a search failure from a writing failure and gives the team a specific place to improve.
 

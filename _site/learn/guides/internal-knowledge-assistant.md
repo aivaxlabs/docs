@@ -8,35 +8,48 @@ Imagine a fictional organisation called Cedar Office. It wants one entry point f
 
 Start by interviewing the people who answer recurring questions. Ask what employees find confusing, which answers vary by location or role, and which issues must remain private. “Help employees find the correct travel policy” is a manageable objective. “Know everything about the company” is not.
 
+
 - **Shared guidance** — Published employee policies, service-desk instructions, and approved office procedures can support general questions when they apply to the current employee.
 
 - **Restricted guidance** — Department-specific procedures require an access decision before retrieval. A document being searchable does not mean every employee may read it.
 
 - **Private records** — Personnel cases, medical details, individual payroll records, and disciplinary files do not belong in the general pilot collection.
 
+
+
+
 A **wiki** is a set of collaboratively maintained pages. It may contain useful material, but popularity is not authority. A widely linked page can still be outdated. **Metadata** means descriptive labels attached to a document, such as owner, department, effective date, and permitted audience. These labels help organise retrieval; their accuracy needs an owner too.
 
 ## Prepare a reliable reference shelf
+
 
 1. **Inventory the sources**
 
 List candidate policies, wiki pages, and service guides with their owners. Identify duplicate, contradictory, draft, and expired material before importing it.
 
+
 2. **Rewrite the difficult answers**
 
 Give each policy a clear title, scope, effective date, and concrete procedure. Keep exceptions beside the rule they qualify, rather than in an unrelated attachment.
+
 
 3. **Assign access rules**
 
 Mark the permitted audience and connect access checks to the organisation's trusted identity system. Do not let an employee grant themselves access by typing a department name.
 
+
 4. **Build answers around evidence**
 
 Retrieve only permitted passages, then answer with the source title and a link the employee can open. If the passages do not resolve the question, say so.
 
+
 5. **Review and improve**
 
 Pilot with representatives from each department. Collect feedback, inspect unresolved questions, and give policy owners a recurring review task.
+
+
+
+
 
 Read [Finding and preparing knowledge](https://docs.aivax.net/learn/teaching-agents/finding-and-preparing-knowledge.md) for source selection and [Writing good documents](https://docs.aivax.net/learn/teaching-agents/writing-good-documents.md) for clear, self-contained procedures. Better source material often fixes a confusing answer more directly than adding another instruction to the agent.
 
@@ -56,33 +69,48 @@ If the chosen retrieval path cannot enforce the required boundary, separate the 
 
 A **citation** identifies the source supporting a claim. It should lead to the relevant document or section, not just the company home page. Mention scope when it changes the answer: “The domestic travel policy says…” is safer than “Everyone may claim…”. Do not treat a citation as decoration; check that the cited passage actually supports the statement.
 
+
 **Confident but unsupported**
 
 “You can expense any home-office equipment. That is probably covered by the general expenses policy.”
+
 
 **Useful uncertainty**
 
 “I found the travel expenses policy, but it does not cover home-office equipment. I cannot confirm eligibility from the available guidance. The finance help route can clarify it.”
 
+
+
+
+
 “I don't know” should come with a useful next step. State what was found, what remains unresolved, and the responsible team. Do not reveal that a restricted document exists if its existence is itself sensitive. Conflicting policies also require a pause: explain the conflict to the appropriate owner instead of inventing a compromise.
 
 > **Interactive demo: Try it: a small fictional employee reference shelf.** This interactive demo is available on the web page. This small demonstration shows matching against sample documents. It does not implement employee authentication, departmental permissions, or a production semantic search system. Try a question the shelf cannot answer and notice why missing evidence matters.
+
+
 
 ## Adapt the answer to the department
 
 The same answer pattern works across teams: identify the question, check scope, find evidence, explain the procedure, and offer the appropriate help route. What changes is the permitted information and the consequence of being wrong.
 
+
 **HR**
 
 An employee asks how to request leave. Give the published procedure applicable to their employment location and explain where approval happens. Do not disclose colleagues' leave or infer health information. A personal dispute goes to the confidential HR route, not a general policy answer.
+
 
 **IT**
 
 An employee cannot connect a work laptop. Offer approved troubleshooting that does not weaken security. Never ask them to paste passwords or recovery codes. If access recovery is needed, direct them to the verified recovery process instead of treating chat as identity proof.
 
+
 **Finance**
 
 An employee asks whether a receipt is required. Cite the applicable expense rule and identify exceptions that are actually documented. Do not claim an expense is approved or reveal another employee's reimbursements. An unusual claim needs the authorised reviewer.
+
+
+
+
 
 ## Add feedback that leads to a correction
 

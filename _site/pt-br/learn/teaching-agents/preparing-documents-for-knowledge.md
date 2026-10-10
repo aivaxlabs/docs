@@ -10,23 +10,32 @@ Preparar documentos significa transformar essas fontes em material preciso e com
 
 Fonte aprovada → Converter e limpar → Dividir por significado → Rotular e revisar → Indexar e testar
 
+
 Comece com uma amostra pequena e representativa em vez de todo o arquivo. Inclua um documento simples e um difícil, como uma folha de garantia escaneada. Decida quais perguntas o agente deve responder de cada fonte. Essas perguntas se tornam verificações práticas: o texto preparado ainda pode explicar se a bateria da Trail Lamp está coberta, incluindo exceções?
+
 
 1. **Confirmar a fonte**
 
 Verifique propriedade, aprovação, atualidade e permissão para usar o conteúdo. Mantenha uma referência ao original e identifique qual versão é autoritária.
 
+
 2. **Inspecionar o texto extraído**
 
 Leia o resultado convertido ao lado do original. Verifique títulos, ordem de leitura, tabelas e avisos antes de torná‑lo pesquisável.
+
 
 3. **Preparar unidades de conhecimento completas**
 
 Separe tópicos não relacionados, retenha condições necessárias e anexe rótulos úteis a cada passagem.
 
+
 4. **Testar perguntas representativas**
 
 Busque fatos, exceções e paráfrases comuns. Revise as passagens retornadas, não apenas a resposta final.
+
+
+
+
 
 ## Limpar ruído sem excluir significado
 
@@ -40,6 +49,7 @@ Mantenha a limpeza distinta da reescrita de política. Se a fonte diz que uma fa
 
 **Extração** transforma informações de uma fonte em texto ou outra representação utilizável. Alguns PDFs contêm texto selecionável; outros contêm imagens de página. **Reconhecimento óptico de caracteres**, geralmente chamado OCR, reconhece letras em imagens. OCR pode ler incorretamente texto pequeno, pontuação e números, portanto, uma saída aparentemente fluente ainda precisa ser verificada contra a fonte.
 
+
 - **Documentos PDF** — Verifique a ordem das páginas, colunas e notas de rodapé. Uma frase de uma coluna vizinha não deve se tornar parte da regra de garantia.
 
 - **Slides de apresentação** — Mantenha títulos de slides e notas explicativas juntos. Um ponto curto pode depender de um diagrama ou da explicação do apresentador.
@@ -47,6 +57,9 @@ Mantenha a limpeza distinta da reescrita de política. Se a fonte diz que uma fa
 - **Planilhas** — Transfira cabeçalhos de coluna, unidades e nomes de planilhas relevantes para o texto. Um valor de célula sem seu produto e condição não é um fato completo.
 
 - **Imagens** — Use OCR para texto escrito e descrições para relacionamentos visuais. Preserve a incerteza quando um rótulo ou símbolo não puder ser lido de forma confiável.
+
+
+
 
 Para slides, “Extended coverage” sob uma foto de produto pode não explicar o que está coberto ou para quem. Obtenha uma explicação aprovada em vez de gerar política faltante a partir da imagem. Para planilhas, preserve a diferença entre um resultado exibido e a fórmula usada para calculá‑lo. Uma passagem preparada deve nomear o produto, a medida e quaisquer condições, em vez de listar células desconexas.
 
@@ -60,17 +73,23 @@ Um **fragmento** é uma passagem armazenada ou tratada como uma unidade pesquis�
 
 Comece com limites naturais, como títulos, respostas completas e seções de procedimento. Mantenha uma regra com suas condições e exceções. Retenha o nome do produto quando uma passagem de outra começasse com “este dispositivo”. Se a fonte já consiste em respostas curtas e autônomas, divisão adicional pode criar trabalho sem melhorar a recuperação.
 
+
 **Fragmento grande demais**
 
 Uma única passagem da Trail Lamp contém instruções de carregamento, regras de garantia, descarte de embalagem e todo o catálogo de acessórios.
 
 Uma pergunta sobre cobertura de bateria traz uma grande quantidade de material não relacionado, dificultando a identificação da exceção importante.
 
+
 **Tamanho adequado para a pergunta**
 
 Uma passagem chamada “Garantia da bateria da Trail Lamp” contém a regra de cobertura, requisito de inspeção e exclusões da fonte aprovada.
 
 A passagem permanece focada enquanto preserva as condições necessárias para responder com precisão.
+
+
+
+
 
 Fragmentos muito pequenos também são um problema. “Requer inspeção” não é útil sozinho se o produto e a falha relevante aparecerem em outra passagem. **Sobreposição** significa repetir algum texto entre fragmentos vizinhos para preservar a continuidade. Pode ajudar nos limites, mas sobreposição excessiva produz resultados duplicados e mais manutenção. Prefira estrutura sensata antes de adicionar texto repetido.
 

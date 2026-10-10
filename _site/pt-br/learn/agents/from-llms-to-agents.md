@@ -14,33 +14,44 @@ Ao longo desta unidade, imagine um assistente de entregas ajudando um cliente co
 
 A construção a seguir é uma sequência de ensino, não um requisito para adiar a segurança até o fim. Em uma aplicação real, limites de permissão devem existir antes que qualquer ação consequente esteja disponível. As camadas trabalham juntas, e algumas aplicações as organizam sob nomes diferentes.
 
+
 1. **Instruções: definir o trabalho**
 
 Explique que o assistente lida com perguntas sobre entregas, solicita informações faltantes e nunca promete um substituto sem confirmação. As instruções descrevem o comportamento desejado, não a permissão técnica.
+
 
 2. **Contexto: fornecer o caso atual**
 
 Inclua a pergunta do cliente, o histórico relevante da conversa e os detalhes verificados que a aplicação tem permissão para compartilhar. O modelo agora tem um caso para trabalhar, em vez de um problema abstrato.
 
+
 3. **Ferramentas: expor ações permitidas**
 
 Forneça um meio de consultar o pedido ou preparar um ticket. O modelo pode solicitar uma operação, enquanto o software ao redor valida e a executa.
+
 
 4. **Conhecimento: fornecer material autoritário**
 
 Disponibilize a política atual de entrega danificada. O assistente pode basear sua explicação em orientações aprovadas, em vez de uma expectativa genérica sobre devoluções no varejo.
 
+
 5. **Habilidades: empacotar métodos repetíveis**
 
 Forneça um manual reutilizável para coletar evidências e redigir uma solicitação de revisão. Isso evita recriar o procedimento de forma independente em cada assistente.
+
 
 6. **Barreiras de segurança: aplicar os limites**
 
 Verifique o acesso, restrinja ações disponíveis e direcione exceções a uma pessoa. Uma solicitação fora da autoridade do assistente não deve se tornar uma mudança no sistema apenas porque está bem formulada.
 
+
 7. **Memória: reter informações selecionadas**
 
 Quando justificado e permitido, salve informações úteis para interações posteriores. Mantenha evidências temporárias do caso separadas das informações que devem sobreviver entre conversas.
+
+
+
+
 
 Instruções respondem “Como você deve trabalhar?” Contexto responde “O que está acontecendo agora?” Ferramentas respondem “Quais operações você pode solicitar?” Conhecimento responde “Qual material de referência deve apoiar a resposta?” Essas distinções facilitam o diagnóstico de falhas. Se uma resposta de política estiver desatualizada, mudar o tom do assistente não a corrigirá. Se a consulta ao pedido for proibida, adicionar mais texto de política não a tornará permitida.
 
@@ -52,11 +63,15 @@ Um documento de política pode dizer que clientes elegíveis podem receber subst
 
 Mantenha essa separação visível ao projetar o assistente. O modelo pode explicar uma política, fazer uma pergunta ou propor uma ação. O software responsável por um registro de negócio deve decidir se a ação solicitada é autorizada e válida. Essa decisão não deve depender apenas do modelo lembrar de uma frase de suas instruções.
 
+
 - **Informação** — “A política permite substituto após revisão.” Isso ajuda a explicar o processo, mas não prova que este caso se qualifica.
 
 - **Ação proposta** — “Prepare uma solicitação de substituto para este pedido.” Isso é uma solicitação ao software, não evidência de que um substituto exista.
 
 - **Resultado confirmado** — “A solicitação de revisão foi criada.” Essa afirmação requer um resultado bem‑sucedido do sistema responsável.
+
+
+
 
 Essa distinção também ajuda os usuários. O assistente deve dizer se está rascunhando, solicitando, aguardando ou confirmando. São estados diferentes. Uma frase tranquilizadora que os mistura pode fazer alguém parar de buscar ajuda quando nenhuma ação real ocorreu.
 
@@ -65,6 +80,7 @@ Essa distinção também ajuda os usuários. O assistente deve dizer se está ra
 Suponha que o cliente explique que o pacote chegou danificado. A aplicação fornece as instruções do assistente e as informações disponíveis do caso. O modelo pode decidir que precisa do status do pedido antes de responder. A aplicação verifica se o usuário pode acessar aquele pedido, realiza a consulta e devolve um resultado permitido. Um trecho relevante da política também é fornecido quando necessário.
 
 Solicitação do cliente → Instruções e contexto relevante → Modelo escolhe o próximo passo → Aplicação verifica e executa a ação → Resultado informa a resposta
+
 
 O modelo agora tem fundamentos melhores para sua resposta. Ele pode explicar como enviar evidências, preparar um ticket de revisão ou fazer uma pergunta de esclarecimento. Se o serviço de pedidos estiver indisponível, a resposta deve refletir essa limitação. Se a política excluir o caso, o assistente deve explicar a rota disponível seguinte, em vez de reinterpretar a política para satisfazer o cliente.
 

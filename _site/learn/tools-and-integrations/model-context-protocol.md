@@ -10,19 +10,26 @@ Without a common protocol, each integration team must agree how to list operatio
 
 “Plug any tool into any agent” describes the ambition, not a guarantee. Both sides must support compatible protocol features and a compatible connection method. The agent still needs the right credentials, sensible instructions and a model capable of choosing the operation. A standard connector cannot make an unavailable service work or turn a risky business operation into a safe one.
 
+
 **Bespoke integration**
 
 Each agent application gets its own connection to the support system. This can be simple for a small, specific need, but changes may need repeating across several applications.
 
+
 **Standard integration**
 
 The support system exposes an MCP server. Compatible clients can discover the same tool definitions through shared communication rules, while each deployment still controls access.
+
+
+
+
 
 Neither approach is always better. A single fixed connection may be easier to maintain as an ordinary application programming interface, or **API**: a defined way for one program to request work from another. MCP becomes useful when discovery and reuse across several agent applications solve a real problem. Adopting it solely because it is fashionable can add a layer nobody needs.
 
 ## Meet the server and the client
 
 A **server** is the software offering capabilities. An **MCP client** is the part of an agent application that connects to that server. The person using the assistant does not normally see this exchange. They ask a question; the application handles the connection and makes available tools visible to the model.
+
 
 - **Server** — Offers a catalogue of capabilities, such as searching approved documents or reading a ticket. It executes requested operations within its own access controls.
 
@@ -31,6 +38,9 @@ A **server** is the software offering capabilities. An **MCP client** is the par
 - **Tools** — Named operations with described inputs and results. A search is a tool call; changing a ticket owner is a different tool with different consequences.
 
 - **Resources** — Information made available for a client to read, such as document content. Resource support and how it appears to users depend on the client and server.
+
+
+
 
 The distinction between tools and resources helps avoid a common misunderstanding. MCP is broader than a list of actions, but a particular product may implement only the parts it needs. A server offering resources does not mean that every connected assistant will automatically read them. Check the capabilities of the actual products, rather than assuming that the protocol name promises every feature.
 
@@ -52,11 +62,15 @@ For example, an internal assistant can discover a tool that searches the employe
 
 Agent integration did not arrive in one step. The broad progression below is an orientation, not a precise release history. The approaches overlap and remain useful together: protocols often carry operations that a model selects through function calling.
 
+
 - **Early 2020s, approximately — Application-specific plugins**: Assistants gain extensions built for a particular host application. An integration can be useful, but reuse elsewhere often requires new connection work.
 
 - **Around 2023 onwards — Structured function calling**: Models increasingly request named operations with structured arguments instead of merely describing actions in prose. Applications remain responsible for execution.
 
 - **Late 2024 onwards — Shared agent protocols**: MCP offers common discovery and communication rules. Compatible applications can reuse servers rather than designing each connection from scratch.
+
+
+
 
 The practical change is a shift in where integration work lives. Tool authors can concentrate on reliable business operations and clear descriptions. Client authors can concentrate on helping people use discovered tools safely. However, a shared standard does not remove ownership: someone still needs to maintain the server, manage changes and answer when a dependency fails.
 
@@ -72,9 +86,13 @@ The smallest useful catalogue is often easier to manage than a very large one. I
 
 No. Servers can be used in different deployment arrangements, including local and remote environments, when the client supports the required connection method. “Server” describes a role, not a promise that the service is public. The deployment still needs an appropriate security boundary.
 
+
+
 **Can I trust a server because its tools appear in the catalogue?**
 
 Discovery only tells you what the server advertises. It does not certify its operator, verify every description or approve every action. Evaluate the operator and requested access, test the tools, and provide a way to disable the connection.
+
+
 
 ## Choose a connection you can operate
 

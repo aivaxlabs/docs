@@ -6,9 +6,9 @@ Os trabalhadores do AI Gateway são hooks HTTP que permitem que um serviço exte
 
 Use trabalhadores quando uma regra precisar ser decidida fora do prompt. Casos comuns incluem verificações de assinatura, enriquecimento de CRM, política específica de locatário, registro de auditoria, bloqueio dinâmico de ferramentas e substituição de um resultado de ferramenta visível ao modelo por dados de um sistema interno.
 
-Os trabalhadores executam no caminho crítico da inferência. Cada evento de trabalhador adiciona uma requisição HTTP antes que o gateway possa continuar, portanto o endpoint deve responder de forma rápida e previsível.
+Os trabalhadores executam no caminho crítico da inferência. Cada evento de trabalhador adiciona uma requisição HTTP antes que o gateway possa continuar, portanto o endpoint deve responder rápida e previsivelmente.
 
-## Formato da solicitação
+## Formato de requisição
 
 Quando um evento de trabalhador configurado dispara, o AIVAX envia uma requisição `POST` para a URL do trabalhador do gateway.
 
@@ -20,10 +20,6 @@ Quando um evento de trabalhador configurado dispara, o AIVAX envia uma requisiç
         "name": "message.received",
         "data": {
             "messages": [
-                {
-                    "role": "system",
-                    "content": "User local date is Monday, December 29, 2025 (timezone is America/Sao_Paulo)"
-                },
                 {
                     "role": "user",
                     "content": "Good morning"
@@ -37,11 +33,11 @@ Quando um evento de trabalhador configurado dispara, o AIVAX envia uma requisiç
 }
 ```
 
-A forma exata de `event.data` depende do evento. Sempre valide `gatewayId` quando um endpoint atende a mais de um gateway.
+A forma exata de `event.data` depende do evento. Sempre valide `gatewayId` quando um endpoint serve mais de um gateway.
 
 ## Autenticação
 
-Quando a conta possui uma chave de hook, o AIVAX envia `X-Request-Nonce`. O nonce é um hash BCrypt derivado da chave de hook da conta. Valide esse cabeçalho antes de confiar no corpo, especialmente quando o trabalhador libera dados privados, altera o contexto ou autoriza o uso de ferramentas.
+Quando a conta possui uma chave de hook, o AIVAX envia `X-Request-Nonce`. O nonce é um hash BCrypt derivado da chave de hook da conta. Valide este cabeçalho antes de confiar no corpo, especialmente quando o trabalhador libera dados privados, altera o contexto ou autoriza o uso de ferramentas.
 
 Trate `externalUserId`, `metadata`, mensagens e argumentos de ferramentas como entrada não confiável.
 
@@ -51,13 +47,13 @@ Após enviar a requisição, o AIVAX trata a resposta do trabalhador da seguinte
 
 | Resposta | Comportamento |
 |---|---|
-| `Content-Type: application/json+worker-action` | Executa a ação descrita no corpo JSON. |
-| `2xx` sem `application/json+worker-action` | Continua normalmente. |
-| Resposta não‑OK sem `application/json+worker-action` | Interrompe o evento. |
+| `Content-Type: application/json+worker-action` | Execute a ação descrita no corpo JSON. |
+| `2xx` sem `application/json+worker-action` | Continue normalmente. |
+| Resposta não OK sem `application/json+worker-action` | Interromper o evento. |
 
 Se a requisição ao trabalhador falhar com uma exceção de requisição HTTP, o AIVAX registra a falha e interrompe o evento.
 
-Escolha intencionalmente o comportamento fail‑open ou fail‑closed. Retorne `2xx` quando o enriquecimento for opcional. Retorne uma resposta não‑OK quando autorização, conformidade ou política de negócio não puder falhar aberto.
+Escolha intencionalmente o comportamento fail-open ou fail-closed. Retorne `2xx` quando o enriquecimento for opcional. Retorne uma resposta não OK quando autorização, conformidade ou política de negócio não puderem falhar aberto.
 
 ## `message.received`
 
@@ -164,11 +160,11 @@ Ações de reescrita disponíveis:
 }
 ```
 
-Use `add-mcp-source` quando a lista de ferramentas precisar depender da mensagem, usuário, canal ou de uma política externa. O AIVAX lista as ferramentas do servidor MCP, converte cada esquema em uma função chamável pelo modelo e disponibiliza essas ferramentas apenas para aquela inferência. Para fontes permanentes, configure o MCP diretamente no AI Gateway.
+Use `add-mcp-source` quando a lista de ferramentas precisar depender da mensagem, usuário, canal ou de uma política externa. O AIVAX lista as ferramentas do servidor MCP, converte cada esquema em uma função chamável pelo modelo e disponibiliza essas ferramentas apenas para essa inferência. Para fontes permanentes, configure o MCP diretamente no AI Gateway.
 
 ## `tool.called`
 
-O evento `tool.called` dispara antes do AIVAX executar uma ferramenta interna do lado do servidor.
+O evento `tool.called` dispara antes que o AIVAX execute uma ferramenta interna do lado do servidor.
 
 ```json
 {
@@ -185,7 +181,7 @@ O evento `tool.called` dispara antes do AIVAX executar uma ferramenta interna do
 }
 ```
 
-Retorne uma resposta não‑OK para bloquear a chamada da ferramenta. Retorne `2xx` para permitir que o AIVAX execute a ferramenta normalmente.
+Retorne uma resposta não OK para bloquear a chamada da ferramenta. Retorne `2xx` para permitir que o AIVAX execute a ferramenta normalmente.
 
 Para substituir o resultado da ferramenta, retorne `Content-Type: application/json+worker-action` com `type: "tool.called.response"`:
 
@@ -204,13 +200,13 @@ Campos de `data`:
 | Campo | Descrição |
 |---|---|
 | `result` | Conteúdo textual injetado como resultado da ferramenta. |
-| `messages` | Mensagens adicionais em formato OpenAI opcionais anexadas ao contexto da conversa. |
+| `messages` | Mensagens adicionais no formato OpenAI anexadas ao contexto da conversa. |
 
 Quando `tool.called.response` é retornado, o AIVAX usa o resultado fornecido pelo trabalhador em vez de executar o manipulador padrão da ferramenta.
 
 ## Exemplo: bloqueando usuários não autorizados
 
-O exemplo abaixo mostra um Cloudflare Worker que bloqueia uma chamada ao gateway quando o usuário externo não tem permissão.
+O exemplo abaixo mostra um Cloudflare Worker que bloqueia uma chamada ao gateway quando o usuário externo não é permitido.
 
 ```js
 export default {
@@ -296,6 +292,6 @@ export default {
 };
 ```
 
-Esse padrão impede a exposição direta da API interna ao modelo. O trabalhador continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanta informação pode ser retornada ao contexto do modelo.
+Esse padrão evita expor a API interna diretamente ao modelo. O trabalhador continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanto dado pode ser retornado ao contexto do modelo.
 
-Para entender como os trabalhadores se encaixam na execução do gateway, veja [Pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md).
+Para saber como os trabalhadores se encaixam na execução do gateway, veja [Pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md).

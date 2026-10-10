@@ -10,41 +10,56 @@ A Fieldwork deseja que visitantes interessados recebam uma explicação precisa,
 
 Separe três responsabilidades antes de escrever a primeira instrução:
 
+
 - **Informar** — Responda com informações de produto aprovadas, incluindo limitações conhecidas. Deixe os visitantes lerem sobre o serviço sem exigir seus dados primeiro.
 
 - **Qualificar** — Faça apenas perguntas que alterem a recomendação. Registre incertezas em vez de preencher lacunas com suposições sobre o negócio do visitante.
 
 - **Conectar** — Ofereça uma conversa humana quando o visitante quiser. Prepare um resumo conciso e confirmado em vez de fazê‑lo repetir toda a troca.
 
+
+
+
 Uma **conversão** é um próximo passo definido, como uma demonstração acordada. Defina explicitamente: enviar um link de calendário não é o mesmo que marcar uma reunião, e uma marcação não é uma venda. Caso contrário, o painel pode recompensar atividades que não criam benefício para nenhuma das partes.
 
 ## Construir a conversa ao redor do visitante
+
 
 1. **Explicar o papel e perguntar sobre a necessidade**
 
 Diga que este é um assistente automatizado. Pergunte o que o visitante está tentando melhorar: compromissos perdidos, agendamento de equipe ou outro problema. Responda à pergunta original antes de iniciar a entrevista.
 
+
 2. **Explorar timing e orçamento suavemente**
 
 Pergunte quando eles esperam fazer a mudança e se têm uma faixa de orçamento aproximada. Explique por que a pergunta ajuda. Permita “não decidido” e “prefiro não dizer”.
+
 
 3. **Resumir e verificar os fatos**
 
 Repita a necessidade declarada, as restrições e o próximo passo solicitado. Peça correções. Distinga as declarações do visitante da interpretação do agente.
 
+
 4. **Propor um resultado de roteamento**
 
 Use um rubric acordado, um pequeno conjunto de regras de pontuação, para sugerir um acompanhamento apenas informativo ou uma conversa de vendas humana. Mantenha as informações ausentes visíveis.
 
+
 5. **Aprovar, salvar e repassar**
 
 Peça permissão para compartilhar o resumo e confirme o método de contato pretendido. Aplique a aprovação de staff necessária antes da gravação no CRM, depois verifique o resultado antes de dizer que foi salvo.
+
+
+
+
 
 Faça uma pergunta por vez e reutilize respostas já dadas. Se alguém disser “Precisamos disso no próximo mês”, não pergunte novamente sobre o timing apenas porque está próximo em um formulário. Um assistente conversacional deve reduzir o esforço comparado a um formulário, não esconder um formulário longo e obrigatório dentro de balões de chat.
 
 O rascunho da instrução pode ser simples: “Ajude os visitantes a avaliar se nosso serviço documentado se encaixa. Faça perguntas relevantes sem pressão. Não inferir características pessoais, inventar termos ou enviar seguimentos sem a permissão necessária. Registre respostas desconhecidas como desconhecidas. Ofereça uma pessoa quando solicitado e respeite a recusa imediatamente.”
 
 > **Demonstração interativa: Exemplo: qualificação com pergunta de orçamento não respondida.** Esta demonstração interativa está disponível na página web. A solicitação do visitante por uma pessoa tem prioridade sobre completar todo campo de qualificação. Este exemplo para antes da revisão e gravação, portanto não afirma que um registro ou agendamento exista.
+
+
 
 ## Pontuar evidências, não pessoas
 
@@ -69,23 +84,31 @@ Uma gravação no CRM é uma ação externa: altera um registro de negócio. Man
 
 Visitante confirma o resumo → Staff aprova o registro proposto → Aplicação valida permissões → Gravação no CRM → Verifica resultado salvo
 
+
 A concordância do visitante e a aprovação do staff servem a propósitos diferentes. O visitante confirma o que será compartilhado; o membro da equipe verifica se o negócio deve criar ou atualizar esse registro. Nenhum fornece automaticamente todas as bases legais necessárias para o tratamento de dados pessoais. Estabeleça a base adequada, aviso de privacidade, período de retenção e regras de canal com a equipe responsável.
 
 Leia [Humano no loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md) para design de aprovação. A tela de aprovação deve mostrar exatamente o que será alterado. Se campos importantes mudarem após a aprovação, pergunte novamente em vez de tratar a aprovação antiga como permissão ilimitada.
+
 
 **Pressão e ação oculta**
 
 “Preciso do seu número de telefone antes de poder responder. Eu já o adicionei à nossa campanha porque parece interessado.”
 
+
 **Escolha e limite claro**
 
 “Aqui estão as informações do produto. Se quiser uma conversa de vendas, posso preparar um resumo para sua revisão. Você também pode parar aqui.”
+
+
+
+
 
 Se a solicitação ao CRM expirar, a aplicação pode não saber se a gravação ocorreu. Verifique o resultado existente antes de tentar novamente para que o visitante não se torne vários leads duplicados. Um **webhook** é uma notificação de evento enviada de um sistema para outro; pode acionar acompanhamento após uma mudança confirmada. Veja [Webhooks, eventos e automações](https://docs.aivax.net/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.md) para o padrão de conexão.
 
 ## Avaliar o funil sem recompensar pressão
 
 Um **funil** mostra quantas pessoas avançam por estágios sucessivos. Use estágios claramente definidos e o mesmo período de observação. O gráfico abaixo é ilustrativo, não uma previsão de conversão ou afirmação sobre qualquer produto.
+
 
 **Funil piloto ilustrativo**
 
@@ -97,6 +120,8 @@ Um **funil** mostra quantas pessoas avançam por estágios sucessivos. Use está
 | Reunião confirmada | 18 visitantesantes |
 
 Dados de ensino inventados. Cada estágio é um subconjunto do anterior; recusar continuar pode ser um resultado adequado.
+
+
 
 Revise se a equipe de vendas recebeu resumos precisos, se os visitantes entenderam a transferência e se o contato recusado foi respeitado. Acompanhe reivindicações de produto incorretas, registros duplicados, mensagens indesejadas e reclamações junto às reuniões. Um aumento em marcações acompanhado de mais reclamações por pressão não é uma melhoria não qualificada.
 

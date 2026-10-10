@@ -12,6 +12,7 @@ A **trace** groups related events and timings for one request so you can follow 
 
 Question received → Retrieve knowledge → Ask the model → Call a tool if needed → Deliver the answer
 
+
 **Retrieval** means finding relevant material, such as a policy paragraph, to help the agent answer. A model is the system that interprets the request and produces language or requests actions. Some questions need no retrieval or tool call; others involve several rounds. The flow is a teaching example, not a rule that every agent follows in exactly that order.
 
 ```mermaid
@@ -34,6 +35,7 @@ Suppose the policy search succeeded and the model requested the correct tool, bu
 
 Record enough to answer practical questions: what was requested, which version handled it, which stages ran, how long they took, what outcomes they reported and what the user ultimately received. A **version** identifies a particular configuration of instructions, model, knowledge and tools. Without it, an old failure may be impossible to reproduce after the configuration changes.
 
+
 - **Timing and status** — Capture stage start and finish times, completion state, timeouts and retries. These explain waiting and availability problems.
 
 - **Configuration and evidence** — Record the relevant configuration version and safe document references. These help distinguish changing behaviour from changing knowledge.
@@ -41,6 +43,9 @@ Record enough to answer practical questions: what was requested, which version h
 - **Actions and outcomes** — Record the type of action requested and its confirmed result. Avoid copying secrets or unnecessary tool inputs into the record.
 
 - **User-visible result** — Link authorised conversation samples to feedback, escalation and task completion. A technically successful request can still fail the person.
+
+
+
 
 Prefer structured fields, meaning named entries such as stage, duration and outcome, over a different free-form sentence for every event. Consistency makes it possible to group failures and compare periods. Keep error categories understandable: a permission refusal, missing record and temporary service outage need different responses. Do not collapse all of them into “unknown error” if the originating system provides a safe, useful distinction.
 
@@ -58,27 +63,37 @@ Production evidence and training examples are different uses of data. Permission
 
 An **alert** is a notification that a condition needs attention. Useful alerts describe an actionable problem, such as a sustained increase in failed order lookups or requests that stop completing. They name an owner and link to a short response procedure. Alerting on every unusual sentence creates noise and can train people to ignore the signal that matters.
 
+
 1. **Notice a meaningful change**
 
 Use a defined measurement window and enough observations. Treat a single severe safety incident differently from a small movement in average speed.
+
 
 2. **Open representative traces**
 
 Compare affected requests with successful requests from the same period. Check the stage where their paths diverge.
 
+
 3. **Contain the impact**
 
 Route work to a human, disable the affected action or return to a known working configuration when the evidence warrants it.
 
+
 4. **Record the cause and follow-up**
 
 Document what happened, the evidence and the owner of the correction. Add a safe regression case once the failure is understood.
+
+
+
+
 
 Review conversations as well as system errors. Sample successful-looking sessions, abandoned sessions, escalations and negative feedback. Read enough surrounding messages to understand the user's goal; one isolated answer can look wrong when it was a reasonable follow-up question. Use the same review checklist across reviewers and distinguish an unsupported answer from a justified refusal. The former needs correction; the latter may indicate that expectations or escalation routes need clarification.
 
 **Should we store every conversation forever to simplify debugging?**
 
 No. Unlimited retention increases exposure and makes useful evidence harder to manage. Choose records, access rights and retention based on the purpose and applicable obligations. Prefer aggregated measurements for long-term trends, and retain detailed samples only where justified. Test that your investigation process still works with those limits.
+
+
 
 **Related on AIVAX:** An [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores the agent configuration, so identify which configuration a reviewed interaction used. The [Data Collecting](https://docs.aivax.net/docs/data-collecting.md) guide describes a separate, optional programme for eligible semantic search and reranking data. It is not a request-logging switch, and enabling it does not by itself include unrelated conversations or tool calls. Review its terms independently of your monitoring design.
 

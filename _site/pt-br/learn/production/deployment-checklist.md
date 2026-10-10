@@ -10,6 +10,7 @@ Comece com uma promessa de serviço precisa. Um agente de suporte que explica po
 
 Um **problema bloqueante** é um problema suficientemente sério para impedir o lançamento, como informações privadas chegando ao cliente errado ou uma ação não autorizada sendo bem‑sucedida. Outras questões podem ser aceitáveis dentro de um piloto restrito se tiverem um responsável, uma mitigação e uma data de revisão. Registre essas decisões explicitamente; uma lista quase completa não é razão para ignorar a questão de segurança restante.
 
+
 - **Promessa de serviço** — Objetivos, instruções e conhecimento definem o que o agente deve fazer e o que sustenta suas respostas.
 
 - **Limites** — Ferramentas, permissões, segurança e privacidade definem quais informações e ações devem permanecer protegidas.
@@ -18,7 +19,11 @@ Um **problema bloqueante** é um problema suficientemente sério para impedir o 
 
 - **Pessoas e lançamento** — Suporte, escalonamento e implantação estabelecem quem responde, quem decide e como a exposição aumenta de forma segura.
 
+
+
+
 ## Revisar a lista de verificação de lançamento
+
 
 **Objetivos e escopo**
 
@@ -26,11 +31,13 @@ Um **problema bloqueante** é um problema suficientemente sério para impedir o 
 - [ ] Listar solicitações excluídas e ações proibidas — isso evita promessas abertas.
 - [ ] Nomear o responsável e os critérios de sucesso — isso torna o lançamento responsável e mensurável.
 
+
 **Instruções**
 
 - [ ] Declarar o papel, limites e comportamento em incerteza — isso orienta as respostas quando informações estão faltando.
 - [ ] Verificar regras conflitantes — isso reduz escolhas imprevisíveis.
 - [ ] Salvar a versão aprovada da instrução — isso conecta o comportamento à sua configuração revisada.
+
 
 **Conhecimento**
 
@@ -38,11 +45,13 @@ Um **problema bloqueante** é um problema suficientemente sério para impedir o 
 - [ ] Testar a recuperação com formulação realista — isso verifica se a evidência pode ser encontrada.
 - [ ] Separar conhecimento por permissões de acesso — isso protege material restrito.
 
+
 **Ferramentas e permissões**
 
 - [ ] Habilitar apenas ações necessárias e acesso mínimo — isso limita danos potenciais.
 - [ ] Exigir aprovação para ações consequentes — isso preserva o controle humano.
 - [ ] Testar tempos limite e prevenção de duplicatas — isso evita ações repetidas após confirmações perdidas.
+
 
 **Segurança e privacidade**
 
@@ -50,11 +59,13 @@ Um **problema bloqueante** é um problema suficientemente sério para impedir o 
 - [ ] Documentar objetivo dos dados, acesso, retenção e exclusão — isso torna o tratamento de dados pessoais deliberado e revisável.
 - [ ] Explicar o papel da IA e limitações relevantes — isso ajuda as pessoas a decidir quando solicitar assistência humana.
 
+
 **Avaliação**
 
 - [ ] Executar casos representativos, difíceis e fora do escopo — isso testa além de exemplos fáceis.
 - [ ] Confirmar precisão, segurança e critérios de falha — isso expõe erros prejudiciais.
 - [ ] Salvar resultados para a versão exata — isso vincula a aprovação ao que será lançado.
+
 
 **Observabilidade**
 
@@ -62,11 +73,13 @@ Um **problema bloqueante** é um problema suficientemente sério para impedir o 
 - [ ] Remover conteúdo sensível desnecessário dos logs — isso reduz a exposição diagnóstica.
 - [ ] Testar alertas e atribuir respondedores — isso garante que os problemas cheguem a alguém capaz de agir.
 
+
 **Controles de custo**
 
 - [ ] Estimar custo por tarefa concluída e volume — isso conecta gastos aos resultados.
 - [ ] Limitar tentativas, loops de ferramentas e trabalho simultâneo — isso limita o processamento descontrolado.
 - [ ] Definir alertas de orçamento e comportamento de parada segura — isso torna o excesso de gastos gerenciável.
+
 
 **Suporte e escalonamento**
 
@@ -74,11 +87,16 @@ Um **problema bloqueante** é um problema suficientemente sério para impedir o 
 - [ ] Testar detalhes de transferência e disponibilidade do serviço — isso evita que casos desapareçam entre equipes.
 - [ ] Atribuir responsáveis por incidentes e comunicação — isso dá à equipe um caminho claro para decisões urgentes.
 
+
 **Plano de implantação**
 
 - [ ] Iniciar com um público piloto limitado e adequado — isso revela problemas antes da expansão.
 - [ ] Definir critérios de expansão e pausa antecipadamente — isso reduz a pressão para justificar resultados ruins.
 - [ ] Ensaiar a parada e restauração de uma configuração segura — isso torna a recuperação prática.
+
+
+
+
 
 ## Inspecione os limites, não apenas as respostas
 
@@ -102,25 +120,34 @@ Não prometa ajuda imediata quando a equipe de suporte estiver indisponível. Ex
 
 Um **piloto** é um período deliberadamente limitado de uso real com um público adequado. Não é permissão para expor usuários a comportamentos conhecidos como inseguros. Escolha tarefas de menor risco primeiro, mantenha o suporte disponível e explique as limitações do serviço. A implantação gradual então aumenta a exposição apenas depois que a fase atual atende aos critérios de aceitação pré‑definidos.
 
+
 1. **Ensaiar em um ambiente controlado**
 
 Execute a jornada completa com dados de teste protegidos, incluindo acesso negado, ferramentas indisponíveis e o procedimento de parada.
+
 
 2. **Executar um piloto limitado**
 
 Ofereça o escopo aprovado a um pequeno público adequado. Revise falhas e transferências juntamente com interações bem‑sucedidas.
 
+
 3. **Expandir em etapas**
 
 Aumente deliberadamente o público ou o escopo de tarefas, não ambos por acidente. Reavalie capacidade, qualidade, custo e prontidão do suporte.
+
 
 4. **Operar e revisar**
 
 Mantenha responsáveis e revisões regulares após o lançamento. Repita as verificações de prontidão relevantes quando instruções, ferramentas, conhecimento ou modelos mudarem.
 
+
+
+
+
 Use a conclusão de tarefas, resultados inseguros, tempo de espera, escalonamento e custo em conjunto. Uma alta taxa de conclusão não é aceitável se o agente a alcançar fazendo promessas não autorizadas. Falhas graves infrequentes merecem revisão individual ao invés de serem ocultas por uma média alta. Decida antes do lançamento quais evidências fariam a expansão parar.
 
 Para uma revisão ilustrativa, imagine que a maioria dos itens está concluída, mas um problema de controle de acesso permanece. Contar caixas concluídas ajuda a coordenar o trabalho, mas não pode superar esse bloqueador. Os números abaixo descrevem apenas essa revisão fictícia e não são limites recomendados ou prova de prontidão.
+
 
 - **27** — verificações concluídas em uma revisão ilustrativa
 
@@ -128,9 +155,14 @@ Para uma revisão ilustrativa, imagine que a maioria dos itens está concluída,
 
 - **1** — problema de acesso bloqueante: lançamento permanece pausado
 
+
+
+
 **Podemos lançar com uma lista de verificação incompleta?**
 
 Somente dentro de um escopo que permaneça seguro e explicitamente aprovado. Um recurso ausente pode ser excluído do piloto; um limite de permissão quebrado não pode ser justificado limitando o público. Registre cada exceção, responsável, mitigação e data de revisão. Se a equipe não puder explicar como os usuários permanecem protegidos, mantenha a capacidade afetada indisponível.
+
+
 
 O que vem a seguir: aplique esta lista de verificação a um serviço concreto em [Customer support agent](https://docs.aivax.net/pt-br/learn/guides/customer-support-agent.md).
 

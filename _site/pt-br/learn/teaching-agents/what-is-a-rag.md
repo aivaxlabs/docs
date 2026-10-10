@@ -18,23 +18,32 @@ Muitos sistemas de recuperação usam **embeddings**, representações numérica
 
 O **contexto** é a informação disponível ao modelo enquanto ele produz uma resposta. No RAG, passagens recuperadas tornam‑se parte desse contexto junto com instruções e a pergunta do usuário. O modelo não está navegando por todo o repositório de conhecimento em sua cabeça; ele vê o que o sistema ao fornece.
 
+
 1. **Receber a pergunta**
 
 Um membro do clube pergunta se um convidado pode participar do workshop introdutório. A formulação identifica um tópico e um evento específico.
+
 
 2. **Recuperar evidência candidata**
 
 A busca encontra passagens sobre acesso de convidados e restrições ao workshop. O sistema seleciona material relevante e autorizado ao invés de encaminhar o manual inteiro.
 
+
 3. **Escrever a partir da evidência**
 
 O modelo combina as passagens selecionadas em uma resposta em linguagem simples. Deve preservar as condições e distinguir o que a fonte afirma do que permanece desconhecido.
+
 
 4. **Mostrar a base ou a lacuna**
 
 A resposta aponta para a fonte quando disponível. Se a evidência não cobrir o workshop, o agente explica essa limitação e oferece um próximo passo adequado.
 
+
+
+
+
 Pergunta → Fontes aprovadas → Selecionar passagens → Modelo lê evidência → Resposta com limites
+
 
 A ordem importa. Buscar após uma resposta já ter sido inventada não é equivalente a usar evidência antes de responder. Uma fonte adicionada como decoração pode fazer uma resposta parecer confiável mesmo quando não sustenta a afirmação. Uma boa verificação pergunta se cada afirmação importante realmente decorre das passagens selecionadas.
 
@@ -42,19 +51,27 @@ A ordem importa. Buscar após uma resposta já ter sido inventada não é equiva
 
 > **Demonstração interativa: Experimente: encontre um trecho de política.** Esta demonstração interativa está disponível na página web. Experimente “guest”, “workshop” e “equipment”. Esta demonstração simplificada de palavras‑chave ilustra a seleção de passagens, não um modelo real de embeddings nem garante a qualidade da recuperação. Observe que as passagens sobre convidados e workshop respondem a partes diferentes da pergunta.
 
+
+
 Em uma conversa real, um membro pode perguntar “Meu amigo pode vir?” ao invés de usar a palavra “convidado”. Um método de recuperação precisa lidar com essa linguagem ou fazer uma pergunta de esclarecimento. Pode também precisar da conversa anterior para saber a qual evento “vir” se refere. Escolher evidência, portanto, é mais do que combinar um título de documento com uma frase.
 
 ## A fundamentação altera a resposta
 
 **Fundamentação** significa vincular as alegações factuais de uma resposta à evidência disponível para a tarefa. Não significa copiar parágrafos inteiros. Uma resposta fundamentada útil pode resumir, comparar ou explicar, desde que não adicione silenciosamente condições sem suporte.
 
+
 **Sem evidência do clube fornecida**
 
 “Convidados normalmente podem participar de workshops, então seu amigo pode vir sem reserva.”
 
+
 **Com evidência relevante**
 
 “O workshop introdutório está aberto a visitantes, e a política do workshop diz que a reserva é necessária antes da participação.”
+
+
+
+
 
 A primeira resposta não é necessariamente errada para todo clube. É sem suporte para este aqui. Essa distinção importa: o conhecimento geral do modelo pode ser útil para explicar conceitos comuns, mas alegações específicas da organização precisam de evidência específica da organização. Um tom convincente não substitui a política atual.
 

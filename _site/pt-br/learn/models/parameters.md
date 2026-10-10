@@ -12,7 +12,10 @@ Para um assistente que extrai datas de entrega de mensagens, uma redação repet
 
 > **Demonstração interativa: Experimente: altere a distribuição das palavras possíveis.** Esta demonstração interativa está disponível na página web. Mova o controle de temperatura e amostre várias vezes. Esta ilustração simplificada usa candidatos e probabilidades inventados; não contata um modelo real. Observe que ampliar as escolhas pode gerar variedade sem melhorar a utilidade.
 
+
+
 Uma temperatura zero, quando suportada, costuma solicitar a continuação mais provável em vez de um sorteio aleatório. Não a trate como garantia de saída idêntica. A implementação do provedor, atualizações do modelo e outros detalhes de execução ainda podem afetar os resultados. Mais importante, uma resposta pode estar consistentemente errada: baixa variação não é a mesma coisa que alta precisão.
+
 
 **Estilo de baixa temperatura**
 
@@ -22,6 +25,7 @@ Uma temperatura zero, quando suportada, costuma solicitar a continuação mais p
 
 Este rascunho ilustrativo permanece próximo da redação convencional.
 
+
 **Estilo de temperatura mais alta**
 
 **Mesmo prompt:** “Escreva uma abertura amigável para uma mensagem anunciando nosso centro de ajuda revisado.”
@@ -29,6 +33,10 @@ Este rascunho ilustrativo permanece próximo da redação convencional.
 “Um caminho mais claro para respostas começa com nosso centro de ajuda revisado.”
 
 Este rascunho ilustrativo explora uma expressão diferente. Uma execução real ainda pode devolver uma redação convencional.
+
+
+
+
 
 Observe o que a comparação não mostra: mais conhecimento factual ou melhor conformidade de política. Se o centro de ajuda ainda não foi lançado, nenhum estilo deve anunciá‑lo. Corrija a instrução ou a informação de origem antes de ajustar as configurações de amostragem. **Amostragem** é o processo de selecionar entre os tokens próximos possíveis do modelo.
 
@@ -48,11 +56,15 @@ O limite não é uma promessa de que o modelo escreverá exatamente essa quantid
 
 Peça o comprimento desejado em linguagem comum, depois defina um orçamento com espaço para uma resposta completa. “Forneça um resumo curto seguido pelo responsável pela ação” descreve o resultado melhor do que apenas um limite de tokens. Meça saídas típicas nas suas línguas reais: um token não é um número fixo de caracteres ou palavras, e textos diferentes podem consumir quantidades diferentes.
 
+
 - **Instrução** — “Use um parágrafo curto e indique o que está faltando.” Isso descreve a forma e o propósito da resposta.
 
 - **Orçamento de geração** — O limite de saída restringe quanto o modelo pode gerar. Deixe espaço suficiente para uma resposta completa e qualquer orçamento de raciocínio suportado.
 
 - **Verificação de conclusão** — Sua aplicação verifica se a geração terminou normalmente e se o resultado requerido está completo antes de usá‑lo.
+
+
+
 
 Para um extrator de back‑office, um resultado encurtado deve ser tratado como incompleto, não aceito silenciosamente apenas porque contém alguns campos plausíveis. Para uma resposta voltada ao cliente, a aplicação deve evitar apresentar uma frase quebrada como recomendação finalizada. Aumentar o teto pode ajudar com truncamento, mas não corrigirá uma solicitação pouco clara que incentiva detalhes desnecessários.
 
@@ -79,6 +91,8 @@ Uma **sequência de parada** é um trecho de texto configurado que indica ao mod
 **Devo aumentar as penalidades sempre que a resposta se repete?**
 
 Não imediatamente. Primeiro verifique se o prompt pede o mesmo ponto várias vezes ou se trechos de origem duplicados incentivam a repetição. Uma penalidade pode suprimir termos necessários sem resolver o problema da instrução subjacente. Teste a mudança em casos onde um nome de produto ou rótulo de campo deve aparecer novamente.
+
+
 
 Na AIVAX, essas configurações fazem parte dos [parâmetros de inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md) suportados e da [configuração de gateway de IA reutilizável](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Relacionado: consulte esses guias para restrições específicas do modelo ao invés de presumir que todo parâmetro funciona em todos os modelos.
 

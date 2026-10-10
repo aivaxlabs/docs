@@ -8,19 +8,26 @@ Antes de dividir uma tarefa, dê a um único agente um objetivo claro, informaç
 
 Adicionar especialistas torna‑se útil quando existe um limite real. Um revisor de contratos e um analista de estoque precisam de fontes e critérios de avaliação diferentes. O acesso separado também pode importar: o agente que verifica informações públicas de fornecedores não precisa de acesso a registros privados de clientes. A separação reduz a exposição acidental apenas quando as permissões são impostas pela aplicação, não apenas descritas em prompts de papéis diferentes.
 
+
 **Agente bem equipado**
 
 Um proprietário mantém a conversa e as evidências relevantes juntas. Isso é mais simples de inspecionar e costuma evitar contexto repetido. Escolha quando a tarefa se encaixa em um papel e um conjunto de ferramentas gerenciável.
 
+
 **Agentes coordenados**
 
 Trabalhadores distintos podem investigar questões independentes ou aplicar verificações diferentes. Isso adiciona transferências, gerenciamento de estado compartilhado e custos de revisão. Escolha quando esses limites resolvem um problema demonstrado.
+
+
+
+
 
 A comparação justa é a mesma tarefa, julgada pelos mesmos critérios de aceitação. Não compare um sistema multi‑agente cuidadosamente projetado com um único agente deliberadamente sub‑equipado. Verifique a qualidade das evidências, o tempo de conclusão, o gasto total e a frequência com que uma pessoa precisa corrigir o resultado. Um design mais elaborado deve ganhar sua complexidade por meio de melhoria observada.
 
 ## Quatro padrões úteis
 
 Um **padrão** é um arranjo recorrente que você pode adaptar, não um produto que precisa comprar. Esses padrões podem coexistir, mas combiná‑los todos de uma vez geralmente torna a primeira implementação mais difícil de entender. Comece com o menor arranjo que corresponda a como o trabalho realmente depende de resultados anteriores.
+
 
 - **Orquestrador e especialistas** — Um coordenador atribui peças limitadas, coleta evidências e produz o resultado final. Especialistas retornam descobertas ao invés de decidir independentemente o que dizer ao cliente.
 
@@ -29,6 +36,9 @@ Um **padrão** é um arranjo recorrente que você pode adaptar, não um produto 
 - **Pipeline** — O trabalho passa por estágios ordenados, como extrair, checar e rascunhar. Cada estágio tem uma entrada e saída definidas que o próximo estágio pode usar.
 
 - **Debate ou crítico** — Um trabalhador propõe uma resposta e outro a desafia com base em evidências ou critérios explícitos. O revisor deve poder concluir que não há conclusão suportada.
+
+
+
 
 Um **orquestrador** é como um coordenador de projeto, não um gerente com discrição ilimitada. Para um briefing de compra, ele pode solicitar a um especialista que compare disponibilidade e a outro que verifique condições contratuais. Em seguida, reconcilia as descobertas em uma recomendação. Os especialistas podem trabalhar ao mesmo tempo somente se nenhum precisar do resultado inacabado do outro. Trabalho paralelo significa trabalho simultâneo; não é automaticamente trabalho independente.
 
@@ -48,21 +58,29 @@ Um **pipeline** assemelha‑se a uma linha de montagem. O estágio de extração
 
 Um **crítico** verifica uma proposta ao invés de apenas reescrever seu tom. Dê a ele critérios como “todo total citado deve incluir entrega” e acesso às evidências. Dois agentes concordando não estabelece verdade: eles podem usar a mesma fonte errada ou repetir a mesma suposição não suportada. O debate é útil somente quando o desacordo pode ser resolvido por meio de melhor evidência ou decisão humana.
 
+
 **Orquestrador**
 
 Use isso quando investigações distintas contribuem para uma decisão, como comparar estoque e termos contratuais. Decida quem reconcilia descobertas conflitantes antes de criar as atribuições de especialistas.
+
 
 **Roteador**
 
 Use isso quando as solicitações pertencem a áreas de serviço diferentes, como suporte e vendas. Defina o que acontece quando a categoria está indefinida ou uma solicitação abrange ambas as áreas.
 
+
 **Pipeline**
 
 Use isso quando trabalhos posteriores requerem um resultado anterior verificado, como redigir uma resposta a partir de detalhes de nota fiscal extraídos. Especifique o que cada estágio deve fornecer antes que o próximo possa continuar.
 
+
 **Crítico**
 
 Use isso quando uma proposta precisa de um desafio baseado em evidências separado. Identifique as verificações independentes que o revisor pode executar e quem resolve um desacordo que a evidência não resolve.
+
+
+
+
 
 ## Compartilhe um registro de trabalho, não toda a conversa
 
