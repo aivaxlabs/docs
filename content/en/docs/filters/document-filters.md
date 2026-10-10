@@ -39,6 +39,8 @@ Models can also send a filter string in the optional `filter` argument of these 
 - The search tool of the [Collections MCP](../mcp-utilities/collections-mcp.md#generated-tools).
 - The `query` tool of AI gateways that use the `QueryFunction` [query strategy](../inference/pipelines.md).
 
+The [`memory_search` tool](../tools/builtin-tools.md#search-memories) also accepts a filter string, but requires exactly one of `query` or `filter`, not both. Its filter-only mode returns up to 10 matching memories for the current user, newest first, without query embeddings.
+
 Automatic gateway RAG, which searches before the model call, does not apply filters. An invalid filter in a tool call is returned to the model as a tool error with the same message as the API.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>

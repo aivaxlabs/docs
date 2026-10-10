@@ -138,11 +138,11 @@ Accounts that enable [Data collecting](data-collecting.md) receive a 10% discoun
 
 ## Other Tools
 
-The following tools have no separate tool charge. Model inference used to invoke them is still billed at its regular rate.
+The following tools have no separate tool charge, but memory operations incur the RAG charges listed below. Model inference used to invoke them is still billed at its regular rate.
 
 | Description | Pricing |
 | --- | ---: |
-| Memory and calendar | No separate charge |
+| [Memory](tools/builtin-tools.md#memory) | Saving or replacing content: document embedding; semantic `query` search: RAG query embedding; `filter` search: no embedding cost; `rrf` reranking: no cost |
 | Advanced requests | No separate charge |
 | Document generation | No separate charge |
 | Web page generation | No separate charge |

@@ -86,9 +86,9 @@ For RAG, link collections with short, self-contained, well-named documents. Choo
 - `FullRewrite`: Rewrites recent user and assistant messages using a resolver model.
 - `QueryFunction`: Exposes a search function to the model instead of injecting a search result before inference.
 
-For tools, enable only those with a clear role. Built-in tools cover common capabilities such as current date and time, web search, opening URLs, code execution, image generation, document generation, page generation, calendar actions, memory, HTTP requests, and X post lookup. External MCP is better when you already have an MCP server with business tools. Protocol functions are useful when you want to expose specific HTTP callbacks to the model without installing a full MCP server.
+For tools, enable only those with a clear role. Built-in tools cover common capabilities such as current date and time, web search, opening URLs, code execution, image generation, document generation, page generation, memory, HTTP requests, and X post lookup. External MCP is better when you already have an MCP server with business tools. Protocol functions are useful when you want to expose specific HTTP callbacks to the model without installing a full MCP server.
 
-When enabling memory, define what the assistant may retain and how your application will review and remove stored records. The [memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) outlines these controls.
+When enabling [memory](../tools/builtin-tools.md#memory), define what the assistant may retain and when it must call `memory_search`: memories are not automatically included in system instructions. By default, memories are shared across the account's gateways for the same identified user; disable shared memory to restrict a gateway to its own memories. Memories only expire when saved with `expiresInDays`. Plan how your application will review and remove documents in the `@memories` collection. The [memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) outlines these controls.
 
 Use a tool handler only when the selected model needs help producing tool calls. The available handler is `react.v1.selfcall`; `native` or no value uses the model's native tool calling.
 
