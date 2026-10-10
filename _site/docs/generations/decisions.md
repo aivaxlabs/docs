@@ -23,13 +23,13 @@ All models below support `choice`, `noul`, and `score`. See [Pricing](https://do
 | `@cloudflare/clef` |
 | `@cloudflare/clef-flash` |
 | `@liquid/d1` |
-| `@perplexity/pplx-decider-v1-27b` |
+| `@perplexity/pplx-decider-v1.1-27b` |
 | `@openai/gpt-6-luna-decisions` |
 | `@microsoft/microsoft-decision-1` |
 | `@nace-ai/drex-v1.5` |
 | `@cloudflare/clef-omni` |
 
-`@typesafe/jev` is also accepted and currently resolves to `@typesafe/jev-1.13`. An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
+`@typesafe/jev` is also accepted and currently resolves to `@typesafe/jev-1.13`. `@perplexity/pplx-decider-v1-27b` is also accepted and resolves to `@perplexity/pplx-decider-v1.1-27b`. An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
 An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing.md), and [Plans and limits](https://docs.aivax.net/docs/limits.md).
 

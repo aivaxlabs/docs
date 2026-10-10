@@ -23,13 +23,13 @@ Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Pricing](
 | `@cloudflare/clef` |
 | `@cloudflare/clef-flash` |
 | `@liquid/d1` |
-| `@perplexity/pplx-decider-v1-27b` |
+| `@perplexity/pplx-decider-v1.1-27b` |
 | `@openai/gpt-6-luna-decisions` |
 | `@microsoft/microsoft-decision-1` |
 | `@nace-ai/drex-v1.5` |
 | `@cloudflare/clef-omni` |
 
-`@typesafe/jev` também é aceito e atualmente resolve para `@typesafe/jev-1.13`. Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos de modelo e interpretação de pontuações podem diferir; valide um modelo em exemplos representativos antes de mudar o tráfego de produção.
+`@typesafe/jev` também é aceito e atualmente resolve para `@typesafe/jev-1.13`. `@perplexity/pplx-decider-v1-27b` também é aceito e resolve para `@perplexity/pplx-decider-v1.1-27b`. Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos de modelo e interpretação de pontuações podem diferir; valide um modelo em exemplos representativos antes de mudar o tráfego de produção.
 
 Uma chave de API autenticada e um saldo positivo na conta são necessários, inclusive ao selecionar um modelo com preço base de token zero. Veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md), [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md).
 
@@ -126,8 +126,8 @@ Mantenha apenas evidências relevantes no estado. As instruções devem explicar
 - `url` deve ser um URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotas `http(s)` não são buscadas e são rejeitadas.
 - Imagens aninhadas dentro de objetos em `state` não são lidas como imagens. Um campo `images` de nível superior, partes `input_image` e base64 sem o prefixo `data:image/...;base64,` não são suportados.
 - Modelos Clef aceitam até 4 imagens por solicitação e GPT-6 Luna Decisions até 128. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`.
-- Clef e Clef Flash rejeitam solicitações que excedam sua janela de processamento; mantenha cada imagem abaixo de aproximadamente 300 KB antes da codificação. A cobrança usa os tokens de entrada que o modelo processa, conforme relatado em `usage.input_tokens`.
-- Clef e Clef Flash leem aproximadamente os primeiros 2 000 tokens de texto em `state`; imagens são contadas separadamente.
+- Clef e Clef Flash rejeitam solicitações que excedam sua janela de processamento; mantenha cada imagem abaixo de aproximadamente 300 KB antes da codificação. A cobrança usa os tokens de entrada que o modelo processa, conforme relatado em `usage.input_tokens`.
+- Clef e Clef Flash leem aproximadamente os primeiros 2 000 tokens de texto em `state`; imagens são contadas separadamente.
 
 ### Ler a resposta
 

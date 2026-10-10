@@ -35,9 +35,9 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | `@jaredpalmer/kev-4b` | **$0.042** |
 | `@upstage/solar-decide` | **$0.050** |
 | `@cloudflare/clef` | **$0.240** |
-| `@cloudflare/clef-flash` | **$0.090** |
+| `@cloudflare/clef-flash` | **$0.038** |
 | `@liquid/d1` | **$0.040** |
-| `@perplexity/pplx-decider-v1-27b` | **$0.040** |
+| `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
 | `@microsoft/microsoft-decision-1` | **$0.042** |
 | `@nace-ai/drex-v1.5` | **$0.040** |

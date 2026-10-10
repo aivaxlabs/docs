@@ -90,7 +90,7 @@ These model-specific limits apply in addition to the account-level request quota
 | Model | Context |
 | --- | --- |
 | `@supersonic-labs/julia-1` | 1,024 tokens per question |
-| `@typesafe/jev-1.13` | 32,768 tokens |
+| `@typesafe/jev-1.13` | 64,000 tokens |
 | `@respan/span-01` | Not specified in the current catalog |
 | `@respan/span-01-lite` | Not specified in the current catalog |
 | `@jaredpalmer/kev-4b` | 8,192 tokens |
@@ -98,7 +98,7 @@ These model-specific limits apply in addition to the account-level request quota
 | `@cloudflare/clef` | 65,536 tokens |
 | `@cloudflare/clef-flash` | 65,536 tokens |
 | `@liquid/d1` | 65,536 tokens |
-| `@perplexity/pplx-decider-v1-27b` | 262,144 tokens |
+| `@perplexity/pplx-decider-v1.1-27b` | 262,144 tokens |
 | `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
 | `@microsoft/microsoft-decision-1` | 32,768 tokens |
 | `@nace-ai/drex-v1.5` | 131,072 tokens |

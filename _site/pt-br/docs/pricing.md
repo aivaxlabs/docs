@@ -35,9 +35,9 @@ As taxas de modelo de decisão abaixo são preços base em USD por milhão de to
 | `@jaredpalmer/kev-4b` | **$0.042** |
 | `@upstage/solar-decide` | **$0.050** |
 | `@cloudflare/clef` | **$0.240** |
-| `@cloudflare/clef-flash` | **$0.090** |
+| `@cloudflare/clef-flash` | **$0.038** |
 | `@liquid/d1` | **$0.040** |
-| `@perplexity/pplx-decider-v1-27b` | **$0.040** |
+| `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
 | `@microsoft/microsoft-decision-1` | **$0.042** |
 | `@nace-ai/drex-v1.5` | **$0.040** |
@@ -121,7 +121,7 @@ Buscas na web e no X são cobradas por busca. A busca avançada na web é cobrad
 | Fetch e extração OCR - Max | **5× Pro** permissão diária; itens não cobertos **$0.02/1k PUs** |
 | Conversão JSON Fetch (`responseSchema`) | Preço variável baseado em inferência por PU; cobrado separadamente, sem permissão diária de extração |
 
-Para a [Fetch API](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md), `processingUnits` relata uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. Os PUs JSON contabilizam entrada, entrada em cache e uso de tokens de saída nas taxas do modelo de processamento e provedor; eles não são precificados na taxa OCR do plano. O multiplicador de inferência do plano aplica‑se à conversão JSON. Omitir `responseSchema` ou defini‑lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
+Para a [Fetch API](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md), `processingUnits` relata uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. Os PUs JSON contabilizam entrada, entrada em cache e uso de tokens de saída nas taxas do modelo de processamento e provedor; eles não são precificados na taxa OCR do plano. O multiplicador de inferência do plano aplica‐se à conversão JSON. Omitir `responseSchema` ou defini‐lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
 
 ## Armazenamento
 
@@ -139,7 +139,7 @@ Contas que habilitam [Data collecting](https://docs.aivax.net/pt-br/docs/data-co
 
 ## Outras ferramentas
 
-As ferramentas abaixo não têm cobrança separada, mas operações de memória incidem nas taxas RAG listadas abaixo. A inferência do modelo usada para invocá‑las ainda é cobrada à sua taxa regular.
+As ferramentas abaixo não têm cobrança separada, mas operações de memória incidem nas taxas RAG listadas abaixo. A inferência do modelo usada para invocá‐las ainda é cobrada à sua taxa regular.
 
 | Descrição | Preço |
 | --- | ---: |

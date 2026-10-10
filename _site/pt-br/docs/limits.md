@@ -37,7 +37,7 @@ Um travessão longo (`—`) indica que o plano não impõe um limite. Limites es
 | Requisições BYOK | 30/min | 200/min | — |
 | Contexto máximo | 65.536 tokens de entrada | — | — |
 | Cobertura de assinatura LLM | Atualmente desativado | Atualmente desativado | Atualmente desativado |
-| Requisições de texto‑para‑fala independentes | 3/min e 40/hora | 30/min | 300/min |
+| Requisições de texto‐para‐fala independentes | 3/min e 40/hora | 30/min | 300/min |
 | Requisições de transcrição de áudio independentes | 3/min e 40/hora | 30/min | 300/min |
 | Requisições de decisão semântica | 10/min | 50/min | — |
 | **RAG e coleções** |  |  |  |
@@ -88,7 +88,7 @@ Esses limites específicos de modelo se aplicam além das cotas de requisição 
 | Modelo | Contexto |
 | --- | --- |
 | `@supersonic-labs/julia-1` | 1.024 tokens por pergunta |
-| `@typesafe/jev-1.13` | 32.768 tokens |
+| `@typesafe/jev-1.13` | 64.000 tokens |
 | `@respan/span-01` | Não especificado no catálogo atual |
 | `@respan/span-01-lite` | Não especificado no catálogo atual |
 | `@jaredpalmer/kev-4b` | 8.192 tokens |
@@ -96,7 +96,7 @@ Esses limites específicos de modelo se aplicam além das cotas de requisição 
 | `@cloudflare/clef` | 65.536 tokens |
 | `@cloudflare/clef-flash` | 65.536 tokens |
 | `@liquid/d1` | 65.536 tokens |
-| `@perplexity/pplx-decider-v1-27b` | 262.144 tokens |
+| `@perplexity/pplx-decider-v1.1-27b` | 262.144 tokens |
 | `@openai/gpt-6-luna-decisions` | 1.050.000 tokens |
 | `@microsoft/microsoft-decision-1` | 32.768 tokens |
 | `@nace-ai/drex-v1.5` | 131.072 tokens |
@@ -134,7 +134,7 @@ Esses limites se aplicam a todos os planos e são independentes dos limites de p
 
 ### Vouchers diários incluídos na assinatura
 
-Free, Pro e Max incluem vouchers diários separados para os serviços abaixo. Cada comparação refere‑se ao mesmo serviço no plano nomeado, não a um crédito compartilhado ou a um número garantido de requisições. Vouchers não utilizados de um serviço não podem cobrir outro. Contas personalizadas não recebem vouchers de assinatura.
+Free, Pro e Max incluem vouchers diários separados para os serviços abaixo. Cada comparação refere‐se ao mesmo serviço no plano nomeado, não a um crédito compartilhado ou a um número garantido de requisições. Vouchers não utilizados de um serviço não podem cobrir outro. Contas personalizadas não recebem vouchers de assinatura.
 
 | Serviço incluído | Free | Pro | Max |
 | --- | --- | --- | --- |
@@ -145,9 +145,9 @@ Free, Pro e Max incluem vouchers diários separados para os serviços abaixo. Ca
 
 Buscas RAG e inserções de documentos compartilham o voucher de embedding. Ele não cobre geração de respostas, processamento de mídia, classificação de texto ou segmentação. Um embedding de consulta servido a partir do cache não o consome. Reflex usa um voucher de reranking separado que inclui entrada em cache e não em cache. Julia-1 é atualmente o único modelo de decisão coberto pelo voucher de decisão semântica; outros modelos de decisão são cobrados normalmente. A conversão opcional de JSON Fetch é separada da cota de extração.
 
-A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas tarifas normais. Itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As atuais vouchers permitem uma margem de 10 % acima de sua capacidade base. Um item que excederia essa margem deixa o voucher inalterado e é cobrado normalmente. Uma requisição pode conter vários itens, portanto alguns podem ser incluídos enquanto outros são cobrados.
+A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas tarifas normais. Itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As atuais vouchers permitem uma margem de 10 % acima de sua capacidade base. Um item que excederia essa margem deixa o voucher inalterado e é cobrado normalmente. Uma requisição pode conter vários itens, portanto alguns podem ser incluídos enquanto outros são cobrados.
 
-Os vouchers diários são redefinidos à meia‑noite no horário local do servidor. Verifique os indicadores de consumo de assinatura da conta para consumo e status de redefinição; o uso pode exceder 100 % dentro da margem. A cobertura da assinatura LLM está atualmente desativada, portanto a inferência de texto‑modelo e a geração de respostas RAG permanecem medidas separadamente. Os vouchers não ignoram requisitos de saldo, limites de taxa ou o teto separado de tempo de processamento do Reflex. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) para cobranças quando um item não está coberto.
+Os vouchers diários são redefinidos à meia‐noite no horário local do servidor. Verifique os indicadores de consumo de assinatura da conta para consumo e status de redefinição; o uso pode exceder 100 % dentro da margem. A cobertura da assinatura LLM está atualmente desativada, portanto a inferência de texto‐modelo e a geração de respostas RAG permanecem medidas separadamente. Os vouchers não ignoram requisitos de saldo, limites de taxa ou o teto separado de tempo de processamento do Reflex. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) para cobranças quando um item não está coberto.
 
 Contas personalizadas suportam 8 execuções de teste agenteicas simultâneas por conta. Seus limites de taxa são os limites do plano Pro multiplicados por um fator acordado para a conta, ou não têm limites de taxa de plano quando nenhum fator está definido.
 
@@ -166,7 +166,7 @@ BYOK usa uma chave de provedor configurada no gateway em vez de um modelo AIVAX 
 
 As cotas de classificação de texto e segmentação de texto contam cada item no array `documents` da requisição, não cada requisição HTTP. Uma requisição que excederia qualquer janela ativa retorna `429 Too Many Requests`. A classificação de texto usa o modelo de embedding padrão e é cobrada pelo trabalho de embedding realizado.
 
-Texto‑para‑fala independente e transcrição de áudio cada um usa sua própria cota de requisição do plano. Sessões de voz usam o modelo em tempo real selecionado e estão sujeitas aos limites de acesso ao modelo, saldo e inferência aplicáveis, em vez dessas cotas de requisição independentes. A transcrição de entrada não é suportada atualmente dentro das Sessões de voz.
+Texto‐para‐fala independente e transcrição de áudio cada um usa sua própria cota de requisição do plano. Sessões de voz usam o modelo em tempo real selecionado e estão sujeitas aos limites de acesso ao modelo, saldo e inferência aplicáveis, em vez dessas cotas de requisição independentes. A transcrição de entrada não é suportada atualmente dentro das Sessões de voz.
 
 O endpoint de importação JSONL rejeita uma requisição quando atinge o limite de documentos por requisição do plano. O limite de reranking se aplica ao endpoint autônomo de reranking e às buscas RAG que usam um reranker, incluindo buscas realizadas através de Gateways de IA e ferramentas MCP.
 

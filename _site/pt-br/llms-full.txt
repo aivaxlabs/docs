@@ -518,9 +518,9 @@ As taxas de modelo de decisão abaixo são preços base em USD por milhão de to
 | `@jaredpalmer/kev-4b` | **$0.042** |
 | `@upstage/solar-decide` | **$0.050** |
 | `@cloudflare/clef` | **$0.240** |
-| `@cloudflare/clef-flash` | **$0.090** |
+| `@cloudflare/clef-flash` | **$0.038** |
 | `@liquid/d1` | **$0.040** |
-| `@perplexity/pplx-decider-v1-27b` | **$0.040** |
+| `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
 | `@microsoft/microsoft-decision-1` | **$0.042** |
 | `@nace-ai/drex-v1.5` | **$0.040** |
@@ -604,7 +604,7 @@ Buscas na web e no X são cobradas por busca. A busca avançada na web é cobrad
 | Fetch e extração OCR - Max | **5× Pro** permissão diária; itens não cobertos **$0.02/1k PUs** |
 | Conversão JSON Fetch (`responseSchema`) | Preço variável baseado em inferência por PU; cobrado separadamente, sem permissão diária de extração |
 
-Para a [Fetch API](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md), `processingUnits` relata uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. Os PUs JSON contabilizam entrada, entrada em cache e uso de tokens de saída nas taxas do modelo de processamento e provedor; eles não são precificados na taxa OCR do plano. O multiplicador de inferência do plano aplica‑se à conversão JSON. Omitir `responseSchema` ou defini‑lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
+Para a [Fetch API](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md), `processingUnits` relata uso de extração de texto/OCR e `jsonProcessingUnits` relata o uso adicional de conversão JSON guiada por esquema. Os PUs JSON contabilizam entrada, entrada em cache e uso de tokens de saída nas taxas do modelo de processamento e provedor; eles não são precificados na taxa OCR do plano. O multiplicador de inferência do plano aplica‐se à conversão JSON. Omitir `responseSchema` ou defini‐lo como `null` desativa a conversão, relata `jsonProcessingUnits: 0` e não gera cobrança de conversão JSON.
 
 ## Armazenamento
 
@@ -622,7 +622,7 @@ Contas que habilitam [Data collecting](https://docs.aivax.net/pt-br/docs/data-co
 
 ## Outras ferramentas
 
-As ferramentas abaixo não têm cobrança separada, mas operações de memória incidem nas taxas RAG listadas abaixo. A inferência do modelo usada para invocá‑las ainda é cobrada à sua taxa regular.
+As ferramentas abaixo não têm cobrança separada, mas operações de memória incidem nas taxas RAG listadas abaixo. A inferência do modelo usada para invocá‐las ainda é cobrada à sua taxa regular.
 
 | Descrição | Preço |
 | --- | ---: |
@@ -672,7 +672,7 @@ Um travessão longo (`—`) indica que o plano não impõe um limite. Limites es
 | Requisições BYOK | 30/min | 200/min | — |
 | Contexto máximo | 65.536 tokens de entrada | — | — |
 | Cobertura de assinatura LLM | Atualmente desativado | Atualmente desativado | Atualmente desativado |
-| Requisições de texto‑para‑fala independentes | 3/min e 40/hora | 30/min | 300/min |
+| Requisições de texto‐para‐fala independentes | 3/min e 40/hora | 30/min | 300/min |
 | Requisições de transcrição de áudio independentes | 3/min e 40/hora | 30/min | 300/min |
 | Requisições de decisão semântica | 10/min | 50/min | — |
 | **RAG e coleções** |  |  |  |
@@ -723,7 +723,7 @@ Esses limites específicos de modelo se aplicam além das cotas de requisição 
 | Modelo | Contexto |
 | --- | --- |
 | `@supersonic-labs/julia-1` | 1.024 tokens por pergunta |
-| `@typesafe/jev-1.13` | 32.768 tokens |
+| `@typesafe/jev-1.13` | 64.000 tokens |
 | `@respan/span-01` | Não especificado no catálogo atual |
 | `@respan/span-01-lite` | Não especificado no catálogo atual |
 | `@jaredpalmer/kev-4b` | 8.192 tokens |
@@ -731,7 +731,7 @@ Esses limites específicos de modelo se aplicam além das cotas de requisição 
 | `@cloudflare/clef` | 65.536 tokens |
 | `@cloudflare/clef-flash` | 65.536 tokens |
 | `@liquid/d1` | 65.536 tokens |
-| `@perplexity/pplx-decider-v1-27b` | 262.144 tokens |
+| `@perplexity/pplx-decider-v1.1-27b` | 262.144 tokens |
 | `@openai/gpt-6-luna-decisions` | 1.050.000 tokens |
 | `@microsoft/microsoft-decision-1` | 32.768 tokens |
 | `@nace-ai/drex-v1.5` | 131.072 tokens |
@@ -769,7 +769,7 @@ Esses limites se aplicam a todos os planos e são independentes dos limites de p
 
 ### Vouchers diários incluídos na assinatura
 
-Free, Pro e Max incluem vouchers diários separados para os serviços abaixo. Cada comparação refere‑se ao mesmo serviço no plano nomeado, não a um crédito compartilhado ou a um número garantido de requisições. Vouchers não utilizados de um serviço não podem cobrir outro. Contas personalizadas não recebem vouchers de assinatura.
+Free, Pro e Max incluem vouchers diários separados para os serviços abaixo. Cada comparação refere‐se ao mesmo serviço no plano nomeado, não a um crédito compartilhado ou a um número garantido de requisições. Vouchers não utilizados de um serviço não podem cobrir outro. Contas personalizadas não recebem vouchers de assinatura.
 
 | Serviço incluído | Free | Pro | Max |
 | --- | --- | --- | --- |
@@ -780,9 +780,9 @@ Free, Pro e Max incluem vouchers diários separados para os serviços abaixo. Ca
 
 Buscas RAG e inserções de documentos compartilham o voucher de embedding. Ele não cobre geração de respostas, processamento de mídia, classificação de texto ou segmentação. Um embedding de consulta servido a partir do cache não o consome. Reflex usa um voucher de reranking separado que inclui entrada em cache e não em cache. Julia-1 é atualmente o único modelo de decisão coberto pelo voucher de decisão semântica; outros modelos de decisão são cobrados normalmente. A conversão opcional de JSON Fetch é separada da cota de extração.
 
-A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas tarifas normais. Itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As atuais vouchers permitem uma margem de 10 % acima de sua capacidade base. Um item que excederia essa margem deixa o voucher inalterado e é cobrado normalmente. Uma requisição pode conter vários itens, portanto alguns podem ser incluídos enquanto outros são cobrados.
+A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas tarifas normais. Itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As atuais vouchers permitem uma margem de 10 % acima de sua capacidade base. Um item que excederia essa margem deixa o voucher inalterado e é cobrado normalmente. Uma requisição pode conter vários itens, portanto alguns podem ser incluídos enquanto outros são cobrados.
 
-Os vouchers diários são redefinidos à meia‑noite no horário local do servidor. Verifique os indicadores de consumo de assinatura da conta para consumo e status de redefinição; o uso pode exceder 100 % dentro da margem. A cobertura da assinatura LLM está atualmente desativada, portanto a inferência de texto‑modelo e a geração de respostas RAG permanecem medidas separadamente. Os vouchers não ignoram requisitos de saldo, limites de taxa ou o teto separado de tempo de processamento do Reflex. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) para cobranças quando um item não está coberto.
+Os vouchers diários são redefinidos à meia‐noite no horário local do servidor. Verifique os indicadores de consumo de assinatura da conta para consumo e status de redefinição; o uso pode exceder 100 % dentro da margem. A cobertura da assinatura LLM está atualmente desativada, portanto a inferência de texto‐modelo e a geração de respostas RAG permanecem medidas separadamente. Os vouchers não ignoram requisitos de saldo, limites de taxa ou o teto separado de tempo de processamento do Reflex. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) para cobranças quando um item não está coberto.
 
 Contas personalizadas suportam 8 execuções de teste agenteicas simultâneas por conta. Seus limites de taxa são os limites do plano Pro multiplicados por um fator acordado para a conta, ou não têm limites de taxa de plano quando nenhum fator está definido.
 
@@ -801,7 +801,7 @@ BYOK usa uma chave de provedor configurada no gateway em vez de um modelo AIVAX 
 
 As cotas de classificação de texto e segmentação de texto contam cada item no array `documents` da requisição, não cada requisição HTTP. Uma requisição que excederia qualquer janela ativa retorna `429 Too Many Requests`. A classificação de texto usa o modelo de embedding padrão e é cobrada pelo trabalho de embedding realizado.
 
-Texto‑para‑fala independente e transcrição de áudio cada um usa sua própria cota de requisição do plano. Sessões de voz usam o modelo em tempo real selecionado e estão sujeitas aos limites de acesso ao modelo, saldo e inferência aplicáveis, em vez dessas cotas de requisição independentes. A transcrição de entrada não é suportada atualmente dentro das Sessões de voz.
+Texto‐para‐fala independente e transcrição de áudio cada um usa sua própria cota de requisição do plano. Sessões de voz usam o modelo em tempo real selecionado e estão sujeitas aos limites de acesso ao modelo, saldo e inferência aplicáveis, em vez dessas cotas de requisição independentes. A transcrição de entrada não é suportada atualmente dentro das Sessões de voz.
 
 O endpoint de importação JSONL rejeita uma requisição quando atinge o limite de documentos por requisição do plano. O limite de reranking se aplica ao endpoint autônomo de reranking e às buscas RAG que usam um reranker, incluindo buscas realizadas através de Gateways de IA e ferramentas MCP.
 
@@ -897,6 +897,7 @@ Alterações técnicas que afetam produtos, serviços ou a API pública da AIVAX
 Alterações:
 
 - **Account — Apenas provedores com retenção zero de dados.** A página de configurações da conta tem uma nova opção **Apenas provedores com retenção zero de dados**, desativada por padrão. Quando ativada, a inferência de texto com modelos integrados é roteada somente para provedores que não retêm prompts, e outros provedores são excluídos. As solicitações falham quando o modelo não tem nenhum provedor com retenção zero de dados disponível. A opção não altera o registro de conversas. Veja [Apenas provedores com retenção zero de dados](https://docs.aivax.net/pt-br/docs/inference/inference.md#zero-data-retention-providers-only).
+- **Decisões semânticas — Perplexity Decider V1.1, preços e limites atualizados.** `@perplexity/pplx-decider-v1.1-27b` substitui o Perplexity Decider V1, que não está mais disponível no provedor; o nome anterior `@perplexity/pplx-decider-v1-27b` continua funcionando e agora resolve para a V1.1. O preço de entrada cai de $0,04 para $0,02 por 1M de tokens. O preço de entrada do `@cloudflare/clef-flash` cai de $0,09 para $0,038 por 1M de tokens, e o limite de contexto do `@typesafe/jev-1.13` aumenta de 32.768 para 64.000 tokens. Veja [Decisões](https://docs.aivax.net/pt-br/docs/generations/decisions.md).
 - **Inference — `allow_logging` por solicitação.** As conclusões de chat aceitam `allow_logging`. Defina como `false` para manter essa solicitação fora dos logs de conversa da conta; o padrão é `true` e não pode habilitar o registro quando está desativado para a conta. Veja [Resposta e registros de conversas](https://docs.aivax.net/pt-br/docs/inference/inference.md#response-and-conversation-records).
 
 ## Friday, October 9th, 2026
@@ -922,7 +923,7 @@ Alterações:
 Alterações:
 
 - **Documentation — Nova seção Learn.** O site de documentação agora inclui [Learn](https://docs.aivax.net/pt-br/learn/index.md), um conjunto de 11 módulos e 63 unidades curtas que explicam agentes de IA desde conceitos iniciais até produção para leitores sem background de computação: o que é um agente, modelos de linguagem, prompts e contexto, seleção de modelo e parâmetros, ferramentas e integrações, conhecimento e RAG, fluxos avançados, avaliação e observabilidade, segurança e conformidade, custo e escala, e estudos de caso práticos. As unidades incluem exemplos interativos, tutoriais passo a passo, tabelas comparativas, gráficos e quizzes curtos, e cada uma pode ser marcada como concluída no navegador. Três caminhos de aprendizado sugeridos (Iniciante, Desenvolvedor, Negócio) agrupam os módulos por objetivo. Learn está disponível em inglês e português e está incluído na busca do site.
-- **Models — Claude Haiku 5.5 adicionado.** Adiciona `@anthropic/claude-5.5-haiku` (Claude Haiku 5.5), sucessor direto do Claude Haiku 4.5, ao catálogo de modelos de texto. Suporta entrada de imagem e arquivo e chamada de ferramentas, com janela de contexto de 1 M de tokens. O alias `@model-router/claude:budget` agora seleciona Claude Haiku 5.5, substituindo Claude Haiku 4.5. Aplicações que usam esse alias podem observar mudanças na qualidade da resposta, latência e custo. Identificadores de modelo explícitos permanecem inalterados.
+- **Models — Claude Haiku 5.5 adicionado.** Adiciona `@anthropic/claude-5.5-haiku` (Claude Haiku 5.5), sucessor direto do Claude Haiku 4.5, ao catálogo de modelos de texto. Suporta entrada de imagem e arquivo e chamada de ferramentas, com janela de contexto de 1 M de tokens. O alias `@model-router/claude:budget` agora seleciona Claude Haiku 5.5, substituindo Claude Haiku 4.5. Aplicações que usam esse alias podem observar mudanças na qualidade da resposta, latência e custo. Identificadores de modelo explícitos permanecem inalterados.
 - **Inference — Seleção de provedor com `routing_options`.** As conclusões de chat aceitam `routing_options` com `preset` (`Balanced`, `Cheapest`, `Fastest` ou `Quality`) e `allowed_providers`, uma lista ordenada de tags de provedores como `["azure-us", "azure-eu", "*"]`. A AIVAX tenta cada tag na ordem e só passa para a próxima quando nenhum provedor correspondente está disponível; `"*"` combina com qualquer provedor. `allowed_providers` tem padrão `["*"]`, e uma lista vazia é rejeitada. Sem `"*"`, a solicitação falha quando nenhum dos provedores listados está disponível. `routing_preset` está obsoleto: ainda funciona, mas use `routing_options.preset`. Gateways de IA aceitam a mesma lista ordenada em `parameters.allowedProviders` (padrão `["*"]`), editável no editor de gateway sob **Allowed providers** para modelos integrados; valores de solicitação sobrescrevem isso apenas para aquela solicitação. Veja [Roteamento de provedor](https://docs.aivax.net/pt-br/docs/inference/inference.md#provider-routing).
 - **Inference — Provedor de serviço nas respostas.** Respostas de conclusão de chat e cada bloco transmitido incluem um campo `provider` ao lado de `model` com a tag do provedor que atendeu um modelo integrado. É `null` para gateways que usam credenciais de provedor próprias.
 - **Models — `filter` em `GET /v1/models`.** A lista de modelos aceita um parâmetro de consulta opcional `filter` com um nome de modelo e devolve apenas as entradas correspondentes: o nome exato ou seus snapshots datados, ordenados do mais próximo. Sem ele, a lista permanece unchangedalterada.
@@ -932,11 +933,11 @@ Alterações:
 
 Alterações críticas:
 
-- **Inference — `File` e `OtherFiles` pré-processamento agora cobrem todo arquivo.** Gateways e solicitações que habilitam apenas a flag multimodal `OtherFiles` agora convertem arquivos PDF com OCR em vez de enviá‑los ao modelo principal sem alterações. Aqueles que habilitam apenas a flag `File` agora convertem arquivos não‑PDF com OCR também, sendo cobrados em Unidades de Processamento. Gateways e solicitações com ambas as flags ou `All` não são afetados. Para deixar arquivos inalterados, defina `multimodal_resolver` (ou `multimodalResolverParameters` do gateway) sem um `fileEngine`; nenhum tipo de arquivo será pré‑processado.
+- **Inference — `File` e `OtherFiles` pré-processamento agora cobrem todo arquivo.** Gateways e solicitações que habilitam apenas a flag multimodal `OtherFiles` agora convertem arquivos PDF com OCR em vez de enviá‐los ao modelo principal sem alterações. Aqueles que habilitam apenas a flag `File` agora convertem arquivos não‐PDF com OCR também, sendo cobrados em Unidades de Processamento. Gateways e solicitações com ambas as flags ou `All` não são afetados. Para deixar arquivos inalterados, defina `multimodal_resolver` (ou `multimodalResolverParameters` do gateway) sem um `fileEngine`; nenhum tipo de arquivo será pré‐processado.
 
 Alterações:
 
-- **Inference — Motores de resolução multimodal por mídia.** As conclusões de chat aceitam `multimodal_resolver`, e gateways de IA aceitam `multimodalResolverParameters`, com campos `imageEngine`, `audioEngine`, `videoEngine` e `fileEngine`. Cada um seleciona como esse tipo de conteúdo é convertido em texto antes da inferência: `InferenceLow` (modelo multimodal menor; `Inference` é um alias), `InferenceHigh` (modelo multimodal maior e mais preciso, com custo maior), `Ocr` para imagens e arquivos (cobrado em Unidades de Processamento, como Fetch e OCR), ou `Stt` para áudio (speech‑to‑text, cobrado por segundo). OCR aceita URIs de dados base64 e URLs públicas. Resultados de cada motor são armazenados em cache por conteúdo e motor, então mídia repetida não é cobrada novamente. As flags `multimodal_preprocess` e a configuração `enabledMultimodalFeatures` do gateway estão obsoletas, mas continuam funcionando com os motores equivalentes; as novas configurações têm precedência quando presentes. O editor de gateway agora configura um motor por tipo de conteúdo. Veja [Pré‑processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/inference.md#multimodal-pre-processing).
+- **Inference — Motores de resolução multimodal por mídia.** As conclusões de chat aceitam `multimodal_resolver`, e gateways de IA aceitam `multimodalResolverParameters`, com campos `imageEngine`, `audioEngine`, `videoEngine` e `fileEngine`. Cada um seleciona como esse tipo de conteúdo é convertido em texto antes da inferência: `InferenceLow` (modelo multimodal menor; `Inference` é um alias), `InferenceHigh` (modelo multimodal maior e mais preciso, com custo maior), `Ocr` para imagens e arquivos (cobrado em Unidades de Processamento, como Fetch e OCR), ou `Stt` para áudio (speech‐to‐text, cobrado por segundo). OCR aceita URIs de dados base64 e URLs públicas. Resultados de cada motor são armazenados em cache por conteúdo e motor, então mídia repetida não é cobrada novamente. As flags `multimodal_preprocess` e a configuração `enabledMultimodalFeatures` do gateway estão obsoletas, mas continuam funcionando com os motores equivalentes; as novas configurações têm precedência quando presentes. O editor de gateway agora configura um motor por tipo de conteúdo. Veja [Pré‐processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/inference.md#multimodal-pre-processing).
 - **RAG — Filtros de documento no Collections MCP e na ferramenta de consulta do gateway.** A ferramenta de busca do Collections MCP e a ferramenta `query` de gateways de IA usando a estratégia de consulta `QueryFunction` aceitam um argumento opcional `filter` com a mesma sintaxe do campo `filter` da busca semântica, como `tags has "faq" and updatedAt >= now-30d`. Filtros são aplicados antes que os termos de busca sejam embutidos; quando nenhum documento corresponde, a ferramenta devolve nenhum resultado sem cobranças de embedding ou busca. Um filtro inválido é retornado ao modelo como erro de ferramenta. O RAG automático de gateway ainda não aplica filtros. Veja [Filtros de documento](https://docs.aivax.net/pt-br/docs/filters/document-filters.md).
 
 ## Tuesday, October 6th, 2026
@@ -945,7 +946,7 @@ Alterações:
 
 - **RAG — Segmentação de texto mais rápida sem sanitização.** Solicitações `POST /api/v1/generations/segment` com `sanitize` omitido ou `false` não usam mais um modelo de linguagem. Os limites são agora escolhidos a partir da estrutura do documento (títulos, listas, tabelas, blocos de código, parágrafos e finais de frase) e da similaridade semântica de trechos vizinhos, visando segmentos de cerca de 300 tokens. Os segmentos cobrem todo o documento na ordem original sem sobreposição e mantêm quebras de linha originais; um limite pode cair ao final de uma frase dentro de uma linha. Documentos de cerca de 300 tokens ou menos são retornados como um único segmento. O formato de resposta, cotas e preço por token permanecem inalterados; `usage.processing_units` agora relata os tokens dos documentos submetidos. Solicitações com `sanitize: true` mantêm o comportamento anterior. Veja [Segmentação de texto](https://docs.aivax.net/pt-br/docs/rag/text-segmentation.md).
 
-- **Models — Seis novos modelos de decisão semântica.** Adiciona `@upstage/solar-decide` (Upstage Solar Decide), `@cloudflare/clef` (Cloudflare Clef), `@cloudflare/clef-flash` (Cloudflare Clef Flash), `@liquid/d1` (LiquidAI d1), `@perplexity/pplx-decider-v1-27b` (Perplexity Decider V1 27B) e `@openai/gpt-6-luna-decisions` (OpenAI GPT-6 Luna Decisions) ao catálogo de decisões semânticas. Todos seis suportam perguntas `noul`, `choice` e `score` via `POST /api/v1/generations/decisions` e são cobrados por token de entrada nas taxas publicadas, sem cobrança de token de saída, com ajustes de conta e plano existentes ainda aplicáveis. Não são cobertos pela cota diária de decisões semânticas, que permanece limitada ao Julia‑1. Identificadores de modelo existentes permanecem inalterados. Veja [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#semantic-decisions).
+- **Models — Seis novos modelos de decisão semântica.** Adiciona `@upstage/solar-decide` (Upstage Solar Decide), `@cloudflare/clef` (Cloudflare Clef), `@cloudflare/clef-flash` (Cloudflare Clef Flash), `@liquid/d1` (LiquidAI d1), `@perplexity/pplx-decider-v1-27b` (Perplexity Decider V1 27B) e `@openai/gpt-6-luna-decisions` (OpenAI GPT-6 Luna Decisions) ao catálogo de decisões semânticas. Todos seis suportam perguntas `noul`, `choice` e `score` via `POST /api/v1/generations/decisions` e são cobrados por token de entrada nas taxas publicadas, sem cobrança de token de saída, com ajustes de conta e plano existentes ainda aplicáveis. Não são cobertos pela cota diária de decisões semânticas, que permanece limitada ao Julia‐1. Identificadores de modelo existentes permanecem inalterados. Veja [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#semantic-decisions).
 
 ## Monday, October 5th, 2026
 
@@ -977,13 +978,13 @@ Alterações:
 
 Alterações:
 
-- **Models — Claude Sonnet 5.5 e GPT‑6.1 Sol adicionados.** Adiciona `@anthropic/claude-5.5-sonnet` (Claude Sonnet 5.5), sucessor direto do Claude Sonnet 5, e `@openai/gpt-6.1-sol` (GPT‑6.1 Sol), uma atualização do GPT‑6 Sol, ao catálogo de modelos de texto. Ambos suportam raciocínio, entrada de imagem e arquivo e chamada de ferramentas; GPT‑6.1 Sol também suporta saída estruturada. Os aliases `@model-router/claude:mid` e `@model-router/openai:mid` agora selecionam Claude Sonnet 5.5 e GPT‑6.1 Sol, substituindo Claude Sonnet 5 e GPT‑6 Sol, respectivamente. Aplicações que usam esses aliases podem observar mudanças na qualidade da resposta, latência e custo. Identificadores de modelo explícitos permanecem inalterados.
+- **Models — Claude Sonnet 5.5 e GPT‐6.1 Sol adicionados.** Adiciona `@anthropic/claude-5.5-sonnet` (Claude Sonnet 5.5), sucessor direto do Claude Sonnet 5, e `@openai/gpt-6.1-sol` (GPT‐6.1 Sol), uma atualização do GPT‐6 Sol, ao catálogo de modelos de texto. Ambos suportam raciocínio, entrada de imagem e arquivo e chamada de ferramentas; GPT‐6.1 Sol também suporta saída estruturada. Os aliases `@model-router/claude:mid` e `@model-router/openai:mid` agora selecionam Claude Sonnet 5.5 e GPT‐6.1 Sol, substituindo Claude Sonnet 5 e GPT‐6 Sol, respectivamente. Aplicações que usam esses aliases podem observar mudanças na qualidade da resposta, latência e custo. Identificadores de modelo explícitos permanecem inalterados.
 
 ## Thursday, October 1st, 2026
 
 Alterações críticas:
 
-- **API — Códigos de status de erro refletem a origem da falha.** Falhas não são mais todas retornadas como `400 Bad Request` por conta, RAG, web e endpoints de geração. Solicitações inválidas ainda retornam `400`, e falhas de autenticação, saldo e permissão que antes surgiam como `400` agora retornam `401`, `402` ou `403`. Falhas inesperadas da AIVAX retornam `500 Internal Server Error` com mensagem genérica, e serviços externos indisponíveis, incluindo provedores de modelo, retornam `503 Service Unavailable` com cabeçalho `Retry-After`. Em endpoints compatíveis com OpenAI, o `code` de erro agora é `invalid_request_error`, `service_unavailable` ou `server_error` ao invés de sempre `server_error`. Clientes que tratam toda resposta não‑2xx como erro de solicitação devem tentar novamente respostas `500` e `503`, honrando `Retry-After`. Veja [Solucionar a primeira solicitação](https://docs.aivax.net/pt-br/docs/getting-started.md#troubleshoot-the-first-request).
+- **API — Códigos de status de erro refletem a origem da falha.** Falhas não são mais todas retornadas como `400 Bad Request` por conta, RAG, web e endpoints de geração. Solicitações inválidas ainda retornam `400`, e falhas de autenticação, saldo e permissão que antes surgiam como `400` agora retornam `401`, `402` ou `403`. Falhas inesperadas da AIVAX retornam `500 Internal Server Error` com mensagem genérica, e serviços externos indisponíveis, incluindo provedores de modelo, retornam `503 Service Unavailable` com cabeçalho `Retry-After`. Em endpoints compatíveis com OpenAI, o `code` de erro agora é `invalid_request_error`, `service_unavailable` ou `server_error` ao invés de sempre `server_error`. Clientes que tratam toda resposta não‐2xx como erro de solicitação devem tentar novamente respostas `500` e `503`, honrando `Retry-After`. Veja [Solucionar a primeira solicitação](https://docs.aivax.net/pt-br/docs/getting-started.md#troubleshoot-the-first-request).
 
 Correções:
 
@@ -1001,7 +1002,7 @@ Correções:
 
 - **Gateways — Ajuda da ferramenta Bash aceita parâmetros anuláveis.** Solicitar ajuda para ferramentas cujos parâmetros aceitam múltiplos tipos, incluindo `null`, não falha mais ao listar seus argumentos. A ajuda preserva os tipos aceitos e caminhos de parâmetros aninhados. Nenhuma mudança de esquema de ferramenta é necessária.
 
-- **Chat integrations — Notificações de falha restauradas.** Conversas em streaming e não‑streaming tentam novamente enviar “System: something went wrong. Please, try again later.” após uma falha de geração irrecuperável, tentativas de recuperação esgotadas ou um turno que não envia mensagem. Uma falha final é relatada mesmo se uma resposta parcial anterior foi entregue. A entrega da notificação ainda depende da disponibilidade do serviço de mensagens.
+- **Chat integrations — Notificações de falha restauradas.** Conversas em streaming e não‐streaming tentam novamente enviar “System: something went wrong. Please, try again later.” após uma falha de geração irrecuperável, tentativas de recuperação esgotadas ou um turno que não envia mensagem. Uma falha final é relatada mesmo se uma resposta parcial anterior foi entregue. A entrega da notificação ainda depende da disponibilidade do serviço de mensagens.
 
 Alterações:
 
@@ -1015,20 +1016,20 @@ Alterações:
 
 Alterações:
 
-- **Telegram — Progresso de ferramenta compacto.** Respostas em streaming mostram apenas o último preâmbulo de ferramenta no indicador de pensamento quando a visibilidade de chamada de ferramenta está habilitada, ao invés de acumular blocos de nomes de ferramenta na resposta. A resposta final não contém blocos de progresso de ferramenta. Outros canais de mensagem e respostas não‑streamed permanecem inalterados.
+- **Telegram — Progresso de ferramenta compacto.** Respostas em streaming mostram apenas o último preâmbulo de ferramenta no indicador de pensamento quando a visibilidade de chamada de ferramenta está habilitada, ao invés de acumular blocos de nomes de ferramenta na resposta. A resposta final não contém blocos de progresso de ferramenta. Outros canais de mensagem e respostas não‐streamed permanecem inalterados.
 
 - **Gateways — Seleção de ferramenta Bash.** A lista de ferramentas Bash agora inclui um atalho para `get_date_time` (Data e hora atuais). Listas de inclusão e exclusão aceitam padrões curinga sensíveis a maiúsculas/minúsculas: `*` combina com qualquer número de caracteres, como em `something_*`, e `?` combina com um caractere. Nomes de ferramenta exatos permanecem suportados.
 
 - **Decisões semânticas e Testes Agentes — Limites de taxa da conta.** Limites por minuto da conta se aplicam a solicitações de decisão semântica e novas execuções de Testes Agentes; avaliações manuais, agendadas e diretas compartilham o limite de execuções de teste. Solicitações acima do limite retornam HTTP 429, enquanto testes agendados esperam por uma verificação de agendamento posterior. Clientes devem espaçar solicitações e tentar novamente após o intervalo de limite de taxa. Limites de inferência existentes ainda se aplicam. Veja [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#semantic-decision-and-agentic-test-rate-limits), [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md#account-rate-limits) e [Testes Agentes](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md#run-and-inspect-a-test).
 
-- **Models — Preços de síntese de fala consistentes.** Preços do catálogo de texto‑para‑fala agora derivam das mesmas taxas por caractere usadas para calcular o uso de síntese, exibidos por 1 000 caracteres. Identificadores de modelo e taxas de cobrança permanecem inalterados.
+- **Models — Preços de síntese de fala consistentes.** Preços do catálogo de texto‐para‐fala agora derivam das mesmas taxas por caractere usadas para calcular o uso de síntese, exibidos por 1 000 caracteres. Identificadores de modelo e taxas de cobrança permanecem inalterados.
 
-- **Models — Preços de transcrição comparáveis.** Preços de modelos de fala‑para‑texto são exibidos de forma consistente em USD por minuto, convertendo taxas horárias e por segundo para comparação sem mudar as taxas de cobrança ou medição de duração.
+- **Models — Preços de transcrição comparáveis.** Preços de modelos de fala‐para‐texto são exibidos de forma consistente em USD por minuto, convertendo taxas horárias e por segundo para comparação sem mudar as taxas de cobrança ou medição de duração.
 
 - **Geração de imagem — Preço fixo de saída e referência.** Geração de imagem usa um preço fixo por saída entregue mais um preço por referência para cada saída. Modelos cujos provedores cobram por tokens ou megapixels agora usam estimativas arredondadas ao invés de cobranças de token metradas. O processamento de prompt está incluído na estimativa de saída; modelos sem taxa de referência separada listam taxa de referência zero. Estes são tarifas fixas, não recibos do consumo real do provedor. Cobranças de imagem não incluem mais a marcação de geração de imagem da AIVAX nem multiplicadores de preço de conta e plano. Veja [Geração de imagem](https://docs.aivax.net/pt-br/docs/generations/images.md).
 - **Models — Cobertura de assinatura.** A página de Modelos agora inclui uma coluna “Uso de assinatura” para reclassificadores e modelos de decisão semântica. “Incluído” identifica modelos elegíveis para a cota diária do plano; “Não incluído” identifica modelos sem cobertura. Elegibilidade não indica a cota restante da conta. Ambos os catálogos de serviço expõem essa elegibilidade como `subscriptionUsage`.
 
-- **Subscriptions — Cotas diárias incluídas.** Assinaturas Free, Pro e Max incluem cotas diárias separadas para embeddings de busca e inserção RAG, entrada de Reflex (incluindo entrada em cache) e decisões semânticas Julia‑1. Cada item medido é totalmente incluído ou cobrado nas taxas normais; uma solicitação com múltiplos itens pode combinar uso incluído e pago. Isso também se aplica à extração OCR, substituindo cobertura parcial. Itens incluídos aparecem no consumo da assinatura sem entradas de histórico de cobrança de custo zero; indicadores de uso podem exceder a cota base dentro da margem permitida. Itens não cobertos mantêm registros de cobrança normais. `includesSubscriptionModels` é falso enquanto assinaturas de inferência estão desativadas; a cobertura de assinatura de LLM permanece desativada. O limite diário de tempo de processamento do Reflex permanece separado, e contas de revendedor não recebem cotas de assinatura. Veja [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md).
+- **Subscriptions — Cotas diárias incluídas.** Assinaturas Free, Pro e Max incluem cotas diárias separadas para embeddings de busca e inserção RAG, entrada de Reflex (incluindo entrada em cache) e decisões semânticas Julia‐1. Cada item medido é totalmente incluído ou cobrado nas taxas normais; uma solicitação com múltiplos itens pode combinar uso incluído e pago. Isso também se aplica à extração OCR, substituindo cobertura parcial. Itens incluídos aparecem no consumo da assinatura sem entradas de histórico de cobrança de custo zero; indicadores de uso podem exceder a cota base dentro da margem permitida. Itens não cobertos mantêm registros de cobrança normais. `includesSubscriptionModels` é falso enquanto assinaturas de inferência estão desativadas; a cobertura de assinatura de LLM permanece desativada. O limite diário de tempo de processamento do Reflex permanece separado, e contas de revendedor não recebem cotas de assinatura. Veja [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md).
 
 ## Saturday, September 26th, 2026
 
@@ -1038,19 +1039,19 @@ Alterações críticas:
 
 Alterações:
 
-- **Geração de imagem — Modelos adicionais Pollinations.** Adiciona 16 modelos oficiais de imagem raster, incluindo FLUX 1.1 Pro e variantes FLUX 2, variantes MAI Image, GPT Image 2.5 Flare e Sunburst, Qwen Image 2.1 e 3, Grok Imagine Image 2.0, Recraft V4.1 Flash, Krea 2 Medium, DreamShaper 8 LCM e Seedream 5 Pro, com pré‑visualizações geradas por modelo no seletor de imagens. Modelos da comunidade e SVG são excluídos. O catálogo exibe as unidades de cobrança. Veja a entrada de 27 de setembro para a mudança subsequente de cobrança fixa. Gerações falhas não são contadas como imagens entregues. Veja [Geração de imagem](https://docs.aivax.net/pt-br/docs/generations/images.md).
+- **Geração de imagem — Modelos adicionais Pollinations.** Adiciona 16 modelos oficiais de imagem raster, incluindo FLUX 1.1 Pro e variantes FLUX 2, variantes MAI Image, GPT Image 2.5 Flare e Sunburst, Qwen Image 2.1 e 3, Grok Imagine Image 2.0, Recraft V4.1 Flash, Krea 2 Medium, DreamShaper 8 LCM e Seedream 5 Pro, com pré‐visualizações geradas por modelo no seletor de imagens. Modelos da comunidade e SVG são excluídos. O catálogo exibe as unidades de cobrança. Veja a entrada de 27 de setembro para a mudança subsequente de cobrança fixa. Gerações falhas não são contadas como imagens entregues. Veja [Geração de imagem](https://docs.aivax.net/pt-br/docs/generations/images.md).
 
-- **Models — Catálogos de serviço de modelo.** A página de Modelos agora inclui tabelas para geração de imagem, fala‑para‑texto, texto‑para‑fala, reclassificação e decisões semânticas, com descrições fornecidas pelo backend, datas de lançamento, preço base em USD com unidades de cobrança e um menu de Ações em cada tabela de serviço‑modelo para copiar nomes de modelo e abrir documentação de integração. Nomes de modelo exibem um rótulo amigável quando disponível ao copiar o identificador aceito pela API. A precificação usa unidades compactas de entrada, entrada em cache, saída, imagem, caractere e duração separadas por setas onde aplicável, com taxas completas e unidades disponíveis na dica de ferramenta. Catálogos são ordenados do mais recente para o mais antigo. Datas de catálogo OpenRouter e nomes amigáveis complementam metadados de lançamento ausentes; datas de catálogo são rotuladas explicitamente ao invés de apresentadas como datas de lançamento do fabricante. Modelos sem nenhuma data permanecem últimos. Solicitações de catálogo falhas podem ser repetidas independentemente. Os catálogos públicos expõem esses detalhes, incluindo o novo catálogo `GET /api/v1/information/speech-models.json`. Ajustes de preço de conta e plano ainda se aplicam. Veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md).
+- **Models — Catálogos de serviço de modelo.** A página de Modelos agora inclui tabelas para geração de imagem, fala‐para‐texto, texto‐para‐fala, reclassificação e decisões semânticas, com descrições fornecidas pelo backend, datas de lançamento, preço base em USD com unidades de cobrança e um menu de Ações em cada tabela de serviço‐modelo para copiar nomes de modelo e abrir documentação de integração. Nomes de modelo exibem um rótulo amigável quando disponível ao copiar o identificador aceito pela API. A precificação usa unidades compactas de entrada, entrada em cache, saída, imagem, caractere e duração separadas por setas onde aplicável, com taxas completas e unidades disponíveis na dica de ferramenta. Catálogos são ordenados do mais recente para o mais antigo. Datas de catálogo OpenRouter e nomes amigáveis complementam metadados de lançamento ausentes; datas de catálogo são rotuladas explicitamente ao invés de apresentadas como datas de lançamento do fabricante. Modelos sem nenhuma data permanecem últimos. Solicitações de catálogo falhas podem ser repetidas independentemente. Os catálogos públicos expõem esses detalhes, incluindo o novo catálogo `GET /api/v1/information/speech-models.json`. Ajustes de preço de conta e plano ainda se aplicam. Veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md).
 
-- **Privacy — Divulgação judicial e retenção esclarecidas.** A [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md) e os [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md) especificam ordens judiciais brasileiras para divulgação, solicitações externas para preservar logs existentes por até 1 ano, e até 1 ano de logs técnicos e metadados. Clarificam que o conteúdo da conversa é coletado somente quando Conversas está habilitado para a solicitação ou conta, e que recursos de conta disponíveis e backups de até 3 meses podem ser divulgados sob ordem judicial brasileira. A licença de conteúdo nos Termos está expressamente sujeita a esses limites.
+- **Privacy — Divulgação judicial e retenção esclarecidas.** A [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md) e os [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md) especificam ordens judiciais brasileiras para divulgação, solicitações externas para preservar logs existentes por até 1 ano, e até 1 ano de logs técnicos e metadados. Clarificam que o conteúdo da conversa é coletado somente quando Conversas está habilitado para a solicitação ou conta, e que recursos de conta disponíveis e backups de até 3 meses podem ser divulgados sob ordem judicial brasileira. A licença de conteúdo nos Termos está expressamente sujeita a esses limites.
 
-- **Generations — Modelos de decisão adicionais.** O guia de [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md) explica tipos de perguntas e interpretação de respostas. O endpoint público `GET /api/v1/information/decisions-models.json` lista nomes canônicos, aliases, tipos de perguntas suportados, comprimentos de contexto, datas de lançamento e preços base por token. Adiciona `@respan/span-01`, `@respan/span-01-lite`, `@jaredpalmer/kev-4b` e `@supersonic-labs/julia-1` como opções de modelo para decisões semânticas. Julia‑1 suporta `choice`, `score` e `noul`; seu uso de entrada inclui o estado repetido para cada pergunta. Ajustes de preço de conta e plano existentes se aplicam, e identificadores e formatos de solicitação permanecem inalterados. Veja [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#semantic-decision-model-limits) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#semantic-decisions) para limites e taxas atuais.
+- **Generations — Modelos de decisão adicionais.** O guia de [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md) explica tipos de perguntas e interpretação de respostas. O endpoint público `GET /api/v1/information/decisions-models.json` lista nomes canônicos, aliases, tipos de perguntas suportados, comprimentos de contexto, datas de lançamento e preços base por token. Adiciona `@respan/span-01`, `@respan/span-01-lite`, `@jaredpalmer/kev-4b` e `@supersonic-labs/julia-1` como opções de modelo para decisões semânticas. Julia‐1 suporta `choice`, `score` e `noul`; seu uso de entrada inclui o estado repetido para cada pergunta. Ajustes de preço de conta e plano existentes se aplicam, e identificadores e formatos de solicitação permanecem inalterados. Veja [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#semantic-decision-model-limits) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#semantic-decisions) para limites e taxas atuais.
 
 ## Tuesday, September 22nd, 2026
 
 Alterações:
 
-- **Models — GPT‑6 Sol e Luna adicionados.** Adiciona `@openai/gpt-6-sol` e `@openai/gpt-6-luna`, incluindo suas variantes de raciocínio `:pro`. Os aliases `@model-router/openai:mid` e `@model-router/openai:budget` agora selecionam GPT‑6 Sol e GPT‑6 Luna, respectivamente. Aplicações que usam esses aliases podem observar mudanças na qualidade da resposta, latência e custo. Identificadores de modelo explícitos permanecem inalterados.
+- **Models — GPT‐6 Sol e Luna adicionados.** Adiciona `@openai/gpt-6-sol` e `@openai/gpt-6-luna`, incluindo suas variantes de raciocínio `:pro`. Os aliases `@model-router/openai:mid` e `@model-router/openai:budget` agora selecionam GPT‐6 Sol e GPT‐6 Luna, respectivamente. Aplicações que usam esses aliases podem observar mudanças na qualidade da resposta, latência e custo. Identificadores de modelo explícitos permanecem inalterados.
 
 ## Monday, September 21st, 2026
 
@@ -1058,15 +1059,15 @@ Alterações críticas:
 
 - **Gateways — Moderação fora do tópico está sendo removida.** O limiar dedicado fora do tópico não bloqueará mais solicitações que se desviam do propósito da conversa. Se sua aplicação depende dessa verificação, revise suas restrições de tópico antes de adotar esta mudança; as categorias de moderação restantes não são um substituto equivalente.
 - **Ferramentas embutidas — Pesquisa avançada na web está sendo desativada.** A ferramenta `AdvancedWebUsage` retornará uma resposta indisponível ao invés de realizar a pesquisa. Remova a dependência dessa ferramenta das instruções e fluxos de trabalho do gateway. A [Busca na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md) padrão e a extração de URL permanecem alternativas separadas, não substitutos equivalentes para pesquisas de múltiplas etapas.
-- **Models — Identificador do modelo Mercury 2.5 alterado.** Substitua `@inception/mercury-2.5-preview` por `@inception/mercury-2.5` em solicitações e configurações de gateway. O identificador de pré‑visualização não está mais listado, e o substituto não está mais marcado como pré‑visualização.
+- **Models — Identificador do modelo Mercury 2.5 alterado.** Substitua `@inception/mercury-2.5-preview` por `@inception/mercury-2.5` em solicitações e configurações de gateway. O identificador de pré‐visualização não está mais listado, e o substituto não está mais marcado como pré‐visualização.
 - **Gateways / MCP — Nomes de ferramentas MCP são qualificados por origem.** Ferramentas de diferentes fontes MCP não compartilham mais um nome não qualificado no gateway. Revise instruções do gateway, regras de seleção de ferramenta e workers que correspondem a nomes de ferramenta exatos. O nome original da ferramenta no servidor MCP conectado permanece inalterado. Veja [Funções MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md).
 
 Correções:
 
-- **Collections, Gateways e Generations — Disponibilidade de modelo de serviço.** Geração de resposta de coleção, roteamento de gateway, utilitários de chat e serviços de processamento de mídia evitam selecionar modelos temporariamente indisponíveis. Skill Teach e pré‑processamento multimodal podem tentar outro modelo disponível após uma falha recuperável; o sucesso ainda depende da disponibilidade do serviço.
+- **Collections, Gateways e Generations — Disponibilidade de modelo de serviço.** Geração de resposta de coleção, roteamento de gateway, utilitários de chat e serviços de processamento de mídia evitam selecionar modelos temporariamente indisponíveis. Skill Teach e pré‐processamento multimodal podem tentar outro modelo disponível após uma falha recuperável; o sucesso ainda depende da disponibilidade do serviço.
 - **Teach Skill — Cálculo de uso.** As cobranças de processamento do Teach Skill usam a precificação do modelo associada à solicitação concluída, inclusive quando uma tentativa altera o modelo usado. Veja [Teach Skill](https://docs.aivax.net/pt-br/docs/generations/teach-skill.md) e [Preços](https://docs.aivax.net/pt-br/docs/pricing.md).
 - **Fetch e OCR — Extração de página mais confiável.** Solicitações de conteúdo de página canceladas ou expiradas não deixam a extração de página em execução indefinidamente. Isso resolve casos em que a extração de conteúdo web poderia travar.
-- **Chat clients — Resposta final e histórico de mensagens.** `completionText` agora seleciona a resposta final gerada pelo assistente ao invés de combiná‑la com texto de assistente anterior durante o uso de ferramentas. O campo de resposta `createdMessages` adicionado preserva mensagens recém‑geradas em ordem, incluindo interações de ferramenta; mensagens enviadas não são repetidas. Use esse campo quando precisar do turno completo gerado.
+- **Chat clients — Resposta final e histórico de mensagens.** `completionText` agora seleciona a resposta final gerada pelo assistente ao invés de combiná‐la com texto de assistente anterior durante o uso de ferramentas. O campo de resposta `createdMessages` adicionado preserva mensagens recém‐geradas em ordem, incluindo interações de ferramenta; mensagens enviadas não são repetidas. Use esse campo quando precisar do turno completo gerado.
 - **Gateways / MCP — Resultados estruturados de MCP são retidos.** Assistentes recebem conteúdo de resultado estruturado além dos blocos de conteúdo suportados, evitando perda de informação quando uma ferramenta MCP retorna saída estruturada.
 - **Fetch e OCR — Post do X.** Melhorada a extração de texto legível de links de postagens públicas do X. Disponibilidade de conteúdo e restrições de acesso ainda se aplicam.
 - **Fetch e OCR — Normalização de texto simples alterada.** A conversão para texto simples não colapsa mais espaços internos nem normaliza caracteres Unicode. Espaços ao redor ainda podem ser aparados nos resultados de extração. Aplicações que comparam texto extraído exatamente ou requerem espaçamento normalizado devem fazer essa normalização por conta própria.
@@ -1076,14 +1077,14 @@ Alterações:
 - **Fetch e OCR — Extração estruturada opcional.** Forneça `responseSchema` para converter o conteúdo extraído em JSON. Resultados adicionam `extractedObject` e `jsonProcessingUnits` mantendo `extractedText` em caso de sucesso. Sem esquema, os novos campos são nulos e zero respectivamente. A conversão JSON é cobrada separadamente da extração e não está coberta pela cota diária de extração. Veja [Fetch e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md).
 - **Generations — Decisões semânticas.** Avalie múltiplas perguntas nomeadas contra um estado JSON compartilhado usando `noul` (critérios verdadeiro/falso), `choice` ou `score`. Respostas incluem respostas nomeadas, uso de tokens e custo. O serviço requer saldo positivo, e seu uso de tokens contribui para os totais de uso da conta.
 - **Ferramentas embutidas — Data e hora atuais.** A opção `DateTime` permite que assistentes solicitem a data, hora, dia da semana, fuso horário e offset UTC atuais. Defina `dateTimeTimeZone` para o fuso horário desejado; o padrão é `America/Los_Angeles`, com ajustes de horário de verão, independente do fuso horário do navegador. Fusos horários inválidos são rejeitados.
-- **Models — Opções de modelo adicionais.** Adiciona GLM‑5.3‑FlashX, Fugu Max, Pareto, Ling 3.0 Flash VL, MiMo‑V2.6‑Pro, MiMo‑V2.6‑Flash, MiMo‑V2.6‑Pro‑UltraSpeed e Grok 4.7 ao catálogo de inferência. Os aliases frontier, mid e budget da Xiaomi agora selecionam modelos MiMo V2.6, enquanto `@model-router/grok:latest` seleciona Grok 4.7. Usuários de alias podem observar diferentes qualidade de resposta, latência e custo; disponibilidade e capacidades suportadas dependem do modelo selecionado e do plano da conta.
+- **Models — Opções de modelo adicionais.** Adiciona GLM‐5.3‐FlashX, Fugu Max, Pareto, Ling 3.0 Flash VL, MiMo‐V2.6‐Pro, MiMo‐V2.6‐Flash, MiMo‐V2.6‐Pro‐UltraSpeed e Grok 4.7 ao catálogo de inferência. Os aliases frontier, mid e budget da Xiaomi agora selecionam modelos MiMo V2.6, enquanto `@model-router/grok:latest` seleciona Grok 4.7. Usuários de alias podem observar diferentes qualidade de resposta, latência e custo; disponibilidade e capacidades suportadas dependem do modelo selecionado e do plano da conta.
 - **Inference — Recuperação de falha transitória.** Solicitações de inferência podem fazer tentativas de recuperação adicionais quando um provedor está temporariamente indisponível. Isso pode evitar algumas solicitações falhas, mas também pode aumentar o tempo de resposta antes que um erro seja retornado.
 - **Avi Assistant — Modelo padrão atualizado.** O assistente de console da AIVAX altera seu modelo padrão, o que pode mudar o estilo de resposta, latência e custo de uso. Isso não altera o modelo selecionado nos seus próprios gateways.
 - **Documentation — Orientação de serviço atualizada.** A visão geral da documentação da API e a orientação do Avi Assistant cobrem sessões de voz, testes agentes, classificação, segmentação, reclassificação e extração web, com links de documentação atuais e orientação de cobrança específica por serviço. Esta é uma atualização de orientação, não a introdução desses serviços.
-- **Models — DeepSeek V4.1 Flash adicionado.** O catálogo de inferência inclui `@deepseek/deepseek-v4.1-flash` com suporte a chamada de ferramentas. Verifique disponibilidade de modelo e elegibilidade de plano antes de selecioná‑lo.
+- **Models — DeepSeek V4.1 Flash adicionado.** O catálogo de inferência inclui `@deepseek/deepseek-v4.1-flash` com suporte a chamada de ferramentas. Verifique disponibilidade de modelo e elegibilidade de plano antes de selecioná‐lo.
 - **Models — Seleções de roteador atualizadas.** `@model-router/deepseek:latest` e `@model-router/deepseek:budget` agora selecionam DeepSeek V4.1 Flash. Aplicações que usam esses aliases podem observar diferentes qualidade de resposta, latência e custo sem mudar o alias. Adiciona `@model-router/claude:frontier-mythos` e `@model-router/mercury:latest` como opções adicionais.
 - **Chat clients — Entrada de prompt estruturada.** Prompts síncronos de cliente de chat aceitam texto simples, uma única mensagem ou um array ordenado de mensagens, incluindo chamadas de ferramenta do assistente e resultados de ferramenta correspondentes. Entrada de mensagem única existente permanece suportada. `instructions` opcional adiciona contexto àquela solicitação sem substituir o contexto de sessão salvo. Veja [Chat clients](https://docs.aivax.net/pt-br/docs/features/chat-clients.md).
-- **Chat clients — Turnos sem persistência de sessão.** Defina `commit` como false para gerar uma resposta sem salvar as mensagens enviadas e geradas no histórico da sessão. O padrão permanece true. Isso não é uma pré‑visualização gratuita: inferência e ações de ferramenta ainda são executadas. Para continuar uma interação de ferramenta não confirmada, envie a mensagem de chamada de ferramenta do assistente junto com seus resultados de ferramenta.
+- **Chat clients — Turnos sem persistência de sessão.** Defina `commit` como false para gerar uma resposta sem salvar as mensagens enviadas e geradas no histórico da sessão. O padrão permanece true. Isso não é uma pré‐visualização gratuita: inferência e ações de ferramenta ainda são executadas. Para continuar uma interação de ferramenta não confirmada, envie a mensagem de chamada de ferramenta do assistente junto com seus resultados de ferramenta.
 - **Agentic Tests — Notificações de teste opcionais.** Preferências de notificação da conta podem habilitar resumos semanais de teste e alertas quando um teste atinge três falhas consecutivas. Isso complementa notificações de falha e recuperação existentes. Veja [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md).
 - **Fetch e OCR — Conteúdo web renderizado.** Extração HTML suporta conteúdo de página renderizado, melhorando a cobertura de páginas cujo texto legível depende de scripts. Renderização é cobrada em unidades de processamento; isso não garante acesso a todos os sites ou páginas restritas. Veja [Fetch e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md).
 
@@ -4115,13 +4116,13 @@ Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Pricing](
 | `@cloudflare/clef` |
 | `@cloudflare/clef-flash` |
 | `@liquid/d1` |
-| `@perplexity/pplx-decider-v1-27b` |
+| `@perplexity/pplx-decider-v1.1-27b` |
 | `@openai/gpt-6-luna-decisions` |
 | `@microsoft/microsoft-decision-1` |
 | `@nace-ai/drex-v1.5` |
 | `@cloudflare/clef-omni` |
 
-`@typesafe/jev` também é aceito e atualmente resolve para `@typesafe/jev-1.13`. Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos de modelo e interpretação de pontuações podem diferir; valide um modelo em exemplos representativos antes de mudar o tráfego de produção.
+`@typesafe/jev` também é aceito e atualmente resolve para `@typesafe/jev-1.13`. `@perplexity/pplx-decider-v1-27b` também é aceito e resolve para `@perplexity/pplx-decider-v1.1-27b`. Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos de modelo e interpretação de pontuações podem diferir; valide um modelo em exemplos representativos antes de mudar o tráfego de produção.
 
 Uma chave de API autenticada e um saldo positivo na conta são necessários, inclusive ao selecionar um modelo com preço base de token zero. Veja [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md), [Pricing](https://docs.aivax.net/pt-br/docs/pricing.md) e [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md).
 
@@ -4218,8 +4219,8 @@ Mantenha apenas evidências relevantes no estado. As instruções devem explicar
 - `url` deve ser um URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotas `http(s)` não são buscadas e são rejeitadas.
 - Imagens aninhadas dentro de objetos em `state` não são lidas como imagens. Um campo `images` de nível superior, partes `input_image` e base64 sem o prefixo `data:image/...;base64,` não são suportados.
 - Modelos Clef aceitam até 4 imagens por solicitação e GPT-6 Luna Decisions até 128. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`.
-- Clef e Clef Flash rejeitam solicitações que excedam sua janela de processamento; mantenha cada imagem abaixo de aproximadamente 300 KB antes da codificação. A cobrança usa os tokens de entrada que o modelo processa, conforme relatado em `usage.input_tokens`.
-- Clef e Clef Flash leem aproximadamente os primeiros 2 000 tokens de texto em `state`; imagens são contadas separadamente.
+- Clef e Clef Flash rejeitam solicitações que excedam sua janela de processamento; mantenha cada imagem abaixo de aproximadamente 300 KB antes da codificação. A cobrança usa os tokens de entrada que o modelo processa, conforme relatado em `usage.input_tokens`.
+- Clef e Clef Flash leem aproximadamente os primeiros 2 000 tokens de texto em `state`; imagens são contadas separadamente.
 
 ### Ler a resposta
 
@@ -12631,15 +12632,21 @@ Um **token** é um pequeno fragmento de texto processado por um modelo, às veze
 
 Em uma conversa de suporte, a primeira pergunta pode ser breve, mas a próxima solicitação costuma incluir novamente as mensagens anteriores. Reenviar o histórico é como entregar ao recepcionista a pasta completa do caso sempre que você acrescenta uma frase. Conversas longas podem, portanto, tornar‑se progressivamente mais caras. [Janela de contexto, tokens e custo](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md) explica como a quantidade de material que um modelo pode ler se relaciona com essa despesa.
 
+
 - **Leitura e escrita** — Instruções e contexto contribuem com tokens de entrada. Explicações longas e rascunhos repetidos contribuem com tokens de saída.
 
 - **Busca de conhecimento** — Recuperação significa encontrar material relevante em uma fonte de conhecimento. Preparar documentos, buscá‑los e classificar resultados pode ter custos separados.
 
 - **Chamando ferramentas** — Uma ferramenta é uma capacidade externa, como consultar um pedido. Ela pode cobrar separadamente e disparar outra solicitação ao modelo para interpretar seu resultado.
 
+
+
+
 Meça essas partes separadamente antes de mudar qualquer coisa. Uma equipe pode culpar respostas longas quando, na verdade, buscas repetidas dominam a conta. Registre o uso por categoria de tarefa, bem como por dia: qualificação de vendas, suporte e processamento de documentos noturno têm padrões de custo diferentes. Compare‑os usando a mesma definição de sucesso.
 
 > **Demonstração interativa: Experimente: uma estimativa ilustrativa de custo por token.** Esta demonstração interativa está disponível na página web. Altere o volume de conversas, o comprimento da entrada e o comprimento da saída separadamente. Considere todo preço neste exercício como ilustrativo. Esta estimativa simplificada exclui ferramentas, recuperação, tentativas e outras cobranças, portanto não é uma conta completa nem uma cotação de produto.
+
+
 
 ## Gaste esforço onde importa
 
@@ -12659,19 +12666,26 @@ Um **cache** é trabalho armazenado que pode ser reutilizado, como manter um for
 
 **Cache de resposta** armazena uma resposta concluída e a devolve para uma pergunta repetida elegível. Isso pode evitar uma chamada ao modelo completamente. Uma resposta de horário de funcionamento público pode ser candidata; um saldo de conta geralmente não é. Corresponda a todo fator que muda a resposta, incluindo idioma, permissões e versão do conhecimento. Apenas uma formulação semelhante não prova que dois usuários devam receber a mesma resposta.
 
+
 **Cache de prompt**
 
 Reutiliza o processamento de um prefixo de solicitação não alterado. O modelo ainda produz uma nova resposta para a pergunta atual. Verifique as regras de correspondência e retenção do provedor.
 
+
 **Cache de resposta**
 
 Reutiliza uma resposta já concluída. Defina quem pode recebê‑la, por quanto tempo permanece válida e quais mudanças devem removê‑la do cache.
+
+
+
+
 
 Defina um **tempo de expiração**, um ponto após o qual uma resposta em cache deve ser atualizada. Também suporte **invalidação**, removendo uma resposta armazenada quando algo importante muda. Se uma política de devolução mudar esta manhã, a explicação em cache de ontem já pode estar errada, mesmo que sua expiração seja amanhã. Nunca compartilhe resultados específicos de cliente através de um cache público e aplique verificações de acesso antes da reutilização.
 
 ## Compare mudanças de forma justa
 
 O gráfico abaixo mostra unidades de custo fictícias para a mesma carga de trabalho concluída. Cada par representa um experimento separado a partir de sua própria linha de base, não uma sequência de economias cumulativas. Resultados reais dependem do uso, preços e qualidade da tarefa; os valores demonstram como apresentar evidências em vez de prometer uma redução.
+
 
 **Antes e depois de cada alavanca de custo (ilustrativo)**
 
@@ -12686,6 +12700,8 @@ O gráfico abaixo mostra unidades de custo fictícias para a mesma carga de trab
 
 Experimentos independentes ilustrativos, não preços ou economias esperadas. Aceite uma mudança apenas se a qualidade e a segurança da tarefa permanecerem aceitáveis.
 
+
+
 Para **processamento em lote**, itens independentes são tratados como um grupo em segundo plano, em vez de durante uma conversa ao vivo. Um trabalho de classificação de tickets noturno pode tolerar espera de forma que um cliente ativo não pode. O trabalho em lote pode simplificar o agendamento, controlar trabalho simultâneo e evitar a repetição de itens concluídos. Não presuma que ele seja automaticamente descontado: os termos do provedor e o fluxo de trabalho escolhido determinam seu custo.
 
 Relacionado: no AIVAX, processar listas de itens independentes dessa forma é chamado de [Batch](https://docs.aivax.net/pt-br/docs/features/batch.md). Para tarifas reais, [veja a precificação atual](https://docs.aivax.net/pt-br/docs/pricing.md) em vez de usar as figuras ilustrativas neste módulo.
@@ -12694,21 +12710,29 @@ Relacionado: no AIVAX, processar listas de itens independentes dessa forma é ch
 
 Um **orçamento** é a quantia de gasto que você está disposto a permitir para um período ou carga de trabalho definidos. Um **alerta** informa a alguém que uma condição precisa de atenção; ele não necessariamente interrompe o gasto. Atribua um responsável que possa responder e decida o que acontece quando um limite é atingido: pause trabalhos em segundo plano, restrinja trabalho opcional ou ofereça uma rota humana.
 
+
 1. **Medir uma linha de base**
 
 Registre o custo por tarefa concluída, qualidade e taxas de falha antes de fazer uma mudança. Inclua tentativas malsucedidas.
+
 
 2. **Alterar uma alavanca**
 
 Teste o roteamento, o tamanho do contexto ou uma política de cache separadamente para que a razão de qualquer diferença seja visível.
 
+
 3. **Definir controles operacionais**
 
 Defina alertas de uso, tentativas limitadas e limites de gasto onde suportado. Teste o que o usuário vê quando o trabalho para.
 
+
 4. **Revisar resultados reais**
 
 Compare a economia de gasto com o esforço de correção e os resultados para o cliente. Mantenha a mudança apenas quando toda a tarefa melhorar.
+
+
+
+
 
 Observe padrões incomuns assim como totais. Um aumento repentino em solicitações por conversa pode indicar um loop de ferramenta em vez de demanda saudável. Revise o gasto após mudanças de instrução, modelo ou conhecimento, pois cada uma pode alterar quanto trabalho o agente realiza. Economias que desaparecem sob tráfego real são um sinal para investigar, não para remover salvaguardas.
 
