@@ -4,7 +4,7 @@
 
 # Document Filters
 
-A document filter restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a date range. Only documents that pass the filter are ranked by semantic similarity, so results never include documents outside the filter.
+A document filter restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a date range. Only documents that pass the filter are ranked by semantic similarity, so results never include documents outside the filter. For a task-oriented walkthrough, see [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
 
 Filters are evaluated **before** the search terms are embedded. When no document in the requested collections matches the filter, the request returns an empty result without generating embeddings or charging for the search.
 
