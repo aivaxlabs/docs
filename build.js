@@ -122,6 +122,8 @@ Rules:
 - Keep every link target and anchor unchanged. The build script localizes documentation links after translation.
 - Preserve YAML structure and keys. Translate only front matter values title, linkTitle and description, the objectives list items, and the title and description of each paths item; copy all other keys and values exactly.
 - "Learn" is the name of the AIVAX learning section; keep it in English when it names the section, as in "AIVAX Learn" or "How Learn works".
+- "Pipi" is the female cat mascot of the AIVAX Learn videos. In languages with grammatical gender, always use feminine forms for her, for example "a Pipi" and "gatinha" in Portuguese.
+- In Portuguese, translate "AI gateway" as "gateway de IA" and "system instruction" as "instrução de sistema"; never use "portal" or "porta" for gateway.
 - Reply ONLY with the translated document: no greetings, advice, comments or wrapping code fence.
 File: ${job.rel}
 <translation-input>

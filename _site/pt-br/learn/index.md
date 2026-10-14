@@ -101,3 +101,13 @@ Entenda agentes de IA desde o primeiro conceito até a produção, com lições 
 - [Glossário e folha de dicas](https://docs.aivax.net/pt-br/learn/guides/glossary-and-cheat-sheet.md)
 - [FAQ e caminhos de aprendizado por perfil](https://docs.aivax.net/pt-br/learn/guides/faq-and-learning-paths.md)
 
+## Aprenda com a Pipi
+
+- [O que é um gateway de IA?](https://docs.aivax.net/pt-br/learn/learn-with-pipi/ai-gateway.md)
+- [Instruções e habilidades do sistema](https://docs.aivax.net/pt-br/learn/learn-with-pipi/system-instructions-and-skills.md)
+- [Como a IA lê seus documentos](https://docs.aivax.net/pt-br/learn/learn-with-pipi/how-ai-reads-your-documents.md)
+- [Como a IA usa ferramentas](https://docs.aivax.net/pt-br/learn/learn-with-pipi/how-ai-uses-tools.md)
+- [Mantendo a IA no caminho](https://docs.aivax.net/pt-br/learn/learn-with-pipi/keeping-ai-on-track.md)
+- [Como a IA vê, ouve e lê](https://docs.aivax.net/pt-br/learn/learn-with-pipi/how-ai-sees-hears-and-reads.md)
+- [IA em todo lugar onde seus clientes estão](https://docs.aivax.net/pt-br/learn/learn-with-pipi/ai-everywhere-your-customers-are.md)
+
