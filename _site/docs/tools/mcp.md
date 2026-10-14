@@ -54,6 +54,8 @@ You can define your MCP servers in the gateway through a JSON array:
 
 Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`; the default is 600 seconds.
 
+If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
+
 ## Server instructions and remote skills
 
 Each MCP source accepts `allowClientInstructions` and `allowRemoteSkills`, both enabled by default. Set either option to `false` to exclude that content. Only connect servers whose content you trust: server instructions are added to the gateway context, and remote skills become available through `read_skill` alongside your account skills.

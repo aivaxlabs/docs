@@ -1353,7 +1353,7 @@ For the supported request, response, authentication, and error contract, use the
 
 ## Filtering Documents
 
-Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md) for the syntax and examples.
+Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md) for the syntax and examples, or [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for a worked guide.
 
 ## Reranking
 
@@ -1697,7 +1697,7 @@ Source: https://docs.aivax.net/docs/filters/document-filters.html
 
 # Document Filters
 
-A document filter restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a date range. Only documents that pass the filter are ranked by semantic similarity, so results never include documents outside the filter.
+A document filter restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a date range. Only documents that pass the filter are ranked by semantic similarity, so results never include documents outside the filter. For a task-oriented walkthrough, see [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
 
 Filters are evaluated **before** the search terms are embedded. When no document in the requested collections matches the filter, the request returns an empty result without generating embeddings or charging for the search.
 
@@ -5373,6 +5373,8 @@ You can define your MCP servers in the gateway through a JSON array:
 ```
 
 Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`; the default is 600 seconds.
+
+If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
 
 ## Server instructions and remote skills
 
@@ -13934,4 +13936,361 @@ What's next: return to [What is Learn](https://docs.aivax.net/learn/introduction
 3. Choose a model solely because it has the largest advertised capacity
 
 Answer: option 2. A bounded task with owned evidence and clear evaluation criteria provides a useful starting point; more integrations or model capacity do not replace preparation.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/ai-gateway.html
+
+In the first episode, Pipi introduces the drawing that the whole series reuses: a pink brain inside a glass jar. The brain is the language model. Everything Pipi builds around the jar is the gateway.
+
+[Video: AIVAX Learn #1 — What is an AI gateway?](https://public.aivax.net/file/aivax-public/learn/pipi/01-gateway.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 1 · 1 minute*
+
+## What the video shows
+
+A **large language model** (LLM) is software trained on a huge amount of text. It reads, writes and answers almost anything, which is why Pipi calls it a brilliant brain. On its own, though, it has three gaps: it does not know your company, it does not follow your rules, and it cannot use any tools.
+
+Three question balloons float up to the jar, "My company?", "Rules?", "Tools?", and each one deflates. Pipi puts on a hard hat and assembles a machine around the jar, one part per word:
+
+- **Instructions** — Who the assistant is and how it should behave, read in every conversation.
+
+- **Knowledge** — Your documents, so answers come from facts instead of guesses.
+
+- **Tools** — Actions the model can request, such as looking up an order.
+
+- **Safety** — Moderation and rules that keep answers within bounds.
+
+- **Costs** — Limits and usage tracking so spending stays predictable.
+
+The machine turns green. Then comes the twist: Pipi takes the pink brain out and plugs in a blue one. The machine keeps working.
+
+## Why the twist matters
+
+New models appear every few months, and the best choice for a task changes over time. When instructions, knowledge, tools and safety live in the gateway rather than in your application code, changing the model is a configuration change. Your website, your WhatsApp number and your internal tools keep calling the same gateway.
+
+Your application → AI gateway (instructions, knowledge, tools, safety, costs) → Language model → Answer
+
+On AIVAX, you send the gateway's ID in the `model` field of an OpenAI-compatible request, and AIVAX applies everything stored in it. The person who manages the gateway controls behaviour; the application only sends messages.
+
+## Go deeper
+
+- In Learn: [What is an LLM](https://docs.aivax.net/learn/agents/what-is-an-llm.md), [From LLMs to agents](https://docs.aivax.net/learn/agents/from-llms-to-agents.md) and [Model families and how to choose](https://docs.aivax.net/learn/models/model-families-and-choosing.md).
+- In the Documentation: [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) explains what a gateway stores and a recommended production configuration. The [Overview](https://docs.aivax.net/docs/overview.md) shows when to call a model directly instead.
+
+The next episode opens the first part of the machine: the instructions badge and the shelf of skills.
+
+**Knowledge check.** In Pipi's machine, what does the gateway do?
+
+1. The gateway trains a new model on your data
+2. The gateway stores instructions, knowledge, tools and safety around the model, so the model can be swapped
+3. The gateway is a faster version of the same model
+
+Answer: option 2. The gateway does not change the model itself. It keeps the configuration around it, which is why Pipi can swap the brain and the machine keeps running.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/system-instructions-and-skills.html
+
+The brain from episode 1 is brilliant, but it still does not know who it is or how to behave. In this episode it becomes the assistant of "Pipi's Bakery".
+
+[Video: AIVAX Learn #2 — System instructions and skills](https://public.aivax.net/file/aivax-public/learn/pipi/02-instrucoes-skills.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 2 · 1 minute 13 seconds*
+
+## What the video shows
+
+Pipi sticks a badge on the jar: *"You are the assistant of Pipi's Bakery. Be kind."* That badge is the **system instruction**: text that tells the model who it is and how to act. It is read in every conversation, which is why the video stamps it "always on".
+
+Then Pipi tries to fit everything on the badge: recipes, deliveries, exchanges. The badge turns into a scroll that unrolls to the floor, the brain starts sweating and a coin meter climbs. A model is billed by the amount of text it reads, so a huge instruction that is read on every message costs more on every message, even when most of it is irrelevant.
+
+Pipi cuts the scroll and builds a shelf of three booklets labelled *Recipes*, *Deliveries* and *Exchanges*. These are **skills**: packages of instructions, each with a short label saying what it is for.
+
+1. **A question arrives**
+
+A customer asks: *"Do you deliver on Saturday?"*
+
+2. **The brain reads the labels**
+
+Only the short descriptions of each skill are visible to the model at first.
+
+3. **One booklet opens**
+
+The *Deliveries* label lights up; that booklet flies into the jar and its instructions enter the conversation.
+
+4. **The rest stay on the shelf**
+
+*Recipes* and *Exchanges* are not loaded, so they add nothing to this answer's cost.
+
+## Badge or booklet?
+
+| | System instruction | Skill |
+|---|---|---|
+| When it applies | Always | Only when relevant |
+| Ideal size | Short and focused | Can be long |
+| Cost | Paid on every message | Paid only when loaded |
+| Best for | Identity, tone, base rules | Specialised procedures |
+
+A good rule of thumb: if something must hold for every answer, such as tone, scope or "never promise refunds", keep it in the system instruction. If it is a procedure for one kind of request, make it a skill and write a clear description, because the description is what the model uses to decide whether to open it.
+
+## Go deeper
+
+- In Learn: [Writing good prompts and instructions](https://docs.aivax.net/learn/agents/writing-good-prompts-and-instructions.md), [Adding skills](https://docs.aivax.net/learn/agents/adding-skills.md) and [Context window, tokens and cost management](https://docs.aivax.net/learn/prompt-engineering/context-window-tokens-and-cost.md).
+- In the Documentation: [Skills](https://docs.aivax.net/docs/features/skills.md) covers how skills are listed and loaded, when to use them and how they compare with system instructions. [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) shows where both are configured. [Teach Skill](https://docs.aivax.net/docs/generations/teach-skill.md) drafts a skill from a recorded demonstration.
+
+The next episode answers a different question: what happens when the answer is in your documents, not in the instructions?
+
+**Knowledge check.** Pipi's Bakery has long procedures for recipes, deliveries and exchanges. What does the video suggest?
+
+1. Put all of them in the system instruction so the model never misses one
+2. Turn each procedure into a skill with a clear description
+3. Create one gateway per procedure
+
+Answer: option 2. Skills keep the always-on instruction short. The model reads only the descriptions and loads a procedure when a question needs it.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/how-ai-reads-your-documents.html
+
+The brain is clever, but it has never seen the bakery's menu. If nobody tells it, it guesses. This episode shows how to give it the facts at the moment it needs them.
+
+[Video: AIVAX Learn #3 — How AI reads your documents](https://public.aivax.net/file/aivax-public/learn/pipi/03-rag.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 3 · 1 minute 11 seconds*
+
+## What the video shows
+
+Pipi stores the bakery's documents in a **collection**. Each small piece of a document becomes an index card. Small pieces matter: when the model receives only the relevant passage, it reads less and is less likely to mix topics.
+
+Next comes a problem. One card says *"diet cake"*, but the customer asks for something *"sugar-free"*. A search that matches word by word finds nothing, because nobody wrote "sugar-free".
+
+**Keyword search**
+
+Looks for the same words. "Sugar-free" does not match "diet cake", so the right card is missed.
+
+**Semantic search**
+
+Looks for the same meaning. Similar ideas sit close together, so the question lands next to the right card.
+
+**Semantic search** turns each card and each question into a position on a map of meaning. Cards about similar things end up near each other, and the question falls beside the card that answers it.
+
+## RAG: search before answering
+
+The card that was found travels with the question to the brain, and the brain answers based on it. That combination is called **RAG**, short for *retrieval-augmented generation*: retrieve the relevant passages, then generate the answer with them in view.
+
+Question → Semantic search in the collection → Relevant cards + question → Model → Grounded answer
+
+Pipi sums it up as *"no guessing, only facts"*. In practice, RAG reduces guessing but does not remove it: the answer is only as good as the documents and the search. That is why Learn spends a whole module on preparing knowledge.
+
+## Go deeper
+
+- In Learn: [What is a RAG](https://docs.aivax.net/learn/teaching-agents/what-is-a-rag.md), [Embeddings and semantic search](https://docs.aivax.net/learn/models/embeddings-and-semantic-search.md), [Preparing documents for knowledge](https://docs.aivax.net/learn/teaching-agents/preparing-documents-for-knowledge.md) and [Measuring adherence and hallucination](https://docs.aivax.net/learn/teaching-agents/measuring-adherence-and-hallucination.md).
+- In the Documentation: [Collections](https://docs.aivax.net/docs/rag/collections.md) explains how documents are stored, [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) covers filters and search quality, [Reranking](https://docs.aivax.net/docs/rag/reranking.md) reorders results, and [Best practices](https://docs.aivax.net/docs/rag/best-practices.md) collects practical advice. Collections are attached to an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md).
+
+Documents let the brain know things. The next episode lets it do things.
+
+**Knowledge check.** Why did the "sugar-free" question fail to find the "diet cake" card in the video?
+
+1. The customer typed the question wrong
+2. Keyword search looks for the same words, and the card used different words with the same meaning
+3. The collection was too small
+
+Answer: option 2. Semantic search compares meaning instead of exact words, so 'sugar-free' can find the 'diet cake' card.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/how-ai-uses-tools.html
+
+The brain knows how to talk, but it has no hands. It cannot look up your order or book an appointment. This episode gives it buttons.
+
+[Video: AIVAX Learn #4 — How AI uses tools](https://public.aivax.net/file/aivax-public/learn/pipi/04-ferramentas-mcp.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 4 · 1 minute 17 seconds*
+
+## What the video shows
+
+A **tool** is like a button with a label: it has a name and says what it does. The model never presses the button itself. It asks for it, and the system around it does the pressing.
+
+1. **The model asks**
+
+The customer wants to know about an order, so the model requests *"view order, number 42"*.
+
+2. **The system presses the button**
+
+Your system runs the action, for example a lookup in the store's database.
+
+3. **The result comes back**
+
+The system returns the result to the model as text: *"shipped yesterday"*.
+
+4. **The model answers**
+
+With real data in hand, the model answers correctly instead of guessing.
+
+This separation is what keeps tools safe: the model only chooses which button and with which values; your system decides what the button is allowed to do.
+
+## The tangle of wires, and the socket
+
+Every system connects in its own way: the calendar one way, the store another, the spreadsheet a third. In the video this becomes a tangle of wires around the jar.
+
+**MCP** (*Model Context Protocol*) is the standard socket. Each system arrives with its tools already described in the same format, so connecting it is just plugging it in, and the brain can use those tools right away.
+
+**Without a standard**
+
+Each system needs its own connection, written and maintained separately.
+
+**With MCP**
+
+Systems that speak MCP expose their tools the same way, so one connection pattern serves all of them.
+
+On AIVAX, a gateway can use several kinds of tools: AIVAX built-in tools, MCP servers you connect, and protocol functions that call your own HTTP endpoint when the model asks for them.
+
+## Go deeper
+
+- In Learn: [Adding tools](https://docs.aivax.net/learn/agents/adding-tools.md), [Function calling step by step](https://docs.aivax.net/learn/tools-and-integrations/function-calling.md), [MCP and tool standards](https://docs.aivax.net/learn/tools-and-integrations/model-context-protocol.md) and [Authentication and permissions for tools](https://docs.aivax.net/learn/tools-and-integrations/authentication-and-permissions.md).
+- In the Documentation: [MCP functions](https://docs.aivax.net/docs/tools/mcp.md) shows how to bind an MCP server to a gateway, [Protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) cover server-side actions such as checking an order, and [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) lists what is ready to use.
+
+Once the brain can act, it also needs limits. That is the next episode.
+
+**Knowledge check.** When the brain looks up order 42, who actually runs the lookup?
+
+1. The model runs the action directly on your database
+2. The model requests the action by name, and your system runs it and returns the result
+3. MCP answers the customer instead of the model
+
+Answer: option 2. The model only asks for a tool with values. The surrounding system executes it and sends the result back for the model to use.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/keeping-ai-on-track.html
+
+The brain answers everyone. But not every message is well meant, and sometimes the brain wants to please too much. This episode adds three layers of protection.
+
+[Video: AIVAX Learn #5 — Keeping AI on track](https://public.aivax.net/file/aivax-public/learn/pipi/05-seguranca.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 5 · 1 minute 20 seconds*
+
+## What the video shows
+
+- **Moderation: the sieve** — Checks messages at the entrance. Dangerous or offensive messages are held back and never reach the brain.
+
+- **Guardrails: the road barriers** — Your business rules. If the brain tries to offer a 90% discount, it hits the barrier and returns to the road.
+
+- **Observability: the logbook** — Every conversation is recorded: the question, the tools used, the cost and the errors.
+
+Message → Moderation → Model within guardrails → Answer → Logbook
+
+## Why three layers
+
+Each layer catches a different problem. **Moderation** stops harmful input before it costs anything or influences the answer. **Guardrails** stop well-meaning but wrong behaviour, like an assistant inventing a discount to make a customer happy. Some guardrails live in the instructions; firm ones, such as discount limits or permission checks, belong in your own systems, because a rule written only in a prompt can still be talked around.
+
+**Observability** is what you use when something has already gone wrong. When a customer complains, you open the conversation, see what was asked, which tools ran, what they returned and what it cost, and find the problem instead of guessing.
+
+> [!TIP]
+> No single layer is enough. Moderation does not know your prices, guardrails do not catch abusive users, and logs only help after the fact. Use all three.
+
+## Go deeper
+
+- In Learn: [Adding guardrails](https://docs.aivax.net/learn/agents/adding-guardrails.md), [Content moderation and usage policies](https://docs.aivax.net/learn/safety/content-moderation-and-policies.md), [Prompt injection and jailbreaks](https://docs.aivax.net/learn/safety/prompt-injection-and-jailbreaks.md) and [Logs, traces and monitoring](https://docs.aivax.net/learn/quality/logs-traces-and-monitoring.md).
+- In the Documentation: [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) is where moderation is enabled, with a link to what it covers. [AI workers](https://docs.aivax.net/docs/inference/workers.md) let your own service allow, stop or change a request at runtime, a good place for firm business rules. [Agentic tests](https://docs.aivax.net/docs/inference/agentic-tests.md) simulate full conversations to catch problems before customers do.
+
+The next episode teaches the brain to see and hear.
+
+**Knowledge check.** A customer complains about an answer from last week. Which layer helps you find out what happened?
+
+1. Moderation
+2. Guardrails
+3. Observability
+
+Answer: option 3. Observability is the logbook: it records the question, tools, cost and errors of each conversation so you can investigate.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/how-ai-sees-hears-and-reads.html
+
+The brain from the series only reads text. Little notes slip in easily, but customers also send photos and voice messages, and those do not fit through the slot.
+
+[Video: AIVAX Learn #6 — How AI sees, hears and reads](https://public.aivax.net/file/aivax-public/learn/pipi/06-multimodal.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 6 · 1 minute 13 seconds*
+
+## What the video shows
+
+Some models are **multimodal**: they see images, listen to audio and read files. In the video, each type of content has its own little entrance on the jar. A customer sends a photo of a cake, and the brain looks closely: carrot cake with chocolate frosting.
+
+But not every model can see. Some only read text. For those, AIVAX uses a translator machine: it looks at the media first and prints a note describing it. The note fits through the text slot, and the brain understands just the same. This step is called **preprocessing**.
+
+**Multimodal model**
+
+Photo → Multimodal model → Answer
+
+The model receives the original image. Best when fine visual detail matters and the chosen model supports that kind of media.
+
+**Preprocessing**
+
+Photo → Description written by AIVAX → Text-only model → Answer
+
+The main model receives a text description instead of the image. Useful for text-only models, or to keep one model for every channel regardless of what customers send.
+
+## Choosing between them
+
+Preprocessing adds a step, so it adds some cost and waiting time, and a description can leave out details that the original media had. Sending media directly avoids that, but limits you to models that accept it. Many teams start with preprocessing for audio and documents and send images directly when the model supports them.
+
+## Go deeper
+
+- In Learn: [Multimodality: images, audio, documents, video](https://docs.aivax.net/learn/models/multimodality.md) and [Model families and how to choose](https://docs.aivax.net/learn/models/model-families-and-choosing.md).
+- In the Documentation: [Inference](https://docs.aivax.net/docs/inference/inference.md) explains how to send media in a request and how the multimodal resolver replaces media with a description. [Pipelines](https://docs.aivax.net/docs/inference/pipelines.md) covers the gateway setting for this. [Media descriptions](https://docs.aivax.net/docs/generations/media-descriptions.md) and [Audio transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md) are available as standalone tools.
+
+The last episode takes the same brain to the website, WhatsApp and Telegram.
+
+**Knowledge check.** Your chosen model only reads text, and a customer sends a photo. What does the video show?
+
+1. It cannot be used with photos at all
+2. AIVAX can describe the photo as text first, and the model reads the description
+3. The customer must describe the photo in words
+
+Answer: option 2. Preprocessing writes a text description of the media, so a text-only model can still understand it.
+
+---
+
+Source: https://docs.aivax.net/learn/learn-with-pipi/ai-everywhere-your-customers-are.html
+
+Customers are on the website, on WhatsApp, on Telegram. Pipi's first reaction is to build one brain for each of them. What a lot of work.
+
+[Video: AIVAX Learn #7 — AI everywhere your customers are](https://public.aivax.net/file/aivax-public/learn/pipi/07-canais.mp4) — Pipi's videos are only available in Portuguese for now.
+
+*Episode 7 · 1 minute 15 seconds*
+
+## What the video shows
+
+Three cloned jars appear, one per channel, and then disappear. On AIVAX it is one brain: the same gateway serves every **channel**. A channel is simply where the customer is talking, and each one is just a different door into the same jar.
+
+- **Website: chat client** — The conversation window on your site, with your colour, your name and suggestion buttons, plus a message limit so nobody abuses it.
+
+- **WhatsApp and Telegram: integrations** — The message arrives from the phone, the gateway answers, and the reply goes back to the same conversation.
+
+- **One gateway** — Instructions, knowledge, tools and safety live in one place and serve every door.
+
+The best part comes at the end. Pipi changes the badge on the jar to *"Today: free shipping!"*, and the new answer appears on all three channels at once. Change a rule once, and it applies everywhere.
+
+## What changes per channel
+
+The content of the gateway should stay the same, but each channel has its own habits. A WhatsApp answer is usually shorter, a website window can show buttons, and each channel identifies the customer differently: a session on the website, a phone number or chat ID in messaging apps. On AIVAX, the chat client handles those session details, while the gateway keeps the behaviour.
+
+Website · WhatsApp · Telegram → Chat client or integration → Same AI gateway → Reply back on the same channel
+
+## Go deeper
+
+- In Learn: [Integrating channels: WhatsApp, web chat, e-mail, voice](https://docs.aivax.net/learn/tools-and-integrations/integrating-channels.md), [Webhooks, events and automations](https://docs.aivax.net/learn/tools-and-integrations/webhooks-events-and-automations.md) and [Customer support agent, step by step](https://docs.aivax.net/learn/guides/customer-support-agent.md).
+- In the Documentation: [Chat clients](https://docs.aivax.net/docs/features/chat-clients.md) explains sessions, limits, appearance and the Telegram and WhatsApp integrations. [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) is where the shared behaviour lives.
+
+That closes the series so far. Pipi is going for a nap; the other Learn modules cover each of these ideas in depth.
+
+**Knowledge check.** The bakery starts a free-shipping promotion. According to the video, how do you update the assistant?
+
+1. Update the instructions in each channel separately
+2. Change it once in the gateway, and every channel uses the new rule
+3. Create a new gateway for the promotion
+
+Answer: option 2. All channels are doors into the same gateway, so a single change reaches the website, WhatsApp and Telegram together.
 

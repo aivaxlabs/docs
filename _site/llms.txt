@@ -184,3 +184,13 @@ Embedded API references are represented by endpoint links in Markdown; their rem
 - [Glossary and cheat sheet](https://docs.aivax.net/learn/guides/glossary-and-cheat-sheet.md): Look up essential agent vocabulary and use a compact checklist for prompts, knowledge, tools, safety, and cost.
 - [FAQ and learning paths by profile](https://docs.aivax.net/learn/guides/faq-and-learning-paths.md): Answer common questions about agent projects and choose a practical learning route for beginners, developers, or business owners.
 
+## Learn: Learn with Pipi
+
+- [What is an AI gateway?](https://docs.aivax.net/learn/learn-with-pipi/ai-gateway.md): Pipi shows why a language model alone is just a brilliant brain in a jar, and how a gateway builds everything around it.
+- [System instructions and skills](https://docs.aivax.net/learn/learn-with-pipi/system-instructions-and-skills.md): Pipi sticks a badge on the jar so the brain knows who it is, then moves long procedures to a shelf of labelled booklets it opens only when needed.
+- [How AI reads your documents](https://docs.aivax.net/learn/learn-with-pipi/how-ai-reads-your-documents.md): Pipi turns the bakery's documents into index cards, finds the right one by meaning instead of by word, and hands it to the brain before it answers.
+- [How AI uses tools](https://docs.aivax.net/learn/learn-with-pipi/how-ai-uses-tools.md): The brain can talk but has no hands. Pipi gives it labelled buttons to press, then a standard socket so every system can plug its tools in the same way.
+- [Keeping AI on track](https://docs.aivax.net/learn/learn-with-pipi/keeping-ai-on-track.md): A sieve at the entrance, guardrails on the road and a logbook of every conversation: Pipi shows three layers that keep an assistant safe and explainable.
+- [How AI sees, hears and reads](https://docs.aivax.net/learn/learn-with-pipi/how-ai-sees-hears-and-reads.md): A customer sends a photo of a cake, an audio message and a file. Pipi shows models that understand media directly, and how AIVAX turns media into text for …
+- [AI everywhere your customers are](https://docs.aivax.net/learn/learn-with-pipi/ai-everywhere-your-customers-are.md): Customers write on the website, WhatsApp and Telegram. Pipi shows one gateway serving every channel, so a rule changed once applies everywhere.
+

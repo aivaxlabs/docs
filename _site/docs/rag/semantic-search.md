@@ -16,7 +16,7 @@ For the supported request, response, authentication, and error contract, use the
 
 ## Filtering Documents
 
-Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md) for the syntax and examples.
+Use the `filter` field to search only documents that match tags, metadata, names, or dates, such as `tags has "finance" and createdAt >= now-30d`. See [Document Filters](https://docs.aivax.net/docs/filters/document-filters.md) for the syntax and examples, or [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for a worked guide.
 
 ## Reranking
 

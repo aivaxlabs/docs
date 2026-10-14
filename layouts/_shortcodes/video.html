@@ -1,0 +1,7 @@
+<figure class="learn-video">
+    <video controls playsinline preload="metadata" src="{{ .Get "src" }}"{{ with .Get "poster" }} poster="{{ . }}"{{ end }}{{ with .Get "lang" }} lang="{{ . }}"{{ end }} title="{{ .Get "title" }}"></video>
+    <figcaption>
+        {{ if eq (.Get "lang") "pt-BR" }}<span class="learn-video-language">{{ partial "icon.html" "translate" }}{{ T "videoPortugueseOnly" }}</span>{{ end }}
+        {{ with .Get "caption" }}<span>{{ . | markdownify }}</span>{{ end }}
+    </figcaption>
+</figure>

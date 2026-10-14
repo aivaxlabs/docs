@@ -596,6 +596,41 @@
     text-align: center;
 }
 
+.learn-video {
+    margin: 1.8em 0;
+}
+
+.learn-video video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #efece6;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.learn-video figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+.learn-video-language {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.learn-video-language svg {
+    width: 15px;
+    height: 15px;
+}
+
 /* Accordion */
 
 .accordion {

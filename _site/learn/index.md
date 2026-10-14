@@ -101,3 +101,13 @@ Understand AI agents from the first concept to production, with visual, hands-on
 - [Glossary and cheat sheet](https://docs.aivax.net/learn/guides/glossary-and-cheat-sheet.md)
 - [FAQ and learning paths by profile](https://docs.aivax.net/learn/guides/faq-and-learning-paths.md)
 
+## Learn with Pipi
+
+- [What is an AI gateway?](https://docs.aivax.net/learn/learn-with-pipi/ai-gateway.md)
+- [System instructions and skills](https://docs.aivax.net/learn/learn-with-pipi/system-instructions-and-skills.md)
+- [How AI reads your documents](https://docs.aivax.net/learn/learn-with-pipi/how-ai-reads-your-documents.md)
+- [How AI uses tools](https://docs.aivax.net/learn/learn-with-pipi/how-ai-uses-tools.md)
+- [Keeping AI on track](https://docs.aivax.net/learn/learn-with-pipi/keeping-ai-on-track.md)
+- [How AI sees, hears and reads](https://docs.aivax.net/learn/learn-with-pipi/how-ai-sees-hears-and-reads.md)
+- [AI everywhere your customers are](https://docs.aivax.net/learn/learn-with-pipi/ai-everywhere-your-customers-are.md)
+
