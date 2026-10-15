@@ -19,7 +19,7 @@ Supported formats are `mp3`, `wav`, and `ogg`. When the consumer accepts any of 
 
 ## Generate speech
 
-Write text that is ready to be spoken aloud, including punctuation and formatting that communicate pauses or emphasis. Expand abbreviations and numerals the way they should be heard ("twenty twenty-six", "doctor" instead of "Dr.") rather than trusting the voice to guess.
+Write text that is ready to be spoken aloud, including punctuation and formatting that communicate pauses or emphasis. Expand abbreviations and numerals the way they should be heard, such as "doctor" instead of "Dr." or "twenty twenty-six" instead of "2026", rather than trusting the voice to guess.
 
 Test the selected voice with representative content before using it in production, especially for names, abbreviations, or specialized terms. Voices differ per speech model, so confirm the voice against the model you will use rather than assuming one model's voices exist in another.
 
@@ -31,7 +31,7 @@ To let an MCP-compatible agent or IDE synthesize speech without calling this end
 
 ## Speech or Voice Sessions
 
-Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions](/docs/inference/voice-session) when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls — chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.
+Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions](/docs/inference/voice-session) when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls. Chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.
 
 ## Pricing, limits, and errors
 

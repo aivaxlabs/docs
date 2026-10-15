@@ -4,7 +4,7 @@
 
 # Chat Clients
 
-A chat client provides a user interface via an [AI Gateway](/docs/inference/ai-gateway) that allows the user to converse with their assistant. A chat client is integrated with the AI gateway inference and supports deep thinking, search, text conversation, and image sending. Audio features depend on the integration and client configuration.
+A chat client gives end users an interface to converse with an assistant powered by an [AI Gateway](/docs/inference/ai-gateway). It runs on the gateway's inference and supports deep thinking, search, text conversation, and image sending. Audio features depend on the integration and client configuration.
 
 You can customize the chat client interface with CSS, custom JavaScript, colors, labels, suggestion buttons, frame origins, input modes, and the language used by the chat resources.
 
@@ -18,7 +18,7 @@ The `tag` also serves as the connection point between the chat client, memory, w
 
 ## Creating a chat session
 
-A chat session is where you create a conversation between your chat client and the user. You can call this endpoint providing additional context for the conversation, such as the user’s name, location, etc.
+A chat session represents one conversation between your chat client and an end user. When you create it, you can provide additional context for the conversation, such as the user’s name or location.
 
 A session can be identified with a stable, non-sensitive tag so the client can continue the appropriate conversation. See the embedded API Reference for supported session behavior and configuration.
 

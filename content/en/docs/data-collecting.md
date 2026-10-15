@@ -4,7 +4,9 @@
 
 # Data Collecting
 
-AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking data to model development. Document indexing and storage are outside this program. All collected RAG and reranking records are anonymized before they are written to the training dataset. The setting is disabled by default and must be enabled by an authorized Account Manager — the person using the AIVAX account, not a role in the API.
+AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking data to model development. In exchange, eligible operations receive a discount. Document indexing and storage are outside this program. All collected RAG and reranking records are anonymized before they are written to the training dataset.
+
+The setting is disabled by default. It must be enabled by an authorized Account Manager, meaning the person using the AIVAX account, not a role in the API.
 
 ## What changes when collection is enabled
 
@@ -53,6 +55,8 @@ The Account Manager can control collection in **Dashboard > My account > Semanti
 - Disabling it stops new collection and ends the discount for future operations.
 - Disabling it does not automatically delete records collected while consent was active or reverse training already completed.
 
-Because account identifiers and account-to-record mappings are not stored, AIVAX cannot retrieve or delete training records merely from an account ID. Requests concerning personal data present inside submitted semantic content can be sent to **privacy@aivax.net** or **wm@aivax.net** and must include enough information to locate the content where applicable. Source records are retained only for as long as reasonably necessary for the documented purposes, legal obligations, security, and audit requirements, and may then be deleted. Deletion of source records does not require AIVAX to retrain or destroy models or aggregated artifacts that no longer identify a person, except where required by applicable law.
+Because account identifiers and account-to-record mappings are not stored, AIVAX cannot retrieve or delete training records merely from an account ID. Requests concerning personal data present inside submitted semantic content can be sent to **privacy@aivax.net** or **wm@aivax.net**. Where applicable, include enough information to locate the content.
+
+Source records are retained only for as long as reasonably necessary for the documented purposes, legal obligations, security, and audit requirements, and may then be deleted. Deletion of source records does not require AIVAX to retrain or destroy models or aggregated artifacts that no longer identify a person, except where required by applicable law.
 
 See the [Privacy Policy](/docs/legal/privacy-policy) and [Terms of Use](/docs/legal/terms-of-service) for the governing legal terms.

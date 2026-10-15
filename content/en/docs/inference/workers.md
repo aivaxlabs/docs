@@ -8,7 +8,7 @@ AI Gateway workers are HTTP hooks that let an external service control gateway e
 
 Use workers when a rule must be decided outside the prompt. Common cases include subscription checks, CRM enrichment, tenant-specific policy, audit logging, dynamic tool blocking, and replacing a model-visible tool result with data from an internal system.
 
-Workers run in the inference critical path. Every worker event adds an HTTP request before the gateway can continue, so the endpoint must respond quickly and predictably.
+Workers run in the inference critical path. Every worker event adds an HTTP request before the gateway can continue, so keep the endpoint fast and predictable.
 
 ## Request format
 
@@ -39,7 +39,7 @@ The exact `event.data` shape depends on the event. Always validate `gatewayId` w
 
 ## Authentication
 
-When the account has a hook key, AIVAX sends `X-Request-Nonce`. The nonce is a BCrypt hash derived from the account hook key. Validate this header before trusting the body, especially when the worker releases private data, changes context, or authorizes tool usage.
+When the account has a hook key, AIVAX sends the `X-Request-Nonce` header. The nonce is a BCrypt hash derived from the account hook key. Validate this header before trusting the body, especially when the worker releases private data, changes context, or authorizes tool usage.
 
 Treat `externalUserId`, `metadata`, messages, and tool arguments as untrusted input.
 
@@ -55,7 +55,10 @@ After sending the request, AIVAX handles the worker response as follows:
 
 If the worker request fails with an HTTP request exception, AIVAX logs the failure and stops the event.
 
-Choose fail-open or fail-closed behavior intentionally. Return `2xx` when enrichment is optional. Return a non-OK response when authorization, compliance, or business policy cannot fail open.
+Choose fail-open or fail-closed behavior intentionally:
+
+- Return `2xx` when the worker only adds optional enrichment, so the conversation continues even if your logic has nothing to add.
+- Return a non-OK response when authorization, compliance, or business policy cannot fail open.
 
 ## `message.received`
 
@@ -103,6 +106,8 @@ Available rewrite actions:
 
 ### Replace the user context
 
+This example runs `clear` and then adds a replacement message, so the model answers the policy message instead of the original user input:
+
 ```json
 {
     "type": "message.received.response",
@@ -125,6 +130,8 @@ Available rewrite actions:
 
 ### Remove a message
 
+This example removes the first message from the context, using its zero-based index:
+
 ```json
 {
     "type": "message.received.response",
@@ -140,6 +147,8 @@ Available rewrite actions:
 ```
 
 ### Add a temporary MCP source
+
+This example exposes the tools of an internal MCP server for the current inference only:
 
 ```json
 {
@@ -208,7 +217,7 @@ When `tool.called.response` is returned, AIVAX uses the worker-provided result i
 
 ## Example: blocking unauthorized users
 
-The example below shows a Cloudflare Worker that blocks a gateway call when the external user is not allowed.
+The example below shows a Cloudflare Worker that blocks a gateway call when the external user is not allowed. Requests for other gateways or events receive an empty `2xx` response and continue normally; a `403` response stops the `message.received` event for users outside the allow list.
 
 ```js
 export default {

@@ -4,7 +4,7 @@
 
 # Voice Session
 
-Voice Session is AIVAX's low-latency, stateful voice API. It keeps the authenticated AIVAX WebSocket endpoint while connecting to a realtime inference service. Events follow the OpenAI-compatible GA Realtime JSON protocol after the connection is upgraded.
+Voice Session is AIVAX's low-latency, stateful voice API. Your client connects to an authenticated AIVAX WebSocket endpoint, and AIVAX connects the session to a realtime inference service. After the connection is upgraded, events follow the OpenAI-compatible GA Realtime JSON protocol.
 
 Use Voice Session for natural spoken conversations with streaming audio, assistant speech transcripts, server voice activity detection (VAD), interruptions, and tool calls. Use [Audio Transcriptions](/docs/generations/audio-transcriptions) for transcription-only workloads or [Speech Generation](/docs/generations/speech) when the text to synthesize is already known.
 
@@ -97,7 +97,7 @@ You can also provide standard GA Realtime instructions, tools, and turn-detectio
 
 ## Stream microphone audio
 
-Capture raw mono signed 16-bit little-endian PCM (`s16le`) at 24,000 Hz, base64-encode each chunk in chronological byte order, and append it to the input buffer:
+Capture microphone audio as raw mono signed 16-bit little-endian PCM (`s16le`) at 24,000 Hz. Base64-encode each chunk in chronological byte order and append it to the input buffer:
 
 ```json
 {
@@ -155,7 +155,12 @@ Cancellation stops generation; truncation keeps the server conversation aligned 
 
 ## Use tools
 
-Declare client tools through the standard GA Realtime `tools` session field. Handle `response.function_call_arguments.done` using its `response_id`, `call_id`, `name`, and JSON-encoded `arguments`. Execute each requested function, add one native `function_call_output` conversation item per `call_id`, then send a single `response.create` after the originating `response.done` and every call from that response has an output.
+Declare client tools through the standard GA Realtime `tools` session field. When the model calls one of them:
+
+1. Handle `response.function_call_arguments.done` using its `response_id`, `call_id`, `name`, and JSON-encoded `arguments`.
+2. Execute each requested function.
+3. Add one native `function_call_output` conversation item per `call_id`.
+4. Send a single `response.create` after the originating `response.done` arrives and every call from that response has an output.
 
 Tools configured as AIVAX server `InternalFunctions` execute within AIVAX and require no client action. Client-defined tools continue to be returned normally and remain the client's responsibility.
 

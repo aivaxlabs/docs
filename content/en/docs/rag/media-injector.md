@@ -6,7 +6,7 @@
 
 Media Injector turns a source file into focused, self-contained documents inside an AIVAX RAG collection. It examines the source, identifies materially useful knowledge, writes concise factual documents in the source's predominant language, and queues those documents for semantic indexing.
 
-Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, use [Create or Update Document or JSONL import](collections.md#document-fields) instead; those paths are more predictable and avoid the additional processing needed to interpret a source file.
+Use Media Injector when you have a file whose useful knowledge has not already been split into retrieval-ready text. If you already have clean document strings, import them directly with [Create or Update Document or JSONL import](collections.md#document-fields). Those paths are more predictable and avoid the extra processing needed to interpret a source file.
 
 ## When to use it
 
@@ -20,7 +20,7 @@ It is not a general file-storage feature and does not preserve the source as one
 
 Use direct document import when you need exact source wording, deterministic boundaries, stable document names, or application-controlled metadata. Use [Text Segmentation](text-segmentation.md) when you only need cohesive source-text segments returned to your application without creating collection documents.
 
-Use this [RAG responsibility checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to decide which preparation steps to manage.
+Use this [RAG responsibility checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to decide which preparation steps to handle yourself.
 
 ## How ingestion works
 
@@ -55,7 +55,7 @@ Example:
 This is the 2026 support policy for Acme Cloud customers in Brazil. Prioritize eligibility rules, deadlines, plan differences, exceptions, and the steps a support agent must communicate. Ignore repeated page headers and signature blocks.
 ```
 
-Avoid asking the mechanism to infer conclusions, supply missing information, or use outside knowledge. For example, do not instruct it to decide whether a contract is legally enforceable or to calculate values the source does not report.
+Avoid asking Media Injector to infer conclusions, supply missing information, or use outside knowledge. For example, do not instruct it to decide whether a contract is legally enforceable or to calculate values the source does not report.
 
 Processing context is different from a collection's context. Processing context guides this import only. Collection context describes the knowledge base to an AI Gateway when the collection is used later. Put source-specific ingestion guidance here; keep durable collection-wide guidance in the collection settings.
 

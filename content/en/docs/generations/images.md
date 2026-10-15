@@ -12,11 +12,15 @@ Authenticate requests with an AIVAX API key. See [Authentication](/docs/authenti
 
 Select an image-generation model available to the authenticated account. Model availability and capabilities can change, so obtain current options from the platform instead of depending on a fixed list in this guide.
 
-When several models are available, decide by capability: whether you need reference-image support (only some models accept `referenceImages`), how many variations per prompt you need (`count` accepts 1 to 4), and how long your application can wait — image requests on some models take a while, in which case the API recommends `direct.inference.aivax.net`.
+When several models are available, compare them by capability:
+
+- **Reference images:** only some models accept `referenceImages`.
+- **Variations:** decide how many images you need per prompt; `count` accepts 1 to 4.
+- **Wait time:** image requests on some models take a while. For those, the API recommends `direct.inference.aivax.net`.
 
 ## Generate an image
 
-Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. One request can carry a single prompt or an array of prompts, and each prompt generates `count` images whose URLs come back grouped by input prompt.
+Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. One request can carry a single prompt or an array of prompts. Each prompt generates `count` images, and their URLs come back grouped by input prompt.
 
 Supply up to four HTTP(S) reference images when the selected model supports them and the output must follow an existing subject, style, or composition. References guide the result; they do not guarantee identity preservation, so inspect the output before publishing.
 

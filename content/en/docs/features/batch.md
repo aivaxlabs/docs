@@ -54,7 +54,7 @@ Changing a workflow affects subsequent jobs and items processed with that config
 
 ### Job
 
-A job is a concrete execution created from a workflow. It groups the items of a workload, maintains state, events, and metrics.
+A job is a concrete execution created from a workflow. It groups the items of a workload and keeps the workload's state, events, and metrics.
 
 A job represents the workload while it is prepared, processed, paused, or completed. See the embedded API Reference for supported job states.
 
@@ -168,7 +168,7 @@ Create a job when you have a concrete workload to run through an existing workfl
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Create%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Jobs are created paused. Import the items before starting.
+Next, import the items. The job stays paused until you start it.
 
 ### Import items
 
@@ -176,7 +176,7 @@ Import items after the job exists. Each imported item becomes one independent un
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Import%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Choose the import format that matches the source data. See the embedded API Reference for supported import modes, fields, and current constraints.
+See the embedded API Reference for supported import modes, fields, and current constraints.
 
 ### Start, pause, or finish
 
@@ -192,7 +192,7 @@ Monitoring is how you decide whether the workflow is healthy. The job view gives
 
 <script src="https://inference.aivax.net/apidocs?embed-target=View%20Batch%20Job&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-To list items:
+To see individual items and where the work is getting stuck, list the job's items:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=List%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -200,13 +200,19 @@ Use the list endpoint to filter items by state, confidence, or input text. See t
 
 ### Retry and clean
 
-Retries are best used after you understand the failure shape. Retry execution errors when the provider or request failed, validation errors when the response can likely be regenerated into the expected shape, and low-confidence results when the item succeeded but deserves another model attempt. Cleanup endpoints are for removing non-running items from a job when they are no longer useful.
+Retries are best used after you understand the failure shape:
+
+- Retry **execution errors** when the provider or request failed.
+- Retry **validation errors** when the response can likely be regenerated into the expected shape.
+- Retry **low-confidence results** when the item succeeded but deserves another model attempt.
+
+Cleanup endpoints are for removing non-running items from a job when they are no longer useful.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Retry%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior.
 
-To remove non‐running items:
+To remove non‐running items from the job:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Remove%20Batch%20Job%20Items&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 

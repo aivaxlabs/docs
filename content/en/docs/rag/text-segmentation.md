@@ -8,7 +8,7 @@ Text segmentation divides source documents into semantically cohesive strings th
 
 Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](media-injector.md).
 
-See [where segmentation fits in a RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/), alongside storage, updates, and retrieval.
+To see how segmentation relates to storage, updates, and retrieval, read [where segmentation fits in a RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
 ## Skip segmentation when the text is already focused
 
@@ -22,7 +22,7 @@ Watch the failure modes of messy sources. Tables lose their headers, OCR drops l
 
 ## Prepare source text
 
-Supply complete source text whenever possible. Segments are most useful when the source has clear headings, paragraphs, and complete statements. Review results from tables, OCR, transcripts, or documents with repeated headers before indexing them.
+Supply complete source text whenever possible, cleaned as described above.
 
 Without sanitization, segments target about 300 tokens and cover the whole document in source order, without overlap. Boundaries follow the document structure and the semantic similarity of neighboring passages; documents of about that size or smaller are returned as one segment.
 

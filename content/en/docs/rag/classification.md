@@ -4,7 +4,9 @@
 
 # Text Classification
 
-Use text classification to rank a fixed set of labels for one or more documents without training a custom classifier. AIVAX embeds every document and label with the default embedding model, compares their vectors using cosine similarity, and returns every label from the most similar to the least similar for each document.
+Use text classification to rank a fixed set of labels for one or more documents without training a custom classifier. It fits tasks such as tagging, triage, or routing requests, where the categories are known in advance and you need a similarity ranking rather than a generated answer.
+
+AIVAX embeds every document and label with the default embedding model and compares their vectors using cosine similarity. For each document, it returns every label ordered from the most similar to the least similar.
 
 Before calling this endpoint, [create an API key](../authentication.md) and make sure the account has a positive balance.
 
@@ -24,7 +26,7 @@ Before calling this endpoint, [create an API key](../authentication.md) and make
 
 Duplicate documents and labels are preserved. The endpoint always uses the current default embedding model and does not accept a model parameter, score threshold, or result limit.
 
-Example request:
+The following request classifies three documents, one of them in German, against three labels:
 
 ```json
 {
@@ -43,7 +45,7 @@ Example request:
 
 ## Read the response
 
-`results` contains one item for each input document. Each `scores` array contains every supplied label, ordered by descending cosine similarity. Labels with equal scores preserve their original order.
+`results` contains one item for each input document. Each `scores` array contains every supplied label, ordered by descending cosine similarity. Labels with equal scores preserve their original order. The example below is abbreviated to the first document:
 
 ```json
 {

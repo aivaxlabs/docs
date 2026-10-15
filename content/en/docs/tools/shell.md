@@ -45,7 +45,9 @@ Enable persistence only for data the user expects to survive — working documen
 
 ## Shell file API
 
-AIVAX also exposes Shell I/O endpoints under `/api/v1/shell/io` for authenticated accounts. These endpoints use the required `X-Shell-User-Id` header to scope the filesystem sandbox and support listing directories, downloading files, inspecting file metadata, creating temporary public file addresses, uploading files, creating directories, and deleting files or directories. Uploads are documented with a 100 MB maximum request body.
+AIVAX also exposes Shell I/O endpoints under `/api/v1/shell/io` for authenticated accounts. Every request requires the `X-Shell-User-Id` header, which scopes the filesystem sandbox the endpoint operates on.
+
+With these endpoints, you can list directories, download files, inspect file metadata, create temporary public file addresses, upload files, create directories, and delete files or directories. Uploads are documented with a 100 MB maximum request body.
 
 Reference:
 
