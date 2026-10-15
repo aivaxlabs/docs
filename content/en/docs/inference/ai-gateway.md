@@ -38,7 +38,7 @@ When choosing a model, validate three points before putting it into production:
 - The model supports function calling if the gateway uses tools, RAG through `QueryFunction`, MCP, protocol functions, skills, or built-in functions.
 - The model accepts the parameters you configure. Some integrated models reject assistant prefill, temperature, stop sequences, or reasoning effort.
 
-Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist.
+Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist. For the GPT-4o and GPT-4.1 shutdown on January 14, 2027, see [how to migrate to gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/).
 
 Gateways can also use model routing. For the complexity router, AIVAX classifies the latest user request as low, medium, or high complexity, selects the configured model for that level, and emits `X-Model-Routed-Complexity` on the HTTP response when available.
 
