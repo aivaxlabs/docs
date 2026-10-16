@@ -162,7 +162,7 @@ Memories are **not automatically added to system instructions**. Tell the model 
 
 ### Save, Replace, or Delete a Memory
 
-`memory_save(id?, content?, expiresInDays?)` combines creation, replacement, and deletion. `id` is the memory's ID; `content` is the text to save, limited to **10 KB**; `expiresInDays` is an optional whole number of days, from 1 to 365, after which the memory is deleted automatically.
+`memory_save(id?, content?, expiresInDays?)` combines creation, replacement, and deletion. `id` is the memory's ID; `content` is the text to save, subject to a size limit (see [Request and payload limits](../limits.md#request-and-payload-limits)); `expiresInDays` is an optional whole number of days, from 1 to 365, after which the memory is deleted automatically.
 
 | Arguments | Result |
 | --- | --- |

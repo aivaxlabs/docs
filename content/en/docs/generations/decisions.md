@@ -45,7 +45,7 @@ An authenticated API key and a positive account balance are required, including 
 - `maxImages`: the number of images accepted per request, or `0` for text-only models.
 - `releaseDate`: the catalog release date in `yyyy-MM-dd` format.
 - `capabilities`: supported question types (`noul`, `choice`, and/or `score`).
-- `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base USD prices, before account and plan adjustments.
+- `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base token prices before account and plan adjustments; see [Pricing](../pricing.md#semantic-decisions).
 
 Use this listing to populate model selectors rather than maintaining a separate hardcoded catalog. It describes configured models, not a real-time provider health check. Model-specific option and question limits are not included in this listing.
 
@@ -127,9 +127,8 @@ Keep only relevant evidence in the state. Instructions should explain the decisi
 
 - `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are not fetched and are rejected.
 - Images nested inside objects in `state` are not read as images. A top-level `images` field, `input_image` parts, and base64 without the `data:image/...;base64,` prefix are not supported.
-- Clef models accept up to 4 images per request and GPT-6 Luna Decisions up to 128. Sending images to any other model, or more than the model accepts, returns `400`.
-- Clef and Clef Flash reject requests that exceed their processing window; keep each image under about 300 KB before encoding. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
-- Clef and Clef Flash read roughly the first 2,000 tokens of text in `state`; images are counted separately.
+- Only some models accept images, each up to a per-request maximum. Sending images to any other model, or more than the model accepts, returns `400`. See [Semantic decision model limits](../limits.md#semantic-decision-model-limits).
+- Clef and Clef Flash also bound the image size and the amount of text they read from `state`; see the same limits section. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
 
 ### Read the response
 

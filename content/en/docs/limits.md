@@ -106,6 +106,8 @@ These model-specific limits apply in addition to the account-level request quota
 
 Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only.
 
+`@cloudflare/clef` and `@cloudflare/clef-flash` reject requests that exceed their processing window, so keep each image under about 300 KB before encoding. They also read roughly the first 2,000 tokens of text in `state`; images are counted separately.
+
 Julia-1 has additional serving limits:
 
 | Limit | Value |
@@ -133,6 +135,29 @@ These limits apply to every plan and are independent of the plan limits above.
 | [Web search](web-foundation/web-search.md) | 1–25 results per direct API request (`topn`) |
 | [Remote instruction sources](inference/pipelines.md) | 10 MB maximum response size |
 | [Agentic Tests](inference/agentic-tests.md) | Up to 16 `resources` and 16 `hooks` per test |
+| [Shell tool](tools/shell.md) | 60 seconds per command; 4,096 characters of output returned to the model |
+| [Shell file API](tools/shell.md#shell-file-api) | 100 MB maximum request body per upload |
+| [Memory tools](tools/builtin-tools.md#save-replace-or-delete-a-memory) | 10 KB of content per saved memory |
+| [Remote MCP skills](tools/mcp.md) | 512 resources and 16 MiB of total declared content per skill |
+| [Collections MCP](mcp-utilities/collections-mcp.md) and [Documentation MCP](mcp-utilities/documentation-mcp.md) search | 10 search terms and 500 total characters per call |
+| [RAG documents](rag/best-practices.md#document-size) | Text above about 1,562 tokens is truncated to about 5,000 characters for embedding; documents below about 10 tokens are accepted but may not be retrieved reliably |
+
+### Document filter limits
+
+These limits apply to every [document filter](filters/document-filters.md), including filters used by memory search and the Collections MCP.
+
+| Limit | Value |
+| --- | --- |
+| Filter length | 2,048 characters per string |
+| Conditions | 32 per string |
+| Nesting of parentheses and `not` | 8 levels |
+| Values in one `in` list | 100 |
+| Length of a text value or metadata key | 256 characters |
+| Keys in a metadata path | 8 |
+| Minimum `contains` length | 3 characters |
+| Execution time | 10 seconds |
+
+A filter that exceeds the execution time fails and asks for more selective conditions.
 
 ### Included daily subscription allowances
 

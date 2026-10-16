@@ -65,10 +65,7 @@ It accepts:
 - `search_terms` (`string[]`): one or more search terms.
 - `filter` (`string`, optional): a [document filter](../filters/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
-The MCP read tool enforces two request-shaping limits:
-
-- At most 10 search terms per call.
-- At most 500 total characters across all search terms.
+The MCP read tool limits the number of search terms and their total length per call; see [Request and payload limits](../limits.md#request-and-payload-limits).
 
 When `X-Mcp-Allow-Write` is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.
 

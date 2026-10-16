@@ -168,17 +168,7 @@ updatedAt >= now-12h and updatedAt < now
 
 ## Limits
 
-| Limit | Value |
-| --- | --- |
-| Filter length | 2,048 characters per string |
-| Conditions | 32 per string |
-| Nesting of parentheses and `not` | 8 levels |
-| Values in one `in` list | 100 |
-| Length of a text value or metadata key | 256 characters |
-| Keys in a metadata path | 8 |
-| Minimum `contains` length | 3 characters |
-
-A filter must finish within 10 seconds. Conditions on `content`, `endswith`, tags, and metadata examine every document in the requested collections, so they take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. Prefer conditions on `name` (`=`, `in`, `startswith`), split very large corpora into smaller collections, and reserve `content contains` for collections where it stays fast.
+Filter length, number of conditions, nesting depth, value sizes, and execution time are bounded; see [Document filter limits](../limits.md#document-filter-limits). Conditions on `content`, `endswith`, tags, and metadata examine every document in the requested collections, so they take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. Prefer conditions on `name` (`=`, `in`, `startswith`), split very large corpora into smaller collections, and reserve `content contains` for collections where it stays fast.
 
 ## Errors
 

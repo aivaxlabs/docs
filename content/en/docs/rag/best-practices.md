@@ -14,8 +14,10 @@ As a practical target, keep most documents between 20 and 700 words. This range 
 
 The current indexer also records warnings for unusually small or large documents:
 
-- Documents below about 10 tokens are accepted, but may be too small to retrieve reliably.
-- Documents above about 1,562 tokens are accepted, but the indexer truncates the text used for embedding to about 5,000 characters and records a warning.
+- Very small documents are accepted, but may be too small to retrieve reliably.
+- Very large documents are accepted, but the indexer truncates the text used for embedding and records a warning.
+
+See [Request and payload limits](../limits.md#request-and-payload-limits) for the current thresholds.
 
 If a document is longer than that, split it before indexing. Use paragraphs, sections, policy clauses, FAQ entries, product descriptions, or other logical units.
 

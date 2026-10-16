@@ -8,11 +8,11 @@ AIVAX offers a virtual shell environment that can be used by agent assistants to
 
 The shell environment allows moving selected model tools to the shell side, turning them into CLI commands. This is useful when you have many tools and do not want to expose all of them directly to the model, or when a tool is easier to use through command-line arguments and pipes.
 
-When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. Each command is limited to 60 seconds and returns up to 4,096 characters of output to the model.
+When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. Each command has a time limit and a cap on the output returned to the model; see [Request and payload limits](/docs/limits#request-and-payload-limits).
 
 ## Design for the limits
 
-The 60-second timeout and 4,096-character output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
+The command timeout and output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
 
 Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](/docs/features/batch.md) or an external job, and let the shell handle the interactive slices.
 
@@ -47,7 +47,7 @@ Enable persistence only for data the user expects to survive — working documen
 
 AIVAX also exposes Shell I/O endpoints under `/api/v1/shell/io` for authenticated accounts. Every request requires the `X-Shell-User-Id` header, which scopes the filesystem sandbox the endpoint operates on.
 
-With these endpoints, you can list directories, download files, inspect file metadata, create temporary public file addresses, upload files, create directories, and delete files or directories. Uploads are documented with a 100 MB maximum request body.
+With these endpoints, you can list directories, download files, inspect file metadata, create temporary public file addresses, upload files, create directories, and delete files or directories. Uploads have a maximum request body size; see [Request and payload limits](/docs/limits#request-and-payload-limits).
 
 Reference:
 
