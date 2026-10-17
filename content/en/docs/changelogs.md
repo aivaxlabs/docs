@@ -172,8 +172,8 @@ Changes:
 
 Breaking changes:
 
-- **Gateways — Off-topic moderation is being removed.** The dedicated off-topic threshold will no longer block requests that stray from the conversation's purpose. If your application relies on this check, review its topic restrictions before adopting this change; the remaining moderation categories are not an equivalent replacement.
-- **Built-in tools — Advanced web research is being disabled.** The `AdvancedWebUsage` tool will return an unavailable response instead of performing research. Remove reliance on this tool from gateway instructions and workflows. Standard [Web Search](web-foundation/web-search.md) and URL extraction remain separate alternatives, not equivalent replacements for multi-step research.
+- **Gateways — Off-topic moderation was removed.** The dedicated off-topic threshold no longer blocks requests that stray from the conversation's purpose. If your application relies on this check, review its topic restrictions before adopting this change; the remaining moderation categories are not an equivalent replacement.
+- **Built-in tools — Advanced web research is disabled.** The `AdvancedWebUsage` tool returns an unavailable response instead of performing research. Remove reliance on this tool from gateway instructions and workflows. Standard [Web Search](web-foundation/web-search.md) and URL extraction remain separate alternatives, not equivalent replacements for multi-step research.
 - **Models — Mercury 2.5 model identifier changed.** Replace `@inception/mercury-2.5-preview` with `@inception/mercury-2.5` in requests and gateway settings. The preview identifier is no longer listed, and the replacement is no longer marked as preview.
 - **Gateways / MCP — MCP tool names are source-qualified.** Tools from different MCP sources no longer share an unqualified name in the gateway. Review gateway instructions, tool-selection rules, and workers that match exact tool names. The original tool name at the connected MCP server is unchanged. See [MCP functions](tools/mcp.md).
 
