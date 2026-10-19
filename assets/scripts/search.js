@@ -40,7 +40,10 @@ function excerpt(html) {
 
 function renderDocs(item) {
     const link = element('a', 'search-item', [
-        element('span', 'search-item-title', [item.meta.title]),
+        element('span', 'search-item-title', [
+            item.meta.title,
+            ...(item.meta.path ? [element('span', 'search-item-path', [item.meta.path])] : [])
+        ]),
         excerpt(item.excerpt)
     ]);
     link.href = item.url;

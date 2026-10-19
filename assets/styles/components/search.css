@@ -114,6 +114,13 @@
     overflow-wrap: anywhere;
 }
 
+.search-item-path {
+    margin-left: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+
 .search-item-api {
     grid-template-columns: auto 1fr;
     column-gap: 10px;
