@@ -10,11 +10,15 @@ Authenticate requests with an AIVAX API key. See [Authentication](https://docs.a
 
 Select an image-generation model available to the authenticated account. Model availability and capabilities can change, so obtain current options from the platform instead of depending on a fixed list in this guide.
 
-When several models are available, decide by capability: whether you need reference-image support (only some models accept `referenceImages`), how many variations per prompt you need (`count` accepts 1 to 4), and how long your application can wait — image requests on some models take a while, in which case the API recommends `direct.inference.aivax.net`.
+When several models are available, compare them by capability:
+
+- **Reference images:** only some models accept `referenceImages`.
+- **Variations:** decide how many images you need per prompt; `count` accepts 1 to 4.
+- **Wait time:** image requests on some models take a while. For those, the API recommends `direct.inference.aivax.net`.
 
 ## Generate an image
 
-Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. One request can carry a single prompt or an array of prompts, and each prompt generates `count` images whose URLs come back grouped by input prompt.
+Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. One request can carry a single prompt or an array of prompts. Each prompt generates `count` images, and their URLs come back grouped by input prompt.
 
 Supply up to four HTTP(S) reference images when the selected model supports them and the output must follow an existing subject, style, or composition. References guide the result; they do not guarantee identity preservation, so inspect the output before publishing.
 
@@ -28,6 +32,12 @@ To let an MCP-compatible agent or IDE generate images without calling this endpo
 
 ## Pricing, limits, and errors
 
-Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. See [Pricing](https://docs.aivax.net/docs/pricing.md#voice-and-media) for how the charge is calculated and the Models catalog for each model's tariff.
+Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Each output is priced at the selected model's fixed output tariff, plus that model's per-reference tariff for every reference image sent with it. Prompt processing is included. For token- and megapixel-priced providers, the charge uses rounded-up estimates rather than exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
 
-For availability and account limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md). If a request fails, revise the reported validation issue before retrying.
+The built-in image generation and editing tool has these daily plan limits:
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Built-in image generation and editing | 5/day | 500/day | 5,000/day |
+
+If a request fails, revise the reported validation issue before retrying.

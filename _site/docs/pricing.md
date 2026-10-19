@@ -2,126 +2,30 @@ Source: https://docs.aivax.net/docs/pricing.html
 
 # Pricing
 
-Service usage prices are listed below in USD. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
+AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product: subscription allowances, storage, the request cost header, the data sharing discount, and plan multipliers.
 
-See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](https://docs.aivax.net/docs/limits.md) for quotas. Usage rates are subject to the plan multiplier:
-- Free: **+25%** on inference taxes;
-- Pro: **+5%** on inference taxes;
-- Max: **0%** on inference taxes.
+See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](https://docs.aivax.net/docs/limits.md) for account-level quotas. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
 
-BYOK are not affected by inference taxes.
+## Product pricing
 
-Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, Julia-1 semantic decisions, and Fetch/OCR extraction. The rates below apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled.
+| Area | Where to find rates |
+| --- | --- |
+| Inference and moderation | [Inference](https://docs.aivax.net/docs/inference/inference.md#pricing) |
+| Agentic Tests | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits) |
+| Voice and Realtime | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md#billing-and-limits) |
+| RAG collections, search, and answers | [Collections](https://docs.aivax.net/docs/rag/collections.md#pricing-and-limits) |
+| Media Injector | [Documents](https://docs.aivax.net/docs/rag/documents.md#pricing-and-limits) |
+| Reflex | [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) |
+| Web search and X search | [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) |
+| Fetch and OCR | [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md) |
+| Image generation | [Image generation](https://docs.aivax.net/docs/generations/images.md) |
+| Text-to-speech and speech-to-text | [Text-to-speech](https://docs.aivax.net/docs/generations/speech.md) and [Speech-to-text](https://docs.aivax.net/docs/generations/audio-transcriptions.md) |
+| Media descriptions, decisions, classification, and segmentation | [Data processing](https://docs.aivax.net/docs/data-processing/media-descriptions.md) pages |
+| Built-in tools and memory | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) |
 
-## Inference and Moderation
+## Included daily allowances
 
-Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used.
-
-| Description | Pricing |
-| --- | ---: |
-| AI model and AI Gateway inference | Selected model and provider rates |
-| Input moderation | Variable price per PU; separate from the main inference charge |
-
-## Semantic decisions
-
-The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments. Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances); other decision models are billed normally.
-
-| Model | Input price / million tokens |
-| --- | ---: |
-| `@supersonic-labs/julia-1` | **$0.008** |
-| `@typesafe/jev-1.13` | **$0.042** |
-| `@respan/span-01` | **$0.020** |
-| `@respan/span-01-lite` | **$0.000** |
-| `@jaredpalmer/kev-4b` | **$0.042** |
-| `@upstage/solar-decide` | **$0.050** |
-| `@cloudflare/clef` | **$0.240** |
-| `@cloudflare/clef-flash` | **$0.038** |
-| `@liquid/d1` | **$0.040** |
-| `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
-| `@openai/gpt-6-luna-decisions` | **$0.100** |
-| `@microsoft/microsoft-decision-1` | **$0.042** |
-| `@nace-ai/drex-v1.5` | **$0.040** |
-| `@cloudflare/clef-omni` | **$0.150** |
-
-See [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md) for model selection and how input usage is measured.
-
-## Agentic Tests
-
-Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates.
-
-| Description | Pricing |
-| --- | ---: |
-| Model or AI Gateway under test | Regular inference rates |
-| Low profile - simulated user | Input **$0.25/M tokens**; cache **$0.025/M tokens**; output **$1.50/M tokens** |
-| Low profile - judge | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$2.50/M tokens** |
-| Medium profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
-| Medium profile - judge | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
-| High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
-| High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
-
-## RAG and Collections
-
-Indexing and search are billed by token usage. Generated RAG responses are charged separately from query embedding, and their price varies with the summarization model.
-
-| Description | Pricing |
-| --- | ---: |
-| Collection text embedding | **$0.10/M tokens** |
-| Semantic search - query cache miss | **$0.10/M tokens** |
-| Semantic search - query cache hit | Zero |
-| RAG response generation | **~$0.50/M tokens**, excluding query rates |
-| Reflex - cache miss | **$0.015/M tokens** |
-| Reflex - cache hit | **$0.003/M tokens** |
-
-## Media Injector
-
-Converting media into RAG documents is billed for input, cached input, output, and media usage. The source file, optional context, and generated content affect the total. Rates depend on media type and input-token volume.
-
-| Description | Pricing |
-| --- | ---: |
-| PDFs and images - up to 272K input tokens | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$1.80/M tokens** |
-| PDFs and images - above 272K input tokens | Input **$0.60/M tokens**; cache **$0.06/M tokens**; output **$3.60/M tokens** |
-| Audio - up to 256K input tokens | Input/media **$0.60/M tokens**; cache **$0.12/M tokens**; output **$3.00/M tokens** |
-| Audio - above 256K input tokens | Input/media **$1.20/M tokens**; cache **$0.24/M tokens**; output **$6.00/M tokens** |
-| Video | Input/media **$0.45/M tokens**; cache **$0.045/M tokens**; output **$3.75/M tokens** |
-
-## Text Tools
-
-Text segmentation and classification are billed by token usage.
-
-| Description | Pricing |
-| --- | ---: |
-| Text segmentation | **$0.30/M tokens** |
-| Text classification | **$0.10/M tokens** |
-
-## Voice and Media
-
-Generation and transcription rates depend on the selected model. Media description pricing is approximate and depends on the available processing model.
-
-| Description | Pricing |
-| --- | ---: |
-| Voice Sessions | Selected realtime model rates |
-| Speech-to-text | Varies by model |
-| Text-to-speech | Varies by model |
-| Image generation | Fixed output and reference-image tariffs by model |
-| Media descriptions | **~$1.50/M tokens** |
-
-Image generation charges each delivered output at the selected model's fixed output price, plus its per-reference price for every reference sent with that output. Prompt processing is included. Token- and megapixel-priced providers use rounded-up estimates, not exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs are listed in the Models catalog; see [Image generation](https://docs.aivax.net/docs/generations/images.md).
-
-## Web Search, OCR and Fetch
-
-Web and X searches are billed per search. Advanced web search is billed by token usage and varies with the model and number of interactions. Fetch and OCR extraction use Processing Units (PUs), with a daily free allowance by plan. Optional schema-guided JSON conversion is charged separately. The extraction allowances and PU rates do not apply to JSON conversion or moderation.
-
-| Description | Pricing |
-| --- | ---: |
-| Web search | **$5/1k searches** |
-| X (Twitter) search | **$5/1k searches** |
-| Advanced web search | **~$0.75/M tokens** |
-| Fetch and OCR extraction - Free | Base daily allowance; uncovered items **$0.15/1k PUs** |
-| Fetch and OCR extraction - Pro | **10× Free** daily allowance; uncovered items **$0.05/1k PUs** |
-| Fetch and OCR extraction - Max | **5× Pro** daily allowance; uncovered items **$0.02/1k PUs** |
-| Fetch JSON conversion (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
-
-For the [Fetch API](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md), `processingUnits` reports text/OCR extraction usage and `jsonProcessingUnits` reports the additional schema-guided JSON conversion usage. JSON PUs account for input, cached input, and output token usage at the processing model and provider's rates; they are not priced at the plan's OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge.
+Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Storage
 
@@ -139,19 +43,20 @@ API responses include a `Consumed-Credits` header when the request charged usage
 
 The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance. Treat a missing header as zero.
 
-The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](https://docs.aivax.net/docs/features/batch.md) work, is not included. Streamed responses send their headers before generation completes, so do not rely on this header for them; read the usage reported at the end of the stream instead. Use your account usage records as the source of truth for billing.
+The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](https://docs.aivax.net/docs/inference/batch.md) work, is not included. Streamed responses send their headers before generation completes, so do not rely on this header for them; read the usage reported at the end of the stream instead. Use your account usage records as the source of truth for billing.
 
-## Data Collection Discount
+## Data Sharing discount
 
-Accounts that enable [Data collecting](https://docs.aivax.net/docs/data-collecting.md) receive a 10% discount on eligible RAG query-embedding usage and eligible reranking operations performed while collection is enabled. Other services keep their regular prices.
+Accounts that enable [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) receive a 10% discount on eligible RAG query-embedding usage and eligible reranking operations performed while sharing is enabled. Other services keep their regular prices.
 
-## Other Tools
+## Plan multipliers
 
-The following tools have no separate tool charge, but memory operations incur the RAG charges listed below. Model inference used to invoke them is still billed at its regular rate.
+Usage rates are subject to the plan's inference tax:
 
-| Description | Pricing |
+| Plan | Inference tax |
 | --- | ---: |
-| [Memory](https://docs.aivax.net/docs/tools/builtin-tools.md#memory) | Saving or replacing content: document embedding; semantic `query` search: RAG query embedding; `filter` search: no embedding cost; `rrf` reranking: no cost |
-| Advanced requests | No separate charge |
-| Document generation | No separate charge |
-| Web page generation | No separate charge |
+| Free | +25% |
+| Pro | +5% |
+| Max | 0% |
+
+BYOK usage is not affected by inference taxes. Product pages state when a rate is exempt from the plan multiplier, as with image generation.

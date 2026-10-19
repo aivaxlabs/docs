@@ -44,7 +44,7 @@ A good rule of thumb: if something must hold for every answer, such as tone, sco
 ## Go deeper
 
 - In Learn: [Writing good prompts and instructions](https://docs.aivax.net/learn/agents/writing-good-prompts-and-instructions.md), [Adding skills](https://docs.aivax.net/learn/agents/adding-skills.md) and [Context window, tokens and cost management](https://docs.aivax.net/learn/prompt-engineering/context-window-tokens-and-cost.md).
-- In the Documentation: [Skills](https://docs.aivax.net/docs/features/skills.md) covers how skills are listed and loaded, when to use them and how they compare with system instructions. [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) shows where both are configured. [Teach Skill](https://docs.aivax.net/docs/generations/teach-skill.md) drafts a skill from a recorded demonstration.
+- In the Documentation: [Skills](https://docs.aivax.net/docs/inference/skills.md) covers how skills are listed and loaded, when to use them and how they compare with system instructions. [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) shows where both are configured. [Teach Skill](https://docs.aivax.net/docs/inference/skills.md) drafts a skill from a recorded demonstration.
 
 The next episode answers a different question: what happens when the answer is in your documents, not in the instructions?
 

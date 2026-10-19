@@ -1,18 +1,18 @@
 Source: https://docs.aivax.net/docs/tools/shell.html
 
-# Shell
+# Shell Sandboxing
 
 AIVAX offers a virtual shell environment that can be used by agent assistants to execute terminal commands during inference. This feature is especially useful for tasks such as data manipulation, API calls, script execution, and workflows that are easier to express as command-line operations.
 
 The shell environment allows moving selected model tools to the shell side, turning them into CLI commands. This is useful when you have many tools and do not want to expose all of them directly to the model, or when a tool is easier to use through command-line arguments and pipes.
 
-When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. Each command is limited to 60 seconds and returns up to 4,096 characters of output to the model.
+When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. Each command has a time limit and a cap on the output returned to the model; see [Pricing and limits](#pricing-and-limits).
 
 ## Design for the limits
 
-The 60-second timeout and 4,096-character output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
+The command timeout and output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
 
-Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/features/batch.md) or an external job, and let the shell handle the interactive slices.
+Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/inference/batch.md) or an external job, and let the shell handle the interactive slices.
 
 ## Adapting tools for shell
 
@@ -41,9 +41,27 @@ If persistence is disabled, or the inference context has no user external ID, th
 
 Enable persistence only for data the user expects to survive — working documents, generated reports, configuration they manage. Keep secrets, credentials, and other users' data out of the persistent workspace: anything written there endures beyond the session that created it.
 
+## Pricing and limits
+
+An em dash (`—`) means the plan does not impose a limit.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Bash commands | 300/hour | 30,000/hour | — |
+
+These limits apply to every plan:
+
+| Limit | Value |
+| --- | --- |
+| Time per command | 60 seconds |
+| Output returned to the model | 4,096 characters |
+| Shell file API upload | 100 MB maximum request body |
+
 ## Shell file API
 
-AIVAX also exposes Shell I/O endpoints under `/api/v1/shell/io` for authenticated accounts. These endpoints use the required `X-Shell-User-Id` header to scope the filesystem sandbox and support listing directories, downloading files, inspecting file metadata, creating temporary public file addresses, uploading files, creating directories, and deleting files or directories. Uploads are documented with a 100 MB maximum request body.
+AIVAX also exposes Shell I/O endpoints under `/api/v1/shell/io` for authenticated accounts. Every request requires the `X-Shell-User-Id` header, which scopes the filesystem sandbox the endpoint operates on.
+
+With these endpoints, you can list directories, download files, inspect file metadata, create temporary public file addresses, upload files, create directories, and delete files or directories. Uploads have a maximum request body size; see [Pricing and limits](#pricing-and-limits).
 
 Reference:
 

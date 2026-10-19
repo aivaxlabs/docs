@@ -1,6 +1,6 @@
 Source: https://docs.aivax.net/docs/inference/ai-gateway.html
 
-# AI Gateway
+# AI Gateways
 
 An AI Gateway stores a reusable inference configuration. Pass the gateway's ID or slug in the request's `model` field, and AIVAX applies its model settings, instructions, RAG collections, tools, skills, workers, moderation, and context controls.
 
@@ -36,7 +36,7 @@ When choosing a model, validate three points before putting it into production:
 - The model supports function calling if the gateway uses tools, RAG through `QueryFunction`, MCP, protocol functions, skills, or built-in functions.
 - The model accepts the parameters you configure. Some integrated models reject assistant prefill, temperature, stop sequences, or reasoning effort.
 
-Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist.
+Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist. For the GPT-4o and GPT-4.1 shutdown on January 14, 2027, see [how to migrate to gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/).
 
 Gateways can also use model routing. For the complexity router, AIVAX classifies the latest user request as low, medium, or high complexity, selects the configured model for that level, and emits `X-Model-Routed-Complexity` on the HTTP response when available.
 
@@ -50,7 +50,7 @@ Gateway values can be overridden by the request for supported parameters such as
 
 ## Using SDKs
 
-Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs. In the example below, replace `my-gateway:50c3` with your gateway's full ID or slug and load your private API key from secure configuration. See [Getting Started](https://docs.aivax.net/docs/getting-started.md) for an environment-variable example.
+Because the endpoint follows the OpenAI chat completions shape, you can use existing OpenAI-compatible SDKs. In the example below, replace `my-gateway:50c3` with your gateway's full ID or slug and load your private API key from secure configuration. See [Getting Started](https://docs.aivax.net/docs/overview.md#make-your-first-request) for an environment-variable example.
 
 ```python
 from openai import OpenAI

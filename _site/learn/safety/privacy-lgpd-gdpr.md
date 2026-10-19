@@ -91,7 +91,7 @@ A **data processing agreement**, or DPA, records responsibilities between a cont
 
 No. Training, conversation storage, security logging and temporary processing are different activities. Review each separately. A setting that stops future collection may not delete past records or reverse completed model training. Promise users only the controls and rights your complete service can actually deliver.
 
-Related on AIVAX: read the [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md), [Third-Party Processors](https://docs.aivax.net/docs/legal/third-party-processors.md) and [Data Collecting](https://docs.aivax.net/docs/data-collecting.md) documentation together. The optional semantic data collection program has a specific scope and is disabled by default; review its conditions rather than treating it as a universal setting for all processing.
+Related on AIVAX: read the [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md), [Third-Party Processors](https://docs.aivax.net/docs/legal/third-party-processors.md) and [Data Collecting](https://docs.aivax.net/docs/data-sharing.md) documentation together. The optional semantic data collection program has a specific scope and is disabled by default; review its conditions rather than treating it as a universal setting for all processing.
 
 What's next: examine unequal outcomes in [Bias, fairness and responsible AI](https://docs.aivax.net/learn/safety/bias-fairness-responsible-ai.md).
 

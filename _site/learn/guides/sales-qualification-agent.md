@@ -61,7 +61,7 @@ For this case, the rubric considers product fit, a concrete problem, and stated 
 
 Avoid scoring from names, accents, disability, age, or other sensitive characteristics and unjustified proxies. A **proxy** is an indirect substitute, such as using a postcode to guess income. Review the rubric for unfair effects, particularly if it influences access to services or commercial terms.
 
-Related: AIVAX [decision models](https://docs.aivax.net/docs/generations/decisions.md) can evaluate defined questions, while [structured responses](https://docs.aivax.net/docs/inference/structured-responses.md) provide a machine-readable output format. A valid structure only shows that the fields fit a required shape; it does not prove that the facts or recommendation are correct.
+Related: AIVAX [decision models](https://docs.aivax.net/docs/data-processing/decisions.md) can evaluate defined questions, while [structured responses](https://docs.aivax.net/docs/inference/structured-responses.md) provide a machine-readable output format. A valid structure only shows that the fields fit a required shape; it does not prove that the facts or recommendation are correct.
 
 ## Put approval before the write
 

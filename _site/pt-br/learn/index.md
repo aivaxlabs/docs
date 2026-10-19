@@ -58,7 +58,7 @@ Entenda agentes de IA desde o primeiro conceito até a produção, com lições 
 - [Chamada de função passo a passo](https://docs.aivax.net/pt-br/learn/tools-and-integrations/function-calling.md)
 - [MCP e padrões de ferramentas](https://docs.aivax.net/pt-br/learn/tools-and-integrations/model-context-protocol.md)
 - [Autenticação e permissões para ferramentas](https://docs.aivax.net/pt-br/learn/tools-and-integrations/authentication-and-permissions.md)
-- [Integrando canais: WhatsApp, chat web, e‑mail, voz](https://docs.aivax.net/pt-br/learn/tools-and-integrations/integrating-channels.md)
+- [Integração de canais: WhatsApp, chat web, e‑mail, voz](https://docs.aivax.net/pt-br/learn/tools-and-integrations/integrating-channels.md)
 - [Webhooks, eventos e automações](https://docs.aivax.net/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.md)
 
 ## Agentes avançados e fluxos de trabalho
@@ -73,7 +73,7 @@ Entenda agentes de IA desde o primeiro conceito até a produção, com lições 
 
 - [Testando e avaliando agentes (avaliações)](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md)
 - [Métricas: precisão, latência, custo, satisfação](https://docs.aivax.net/pt-br/learn/quality/metrics.md)
-- [Logs, rastreamentos e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md)
+- [Logs, rastreamos e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md)
 - [Melhoria contínua a partir de conversas reais](https://docs.aivax.net/pt-br/learn/quality/continuous-improvement.md)
 - [Testes A/B de prompts e modelos](https://docs.aivax.net/pt-br/learn/quality/ab-testing.md)
 
@@ -104,7 +104,7 @@ Entenda agentes de IA desde o primeiro conceito até a produção, com lições 
 ## Aprenda com a Pipi
 
 - [O que é um gateway de IA?](https://docs.aivax.net/pt-br/learn/learn-with-pipi/ai-gateway.md)
-- [Instruções e habilidades do sistema](https://docs.aivax.net/pt-br/learn/learn-with-pipi/system-instructions-and-skills.md)
+- [Instruções de sistema e habilidades](https://docs.aivax.net/pt-br/learn/learn-with-pipi/system-instructions-and-skills.md)
 - [Como a IA lê seus documentos](https://docs.aivax.net/pt-br/learn/learn-with-pipi/how-ai-reads-your-documents.md)
 - [Como a IA usa ferramentas](https://docs.aivax.net/pt-br/learn/learn-with-pipi/how-ai-uses-tools.md)
 - [Mantendo a IA no caminho](https://docs.aivax.net/pt-br/learn/learn-with-pipi/keeping-ai-on-track.md)

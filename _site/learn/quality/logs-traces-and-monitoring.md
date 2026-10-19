@@ -80,7 +80,7 @@ Review conversations as well as system errors. Sample successful-looking session
 
 No. Unlimited retention increases exposure and makes useful evidence harder to manage. Choose records, access rights and retention based on the purpose and applicable obligations. Prefer aggregated measurements for long-term trends, and retain detailed samples only where justified. Test that your investigation process still works with those limits.
 
-**Related on AIVAX:** An [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores the agent configuration, so identify which configuration a reviewed interaction used. The [Data Collecting](https://docs.aivax.net/docs/data-collecting.md) guide describes a separate, optional programme for eligible semantic search and reranking data. It is not a request-logging switch, and enabling it does not by itself include unrelated conversations or tool calls. Review its terms independently of your monitoring design.
+**Related on AIVAX:** An [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores the agent configuration, so identify which configuration a reviewed interaction used. The [Data Collecting](https://docs.aivax.net/docs/data-sharing.md) guide describes a separate, optional programme for eligible semantic search and reranking data. It is not a request-logging switch, and enabling it does not by itself include unrelated conversations or tool calls. Review its terms independently of your monitoring design.
 
 **What's next:** Turn the evidence into controlled changes in [Continuous improvement from real conversations](https://docs.aivax.net/learn/quality/continuous-improvement.md).
 

@@ -88,7 +88,7 @@ A **channel** is the place where customers interact with the service. Web chat c
 
 Keep the policies and allowed actions consistent across channels, but adapt presentation. Short messages work better on a phone. Do not assume history transfers between channels unless the application securely links the identities and has a suitable data-handling basis. Explain what will be carried over.
 
-Related: on AIVAX, an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores reusable agent configuration, while [chat clients](https://docs.aivax.net/docs/features/chat-clients.md) provide documented user-facing client and integration options. Channel setup does not itself establish the store's customer authorisation rules.
+Related: on AIVAX, an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores reusable agent configuration, while [chat clients](https://docs.aivax.net/docs/inference/chat-clients.md) provide documented user-facing client and integration options. Channel setup does not itself establish the store's customer authorisation rules.
 
 ## Test, measure, and decide whether to expand
 

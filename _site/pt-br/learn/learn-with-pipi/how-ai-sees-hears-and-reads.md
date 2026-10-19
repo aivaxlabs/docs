@@ -1,40 +1,44 @@
 Source: https://docs.aivax.net/pt-br/learn/learn-with-pipi/how-ai-sees-hears-and-reads.html
 
-O cérebro da série só lê texto. Pequenas notas entram facilmente, mas os clientes também enviam fotos e mensagens de voz, e essas não cabem na entrada.
+O cérebro da série só lê texto. Pequenas notas deslizam facilmente, mas os clientes também enviam fotos e mensagens de voz, e essas não cabem na ranhura.
 
-[Video: AIVAX Learn #6 — How AI sees, hears and reads](https://public.aivax.net/file/aivax-public/learn/pipi/06-multimodal.mp4) — Os vídeos da Pipi estão disponíveis apenas em português no momento.
+[Video: AIVAX Learn #6 — Como a IA vê, ouve e lê](https://public.aivax.net/file/aivax-public/learn/pipi/06-multimodal.mp4) — Os vídeos da Pipi estão disponíveis apenas em português no momento.
 
-*Episode 6 · 1 minute 13 seconds*
+*Episódio 6 · 1 minuto e 13 segundos*
 
-## O que o vídeo demonstra
+## O que o vídeo mostra
 
 Alguns modelos são **multimodais**: eles veem imagens, escutam áudio e leem arquivos. No vídeo, cada tipo de conteúdo tem sua própria pequena entrada no pote. Um cliente envia uma foto de um bolo, e o cérebro observa atentamente: bolo de cenoura com cobertura de chocolate.
 
-Mas nem todo modelo pode ver. Alguns apenas leem texto. Para esses, a AIVAX usa uma máquina tradutora: ela observa a mídia primeiro e gera uma nota descrevendo‑a. A nota cabe na entrada de texto, e o cérebro entende da mesma forma. Essa etapa é chamada de **pré-processamento**.
+Mas nem todo modelo pode ver. Alguns só leem texto. Para esses, a AIVAX usa uma máquina tradutora: ela observa a mídia primeiro e gera uma nota descrevendo‑a. A nota cabe na ranhura de texto, e o cérebro entende da mesma forma. Essa etapa é chamada de **pré‑processamento**.
 
 **Modelo multimodal**
 
 Foto → Modelo multimodal → Resposta
 
-**Pré-processamento**
+O modelo recebe a imagem original. É o melhor quando detalhes visuais finos são importantes e o modelo escolhido suporta esse tipo de mídia.
+
+**Pré‑processamento**
 
 Foto → Descrição escrita pela AIVAX → Modelo somente texto → Resposta
 
+O modelo principal recebe uma descrição em texto em vez da imagem. Útil para modelos somente texto, ou para manter um modelo para cada canal independentemente do que os clientes enviam.
+
 ## Escolhendo entre eles
 
-O pré-processamento adiciona uma etapa, portanto acrescenta algum custo e tempo de espera, e uma descrição pode omitir detalhes que a mídia original possuía. Enviar mídia diretamente evita isso, mas limita você a modelos que a aceitam. Muitas equipes começam com pré-processamento para áudio e documentos e enviam imagens diretamente quando o modelo as suporta.
+O pré‑processamento adiciona uma etapa, portanto adiciona algum custo e tempo de espera, e uma descrição pode omitir detalhes que a mídia original possuía. Enviar mídia diretamente evita isso, mas limita você a modelos que a aceitam. Muitas equipes começam com pré‑processamento para áudio e documentos e enviam imagens diretamente quando o modelo as suporta.
 
-## Aprofunde-se
+## Aprofundar
 
-- Em Learn: [Multimodalidade: imagens, áudio, documentos, vídeo](https://docs.aivax.net/pt-br/learn/models/multimodality.md) e [Famílias de modelos e como escolher](https://docs.aivax.net/pt-br/learn/models/model-families-and-choosing.md).
-- Na Documentação: [Inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md) explica como enviar mídia em uma requisição e como o resolvedor multimodal substitui a mídia por uma descrição. [Pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md) cobre a configuração de gateway para isso. [Descrições de mídia](https://docs.aivax.net/pt-br/docs/generations/media-descriptions.md) e [Transcrições de áudio](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md) estão disponíveis como ferramentas independentes.
+- Em Learn: [Multimodalidade: imagens, áudio, documentos, vídeo](https://docs.aivax.net/pt-br/learn/models/multimodality.md) e [Famílias de modelo e como escolher](https://docs.aivax.net/pt-br/learn/models/model-families-and-choosing.md).
+- Na Documentação: [Inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md) explica como enviar mídia em uma requisição e como o resolvedor multimodal substitui a mídia por uma descrição. [Canalizações](https://docs.aivax.net/pt-br/docs/inference/pipelines.md) cobre a configuração do gateway para isso. [Descrições de mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md) e [Transcrições de áudio](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md) estão disponíveis como ferramentas independentes.
 
-O último episódio leva o mesmo cérebro para o site, WhatsApp e Telegram.
+O último episódio leva o mesmo cérebro ao site, WhatsApp e Telegram.
 
-**Verifique seu conhecimento.** Seu modelo escolhido só lê texto, e um cliente envia uma foto. O que o vídeo demonstra?
+**Verifique seu conhecimento.** Seu modelo escolhido só lê texto, e um cliente envia uma foto. O que o vídeo mostra?
 
 1. Não pode ser usado com fotos de forma alguma
-2. A AIVAX pode descrever a foto como texto primeiro, e o modelo lê a descrição
+2. AIVAX pode descrever a foto como texto primeiro, e o modelo lê a descrição
 3. O cliente deve descrever a foto em palavras
 
-Answer: option 2. O pré-processamento gera uma descrição textual da mídia, permitindo que um modelo somente texto ainda a entenda.
+Answer: option 2. O pré‑processamento escreve uma descrição em texto da mídia, então um modelo somente texto ainda pode entendê‑la.

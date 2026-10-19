@@ -1,139 +1,96 @@
 Source: https://docs.aivax.net/pt-br/docs/rag/collections.html
 
-# Coleções e Documentos
+# Coleções
 
-AIVAX fornece um serviço RAG (Retrieval‑Augmented Generation) para armazenar documentos e recuperá‑los posteriormente por meio de busca semântica. Uma coleção é um grupo de documentos pertencente a uma conta. Cada documento armazena texto, tags opcionais, uma referência opcional, metadados opcionais e os vetores gerados pelo trabalho de indexação.
+AIVAX fornece um serviço RAG (Retrieval-Augmented Generation) para armazenar conhecimento e recuperá-lo posteriormente por meio de busca semântica. Uma coleção é uma base de conhecimento de propriedade da conta: ela agrupa os [documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) que pertencem juntos e é a unidade que você pesquisa, anexa a um gateway de IA e mantém.
 
-Coleções podem ser pesquisadas diretamente através da API RAG ou vinculadas a um AI Gateway para que documentos recuperados sejam injetados no contexto do modelo.
+Compare o armazenamento vetorial com o pipeline de ingestão e recuperação ao redor em [RAG vs vector database](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
-Compare o armazenamento de vetores com o pipeline de ingestão e recuperação em [RAG vs vector database](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
+## Quando criar uma coleção
 
-## Coleções
+Use coleções para separar conhecimento que pertence a diferentes bases de conhecimento, produtos, locatários, idiomas ou propósitos operacionais. Por exemplo, uma coleção de suporte pode conter respostas do centro de ajuda, uma coleção jurídica pode conter cláusulas de contrato e uma coleção de produto pode conter descrições, políticas e notas de solução de problemas.
 
-Use coleções para agrupar documentos que pertencem à mesma base de conhecimento, produto, locatário, idioma ou finalidade operacional.
+Prefira várias coleções focadas em vez de uma única coleção grande quando o conteúdo for pesquisado por diferentes públicos ou aplicações. Uma pesquisa pode incluir várias coleções ao mesmo tempo, enquanto o limite de uma coleção mantém conteúdo não relacionado fora dos resultados, simplifica a manutenção e mantém os [filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) rápidos.
 
-Crie uma coleção antes de adicionar conhecimento pesquisável. Por exemplo, uma coleção de suporte pode conter respostas do centro de ajuda, uma coleção jurídica pode conter cláusulas de contrato e uma coleção de produto pode conter descrições, políticas e notas de solução de problemas.
+## O que uma coleção contém
 
-Após adicionar e indexar documentos, pesquise a coleção diretamente com a API [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md), exponha‑a através de [Collections MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md) ou anexe‑a a um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) para que documentos recuperados sejam colocados automaticamente no contexto do modelo.
-
-Cada coleção possui:
+Cada coleção tem:
 
 - Um ID de coleção único.
 - Um nome.
 - Contexto opcional e tags contextuais.
-- Um conjunto de documentos.
-- Estatísticas de uso baseadas em transações RAG.
+- Um conjunto de documentos e seu estado de indexação.
+- Estatísticas de uso baseadas nas pesquisas realizadas sobre ela.
 
-A disponibilidade da coleção e os limites da conta dependem da configuração atual da conta. Consulte [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) antes de criar coleções para uso em produção.
+O **contexto da coleção** descreve a base de conhecimento para um gateway de IA quando a coleção é usada para RAG, por exemplo o público, escopo e como o conteúdo deve ser usado. Mantenha-o durável e abrangente para toda a coleção; orientações de importação específicas da fonte pertencem à própria importação.
 
-## Documentos
+## Usar uma coleção
 
-Um documento é a unidade que é indexada e recuperada. Ele deve ser pequeno o suficiente para corresponder a uma pergunta específica e suficientemente completo para ser útil por si só.
+Após adicionar e indexar documentos, você pode:
 
-Esta é a parte que mais afeta a qualidade do RAG. Um documento não deve ser “tudo o que você sabe” sobre uma fonte; ele deve ser um pedaço de conhecimento que possa ficar sozinho quando o modelo o lê mais tarde. Se um usuário perguntar sobre taxas de cancelamento, o documento recuperado já deve conter a regra, produto, condição e exceção relevantes. Se a resposta só fizer sentido quando o modelo também vir a página anterior, o documento provavelmente depende demais do contexto circundante.
+- Pesquise-a diretamente com [Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md), opcionalmente restringida com [filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) e reordenada com um [reranker](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
+- Anexe-a a um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) para que documentos recuperados sejam inseridos automaticamente no contexto do modelo.
+- Exponha-a para clientes MCP através do [Collections and RAG MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md).
+- Monitore a qualidade de recuperação e o histórico de buscas no Console; veja [RAG Observability](https://docs.aivax.net/pt-br/docs/rag/observability.md).
 
-Um bom documento geralmente tem:
+## Manter uma coleção
 
-- Um nome estável.
-- Texto focado.
-- Tags opcionais para filtragem ou manutenção.
-- Metadados opcionais para dados específicos da aplicação.
-- Um ID de referência opcional quando o documento é um fragmento de um item lógico maior.
+Configurações da coleção no Console também fornecem ações de manutenção:
 
-Por exemplo, um manual de carro não deve ser indexado como um único documento. Indexe documentos separados para tópicos como ligar o veículo, verificar a pressão dos pneus, emparelhar Bluetooth e substituir um farol. Cada documento deve incluir contexto suficiente para ser lido de forma independente. Para orientações mais amplas de fragmentação, veja [Best Practices for RAG](https://docs.aivax.net/pt-br/docs/rag/best-practices.md); para comportamento de consulta após indexação, veja [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md).
+- **Atualizar documentos desatualizados** regenera vetores para documentos indexados com um modelo de embedding que difere do modelo atual da coleção. Regenerar vetores gera custos de embedding de documentos.
+- **Redefinir coleção** remove os documentos da coleção mantendo a própria coleção.
+- **Excluir coleção** remove a coleção e seus documentos.
 
-## Campos do Documento
+Redefinir e excluir não podem ser desfeitos. Exporte a coleção como JSONL pela API primeiro quando precisar dos documentos novamente.
 
-Ao importar documentos em JSONL, cada linha representa um documento que pode ser criado ou atualizado. Use um `docid` estável para que AIVAX reconheça o mesmo documento em importações futuras. Enviar o mesmo `docid` com texto diferente atualiza e reindexa o documento existente.
+## Desduplicador
 
-Para dados de aplicação extras que não pertencem ao texto pesquisável, use `__meta`.
+O desduplicador de coleção remove documentos repetidos de uma coleção. Use-o após mesclar várias fontes, reimportar conteúdo com novos nomes de documentos ou gerar documentos com [Media Injector](https://docs.aivax.net/pt-br/docs/rag/documents.md#import-from-files-with-media-injector), quando o mesmo conhecimento pode existir mais de uma vez e sobrecarregar os resultados de busca com correspondências quase idênticas.
 
-O endpoint de importação JSONL aceita um objeto JSON por linha:
+Inicie-o nas configurações da coleção no Console, em **Advanced settings > De-duplicate collection**, ou via API. Escolha o quão agressiva a comparação deve ser:
 
-| Propriedade | Tipo | Obrigatório | Descrição |
+| Nível | Comportamento |
+| --- | --- |
+| Baixo | Remove apenas duplicatas exatas e documentos semânticos quase idênticos. |
+| Médio | Padrão recomendado. Equilibra recall e segurança. |
+| Alto | Correspondência semântica mais agressiva; pode remover documentos que são apenas muito semelhantes. |
+
+O desduplicador executa em duas passagens. Primeiro remove documentos cujo texto é exatamente o mesmo, depois compara documentos indexados com seus vizinhos mais próximos na coleção e remove aqueles acima do nível de similaridade selecionado. Um documento de cada grupo de duplicatas é mantido. Documentos ainda aguardando indexação são comparados apenas na passagem exata, portanto aguarde a conclusão da indexação antes de executá-lo.
+
+Antes de iniciar, o Console exibe uma estimativa das unidades de processamento e custo para o número atual de documentos. A tarefa roda em segundo plano, e apenas uma desduplicação pode ser executada por coleção por vez. Quando termina ou falha, a conta recebe uma notificação.
+
+Documentos removidos são excluídos, não ocultados. Antes de excluí‑los, a AIVAX faz backup deles como arquivos JSONL contendo seu nome, texto, referência e tags, e a notificação de conclusão contém links para esses backups. Metadados não são incluídos no backup, portanto exporte a coleção primeiro quando os metadados dos documentos forem importantes.
+
+O desduplicador é cobrado pelo tempo de processamento: uma unidade de processamento (PU) por segundo de processamento, com um mínimo de uma PU por tarefa. O multiplicador do plano se aplica.
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Estimate%20Collection%20De-duplication)
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Start%20Collection%20De-duplication)
+
+## Gerenciar coleções pela API
+
+As coleções podem ser criadas, listadas, inspecionadas, editadas, redefinidas, exportadas e excluídas pela API. Consulte a [API reference](https://inference.aivax.net/apidocs) para os endpoints de Collections.
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Collection)
+
+## Preços e limites
+
+Indexação e busca são cobrados por uso de tokens. Respostas RAG geradas são cobradas separadamente do embedding de consulta, e seu preço varia com o modelo de sumarização. O multiplicador do plano se aplica.
+
+| Descrição | Preço |
+| --- | ---: |
+| Embedding de texto da coleção | **$0.10/M tokens** |
+| Busca - falha de cache de consulta | **$0.10/M tokens** |
+| Busca - acerto de cache de consulta | Zero |
+| Geração de resposta RAG | **~$0.50/M tokens**, excluindo taxas de consulta |
+| Desduplicação de coleção | **$0.05/1k PUs** |
+
+Free, Pro e Max incluem uma cota diária de embedding compartilhada entre buscas e inserções de documentos; veja [Included daily subscription allowances](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances). Contas com [Data Sharing](https://docs.aivax.net/pt-br/docs/data-sharing.md) habilitado recebem desconto em embeddings de consulta elegíveis. Reranking e [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md#pricing-and-limits) são cobrados separadamente.
+
+| Limite | Gratuito | Pro | Max |
 | --- | --- | --- | --- |
-| `docid` | `string` | Sim | Nome estável do documento. Documentos existentes são correspondidos por este valor. |
-| `text` | `string` | Sim | Conteúdo de texto a ser indexado semanticamente. |
-| `__ref` | `string` | Não | ID de referência usado para agrupar fragmentos relacionados. Comprimento máximo armazenado é 64 caracteres. |
-| `__tags` | `string[]` | Não | Tags para filtragem, navegação e manutenção. |
-| `__meta` | `object` | Não | Metadados retornados com detalhes do documento e resultados de busca. Metadados não são o texto semântico usado para embeddings. |
+| Coleções | 5 | — | — |
+| Buscas | 20/min | 500/min | 3,000/min |
+| Buscas de reranking | 30/min | 1,000/min | — |
 
-O nome do documento deve ser não vazio e é limitado pela API a 256 caracteres. O conteúdo armazenado do documento é obrigatório e não pode estar vazio.
-
-## Inserções e Reindexação
-
-Documentos são correspondidos pelo nome (`docid` em JSONL, `Name` na API de documento único).
-
-Quando um documento é criado, ele é enfileirado para indexação. Quando o texto de um documento existente muda, ele é enfileirado novamente e seus vetores são regenerados pelo indexador em segundo plano. Quando apenas `__meta` muda, os metadados são atualizados sem reindexar o texto do documento.
-
-Valores de referência e tags são armazenados com o documento. Na API de documento único, referência, tags ou metadados alterados podem atualizar um documento existente sem reindexar quando o texto permanece inalterado. No endpoint de importação JSONL, texto alterado enfileira reindexação, alterações apenas de metadados atualizam metadados sem reindexar, e texto alterado também pode atualizar referência, tags e metadados. Uma entrada JSONL que altera apenas a referência ou tags é ignorada.
-
-## Referências
-
-Use `__ref` quando múltiplos documentos representam partes da mesma fonte lógica, como:
-
-- Seções do mesmo contrato.
-- Cláusulas da mesma política.
-- Fragmentos do mesmo PDF.
-- Fragmentos de produto que devem ser exibidos juntos.
-
-Quando a expansão de referência de busca está habilitada, se um fragmento corresponder, outros documentos na mesma coleção com a mesma referência podem ser incluídos na resposta.
-
-## Importação de Arquivo de Mídia
-
-O painel AIVAX pode fazer upload de um arquivo fonte e processá‑lo em documentos RAG com o [Media Injector](https://docs.aivax.net/pt-br/docs/rag/media-injector.md). Use‑o quando você tem um arquivo fonte mas ainda não possui texto de documento focado e autocontido preparado para importação direta ou JSONL.
-
-O nome original do arquivo é normalizado para Unicode NFC e preservado durante o upload, incluindo letras acentuadas, scripts não latinos, pontuação tipográfica e outros caracteres Unicode. Você não precisa renomear o arquivo para um nome somente ASCII antes de importá‑lo.
-
-Um trabalho do Media Injector é criado somente depois que cada fragmento do arquivo foi enviado e o painel conclui o upload com sucesso. Você pode então acompanhá‑lo em **Batch > Media Processing**. Se nenhum trabalho aparecer, o upload não chegou à etapa de conclusão; tente novamente e verifique o erro exibido pelo painel.
-
-## Limites de Importação em Lote
-
-A importação em lote é enviada como um arquivo JSONL no campo multipart `documents`.
-
-Use importação em lote quando você já tem muitos documentos preparados fora do AIVAX, como fragmentos gerados a partir de PDFs, catálogos de produtos, políticas ou artigos do centro de ajuda. Se você está criando ou atualizando um documento a partir de um fluxo de aplicação, o endpoint de documento único abaixo costuma ser mais fácil. Se estiver preparando uma grande base de conhecimento, importe em lotes, aguarde a indexação e depois teste a recuperação através de [Semantic Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) antes de anexar a coleção a um gateway de produção.
-
-Os limites de linhas JSONL por requisição e os limites diários de inserção RAG variam conforme o plano; veja [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#plan-limits). Se sua importação exceder o limite de requisição, divida em vários arquivos. Se sua conta atingir o limite diário de inserção, aguarde o intervalo de taxa reiniciar ou faça upgrade do plano.
-
-> [!WARNING]
-> A indexação gera custo baseado nos tokens de texto do documento quando documentos são criados ou quando seu texto muda.
-
-A referência de API incorporada é a fonte de verdade para o contrato de requisição e resposta de importação.
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Index%20Documents%20(JSONL))
-
-## Gerenciamento de Documentos
-
-### Criar ou atualizar documento
-
-Este endpoint é útil quando sua aplicação gerencia documentos um de cada vez. Por exemplo, uma tela de admin pode salvar uma entrada de FAQ, uma cláusula de política ou uma nota de produto diretamente em uma coleção. AIVAX corresponde o documento pelo nome: texto alterado enfileira reindexação, enquanto alterações apenas de metadados atualizam os metadados sem reindexar o conteúdo.
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20or%20Update%20Document)
-
-### Listar documentos
-
-O endpoint de navegação ajuda a inspecionar o que já está dentro de uma coleção. Use‑o quando precisar verificar uma importação, encontrar um documento pelo nome, revisar documentos enfileirados versus indexados, ou filtrar conteúdo antes de decidir atualizar, excluir ou reimportar parte da base de conhecimento.
-
-Filtros suportados:
-
-- `-t "tag"`: documentos que contêm a tag.
-- `-r "reference"`: documentos com o ID de referência exato.
-- `-c "content"`: documentos cujo conteúdo contém o trecho de texto.
-- `-n "name"`: documentos cujo nome contém o trecho de texto.
-- `-i "id"`: documentos cujo ID contém o texto fornecido.
-
-Estados suportados:
-
-- `queued`: documentos aguardando indexação.
-- `indexed`: documentos já indexados.
-
-Valores de ordenação suportados:
-
-- `created_at_asce`
-- `created_at_desc`
-- `updated_at_asce`
-- `updated_at_desc`
-- `indexed_at_asce`
-- `indexed_at_desc`
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Browse%20Documents)
+Um travessão (`—`) indica que o plano não impõe um limite. Solicitações acima de um limite retornam `429 Too Many Requests`. Limites de inserção e importação de documentos estão listados em [Documents](https://docs.aivax.net/pt-br/docs/rag/documents.md#pricing-and-limits).

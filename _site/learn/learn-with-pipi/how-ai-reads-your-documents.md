@@ -33,7 +33,7 @@ Pipi sums it up as *"no guessing, only facts"*. In practice, RAG reduces guessin
 ## Go deeper
 
 - In Learn: [What is a RAG](https://docs.aivax.net/learn/teaching-agents/what-is-a-rag.md), [Embeddings and semantic search](https://docs.aivax.net/learn/models/embeddings-and-semantic-search.md), [Preparing documents for knowledge](https://docs.aivax.net/learn/teaching-agents/preparing-documents-for-knowledge.md) and [Measuring adherence and hallucination](https://docs.aivax.net/learn/teaching-agents/measuring-adherence-and-hallucination.md).
-- In the Documentation: [Collections](https://docs.aivax.net/docs/rag/collections.md) explains how documents are stored, [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) covers filters and search quality, [Reranking](https://docs.aivax.net/docs/rag/reranking.md) reorders results, and [Best practices](https://docs.aivax.net/docs/rag/best-practices.md) collects practical advice. Collections are attached to an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md).
+- In the Documentation: [Collections](https://docs.aivax.net/docs/rag/collections.md) explains how documents are stored, [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) covers filters and search quality, [Reranking](https://docs.aivax.net/docs/rag/reranking.md) reorders results, and [Best practices](https://docs.aivax.net/docs/rag/documents.md#write-good-documents) collects practical advice. Collections are attached to an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md).
 
 Documents let the brain know things. The next episode lets it do things.
 

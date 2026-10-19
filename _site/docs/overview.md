@@ -1,6 +1,6 @@
 Source: https://docs.aivax.net/docs/overview.html
 
-# Overview
+# Welcome
 
 AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account, API surface, and billing wallet. It combines hosted and bring-your-own-key (BYOK) models with reusable assistant configuration, knowledge retrieval, tools, text and media processing, user-facing channels, background jobs, and conversational evaluation.
 
@@ -14,8 +14,8 @@ You do not need every product for every application. Start with direct inference
 | Reuse instructions, knowledge, tools, and model settings | [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) | Give your application one stable assistant runtime that can evolve without rebuilding every request. |
 | Search your own documents or generate grounded answers | [RAG collections](https://docs.aivax.net/docs/rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
 | Reorder candidates your application already retrieved | [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
-| Publish an assistant to end users | [Chat clients](https://docs.aivax.net/docs/features/chat-clients.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
-| Process many independent records | [Batch](https://docs.aivax.net/docs/features/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
+| Publish an assistant to end users | [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
+| Process many independent records | [Batch](https://docs.aivax.net/docs/inference/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
 | Test a complete assistant conversation | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | Simulate a goal-oriented user and judge the gateway across multiple turns. |
 | Build a low-latency two-way voice experience | [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) | Stream user and assistant audio in an interactive session instead of combining separate audio jobs. |
 
@@ -51,7 +51,7 @@ Reranking is a separate step: it receives a query and candidate documents, then 
 
 ### Skills and tools
 
-[Skills](https://docs.aivax.net/docs/features/skills.md) package reusable instructions and operating knowledge. Use a skill when the assistant needs to know **how** to perform a task. Use RAG when it needs to retrieve **facts or source material** that may grow or change independently.
+[Skills](https://docs.aivax.net/docs/inference/skills.md) package reusable instructions and operating knowledge. Use a skill when the assistant needs to know **how** to perform a task. Use RAG when it needs to retrieve **facts or source material** that may grow or change independently.
 
 Tools let the assistant take action or retrieve live information. Choose among:
 
@@ -66,14 +66,14 @@ Keep the tool surface as small as the assistant's job allows. Each additional to
 
 AIVAX includes focused generation products for work that does not need a full chat conversation:
 
-- [Text classification](https://docs.aivax.net/docs/rag/classification.md) assigns labels to one or more documents.
-- [Text segmentation](https://docs.aivax.net/docs/rag/text-segmentation.md) splits long content into useful chunks for indexing or downstream processing.
-- [Media descriptions](https://docs.aivax.net/docs/generations/media-descriptions.md) convert images, audio, video, and files into text that another model or workflow can use.
+- [Text classification](https://docs.aivax.net/docs/data-processing/classification.md) assigns labels to one or more documents.
+- [Text segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) splits long content into useful chunks for indexing or downstream processing.
+- [Media descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md) convert images, audio, video, and files into text that another model or workflow can use.
 - [Image generation](https://docs.aivax.net/docs/generations/images.md) creates or edits images.
 - [Speech generation](https://docs.aivax.net/docs/generations/speech.md) turns text into audio.
 - [Audio transcription](https://docs.aivax.net/docs/generations/audio-transcriptions.md) turns audio into text.
 
-Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request. Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage. For large independent input sets, run the appropriate operation through [Batch](https://docs.aivax.net/docs/features/batch.md).
+Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request. Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage. For large independent input sets, run the appropriate operation through [Batch](https://docs.aivax.net/docs/inference/batch.md).
 
 For interactive two-way audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) instead of manually chaining transcription, text inference, and speech generation.
 
@@ -81,13 +81,13 @@ For interactive two-way audio, use [Voice Sessions](https://docs.aivax.net/docs/
 
 ### Chat clients
 
-A [chat client](https://docs.aivax.net/docs/features/chat-clients.md) connects an AI Gateway to an end-user channel. It owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
+A [chat client](https://docs.aivax.net/docs/inference/chat-clients.md) connects an AI Gateway to an end-user channel. It owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
 
 Use a chat client for a browser widget or supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
 
 ### Batch
 
-[Batch](https://docs.aivax.net/docs/features/batch.md) applies one workflow to dozens or thousands of independent records. A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job imports items, processes them in the background, exposes per-item progress and cost, and exports results.
+[Batch](https://docs.aivax.net/docs/inference/batch.md) applies one workflow to dozens or thousands of independent records. A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job imports items, processes them in the background, exposes per-item progress and cost, and exports results.
 
 Do not use Batch when one item depends on another or when a user needs an immediate answer. Use direct inference for one synchronous result and RAG for searchable knowledge.
 
@@ -112,9 +112,37 @@ AIVAX also provides MCP utilities for compatible agents:
 
 These utilities expose existing AIVAX capabilities through MCP; they do not replace the underlying account, collection, or inference products.
 
+## Make your first request
+
+Create a **private** key in the API Keys area of the AIVAX dashboard and store it as a secret, for example in an environment variable named `AIVAX_API_KEY`. Then install the OpenAI SDK with `python -m pip install openai` and create `quickstart.py`:
+
+```python
+import os
+
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://inference.aivax.net/v1",
+    api_key=os.environ["AIVAX_API_KEY"],
+)
+
+response = client.chat.completions.create(
+    model="<MODEL_OR_GATEWAY_ID>",
+    messages=[
+        {"role": "user", "content": "Write a one-sentence welcome message."}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+Replace `<MODEL_OR_GATEWAY_ID>` with a hosted model name from the model listing or with an AI Gateway identifier, then run `python quickstart.py`. A successful request prints one generated sentence. If it fails, see [Troubleshoot requests](https://docs.aivax.net/docs/inference/inference.md#troubleshoot-requests).
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Model%20listing)
+
 ## Next steps
 
-1. Follow [Getting Started](https://docs.aivax.net/docs/getting-started.md) to make and verify your first chat completion.
+1. Make your first request with the example above, then read [Inference](https://docs.aivax.net/docs/inference/inference.md) for the full request contract.
 2. Read [Authentication](https://docs.aivax.net/docs/authentication.md) before choosing private keys, public keys, or chat sessions for an application boundary.
 3. Review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing traffic or processing large collections, media, tests, or Batch jobs.
 4. Move reusable assistant behavior into an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md), then add RAG, skills, tools, and a chat client only when the use case requires them.

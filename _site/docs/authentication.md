@@ -28,19 +28,13 @@ Public keys can be used for RAG semantic search, RAG answer generation, speech g
 
 Use private keys for backend services, account management, model listing, collection management, batch operations, and any workflow that needs the full gateway tool surface.
 
-For a first server-side request, continue with [Getting Started](https://docs.aivax.net/docs/getting-started.md). If you are exposing a browser or widget experience to end users, review [Chat Clients](https://docs.aivax.net/docs/features/chat-clients.md) before deciding whether a public key is the right boundary.
+For a first server-side request, continue with [Make your first request](https://docs.aivax.net/docs/overview.md#make-your-first-request). If you are exposing a browser or widget experience to end users, review [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients.md) before deciding whether a public key is the right boundary.
 
-## Create and list keys
+## Manage keys
 
-API keys belong to an account and can have a label, expiration, and type. A key with a negative duration does not expire; expired keys are rejected by authentication and are later removed by cleanup jobs.
+Create and revoke API keys in the API Keys area of the AIVAX dashboard. Keys belong to an account and can have a label, expiration, and type; expired keys are rejected by authentication.
 
 Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Use labels to identify each key's owner and application, and expiration dates to plan when to renew or replace it.
-
-Reference:
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20API%20Key)
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=List%20API%20Keys)
 
 ## Send a key with Bearer auth
 

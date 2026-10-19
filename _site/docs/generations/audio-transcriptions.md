@@ -1,6 +1,6 @@
 Source: https://docs.aivax.net/docs/generations/audio-transcriptions.html
 
-# Audio Transcriptions
+# Speech-to-Text (STT)
 
 Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. Typical uses include transcribing meetings and interviews, captioning recorded videos, making voice notes searchable, and feeding spoken input into classification or RAG pipelines.
 
@@ -14,11 +14,11 @@ Query the available transcription models for the authenticated account before se
 
 ## Transcribe audio
 
-Send the audio as base64 with its format (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm`, or `aac`). Decoded audio is subject to a size limit (see [Request and payload limits](https://docs.aivax.net/docs/limits.md#request-and-payload-limits)), and billing follows the measured media duration (see [Pricing](https://docs.aivax.net/docs/pricing.md)) — files with no measurable duration are rejected.
+Send the audio as base64 with its format (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm`, or `aac`). Decoded audio is subject to the size limit in [Pricing, limits, and errors](#pricing-limits-and-errors). Billing follows the measured media duration, and files with no measurable duration are rejected.
 
 Provide the optional `language` hint when the spoken language is known. It steers recognition toward that language and helps with accented speech and domain vocabulary; omit it when the language genuinely varies within one file and let detection handle it.
 
-Review the returned text before using it in user-visible or irreversible actions: noisy recordings, multiple speakers, specialized vocabulary, and poor microphone quality can affect transcription quality. For files where speaker attribution matters, plan a diarization or review step downstream — the endpoint returns the transcript text, not speaker labels.
+Review the returned text before using it in user-visible or irreversible actions: noisy recordings, multiple speakers, specialized vocabulary, and poor microphone quality can affect transcription quality. The endpoint returns the transcript text, not speaker labels, so plan a diarization or review step downstream for files where speaker attribution matters.
 
 The embedded reference is the source of truth for accepted request forms, options, and response fields.
 
@@ -26,8 +26,14 @@ The embedded reference is the source of truth for accepted request forms, option
 
 ## After the transcript
 
-A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](https://docs.aivax.net/docs/rag/collections.md) to make recordings searchable, run it through [Batch](https://docs.aivax.net/docs/features/batch.md) when there are many files, or feed it to [Text classification](https://docs.aivax.net/docs/rag/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md).
+A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](https://docs.aivax.net/docs/rag/collections.md) to make recordings searchable, run it through [Batch](https://docs.aivax.net/docs/inference/batch.md) when there are many files, or feed it to [Text classification](https://docs.aivax.net/docs/data-processing/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md).
 
 ## Pricing, limits, and errors
 
-For current availability, pricing, and account limits, see [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and Limits](https://docs.aivax.net/docs/limits.md). Correct invalid or inaccessible audio before retrying a failed request.
+Transcription price varies by model; current tariffs are listed in the Models catalog.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Standalone audio-transcription requests | 3/min and 40/hour | 30/min | 300/min |
+
+Transcription requests have a quota separate from speech generation, with the same values. Decoded audio is limited to 75 MB per request. Correct invalid or inaccessible audio before retrying a failed request.

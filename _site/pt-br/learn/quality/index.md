@@ -9,7 +9,7 @@ Como testar e avaliar agentes, quais métricas são importantes, como registrar,
 
 - [Testando e avaliando agentes (avaliações)](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md)
 - [Métricas: precisão, latência, custo, satisfação](https://docs.aivax.net/pt-br/learn/quality/metrics.md)
-- [Logs, rastreamentos e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md)
+- [Logs, rastreamos e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md)
 - [Melhoria contínua a partir de conversas reais](https://docs.aivax.net/pt-br/learn/quality/continuous-improvement.md)
 - [Testes A/B de prompts e modelos](https://docs.aivax.net/pt-br/learn/quality/ab-testing.md)
 

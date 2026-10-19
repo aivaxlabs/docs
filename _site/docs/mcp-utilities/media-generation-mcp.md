@@ -143,9 +143,7 @@ Voices differ per speech model. For voice selection and text preparation guidanc
 
 ## Pricing and limits
 
-Generation calls use the same pricing as [Image Generation](https://docs.aivax.net/docs/generations/images.md) and [Speech Generation](https://docs.aivax.net/docs/generations/speech.md) and are charged to the authenticated account. See [Pricing](https://docs.aivax.net/docs/pricing.md) for current charges and billing rules.
-
-Generations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](https://docs.aivax.net/docs/limits.md) for current limits and enforcement behavior.
+Generation calls use the same pricing and quotas as [Image Generation](https://docs.aivax.net/docs/generations/images.md#pricing-limits-and-errors) and [Speech Generation](https://docs.aivax.net/docs/generations/speech.md#pricing-limits-and-errors) and are charged to the authenticated account. For general billing rules, see [Pricing](https://docs.aivax.net/docs/pricing.md).
 
 A positive account balance is required to use these tools.
 

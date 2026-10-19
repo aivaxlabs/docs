@@ -86,7 +86,7 @@ Keep the previous approved revision, investigate failures and repeat the checks 
 
 Testing needs more than a polite final answer. Include a normal request, missing facts, a disputed exception and an unavailable tool. Check whether the agent consulted the right source, preserved uncertainty and stopped at the approval boundary. Also test a conversation that changes topic: a refund playbook should not distort a later question about product care.
 
-**Related:** On AIVAX, this reusable instruction bundle is called a [skill](https://docs.aivax.net/docs/features/skills.md), and selected skills can be enabled for an agent's configured runtime. [Teach Skill](https://docs.aivax.net/docs/generations/teach-skill.md) can turn a recorded demonstration into draft instructions. Review that draft against the real process before saving it; generating it does not automatically publish a skill.
+**Related:** On AIVAX, this reusable instruction bundle is called a [skill](https://docs.aivax.net/docs/inference/skills.md), and selected skills can be enabled for an agent's configured runtime. [Teach Skill](https://docs.aivax.net/docs/inference/skills.md) can turn a recorded demonstration into draft instructions. Review that draft against the real process before saving it; generating it does not automatically publish a skill.
 
 **What's next:** A method needs boundaries. [Adding guardrails](https://docs.aivax.net/learn/agents/adding-guardrails.md) explains how to limit actions and handle requests the agent should not fulfil.
 

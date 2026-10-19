@@ -1,14 +1,11 @@
-# Generations
+# Media generation
 
 Source: https://docs.aivax.net/docs/generations/index.html
 
 
-## Generations
+## Media generation
 
-- [Semantic decisions](https://docs.aivax.net/docs/generations/decisions.md)
-- [Speech Generation](https://docs.aivax.net/docs/generations/speech.md)
-- [Audio Transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md)
-- [Media Descriptions](https://docs.aivax.net/docs/generations/media-descriptions.md)
-- [Teach Skill](https://docs.aivax.net/docs/generations/teach-skill.md)
 - [Image Generation](https://docs.aivax.net/docs/generations/images.md)
+- [Text-to-Speech (TTS)](https://docs.aivax.net/docs/generations/speech.md)
+- [Speech-to-Text (STT)](https://docs.aivax.net/docs/generations/audio-transcriptions.md)
 

@@ -27,7 +27,7 @@ Website · WhatsApp · Telegram → Chat client or integration → Same AI gatew
 ## Go deeper
 
 - In Learn: [Integrating channels: WhatsApp, web chat, e-mail, voice](https://docs.aivax.net/learn/tools-and-integrations/integrating-channels.md), [Webhooks, events and automations](https://docs.aivax.net/learn/tools-and-integrations/webhooks-events-and-automations.md) and [Customer support agent, step by step](https://docs.aivax.net/learn/guides/customer-support-agent.md).
-- In the Documentation: [Chat clients](https://docs.aivax.net/docs/features/chat-clients.md) explains sessions, limits, appearance and the Telegram and WhatsApp integrations. [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) is where the shared behaviour lives.
+- In the Documentation: [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md) explains sessions, limits, appearance and the Telegram and WhatsApp integrations. [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) is where the shared behaviour lives.
 
 That closes the series so far. Pipi is going for a nap; the other Learn modules cover each of these ideas in depth.
 

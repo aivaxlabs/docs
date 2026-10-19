@@ -86,9 +86,9 @@ The [planning and reasoning loops](https://docs.aivax.net/learn/advanced-agents/
 
 ## How this maps to AIVAX
 
-On AIVAX, [skills](https://docs.aivax.net/docs/features/skills.md) hold reusable instructions. [Processing pipelines](https://docs.aivax.net/docs/inference/pipelines.md) configure processing around model requests; they are not the same concept as a complete business approval process. Keep the business procedure and its required external controls explicit rather than assuming the word “pipeline” supplies them automatically.
+On AIVAX, [skills](https://docs.aivax.net/docs/inference/skills.md) hold reusable instructions. [Processing pipelines](https://docs.aivax.net/docs/inference/pipelines.md) configure processing around model requests; they are not the same concept as a complete business approval process. Keep the business procedure and its required external controls explicit rather than assuming the word “pipeline” supplies them automatically.
 
-[Batch](https://docs.aivax.net/docs/features/batch.md) applies an AI workflow to many independent inputs in the background. It can suit tasks such as preparing separate summaries for many customers. It is not a substitute for a dependent sequence in which one customer's next step waits for another step's approval or result. Choose the execution mechanism according to the work's dependencies.
+[Batch](https://docs.aivax.net/docs/inference/batch.md) applies an AI workflow to many independent inputs in the background. It can suit tasks such as preparing separate summaries for many customers. It is not a substitute for a dependent sequence in which one customer's next step waits for another step's approval or result. Choose the execution mechanism according to the work's dependencies.
 
 What's next: learn to express roles, limits, and procedures clearly in [Writing good prompts and instructions](https://docs.aivax.net/learn/agents/writing-good-prompts-and-instructions.md).
 
