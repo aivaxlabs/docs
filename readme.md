@@ -19,7 +19,7 @@ Stop the PHP server before rebuilding on Windows: its working directory can lock
 
 ## Source structure and authoring
 
-- `content/en/`: the only hand-edited documentation sources. `content/en/docs/changelogs.md` is the shared public changelog.
+- `content/en/`: the only hand-edited documentation sources. `content/en/docs/legal/changelogs.md` is the shared public changelog.
 - `content/pt-br/`: generated Portuguese; never hand-edit, move or delete it. The migration imported existing translations without rewriting prose.
 - `_index.md` pages define groups; front matter `weight` preserves TOC order. The previously unlisted Portuguese decisions page is included at the end of its group.
 - `layouts/`: Hugo templates and render hooks. `assets/scripts/`: vanilla JavaScript bundled with `js.Build`.
