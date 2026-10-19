@@ -1,8 +1,8 @@
 ---
-{title: Speech Generation,linkTitle: Speech generation,weight: 260,group: Generations}
+{title: Text-to-Speech (TTS),linkTitle: Text-to-speech (TTS),weight: 20,group: Media generation}
 ---
 
-# Speech Generation
+# Text-to-Speech (TTS)
 
 Use Speech Generation when your application already has final text and needs playable audio without running a chat completion. Typical uses include narrating an article or notification, voicing an IVR prompt, producing a draft voice-over for review, or generating audio files for offline playback.
 
@@ -35,4 +35,10 @@ Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions]
 
 ## Pricing, limits, and errors
 
-For current pricing, availability, and account limits, see [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits). Review reported validation errors before retrying a failed request.
+Speech generation price varies by model; current tariffs are listed in the Models catalog.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Standalone text-to-speech requests | 3/min and 40/hour | 30/min | 300/min |
+
+Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.

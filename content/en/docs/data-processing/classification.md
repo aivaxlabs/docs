@@ -1,5 +1,5 @@
 ---
-{title: Text Classification,linkTitle: Text classification,weight: 120,group: RAG and collections,aliases: [/docs/generations/classification.html]}
+{title: Text Classification,linkTitle: Text Classification,weight: 30,group: Data processing,aliases: [/docs/generations/classification.html,/docs/rag/classification.html]}
 ---
 
 # Text Classification
@@ -75,6 +75,22 @@ The following request classifies three documents, one of them in German, against
 A score measures vector similarity, not a calibrated probability. Compare scores within the same request and embedding model rather than interpreting a value as a percentage confidence. Negative scores are valid and remain in the response because the endpoint does not filter labels.
 
 Embedding usage is billed for text that requires inference and is associated with the authenticated API key. Repeated text may be served from an internal cache, reducing latency and costs. Because the endpoint returns every document-label pair, response size and comparison work grow with `documents × labels`.
+
+## Pricing and limits
+
+Text classification uses the default embedding model and is billed for the embedding work performed.
+
+| Description | Pricing |
+| --- | ---: |
+| Text classification | **$0.10/M tokens** |
+
+An em dash (`—`) means the plan does not impose a limit.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Text-classification documents | 30/min and 300/day | 1,000/min | 10,000/min |
+
+The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

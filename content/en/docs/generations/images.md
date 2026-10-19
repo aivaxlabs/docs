@@ -1,5 +1,5 @@
 ---
-{title: Image Generation,linkTitle: Image generation,weight: 300,group: Generations}
+{title: Image Generation,linkTitle: Image generation,weight: 10,group: Media generation}
 ---
 
 # Image Generation
@@ -34,6 +34,12 @@ To let an MCP-compatible agent or IDE generate images without calling this endpo
 
 ## Pricing, limits, and errors
 
-Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. See [Pricing](/docs/pricing#voice-and-media) for how the charge is calculated and the Models catalog for each model's tariff.
+Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Each output is priced at the selected model's fixed output tariff, plus that model's per-reference tariff for every reference image sent with it. Prompt processing is included. For token- and megapixel-priced providers, the charge uses rounded-up estimates rather than exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
 
-For availability and account limits, see [Plans and Limits](/docs/limits). If a request fails, revise the reported validation issue before retrying.
+The built-in image generation and editing tool has these daily plan limits:
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Built-in image generation and editing | 5/day | 500/day | 5,000/day |
+
+If a request fails, revise the reported validation issue before retrying.

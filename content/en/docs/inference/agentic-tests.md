@@ -1,5 +1,5 @@
 ---
-{title: Agentic Tests,linkTitle: Agentic Tests,weight: 180,group: Inference}
+{title: Agentic Tests,linkTitle: Agentic Tests,weight: 40,group: Inference}
 ---
 
 # Agentic Tests
@@ -36,7 +36,7 @@ Keeping these criteria separate prevents the simulated user from unnaturally ste
 
 Use **Start messages** when the scenario requires an established context, such as a customer objection, a prior assistant response, or a specific point in an existing flow. Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
 
-Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; the number of resources per test is capped (see [Plans and limits](../limits.md#request-and-payload-limits)). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
+Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; a test accepts up to 16 resources (see [Pricing and limits](#pricing-and-limits)). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
 
 ```json
 {
@@ -128,7 +128,7 @@ Hook responses follow the worker convention: any `2xx` response continues the ru
 
 ### Run and inspect a test
 
-Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Both the rate of new runs and account-level concurrency depend on the current plan. See [Plans and limits](../limits.md#plan-limits) for current values.
+Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Both the rate of new runs and account-level concurrency depend on the current plan. See [Pricing and limits](#pricing-and-limits) for current values.
 
 Manual runs, scheduled runs, and direct API evaluations share one new-run quota across the account's API keys. A persisted run counts when it is queued and does not count again when execution begins. Conversation turns do not consume additional run units, although applicable inference limits still apply. A manual run request above the quota returns HTTP 429 without creating a run; wait for the rate-limit window to clear before retrying.
 
@@ -183,11 +183,36 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 
 Reduce `max_turns` for fast, bounded regression checks. Increase it for flows that naturally require discovery or several tool calls. `minimum_turns` and `judge_start_turn` must each be less than `max_turns`; they are otherwise independent. Delay `judge_start_turn` when early clarification is expected and intermediate scores are not useful. Disable `allow_user_exit` when only the judge or the turn budget should end the test; `minimum_turns` controls only when the simulated user sees its exit option and does not delay judge decisions. Keep a wide gap between the loss and success thresholds unless the policy has been calibrated against representative conversations.
 
-Agentic Tests bills the selected gateway inference plus simulated-user and judge usage at the rates of the selected profile. See [Pricing](../pricing.md#agentic-tests) for current rates.
+## Pricing and limits
+
+Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](../pricing.md#plan-multipliers) applies.
+
+| Description | Pricing |
+| --- | ---: |
+| Model or AI Gateway under test | Regular inference rates |
+| Low profile - simulated user | Input **$0.25/M tokens**; cache **$0.025/M tokens**; output **$1.50/M tokens** |
+| Low profile - judge | Input **$0.30/M tokens**; cache **$0.03/M tokens**; output **$2.50/M tokens** |
+| Medium profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| Medium profile - judge | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
+| High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
+
+An em dash (`—`) means the plan does not impose a limit. Custom accounts support 8 concurrent runs per account.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| New runs per account | 5/min | 30/min | — |
+| Concurrent runs per account | 1 | 4 | 8 |
+
+These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing. Manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits.
+
+Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit on new runs, but other applicable limits remain in effect.
+
+Each test accepts up to 16 `resources` and 16 `hooks`.
 
 ## Direct API execution
 
-Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Plans and limits](../limits.md#semantic-decision-and-agentic-test-rate-limits).
+Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Pricing and limits](#pricing-and-limits).
 
 Use the direct generation endpoint when an application needs to run an ephemeral test and consume its events immediately. A direct execution does **not** create a persistent test case or run in the dashboard.
 

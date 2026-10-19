@@ -1,5 +1,5 @@
 ---
-{title: Inference,linkTitle: Inference,weight: 170,group: Inference,aliases: [/docs/inference/chat-handling.html,/docs/platform/conversations.html]}
+{title: Inference,linkTitle: Inference,weight: 20,group: Inference,aliases: [/docs/inference/chat-handling.html,/docs/platform/conversations.html]}
 ---
 
 # Inference
@@ -22,6 +22,66 @@ The endpoint also has the API alias `/api/v1/chat/completions`.
 Reference:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+
+## Troubleshoot requests
+
+AIVAX uses two response styles:
+
+- OpenAI-compatible endpoints return an OpenAI-style `error` object.
+- Account and administrative endpoints return an AIVAX response envelope with an error or a successful `data` value.
+
+| Status | What to check |
+| --- | --- |
+| `400 Bad Request` | Confirm the model or gateway identifier and remove unsupported parameters from the request. |
+| `401 Unauthorized` | Confirm that the private key is present, complete, active, and sent through the SDK configuration. |
+| `402 Payment Required` | Review [Pricing](../pricing.md) and confirm that the account is ready for a billable request. |
+| `403 Forbidden` | Confirm that the key type, model, or selected resource allows this operation. |
+| `429 Too Many Requests` | Retry later and review [Plans and limits](../limits.md) before increasing request volume. |
+| `500 Internal Server Error` | An unexpected AIVAX failure occurred. Retry later; the response does not include internal details. |
+| `503 Service Unavailable` | A service AIVAX depends on is temporarily unavailable. Retry after the interval in the `Retry-After` header. |
+
+If the request still fails, verify in this order:
+
+1. `base_url` is `https://inference.aivax.net/v1`.
+2. The API key is available to your process and is a private key.
+3. The selected model or gateway exists and is available to the account.
+4. For a gateway, test a plain prompt before adding RAG, tools, media, or structured output so you can isolate configuration problems.
+
+## Long-running inference
+
+If a request ends with HTTP `524` or a proxy timeout while AIVAX is still processing it, use the direct inference host:
+
+```text
+https://direct.inference.aivax.net/v1
+```
+
+The request remains synchronous, not a background job: keep the client connection open until the completion finishes, and configure a client timeout that covers the expected processing time.
+
+Use the same private API key, model or AI Gateway identifier, messages, and request parameters. Change the SDK base URL and timeout:
+
+```python
+import os
+
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://direct.inference.aivax.net/v1",
+    api_key=os.environ["AIVAX_API_KEY"],
+    timeout=300.0,
+)
+
+response = client.chat.completions.create(
+    model="<MODEL_OR_GATEWAY_ID>",
+    messages=[
+        {
+            "role": "user",
+            "content": "Analyze this case carefully and provide a detailed recommendation.",
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+```
 
 ## Provider routing
 
@@ -404,7 +464,7 @@ Use `builtin_tools` to enable AIVAX built-in tools for a direct request without 
 }
 ```
 
-Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage` (disabled; returns an unavailable response; see [Changelogs](../changelogs.md)), `OpenUrl`, `Code`, `Request`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
+Built-in tools include `DateTime`, `WebSearch`, `AdvancedWebUsage` (disabled; returns an unavailable response; see [Changelogs](../legal/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch`, and `ImageGeneration`.
 
 `DateTime` exposes `get_date_time`, a no-argument tool returning the current date, time, English weekday, time zone, UTC offset, and ISO 8601 timestamp. Set `builtin_tools.options.dateTimeTimeZone` to an IANA identifier; the default is `America/Los_Angeles` (Pacific Time), with automatic daylight-saving adjustments. This setting is independent of the user's browser time zone. See [Current Date and Time](../tools/builtin-tools.md#current-date-and-time) for configuration and output examples.
 
@@ -619,6 +679,17 @@ A good visual hierarchy is:
 Avoid exposing noisy internals directly to end users. Show tool names, states, source labels, or short summaries when they help the user understand what happened. Hide raw arguments, large payloads, and implementation details unless the user explicitly asks for details or the product surface is built for technical inspection.
 
 For accessibility, make every collapsed block keyboard-toggleable, give each status row a readable label, avoid relying on color alone for state, and keep motion subtle. A streaming response should feel stable while it updates: new reasoning or tool rows can appear in order, but existing content should not jump around or force the user to lose their reading position.
+
+## Pricing
+
+Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used. The [plan multiplier](../pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it.
+
+| Description | Pricing |
+| --- | ---: |
+| AI model and AI Gateway inference | Selected model and provider rates |
+| Input moderation | Variable price per PU; separate from the main inference charge |
+
+One moderation PU equals one output token of the moderation model, and input tokens count in proportion to their price. For example, with a model priced at $0.10/M input and $0.40/M output tokens, a check using 3,000 input and 50 output tokens consumes 800 PUs (3,000 × 0.25 + 50), about $0.00032 before the plan multiplier.
 
 ## Direct call or gateway
 

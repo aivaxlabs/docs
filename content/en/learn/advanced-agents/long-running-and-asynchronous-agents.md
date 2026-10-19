@@ -114,7 +114,7 @@ Time can change the context. Before a consequential action, recheck permissions,
 
 A **cost cap** is an enforced maximum spending budget for the task. Apply it across retries and workers, and check the remaining allowance before starting more work. Also set a deadline and a limit on simultaneously active workers. More simultaneous work may shorten a queue but can increase rate-limit errors and make spending harder to control. When a cap is reached, preserve progress and ask whether to stop or extend the authorised scope.
 
-**Related:** On AIVAX, [Batch](../../docs/features/batch.md) processes the same workflow over independent items in the background. It is not a general replacement for dependent multi-step jobs. [Gateway pipelines](../../docs/inference/pipelines.md) describe processing within gateway requests, not a durable background-job scheduler. Use [Webhooks, events and automations](../tools-and-integrations/webhooks-events-and-automations.md) to understand event-driven coordination around these capabilities.
+**Related:** On AIVAX, [Batch](../../docs/inference/batch.md) processes the same workflow over independent items in the background. It is not a general replacement for dependent multi-step jobs. [Gateway pipelines](../../docs/inference/pipelines.md) describe processing within gateway requests, not a durable background-job scheduler. Use [Webhooks, events and automations](../tools-and-integrations/webhooks-events-and-automations.md) to understand event-driven coordination around these capabilities.
 
 What's next: learn to prove that these designs work in [Testing and evaluating agents](../quality/testing-and-evaluating-agents.md).
 

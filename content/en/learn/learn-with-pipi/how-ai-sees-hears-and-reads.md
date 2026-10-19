@@ -40,7 +40,7 @@ Preprocessing adds a step, so it adds some cost and waiting time, and a descript
 ## Go deeper
 
 - In Learn: [Multimodality: images, audio, documents, video](../models/multimodality.md) and [Model families and how to choose](../models/model-families-and-choosing.md).
-- In the Documentation: [Inference](../../docs/inference/inference.md) explains how to send media in a request and how the multimodal resolver replaces media with a description. [Pipelines](../../docs/inference/pipelines.md) covers the gateway setting for this. [Media descriptions](../../docs/generations/media-descriptions.md) and [Audio transcriptions](../../docs/generations/audio-transcriptions.md) are available as standalone tools.
+- In the Documentation: [Inference](../../docs/inference/inference.md) explains how to send media in a request and how the multimodal resolver replaces media with a description. [Pipelines](../../docs/inference/pipelines.md) covers the gateway setting for this. [Media descriptions](../../docs/data-processing/media-descriptions.md) and [Audio transcriptions](../../docs/generations/audio-transcriptions.md) are available as standalone tools.
 
 The last episode takes the same brain to the website, WhatsApp and Telegram.
 

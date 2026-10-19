@@ -1,5 +1,5 @@
 ---
-{title: Media Descriptions,linkTitle: Media descriptions,weight: 280,group: Generations}
+{title: Media Descriptions,linkTitle: Media Descriptions,weight: 10,group: Data processing,aliases: [/docs/generations/media-descriptions.html]}
 ---
 
 # Media Descriptions
@@ -21,7 +21,7 @@ Prefer Media Descriptions when the extraction guidance is stable and the result 
 
 Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. The optional `extractionGuidance` instruction narrows the output — "identify the main subject and visible text" for an image, "summarize the sequence of events" for a video — so write it as the question your workflow needs answered.
 
-Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Under the `auto` preset, remote file URLs are downloaded before processing, within a size limit (see [Request and payload limits](/docs/limits#request-and-payload-limits)). Switch to `high` when the service should receive the remote URL directly.
+Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Under the `auto` preset, remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)). Switch to `high` when the service should receive the remote URL directly.
 
 For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.
 
@@ -31,4 +31,12 @@ The embedded reference is the source of truth for accepted media forms, request 
 
 ## Pricing, limits, and errors
 
-For current pricing, media availability, and account limits, see [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits). Correct inaccessible media or invalid content before retrying.
+| Description | Pricing |
+| --- | ---: |
+| Media descriptions | **~$1.50/M tokens** |
+
+The price is approximate and depends on the available processing model.
+
+Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. For account-level limits, see [Plans and Limits](/docs/limits).
+
+Correct inaccessible media or invalid content before retrying.

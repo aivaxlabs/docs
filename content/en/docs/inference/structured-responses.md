@@ -1,5 +1,5 @@
 ---
-{title: Structured Responses,linkTitle: Structured responses,weight: 210,group: Inference}
+{title: Structured Responses,linkTitle: Structured Responses,weight: 30,group: Inference}
 ---
 
 # Structured Responses

@@ -53,7 +53,7 @@ Related: on AIVAX, [reranking](../../docs/rag/reranking.md) provides relevance r
 
 Filters are especially important when rules differ between audiences or organisations. Apply permissions in trusted application logic rather than letting a user request any scope through ordinary chat. A relevance score does not establish authorisation. Similarly, do not treat an unverified user statement about their account as permission to retrieve restricted material.
 
-On AIVAX, [document filters](../../docs/filters/document-filters.md) are supported on documented search surfaces. Availability depends on the retrieval path; the documentation distinguishes direct and tool-based searches from automatic gateway retrieval. Check that your chosen integration actually applies the intended filter rather than assuming every retrieval path behaves identically.
+On AIVAX, [document filters](../../docs/rag/document-filters.md) are supported on documented search surfaces. Availability depends on the retrieval path; the documentation distinguishes direct and tool-based searches from automatic gateway retrieval. Check that your chosen integration actually applies the intended filter rather than assuming every retrieval path behaves identically.
 
 Filtering can also remove the answer accidentally. A document with missing or incorrect metadata may disappear from an otherwise valid search. When results are empty, check both the question and the eligible document set. Never broaden an access restriction just to return an answer; clarify the question or explain the lack of available evidence.
 

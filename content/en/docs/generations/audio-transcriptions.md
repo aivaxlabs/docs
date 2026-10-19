@@ -1,8 +1,8 @@
 ---
-{title: Audio Transcriptions,linkTitle: Audio transcriptions,weight: 270,group: Generations}
+{title: Speech-to-Text (STT),linkTitle: Speech-to-text (STT),weight: 30,group: Media generation}
 ---
 
-# Audio Transcriptions
+# Speech-to-Text (STT)
 
 Use Audio Transcriptions to convert recorded speech into text for search, review, captions, or downstream automation. Typical uses include transcribing meetings and interviews, captioning recorded videos, making voice notes searchable, and feeding spoken input into classification or RAG pipelines.
 
@@ -16,7 +16,7 @@ Query the available transcription models for the authenticated account before se
 
 ## Transcribe audio
 
-Send the audio as base64 with its format (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm`, or `aac`). Decoded audio is subject to a size limit (see [Request and payload limits](/docs/limits#request-and-payload-limits)). Billing follows the measured media duration (see [Pricing](/docs/pricing)), and files with no measurable duration are rejected.
+Send the audio as base64 with its format (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm`, or `aac`). Decoded audio is subject to the size limit in [Pricing, limits, and errors](#pricing-limits-and-errors). Billing follows the measured media duration, and files with no measurable duration are rejected.
 
 Provide the optional `language` hint when the spoken language is known. It steers recognition toward that language and helps with accented speech and domain vocabulary; omit it when the language genuinely varies within one file and let detection handle it.
 
@@ -28,8 +28,14 @@ The embedded reference is the source of truth for accepted request forms, option
 
 ## After the transcript
 
-A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](/docs/rag/collections.md) to make recordings searchable, run it through [Batch](/docs/features/batch.md) when there are many files, or feed it to [Text classification](/docs/rag/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](/docs/inference/voice-session).
+A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](/docs/rag/collections.md) to make recordings searchable, run it through [Batch](/docs/inference/batch.md) when there are many files, or feed it to [Text classification](/docs/data-processing/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](/docs/inference/voice-session).
 
 ## Pricing, limits, and errors
 
-For current availability, pricing, and account limits, see [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits). Correct invalid or inaccessible audio before retrying a failed request.
+Transcription price varies by model; current tariffs are listed in the Models catalog.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Standalone audio-transcription requests | 3/min and 40/hour | 30/min | 300/min |
+
+Transcription requests have a quota separate from speech generation, with the same values. Decoded audio is limited to 75 MB per request. Correct invalid or inaccessible audio before retrying a failed request.

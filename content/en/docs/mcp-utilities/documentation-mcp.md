@@ -1,5 +1,5 @@
 ---
-{title: Documentation MCP,linkTitle: Documentation MCP,weight: 390,group: MCP Utilities,aliases: [/docs/tools/documentation-mcp.html]}
+{title: Documentation MCP,linkTitle: Documentation MCP,weight: 20,group: MCP Utilities,aliases: [/docs/tools/documentation-mcp.html]}
 ---
 
 # Documentation MCP
@@ -58,7 +58,7 @@ The tool accepts:
 | `search_terms` | `string[]` | Yes | Search terms to query against AIVAX documentation and API reference. |
 | `search_type` | `string` | No | Search scope. Use `documentation-manual`, `api-function-reference`, or `all`. |
 
-The search can query the documentation manual, the API function reference, or both. It returns relevant documentation snippets in text form so the client can use them directly as context. Search is limited in terms and total characters per call; see [Request and payload limits](/docs/limits#request-and-payload-limits).
+The search can query the documentation manual, the API function reference, or both. It returns relevant documentation snippets in text form so the client can use them directly as context. Search accepts at most 10 search terms and 500 total characters per call.
 
 Example arguments:
 
@@ -74,7 +74,7 @@ Example arguments:
 
 Use more complete phrases when the question has a clear intent, such as `semantic search reranker settings` or `public key chat completion restrictions`. Use multiple terms when you want to cover neighboring concepts, alternate names, or likely API-reference terms.
 
-Search calls use the per-account quotas documented in [Plans and limits](/docs/limits#plan-limits).
+Search calls use the per-account quotas documented in [Plans and limits](/docs/limits#account-limits).
 
 ### `aivax_list_models`
 
@@ -96,7 +96,7 @@ Example arguments:
 }
 ```
 
-Model listing calls use the per-account quotas documented in [Plans and limits](/docs/limits#plan-limits).
+Model listing calls use the per-account quotas documented in [Plans and limits](/docs/limits#account-limits).
 
 ## When to use it
 

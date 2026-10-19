@@ -36,7 +36,7 @@ The content of the gateway should stay the same, but each channel has its own ha
 ## Go deeper
 
 - In Learn: [Integrating channels: WhatsApp, web chat, e-mail, voice](../tools-and-integrations/integrating-channels.md), [Webhooks, events and automations](../tools-and-integrations/webhooks-events-and-automations.md) and [Customer support agent, step by step](../guides/customer-support-agent.md).
-- In the Documentation: [Chat clients](../../docs/features/chat-clients.md) explains sessions, limits, appearance and the Telegram and WhatsApp integrations. [AI gateways](../../docs/inference/ai-gateway.md) is where the shared behaviour lives.
+- In the Documentation: [Chat clients](../../docs/inference/chat-clients.md) explains sessions, limits, appearance and the Telegram and WhatsApp integrations. [AI gateways](../../docs/inference/ai-gateway.md) is where the shared behaviour lives.
 
 That closes the series so far. Pipi is going for a nap; the other Learn modules cover each of these ideas in depth.
 

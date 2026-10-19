@@ -1,5 +1,5 @@
 ---
-{title: Media generation MCP,linkTitle: Media generation MCP,weight: 420,group: MCP Utilities}
+{title: Media generation MCP,linkTitle: Media generation MCP,weight: 50,group: MCP Utilities}
 ---
 
 # Media generation MCP
@@ -145,9 +145,7 @@ Voices differ per speech model. For voice selection and text preparation guidanc
 
 ## Pricing and limits
 
-Generation calls use the same pricing as [Image Generation](/docs/generations/images) and [Speech Generation](/docs/generations/speech) and are charged to the authenticated account. See [Pricing](/docs/pricing) for current charges and billing rules.
-
-Generations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](/docs/limits) for current limits and enforcement behavior.
+Generation calls use the same pricing and quotas as [Image Generation](/docs/generations/images#pricing-limits-and-errors) and [Speech Generation](/docs/generations/speech#pricing-limits-and-errors) and are charged to the authenticated account. For general billing rules, see [Pricing](/docs/pricing).
 
 A positive account balance is required to use these tools.
 

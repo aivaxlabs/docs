@@ -1,5 +1,5 @@
 ---
-{title: Rerankers,linkTitle: Rerankers,weight: 130,group: RAG and collections}
+{title: Rerankers,linkTitle: Rerankers,weight: 60,group: RAG and collections}
 ---
 
 # Rerankers
@@ -20,7 +20,7 @@ For the supported request, response, authentication, and error contract, use the
 
 ## Build candidates worth ranking
 
-Reranking only reorders what it receives, so candidate quality decides the ceiling. Keep each candidate string focused on one idea — a paragraph or a short section rather than a whole page — so the relevance score reflects one topic instead of an average over many. When candidates come from chunking, prefer boundaries that preserve complete statements; see [Text segmentation](text-segmentation.md).
+Reranking only reorders what it receives, so candidate quality decides the ceiling. Keep each candidate string focused on one idea — a paragraph or a short section rather than a whole page — so the relevance score reflects one topic instead of an average over many. When candidates come from chunking, prefer boundaries that preserve complete statements; see [Text segmentation](../data-processing/text-segmentation.md).
 
 Use the [RAG pipeline checklist](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) to distinguish preparation, retrieval, and ordering failures.
 

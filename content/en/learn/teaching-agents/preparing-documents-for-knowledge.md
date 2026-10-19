@@ -69,7 +69,7 @@ For slides, “Extended coverage” beneath a product photograph may not explain
 
 A **media description** expresses visual or audible information in words. It can explain that a diagram places the charging port beneath a protective cover, something OCR alone may miss. Descriptions are interpretations, not perfect copies. Check consequential details such as connector labels and safety symbols, and do not infer an unseen feature from a familiar-looking product.
 
-Related: on AIVAX, [Fetch and OCR](../../docs/web-foundation/fetch-and-ocr.md) extracts readable content, while [Media Descriptions](../../docs/generations/media-descriptions.md) creates reusable descriptions. [Media Injector](../../docs/rag/media-injector.md) processes supported media into collection documents. Choose the documented path for the source type; converting slides or spreadsheets may require preparation outside that media-import workflow.
+Related: on AIVAX, [Fetch and OCR](../../docs/web-foundation/fetch-and-ocr.md) extracts readable content, while [Media Descriptions](../../docs/data-processing/media-descriptions.md) creates reusable descriptions. [Media Injector](../../docs/rag/documents.md#import-from-files-with-media-injector) processes supported media into collection documents. Choose the documented path for the source type; converting slides or spreadsheets may require preparation outside that media-import workflow.
 
 ## Divide by meaning, not only by length
 
@@ -92,13 +92,13 @@ The passage stays focused while preserving the conditions needed to answer accur
 
 Too small is also a problem. “Requires inspection” is not useful alone if the product and relevant fault appear in another passage. **Overlap** means repeating some text across neighbouring chunks to preserve continuity. It can help with boundaries, but excessive overlap produces duplicate results and more maintenance. Prefer sensible structure before adding repeated text.
 
-On AIVAX, [Text Segmentation](../../docs/rag/text-segmentation.md) returns coherent text segments for review and later use. Segmentation itself does not store the submitted documents or create the search index. Review what the process produced before treating it as finished knowledge.
+On AIVAX, [Text Segmentation](../../docs/data-processing/text-segmentation.md) returns coherent text segments for review and later use. Segmentation itself does not store the submitted documents or create the search index. Review what the process produced before treating it as finished knowledge.
 
 ## Add labels that make maintenance possible
 
 **Metadata** is information about the content rather than the content itself. Useful examples include the document owner, product, source reference, effective date and review date. Distinguish these dates: uploading an old manual today does not make its policy current. When passages are separated, carry the relevant metadata with them so their identity is not lost.
 
-**Classification** assigns content to categories, such as warranty, setup or safety. Categories help people organise material and can support search selection. Define what each category means and how to handle a passage that fits more than one. Review uncertain assignments instead of forcing every document into a misleading label. On AIVAX, this capability is called [Document Classification](../../docs/rag/classification.md).
+**Classification** assigns content to categories, such as warranty, setup or safety. Categories help people organise material and can support search selection. Define what each category means and how to handle a passage that fits more than one. Review uncertain assignments instead of forcing every document into a misleading label. On AIVAX, this capability is called [Document Classification](../../docs/data-processing/classification.md).
 
 Labels do not automatically enforce permissions. An “internal” label only protects a document if trusted application rules use it to restrict access. Likewise, a product label cannot repair a passage that silently mixes several products. Combine accurate text, accurate metadata and actual access controls.
 

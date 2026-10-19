@@ -1,8 +1,8 @@
 ---
-{title: Collections MCP,linkTitle: Collections MCP,weight: 380,group: MCP Utilities,aliases: [/docs/tools/collections-mcp.html]}
+{title: Collections and RAG MCP,linkTitle: Collections and RAG MCP,weight: 10,group: MCP Utilities,aliases: [/docs/tools/collections-mcp.html]}
 ---
 
-# Collections MCP
+# Collections and RAG MCP
 
 The Collections MCP exposes one or more AIVAX RAG collections as tools for compatible MCP clients. Use it when an external model, agent, IDE, or desktop assistant should decide when to search an AIVAX knowledge base.
 
@@ -63,9 +63,9 @@ With the default naming convention, the read tool is named:
 It accepts:
 
 - `search_terms` (`string[]`): one or more search terms.
-- `filter` (`string`, optional): a [document filter](../filters/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
+- `filter` (`string`, optional): a [document filter](../rag/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
-The MCP read tool limits the number of search terms and their total length per call; see [Request and payload limits](../limits.md#request-and-payload-limits).
+The MCP read tool accepts at most 10 search terms and 500 total characters per call.
 
 When `X-Mcp-Allow-Write` is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.
 

@@ -1,8 +1,8 @@
 ---
-{title: Web utilities MCP,linkTitle: Web utilities MCP,weight: 410,group: MCP Utilities,aliases: [/docs/tools/web-utilities-mcp.html]}
+{title: Web Foundation MCP,linkTitle: Web Foundation MCP,weight: 40,group: MCP Utilities,aliases: [/docs/tools/web-utilities-mcp.html]}
 ---
 
-# Web utilities MCP
+# Web Foundation MCP
 
 The web utilities MCP exposes AIVAX web retrieval tools to any MCP-compatible client. Use it when an agent, IDE, desktop assistant, or automation environment needs AIVAX web search and URL fetching without running those tools through an AIVAX model inference.
 
@@ -114,9 +114,7 @@ The tool returns the search results as MCP text using the same response format a
 
 ## Pricing and limits
 
-Calls use the same pricing as the corresponding AIVAX built-in tools and are charged to the authenticated account. See [Pricing](/docs/pricing) for current charges and billing rules.
-
-Web operations are subject to the account's applicable service quotas and rate limits. See [Plans and Limits](/docs/limits) for current limits and enforcement behavior.
+Calls use the same pricing and quotas as the corresponding built-in tools: [Web Search](/docs/web-foundation/web-search#pricing-and-limits) for `web_search` and [Fetch and OCR](/docs/web-foundation/fetch-and-ocr#pricing-and-limits) for `fetch_url`. They are charged to the authenticated account. For general billing rules, see [Pricing](/docs/pricing).
 
 A positive account balance is required to use these tools.
 

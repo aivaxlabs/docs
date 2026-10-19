@@ -1,8 +1,8 @@
 ---
-{title: AI Workers,linkTitle: AI workers,weight: 220,group: Inference}
+{title: Gateway Workers,linkTitle: Gateway Workers,weight: 70,group: Inference}
 ---
 
-# AI Workers
+# Gateway Workers
 
 AI Gateway workers are HTTP hooks that let an external service control gateway execution at runtime. A worker can allow an event, stop it, rewrite context, add instructions or tools, or replace a server-side tool result.
 

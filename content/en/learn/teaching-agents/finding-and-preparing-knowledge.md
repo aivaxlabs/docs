@@ -99,7 +99,7 @@ Keep restricted sources separate from public-facing knowledge, and enforce acces
 
 A prepared source should have an owner, a clear audience, current content and an identified question family. It should also pass a simple reading test: can someone unfamiliar with the topic answer the target questions using only this source? If not, the document needs clarification before search settings become the focus.
 
-Related: AIVAX's [RAG best practices](../../docs/rag/best-practices.md) connects source preparation to usable retrieval. Keep the inventory after launch: it becomes the place to track changes, retirements and newly discovered gaps.
+Related: AIVAX's [RAG best practices](../../docs/rag/documents.md#write-good-documents) connects source preparation to usable retrieval. Keep the inventory after launch: it becomes the place to track changes, retirements and newly discovered gaps.
 
 What's next: turn approved facts into searchable explanations in [How to write good documents](writing-good-documents.md).
 

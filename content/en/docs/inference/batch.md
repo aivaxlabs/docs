@@ -1,8 +1,8 @@
 ---
-{title: Batch,linkTitle: Batch,weight: 330,group: Resources and features,aliases: [/docs/platform/batch.html]}
+{title: Batch Processing,linkTitle: Batch processing,weight: 90,group: Inference,aliases: [/docs/platform/batch.html,/docs/features/batch.html]}
 ---
 
-# Batch
+# Batch Processing
 
 Batch is AIVAX's feature for running the same AI workflow over many independent items. It turns a list of inputs into a background-processed queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
 
@@ -44,13 +44,21 @@ The workflow is the processing recipe. It defines how future items will be handl
 
 - title;
 - processing instructions;
-- model;
+- model or AI gateway;
 - expected result schema;
 - enabled built-in tools;
 - validation instructions; and
 - retry and error-handling behavior.
 
 Changing a workflow affects subsequent jobs and items processed with that configuration. Use separate workflows when the instruction, schema, model, or validation rules change in a significant way.
+
+### Model and routing
+
+A workflow processes its items with an integrated model or with an AI Gateway. Both are chosen in the **Model** setting of the workflow and referenced by `modelName` in the API.
+
+Batch optimizes for cost when the workflow does not use an AI Gateway: items are always routed with the `Cheapest` [provider routing preference](/docs/inference/inference#provider-routing), which selects the available provider with the lowest input and output token price for that model. The `Balanced` default is not applied in this case, so provider selection can differ from other features that request the same model. When only one provider is available or compatible with the request, routing does not change the result.
+
+Create an [AI Gateway](/docs/inference/ai-gateway) and select it in the workflow to use the `Balanced`, `Fastest`, or `Quality` preference, to restrict which providers are attempted, or to apply fixed instructions, tools, and RAG configuration to every item.
 
 ### Job
 
@@ -228,7 +236,20 @@ Use the export endpoint to select the completed results that your review or down
 
 ## Availability
 
-Review [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits) before processing a large workload.
+Review [Pricing](/docs/pricing) and the [limits](#limits) below before processing a large workload.
+
+## Limits
+
+An em dash (`—`) means the plan does not impose a limit.
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Workflow items processed | 500/day | 100,000/day | — |
+| Files per import request | 1,000 | 1,000 | 1,000 |
+| Total import size | 100 MiB/request | 100 MiB/request | 100 MiB/request |
+| Single imported file size | 10 MiB | 10 MiB | 10 MiB |
+
+Batch processing is asynchronous. If processing is paused or fails because of quota, retry after the quota window resets or upgrade the account. For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Best practices
 

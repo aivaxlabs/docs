@@ -4,7 +4,7 @@
     <img class="hero-logo" src="{{ "assets/img/aivax.png" | relURL }}" alt="AIVAX" width="180">
     <p class="hero-lead">{{ T "homeLead" }}</p>
     <div class="hero-actions">
-        {{ with site.GetPage "/docs/getting-started" }}
+        {{ with site.GetPage "/docs/overview" }}
         <a class="button button-primary" href="{{ .RelPermalink }}">{{ T "getStarted" }}{{ partial "icon.html" "arrow-right" }}</a>
         {{ end }}
         <a class="button button-ghost" href="{{ site.Params.apiReference }}">{{ partial "icon.html" "braces" }}{{ T "browseApi" }}</a>

@@ -1,5 +1,5 @@
 ---
-{title: Generations,weight: 50}
+{title: Media generation,weight: 50}
 ---
 
 

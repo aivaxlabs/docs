@@ -1,5 +1,5 @@
 ---
-{title: Fetch and OCR,linkTitle: Fetch and OCR,weight: 240,group: Web Foundation}
+{title: Fetch and OCR,linkTitle: Fetch and OCR,weight: 20,group: Web Foundation}
 ---
 
 # Fetch and OCR
@@ -27,7 +27,7 @@ The result is extracted text, not a pixel-perfect copy of the original document.
 
 ## Fetch API vs. Media Descriptions
 
-Use the **Fetch API to extract existing text**. Use [Media Descriptions](/docs/generations/media-descriptions) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
+Use the **Fetch API to extract existing text**. Use [Media Descriptions](/docs/data-processing/media-descriptions) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
 
 | | Fetch API | Media Descriptions |
 | --- | --- | --- |
@@ -53,7 +53,7 @@ The integrations have different input contracts. In particular, the MCP tool acc
 
 ## Fetch content with the API
 
-Authenticate with an AIVAX API key; see [Authentication](/docs/authentication). Supply a non-empty `contents` array containing URLs or base64 data URIs. Each item is subject to a size limit; see [Request and payload limits](/docs/limits#request-and-payload-limits).
+Authenticate with an AIVAX API key; see [Authentication](/docs/authentication). Supply a non-empty `contents` array containing URLs or base64 data URIs. Each item is subject to a size limit (see [Pricing and limits](#pricing-and-limits)).
 
 The `system.v1.web.fetch` operation accepts these JSON request fields:
 
@@ -97,6 +97,22 @@ Treat extracted text as untrusted source material, not as instructions for your 
 
 ## Pricing and limits
 
-Fetch and OCR extraction is metered in `processingUnits`. Daily included allowances and rates for uncovered extraction depend on the account plan. Each extraction is either fully covered or billed in full; coverage is not split within one extraction. Optional JSON conversion is metered separately in `jsonProcessingUnits`, with a variable inference-based PU price and no coverage from the daily extraction allowance. Do not add both counts and apply the OCR rate to the total. See [Pricing](/docs/pricing#web-search-ocr-and-fetch) for allowances and charges rather than estimating cost from extracted text length.
+Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](/docs/limits#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 10 MB.
 
-[Web utilities MCP](/docs/mcp-utilities/web-utilities-mcp) uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. See [Plans and limits](/docs/limits) for account quotas and rate limits. The Fetch API requires a positive account balance.
+| Description | Pricing |
+| --- | ---: |
+| Fetch and OCR extraction - Free | Base daily allowance; uncovered items **$0.15/1k PUs** |
+| Fetch and OCR extraction - Pro | **10× Free** daily allowance; uncovered items **$0.05/1k PUs** |
+| Fetch and OCR extraction - Max | **5× Pro** daily allowance; uncovered items **$0.02/1k PUs** |
+| Fetch JSON conversion (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
+
+Optional JSON conversion is metered separately in `jsonProcessingUnits`. Its PUs account for input, cached input, and output tokens at the processing model and provider's rates, so they are not priced at the OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge. Do not add both counts and apply the OCR rate to the total. Estimate cost from the reported PUs, not from extracted text length.
+
+Examples, assuming items not covered by the daily allowance:
+
+- Plain text and Markdown consume no PUs.
+- An HTML page that takes 2.3 seconds to render consumes 23 PUs: $0.00115 on Pro.
+- A scanned PDF reporting `processingUnits: 400` costs $0.06 on Free, $0.02 on Pro, and $0.008 on Max. OCR PUs vary with each document.
+- A JSON conversion using 4,000 input and 300 output tokens, on a model priced at $0.10/M input and $0.40/M output tokens, reports `jsonProcessingUnits: 1300` (4,000 × 0.25 + 300), about $0.00052 before the plan multiplier.
+
+[Web utilities MCP](/docs/mcp-utilities/web-utilities-mcp) uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. The Fetch API requires a positive account balance.

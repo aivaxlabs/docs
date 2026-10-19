@@ -1,8 +1,8 @@
 ---
-{title: Voice Session,linkTitle: Voice Session,weight: 190,group: Inference}
+{title: Voice and Realtime,linkTitle: Voice and Realtime,weight: 50,group: Inference}
 ---
 
-# Voice Session
+# Voice and Realtime
 
 Voice Session is AIVAX's low-latency, stateful voice API. Your client connects to an authenticated AIVAX WebSocket endpoint, and AIVAX connects the session to a realtime inference service. After the connection is upgraded, events follow the OpenAI-compatible GA Realtime JSON protocol.
 
@@ -168,7 +168,9 @@ Your tool handler should validate arguments, preserve call identifiers, enforce 
 
 ## Billing and limits
 
-For current pricing, availability, and account limits, see [Pricing](/docs/pricing) and [Plans and Limits](/docs/limits).
+Voice Sessions are billed at the selected realtime model's rates, using its text, audio, and image token prices. The [plan multiplier](/docs/pricing#plan-multipliers) applies.
+
+Voice Sessions are subject to the applicable model access, balance, and inference limits of the account (see [Plans and Limits](/docs/limits)), not to the standalone text-to-speech and audio-transcription request quotas. Input transcription is not currently supported inside Voice Sessions.
 
 ## Disconnect gracefully
 

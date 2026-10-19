@@ -95,7 +95,7 @@ Generated media needs a separate review. A synthetic product image may show feat
 
 ## Related AIVAX capabilities
 
-On AIVAX, converting media into text is available through [media descriptions](../../docs/generations/media-descriptions.md), [audio transcription](../../docs/generations/audio-transcriptions.md), and [fetch and OCR](../../docs/web-foundation/fetch-and-ocr.md). Choose the service according to whether you need a description, spoken words, or written text from a page; do not assume their outputs are interchangeable.
+On AIVAX, converting media into text is available through [media descriptions](../../docs/data-processing/media-descriptions.md), [audio transcription](../../docs/generations/audio-transcriptions.md), and [fetch and OCR](../../docs/web-foundation/fetch-and-ocr.md). Choose the service according to whether you need a description, spoken words, or written text from a page; do not assume their outputs are interchangeable.
 
 For output, see [speech generation](../../docs/generations/speech.md) and [image generation](../../docs/generations/images.md). A live spoken exchange is a separate interaction pattern covered by [voice sessions](../../docs/inference/voice-session.md). These guides describe supported options; this unit's examples are workflow choices rather than promises that every model supports every modality.
 

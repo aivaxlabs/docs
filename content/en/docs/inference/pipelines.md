@@ -1,8 +1,8 @@
 ---
-{title: AI Pipelines,linkTitle: Processing pipeline,weight: 200,group: Inference}
+{title: Processing Pipeline,linkTitle: Processing pipeline,weight: 60,group: Inference}
 ---
 
-# AI Pipelines
+# Processing Pipeline
 
 AI Gateway pipelines are the processing steps AIVAX applies before and during inference. They can add context, rewrite queries, expose tools, moderate input, route models, truncate conversations, and call external workers.
 
@@ -27,7 +27,7 @@ Query strategies:
 - `Concatenate`: Joins the latest configured number of user messages line by line and searches with the combined text.
 - `UserRewrite`: Rewrites recent user messages into one or more search queries using a resolver model.
 - `FullRewrite`: Rewrites recent user and assistant messages into one or more search queries using a resolver model.
-- `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses. The model can narrow a search with an optional [document filter](/docs/filters/document-filters).
+- `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses. The model can narrow a search with an optional [document filter](/docs/rag/document-filters).
 
 Rewrite strategies add resolver-model cost (see [Pricing](/docs/pricing)) and latency. They are useful when users ask follow-up questions such as "what about this case?" because the resolver can turn the recent conversation into a clearer search query.
 
@@ -42,7 +42,7 @@ Instruction settings shape the provider-facing prompt:
 - **User prompt template**: Replaces `{prompt}` with each user message's text before sending it to the model.
 - **Assistant prefill**: Adds initial assistant content before generation when the model supports prefill.
 
-Remote instruction sources are fetched as text, within a response size limit (see [Request and payload limits](../limits.md#request-and-payload-limits)). Their cache duration is configurable; the default is 600 seconds.
+Remote instruction sources are fetched as text, and each response can be at most 5 MB. If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
 
 Some models do not support assistant prefill, temperature, stop sequences, or reasoning effort. Integrated model validation rejects incompatible gateway settings when those limitations are known.
 
@@ -50,7 +50,7 @@ Some models do not support assistant prefill, temperature, stop sequences, or re
 
 Skills are on-demand instruction packs available to the model. When a gateway enables skills, AIVAX loads the account skills configured on the gateway and can expose skill-related built-in functions.
 
-Read more about [skills](/docs/features/skills).
+Read more about [skills](/docs/inference/skills).
 
 ## Multimodal pre-processing
 
@@ -76,18 +76,19 @@ The parameterization pipeline configures model request options such as:
 - `verbosity`
 - `seed`
 
-Request-level values can override gateway values when the endpoint supports the parameter. Some integrated models reject specific parameters, and BYOK providers may have their own restrictions.
+Request-level values can override gateway values when the endpoint supports the parameter. `frequency_penalty` is configured only on the gateway and is not overridden per request. Some integrated models reject specific parameters, and BYOK providers may have their own restrictions.
 
 ## Context truncation
 
 The context truncation pipeline uses an approximate token count. When `ContextMaximumSize` is set and the conversation exceeds the limit, the gateway follows `ContextOverflowAction`:
 
 - `Throw`: Return an error instead of calling the model.
-- `Truncate`: Remove older non-system messages until the conversation fits.
+- `Truncate`: Remove the oldest non-system messages until the remaining conversation messages fit. The request continues even if the prompt, including system instructions and retrieved RAG context, still exceeds the limit.
+- `TruncateHard`: Truncate as above, but fail the request with a message-size error if the prompt still exceeds the limit afterwards.
 
-Truncation preserves system messages and keeps at least one user message when possible. If the remaining user message still exceeds the limit, the request fails with a message-size error.
+Truncation preserves system messages and keeps at least one user message when possible.
 
-On lower plans, the effective input context may be capped even when a larger context is configured; see [Plans and limits](/docs/limits#plan-limits).
+On lower plans, the effective input context may be capped even when a larger context is configured; see [Plans and limits](/docs/limits#account-limits).
 
 ## Tool message truncation
 
@@ -120,7 +121,7 @@ Built-in tools can be configured on a gateway or supplied per request with `buil
 - `DateTime` — current date and time through `get_date_time`; configure `dateTimeTimeZone` in built-in tool options (default: `America/Los_Angeles`, Pacific Time).
 
 - `WebSearch`
-- `AdvancedWebUsage` (disabled; returns an unavailable response. See [Changelogs](../changelogs.md).)
+- `AdvancedWebUsage` (disabled; returns an unavailable response. See [Changelogs](../legal/changelogs.md).)
 - `OpenUrl`
 - `Code`
 - `Request`
@@ -225,7 +226,7 @@ Moderation currently applies only to input text:
 - Generated output is not moderated.
 - Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
 - Tool or worker authorization still requires application-level policy; moderation is not an authorization mechanism.
-- Moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage.
+- Moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage (see [Inference pricing](inference.md#pricing)).
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 

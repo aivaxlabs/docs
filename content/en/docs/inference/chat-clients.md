@@ -1,5 +1,5 @@
 ---
-{title: Chat Clients,linkTitle: Chat clients,weight: 320,group: Resources and features,aliases: [/docs/platform/chat-clients.html]}
+{title: Chat Clients,linkTitle: Chat Clients,weight: 100,group: Inference,aliases: [/docs/platform/chat-clients.html,/docs/features/chat-clients.html]}
 ---
 
 # Chat Clients

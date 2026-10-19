@@ -1,5 +1,5 @@
 ---
-{title: Reflex,linkTitle: Reflex,weight: 140,group: RAG and collections}
+{title: Reflex,linkTitle: Reflex,weight: 70,group: RAG and collections}
 ---
 
 # Reflex
@@ -27,7 +27,7 @@ Call the reranking API with a query and the candidate documents your application
 
 Use concise, focused candidate documents. Reranking can improve their order, but it cannot recover information that was not included in the candidates. If the expected document is consistently absent, improve candidate selection, chunking, or query formulation before tuning the ranker.
 
-Reflex limits the number of candidate documents per request and the number of ranked results returned; see [Request and payload limits](../limits.md#request-and-payload-limits). If your candidate pool exceeds the candidate limit, narrow it first — with lexical pre-filtering, a cheap first-pass rank, or collection retrieval — and let Reflex order the shortlist.
+Reflex limits the number of candidate documents per request and the number of ranked results returned; see [Pricing and limits](#pricing-and-limits). If your candidate pool exceeds the candidate limit, narrow it first — with lexical pre-filtering, a cheap first-pass rank, or collection retrieval — and let Reflex order the shortlist.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 
@@ -38,3 +38,21 @@ For the supported request, response, authentication, and error contract, use the
 Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. In this flow, it can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.
 
 Free, Pro, and Max include a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](../limits.md#included-daily-subscription-allowances).
+
+## Pricing and limits
+
+Reflex is billed by input tokens. Input served from the account-scoped cache is billed at a lower rate. Accounts with [Data Sharing](../data-sharing.md) enabled receive a discount on eligible reranking operations.
+
+| Description | Pricing |
+| --- | ---: |
+| Reflex - cache miss | **$0.015/M tokens** |
+| Reflex - cache hit | **$0.003/M tokens** |
+
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Reflex processing time | 30 minutes/day | 6 hours/day | — |
+| Reranking requests | 30/min | 1,000/min | — |
+| Candidate documents per request | 10,000 | 10,000 | 10,000 |
+| Ranked results returned | 200 | 200 | 200 |
+
+The processing-time limit counts the time spent processing Reflex requests, both on the reranking endpoint and in RAG searches that use Reflex; cached input does not consume it separately. The reranking request limit applies to the reranking endpoint and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. An em dash (`—`) means the plan does not impose a limit. Requests above a limit return `429 Too Many Requests`.

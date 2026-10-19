@@ -1,5 +1,5 @@
 ---
-{title: Authentication,linkTitle: Authentication,weight: 30,group: Introduction}
+{title: Authentication,linkTitle: Authentication,weight: 20,group: Introduction}
 ---
 
 # Authentication
@@ -30,19 +30,13 @@ Public keys can be used for RAG semantic search, RAG answer generation, speech g
 
 Use private keys for backend services, account management, model listing, collection management, batch operations, and any workflow that needs the full gateway tool surface.
 
-For a first server-side request, continue with [Getting Started](getting-started.md). If you are exposing a browser or widget experience to end users, review [Chat Clients](/docs/features/chat-clients) before deciding whether a public key is the right boundary.
+For a first server-side request, continue with [Make your first request](overview.md#make-your-first-request). If you are exposing a browser or widget experience to end users, review [Chat Clients](/docs/inference/chat-clients) before deciding whether a public key is the right boundary.
 
-## Create and list keys
+## Manage keys
 
-API keys belong to an account and can have a label, expiration, and type. A key with a negative duration does not expire; expired keys are rejected by authentication and are later removed by cleanup jobs.
+Create and revoke API keys in the API Keys area of the AIVAX dashboard. Keys belong to an account and can have a label, expiration, and type; expired keys are rejected by authentication.
 
 Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Use labels to identify each key's owner and application, and expiration dates to plan when to renew or replace it.
-
-Reference:
-
-<script src="https://inference.aivax.net/apidocs?embed-target=Create%20API%20Key&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
-
-<script src="https://inference.aivax.net/apidocs?embed-target=List%20API%20Keys&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Send a key with Bearer auth
 

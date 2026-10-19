@@ -39,7 +39,7 @@ Pipi sums it up as *"no guessing, only facts"*. In practice, RAG reduces guessin
 ## Go deeper
 
 - In Learn: [What is a RAG](../teaching-agents/what-is-a-rag.md), [Embeddings and semantic search](../models/embeddings-and-semantic-search.md), [Preparing documents for knowledge](../teaching-agents/preparing-documents-for-knowledge.md) and [Measuring adherence and hallucination](../teaching-agents/measuring-adherence-and-hallucination.md).
-- In the Documentation: [Collections](../../docs/rag/collections.md) explains how documents are stored, [Semantic search](../../docs/rag/semantic-search.md) covers filters and search quality, [Reranking](../../docs/rag/reranking.md) reorders results, and [Best practices](../../docs/rag/best-practices.md) collects practical advice. Collections are attached to an [AI gateway](../../docs/inference/ai-gateway.md).
+- In the Documentation: [Collections](../../docs/rag/collections.md) explains how documents are stored, [Semantic search](../../docs/rag/semantic-search.md) covers filters and search quality, [Reranking](../../docs/rag/reranking.md) reorders results, and [Best practices](../../docs/rag/documents.md#write-good-documents) collects practical advice. Collections are attached to an [AI gateway](../../docs/inference/ai-gateway.md).
 
 Documents let the brain know things. The next episode lets it do things.
 

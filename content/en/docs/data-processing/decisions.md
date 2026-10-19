@@ -1,18 +1,18 @@
 ---
-{title: Semantic decisions,linkTitle: Semantic decisions,weight: 250,group: Generations}
+{title: Semantic Decisions,linkTitle: Semantic Decisions,weight: 20,group: Data processing,aliases: [/docs/generations/decisions.html]}
 ---
 
-# Semantic decisions
+# Semantic Decisions
 
 Semantic decisions evaluate named questions against a shared state and return structured answers rather than a generated explanation. Use them to route support requests, select a category, check a condition, or assign an ordered score.
 
 A request supplies the model, the evidence in `state`, and a `questions` object. Each question has an ID you choose; the response uses the same ID in `answers`. You can ask different question types in one request without making separate API calls.
 
-Use [structured responses](../inference/structured-responses.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](../rag/classification.md).
+Use [structured responses](../inference/structured-responses.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](classification.md).
 
 ## Choose a model
 
-All models below support `choice`, `noul`, and `score`. See [Pricing](../pricing.md#semantic-decisions) for model rates and [Plans and limits](../limits.md#semantic-decision-model-limits) for model-specific limits.
+All models below support `choice`, `noul`, and `score`. See [Usage and cost](#usage-and-cost) for model rates and [Model-specific limits](#model-specific-limits) for model limits.
 
 | Model |
 | --- |
@@ -45,7 +45,7 @@ An authenticated API key and a positive account balance are required, including 
 - `maxImages`: the number of images accepted per request, or `0` for text-only models.
 - `releaseDate`: the catalog release date in `yyyy-MM-dd` format.
 - `capabilities`: supported question types (`noul`, `choice`, and/or `score`).
-- `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base token prices before account and plan adjustments; see [Pricing](../pricing.md#semantic-decisions).
+- `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base token prices before account and plan adjustments; see [Usage and cost](#usage-and-cost).
 
 Use this listing to populate model selectors rather than maintaining a separate hardcoded catalog. It describes configured models, not a real-time provider health check. Model-specific option and question limits are not included in this listing.
 
@@ -127,7 +127,7 @@ Keep only relevant evidence in the state. Instructions should explain the decisi
 
 - `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are not fetched and are rejected.
 - Images nested inside objects in `state` are not read as images. A top-level `images` field, `input_image` parts, and base64 without the `data:image/...;base64,` prefix are not supported.
-- Only some models accept images, each up to a per-request maximum. Sending images to any other model, or more than the model accepts, returns `400`. See [Semantic decision model limits](../limits.md#semantic-decision-model-limits).
+- Only some models accept images, each up to a per-request maximum. Sending images to any other model, or more than the model accepts, returns `400`. See [Model-specific limits](#model-specific-limits).
 - Clef and Clef Flash also bound the image size and the amount of text they read from `state`; see the same limits section. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
 
 ### Read the response
@@ -189,23 +189,83 @@ Other models may omit optional fields such as `probabilities`, `legend`, or `con
 
 ## Account rate limits
 
-Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. See [Plans and Limits](../limits.md#plan-limits) for the Free, Pro, and Max thresholds.
+Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. An em dash (`—`) means the plan does not impose a limit.
 
-Requests above the limit return `429 Too Many Requests` before evaluation. Pace calls across the account and retry with backoff after the rate-limit window clears; changing API keys within the same account does not provide a separate quota.
+| Limit | Free | Pro | Max |
+| --- | --- | --- | --- |
+| Semantic decision requests | 10/min | 50/min | — |
+
+These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing: included usage still consumes the request quota. Each request consumes one unit, regardless of how many questions it contains or which decision model it selects.
+
+Requests above the limit return `429 Too Many Requests` before evaluation. Pace calls across the account and retry with backoff after the rate-limit window clears; changing API keys within the same account does not provide a separate quota. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit for this quota, but other applicable limits remain in effect.
 
 ## Model-specific limits
 
-See [Semantic decision model limits](../limits.md#semantic-decision-model-limits) for the current context, question, option, and payload limits. Limits interact: shorten descriptions or reduce the option count instead of assuming every maximum can be used at once.
+These model-specific limits apply in addition to the account-level request quota above. An unspecified context limit does not imply unlimited input.
+
+| Model | Context |
+| --- | --- |
+| `@supersonic-labs/julia-1` | 1,024 tokens per question |
+| `@typesafe/jev-1.13` | 64,000 tokens |
+| `@respan/span-01` | Not specified in the current catalog |
+| `@respan/span-01-lite` | Not specified in the current catalog |
+| `@jaredpalmer/kev-4b` | 8,192 tokens |
+| `@upstage/solar-decide` | 524,288 tokens |
+| `@cloudflare/clef` | 65,536 tokens |
+| `@cloudflare/clef-flash` | 65,536 tokens |
+| `@liquid/d1` | 65,536 tokens |
+| `@perplexity/pplx-decider-v1.1-27b` | 262,144 tokens |
+| `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
+| `@microsoft/microsoft-decision-1` | 32,768 tokens |
+| `@nace-ai/drex-v1.5` | 131,072 tokens |
+| `@cloudflare/clef-omni` | 65,536 tokens |
+
+Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only.
+
+`@cloudflare/clef` and `@cloudflare/clef-flash` reject requests that exceed their processing window, so keep each image under about 300 KB before encoding. They also read roughly the first 2,000 tokens of text in `state`; images are counted separately.
+
+Julia-1 has additional serving limits:
+
+| Limit | Value |
+| --- | --- |
+| Questions per request | 1–32 |
+| Choices or score levels per question | 2–20 |
+| Boolean options | Exactly two: false and true |
+| Combined context per question | 1,024 tokens, including state, question, options, and special tokens |
+| Question and options budget | 256 tokens within the combined context |
+| Description of an individual option | At most 48 tokens |
+| Decision payload limit | 256 KiB |
+
+These limits interact: twenty options can exceed the combined question/options budget even if each description fits its individual limit. The current AIVAX Julia-1 serving limits apply even if an upstream model card lists a larger context. Shorten descriptions or reduce the option count instead of assuming every maximum can be used at once.
 
 Inputs exceeding the context or question/options budget are rejected, not silently truncated. The literal `<mask>` is reserved and cannot appear in Julia-1 state, instructions, or option descriptions.
 
 ## Usage and cost
 
+The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments (see the [plan multiplier](../pricing.md#plan-multipliers)). Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described below; other decision models are billed normally.
+
+| Model | Input price / million tokens |
+| --- | ---: |
+| `@supersonic-labs/julia-1` | **$0.008** |
+| `@typesafe/jev-1.13` | **$0.042** |
+| `@respan/span-01` | **$0.020** |
+| `@respan/span-01-lite` | **$0.000** |
+| `@jaredpalmer/kev-4b` | **$0.042** |
+| `@upstage/solar-decide` | **$0.050** |
+| `@cloudflare/clef` | **$0.240** |
+| `@cloudflare/clef-flash` | **$0.038** |
+| `@liquid/d1` | **$0.040** |
+| `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
+| `@openai/gpt-6-luna-decisions` | **$0.100** |
+| `@microsoft/microsoft-decision-1` | **$0.042** |
+| `@nace-ai/drex-v1.5` | **$0.040** |
+| `@cloudflare/clef-omni` | **$0.150** |
+
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question. Multiple questions over one state do not have the same input usage as one question over that state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
 Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across eligible decision calls, not reserved for each question or API key. See [Plans and Limits](../limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
 
-When not covered, Julia-1 input is billed at the [listed rate](../pricing.md#semantic-decisions), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
+When not covered, Julia-1 input is billed at the [listed rate](#usage-and-cost), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 
 ## Errors and reliable use
 

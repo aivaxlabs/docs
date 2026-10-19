@@ -1,5 +1,5 @@
 ---
-{title: Account management MCP,linkTitle: Account management MCP,weight: 400,group: MCP Utilities,aliases: [/docs/platform/analytics.html,/docs/platform/logs.html,/docs/tools/account-management-mcp.html]}
+{title: Account management MCP,linkTitle: Account management MCP,weight: 30,group: MCP Utilities,aliases: [/docs/platform/analytics.html,/docs/platform/logs.html,/docs/tools/account-management-mcp.html]}
 ---
 
 # Account management MCP

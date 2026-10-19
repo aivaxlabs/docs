@@ -76,7 +76,7 @@ The chart below shows made-up cost units for the same completed workload. Each p
 
 For **batch processing**, independent items are handled as a group in the background rather than during a live conversation. An overnight ticket-classification job can tolerate waiting in a way an active customer cannot. Batch work can simplify scheduling, control simultaneous work and avoid repeating completed items. Do not assume it is automatically discounted: provider terms and the chosen workflow determine its cost.
 
-Related: on AIVAX, processing lists of independent items this way is called [Batch](../../docs/features/batch.md). For actual rates, [see current pricing](../../docs/pricing.md) rather than using the illustrative figures in this unit.
+Related: on AIVAX, processing lists of independent items this way is called [Batch](../../docs/inference/batch.md). For actual rates, [see current pricing](../../docs/pricing.md) rather than using the illustrative figures in this unit.
 
 ## Put a budget around the experiment
 

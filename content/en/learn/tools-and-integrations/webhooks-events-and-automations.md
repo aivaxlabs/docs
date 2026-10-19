@@ -118,7 +118,7 @@ A **scheduled task** starts according to a clock or calendar rather than a newly
 
 Decide how missed runs are handled: catch up, skip or ask an operator. Keep a way to pause the automation without deleting its history. The owner should be able to see what is pending, what failed and what completed. For recovery patterns, continue with [errors, retries and fallbacks](../advanced-agents/errors-retries-and-fallbacks.md) and [long-running and asynchronous agents](../advanced-agents/long-running-and-asynchronous-agents.md).
 
-**Related:** On AIVAX, [AI workers](../../docs/inference/workers.md) are gateway hooks that can control execution and require timely responses; they are not interchangeable with a background queue. [Batch](../../docs/features/batch.md) processes independent items in the background, while [processing pipelines](../../docs/inference/pipelines.md) describe steps around inference. Choose the feature whose execution contract matches the workflow.
+**Related:** On AIVAX, [AI workers](../../docs/inference/workers.md) are gateway hooks that can control execution and require timely responses; they are not interchangeable with a background queue. [Batch](../../docs/inference/batch.md) processes independent items in the background, while [processing pipelines](../../docs/inference/pipelines.md) describe steps around inference. Choose the feature whose execution contract matches the workflow.
 
 What's next: learn how agents coordinate their own steps in [planning and reasoning loops](../advanced-agents/planning-and-reasoning-loops.md).
 

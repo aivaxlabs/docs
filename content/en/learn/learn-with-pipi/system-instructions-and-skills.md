@@ -51,7 +51,7 @@ A good rule of thumb: if something must hold for every answer, such as tone, sco
 ## Go deeper
 
 - In Learn: [Writing good prompts and instructions](../agents/writing-good-prompts-and-instructions.md), [Adding skills](../agents/adding-skills.md) and [Context window, tokens and cost management](../prompt-engineering/context-window-tokens-and-cost.md).
-- In the Documentation: [Skills](../../docs/features/skills.md) covers how skills are listed and loaded, when to use them and how they compare with system instructions. [AI gateways](../../docs/inference/ai-gateway.md) shows where both are configured. [Teach Skill](../../docs/generations/teach-skill.md) drafts a skill from a recorded demonstration.
+- In the Documentation: [Skills](../../docs/inference/skills.md) covers how skills are listed and loaded, when to use them and how they compare with system instructions. [AI gateways](../../docs/inference/ai-gateway.md) shows where both are configured. [Teach Skill](../../docs/inference/skills.md) drafts a skill from a recorded demonstration.
 
 The next episode answers a different question: what happens when the answer is in your documents, not in the instructions?
 

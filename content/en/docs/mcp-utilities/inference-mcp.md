@@ -1,5 +1,5 @@
 ---
-{title: Inference MCP,linkTitle: Inference MCP,weight: 430,group: MCP Utilities,aliases: [/docs/tools/inference-mcp.html]}
+{title: Inference MCP,linkTitle: Inference MCP,weight: 60,group: MCP Utilities,aliases: [/docs/tools/inference-mcp.html]}
 ---
 
 # Inference MCP

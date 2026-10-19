@@ -1,8 +1,8 @@
 ---
-{title: Data Collecting,linkTitle: Data collecting,weight: 60,group: Introduction}
+{title: Data Sharing,linkTitle: Data Sharing,weight: 50,group: Introduction,aliases: [/docs/data-collecting.html]}
 ---
 
-# Data Collecting
+# Data Sharing
 
 AIVAX offers an optional semantic data collection program for accounts that choose to contribute eligible RAG and reranking data to model development. In exchange, eligible operations receive a discount. Document indexing and storage are outside this program. All collected RAG and reranking records are anonymized before they are written to the training dataset.
 
@@ -12,7 +12,7 @@ The setting is disabled by default. It must be enabled by an authorized Account 
 
 While the setting is enabled:
 
-- eligible RAG query-embedding usage receives a discount (see [Pricing](/docs/pricing#data-collection-discount));
+- eligible RAG query-embedding usage receives a discount (see [Pricing](/docs/pricing#data-sharing-discount));
 - eligible reranking operations receive the same discount; and
 - document indexing, storage, unrelated inference, tools, and other services keep their regular prices.
 

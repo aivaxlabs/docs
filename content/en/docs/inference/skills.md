@@ -1,5 +1,5 @@
 ---
-{title: Skills,linkTitle: Skills,weight: 310,group: Resources and features,aliases: [/docs/platform/skills.html]}
+{title: Skills,linkTitle: Skills,weight: 80,group: Inference,aliases: [/docs/platform/skills.html,/docs/features/skills.html]}
 ---
 
 # Skills
@@ -27,7 +27,7 @@ A skill has `slug`, `description`, `instructions`, and `options`. The `slug` is 
 
 Write the description as a routing rule. A description like “legal skill” is weak because it doesn’t say when to use it. A better description would be “use when the user asks for analysis, review, or explanation of contractual clauses in simple language.” The instructions, on the other hand, should be operational: explain how to respond, what questions to ask when data is missing, which tools may be useful, what limits must be respected, and the expected final format. The model reads the description to choose the skill and reads the instructions to perform the task.
 
-`allowedToolsNames` is part of the skill configuration and is intended to associate runtime tool names with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. In the current runtime path, the general always-visible tool list is the reliable way to keep shared tools visible when the gateway hides tools without a skill.
+`allowedToolsNames` is part of the skill configuration and associates runtime tool names with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. When the gateway hides tools without a skill, these tools become available after the model activates the skill with `read_skill`. Only the skills from the most recent successful `read_skill` call are active; a call blocked by a gateway worker or rejected as invalid does not expose them. Use the general always-visible tool list for tools that must stay available regardless of the active skill.
 
 Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least `slug` and `instructions`; `description` and `options` can complement the configuration. When importing a skill with an existing `slug`, AIVAX updates the corresponding skill instead of creating a duplicate.
 
