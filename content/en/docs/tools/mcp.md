@@ -56,6 +56,19 @@ You can define your MCP servers in the gateway through a JSON array:
 
 Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`; the default is 600 seconds.
 
+Each MCP source accepts the following fields:
+
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | Required | Display name of the source, with at least 3 characters. It identifies the source in tool names (see `prefixTools`), server instructions, and remote skill descriptions. Changing it creates a new discovery cache entry. |
+| `url` | `string` | Required | Absolute HTTP or HTTPS URL of the MCP server's Streamable HTTP endpoint. |
+| `description` | `string` | `null` | Optional note describing what the source provides. It is informational only: it is not sent to the model or to the MCP server. |
+| `headers` | `object` | `{}` | Map of HTTP header names to string values sent on every connection to the server, both during discovery and on each tool call. Use it for authentication, such as `Authorization`. |
+| `cacheDuration` | `integer` | `600` | Time, in seconds, that discovered tools, server instructions, and remote skills are reused before AIVAX lists them again. Accepts values from `0` to `86400`. Tool calls are never cached. |
+| `prefixTools` | `boolean` | `true` | When `true`, each tool is exposed to the model as `mcp_<source>_<tool>`, where `<source>` is the `name` in lowercase with spaces replaced by hyphens and other non-alphanumeric characters removed. For example, the `get_weather` tool of `My MCP server` becomes `mcp_my-mcp-server_get_weather`. When `false`, the server's original tool name is used; make sure it does not collide with tools from other sources or functions in the same gateway. The server always receives its original tool name. |
+| `allowClientInstructions` | `boolean` | `true` | Adds the usage instructions advertised by the server to the gateway context. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
+| `allowRemoteSkills` | `boolean` | `true` | Imports verified remote skills from servers that advertise the skills extension. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
+
 If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
 
 ## Server instructions and remote skills
