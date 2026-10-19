@@ -118,7 +118,7 @@ Server-side tool events can be streamed to clients as `servertool` updates.
 
 Built-in tools can be configured on a gateway or supplied per request with `builtin_tools`. Available built-in tool flags include:
 
-- `DateTime` — current date and time through `get_date_time`; configure `dateTimeTimeZone` in built-in tool options (default: `America/Los_Angeles`, Pacific Time).
+- `DateTime` — current date and time through `get_date_time`, in the gateway time zone (`parameters.timeZone`, default `America/Sao_Paulo`).
 
 - `WebSearch`
 - `AdvancedWebUsage` (disabled; returns an unavailable response. See [Changelogs](../legal/changelogs.md).)

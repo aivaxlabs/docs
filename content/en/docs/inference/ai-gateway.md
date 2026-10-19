@@ -17,6 +17,7 @@ A direct call to `/v1/chat/completions` can call an integrated AIVAX model direc
 - RAG collections, result limits, score threshold, reranker, reference behavior, and query strategy.
 - OpenAI-compatible tools, AIVAX built-in tools, MCP tools, protocol functions, skills, and the optional bash environment.
 - Context window behavior, tool-message truncation, moderation, workers, model routing, and tool-call handling.
+- The time zone in which the model reads and writes dates, used by `get_date_time`, scheduling tools, and the bash environment.
 
 This creates a responsibility boundary. The client application sends messages and optional request overrides. The gateway administrator controls the operational policy.
 
@@ -48,7 +49,7 @@ AIVAX provides an OpenAI-compatible chat completions endpoint:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](/docs/inference/inference).
+Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `time_zone`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](/docs/inference/inference).
 
 ## Using SDKs
 
