@@ -1,5 +1,5 @@
 ---
-{title: Gerações,weight: 50,sourceHash: 82c74189d90c24a0,aliases: [/docs/pt-br/generations/index.html]}
+{title: Geração de mídia,weight: 50,sourceHash: 167d0cb965f680dd,aliases: [/docs/pt-br/generations/index.html]}
 ---
 
 

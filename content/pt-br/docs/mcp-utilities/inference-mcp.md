@@ -1,12 +1,12 @@
 ---
-{title: MCP de Inferência,linkTitle: MCP de Inferência,weight: 430,group: MCP Utilities,aliases: [/docs/pt-br/tools/inference-mcp.html,/docs/pt-br/mcp-utilities/inference-mcp.html],sourceHash: fb0a67bccd7b2942}
+{title: Inferência MCP,linkTitle: Inferência MCP,weight: 60,group: MCP Utilities,aliases: [/docs/pt-br/tools/inference-mcp.html,/docs/pt-br/mcp-utilities/inference-mcp.html],sourceHash: 5eeb98badb6657e1}
 ---
 
-# MCP de Inferência
+# Inferência MCP
 
-O MCP de Inferência expõe um modelo integrado AIVAX ou AI Gateway como uma ferramenta para clientes MCP compatíveis. Use‑o quando outro modelo, agente, IDE ou assistente de desktop precisar chamar o modelo ou gateway AIVAX configurado como um sub‑agente.
+O Inference MCP expõe um modelo integrado AIVAX ou um gateway de IA como ferramenta para clientes MCP compatíveis. Use-o quando outro modelo, agente, IDE ou assistente de desktop precisar chamar o modelo ou gateway de IA configurado como um subagente.
 
-Para informações sobre configuração de modelos, instruções, RAG, ferramentas e workers no gateway subjacente, veja [AI Gateways](/docs/pt-br/inference/ai-gateway).
+Para obter informações sobre configurar modelos, instruções, RAG, ferramentas e workers no gateway subjacente, veja [AI Gateways](/docs/pt-br/inference/ai-gateway).
 
 ## Endpoint
 
@@ -14,18 +14,18 @@ Para informações sobre configuração de modelos, instruções, RAG, ferrament
 https://inference.aivax.net/v1/mcp/inference
 ```
 
-## Headers
+## Cabeçalhos
 
 | Cabeçalho | Descrição | Obrigatório |
 | --- | --- | --- |
 | `Authorization` | Token Bearer para sua chave de API AIVAX. | Sim |
-| `X-Mcp-Model-Name` | Tag de modelo integrado, ID completo do gateway ou slug do gateway. | Sim |
-| `X-Mcp-Tool-Name` | Nome base da ferramenta. AIVAX converte para formato de identificador e expõe `invoke_{tool_name}`. | Não, padrão `ai_model` |
+| `X-Mcp-Model-Name` | Tag do modelo integrado, ID completo do gateway ou slug do gateway. | Sim |
+| `X-Mcp-Tool-Name` | Nome base da ferramenta. AIVAX converte para formato de identificador e expõe `invoke_{tool_name}`. | Não, o padrão é `ai_model` |
 | `X-Mcp-Tool-Description` | Descrição mostrada ao cliente MCP. | Não |
 | `X-Mcp-Tool-Title` | Título amigável mostrado ao cliente MCP. | Não |
 | `X-Mcp-User` | ID de usuário externo armazenado no contexto de inferência. | Não |
 
-## Configuration example
+## Exemplo de configuração
 
 ```json
 {
@@ -51,4 +51,4 @@ A ferramenta MCP gerada aceita um argumento:
 | --- | --- | --- |
 | `prompt` | string | Prompt enviado ao modelo ou gateway configurado. |
 
-A ferramenta MCP devolve a resposta do gateway como texto e compartilha o mesmo caminho de faturamento e limite de taxa de inferência do chat completado subjacente.
+A ferramenta MCP devolve a resposta do gateway como texto e compartilha o mesmo caminho de faturamento e limite de taxa de inferência da conclusão de chat subjacente.

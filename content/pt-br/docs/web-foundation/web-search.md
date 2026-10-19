@@ -1,37 +1,49 @@
 ---
-{title: Pesquisa na Web,linkTitle: Pesquisa na Web,weight: 230,group: Web Foundation,sourceHash: 9795031df61fc96f,aliases: [/docs/pt-br/web-foundation/web-search.html]}
+{title: Pesquisa na Web,linkTitle: Pesquisa na Web,weight: 10,group: Web Foundation,sourceHash: 4a590d2eaaa97ce1,aliases: [/docs/pt-br/web-foundation/web-search.html]}
 ---
 
 # Pesquisa na Web
 
-A Pesquisa na Web recupera informações atuais da internet para pesquisa, verificação de fatos e respostas que precisam de fontes além dos dados de treinamento do modelo. Use-a para descobrir páginas relevantes; use [Fetch and OCR](fetch-and-ocr.md) quando já tiver um URL ou precisar ler uma fonte com mais detalhes.
+A Pesquisa na Web recupera informações atuais da internet para pesquisa, verificação de fatos e respostas que exigem fontes além dos dados de treinamento do modelo. Use-a para descobrir páginas relevantes; use [Fetch and OCR](fetch-and-ocr.md) quando já possuir um URL ou precisar ler uma fonte com mais detalhes.
 
 ## Escolha como usar a Pesquisa na Web
 
 | Integração | Quando usar |
 | --- | --- |
-| [Ferramentas integradas](/docs/pt-br/tools/builtin-tools) | Deixe um modelo AIVAX decidir quando pesquisar durante a inferência. Ative `WebSearch` no gateway ou na configuração `builtin_tools` da requisição. |
-| [Utilitários da Web MCP](/docs/pt-br/mcp-utilities/web-utilities-mcp) | Dê a um agente compatível com MCP, IDE ou cliente de automação acesso à ferramenta `web_search` sem executar a inferência de um modelo AIVAX. |
-| API direta | Chame o endpoint de busca do seu backend quando nenhum modelo ou agente estiver envolvido — monitores agendados, enriquecimento de conjuntos de dados ou pré‑busca de contexto antes da inferência. |
+| [Ferramentas internas](/docs/pt-br/tools/builtin-tools) | Deixe um modelo AIVAX decidir quando pesquisar durante a inferência. Ative `WebSearch` no gateway ou na configuração `builtin_tools` da requisição. |
+| [Utilitários Web MCP](/docs/pt-br/mcp-utilities/web-utilities-mcp) | Conceda a um agente compatível com MCP, IDE ou cliente de automação acesso à ferramenta `web_search` sem executar a inferência de um modelo AIVAX. |
+| API Direta | Chame o endpoint de pesquisa do seu backend quando nenhum modelo ou agente estiver envolvido — monitores agendados, enriquecimento de conjunto de dados ou pré‑busca de contexto antes da inferência. |
 
-`AdvancedWebUsage` está desativado e retorna uma resposta indisponível. Consulte [Changelogs](/docs/pt-br/changelogs) para detalhes.
+`AdvancedWebUsage` está desativado e retorna uma resposta indisponível. Veja [Changelogs](/docs/pt-br/legal/changelogs) para detalhes.
 
 ## Pesquise e verifique fontes
 
-Escreva uma consulta focada que inclua o tópico e qualquer data relevante, versão do produto ou localização. Para várias perguntas independentes, use buscas separadas ao invés de combinar tópicos não relacionados em uma única consulta.
+Escreva uma consulta focada que inclua o tópico e qualquer data, versão de produto ou localização relevante. Para várias perguntas independentes, use pesquisas separadas ao invés de combinar tópicos não relacionados em uma única consulta.
 
-Para requisições diretas à API, restrinja os resultados com `country` (código de país de duas letras), `language` (código de idioma) e `includeDomains` (domínios confiáveis). Defina `topn` para solicitar mais resultados (veja [Request and payload limits](/docs/pt-br/limits#request-and-payload-limits)) quando a abrangência for importante, como ao analisar fontes concorrentes; caso contrário, mantenha a contagem padrão pequena. Para os parâmetros da ferramenta de Busca na Web integrada, veja sua [reference](/docs/pt-br/tools/builtin-tools).
+Para solicitações de API direta, restrinja os resultados com `country` (código de país de duas letras), `language` (código de idioma) e `includeDomains` (domínios confiáveis). Defina `topn` para solicitar mais resultados (1–25 por solicitação de API direta) quando a lembrança for importante, como ao analisar fontes concorrentes; caso contrário, mantenha a contagem padrão pequena. Para os parâmetros da ferramenta de Pesquisa na Web interna, veja sua [referência](/docs/pt-br/tools/builtin-tools).
 
-Os resultados da busca ajudam a localizar evidências; eles não garantem que uma fonte seja precisa ou atual. Verifique datas de publicação, prefira fontes primárias e recupere as páginas relevantes antes de confiar em detalhes que o resumo do resultado possa omitir. Mantenha os links das fontes junto à resposta para que os leitores possam verificar as afirmações. Para um pipeline que encadeia busca e captura e mantém a evidência, veja [web search API vs. page fetch for LLM research](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
+Os resultados da pesquisa ajudam a localizar evidências; eles não garantem que uma fonte seja precisa ou atual. Verifique datas de publicação, prefira fontes primárias e recupere as páginas relevantes antes de confiar em detalhes que um resumo de resultado pode omitir. Mantenha os links das fontes junto à resposta para que os leitores possam verificar as alegações. Para um pipeline que encadeia pesquisa e busca e mantém a evidência, veja [web search API vs. page fetch for LLM research](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
 
 Trate o texto recuperado como conteúdo externo e não confiável, não como instruções para seu agente.
 
-## Referência de API
+## Referência da API
+
+Para a solicitação, resposta, autenticação e contrato de erro suportados, use a Referência da API:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Search%20the%20web&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Preços e limites
 
-A Pesquisa na Web é cobrada por busca. Chamadas através de [Web utilities MCP](/docs/pt-br/mcp-utilities/web-utilities-mcp) usam o mesmo preço da ferramenta integrada correspondente e são cobradas na conta autenticada. A inferência do modelo, quando utilizada, é cobrada separadamente.
+A Pesquisa na Web é cobrada por pesquisa. Chamadas através de [Utilitários Web MCP](/docs/pt-br/mcp-utilities/web-utilities-mcp) usam o mesmo preço da ferramenta interna correspondente e são cobradas na conta autenticada. A inferência do modelo, quando usada, é cobrada separadamente.
 
-Consulte [Pricing](/docs/pt-br/pricing) para as tarifas atuais da Pesquisa na Web e buscas avançadas, e [Plans and limits](/docs/pt-br/limits) para cotas de conta e limites de taxa.
+| Descrição | Preço |
+| --- | ---: |
+| Pesquisa na Web | **$5/1k searches** |
+| Pesquisa X (Twitter) | **$5/1k searches** |
+
+Solicitações de API direta retornam 1–25 resultados por solicitação (`topn`).
+
+| Limite | Gratuito | Pro | Máximo |
+| --- | --- | --- | --- |
+| Pesquisa na Web interna | 15/dia | 1.000/dia | 10.000/dia |
+| Pesquisa X/Twitter interna | Não disponível | 1.000/dia | 10.000/dia |

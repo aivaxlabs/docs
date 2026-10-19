@@ -1,38 +1,44 @@
 ---
-{title: Geração de Voz,linkTitle: geração de voz,weight: 260,group: Generations,sourceHash: cb8527eed675a35e,aliases: [/docs/pt-br/generations/speech.html]}
+{title: Texto para fala (TTS),linkTitle: Texto para fala (TTS),weight: 20,group: Media generation,sourceHash: e9feec7158b8cf10,aliases: [/docs/pt-br/generations/speech.html]}
 ---
 
-# Geração de Voz
+# Texto para fala (TTS)
 
-Use a Geração de Voz quando seu aplicativo já tem o texto final e precisa de áudio reproduzível sem executar uma conclusão de chat. Os usos típicos incluem narrar um artigo ou notificação, dar voz a um prompt de IVR, produzir um rascunho de locução para revisão ou gerar arquivos de áudio para reprodução offline.
+Use Speech Generation when your application already has final text and needs playable audio without running a chat completion. Typical uses include narrating an article or notification, voicing an IVR prompt, producing a draft voice-over for review, or generating audio files for offline playback.
 
-Autentique solicitações com uma chave de API AIVAX. Consulte [Autenticação](/docs/pt-br/authentication) para orientações de autorização.
+Authenticate requests with an AIVAX API key. See [Authentication](/docs/pt-br/authentication) for authorization guidance.
 
 ## Escolha a forma de entrega
 
-O endpoint pode retornar áudio em duas formas, e a escolha correta depende do consumidor:
+The endpoint can return audio in two forms, and the right choice depends on the consumer:
 
 - **Áudio binário (`raw: true`)** — o corpo da resposta é o próprio arquivo de áudio, servido inline com seu tipo MIME. Use isso quando um player, elemento `<audio>` do navegador ou fluxo de download consome a resposta diretamente.
-- **Base64 no envelope JSON (`raw: false`)** — a resposta contém o formato, o tipo MIME e o áudio codificado em base64 dentro do envelope padrão. Use isso quando o resultado passa por pipelines JSON, é armazenado em um banco de dados ou precisa ser inspecionado junto com metadados de faturamento.
+- **Base64 no envelope JSON (`raw: false`)** — a resposta contém o formato, tipo MIME e áudio codificado em base64 dentro do envelope padrão. Use isso quando o resultado passa por pipelines JSON, é armazenado em um banco de dados ou precisa ser inspecionado junto com metadados de faturamento.
 
-Formatos suportados são `mp3`, `wav` e `ogg`. Quando o consumidor aceita qualquer um deles, prefira `mp3` para cargas menores e `wav` para compatibilidade máxima com ferramentas de áudio.
+Os formatos suportados são `mp3`, `wav` e `ogg`. Quando o consumidor aceita qualquer um deles, prefira `mp3` para cargas menores e `wav` para máxima compatibilidade com ferramentas de áudio.
 
 ## Gerar fala
 
-Escreva texto que esteja pronto para ser falado em voz alta, incluindo pontuação e formatação que comuniquem pausas ou ênfase. Expanda abreviações e numerais da forma como devem ser ouvidos ("vinte e vinte e seis", "doutor" em vez de "Dr.") ao invés de confiar que a voz adivinhe.
+Escreva o texto pronto para ser falado em voz alta, incluindo pontuação e formatação que comuniquem pausas ou . Expanda abreviações e numerais da forma como devem ser ou, como "doctor" ao invés de "Dr." ou "twenty twenty-six" ao invés de "2026", em vez de confiar que a voz adivinhe.
 
-Teste a voz selecionada com conteúdo representativo antes de usá-la em produção, especialmente para nomes, abreviações ou termos especializados. As vozes diferem por modelo de fala, portanto confirme a voz em relação ao modelo que você usará, ao invés de supor que as vozes de um modelo existam em outro.
+Teste a voz selecionada com conteúdo representativo antes de usar em produção, especialmente para nomes, abreviações ou termos especializados. As vozes variam por modelo de fala, portanto confirme a voz no modelo que você usará, em vez de presumir que as vozes de um modelo existam em outro.
 
-A referência embutida é a fonte de verdade para modelos e vozes disponíveis, opções de solicitação, formatos de saída e campos de resposta.
+A referência incorporada é a fonte de verdade para modelos e vozes disponíveis, opções de requisição, formatos de saída e campos de resposta.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20speech&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar diretamente este endpoint, use o [Geração de mídia MCP](/docs/pt-br/mcp-utilities/media-generation-mcp). Ele retorna uma URL pública para áudio MP3 ao invés de áudio inline.
+Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar este endpoint diretamente, use o [Media generation MCP](/docs/pt-br/mcp-utilities/media-generation-mcp). Ele devolve uma URL pública para áudio MP3 em vez de áudio inline.
 
 ## Sessões de fala ou voz
 
-Use a Geração de Voz para síntese única de texto conhecido. Use [Sessões de Voz](/docs/pt-br/inference/voice-session) quando a experiência for uma conversa falada interativa com interrupções, troca de turnos e chamadas de ferramentas — encadear transcrição, inferência e síntese manualmente adiciona latência que a sessão em tempo real evita.
+Use a geração de fala para síntese única de texto conhecido. Use [Voice Sessions](/docs/pt-br/inference/voice-session) quando a experiência for uma conversa falada interativa com interrupções, turnos e chamadas de ferramentas. Encadear transcrição, inferência e síntese manualmente adiciona latência que a sessão em tempo real evita.
 
 ## Preços, limites e erros
 
-Para preços, disponibilidade e limites de conta atuais, veja [Pricing](/docs/pt-br/pricing) e [Plans and Limits](/docs/pt-br/limits). Revise os erros de validação relatados antes de tentar novamente uma solicitação com falha.
+O preço da geração de fala varia por modelo; as tarifas atuais estão listadas no catálogo de Modelos.
+
+| Limite | Gratuito | Pro | Máximo |
+| --- | --- | --- | --- |
+| Solicitações independentes de texto‑fala | 3/min e 40/hora | 30/min | 300/min |
+
+As sessões de voz não estão sujeitas a esses limites de requisição independentes; elas seguem o acesso, saldo e limites de inferência do modelo em tempo real selecionado. Revise os erros de validação relatados antes de tentar novamente uma requisição falhada.
