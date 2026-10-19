@@ -15,6 +15,7 @@ A direct call to `/v1/chat/completions` can call an integrated AIVAX model direc
 - RAG collections, result limits, score threshold, reranker, reference behavior, and query strategy.
 - OpenAI-compatible tools, AIVAX built-in tools, MCP tools, protocol functions, skills, and the optional bash environment.
 - Context window behavior, tool-message truncation, moderation, workers, model routing, and tool-call handling.
+- The time zone in which the model reads and writes dates, used by `get_date_time`, scheduling tools, and the bash environment.
 
 This creates a responsibility boundary. The client application sends messages and optional request overrides. The gateway administrator controls the operational policy.
 
@@ -36,7 +37,7 @@ When choosing a model, validate three points before putting it into production:
 - The model supports function calling if the gateway uses tools, RAG through `QueryFunction`, MCP, protocol functions, skills, or built-in functions.
 - The model accepts the parameters you configure. Some integrated models reject assistant prefill, temperature, stop sequences, or reasoning effort.
 
-Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist. For the GPT-4o and GPT-4.1 shutdown on January 14, 2027, see [how to migrate to gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/).
+Plan for retirement too: a gateway lets you change the model behind a stable name, but you still need to qualify the replacement. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) for a replacement checklist. For the GPT-4o and GPT-4.1 shutdown on January 14, 2027, see [how to migrate to gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/). For the GPT-5 and o3 shutdown on December 11, 2026, see [how to migrate to GPT-5.6 Sol, Terra and Luna](https://aivax.net/blog/migrate-gpt-5-and-o3-to-gpt-5-6-before-december-11/).
 
 Gateways can also use model routing. For the complexity router, AIVAX classifies the latest user request as low, medium, or high complexity, selects the configured model for that level, and emits `X-Model-Routed-Complexity` on the HTTP response when available.
 
@@ -46,7 +47,7 @@ AIVAX provides an OpenAI-compatible chat completions endpoint:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Inference%20(chat%20completions))
 
-Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](https://docs.aivax.net/docs/inference/inference.md).
+Gateway values can be overridden by the request for supported parameters such as `temperature`, `top_p`, `seed`, `reasoning_effort`, `max_completion_tokens`, `stop`, `tools`, `response_schema`, `response_format`, `builtin_tools`, `time_zone`, `multimodal_resolver`, the deprecated `multimodal_preprocess`, and `tool_invocation_explanations`. For direct inference behavior, including response rendering options, see [Inference](https://docs.aivax.net/docs/inference/inference.md).
 
 ## Using SDKs
 

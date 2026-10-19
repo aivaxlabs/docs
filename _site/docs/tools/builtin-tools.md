@@ -24,22 +24,19 @@ The values in `builtin_tools.tools` are configuration flags such as `WebSearch`,
 
 Enable `DateTime` to expose `get_date_time`. This tool takes no arguments and reads the current time when it is called. It returns the date, time, day of the week, time zone, UTC offset, and an ISO 8601 timestamp.
 
-In the dashboard, select **Current date and time** in the gateway's built-in tools, then edit its **Time zone** under **Current date and time configuration**. The Functions playground and Batch workflow tool options also expose this setting.
+The tool reports the gateway time zone, set in the gateway's `parameters.timeZone` with an IANA identifier. The default is `America/Sao_Paulo`, and daylight-saving changes are applied automatically. In the dashboard, edit **Time zone** under **Date and time** in the gateway's **Parameters + Tuning** tab. The same zone is used by scheduling tools and by the Bash tool, so every date the model reads or writes uses one time zone. The browser or user-context time zone does not change it.
 
-Configure `dateTimeTimeZone` with an IANA time zone identifier. The default is `America/Los_Angeles` (Pacific Time), which automatically follows PST/PDT daylight-saving changes rather than using a fixed UTC offset. For example, use `America/Sao_Paulo` for São Paulo or `UTC` for UTC. Invalid identifiers are rejected. The tool uses this configured zone, not the browser or user-context time zone.
+To use another zone for a single request to `/v1/chat/completions`, send `time_zone`, such as `"time_zone": "Asia/Tokyo"`. Invalid identifiers are rejected. Batch workflows use the time zone of the AI Gateway they run on, or `America/Sao_Paulo` when they name a model directly.
 
 Activation via `builtin_tools`:
 
 ```json
 {
-    "tools": ["DateTime"],
-    "options": {
-        "dateTimeTimeZone": "America/Los_Angeles"
-    }
+    "tools": ["DateTime"]
 }
 ```
 
-For a saved gateway, include `DateTime` in `parameters.sentinelOptions.enabledFunctions` and set `parameters.builtinFunctionsOptions.dateTimeTimeZone`. For a Batch workflow, use `enabledTools.enabledFunctions` and `enabledTools.options.dateTimeTimeZone`.
+For a saved gateway, include `DateTime` in `parameters.sentinelOptions.enabledFunctions`. For a Batch workflow, use `enabledTools.enabledFunctions`.
 
 Example tool result (illustrative, not a live reading):
 

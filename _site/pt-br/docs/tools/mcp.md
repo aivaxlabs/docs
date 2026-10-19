@@ -34,7 +34,7 @@ Com o nome da função, podemos pensar sobre a descrição da função.
 
 ### Escolhendo a descrição da função
 
-A descrição da função deve explicar conceitualmente duas situações: o que ela faz e quando o assistente deve chamá‑la. Essa descrição deve incluir os cenários que o assistente deve considerar chamar e quando não deve ser chamada, fornecendo alguns exemplos de chamadas de um único disparo e/ou tornando as regras da função explícitas.
+A descrição da função deve explicar conceitualmente duas situações: o que ela faz e quando o assistente deve chamá‐la. Essa descrição deve incluir os cenários que o assistente deve considerar chamar e quando não deve ser chamada, fornecendo alguns exemplos de chamadas de um único disparo e/ou tornando as regras da função explícitas.
 
 ### Definindo servidores MCP
 
@@ -53,6 +53,19 @@ Você pode definir seus servidores MCP no gateway através de um array JSON:
 ```
 
 Seu servidor MCP deve suportar **Streamable HTTP** para funcionar com o AIVAX como fonte de ferramentas do gateway. Você pode definir cabeçalhos personalizados na configuração do seu servidor MCP para configurar autenticação ou outras necessidades. Ferramentas, instruções do servidor e descoberta de habilidades remotas são armazenadas em cache de acordo com `cacheDuration`; o padrão é 600 segundos.
+
+Cada fonte MCP aceita os seguintes campos:
+
+| Campo | Tipo | Padrão | Descrição |
+| --- | --- | --- | --- |
+| `name` | `string` | Obrigatório | Nome de exibição da fonte, com pelo menos 3 caracteres. Identifica a fonte nos nomes das ferramentas (veja `prefixTools`), nas instruções do servidor e nas descrições das habilidades remotas. Alterá-lo cria uma nova entrada no cache de descoberta. |
+| `url` | `string` | Obrigatório | URL HTTP ou HTTPS absoluta do endpoint Streamable HTTP do servidor MCP. |
+| `description` | `string` | `null` | Nota opcional descrevendo o que a fonte fornece. É apenas informativa: não é enviada ao modelo nem ao servidor MCP. |
+| `headers` | `object` | `{}` | Mapa de nomes de cabeçalhos HTTP para valores de string enviados em todas as conexões com o servidor, tanto na descoberta quanto em cada chamada de ferramenta. Use-o para autenticação, como `Authorization`. |
+| `cacheDuration` | `integer` | `600` | Tempo, em segundos, durante o qual ferramentas, instruções do servidor e habilidades remotas descobertas são reutilizadas antes que o AIVAX as liste novamente. Aceita valores de `0` a `86400`. Chamadas de ferramenta nunca são armazenadas em cache. |
+| `prefixTools` | `boolean` | `true` | Quando `true`, cada ferramenta é exposta ao modelo como `mcp_<fonte>_<ferramenta>`, em que `<fonte>` é o `name` em minúsculas, com espaços substituídos por hífens e demais caracteres não alfanuméricos removidos. Por exemplo, a ferramenta `get_weather` de `My MCP server` se torna `mcp_my-mcp-server_get_weather`. Quando `false`, o nome original da ferramenta no servidor é usado; garanta que ele não colida com ferramentas de outras fontes ou funções do mesmo gateway. O servidor sempre recebe o nome original da ferramenta. |
+| `allowClientInstructions` | `boolean` | `true` | Adiciona ao contexto do gateway as instruções de uso anunciadas pelo servidor. Veja [instruções do servidor e habilidades remotas](#instruções-do-servidor-e-habilidades-remotas). |
+| `allowRemoteSkills` | `boolean` | `true` | Importa habilidades remotas verificadas de servidores que anunciam a extensão de skills. Veja [instruções do servidor e habilidades remotas](#instruções-do-servidor-e-habilidades-remotas). |
 
 Se o seu servidor tem como alvo o MCP `2026-07-28`, veja [como migrar um servidor MCP do Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) para saber como ele interage com este gateway.
 

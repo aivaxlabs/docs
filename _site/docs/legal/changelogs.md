@@ -4,6 +4,20 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Monday, October 19th, 2026
+
+Breaking changes:
+
+- **Gateways — One time zone per gateway.** AI Gateways now have a `timeZone` parameter (IANA identifier, default `America/Sao_Paulo`) used for every date the model reads or writes: `get_date_time`, scheduling tools, and the bash environment. It replaces `builtinFunctionsOptions.dateTimeTimeZone` (previous default `America/Los_Angeles`) and `bashOptions.timeZone` (previous default `UTC`), which are no longer read. Gateways and Batch workflows that relied on the old defaults now report São Paulo time; set `timeZone` on the gateway to keep another zone. In `/v1/chat/completions`, send `time_zone` instead of `builtin_tools.options.dateTimeTimeZone` to override the zone for one request. In the dashboard, the setting moved to **Date and time** in the gateway's **Parameters + Tuning** tab and was removed from Batch tool options. See [Current Date and Time](https://docs.aivax.net/docs/tools/builtin-tools.md#current-date-and-time).
+
+Fixes:
+
+- **Chat clients — Scheduled messages no longer run alongside a reply.** In Telegram and WhatsApp integrations, a scheduled message that becomes due while the assistant is still answering the same conversation now waits for that answer to finish instead of running a second reply in parallel. Messages received during a reply also wait and are answered afterwards. Previously, both runs could act on the same conversation, and one reply could be dropped from its history. A delayed scheduled message is still sent if the conversation becomes free within 30 minutes of its scheduled time.
+
+Changes:
+
+- **Chat clients — Scheduling uses the gateway time zone.** `schedule_assistant_message` now reads times without a UTC offset in the gateway time zone, `create_recurring_job` evaluates cron expressions in that zone, and `list_scheduled_jobs` returns scheduled times in it. They previously used the server time zone. Times with an explicit UTC offset keep their exact instant. `get_date_time` is now always available alongside the scheduling tools. Set the gateway `timeZone` to your users' time zone so reminders fire at the expected local time. See [Current Date and Time](https://docs.aivax.net/docs/tools/builtin-tools.md#current-date-and-time).
+
 ## Sunday, October 18th, 2026
 
 Changes:
