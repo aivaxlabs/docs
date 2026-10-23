@@ -1,14 +1,14 @@
 ---
-{title: Inferência,linkTitle: Inferência,weight: 20,group: Inference,aliases: [/docs/pt-br/inference/chat-handling.html,/docs/pt-br/platform/conversations.html,/docs/pt-br/inference/inference.html],sourceHash: e3f2e61f09b7dbdc}
+{title: Inferência,linkTitle: Inferência,weight: 20,group: Inference,aliases: [/docs/pt-br/inference/chat-handling.html,/docs/pt-br/platform/conversations.html,/docs/pt-br/inference/inference.html],sourceHash: 3e3f76fe6c0349b4}
 ---
 
 # Inferência
 
-AIVAX expõe uma API `chat/completions` compatível com OpenAI com parâmetros adicionais da AIVAX. As adições são opcionais e foram projetadas para suportar gateways, RAG, ferramentas integradas, respostas estruturadas, pré‑processamento multimodal, roteamento de modelo e metadados de cobrança.
+AIVAX expõe uma API `chat/completions` compatível com OpenAI com parâmetros adicionais da AIVAX. As adições são opcionais e foram projetadas para suportar gateways, RAG, ferramentas integradas, respostas estruturadas, pré‑processamento multimodal, roteamento de modelo e metadados de faturamento.
 
 Use esta página para chamadas diretas de inferência. Use o [gateway de IA](/docs/pt-br/inference/ai-gateway) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
 
-## Ponto final
+## Endpoint
 
 <div class="request-item post">
     <span>POST</span>
@@ -17,7 +17,7 @@ Use esta página para chamadas diretas de inferência. Use o [gateway de IA](/do
     </span>
 </div>
 
-O ponto final também possui o alias de API `/api/v1/chat/completions`.
+O endpoint também possui o alias de API `/api/v1/chat/completions`.
 
 Referência:
 
@@ -33,23 +33,23 @@ AIVAX usa dois estilos de resposta:
 | Status | O que verificar |
 | --- | --- |
 | `400 Bad Request` | Confirme o identificador do modelo ou gateway e remova parâmetros não suportados da solicitação. |
-| `401 Unauthorized` | Confirme que a chave privada está presente, completa, ativa e foi enviada através da configuração do SDK. |
-| `402 Payment Required` | Revise a [Pricing](../pricing.md) e confirme que a conta está pronta para uma solicitação cobrável. |
+| `401 Unauthorized` | Confirme que a chave privada está presente, completa, ativa e enviada via configuração do SDK. |
+| `402 Payment Required` | Revise a [Pricing](../pricing.md) e confirme que a conta está pronta para uma solicitação paga. |
 | `403 Forbidden` | Confirme que o tipo de chave, modelo ou recurso selecionado permite esta operação. |
-| `429 Too Many Requests` | Tente novamente mais tarde e reveja [Plans and limits](../limits.md) antes de aumentar o volume de solicitações. |
+| `429 Too Many Requests` | Tente novamente mais tarde e revise [Plans and limits](../limits.md) antes de aumentar o volume de solicitações. |
 | `500 Internal Server Error` | Ocorreu uma falha inesperada da AIVAX. Tente novamente mais tarde; a resposta não inclui detalhes internos. |
-| `503 Service Unavailable` | Um serviço do qual a AIVAX depende está temporariamente indisponível. Tente novamente após o intervalo indicado no cabeçalho `Retry-After`. |
+| `503 Service Unavailable` | Um serviço do qual a AIVAX depende está temporariamente indisponível. Tente novamente após o intervalo no cabeçalho `Retry-After`. |
 
-Se a solicitação ainda falhar, verifique na seguinte ordem:
+Se a solicitação ainda falhar, verifique nesta ordem:
 
 1. `base_url` é `https://inference.aivax.net/v1`.
-2. A chave da API está disponível para o seu processo e é uma chave privada.
+2. A chave da API está disponível para seu processo e é uma chave privada.
 3. O modelo ou gateway selecionado existe e está disponível para a conta.
-4. Para um gateway, teste um prompt simples antes de adicionar RAG, ferramentas, mídia ou saída estruturada, assim você pode isolar problemas de configuração.
+4. Para um gateway, teste um prompt simples antes de adicionar RAG, ferramentas, mídia ou saída estruturada para que você possa isolar problemas de configuração.
 
 ## Inferência de longa duração
 
-Se uma solicitação terminar com HTTP `524` ou um timeout de proxy enquanto a AIVAX ainda está processando, use o host de inferência direta:
+Se uma solicitação terminar com HTTP `524` ou um timeout de proxy enquanto a AIVAX ainda a processa, use o host de inferência direta:
 
 ```text
 https://direct.inference.aivax.net/v1
@@ -57,7 +57,7 @@ https://direct.inference.aivax.net/v1
 
 A solicitação permanece síncrona, não um trabalho em segundo plano: mantenha a conexão do cliente aberta até que a conclusão termine e configure um timeout do cliente que cubra o tempo de processamento esperado.
 
-Use a mesma chave de API privada, identificador de modelo ou gateway de IA, mensagens e parâmetros da solicitação. Altere a URL base do SDK e o timeout:
+Use a mesma chave de API privada, modelo ou identificador de gateway de IA, mensagens e parâmetros da solicitação. Altere a URL base e o timeout do SDK:
 
 ```python
 import os
@@ -85,24 +85,24 @@ print(response.choices[0].message.content)
 
 ## Roteamento de provedor
 
-Alguns modelos integrados estão disponíveis através de mais de um provedor. O roteamento de provedor permite que a AIVAX escolha entre esses provedores sem alterar o modelo solicitado pela sua aplicação. Isso difere do roteamento de modelo, que pode selecionar um modelo diferente com base na complexidade da solicitação.
+Alguns modelos integrados estão disponíveis através de mais de um provedor. O roteamento de provedor permite que a AIVAX escolha entre esses provedores sem mudar o modelo solicitado pela sua aplicação. Isso difere do roteamento de modelo, que pode selecionar um modelo diferente com base na complexidade da solicitação.
 
-A AIVAX considera provedores que estão atualmente disponíveis e compatíveis com a solicitação. Se apenas um provedor for elegível, a preferência de roteamento não altera o resultado. O roteamento de provedor aplica‑se apenas a modelos integrados da AIVAX; um gateway de chave própria usa o endpoint do provedor configurado nesse gateway.
+A AIVAX considera provedores que estão atualmente disponíveis e compatíveis com a solicitação. Se apenas um provedor for elegível, a preferência de roteamento não altera o resultado. O roteamento de provedor aplica‑se apenas a modelos integrados da AIVAX; um gateway “traga‑seu‑próprio‑provedor” usa o endpoint do provedor configurado nesse gateway.
 
-Preferências de roteamento disponíveis são:
+Preferências de roteamento disponíveis:
 
 | Preferência | Comportamento |
 |---|---|
-| `Balanced` | Equilibra preço, velocidade e qualidade. Este é o padrão. |
-| `Cheapest` | Seleciona o provedor com o menor preço aplicável de tokens de entrada e saída. |
+| `Balanced` | Equilibra preço, velocidade e qualidade. Esta é a padrão. |
+| `Cheapest` | Seleciona o provedor com o menor preço de token de entrada e saída aplicável. |
 | `Fastest` | Prioriza o provedor com maior taxa de transferência disponível. |
-| `Quality` | Seleciona o provedor que a AIVAX classifica como o de qualidade, sem otimizar preço ou velocidade. |
+| `Quality` | Seleciona o provedor que a AIVAX classifica como de maior qualidade, sem otimizar preço ou velocidade. |
 
 ### Configurar roteamento em um gateway de IA
 
-Use um gateway de IA quando o mesmo roteamento deve ser aplicado a cada solicitação. No editor do gateway, selecione um modelo integrado, escolha a estratégia em **Routing preference**, liste as tags dos provedores em ordem em **Allowed providers**, e salve o gateway.
+Use um gateway de IA quando o mesmo roteamento deve ser aplicado a cada solicitação. No editor do gateway, selecione um modelo integrado, escolha a estratégia em **Routing preference**, liste as tags de provedor em ordem em **Allowed providers** e salve o gateway.
 
-A configuração equivalente do gateway usa `parameters.routingOption` e `parameters.allowedProviders`:
+A configuração equivalente de gateway usa `parameters.routingOption` e `parameters.allowedProviders`:
 
 ```json
 {
@@ -118,11 +118,11 @@ A configuração equivalente do gateway usa `parameters.routingOption` e `parame
 
 `allowedProviders` segue as mesmas regras de `routing_options.allowed_providers` abaixo. O padrão é `["*"]`, e uma lista vazia é rejeitada ao salvar o gateway.
 
-Após salvar, chame o gateway normalmente usando seu ID ou slug como `model`. A AIVAX aplica a preferência de roteamento armazenada enquanto preserva as instruções, ferramentas, configuração RAG e outras definições do gateway. Veja [gateway de IA](/docs/pt-br/inference/ai-gateway) para o fluxo completo do gateway.
+Após salvar, chame o gateway normalmente usando seu ID ou slug como `model`. A AIVAX aplica a preferência de roteamento armazenada enquanto preserva as instruções, ferramentas, configuração RAG e outras definições do gateway. Veja o [gateway de IA](/docs/pt-br/inference/ai-gateway) para o fluxo completo do gateway.
 
-### Substituir roteamento em `chat/completions`
+### Sobrescrever roteamento em `chat/completions`
 
-Use `routing_options` para escolher como os provedores são selecionados para uma única solicitação. A sobrescrição funciona com um modelo integrado direto ou um gateway de IA que usa um modelo integrado:
+Use `routing_options` para escolher como os provedores são selecionados para uma solicitação. A sobrescrição funciona com um modelo integrado direto ou um gateway de IA que usa um modelo integrado:
 
 ```json
 {
@@ -146,28 +146,28 @@ Use `routing_options` para escolher como os provedores são selecionados para um
 
 | Campo | Descrição |
 |---|---|
-| `preset` | Preferência de roteamento: `Balanced`, `Cheapest`, `Fastest` ou `Quality`. Quando omitido, usa‑se o `routingOption` salvo no gateway. |
-| `allowed_providers` | Lista ordenada de tags de provedores. A AIVAX tenta a primeira tag e passa para a próxima apenas quando nenhum provedor correspondente está disponível ou compatível com a solicitação. `"*"` corresponde a qualquer provedor. Quando omitido, usa‑se o `allowedProviders` salvo no gateway, cujo padrão é `["*"]`. |
+| `preset` | Preferência de roteamento: `Balanced`, `Cheapest`, `Fastest` ou `Quality`. Quando omitido, a `routingOption` salva no gateway é usada. |
+| `allowed_providers` | Lista ordenada de tags de provedor. A AIVAX tenta a primeira tag e passa para a próxima apenas quando nenhum provedor correspondente está disponível ou compatível com a solicitação. `"*"` corresponde a qualquer provedor. Quando omitido, a `allowedProviders` salva no gateway é usada, cujo padrão é `["*"]`. |
 
-Em cada etapa, `preset` escolhe entre os provedores correspondentes. Sem `"*"` ao final, a solicitação falha quando nenhum dos provedores listados está disponível. Uma lista vazia de `allowed_providers` é rejeitada. A correspondência de tags não diferencia maiúsculas de minúsculas.
+Dentro de cada etapa, `preset` escolhe entre os provedores correspondentes. Sem `"*"` ao final, a solicitação falha quando nenhum dos provedores listados está disponível. Uma lista vazia de `allowed_providers` é rejeitada. A correspondência de tags não diferencia maiúsculas de minúsculas.
 
-Cada tag de provedor é exibida nos detalhes do provedor na página **Models** do dashboard, onde pode ser copiada e retornada como `tag` na lista de provedores de `GET /v1/models`. Uma tag identifica um endpoint de provedor, incluindo sua região ou variante quando existente, como `azure-us` ou `azure-eu`.
+Cada tag de provedor é mostrada nos detalhes do provedor na página **Models** do painel, onde pode ser copiada e retornada como `tag` na lista de provedores de `GET /v1/models`. Uma tag identifica um endpoint de provedor, incluindo sua região ou variante quando existir, como `azure-us` ou `azure-eu`.
 
-`GET /v1/models` aceita um parâmetro de consulta opcional `filter` com um nome de modelo, por exemplo `?filter=@openai/gpt-4o`. A resposta então contém apenas entradas cujo nome corresponde a ele ou é um instantâneo datado (um sufixo numérico de pelo menos quatro dígitos), ordenado do mais próximo, com o instantâneo mais recente primeiro. Sem `filter`, a lista completa é retornada.
+`GET /v1/models` aceita um parâmetro de consulta opcional `filter` com um nome de modelo, como `?filter=@openai/gpt-4o`. A resposta então contém apenas entradas cujo nome seja igual a ele ou seja um snapshot datado dele (um sufixo numérico de pelo menos quatro dígitos), ordenado do match mais próximo, com o snapshot mais recente primeiro. Sem `filter`, a lista completa é retornada.
 
-Os valores da solicitação substituem o roteamento salvo no gateway apenas para aquela solicitação; eles não atualizam o gateway. Como `routing_options` é uma extensão da AIVAX, envie‑o como um campo extra no corpo da requisição ao usar um SDK compatível com OpenAI.
+Os valores da solicitação sobrescrevem o roteamento salvo do gateway apenas para aquela solicitação; eles não atualizam o gateway. Como `routing_options` é uma extensão da AIVAX, envie‑o como um campo extra no corpo da solicitação ao usar um SDK compatível com OpenAI.
 
-O campo `routing_preset` anterior está obsoleto, mas ainda é aceito. Substitua `"routing_preset": "Fastest"` por `"routing_options": { "preset": "Fastest" }`. Quando ambos são enviados, `routing_options.preset` tem precedência.
+O campo `routing_preset` anterior está depreciado, mas ainda é aceito. Substitua `"routing_preset": "Fastest"` por `"routing_options": { "preset": "Fastest" }`. Quando ambos são enviados, `routing_options.preset` tem precedência.
 
-### Apenas provedores com retenção zero de dados
+### Apenas provedores de retenção zero de dados
 
-Habilite **Zero data retention providers only** nas configurações da conta do dashboard para rotear inferência de texto com modelos integrados apenas para provedores que não retêm prompts. Provedores que não são de retenção zero são excluídos antes de aplicar `allowed_providers` e `preset`. Quando o modelo não tem provedor de retenção zero disponível, a solicitação falha em vez de recorrer a outro provedor; escolha um modelo com provedor de retenção zero ou desative a opção.
+Habilite **Zero data retention providers only** nas configurações da conta do painel para rotear inferências de texto com modelos integrados apenas para provedores que não retêm prompts. Provedores que não são de retenção zero são excluídos antes de `allowed_providers` e `preset` serem aplicados. Quando o modelo não tem provedor de retenção zero disponível, a solicitação falha em vez de recuar para outro provedor; escolha um modelo com provedor de retenção zero ou desative a opção.
 
-A opção aplica‑se apenas à inferência de texto. Não altera o registro de conversas; use `allow_logging` ou a configuração de registro de conversas da conta para isso.
+A opção aplica‑se apenas a inferência de texto. Não altera o registro de conversas; use `allow_logging` ou a configuração de registro de conversas da conta para isso.
 
 ### Provedor nas respostas
 
-Respostas para modelos integrados incluem um campo `provider` ao lado de `model` com a tag do provedor que atendeu à solicitação. Em respostas em streaming, cada bloco o inclui. O campo é `null` para gateways que usam credenciais de provedor próprias.
+Respostas para modelos integrados incluem um campo `provider` ao lado de `model` com a tag do provedor que atendeu a solicitação. Em respostas em streaming, cada chunk o inclui. O campo é `null` para gateways que usam suas próprias credenciais de provedor.
 
 ```json
 {
@@ -178,7 +178,7 @@ Respostas para modelos integrados incluem um campo `provider` ao lado de `model`
 }
 ```
 
-Se um provedor falhar e a AIVAX reexecutar a solicitação em outro provedor, `provider` reflete o provedor que produziu a resposta.
+Se um provedor falhar e a AIVAX tentar a solicitação em outro provedor, `provider` reflete o provedor que produziu a resposta.
 
 ## Entrada e multimodalidade
 
@@ -225,12 +225,12 @@ A AIVAX aceita partes de conteúdo de mensagem compatíveis com OpenAI para text
 Mapeamentos de partes de conteúdo suportadas:
 
 - `text`: Texto simples.
-- `image_url`: Conteúdo de imagem. `image_url.url` pode ser uma URL externa ou uma URL de dados base64. `image_url.detail` pode ser `low`, `high` ou `auto` quando o modelo o suporta.
-- `video_url`: Conteúdo de vídeo. `video_url.url` pode ser uma URL externa ou uma URL de dados base64. Prefira URLs para vídeos grandes.
-- `input_audio`: Conteúdo de áudio. `input_audio.data` é áudio em base64, e `input_audio.format` indica o formato.
-- `file`: Conteúdo de arquivo. `file.filename` nomeia o arquivo, e `file.file_data` pode ser uma URL externa ou uma URL de dados base64.
+- `image_url`: Conteúdo de imagem. `image_url.url` pode ser uma URL externa ou uma data URL base64. `image_url.detail` pode ser `low`, `high` ou `auto` quando o modelo o suporta.
+- `video_url`: Conteúdo de vídeo. `video_url.url` pode ser uma URL externa ou uma data URL base64. Prefira URLs para vídeos grandes.
+- `input_audio`: Conteúdo de áudio. `input_audio.data` é áudio codificado em base64, e `input_audio.format` indica o formato.
+- `file`: Conteúdo de arquivo. `file.filename` indica o nome do arquivo, e `file.file_data` pode ser uma URL externa ou uma data URL base64.
 
-Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo abaixo usa uma Data URL base64; prefira uma URL publicamente acessível para vídeos grandes:
+Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a usa uma Data URL base64; prefira uma URL publicamente acessível para vídeos grandes:
 
 ```json
 {
@@ -255,7 +255,7 @@ Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo abai
 }
 ```
 
-Links externos devem ser acessíveis à AIVAX sem autenticação, restrições de firewall ou renderização apenas em JavaScript. Falhas ao baixar, redirecionamentos, URLs bloqueadas, formatos não suportados ou limites de tamanho específicos do provedor podem fazer a inferência falhar.
+Links externos devem ser acessíveis à AIVAX sem autenticação, restrições de firewall ou renderização apenas em JavaScript. Downloads falhos, redirects, URLs bloqueadas, formatos não suportados ou limites de tamanho específicos do provedor podem fazer a inferência falhar.
 
 Você também pode enviar uma solicitação de texto simples com `prompt`:
 
@@ -266,7 +266,7 @@ Você também pode enviar uma solicitação de texto simples com `prompt`:
 }
 ```
 
-## Idempotência de solicitação
+## Idempotência da solicitação
 
 Defina `idempotency_key` quando sua integração precisar de chamadas repetidas para atualizar o mesmo registro de conversa armazenado em vez de criar um novo token de conversa. A AIVAX usa esse valor para correlacionar o contexto do gateway de IA e o registro de conversas.
 
@@ -283,13 +283,13 @@ Defina `idempotency_key` quando sua integração precisar de chamadas repetidas 
 }
 ```
 
-O valor deve ser uma string não vazia com 128 caracteres ou menos. Quando omitido, a AIVAX gera um token de conversa automaticamente.
+O valor deve ser uma string não vazia com no máximo 128 caracteres. Quando omitido, a AIVAX gera um token de conversa automaticamente.
 
 Para manter o estado da conversa em sua aplicação e a configuração do gateway na AIVAX, veja [migrating Assistants threads to Responses](https://aivax.net/blog/migrating-from-openai-assistants-without-rebuilding-the-same-coupling/).
 
 ## Metadados da solicitação
 
-Defina `metadata` para anexar informações de chave/valor em string à solicitação de inferência. A AIVAX armazena esse objeto com a conversa registrada e o expõe aos eventos do gateway, sendo útil para correlação operacional como ID de pedido, locatário, fluxo de trabalho ou chave de rastreamento interno.
+Defina `metadata` para anexar informações de chave/valor string à solicitação de inferência. A AIVAX armazena esse objeto com a conversa registrada e o expõe a eventos do gateway, sendo útil para correlação operacional como ID de pedido, locatário, fluxo de trabalho ou chave de rastreamento interno.
 
 ```json
 {
@@ -307,21 +307,21 @@ Defina `metadata` para anexar informações de chave/valor em string à solicita
 }
 ```
 
-`metadata` deve ser um objeto JSON cujos nomes de propriedade e valores são strings. Não coloque segredos, credenciais, dados de pagamento ou cargas úteis grandes neste campo.
+`metadata` deve ser um objeto JSON cujas propriedades e valores são strings. Não coloque segredos, credenciais, dados de pagamento ou cargas úteis grandes neste campo.
 
 ## Resposta e registros de conversa
 
 O envelope de resposta padrão `/v1/chat/completions` inclui `generation_context`. Suas entradas `generated_usage` contêm `sku`, `amount`, `unit_price`, `quantity` e `description`. Defina `json_only: true` para retornar apenas o JSON final sem esse envelope.
 
-Defina `allow_logging: false` em uma solicitação `/v1/chat/completions` para manter essa solicitação fora dos registros de conversa da conta. O padrão é `true` e não pode habilitar o registro quando o registro de conversas está desativado para a conta. Registros de uso e cobrança ainda são criados.
+Defina `allow_logging: false` em uma solicitação `/v1/chat/completions` para manter essa solicitação fora dos registros de conversa da conta. O padrão é `true`, e não pode habilitar registro quando o registro de conversas está desativado para a conta. Registros de uso e faturamento ainda são criados.
 
 Quando o registro de conversas está habilitado, o registro armazenado inclui seu ID, origem, nome do modelo, ID da solicitação, esquema de resposta, ferramentas e esquemas de entrada de ferramentas, uso, recursos vinculados, timestamps de criação e atualização, contagem de tokens, ID de usuário externo, mensagem de erro, mensagens e metadados. O contexto de gateway e chave de API está disponível através dos recursos vinculados.
 
 Use `idempotency_key` e `metadata` para correlacionar esses registros com seu próprio fluxo de trabalho.
 
-## Pré-processamento multimodal
+## Pré‑processamento multimodal
 
-Use `multimodal_resolver` quando o modelo principal deve receber uma descrição textual da mídia em vez do objeto de mídia original. Isso é útil para modelos orientados a texto ou quando você deseja que a AIVAX normalize arquivos antes da inferência principal. O objeto escolhe um mecanismo para cada tipo de conteúdo; tipos omitidos ou `null` são enviados ao modelo principal sem alterações.
+Use `multimodal_resolver` quando o modelo principal deve receber uma descrição textual da mídia em vez do objeto de mídia original. Isso é útil para modelos orientados a texto ou quando você deseja que a AIVAX normalize arquivos antes da inferência principal. O objeto escolhe um mecanismo para cada tipo de conteúdo; tipos omitidos ou `null` são enviados ao modelo principal inalterados.
 
 ```json
 {
@@ -352,29 +352,29 @@ Use `multimodal_resolver` quando o modelo principal deve receber uma descrição
 }
 ```
 
-| Campo | Motores aceitos |
+| Campo | Mecanismos aceitos |
 | --- | --- |
 | `imageEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
 | `audioEngine` | `InferenceLow`, `InferenceHigh`, `Stt` |
 | `videoEngine` | `InferenceLow`, `InferenceHigh` |
 | `fileEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
 
-`Inference` é aceito como um alias de `InferenceLow`. Os motores funcionam da seguinte forma:
+`Inference` é aceito como alias de `InferenceLow`. Os mecanismos funcionam da seguinte forma:
 
 - `InferenceLow` descreve o conteúdo com um modelo multimodal menor e de menor custo.
 - `InferenceHigh` descreve o conteúdo com um modelo multimodal maior, mais preciso e mais caro.
-- `Ocr` extrai o texto de imagens e arquivos com o mesmo serviço de extração usado em [Fetch and OCR](../web-foundation/fetch-and-ocr.md), cobrado em Unidades de Processamento. Aceita URIs de dados base64 e URLs públicas.
-- `Stt` transcreve a fala no áudio com o modelo padrão de [speech-to-text](../pricing.md) e é cobrado por segundo de áudio. Música e sons ambientes não são descritos.
+- `Ocr` extrai o texto de imagens e arquivos com o mesmo serviço de extração do [Fetch and OCR](../web-foundation/fetch-and-ocr.md), faturado em Unidades de Processamento. Aceita URIs base64 e URLs públicas.
+- `Stt` transcreve a fala no áudio com o modelo padrão de [speech-to-text](../pricing.md) e é faturado por segundo de áudio. Música e sons ambientes não são descritos.
 
 Com `InferenceLow` ou `InferenceHigh`, `fileEngine` envia PDFs ao modelo multimodal e converte outros tipos de arquivo com OCR. Com `Ocr`, todo arquivo, incluindo PDFs, é convertido com OCR.
 
-Os resultados são armazenados em cache por conteúdo e motor para reutilização, de modo que a mesma mídia resolvida com o mesmo motor não seja cobrada novamente. Alterar o motor processa e cobra o conteúdo novamente.
+Os resultados são armazenados em cache por conteúdo e mecanismo para reutilização, de modo que a mesma mídia resolvida com o mesmo mecanismo não seja cobrada novamente. Alterar o mecanismo processa e cobra o conteúdo novamente.
 
-### `multimodal_preprocess` obsoleto
+### `multimodal_preprocess` depreciado
 
-Os sinalizadores `multimodal_preprocess` permanecem aceitos por compatibilidade, mas estão obsoletos. Use `multimodal_resolver` em vez disso; quando ambos são enviados, `multimodal_resolver` tem precedência. Os sinalizadores mapeiam para os novos motores da seguinte forma:
+Os flags `multimodal_preprocess` permanecem aceitos por compatibilidade, mas estão depreciados. Use `multimodal_resolver` em vez disso; quando ambos são enviados, `multimodal_resolver` tem precedência. Os flags são mapeados para os novos mecanismos da seguinte forma:
 
-| Sinal legado | Equivalente |
+| Flag antigo | Equivalente |
 | --- | --- |
 | `Image` | `imageEngine: "InferenceLow"` |
 | `Audio` | `audioEngine: "InferenceLow"` |
@@ -383,11 +383,11 @@ Os sinalizadores `multimodal_preprocess` permanecem aceitos por compatibilidade,
 | `OtherFiles` | `fileEngine: "Ocr"` |
 | `All` | Todos os acima, com `fileEngine: "InferenceLow"` |
 
-Como agora um único motor cobre todos os tipos de arquivo, `OtherFiles` sozinho também converte PDFs com OCR, e `File` sozinho também converte arquivos não‑PDF com OCR. Anteriormente, os tipos de arquivo fora do sinalizador selecionado eram enviados ao modelo principal sem alterações.
+Como agora um mecanismo cobre todo tipo de arquivo, `OtherFiles` sozinho também converte PDFs com OCR, e `File` sozinho também converte arquivos não‑PDF com OCR. Anteriormente, os tipos de arquivo fora do flag selecionado eram enviados ao modelo principal inalterados.
 
 Entradas multimodais podem ter requisitos de conta. Revise a [Pricing](../pricing.md) e [Plans and limits](../limits.md) antes de usá‑las em produção.
 
-Quando uma inferência multimodal falha, estreite o problema:
+Quando uma inferência multimodal falha, reduza o problema:
 
 1. Teste uma mensagem de texto simples com o mesmo modelo.
 2. Teste um anexo pequeno.
@@ -396,7 +396,7 @@ Quando uma inferência multimodal falha, estreite o problema:
 
 ## Respostas estruturadas
 
-A AIVAX oferece respostas estruturadas via `response_schema`, `response_format` e `json_only`.
+A AIVAX suporta respostas estruturadas através de `response_schema`, `response_format` e `json_only`.
 
 ```json
 {
@@ -437,15 +437,15 @@ A AIVAX oferece respostas estruturadas via `response_schema`, `response_format` 
 }
 ```
 
-`response_schema` habilita o JSON Healing. A AIVAX pede ao modelo JSON, extrai JSON do texto ou blocos de markdown gerados, valida contra o esquema e tenta novamente com feedback de validação até que a saída seja válida ou o limite de tentativas seja atingido.
+`response_schema` habilita o JSON Healing. A AIVAX pede ao modelo JSON, extrai JSON do texto ou blocos markdown gerados, valida contra o esquema e tenta novamente com feedback de validação até que a saída seja válida ou o limite de tentativas seja atingido.
 
 Leia mais sobre [Structured responses](/docs/pt-br/inference/structured-responses).
 
-Se sua aplicação não puder analisar ou validar o resultado, siga o [guia de solução de problemas de JSON inválido](https://aivax.net/blog/structured-output-healing-boundary/) antes de aumentar o orçamento de tentativas.
+Se sua aplicação não conseguir analisar ou validar o resultado, siga o [guia de solução de JSON inválido](https://aivax.net/blog/structured-output-healing-boundary/) antes de aumentar o orçamento de tentativas.
 
 ## Funções sob demanda
 
-Use `builtin_tools` para habilitar ferramentas internas da AIVAX para uma solicitação direta sem criar um gateway:
+Use `builtin_tools` para habilitar ferramentas integradas da AIVAX em uma solicitação direta sem criar um gateway:
 
 ```json
 {
@@ -464,15 +464,15 @@ Use `builtin_tools` para habilitar ferramentas internas da AIVAX para uma solici
 }
 ```
 
-Ferramentas internas incluem `DateTime`, `WebSearch`, `AdvancedWebUsage` (desativada; retorna uma resposta indisponível; veja [Changelogs](../legal/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
+Ferramentas integradas incluem `DateTime`, `WebSearch`, `AdvancedWebUsage` (desativada; retorna resposta indisponível; veja [Changelogs](../legal/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
 
-`DateTime` expõe `get_date_time`, uma ferramenta sem argumentos que devolve a data atual, hora, dia da semana em inglês, fuso horário, deslocamento UTC e timestamp ISO 8601. Defina `builtin_tools.options.dateTimeTimeZone` para um identificador IANA; o padrão é `America/Los_Angeles` (Horário do Pacífico), com ajustes automáticos de horário de verão. Essa configuração é independente do fuso horário do navegador do usuário. Veja [Current Date and Time](../tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
+`DateTime` expõe `get_date_time`, uma ferramenta sem argumentos que retorna a data atual, hora, dia da semana em inglês, fuso horário, deslocamento UTC e timestamp ISO 8601. Ela usa o fuso horário do gateway (padrão `America/Sao_Paulo`); envie `time_zone` com um identificador IANA para sobrescrev‑lo em uma solicitação. Essa configuração é independente do fuso horário do navegador do usuário. Veja [Current Date and Time](../tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
 
 Ferramentas sob demanda são adequadas para chamadas ocasionais, protótipos e integrações que não precisam de um gateway persistente. Se a mesma aplicação sempre usar as mesmas ferramentas, prefira configurá‑las em um gateway de IA para que a política seja centralizada.
 
-## Corpo de requisição de provedor personalizado
+## Corpo de solicitação de provedor personalizado
 
-Quando um gateway usa uma chave de API fornecida e um endpoint de provedor compatível com OpenAI, `extra_body` pode mesclar JSON customizado ao corpo da requisição do provedor:
+Quando um gateway usa uma chave de API fornecida e um endpoint de provedor compatível com OpenAI, `extra_body` pode mesclar JSON personalizado ao corpo da solicitação do provedor:
 
 ```json
 {
@@ -493,11 +493,11 @@ Quando um gateway usa uma chave de API fornecida e um endpoint de provedor compa
 
 `extra_body` não é permitido com modelos integrados da AIVAX.
 
-Parâmetros de raciocínio diferem por provedor e modelo. Veja [como definir esforço de raciocínio entre provedores](https://aivax.net/blog/reasoning-is-a-protocol-not-just-a-model-setting/) antes de escolher opções específicas de provedor.
+Parâmetros de raciocínio diferem por provedor e modelo. Consulte [como definir esforço de raciocínio entre provedores](https://aivax.net/blog/reasoning-is-a-protocol-not-just-a-model-setting/) antes de escolher opções específicas de provedor.
 
 ## Explicações de ferramentas
 
-Defina `tool_invocation_explanations: true` para solicitar que a AIVAX inclua campos de explicação nos argumentos de ferramentas do lado do servidor. Quando o modelo fornece `_tool_reason` e `_tool_goal`, `servertool.explanation` contém uma cópia amigável ao cliente:
+Defina `tool_invocation_explanations: true` para solicitar que a AIVAX inclua campos de explicação nos argumentos de ferramenta do lado do servidor. Quando o modelo fornece `_tool_reason` e `_tool_goal`, `servertool.explanation` contém uma cópia amigável ao cliente:
 
 ```json
 {
@@ -535,9 +535,9 @@ Exemplo de evento de streaming:
 }
 ```
 
-## Modo de renderização de resposta
+## Modo de renderização da resposta
 
-Defina `rendering_mode: "textual_blocks"` quando seu cliente quiser que a AIVAX coloque o raciocínio e a atividade de ferramentas do lado do servidor no mesmo fluxo textual de resposta que a UI de chat já renderiza. Isso é útil para clientes que constroem uma única linha do tempo de resposta e desejam transformar raciocínio e atividade de ferramentas em componentes visíveis sem manter caminhos de tratamento de eventos separados para cada tipo de marcador.
+Defina `rendering_mode: "textual_blocks"` quando seu cliente quiser que a AIVAX coloque raciocínio e atividade de ferramenta do lado do servidor no mesmo fluxo textual de resposta que a interface de chat já renderiza. Isso é útil para clientes que constroem uma única linha do tempo de resposta e desejam transformar raciocínio e atividade de ferramenta em componentes visíveis sem manter caminhos de tratamento de eventos separados para cada tipo de marcador.
 
 ```json
 {
@@ -556,13 +556,13 @@ Defina `rendering_mode: "textual_blocks"` quando seu cliente quiser que a AIVAX 
 }
 ```
 
-Neste modo, o raciocínio pode ser emitido como blocos `<thinking-group>` e `<think>`, o texto voltado ao assistente pode ser emitido como blocos `<assistant-answer>` e marcadores de ferramentas do lado do servidor podem aparecer como elementos de resultado de ferramenta, como `<div class="tool-result reason" data-tool-name="...">`. Trate esses blocos como marcadores de apresentação dentro do fluxo de resposta: analise‑os em componentes da linha do tempo de chat, seções colapsáveis de raciocínio, fragmentos de resposta do assistente ou linhas de status de ferramenta, mas não concatene cegamente cada marcador na resposta final do assistente.
+Neste modo, o raciocínio pode ser emitido como blocos `<thinking-group>` e `<think>`, o texto voltado ao assistente pode ser emitido como blocos `<assistant-answer>` e marcadores de ferramenta do lado do servidor podem aparecer como elementos de resultado de ferramenta, como `<div class="tool-result reason" data-tool-name="...">`. Trate esses blocos como marcadores de apresentação dentro do fluxo de resposta: analise‑os em componentes da linha do tempo de chat, seções de raciocínio recolhíveis, fragmentos de resposta do assistente ou linhas de status da ferramenta, mas não concatene cegamente cada marcador na resposta final do assistente.
 
-Clientes que não entendem essa marcação devem manter o modo de renderização padrão e lidar diretamente com os eventos de stream estruturados. No modo padrão, o raciocínio chega através de `delta.reasoning`, e a atividade de ferramentas do lado do servidor chega por eventos `servertool`. Preserve a ordem em que os eventos de stream chegam para que o raciocínio, a atividade de ferramentas, o conteúdo parcial e a resposta final permaneçam na mesma linha do tempo.
+Clientes que não entendem essa marcação devem manter o modo de renderização padrão e lidar diretamente com os eventos de stream estruturados. No modo padrão, o raciocínio chega via `delta.reasoning`, e a atividade de ferramenta do lado do servidor chega via eventos `servertool`. Preserve a ordem de chegada dos eventos de stream para que raciocínio, atividade de ferramenta, conteúdo parcial e a resposta final permaneçam na mesma linha do tempo de resposta.
 
 ### Exemplo bruto de múltiplas interações
 
-O exemplo abaixo mostra a forma de uma resposta em stream quando o raciocínio do lado do servidor é visível ao cliente, `tool_invocation_explanations` está habilitado e `textual_blocks` é usado para manter a linha do tempo textual. Os atributos do resultado da ferramenta podem variar conforme o renderizador, mas o comportamento importante é a ordenação: raciocínio, fragmentos de resposta do assistente, atividade de ferramenta, mais raciocínio e a resposta final podem pertencer ao mesmo turno do assistente.
+O exemplo abaixo mostra a forma de uma resposta em streaming quando o raciocínio do lado do servidor está visível ao cliente, `tool_invocation_explanations` está habilitado e `textual_blocks` é usado para manter a linha do tempo textual. Os atributos de resultado de ferramenta podem variar conforme o renderizador, mas o comportamento importante é a ordem: raciocínio, fragmentos de resposta do assistente, atividade de ferramenta, mais raciocínio e a resposta final podem pertencer ao mesmo turno do assistente.
 
 ```json
 {
@@ -587,7 +587,7 @@ O exemplo abaixo mostra a forma de uma resposta em stream quando o raciocínio d
 }
 ```
 
-Linha do tempo do assistente em stream:
+Linha do tempo do assistente em stream bruto:
 
 ```text
 <thinking-group>
@@ -627,7 +627,7 @@ Use VideoInput for clips when possible. If a model only supports ImageInput, ext
 </assistant-answer>
 ```
 
-Quando o usuário responde, mantenha o histórico de conversa focado no resultado visível do assistente. Armazene o raciocínio e detalhes das ferramentas como metadados de linha do tempo ou auditoria se seu produto precisar deles, mas não os transforme em uma nova mensagem de usuário. A mensagem do assistente deve usar o conteúdo do bloco final `<assistant-answer>`, não a transcrição completa do raciocínio.
+Quando o usuário responde, mantenha o histórico da conversa focado no resultado visível ao usuário. Armazene raciocínio e detalhes da ferramenta como metadados de linha do tempo ou auditoria se seu produto precisar deles, mas não os transforme em uma nova mensagem de usuário. A mensagem do assistente deve usar o conteúdo do bloco `<assistant-answer>` final, não a transcrição completa do raciocínio.
 
 ```json
 {
@@ -662,37 +662,37 @@ Quando o usuário responde, mantenha o histórico de conversa focado no resultad
 
 ### Orientação de apresentação
 
-Durante a geração, o raciocínio é útil porque permite que o usuário acompanhe o que o modelo está fazendo antes que a resposta final exista. O assistente pode “falar” enquanto raciocina emitindo atualizações de processo voltadas ao usuário ou fragmentos de resposta provisórios. Essas atualizações podem ser intercaladas com blocos de raciocínio, chamadas de ferramenta e conteúdo parcial da resposta à medida que a resposta se desenvolve.
+Durante a geração, o raciocínio é útil porque permite ao usuário acompanhar o que o modelo está fazendo antes que a resposta final exista. O assistente pode “falar” enquanto raciocina emitindo atualizações de processo voltadas ao usuário ou fragmentos de resposta provisórios. Essas atualizações podem ser intercaladas com blocos de raciocínio, chamadas de ferramenta e conteúdo parcial à medida que a resposta se desenvolve.
 
-Uma vez que a resposta final do assistente é gerada, essa resposta se torna o principal produto da inferência. O raciocínio intermediário ainda é útil para auditoria, orientação e depuração, mas normalmente deixa de ser o objetivo principal do usuário. Colapse ou minimize o raciocínio por padrão após a conclusão para que a resposta final receba a ênfase visual mais forte, mantendo o processo disponível para usuários que desejam inspecioná‑lo.
+Quando a resposta final do assistente é gerada, essa resposta se torna o principal produto da inferência. O raciocínio intermediário ainda é útil para auditoria, orientação e depuração, mas costuma deixar de ser o objetivo principal do usuário. Recolha ou minimize o raciocínio por padrão após a conclusão para que a resposta final receba a ênfase visual mais forte, mantendo o processo disponível para usuários que que analisar.
 
-Use revelação progressiva ao longo desse ciclo de vida. O raciocínio pode ser visível enquanto o modelo ainda está trabalhando, depois tornar‑se um elemento secundário mais discreto após a aparição da resposta final. A atividade de ferramenta deve ser lida como status, não como fala: use rótulos concisos como “Searching”, “Opening source”, “Running tool”, “Finished” ou “Failed”, e mantenha cada chamada de ferramenta agrupada como um item da linha do tempo mesmo que seu estado mude ao longo do tempo.
+Use divulgação progressiva ao longo desse ciclo de vida. O raciocínio pode ser visível enquanto o modelo ainda está trabalhando, depois tornar‑se um elemento secundário mais discreto após a aparição da resposta final. A atividade de ferramenta deve ser lida como status, não como fala: use rótulos concisos como “Searching”, “Opening source”, “Running tool”, “Finished” ou “Failed”, e mantenha cada invocação de ferramenta agrupada como um item da linha do tempo, mesmo que seu estado mude ao longo do tempo.
 
 Uma boa hierarquia visual é:
 
-- Resposta do assistente: maior destaque, tipografia de leitura normal, parte da conversa principal.
+- Resposta do assistente: maior destaque, tipografia normal de leitura, parte da conversa principal.
 - Raciocínio em progresso: visível o suficiente para mostrar o que o modelo está fazendo enquanto a resposta está sendo gerada.
-- Raciocínio concluído: menor destaque, cor ou contêiner atenuado, colapsado ou minimizado por padrão.
-- Blocos de ferramenta: linhas de status compactas com indicadores claros de carregamento, sucesso e erro.
-- Detalhes brutos: ocultos por padrão, a menos que o cliente seja um desenvolvedor, auditor ou superfície de depuração.
+- Raciocínio concluído: menor destaque, cor ou contêiner atenuado, recolhido ou minimizado por padrão.
+- Blocos de ferramenta: linhas de status compactas com carregamento, sucesso e erros claros.
+- Detalhes brutos: ocultos por padrão, a menos que o cliente seja desenvolvedor, auditor ou superfície de depuração.
 
-Evite expor ruídos internos diretamente aos usuários finais. Mostre nomes de ferramentas, estados, rótulos de origem ou resumos curtos quando ajudarem o usuário a entender o que aconteceu. Oculte argumentos brutos, cargas úteis grandes e detalhes de implementação, a menos que o usuário solicite explicitamente detalhes ou a superfície do produto seja projetada para inspeção técnica.
+Evite expor ruídos internos diretamente aos usuários finais. Mostre nomes de ferramentas, estados, rótulos de origem ou resumos curtos quando ajudarem o usuário a entender o que aconteceu. Oculte argumentos brutos, cargas úteis grandes e detalhes de implementação, a menos que o usuário peça explicitamente por detalhes ou a superfície do produto seja construída para inspeção técnica.
 
-Para acessibilidade, torne cada bloco colapsado acionável por teclado, dê a cada linha de status um rótulo legível, evite depender apenas de cor para estado e mantenha o movimento sutil. Uma resposta em streaming deve parecer estável enquanto atualiza: novos raciocínios ou linhas de ferramenta podem aparecer em ordem, mas o conteúdo existente não deve “pular” nem forçar o usuário a perder a posição de leitura.
+Para acessibilidade, torne cada bloco recolhido alternável por teclado, dê a cada linha de status um rótulo legível, evite depender apenas de cor para estado e mantenha o movimento sutil. Uma resposta em streaming deve parecer estável enquanto atualiza: novos raciocínios ou linhas de ferramenta podem aparecer em ordem, mas o conteúdo existente não deve pular ou forçar o usuário a perder a posição de leitura.
 
 ## Preços
 
-As taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo entrada, entrada em cache e uso de saída; seu preço por PU varia com o modelo e provedor usados. O [multiplicador de plano](../pricing.md#plan-multipliers) aplica‑se à inferência de modelo integrado e à moderação. BYOK não é afetado por ele.
+As taxas de inferência dependem do modelo selecionado, provedor, tamanho da entrada e tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs), cobrindo entrada, entrada em cache e uso de saída; seu preço em PU varia com o modelo e provedor usados. O [multiplicador de plano](../pricing.md#plan-multipliers) aplica‑se à inferência de modelo integrado e à moderação. BYOK não é afetado por ele.
 
 | Descrição | Preço |
 | --- | --- |
-| Inferência de modelo de IA e gateway de IA | Taxas do modelo e provedor selecionados |
+| Inferência de modelo de IA e gateway de IA | Tarifas do modelo e provedor selecionados |
 | Moderação de entrada | Preço variável por PU; separado da cobrança principal de inferência |
 
-Um PU de moderação equivale a um token de saída do modelo de moderação, e tokens de entrada contam proporcionalmente ao seu preço. Por exemplo, com um modelo custando $0,10/M de entrada e $0,40/M de saída, uma verificação usando 3 000 tokens de entrada e 50 tokens de saída consome 800 PUs (3 000 × 0,25 + 50), cerca de $0,00032 antes do multiplicador de plano.
+Um PU de moderação equivale a um token de saída do modelo de moderação, e tokens de entrada contam proporcionalmente ao seu preço. Por exemplo, com um modelo cotado a $0,10/M de entrada e $0,40/M de saída, uma verificação usando 3 000 tokens de entrada e 50 de saída consome 800 PUs (3 000 × 0,25 + 50), cerca de $0,00032 antes do multiplicador de plano.
 
 ## Chamada direta ou gateway
 
-Use uma chamada direta para tarefas simples, testes, rotinas internas e integrações onde a aplicação controla o modelo, prompt, ferramentas e contexto de cada solicitação.
+Use uma chamada direta para tarefas simples, testes, rotinas internas e integrações onde a aplicação controla o modelo, prompt, ferramentas e contexto para cada solicitação.
 
-Use um gateway de IA quando o comportamento precisar ser estável, auditável e reutilizável. Gateways são melhores para assistentes de suporte, bots de chat, agentes RAG, ferramentas permanentes, trabalhadores, habilidades e configurações compartilhadas por múltiplos clientes.
+Use um gateway de IA quando o comportamento precisar ser estável, auditável e reutilizável. Gateways são melhores para assistentes de suporte, chatbots, agentes RAG, ferramentas permanentes, workers, skills e configurações compartilhadas por múltiplos clientes.
