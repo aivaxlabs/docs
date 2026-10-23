@@ -24,6 +24,7 @@ Commands:
   translate [lang] [--force]  Translate missing/outdated pages; --force includes current pages
   status [lang]              Report current, outdated, missing and orphan translations
   build [pack options]       Clean _site, run Hugo, Pagefind and English JSONL export
+  reindex                   Refresh Pagefind from the existing _site without rebuilding Hugo
   serve                     Run the Hugo development server (build first for search)
   all [pack options]         Translate, then build (paid API calls; explicit approval required)
   help, --help, -h           Show this help (also shown without arguments)
@@ -94,7 +95,8 @@ function jobs(languages) {
 async function translate(language, force, debug) {
     const languages = language ? [language] : Object.keys(LANGUAGES);
     if (languages.some(lang => !LANGUAGES[lang])) throw new Error(`Unknown language: ${language}`);
-    const pending = jobs(languages).filter(job => force || job.state !== 'current');
+    const pending = jobs(languages).filter(job => (force || job.state !== 'current')
+        && !(process.env.AIVAX_PUBLISH_SKIP_LEARN === '1' && job.rel.startsWith('learn/')));
     if (!pending.length) return log('All translations are current.');
     const configFile = path.join(ROOT, 'config.json');
     const config = { ...DEFAULT_TRANSLATION, ...(fs.existsSync(configFile) ? JSON.parse(fs.readFileSync(configFile, 'utf8')).translation : {}) };
@@ -238,19 +240,7 @@ async function build(options) {
     await run('hugo', ['--gc', '--minify'], output === '-');
     fs.mkdirSync(path.join(SITE, 'scripts'), { recursive: true });
     fs.copyFileSync(path.join(ROOT, 'node_modules/mermaid/dist/mermaid.min.js'), path.join(SITE, 'scripts/mermaid.min.js'));
-    const pagefind = await import('pagefind');
-    try {
-        const { index, errors } = await pagefind.createIndex({ excludeSelectors: ['.heading-anchor', '.code-header'] });
-        if (errors?.length) throw new Error(errors.join('\n'));
-        const result = await index.addDirectory({ path: SITE, glob: '{docs/**/*.html,learn/**/*.html,pt-br/docs/**/*.html,pt-br/learn/**/*.html}' });
-        if (result.errors?.length) throw new Error(result.errors.join('\n'));
-        const written = await index.writeFiles({ outputPath: path.join(SITE, 'pagefind') });
-        if (written.errors?.length) throw new Error(written.errors.join('\n'));
-        const entry = JSON.parse(fs.readFileSync(path.join(SITE, 'pagefind/pagefind-entry.json'), 'utf8'));
-        log(`Pagefind: ${Object.entries(entry.languages).map(([lang, data]) => `${lang}: ${data.page_count} pages`).join(', ')}`);
-    } finally {
-        await pagefind.close();
-    }
+    await writePagefind();
     const records = [];
     const files = walk(input).filter(file => file.endsWith('.md') && !file.endsWith('_index.md'))
         .filter(file => !path.relative(input, file).replace(/\\/g, '/').startsWith('pt-br/'))
@@ -303,6 +293,22 @@ async function build(options) {
     log(`Packed ${records.length} records into ${output}; static site ready in _site`);
 }
 
+async function writePagefind() {
+    const pagefind = await import('pagefind');
+    try {
+        const { index, errors } = await pagefind.createIndex({ excludeSelectors: ['.heading-anchor', '.code-header'] });
+        if (errors?.length) throw new Error(errors.join('\n'));
+        const result = await index.addDirectory({ path: SITE, glob: '{docs/**/*.html,learn/**/*.html,pt-br/docs/**/*.html,pt-br/learn/**/*.html}' });
+        if (result.errors?.length) throw new Error(result.errors.join('\n'));
+        const written = await index.writeFiles({ outputPath: path.join(SITE, 'pagefind') });
+        if (written.errors?.length) throw new Error(written.errors.join('\n'));
+        const entry = JSON.parse(fs.readFileSync(path.join(SITE, 'pagefind/pagefind-entry.json'), 'utf8'));
+        log(`Pagefind: ${Object.entries(entry.languages).map(([lang, data]) => `${lang}: ${data.page_count} pages`).join(', ')}`);
+    } finally {
+        await pagefind.close();
+    }
+}
+
 (async () => {
     const [command, ...args] = process.argv.slice(2);
     if (!command || ['help', '--help', '-h'].includes(command) || args.some(arg => ['--help', '-h'].includes(arg))) {
@@ -310,6 +316,11 @@ async function build(options) {
         return;
     }
     if (command === 'build') return build(args);
+    if (command === 'reindex') {
+        if (args.length) throw new Error('reindex takes no arguments');
+        if (!fs.existsSync(SITE)) throw new Error(`Site directory not found: ${SITE}`);
+        return writePagefind();
+    }
     if (command === 'serve') {
         if (args.length) throw new Error('serve takes no arguments');
         return run('hugo', ['server', '--disableFastRender']);
