@@ -16,13 +16,19 @@ The analogy has limits. A person can notice physical events, develop relationshi
 
 A **chatbot** is a conversational interface: something you can message and receive a reply from. It may follow fixed rules, use a language model or front an agent. A **script** is a program that follows steps written in advance. An agent uses a model to choose some steps as the situation unfolds. These categories overlap rather than form a ladder of quality.
 
+
 **Fixed script**
 
 When a delivery becomes overdue, send a standard notification. The condition and action are specified in advance. This is a good fit when every case should follow the same rule.
 
+
 **Agent behind a chatbot**
 
 Read the customer's concern, decide whether an order lookup is needed, inspect the result and choose a permitted response. The conversation can adapt to missing information or an unexpected result.
+
+
+
+
 
 A script can send an e-mail and an agent can produce only text. Taking an action is therefore not the only distinction. The important question is where decisions about the next step come from. For a precisely defined task such as adding invoice totals, ordinary software may be simpler and more reliable than asking a model to decide what to do.
 
@@ -34,25 +40,34 @@ A chatbot can also be useful without becoming an agent. If visitors need opening
 
 Perceive the request → Decide the next step → Request a permitted action → Observe the result → Continue or stop
 
+
 For the late delivery, the first decision may be to ask which order the customer means. Once the application identifies an authorised order, the agent can request its status. If tracking reports a delay, the agent can explain the available options. If the lookup fails, it should not pretend to have checked successfully. The new information changes the next step.
+
 
 1. **Receive the problem**
 
 The customer reports a missing delivery. The agent recognises that a live order record is needed, not a general explanation of shipping.
 
+
 2. **Gather enough evidence**
 
 The application verifies access and runs an order lookup. The returned result becomes information the model can use.
 
+
 3. **Choose a bounded response**
 
 The agent explains the recorded status, offers permitted options or routes the case to a person. It stops when the goal is met or it reaches a defined boundary.
+
+
+
+
 
 The loop needs a stopping rule. “Keep trying until the customer is happy” is too open-ended: a system could repeat failed calls or make increasingly unsupported promises. Better stopping conditions include receiving a confirmed result, encountering an unavailable service or reaching a decision reserved for a person. The application should enforce limits on work as well as on permissions.
 
 ## Where agents help
 
 Good starting tasks involve varied language but a recognisable business process. Customers describe the same problem in many ways. Employees ask questions without knowing a document's title. A model can help interpret these requests while ordinary software remains responsible for reliable record access and changes.
+
 
 - **Customer support** — Find a relevant policy, check an order and prepare an explanation. Escalate exceptions instead of inventing a promise.
 
@@ -61,6 +76,9 @@ Good starting tasks involve varied language but a recognisable business process.
 - **Back-office work** — Read a request, gather missing details and draft a ticket for approval. Keep the record change separate from the draft.
 
 - **Internal assistance** — Locate approved guidance and explain it in everyday language. Respect which documents each employee is allowed to access.
+
+
+
 
 Notice that these examples have a clear finish: an answered question, a completed set of requirements or a prepared ticket. They do not ask the agent to “run the department.” Smaller responsibilities are easier to explain to users, evaluate against examples and hand over when something goes wrong.
 

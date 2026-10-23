@@ -6,6 +6,7 @@ The brain from episode 1 is brilliant, but it still does not know who it is or h
 
 *Episode 2 · 1 minute 13 seconds*
 
+
 ## What the video shows
 
 Pipi sticks a badge on the jar: *"You are the assistant of Pipi's Bakery. Be kind."* That badge is the **system instruction**: text that tells the model who it is and how to act. It is read in every conversation, which is why the video stamps it "always on".
@@ -14,21 +15,29 @@ Then Pipi tries to fit everything on the badge: recipes, deliveries, exchanges. 
 
 Pipi cuts the scroll and builds a shelf of three booklets labelled *Recipes*, *Deliveries* and *Exchanges*. These are **skills**: packages of instructions, each with a short label saying what it is for.
 
+
 1. **A question arrives**
 
 A customer asks: *"Do you deliver on Saturday?"*
+
 
 2. **The brain reads the labels**
 
 Only the short descriptions of each skill are visible to the model at first.
 
+
 3. **One booklet opens**
 
 The *Deliveries* label lights up; that booklet flies into the jar and its instructions enter the conversation.
 
+
 4. **The rest stay on the shelf**
 
 *Recipes* and *Exchanges* are not loaded, so they add nothing to this answer's cost.
+
+
+
+
 
 ## Badge or booklet?
 

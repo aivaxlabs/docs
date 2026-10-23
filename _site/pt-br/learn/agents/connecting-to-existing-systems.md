@@ -37,11 +37,15 @@ Essa organização também separa responsabilidades. Os proprietários de negóc
 
 Comece com o menor conjunto de operações que torne a tarefa útil. Um assistente que responde perguntas de entrega pode precisar do status do pedido, mas não de detalhes de pagamento ou permissão para cancelar pedidos. Um assistente que rascunha tickets pode preparar a descrição sem enviá‑la até que uma pessoa confirme. Essa abordagem é chamada de **privilégio mínimo**: forneça apenas a autoridade necessária para o trabalho.
 
+
 - **Ler um registro delimitado** — Retorne apenas o registro e campos autorizados. Uma pergunta de status raramente requer todo o histórico do cliente.
 
 - **Preparar uma alteração** — Permita que o agente rascunhe uma atualização e mostre o que mudaria antes de salvar qualquer coisa.
 
 - **Executar uma mudança aprovada** — Verifique a permissão e a confirmação necessária imediatamente antes de gravar. Registre o resultado real ao invés de presumir sucesso.
+
+
+
 
 O acesso somente leitura costuma ser um primeiro estágio útil porque testa identificação, relevância e tratamento de erros sem permitir alterações nos registros. Não é um design final universal. Algumas tarefas realmente requerem ações, mas essas ações devem ser nomeadas e delimitadas: “adicionar uma nota a um ticket autorizado” é mais claro que “gerenciar o sistema de suporte”.
 
@@ -49,17 +53,24 @@ O acesso somente leitura costuma ser um primeiro estágio útil porque testa ide
 
 Os exemplos a seguir descrevem designs possíveis, não recursos automaticamente presentes em todo CRM ou banco de dados. A mesma intenção de negócio pode ser implementada de forma diferente dependendo das interfaces públicas da aplicação e das políticas da sua organização.
 
+
 **CRM**
 
 Um assistente de vendas lê o nome da empresa e o estágio da conta do cliente autorizado para preparar um resumo da reunião. Ele rascunha uma nota de acompanhamento para revisão. Atualizar o proprietário da conta permanece uma operação separada com sua própria verificação de permissão.
+
 
 **Ticketing**
 
 Um assistente de suporte procura os tickets existentes do usuário antes de rascunhar outro. Antes do envio, ele confirma a descrição do problema e a fila de destino. A referência do ticket retornado comprova a criação; uma mensagem rascunhada não.
 
+
 **Database**
 
 Um assistente interno solicita um resumo de vendas pré‑definido para um período de relatório permitido. Ele não recebe acesso irrestrito para executar comandos arbitrários no banco de dados ou expor cada registro de cliente subjacente.
+
+
+
+
 
 Planilhas merecem o mesmo cuidado. Uma planilha pode parecer informal, mas mudar uma linha pode afetar folha de pagamento, compras ou um relatório usado para decisões. Defina quais planilhas, linhas e colunas estão no escopo. Decida o que deve acontecer se alguém editar o registro entre a leitura pelo agente e a proposta de alteração.
 
@@ -67,21 +78,29 @@ Planilhas merecem o mesmo cuidado. Uma planilha pode parecer informal, mas mudar
 
 Uma solicitação de integração útil descreve um cenário completo: quem está perguntando, qual registro é relevante, quais informações são necessárias e o que conta como sucesso. “Conectar o agente ao ERP” é muito amplo. “Permitir que a equipe de suporte autenticada leia o status de entrega de pedidos que eles têm permissão para tratar” fornece um ponto de partida testável.
 
+
 1. **Definir operações e propriedade**
 
 Nomeie cada leitura ou alteração permitida, seu proprietário de negócio e o sistema que permanece autoritativo. Especifique as operações que o agente nunca deve executar.
+
 
 2. **Preparar identidade e permissões**
 
 Decida como o usuário que chama é identificado e como seus registros permitidos são determinados. Armazene credenciais de acesso fora dos prompts e documentos de origem.
 
+
 3. **Concordar sobre entradas e resultados**
 
 Documente campos obrigatórios, opções válidas, evidências de sucesso e erros úteis. Forneça um ambiente de teste seguro com registros sintéticos.
 
+
 4. **Testar caminhos de falha e aprovação**
 
 Teste registros ausentes, acesso negado, nomes ambíguos, sistemas indisponíveis e solicitações interrompidas. Confirme que ações rejeitadas ou incertas não são apresentadas como concluídas.
+
+
+
+
 
 Uma conexão também deve lidar com um caso incômodo: a solicitação expira depois que o sistema externo pode já ter concluído uma alteração. Repeti‑la cegamente pode criar um ticket ou pedido duplicado. A implementação precisa de um modo de verificar se a operação teve sucesso ou impedir duplicatas de forma segura. Do ponto de vista do usuário, “Ainda não consigo confirmar o resultado” é mais honesto do que prometer conclusão ou tentar novamente imediatamente.
 

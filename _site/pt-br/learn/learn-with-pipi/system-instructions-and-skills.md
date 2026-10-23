@@ -6,6 +6,7 @@ O cérebro do episódio 1 é brilhante, mas ainda não sabe quem é nem como se 
 
 *Episódio 2 · 1 minuto 13 segundos*
 
+
 ## O que o vídeo mostra
 
 Pipi coloca um crachá no pote: *"Você é o assistente da Padaria da Pipi. Seja gentil."* Esse crachá é a **instrução de sistema**: texto que informa ao modelo quem ele é e como deve agir. Ele é lido em toda conversa, por isso o vídeo marca como "sempre ativo".
@@ -14,21 +15,29 @@ Então a Pipi tenta colocar tudo no crachá: receitas, entregas, trocas. O crach
 
 Pipi corta o pergaminho e constrói uma prateleira com três folhetos rotulados *Receitas*, *Entregas* e *Trocas*. Estes são **habilidades**: pacotes de instruções, cada um com um rótulo curto indicando para que serve.
 
+
 1. **Chega uma pergunta**
 
 Um cliente pergunta: *"Você entrega no sábado?"*
+
 
 2. **O cérebro lê os rótulos**
 
 Apenas as descrições curtas de cada habilidade são visíveis ao modelo inicialmente.
 
+
 3. **Um folheto abre**
 
 O rótulo *Entregas* acende; aquele folheto voa para o pote e suas instruções entram na conversa.
 
+
 4. **O resto fica na prateleira**
 
 *Receitas* e *Trocas* não são carregadas, portanto não adicionam nada ao custo desta resposta.
+
+
+
+
 
 ## Crachá ou folheto?
 

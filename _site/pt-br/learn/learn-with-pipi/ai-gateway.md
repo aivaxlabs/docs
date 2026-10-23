@@ -6,11 +6,13 @@ No primeiro episódio, a Pipi apresenta o desenho que toda a série reutiliza: u
 
 *Episódio 1 · 1 minuto*
 
+
 ## O que o vídeo mostra
 
 Um **modelo de linguagem grande** (LLM) é um software treinado com uma enorme quantidade de texto. Ele lê, escreve e responde quase tudo, por isso a Pipi o chama de cérebro brilhante. Por si só, porém, ele tem três lacunas: não conhece sua empresa, não segue suas regras e não pode usar nenhuma ferramenta.
 
 Três balões de pergunta flutuam até o pote: "Minha empresa?", "Regras?", "Ferramentas?", e cada um se esvazia. A Pipi coloca um capacete de segurança e monta uma máquina ao redor do pote, uma parte por palavra:
+
 
 - **Instructions** — Quem é o assistente e como ele deve se comportar, lido em cada conversa.
 
@@ -22,6 +24,9 @@ Três balões de pergunta flutuam até o pote: "Minha empresa?", "Regras?", "Fer
 
 - **Costs** — Limites e rastreamento de uso para que os gastos permaneçam previsíveis.
 
+
+
+
 A máquina fica verde. Então vem a reviravolta: a Pipi retira o cérebro rosa e conecta um azul. A máquina continua funcionando.
 
 ## Por que a reviravolta importa
@@ -29,6 +34,7 @@ A máquina fica verde. Então vem a reviravolta: a Pipi retira o cérebro rosa e
 Novos modelos aparecem a cada poucos meses, e a melhor escolha para uma tarefa muda com o tempo. Quando instruções, conhecimento, ferramentas e segurança vivem no gateway ao invés do código da sua aplicação, mudar o modelo é uma alteração de configuração. Seu site, seu número de WhatsApp e suas ferramentas internas continuam chamando o mesmo gateway.
 
 Sua aplicação → gateway de IA (instruções, conhecimento, ferramentas, segurança, custos) → Modelo de linguagem → Resposta
+
 
 No AIVAX, você envia o ID do gateway no campo `model` de uma requisição compatível com OpenAI, e o AIVAX aplica tudo que está armazenado nele. A pessoa que gerencia o gateway controla o comportamento; a aplicação apenas envia mensagens.
 

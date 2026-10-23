@@ -16,13 +16,19 @@ A analogia tem limites. Uma pessoa pode perceber eventos físicos, desenvolver r
 
 Um **chatbot** é uma interface de conversação: algo que você pode enviar mensagem e receber uma resposta. Ele pode seguir regras fixas, usar um modelo de linguagem ou ter um agente. Um **script** é um programa que segue passos escritos previamente. Um agente usa um modelo para escolher alguns passos conforme a situação se desenvolve. Essas categorias se sobrepõem ao invés de formar uma escala de qualidade.
 
+
 **Script fixo**
 
 Quando uma entrega se atrasa, envie uma notificação padrão. A condição e a ação são especificadas antecipadamente. Isso é adequado quando cada caso deve seguir a mesma regra.
 
+
 **Agente por trás de um chatbot**
 
 Leia a preocupação do cliente, decida se é necessária a busca de um pedido, inspecione o resultado e escolha uma resposta permitida. A conversa pode se adaptar a informações ausentes ou a um resultado inesperado.
+
+
+
+
 
 Um script pode enviar um e‑mail e um agente pode produzir apenas texto. Executar uma ação, portanto, não é a única distinção. A questão importante é de onde vêm as decisões sobre o próximo passo. Para uma tarefa precisamente definida, como adicionar totais de fatura, um software comum pode ser mais simples e confiável do que pedir a um modelo que decida o que fazer.
 
@@ -34,25 +40,34 @@ Um chatbot também pode ser útil sem se tornar um agente. Se os visitantes prec
 
 Perceber a solicitação → Decidir o próximo passo → Solicitar uma ação permitida → Observar o resultado → Continuar ou parar
 
+
 Para a entrega atrasada, a primeira decisão pode ser perguntar qual pedido o cliente se refere. Quando a aplicação identifica um pedido autorizado, o agente pode solicitar seu status. Se o rastreamento indicar atraso, o agente pode explicar as opções disponíveis. Se a busca falhar, ele não deve fingir que verificou com sucesso. A nova informação altera o próximo passo.
+
 
 1. **Receber o problema**
 
 O cliente relata uma entrega desaparecida. O agente reconhece que é necessário um registro de pedido ativo, não uma explicação geral sobre envio.
 
+
 2. **Coletar evidências suficientes**
 
 A aplicação verifica o acesso e realiza uma busca de pedido. O resultado retornado torna‑se informação que o modelo pode usar.
 
+
 3. **Escolher uma resposta delimitada**
 
 O agente explica o status registrado, oferece opções permitidas ou encaminha o caso para uma pessoa. Ele para quando o objetivo é atingido ou quando atinge um limite definido.
+
+
+
+
 
 O loop precisa de uma regra de parada. “Continuar tentando até que o cliente esteja satisfeito” é muito aberto: um sistema poderia repetir chamadas falhas ou fazer promessas cada vez mais sem suporte. Condições de parada melhores incluem receber um resultado confirmado, encontrar um serviço indisponível ou chegar a uma decisão reservada para uma pessoa. A aplicação deve impor limites ao trabalho assim como às permissões.
 
 ## Onde os agentes ajudam
 
 Boas tarefas iniciais envolvem linguagem variada, mas um processo de negócio reconhecível. Clientes descrevem o mesmo problema de várias maneiras. Funcionários fazem perguntas sem saber o título de um documento. Um modelo pode ajudar a interpretar essas solicitações enquanto o software comum permanece responsável pelo acesso confiável a registros e por alterações.
+
 
 - **Suporte ao cliente** — Encontre uma política relevante, verifique um pedido e prepare uma explicação. Escale exceções ao invés de inventar uma promessa.
 
@@ -61,6 +76,9 @@ Boas tarefas iniciais envolvem linguagem variada, mas um processo de negócio re
 - **Trabalho de back-office** — Leia uma solicitação, reúna detalhes ausentes e elabore um ticket para aprovação. Mantenha a alteração de registro separada do rascunho.
 
 - **Assistência interna** — Localize orientações aprovadas e explique-as em linguagem cotidiana. Respeite quais documentos cada funcionário tem permissão para acessar.
+
+
+
 
 Observe que esses exemplos têm um final claro: uma pergunta respondida, um conjunto de requisitos concluído ou um ticket preparado. Eles não pedem ao agente para “gerenciar o departamento”. Responsabilidades menores são mais fáceis de explicar aos usuários, avaliar com base em exemplos e repassar quando algo dá errado.
 

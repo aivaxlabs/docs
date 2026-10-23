@@ -6,7 +6,9 @@ O cérebro responde a todos. Mas nem toda mensagem tem boa intenção, e às vez
 
 *Episódio 5 · 1 minuto e 20 segundos*
 
+
 ## O que o vídeo mostra
+
 
 - **Moderação: a peneira** — Verifica mensagens na entrada. Mensagens perigosas ou ofensivas são retidas e nunca chegam ao cérebro.
 
@@ -14,7 +16,11 @@ O cérebro responde a todos. Mas nem toda mensagem tem boa intenção, e às vez
 
 - **Observabilidade: o livro de registro** — Cada conversa é registrada: a pergunta, as ferramentas usadas, o custo e os erros.
 
+
+
+
 Mensagem → Moderação → Modelo dentro das guardrails → Resposta → Livro de registro
+
 
 ## Por que três camadas
 

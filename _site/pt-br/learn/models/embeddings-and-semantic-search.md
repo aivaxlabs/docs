@@ -10,11 +10,15 @@ Em um mapa geográfico, lugares próximos têm coordenadas semelhantes. Em um si
 
 O mapa é apenas uma analogia. Um embedding tem muitas coordenadas numéricas, não apenas uma posição norte‑sul e leste‑oeste. Coordenadas individuais geralmente não têm rótulos simples como “reembolso” ou “satisfação do cliente”. A representação comprime informações em uma forma útil para comparação; não é uma cópia completa e legível do significado original.
 
+
 - **Texto** — A pergunta ou trecho que você deseja comparar, como a solicitação de um cliente ou um parágrafo de uma política de devolução.
 
 - **Embedding** — Uma representação numérica criada por um modelo de embedding. O mesmo setup de modelo compatível deve ser usado para o material sendo comparado.
 
 - **Similaridade** — Uma medida de quão próximas duas representações estão. Ajuda a classificar candidatos, mas não prova que um trecho responde à pergunta.
+
+
+
 
 Um modelo de embedding não escreve a resposta que o cliente vê. Ele ajuda a localizar material fonte promissor. Um modelo de linguagem separado pode ler esse material e compor uma resposta, ou um aplicativo comum pode exibir os documentos correspondentes sem gerar nada. Manter a busca e a escrita de respostas separadas facilita o diagnóstico de problemas.
 
@@ -24,21 +28,29 @@ O texto original ainda importa. Se você mantiver apenas números sem uma conex�
 
 **Indexação** significa preparar o conteúdo para que o sistema possa buscá‑lo de forma eficiente mais tarde. Documentos longos são frequentemente divididos em **pedaços**, trechos menores que permanecem focados em um tópico. Dividir uma política em um limite de seção sensato ajuda; dividir uma frase longe de sua exceção pode tornar o trecho resultante enganoso.
 
+
 1. **Preparar trechos úteis**
 
 Mantenha uma regra de política junto com as condições necessárias para entendê‑la. Preserve a referência à fonte e remova duplicatas obsoletas.
+
 
 2. **Criar e armazenar representações**
 
 Um modelo de embedding converte cada trecho em números. O sistema de busca armazena esses números com um meio de recuperar o trecho original.
 
+
 3. **Representar a pergunta**
 
 O sistema converte a pergunta do usuário usando um modelo de embedding compatível e a compara com as representações armazenadas.
 
+
 4. **Retornar candidatos**
 
 Os trechos elegíveis mais próximos se tornam resultados candidatos. Verifique relevância e permissões antes de usá‑los como evidência em uma resposta.
+
+
+
+
 
 **Candidatos** são correspondências possíveis, não respostas verificadas. Uma pergunta sobre prazo de reembolso pode recuperar uma política geral de devolução, uma nota de processamento bancário e uma exceção promocional antiga. Todos podem estar relacionados a reembolsos, mas apenas alguns se aplicam à situação do cliente. A busca restringe a tarefa de leitura; não elimina a necessidade de interpretar a evidência.
 
@@ -47,6 +59,8 @@ Uma mudança de modelo também pode mudar o mapa. Embeddings de modelos não rel
 ## Experimente palavras relacionadas
 
 > **Demonstração interativa: Experimente: palavras diferentes podem apontar para o mesmo tópico.** Esta demonstração interativa está disponível na página web. Experimente “money back”, “refund” e “delivery”. Esta é uma demonstração local simplificada com termos de correspondência pré‑definidos, não um modelo de embedding ativo ou uma medida de qualidade de busca. A busca semântica real representa o conteúdo numericamente ao invés de depender dessa pequena lista de termos.
+
+
 
 A observação útil é a mudança de vocabulário, não a pontuação da demonstração. As pessoas descrevem a mesma necessidade de maneiras diferentes. Testes de busca devem, portanto, incluir a linguagem dos clientes, abreviações, erros de digitação e a terminologia usada dentro da sua organização. Um teste feito apenas a partir de títulos de documentos pode parecer bem‑sucedido enquanto falha em perguntas comuns de usuários.
 
@@ -66,13 +80,18 @@ Não use a similaridade como decisão de controle de acesso. Se uma pessoa pode 
 
 Pergunta do usuário → Busca de fonte elegível → Passagens relevantes → Modelo lê evidência → Resposta com referências de fonte
 
+
 O RAG não re‑treina o modelo a cada busca. Ele insere evidência na requisição atual. Se o trecho correto estiver ausente, desatualizado ou mal interpretado, a resposta ainda pode estar errada. Uma resposta com citação também precisa ser verificada: o trecho citado deve realmente sustentar a afirmação, não apenas discutir o mesmo tópico.
 
 Um **reranker** recebe um conjunto existente de candidatos e os reordena para a pergunta. Ele pode tornar o trecho mais útil mais fácil de selecionar, mas não pode recuperar um documento que nunca foi recuperado. Essa distinção evita um erro caro: adicionar um reranker quando o problema real é a falta de material fonte ou um filtro de elegibilidade incorreto.
 
+
 - **3** — verificações separadas: evidência existe, recuperação a encontra, resposta a usa
 
 - **0** — novos documentos recuperados por reordenação de conjunto de candidatos inalterado
+
+
+
 
 Para uma revisão prática, reúna perguntas com trechos de apoio conhecidos. Verifique se os trechos aparecem entre os candidatos, se estão próximos do topo e se material não relacionado está sendo incluído. Em seguida, revise as respostas finais separadamente. Isso separa uma falha de busca de uma falha de escrita e dá à equipe um ponto específico para melhorar.
 

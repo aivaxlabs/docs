@@ -6,25 +6,34 @@ O cérebro sabe como falar, mas não tem mãos. Não pode consultar seu pedido o
 
 *Episódio 4 · 1 minuto e 17 segundos*
 
+
 ## O que o vídeo mostra
 
 Uma **ferramenta** é como um botão com um rótulo: tem um nome e indica o que faz. O modelo nunca pressiona o botão diretamente. Ele solicita, e o sistema ao seu redor faz a pressão.
+
 
 1. **O modelo pergunta**
 
 O cliente quer saber sobre um pedido, então o modelo solicita *"visualizar pedido, número 42"*.
 
+
 2. **O sistema pressiona o botão**
 
 Seu sistema executa a ação, por exemplo uma consulta no banco de dados da loja.
+
 
 3. **O resultado volta**
 
 O sistema devolve o resultado ao modelo como texto: *"enviado ontem"*.
 
+
 4. **O modelo responde**
 
 Com dados reais em mãos, o modelo responde corretamente ao invés de adivinhar.
+
+
+
+
 
 Essa separação é o que mantém as ferramentas seguras: o modelo apenas escolhe qual botão e com quais valores; seu sistema decide o que o botão pode fazer.
 
@@ -34,13 +43,19 @@ Cada sistema se conecta à sua maneira: o calendário de uma forma, a loja de ou
 
 **MCP** (*Model Context Protocol*) é a tomada padrão. Cada sistema chega com suas ferramentas já descritas no mesmo formato, então conectá‑las é apenas plugá‑las, e o cérebro pode usar essas ferramentas imediatamente.
 
+
 **Sem um padrão**
 
 Cada sistema precisa de sua própria conexão, escrita e mantida separadamente.
 
+
 **Com MCP**
 
 Sistemas que falam MCP expõem suas ferramentas da mesma forma, então um padrão de conexão serve a todos.
+
+
+
+
 
 No AIVAX, um gateway pode usar vários tipos de ferramentas: ferramentas integradas ao AIVAX, servidores MCP que você conecta e funções de protocolo que chamam seu próprio endpoint HTTP quando o modelo as solicita.
 

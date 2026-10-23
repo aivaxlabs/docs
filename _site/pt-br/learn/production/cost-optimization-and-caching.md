@@ -10,15 +10,21 @@ Um **token** é um pequeno trecho de texto processado por um modelo, às vezes u
 
 Em uma conversa de suporte, a primeira pergunta pode ser breve, mas a próxima solicitação costuma incluir novamente mensagens anteriores. Reenviar o histórico é como entregar à recepcionista todo o dossiê do caso sempre que você acrescenta uma frase. Conversas longas podem, portanto, tornar‑se progressivamente mais caras. [Context window, tokens and cost](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md) explica como a quantidade de material que um modelo pode ler se relaciona com esse gasto.
 
+
 - **Leitura e escrita** — Instruções e contexto contribuem com tokens de entrada. Explicações longas e rascunhos repetidos contribuem com tokens de saída.
 
 - **Busca de conhecimento** — Recuperação significa encontrar material relevante em uma fonte de conhecimento. Preparar documentos, buscá‑los e classificar resultados pode ter custos separados.
 
 - **Chamando ferramentas** — Uma ferramenta é uma capacidade externa, como consultar um pedido. Ela pode cobrar separadamente e gerar outra solicitação ao modelo para interpretar seu resultado.
 
+
+
+
 Meça essas partes separadamente antes de mudar qualquer coisa. Uma equipe pode culpar respostas longas quando, na verdade, buscas repetidas dominam a conta. Registre o uso por categoria de tarefa, bem como por dia: qualificação de vendas, suporte e processamento de documentos noturno têm padrões de custo diferentes. Compare‑os usando a mesma definição de sucesso.
 
 > **Demonstração interativa: Experimente: uma estimativa ilustrativa de custo por token.** Esta demonstração interativa está disponível na página web. Altere o volume de conversas, o comprimento da entrada e o comprimento da saída separadamente. Considere cada preço neste exercício como ilustrativo. Esta estimativa simplificada exclui ferramentas, recuperação, tentativas e outras cobranças, portanto não é uma conta completa nem uma cotação de produto.
+
+
 
 ## Gaste esforço onde importa
 
@@ -38,19 +44,26 @@ Um **cache** é trabalho armazenado que pode ser reutilizado, como manter um for
 
 **Response caching** armazena uma resposta concluída e a devolve para uma pergunta repetida elegível. Isso pode evitar completamente uma chamada ao modelo. Uma resposta pública sobre horário de funcionamento pode ser candidata; o saldo de uma conta geralmente não é. Corresponda a todos os fatores que alteram a resposta, incluindo idioma, permissões e versão do conhecimento. Apenas a semelhança de redação não prova que dois usuários devam receber a mesma resposta.
 
+
 **Cache de prompt**
 
 Reutiliza o processamento de um prefixo de solicitação não alterado. O modelo ainda produz uma nova resposta para a pergunta atual. Verifique as regras de correspondência e retenção do provedor.
 
+
 **Cache de resposta**
 
 Reutiliza uma resposta já concluída. Defina quem pode recebê‑la, quanto tempo permanece válida e quais mudanças a removem do cache.
+
+
+
+
 
 Defina uma **expiração**, um ponto após o qual uma resposta em cache deve ser atualizada. Também ofereça **invalidade**, removendo uma resposta armazenada quando algo importante mudar. Se a política de devoluções mudar esta manhã, a explicação em cache de ontem pode já estar errada, mesmo que sua expiração seja amanhã. Nunca compartilhe resultados específicos de cliente através de um cache público e aplique verificações de acesso antes de reutilizar.
 
 ## Compare as mudanças de forma justa
 
 O gráfico abaixo mostra unidades de custo fictícias para a mesma carga de trabalho concluída. Cada par representa um experimento separado a partir de sua própria linha de base, não uma sequência de economias cumulativas. Resultados reais dependem do uso, preços e qualidade da tarefa; os valores demonstram como apresentar evidências em vez de prometer redução.
+
 
 **Antes e depois de cada alavanca de custo (ilustrativo)**
 
@@ -65,6 +78,8 @@ O gráfico abaixo mostra unidades de custo fictícias para a mesma carga de trab
 
 Experimentos independentes ilustrativos, não preços ou economias esperadas. Aceite uma mudança apenas se a qualidade e a segurança da tarefa permanecerem aceitáveis.
 
+
+
 Para **processamento em lote**, itens independentes são tratados como um grupo em segundo plano, em vez de durante uma conversa ao vivo. Um trabalho de classificação de tickets noturno pode tolerar espera de forma que um cliente ativo não pode. O trabalho em lote pode simplificar o agendamento, controlar trabalho simultâneo e evitar a repetição de itens concluídos. Não presuma que ele seja automaticamente descontado: termos do provedor e o fluxo de trabalho escolhido determinam seu custo.
 
 Relacionado: no AIVAX, processar listas de itens independentes dessa forma é chamado de [Batch](https://docs.aivax.net/pt-br/docs/inference/batch.md). Para tarifas reais, [veja a precificação atual](https://docs.aivax.net/pt-br/docs/pricing.md) em vez de usar as figuras ilustrativas nesta unidade.
@@ -73,21 +88,29 @@ Relacionado: no AIVAX, processar listas de itens independentes dessa forma é ch
 
 Um **budget** é o valor de gasto que você está disposto a permitir para um período ou carga de trabalho definidos. Um **alert** avisa alguém de que uma condição precisa de atenção; ele não necessariamente interrompe o gasto. Designe um responsável que possa responder e decida o que acontece quando o limite é alcançado: pause trabalhos em segundo plano, restrinja trabalho opcional ou ofereça uma rota humana.
 
+
 1. **Medir um baseline**
 
 Registre o custo por tarefa concluída, qualidade e taxas de falha antes de fazer uma mudança. Inclua tentativas malsucedidas.
+
 
 2. **Mudar um alavanca**
 
 Teste roteamento, tamanho do contexto ou política de cache separadamente para que a razão de qualquer diferença seja visível.
 
+
 3. **Definir controles operacionais**
 
 Defina alertas de uso, tentativas limitadas e limites de gasto onde suportado. Teste o que o usuário vê quando o trabalho para.
 
+
 4. **Revisar resultados reais**
 
 Compare a economia de gasto com o esforço de correção e resultados do cliente. Mantenha a mudança apenas quando toda a tarefa melhorar.
+
+
+
+
 
 Observe padrões incomuns assim como os totais. Um aumento repentino em solicitações por conversa pode indicar um loop de ferramenta em vez de demanda saudável. Revise o gasto após mudanças de instrução, modelo ou conhecimento, pois cada uma pode alterar quanto trabalho o agente realiza. Economias que desaparecem sob tráfego real são um sinal para investigar, não para remover salvaguardas.
 

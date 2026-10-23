@@ -10,6 +10,7 @@ Start with a precise service promise. A support agent that explains published po
 
 A **blocking issue** is a problem serious enough to prevent release, such as private information reaching the wrong customer or an unauthorised action succeeding. Other issues may be acceptable within a restricted pilot if they have an owner, a mitigation and a review date. Record those decisions explicitly; a nearly complete checklist is not a reason to ignore the remaining safety issue.
 
+
 - **Service promise** — Goals, instructions and knowledge define what the agent is meant to do and what supports its answers.
 
 - **Boundaries** — Tools, permissions, safety and privacy define which information and actions must remain protected.
@@ -18,9 +19,13 @@ A **blocking issue** is a problem serious enough to prevent release, such as pri
 
 - **People and release** — Support, escalation and rollout establish who responds, who decides and how exposure increases safely.
 
+
+
+
 The grouped checklist below is intended for a joint review by the service owner and the people responsible for operations, data and customer support. Add evidence references in your working copy. A task is not complete merely because someone plans to finish it after launch. If a requirement does not apply, record why rather than silently removing it.
 
 ## Review the launch checklist
+
 
 **Goals and scope**
 
@@ -28,11 +33,13 @@ The grouped checklist below is intended for a joint review by the service owner 
 - [ ] List excluded requests and forbidden actions — this prevents open-ended promises.
 - [ ] Name the owner and success criteria — this makes launch accountable and measurable.
 
+
 **Instructions**
 
 - [ ] State the role, boundaries and uncertainty behaviour — this guides responses when information is missing.
 - [ ] Check for conflicting rules — this reduces unpredictable choices.
 - [ ] Save the approved instruction version — this connects behaviour to its reviewed configuration.
+
 
 **Knowledge**
 
@@ -40,11 +47,13 @@ The grouped checklist below is intended for a joint review by the service owner 
 - [ ] Test retrieval with realistic wording — this checks whether evidence is findable.
 - [ ] Separate knowledge by access permissions — this protects restricted material.
 
+
 **Tools and permissions**
 
 - [ ] Enable only necessary actions and minimum access — this limits potential damage.
 - [ ] Require approval for consequential actions — this preserves human control.
 - [ ] Test timeouts and duplicate prevention — this avoids repeated actions after lost confirmations.
+
 
 **Safety and privacy**
 
@@ -52,11 +61,13 @@ The grouped checklist below is intended for a joint review by the service owner 
 - [ ] Document data purpose, access, retention and deletion — this makes personal-data handling deliberate and reviewable.
 - [ ] Explain the AI role and relevant limitations — this helps people decide when to ask for human assistance.
 
+
 **Evaluation**
 
 - [ ] Run representative, difficult and out-of-scope cases — this tests beyond easy examples.
 - [ ] Confirm accuracy, safety and failure criteria — this exposes harmful mistakes.
 - [ ] Save results for the exact release — this links approval to what launches.
+
 
 **Observability**
 
@@ -64,11 +75,13 @@ The grouped checklist below is intended for a joint review by the service owner 
 - [ ] Remove unnecessary sensitive content from logs — this reduces diagnostic exposure.
 - [ ] Test alerts and assign responders — this ensures issues reach someone able to act.
 
+
 **Cost controls**
 
 - [ ] Estimate cost per completed task and volume — this connects spending to outcomes.
 - [ ] Bound retries, tool loops and concurrent work — this limits runaway processing.
 - [ ] Define budget alerts and safe stop behaviour — this makes overspending manageable.
+
 
 **Support and escalation**
 
@@ -76,11 +89,16 @@ The grouped checklist below is intended for a joint review by the service owner 
 - [ ] Test handoff details and service availability — this prevents cases from disappearing between teams.
 - [ ] Assign incident and communication owners — this gives staff a clear route for urgent decisions.
 
+
 **Rollout plan**
 
 - [ ] Start with a limited, suitable pilot audience — this reveals problems before expansion.
 - [ ] Define expansion and pause criteria beforehand — this reduces pressure to excuse poor results.
 - [ ] Rehearse stopping and restoring a safe configuration — this makes recovery practical.
+
+
+
+
 
 ## Inspect the boundaries, not just the answers
 
@@ -104,25 +122,34 @@ Do not promise immediate help when the support team is unavailable. Explain the 
 
 A **pilot** is a deliberately limited period of real use with a suitable audience. It is not permission to expose users to known unsafe behaviour. Choose lower-risk tasks first, keep support available and explain the service's limitations. Gradual rollout then increases exposure only after the current stage meets predefined acceptance criteria.
 
+
 1. **Rehearse in a controlled environment**
 
 Run the complete journey with protected test data, including denied access, unavailable tools and the stop procedure.
+
 
 2. **Run a limited pilot**
 
 Offer the approved scope to a small, suitable audience. Review failures and handoffs alongside successful interactions.
 
+
 3. **Expand in stages**
 
 Increase the audience or task scope deliberately, not both by accident. Recheck capacity, quality, cost and support readiness.
+
 
 4. **Operate and review**
 
 Maintain owners and regular reviews after launch. Repeat relevant readiness checks when instructions, tools, knowledge or models change.
 
+
+
+
+
 Use task completion, unsafe outcomes, waiting time, escalation and cost together. A high completion rate is not acceptable if the agent achieves it by making unauthorised promises. Infrequent serious failures deserve individual review rather than being hidden by a strong average. Decide before launch what evidence would cause expansion to stop.
 
 For an illustrative review, imagine that most items are complete but one access-control issue remains. Counting completed boxes helps coordinate work, but it cannot outweigh that blocker. The numbers below describe only that fictional review and are not recommended thresholds or proof of readiness.
+
 
 - **27** — checks complete in an illustrative review
 
@@ -130,9 +157,14 @@ For an illustrative review, imagine that most items are complete but one access-
 
 - **1** — blocking access issue: launch remains paused
 
+
+
+
 **Can we launch with an incomplete checklist?**
 
 Only within a scope that remains safe and explicitly approved. A missing feature may be excluded from the pilot; a broken permission boundary cannot be excused by limiting the audience. Record each exception, owner, mitigation and review date. If the team cannot explain how users remain protected, keep the affected capability unavailable.
+
+
 
 What's next: apply this checklist to a concrete service in [Customer support agent](https://docs.aivax.net/learn/guides/customer-support-agent.md).
 

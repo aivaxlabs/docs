@@ -10,6 +10,7 @@ Comece pelos canais que as pessoas já usam quando precisam de uma resposta. Um 
 
 Essas fontes não têm autoridade igual. Um ticket resolvido mostra o que aconteceu em um caso, não necessariamente o que deve acontecer em todos. Um e‑mail de um especialista pode explicar uma solução alternativa, mas não tem aprovação como procedimento padrão. Trate esse material como evidência para redigir melhor o conhecimento, não como permissão automática para publicar a conversa original.
 
+
 - **Orientação publicada** — Verifique centros de ajuda, manuais e bibliotecas de políticas para explicações atuais e aprovadas.
 
 - **Registros de trabalho** — Use tickets e e‑mails para descobrir perguntas reais e lacunas, após triagem de privacidade adequada.
@@ -18,6 +19,9 @@ Essas fontes não têm autoridade igual. Um ticket resolvido mostra o que aconte
 
 - **Experiência das pessoas** — Entrevistar especialistas para descobrir passos não escritos, depois solicitar ao proprietário responsável que aprove o documento resultante.
 
+
+
+
 Para cada fonte, registre sua localização, tópico, proprietário, público-alvo, data de vigência e status de revisão. Adicione as perguntas que ela deve responder. Um arquivo chamado “final policy” não é evidência suficiente de aprovação; procure uma equipe responsável e uma decisão atual. Se ninguém puder explicar se o material ainda se aplica, marque-o como requerendo revisão em vez de tratá‑lo silenciosamente como confiável.
 
 ## Priorizar cobertura útil
@@ -25,6 +29,7 @@ Para cada fonte, registre sua localização, tópico, proprietário, público-al
 **Cobertura** significa quanto de um conjunto de perguntas definido seu conhecimento aprovado pode responder. Não é a proporção do seu drive compartilhado que foi carregada. Uma política de devolução curta e clara pode cobrir muito mais perguntas de clientes do que uma longa apresentação sobre a história da empresa.
 
 Agrupe perguntas recorrentes por intenção, ou seja, o que a pessoa deseja realizar. “Posso devolver isso?” e “Como funciona a devolução?” pertencem a um grupo relacionado, embora a formulação seja diferente. Conte quantas vezes os grupos ocorrem em uma amostra adequada, sem reter dados pessoais desnecessários. Em seguida, mapeie cada grupo para uma fonte aprovada ou uma lacuna explícita.
+
 
 **Perguntas de suporte cobertas por cada fonte individualmente (ilustrativo)**
 
@@ -37,27 +42,37 @@ Agrupe perguntas recorrentes por intenção, ou seja, o que a pessoa deseja real
 
 Exemplo fictício de planejamento. As fontes se sobrepõem, portanto esses percentuais não devem ser somados. A cobertura depende das perguntas amostradas, não do comprimento do documento.
 
+
+
 A frequência das perguntas é apenas um sinal de prioridade. Uma pergunta rara de segurança pode ser mais importante que uma pergunta comum sobre horário de atendimento. Considere a consequência de uma resposta incorreta, o esforço necessário para preparar a fonte e se já existe uma fonte confiável. Não transforme o gráfico em uma promessa de automação: ter uma resposta em uma fonte não prova que a recuperação e a geração de resposta a usarão corretamente.
 
 Comece com uma família de perguntas manejável. Por exemplo, prepare devoluções antes de tentar todo o suporte ao cliente. Isso dá aos revisores um assunto coerente para aprovar e permite que você veja se o processo funciona antes de expandi‑lo. Mantenha tópicos não cobertos visíveis para que o agente reconheça seus limites em vez de fingir que a coleção está completa.
 
 ## Transformar candidatos em conhecimento aprovado
 
+
 1. **Agrupar duplicatas**
 
 Encontre cópias e quase cópias da mesma política. Identifique a versão autoritária e preserve sua procedência, ou seja, de onde veio e quem a aprovou.
+
 
 2. **Resolver divergências**
 
 Liste declarações conflitantes e pergunte ao proprietário responsável qual regra se aplica. Verifique se as regras aparentemente conflitantes realmente cobrem produtos, regiões ou datas diferentes.
 
+
 3. **Retirar material obsoleto**
 
 Exclua rascunhos expirados do conjunto pesquisável. Mantenha qualquer arquivo necessário separado, com suas regras de acesso e retenção intactas.
 
+
 4. **Preencher e revisar lacunas**
 
 Redija respostas faltantes a partir de decisões aprovadas, confirme-as com o proprietário e registre quando se tornam vigentes.
+
+
+
+
 
 **Deduplicação** significa remover cópias repetidas desnecessárias. Isso ajuda porque trechos repetidos podem ocupar resultados de busca que deveriam conter evidências úteis diferentes. Também impede que uma versão obsoleta apareça como mais autoritária simplesmente porque muitas equipes a copiaram. Preserve diferenças legítimas: uma variação regional não é duplicata se mudar a regra.
 
@@ -65,17 +80,24 @@ Não peça ao agente que resolva disputas de política. Se um documento permite 
 
 ## Adaptar o processo à equipe
 
+
 **Suporte**
 
 Comece com tópicos de tickets recorrentes. Converta resoluções bem‑sucedidas em instruções gerais, remova detalhes do cliente e peça que as operações de suporte aprovem o resultado. Separe procedimentos normais de exceções discricionárias.
+
 
 **Vendas**
 
 Compare apresentações com o catálogo de produtos atual. Remova ofertas expiradas e promessas não suportadas. Peça aos proprietários de produto que confirmem capacidades, limitações e quais reivindicações requerem qualificação.
 
+
 **RH**
 
 Separe políticas organizacionais de casos individuais de funcionários. Confirme o escopo de localização e categoria de emprego. Mantenha registros pessoais fora da coleção geral de conhecimento e direcione perguntas sensíveis adequadamente.
+
+
+
+
 
 Entrevistar um especialista funciona melhor com situações concretas. Pergunte: “O que você verifica antes de aprovar esta solicitação?” em vez de “Conte tudo o que você sabe.” Em seguida, faça perguntas sobre exceções, evidências e quando parar. Leia o procedimento resultante de volta ao especialista usando um caso fictício. Isso costuma revelar condições ausentes que uma entrevista ampla perderia.
 

@@ -6,15 +6,20 @@ Customers are on the website, on WhatsApp, on Telegram. Pipi's first reaction is
 
 *Episode 7 · 1 minute 15 seconds*
 
+
 ## What the video shows
 
 Three cloned jars appear, one per channel, and then disappear. On AIVAX it is one brain: the same gateway serves every **channel**. A channel is simply where the customer is talking, and each one is just a different door into the same jar.
+
 
 - **Website: chat client** — The conversation window on your site, with your colour, your name and suggestion buttons, plus a message limit so nobody abuses it.
 
 - **WhatsApp and Telegram: integrations** — The message arrives from the phone, the gateway answers, and the reply goes back to the same conversation.
 
 - **One gateway** — Instructions, knowledge, tools and safety live in one place and serve every door.
+
+
+
 
 The best part comes at the end. Pipi changes the badge on the jar to *"Today: free shipping!"*, and the new answer appears on all three channels at once. Change a rule once, and it applies everywhere.
 
@@ -23,6 +28,7 @@ The best part comes at the end. Pipi changes the badge on the jar to *"Today: fr
 The content of the gateway should stay the same, but each channel has its own habits. A WhatsApp answer is usually shorter, a website window can show buttons, and each channel identifies the customer differently: a session on the website, a phone number or chat ID in messaging apps. On AIVAX, the chat client handles those session details, while the gateway keeps the behaviour.
 
 Website · WhatsApp · Telegram → Chat client or integration → Same AI gateway → Reply back on the same channel
+
 
 ## Go deeper
 

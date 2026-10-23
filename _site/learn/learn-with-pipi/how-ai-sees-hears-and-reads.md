@@ -6,23 +6,32 @@ The brain from the series only reads text. Little notes slip in easily, but cust
 
 *Episode 6 · 1 minute 13 seconds*
 
+
 ## What the video shows
 
 Some models are **multimodal**: they see images, listen to audio and read files. In the video, each type of content has its own little entrance on the jar. A customer sends a photo of a cake, and the brain looks closely: carrot cake with chocolate frosting.
 
 But not every model can see. Some only read text. For those, AIVAX uses a translator machine: it looks at the media first and prints a note describing it. The note fits through the text slot, and the brain understands just the same. This step is called **preprocessing**.
 
+
 **Multimodal model**
 
 Photo → Multimodal model → Answer
 
+
 The model receives the original image. Best when fine visual detail matters and the chosen model supports that kind of media.
+
 
 **Preprocessing**
 
 Photo → Description written by AIVAX → Text-only model → Answer
 
+
 The main model receives a text description instead of the image. Useful for text-only models, or to keep one model for every channel regardless of what customers send.
+
+
+
+
 
 ## Choosing between them
 

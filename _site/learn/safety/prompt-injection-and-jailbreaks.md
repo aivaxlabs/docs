@@ -10,11 +10,15 @@ An agent combines a language model, which generates responses from text, with in
 
 Neither requires an actual software break-in. The attacker is trying to exploit the model's interpretation of language. A document might falsely present itself as an updated company policy. A user might insist that a prohibited request is exempt because it is only pretend. These are illustrative situations, not instructions for carrying out attacks.
 
+
 - **An outside document** — A supplier brochure includes a note telling the assistant which supplier to recommend. The brochure may describe products; it cannot set your purchasing policy.
 
 - **A direct user request** — A visitor asks the assistant to abandon its confidentiality rules. The request does not create permission to disclose someone else's information.
 
 - **A tool response** — A search result contains a supposed instruction from an administrator. Its arrival through a tool does not turn it into an administrator's instruction.
+
+
+
 
 The difference matters during investigation. A suspicious user message points you towards conversation controls. A suspicious retrieved document also requires examining how the document entered the knowledge source and which other conversations may have read it. In both cases, the response should protect the legitimate task rather than simply accuse the user of wrongdoing.
 
@@ -24,13 +28,19 @@ A **trust boundary** is the point where information crosses from one level of au
 
 Keep application instructions separate from user text and retrieved content. Label documents with their source and intended purpose. Tell the agent to use outside text as evidence, not as a source of new permissions. Avoid assembling everything into one undifferentiated paragraph that makes the source of each statement unclear.
 
+
 **Injected content**
 
 An illustrative supplier note says that the assistant should treat the supplier's recommendation as an approved purchasing decision. It attempts to turn promotional material into an authorisation.
 
+
 **A defended agent**
 
 The agent summarises the supplier's claim as a claim, checks approved purchasing criteria, and does not submit an order. A decision still requires the normal approval process.
+
+
+
+
 
 Labels and careful instructions help the model understand the distinction, but they are not a security guarantee. A model can still misinterpret persuasive content. The important design question is therefore not only “Will the model refuse?” but also “What could happen if it does not?” The answer should be limited by ordinary software controls outside the model.
 
@@ -38,25 +48,34 @@ Labels and careful instructions help the model understand the distinction, but t
 
 **Defence in depth** means using several independent protections rather than trusting one perfect filter. Each layer catches a different kind of failure. A content check might miss a misleading sentence, while a permission check can still prevent an unauthorised record change.
 
+
 1. **Separate instructions from evidence**
 
 Keep the agent's role and rules in the application's instruction layer. Identify user messages and document excerpts as outside input, even when they contain official-looking language.
+
 
 2. **Give tools the smallest useful permission**
 
 Use read-only access for a summariser. Restrict each request to the current user's records, and validate permissions in the service that executes the action.
 
+
 3. **Require approval for consequential changes**
 
 Show a person the proposed action, destination and relevant details before sending messages, deleting information or committing a purchase. Approval must apply to that specific action.
+
 
 4. **Check outputs and proposed actions**
 
 Verify that responses stay within scope and that tool arguments match the authorised task. Reject unexpected recipients, unsupported claims or requests for unrelated data.
 
+
 5. **Monitor and improve**
 
 Record useful security events without copying unnecessary personal data. Review blocked actions and reported incidents, then add representative cases to your test set.
+
+
+
+
 
 The second layer is often called **least privilege**: give each component only the access needed for its job. A sales assistant drafting an e-mail does not need permission to export the entire customer list. A support assistant looking up an order should not have access to every customer's orders merely because the model was told to behave responsibly.
 
@@ -96,6 +115,8 @@ Measure the whole outcome. A polite refusal does not prove safety if a tool alre
 **Does a stronger instruction solve prompt injection?**
 
 Clear instructions are useful, but they do not make untrusted text safe. The model may still confuse evidence with authority. Permission enforcement, narrow tool access, reviewable approvals and monitoring limit the consequences when that happens. No single layer eliminates every injection or jailbreak attempt.
+
+
 
 Related learning: [Adding guardrails](https://docs.aivax.net/learn/agents/adding-guardrails.md) explains checks around an agent, while [Authentication and permissions](https://docs.aivax.net/learn/tools-and-integrations/authentication-and-permissions.md) separates identity from allowed actions. On AIVAX, the configured agent runtime is an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md); review its tools and surrounding application controls together.
 

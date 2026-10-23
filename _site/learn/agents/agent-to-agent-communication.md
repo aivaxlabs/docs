@@ -12,23 +12,33 @@ For example, an intake agent may identify whether a request concerns product use
 
 However, additional agents do not automatically improve quality. Two agents can share the same misunderstanding, repeat the same work, or disagree without evidence. Before splitting a task, identify a concrete benefit: a distinct permission boundary, a separate body of knowledge, independent review, or work that can proceed separately. If one agent with well-chosen tools can do the job clearly, keep that simpler design.
 
+
 **One agent with several tools**
 
 Often suitable when the task has one clear owner, a shared knowledge base, and a short sequence of actions. There are fewer messages to coordinate and fewer places to lose context.
+
 
 **Several specialised agents**
 
 Useful when responsibilities genuinely differ or independent pieces of work can run separately. The benefit must justify extra requests, waiting, context exchange, and coordination.
 
+
+
+
+
 ## Handoff, delegation, and orchestration
 
 These terms describe different ways of sharing responsibility. Teams sometimes use the words loosely, so define what they mean in your design. The important questions are who owns the user-facing answer, who can take actions, and whether the original agent waits for a result.
+
 
 - **Handoff** — Responsibility moves to another agent. A triage agent routes a billing case to the billing specialist, which continues the conversation within its own authority.
 
 - **Delegation** — The original agent asks another agent to perform a bounded subtask and return a result. The original agent remains responsible for the overall answer.
 
 - **Orchestration** — A coordinator manages several steps or participants: deciding what runs next, collecting results, resolving dependencies, and determining when the work is complete.
+
+
+
 
 A handoff resembles transferring a call. Delegation resembles asking a colleague to check one clause while you keep speaking to the customer. Orchestration resembles a project coordinator arranging contributions from several departments. A coordinator can be ordinary software, an agent, or a combination; it does not have to be another model making every scheduling decision.
 
@@ -67,6 +77,7 @@ Instead, send a compact brief with source references when needed. For the warran
 Preserve uncertainty as carefully as facts. If identity has not been verified or a purchase date is missing, put that in the brief explicitly. A summary that smooths away uncertainty can turn an incomplete case into a false conclusion. Summaries are useful, but their correctness still needs attention.
 
 Define the subtask → Share relevant facts and limits → Perform bounded work → Return evidence and status → Check the result
+
 
 ## Put limits on the collaboration
 

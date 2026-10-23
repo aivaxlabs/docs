@@ -12,11 +12,15 @@ Uma **alucinação** é uma alegação factual que é inventada ou não sustenta
 
 **Cobertura** refere‑se a se o conhecimento aprovado contém respostas às perguntas pretendidas. Falta de cobertura não é necessariamente uma falha de geração. Se a fonte não descreve a compatibilidade de um produto, um “Não posso confirmar isso com as informações disponíveis” pode ser a resposta correta. Uma resposta pode estar totalmente fundamentada e ainda assim incompleta porque aborda apenas parte da pergunta.
 
+
 - **Evidence** — A fonte sustenta as alegações?
 
 - **Coverage** — O conhecimento contém a resposta necessária?
 
 - **Usefulness** — A resposta resolve a pergunta real?
+
+
+
 
 Esses são pontos de vista complementares, não pontuações intercambiáveis. Um sistema que recusa todas as perguntas pode evitar alegações não sustentadas, mas ser inútil. Um sistema que responde tudo pode parecer útil enquanto inventa condições. Avalie o equilíbrio usando as responsabilidades reais do agente e as consequências dos erros.
 
@@ -26,21 +30,29 @@ Um **conjunto de perguntas** é uma coleção de prompts representativos ou cen�
 
 Para cada caso, registre a pergunta, a versão da fonte aplicável, fatos esperados, alegações proibidas e próximos passos aceitáveis. Uma **resposta esperada** não precisa ser uma única frase exata. Pode ser uma lista de verificação: nomear a condição de elegibilidade, solicitar a versão do produto ausente e não prometer aprovação. Isso permite diferentes formulações úteis sem recompensar adições não sustentadas.
 
+
 1. **Escolher casos representativos**
 
 Amostre tarefas comuns e inclua deliberadamente casos de borda consequentes. Mantenha um rótulo separado para cada tópico para que falhas não fiquem ocultas em um resultado geral.
+
 
 2. **Escrever a expectativa baseada em evidências**
 
 Peça a um revisor experiente que identifique as passagens da fonte e as condições necessárias. Marque perguntas que devam levar a esclarecimento ou escalonamento.
 
+
 3. **Executar e preservar o resultado**
 
 Registre a pergunta, as passagens recuperadas, a resposta e a configuração relevante. Mantenha a versão da fonte para que revisores posteriores saibam o que o agente pôde ver.
 
+
 4. **Revisar e classificar falhas**
 
 Separe conhecimento ausente, recuperação falha, leitura incorreta de evidência e comunicação pobre. Atribua o reparo à parte responsável do processo.
+
+
+
+
 
 Não reescreva silenciosamente respostas esperadas para combinar com o que o agente produziu. Se a política aprovada mudar, atualize a expectativa com um motivo documentado. Mantenha alguns casos de lado enquanto melhora o sistema, depois verifique-os novamente. Esses casos mantidos ajudam a revelar se as melhorias se generalizam além dos exemplos usados repetidamente durante o ajuste.
 
@@ -48,15 +60,21 @@ Não reescreva silenciosamente respostas esperadas para combinar com o que o age
 
 Considere uma política fictícia de workshop: visitantes podem participar de sessões introdutórias, mas é necessário reservar. A pergunta é se um amigo pode chegar sem reserva. Um revisor deve inspecionar tanto a permissão quanto sua condição.
 
+
 **Parece útil mas falha**
 
 “Sim, seu amigo é bem‑vindo. Basta chegar com ele que a equipe vai abrir espaço.”
 A resposta preserva o acesso do visitante, mas inventa uma exceção à reserva.
 
+
 **Segue a evidência**
 
 “Visitantes são bem‑vindos nas sessões introdutórias, mas a reserva é necessária. Não posso confirmar um lugar sem reserva.”
 A resposta mantém a restrição e não transforma elegibilidade em lugar garantido.
+
+
+
+
 
 Uma citação à página do workshop não repararia a primeira resposta. A fonte deve sustentar a alegação feita, não apenas compartilhar o tópico. Revisores também devem verificar omissões: deixar de fora uma restrição pode enganar mesmo quando cada frase restante é tecnicamente verdadeira.
 
@@ -74,6 +92,7 @@ Relacionado: AIVAX [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/a
 
 Uma **métrica** é uma medida definida calculada a partir de observações. Por exemplo, você pode relatar a proporção de respostas revisadas cujas alegações factuais são todas sustentadas. Declare o que conta como aprovação e se a medida é calculada por alegação, por resposta ou por conversa. Esses denominadores, os totais contados, produzem números diferentes.
 
+
 **Respostas totalmente fundamentadas ao longo das revisões (ilustrativo)**
 
 | | Baseline | Source cleanup | Retrieval adjustment | Instruction revision |
@@ -81,6 +100,8 @@ Uma **métrica** é uma medida definida calculada a partir de observações. Por
 | Respostas revisadas aprovadas | 62% | 75% | 79% | 86% |
 
 Resultados fictícios no mesmo conjunto de perguntas e rubrica. A linha ascendente não é um benchmark de produto nem garantia de que cada mudança melhora todos os tópicos.
+
+
 
 Compare revisões usando os mesmos casos e regras de revisão quando possível. Se você adicionar perguntas mais difíceis, uma pontuação menor pode refletir um teste melhor ao invés de um agente pior. Divida os resultados por tópico e gravidade da falha. Uma média em melhoria pode esconder uma nova falha em uma exceção de política com consequências graves.
 

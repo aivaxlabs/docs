@@ -18,6 +18,7 @@ O conhecimento também cria responsabilidade. Um supervisor pode comparar uma re
 
 Pergunta do cliente → Encontrar documentos relevantes → Ler a evidência → Responder com a fonte
 
+
 Pesquisar não é o mesmo que responder. Uma busca pode encontrar um documento sobre devoluções sem encontrar a cláusula que cobre um item danificado. Antes de confiar em uma passagem, o agente deve considerar se ela responde à pergunta real, se aplica ao produto ou público correto e se ainda é válida. Se a evidência necessária estiver ausente, fazer uma pergunta de acompanhamento ou contatar uma pessoa é melhor do que completar a política pela imaginação.
 
 ## Experimente uma pequena coleção de conhecimento
@@ -25,6 +26,8 @@ Pesquisar não é o mesmo que responder. Uma busca pode encontrar um documento s
 A demonstração abaixo usa documentos inventados para uma loja fictícia. Ela ilustra a seleção de material de referência, não o comportamento ou a precisão de um serviço de busca em produção. Experimente termos como “danificado”, “entrega” ou “manual”, depois pense no que o documento correspondente estabelece e o que não estabelece.
 
 > **Demonstração interativa: Experimente: encontre o documento da empresa relevante.** Esta demonstração interativa está disponível na página web. Observe que encontrar o documento de entrega danificada suporta uma explicação do processo de revisão. Não estabelece que uma substituição específica foi aprovada.
+
+
 
 Um exercício útil é fazer uma pergunta que a coleção não pode responder, como se um determinado pacote chegou. Nenhum desses documentos é um registro de envio ao vivo. Um bom design de conhecimento torna esse limite visível. O agente deve usar uma ferramenta de rastreamento autorizada ou explicar que não pode confirmar o status atual a partir desses documentos.
 
@@ -34,11 +37,15 @@ Comece com uma tarefa recorrente, não com todo arquivo que a empresa possui. Pa
 
 Pergunte às pessoas que realizam esse trabalho quais perguntas se repetem, onde vivem as respostas autoritativas e quais erros causam mais retrabalho. Selecione documentos que respondam diretamente a essas perguntas. Uma política curta e aprovada costuma ser um ponto de partida melhor do que uma pasta grande de apresentações contendo rascunhos contraditórios. Mais material só é útil quando adiciona evidência relevante e confiável.
 
+
 - **Políticas** — Declare o que é permitido, o que é excluído e quem pode aprovar uma exceção. Inclua o escopo e a data de vigência.
 
 - **Catálogos** — Descreva produtos e serviços de forma consistente. Distinga especificações estáveis de preços ou disponibilidade que precisam de verificação em tempo real.
 
 - **Manuais** — Explique como concluir uma tarefa, incluindo pré‑requisitos, avisos e o ponto em que uma pessoa deve assumir.
+
+
+
 
 Antes de adicionar um documento, leia‑o como um recém‑chegado faria. “Pacote padrão” refere‑se a uma oferta nomeada? “Contatar a equipe usual” identifica uma responsabilidade real? A exceção aparece ao lado da regra que modifica? Material que depende de conhecimento de fundo não escrito é difícil tanto para um novo funcionário quanto para um agente usar de forma confiável.
 
@@ -50,21 +57,29 @@ Mantenha informações privadas fora, a menos que o caso de uso realmente as exi
 
 Atribua um proprietário de negócio a cada assunto. Esse proprietário decide qual versão é autoritária, quando entra em vigor e o que deve acontecer com a versão anterior. Mantenha essas decisões visíveis por meio de título, proprietário, escopo, data de revisão e referência de fonte. Esses detalhes são frequentemente chamados de **metadados**: informações que descrevem um documento em vez do texto principal.
 
+
 1. **Escolher a fonte autoritária**
 
 Pergunte ao responsável pela política qual documento deve reger as respostas. Resolva rascunhos conflitantes antes de adicioná‑los.
+
 
 2. **Preparar e publicar a versão aprovada**
 
 Torne títulos e exceções explícitos. Verifique se o conteúdo pesquisável corresponde ao original aprovado.
 
+
 3. **Testar perguntas ordinárias e difíceis**
 
 Inclua perguntas com fatos ausentes, redação conflitante e sem resposta na coleção. Verifique a evidência assim como a redação final.
 
+
 4. **Revisar e descontinuar**
 
 Reveja respostas após alterações. Remova ou exclua claramente material substituído das buscas de políticas atuais, preservando registros quando necessário.
+
+
+
+
 
 Um calendário de revisão ajuda, mas atualizações acionadas por eventos também são importantes. Quando o negócio altera uma política, atualizar as fontes do agente deve fazer parte da mesma lista de verificação de release. Caso contrário, o site e o agente podem dar respostas diferentes, embora ambas as equipes acreditem ter publicado as novas regras.
 

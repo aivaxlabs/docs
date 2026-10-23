@@ -6,9 +6,11 @@ Os clientes estão no site, no WhatsApp, no Telegram. A primeira reação da Pip
 
 *Episódio 7 · 1 minuto e 15 segundos*
 
+
 ## O que o vídeo mostra
 
 Três frascos clonados aparecem, um por canal, e depois desaparecem. No AIVAX é um único cérebro: o mesmo gateway atende todo **canal**. Um canal é simplesmente onde o cliente está conversando, e cada um é apenas uma porta diferente para o mesmo frasco.
+
 
 - **Site: cliente de chat** — A janela de conversa no seu site, com sua cor, seu nome e botões de sugestão, além de um limite de mensagens para que ninguém abuse.
 
@@ -16,11 +18,15 @@ Três frascos clonados aparecem, um por canal, e depois desaparecem. No AIVAX é
 
 - **Um gateway** — Instruções, conhecimento, ferramentas e segurança vivem em um só lugar e atendem a todas as portas.
 
+
+
+
 ## O que muda por canal
 
 O conteúdo do gateway deve permanecer o mesmo, mas cada canal tem seus próprios hábitos. Uma resposta no WhatsApp costuma ser mais curta, a janela do site pode mostrar botões, e cada canal identifica o cliente de forma diferente: uma sessão no site, um número de telefone ou ID de chat em aplicativos de mensagem. No AIVAX, o cliente de chat lida com esses detalhes de sessão, enquanto o gateway mantém o comportamento.
 
 Site · WhatsApp · Telegram → Cliente de chat ou integração → Mesmo gateway de IA → Responder no mesmo canal
+
 
 ## Aprofunde-se
 

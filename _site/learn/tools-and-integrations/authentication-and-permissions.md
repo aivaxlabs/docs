@@ -12,6 +12,7 @@ There are often several identities in an agent interaction. The application has 
 
 A chat message is not proof of identity. “I am the account owner” is just text until the application verifies it through an appropriate sign-in or account verification process. Similarly, a tool argument supplied by the model must not determine access on its own. The business system should derive the allowed account from trusted application context, then check the requested record against it.
 
+
 - **Identity** — Who is the application acting for? Use verified user context, not a name or account claim written in the conversation.
 
 - **Permission** — What may that identity do? Enforce access to both the operation and the particular records involved.
@@ -20,19 +21,28 @@ A chat message is not proof of identity. “I am the account owner” is just te
 
 - **Audit record** — What happened, under whose authority, and with what result? Keep enough evidence for investigation without copying unnecessary private content.
 
+
+
+
 ## API keys and per-user tokens
 
 An **API key** is a credential a program presents when calling a service. A **credential** is evidence used to obtain access, such as a password or access token. Many API keys identify an application or account rather than an individual end user. That makes them convenient for server-to-server work, but dangerous if the application treats every user as entitled to everything the key can reach.
 
 A **per-user token** is a credential associated with a particular user's delegated access. **Delegation** means allowing an application to perform a defined set of actions on that user's behalf. A calendar assistant, for example, might receive permission to read one person's calendar without receiving the organisation's administrative credentials. Tokens can have expiration times and mechanisms for withdrawing access; the details depend on the service.
 
+
 **Application API key**
 
 Often suits background operations owned by a service account. Your application must still enforce which users and records may use that authority. A shared key does not create per-user boundaries automatically.
 
+
 **Delegated per-user token**
 
 Can preserve the user's access boundary in the connected service. It requires a sign-in and consent flow, secure storage, and handling for expiry or withdrawn permission.
+
+
+
+
 
 Neither credential type is automatically safe. A broadly privileged user token can be excessive, and a narrowly restricted service credential can be appropriate. Choose according to who owns the task. An overnight inventory report may belong to a service account; a personal calendar change should normally preserve the requesting person's identity and permissions.
 
@@ -58,21 +68,29 @@ The levels are a design aid, not a universal permission system. A draft saved to
 
 Approval should happen after the proposed action is clear and before the consequential operation executes. Asking “May I help you?” at the start of a conversation does not authorise an unspecified later payment. Show the relevant record, recipient, amount where applicable, and expected effect in language the approver can verify.
 
+
 1. **Verify the user and permitted task**
 
 Establish identity outside the model's free-form text. Confirm that both the operation and the target record fall within the user's access.
+
 
 2. **Prepare a concrete proposal**
 
 Gather the required facts and describe exactly what would change. Keep preparation separate from execution wherever practical.
 
+
 3. **Obtain meaningful approval**
 
 Ask an appropriately authorised person to confirm the specific proposal. If the target or effect changes, the old approval should not silently cover the new action.
 
+
 4. **Execute and record the outcome**
 
 Recheck material conditions, perform the approved action and report the actual result. Preserve a record linking the request, authority, approval and outcome.
+
+
+
+
 
 These controls belong in application logic, not only in prompts. A prompt can tell the model to ask before sending a message; the sending tool should still reject a request that lacks the required approval. For more on choosing review points, see [human-in-the-loop](https://docs.aivax.net/learn/advanced-agents/human-in-the-loop.md).
 
@@ -86,9 +104,13 @@ Store secrets in a protected configuration or secret-storage service with access
 
 Not necessarily. Repeated approval for harmless, well-bounded reads can train people to click without thinking. Match the control to the real consequences. An approval policy should identify the actions, circumstances and people that require intervention, rather than relying on the model to decide what feels risky.
 
+
+
 **What should an audit record contain?**
 
 Record the acting identity, operation, relevant record reference, decision, time and outcome, with enough connection information to follow the request. Avoid logging credentials or entire conversations by default. Protect access to audit records and define how long they are retained.
+
+
 
 An **audit log** is a record used to reconstruct actions and decisions. It helps answer whether a failure came from the model's request, a permission decision or the connected service. Design this evidence before an incident; [logs, traces and monitoring](https://docs.aivax.net/learn/quality/logs-traces-and-monitoring.md) explain how to connect the pieces.
 

@@ -8,11 +8,15 @@ Em uma aplicação de IA, **memória** é um design para reter informações e t
 
 **Memória de curto prazo** normalmente significa o histórico de conversa e o contexto de trabalho atualmente disponível dentro da janela de contexto do modelo. **Memória de longo prazo** significa informações selecionadas armazenadas fora dessa janela e recuperadas para requisições posteriores. A diferença não é simplesmente uma duração medida em minutos: é onde a informação reside e como ela se torna disponível novamente.
 
+
 - **Curto prazo: a mesa de trabalho** — Mensagens recentes, resultados relevantes e decisões atuais ajudam o assistente a entender esta tarefa. Elas são úteis apenas enquanto incluídas no contexto da requisição.
 
 - **Longo prazo: o caderno rotulado** — Fatos ou preferências selecionados são armazenados separadamente. A aplicação encontra registros adequados e os adiciona a um briefing posterior.
 
 - **Base de conhecimento: o manual compartilhado** — Documentos aprovados explicam produtos, políticas ou procedimentos. Eles descrevem o conhecimento da organização ao invés das preferências de conversa de uma pessoa.
+
+
+
 
 O contexto de curto prazo torna os seguimentos possíveis. Se o assistente acabou de rascunhar duas mensagens e o usuário diz “Faça a segunda mais quente,” o rascunho e a instrução relevantes precisam permanecer disponíveis. Se foram removidos para abrir espaço, o assistente deve perguntar qual texto revisar em vez de adivinhar.
 
@@ -24,17 +28,23 @@ Comece com um benefício concreto. Uma preferência por respostas concisas pode 
 
 Pergunte se o detalhe é útil posteriormente, adequado para reter, suficientemente confiável e provável de permanecer verdadeiro. Prefira uma afirmação restrita sustentada pelo que o usuário realmente disse. “Prefere atualizações de projeto em tópicos” é mais defensável que “Não gosta de detalhes,” que generaliza um pedido de formatação para uma afirmação de personalidade.
 
+
 **Um transcript copiado para a memória**
 
 Salve toda a troca, incluindo detalhes não relacionados do cliente, comentários provisórios e suposições do assistente. Reuse-a sempre que o mesmo usuário aparecer.
 
 Não há propósito claro, limite de confiança ou plano de expiração.
 
+
 **Um registro delimitado e revisável**
 
 Com a permissão adequada, retenha: “Para atualizações de projeto, prefere tópicos concisos.” Registre sua origem, escopo e política de revisão ou expiração.
 
 Permita que a pessoa veja, corrija ou remova essa preferência e use‑a apenas quando relevante.
+
+
+
+
 
 **Escopo** significa onde uma memória se aplica: a uma tarefa, a uma pessoa, a um projeto ou a uma organização. Uma preferência específica de projeto não deve se tornar silenciosamente uma regra de toda a empresa. Da mesma forma, compartilhar um dispositivo ou navegador não estabelece que a próxima pessoa tem direito às memórias do usuário anterior. A aplicação precisa de identidade confiável e controles de acesso antes da recuperação.
 
@@ -44,25 +54,34 @@ Alguns fatos pertencem a um sistema empresarial autoritativo. Endereço de entre
 
 Um processo de memória útil inclui uma decisão antes de escrever e outra antes de reutilizar. Também mantém a distinção entre a preferência confirmada do usuário e a interpretação do assistente visível. Um modelo pode propor uma memória, mas a aplicação deve controlar o que pode ser salvo e sob qual identidade.
 
+
 1. **Identificar um candidato**
 
 O usuário declara uma preferência durável ou pede ao assistente para lembrar de algo. Determine o benefício, o escopo pretendido e se o armazenamento é necessário.
+
 
 2. **Verificar permissão e conteúdo**
 
 Aplique a política de privacidade, obtenha consentimento quando apropriado, rejeite dados proibidos e confirme a formulação ambígua. Não trate a inferência de um modelo como um fato confirmado.
 
+
 3. **Armazenar com contexto**
 
 Salve a declaração mínima útil com seu proprietário, origem, escopo e informações de retenção. Preserve a distinção entre informação confirmada e incerta.
+
 
 4. **Recuperar para uma tarefa posterior**
 
 Pesquise apenas registros que o usuário atual está autorizado a acessar. Selecione memórias relevantes para a solicitação e verifique se ainda são válidas.
 
+
 5. **Aplicar, corrigir ou retirar**
 
 Inclua o registro selecionado no contexto do modelo como uma preferência ou fato, não como uma instrução superior. Aceite correções e remova registros quando seu propósito ou período de retenção terminar.
+
+
+
+
 
 ```mermaid
 sequenceDiagram
@@ -95,13 +114,17 @@ Relacionado: no AIVAX, a memória está disponível entre as [ferramentas embuti
 
 Trate uma correção clara do usuário como motivo para revisar o registro armazenado, não como outro fato para empilhar ao lado. Verifique se a correção diz respeito ao mesmo escopo. Alguém pode preferir atualizações de status concisas e relatórios técnicos detalhados sem contradição.
 
+
 **Um documento pode dizer ao assistente para salvar uma memória?**
 
 Um documento pode conter texto que parece uma instrução. Isso não lhe dá permissão para escrever preferências de usuário ou regras organizacionais. Escritas de memória precisam das mesmas verificações de origem e autoridade que outras ações; caso contrário, conteúdo hostil pode contaminar conversas futuras.
 
+
 **Excluir uma memória exclui todas as cópias?**
 
 Não necessariamente. O histórico de conversa, logs de auditoria e backups podem ser gerenciados separadamente. Defina o comportamento de exclusão nos armazenamentos relevantes e comunique a política real em vez de prometer desaparecimento imediato de todo o sistema.
+
+
 
 ## Mantenha a memória separada do conhecimento compartilhado
 

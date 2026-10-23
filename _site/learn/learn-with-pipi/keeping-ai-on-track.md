@@ -6,7 +6,9 @@ The brain answers everyone. But not every message is well meant, and sometimes t
 
 *Episode 5 · 1 minute 20 seconds*
 
+
 ## What the video shows
+
 
 - **Moderation: the sieve** — Checks messages at the entrance. Dangerous or offensive messages are held back and never reach the brain.
 
@@ -14,7 +16,11 @@ The brain answers everyone. But not every message is well meant, and sometimes t
 
 - **Observability: the logbook** — Every conversation is recorded: the question, the tools used, the cost and the errors.
 
+
+
+
 Message → Moderation → Model within guardrails → Answer → Logbook
+
 
 ## Why three layers
 

@@ -6,11 +6,13 @@ In the first episode, Pipi introduces the drawing that the whole series reuses: 
 
 *Episode 1 · 1 minute*
 
+
 ## What the video shows
 
 A **large language model** (LLM) is software trained on a huge amount of text. It reads, writes and answers almost anything, which is why Pipi calls it a brilliant brain. On its own, though, it has three gaps: it does not know your company, it does not follow your rules, and it cannot use any tools.
 
 Three question balloons float up to the jar, "My company?", "Rules?", "Tools?", and each one deflates. Pipi puts on a hard hat and assembles a machine around the jar, one part per word:
+
 
 - **Instructions** — Who the assistant is and how it should behave, read in every conversation.
 
@@ -22,6 +24,9 @@ Three question balloons float up to the jar, "My company?", "Rules?", "Tools?", 
 
 - **Costs** — Limits and usage tracking so spending stays predictable.
 
+
+
+
 The machine turns green. Then comes the twist: Pipi takes the pink brain out and plugs in a blue one. The machine keeps working.
 
 ## Why the twist matters
@@ -29,6 +34,7 @@ The machine turns green. Then comes the twist: Pipi takes the pink brain out and
 New models appear every few months, and the best choice for a task changes over time. When instructions, knowledge, tools and safety live in the gateway rather than in your application code, changing the model is a configuration change. Your website, your WhatsApp number and your internal tools keep calling the same gateway.
 
 Your application → AI gateway (instructions, knowledge, tools, safety, costs) → Language model → Answer
+
 
 On AIVAX, you send the gateway's ID in the `model` field of an OpenAI-compatible request, and AIVAX applies everything stored in it. The person who manages the gateway controls behaviour; the application only sends messages.
 

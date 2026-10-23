@@ -102,6 +102,8 @@ Send the following JSON body to `POST /api/v1/generations/decisions`. The exampl
 
 Keep only relevant evidence in the state. Instructions should explain the decision, not ask for a chain of reasoning or additional text. Avoid overlapping choice descriptions unless that ambiguity is intentional.
 
+For a walkthrough with routing code and model prices, see [Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
+
 ### Send images
 
 `@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni`, and `@openai/gpt-6-luna-decisions` accept images. Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
