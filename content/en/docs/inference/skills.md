@@ -12,7 +12,7 @@ The agent should load a skill only when it is relevant to the current task. It l
 
 Skills are primarily provided through a slug and a brief description of what that skill is and when it should be used. You can have multiple skills in your account, but only use a subset of them in your [AI Gateway](/docs/inference/ai-gateway). The skills enabled in the AI Gateway are listed in the model’s system instructions and the `read_skill` function is added to the context.
 
-When the model calls `read_skill`, it passes an array of skill slugs. The instructions for the matching skills are inserted into the system instructions of the next context turn inside `<activated_skill>` blocks. More than one skill can be activated when a task spans multiple domains, and the model can call `read_skill` again with a different list when the active task changes.
+When the model calls `read_skill`, it passes an array of skill slugs. The instructions for the matching skills are returned as the result of that call, each wrapped in `<skill:slug>` and `</skill:slug>` tags, where `slug` is the skill's own slug. The system instructions keep only the slug and description of each skill. More than one skill can be activated when a task spans multiple domains, and the model can call `read_skill` again with a different list when the active task changes.
 
 For this to work, the chosen base model must support **function calls** and **system instructions**.
 

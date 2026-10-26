@@ -18,6 +18,8 @@ Do not use MCP only to replace a single simple HTTP call. When you need to expos
 
 In production, treat the MCP server as an API exposed to an agent. Tool descriptions should be clear, schemas should be restrictive, and authentication should be configured in the server headers. The model should not receive overly generic tools such as `execute`, `request`, or `search` without strong descriptions and controlled parameters. Ambiguous tools increase wrong calls; specific tools like `lookup_customer_by_email` or `create_support_ticket` help the model decide better.
 
+A long tool list also has a cost: every tool offered to the model adds its name, description, and schema to each request. To measure that overhead and reduce it, see [how to measure and cut tool-definition tokens](https://aivax.net/blog/reduce-mcp-tool-definition-tokens-too-many-tools/).
+
 ### Choosing the function name
 
 The function name should be simple and deterministic about what the function does. Avoid names that are hard to guess or that do not hint at the function’s role, as the assistant may get confused and not call the function when appropriate.
