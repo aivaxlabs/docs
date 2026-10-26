@@ -18,20 +18,44 @@ All models below support `choice`, `noul`, and `score`. See [Usage and cost](#us
 | --- |
 | `@supersonic-labs/julia-1` |
 | `@typesafe/jev-1.13` |
+| `@typesafe/jev-1.14` |
+| `@respan/span-02` |
 | `@respan/span-01` |
 | `@respan/span-01-lite` |
 | `@jaredpalmer/kev-4b` |
 | `@upstage/solar-decide` |
 | `@cloudflare/clef` |
 | `@cloudflare/clef-flash` |
+| `@liquid/d1-ultra` |
 | `@liquid/d1` |
+| `@perplexity/pplx-decider-v1.2` |
+| `@perplexity/pplx-decider-flash-v1.2` |
 | `@perplexity/pplx-decider-v1.1-27b` |
 | `@openai/gpt-6-luna-decisions` |
 | `@microsoft/microsoft-decision-1` |
 | `@nace-ai/drex-v1.5` |
+| `@nace-ai/drex-v2.0` |
+| `@nace-ai/drex-max` |
 | `@cloudflare/clef-omni` |
+| `@upstage/solar-decide-flash` |
+| `@scaledown/classify-1` |
+| `@inception/mercury-decide` |
 
-`@typesafe/jev` is also accepted and currently resolves to `@typesafe/jev-1.13`. `@perplexity/pplx-decider-v1-27b` is also accepted and resolves to `@perplexity/pplx-decider-v1.1-27b`. An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
+Each response returns the canonical model name in `model`. These short names are also accepted as aliases and resolve to a fixed canonical model; an alias can move to a newer version when one is released, so pin the canonical name when you need a stable version:
+
+| Alias | Resolves to |
+| --- | --- |
+| `@supersonic-labs/julia` | `@supersonic-labs/julia-1` |
+| `@typesafe/jev` | `@typesafe/jev-1.14` |
+| `@respan/span` | `@respan/span-01` |
+| `@respan/span-lite` | `@respan/span-01-lite` |
+| `@jaredpalmer/kev` | `@jaredpalmer/kev-4b` |
+| `@liquid/d` | `@liquid/d1` |
+| `@perplexity/pplx-decider` | `@perplexity/pplx-decider-v1.1-27b` |
+| `@perplexity/pplx-decider-flash` | `@perplexity/pplx-decider-flash-v1.2` |
+| `@nace-ai/drex` | `@nace-ai/drex-v1.5` |
+
+An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
 An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](../authentication.md), [Pricing](../pricing.md), and [Plans and limits](../limits.md).
 
@@ -208,21 +232,31 @@ These model-specific limits apply in addition to the account-level request quota
 | Model | Context |
 | --- | --- |
 | `@supersonic-labs/julia-1` | 1,024 tokens per question |
-| `@typesafe/jev-1.13` | 64,000 tokens |
+| `@typesafe/jev-1.13` | 262,144 tokens |
+| `@typesafe/jev-1.14` | 262,144 tokens |
+| `@respan/span-02` | 131,072 tokens |
 | `@respan/span-01` | Not specified in the current catalog |
 | `@respan/span-01-lite` | Not specified in the current catalog |
 | `@jaredpalmer/kev-4b` | 8,192 tokens |
 | `@upstage/solar-decide` | 524,288 tokens |
 | `@cloudflare/clef` | 65,536 tokens |
-| `@cloudflare/clef-flash` | 65,536 tokens |
+| `@cloudflare/clef-flash` | 24,576 tokens |
+| `@liquid/d1-ultra` | 32,768 tokens |
 | `@liquid/d1` | 65,536 tokens |
+| `@perplexity/pplx-decider-v1.2` | 262,144 tokens |
+| `@perplexity/pplx-decider-flash-v1.2` | 262,144 tokens |
 | `@perplexity/pplx-decider-v1.1-27b` | 262,144 tokens |
 | `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
 | `@microsoft/microsoft-decision-1` | 32,768 tokens |
 | `@nace-ai/drex-v1.5` | 131,072 tokens |
 | `@cloudflare/clef-omni` | 65,536 tokens |
+| `@nace-ai/drex-v2.0` | 131,072 tokens |
+| `@nace-ai/drex-max` | 262,144 tokens |
+| `@upstage/solar-decide-flash` | 524,288 tokens |
+| `@scaledown/classify-1` | 1,000,000 tokens |
+| `@inception/mercury-decide` | 65,536 tokens |
 
-Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only.
+Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@inception/mercury-decide` accepts up to 16; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only. The `maxImages` field of the model listing is the authoritative value.
 
 `@cloudflare/clef` and `@cloudflare/clef-flash` reject requests that exceed their processing window, so keep each image under about 300 KB before encoding. They also read roughly the first 2,000 tokens of text in `state`; images are counted separately.
 
@@ -250,18 +284,28 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | --- | ---: |
 | `@supersonic-labs/julia-1` | **$0.008** |
 | `@typesafe/jev-1.13` | **$0.042** |
+| `@typesafe/jev-1.14` | **$0.042** |
+| `@respan/span-02` | **$0.010** |
 | `@respan/span-01` | **$0.020** |
 | `@respan/span-01-lite` | **$0.000** |
 | `@jaredpalmer/kev-4b` | **$0.042** |
-| `@upstage/solar-decide` | **$0.050** |
+| `@upstage/solar-decide` | **$0.100** |
 | `@cloudflare/clef` | **$0.240** |
 | `@cloudflare/clef-flash` | **$0.038** |
-| `@liquid/d1` | **$0.040** |
+| `@liquid/d1-ultra` | **$0.042** |
+| `@liquid/d1` | **$0.020** |
+| `@perplexity/pplx-decider-v1.2` | **$0.020** |
+| `@perplexity/pplx-decider-flash-v1.2` | **$0.010** |
 | `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
 | `@microsoft/microsoft-decision-1` | **$0.042** |
 | `@nace-ai/drex-v1.5` | **$0.040** |
 | `@cloudflare/clef-omni` | **$0.150** |
+| `@nace-ai/drex-v2.0` | **$0.060** |
+| `@nace-ai/drex-max` | **$0.060** |
+| `@upstage/solar-decide-flash` | **$0.100** |
+| `@scaledown/classify-1` | **$0.050** |
+| `@inception/mercury-decide` | **$0.040** |
 
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question. Multiple questions over one state do not have the same input usage as one question over that state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
