@@ -16,7 +16,7 @@ When several models are available, compare them by capability:
 
 - **Reference images:** only some models accept `referenceImages`.
 - **Variations:** decide how many images you need per prompt; `count` accepts 1 to 4.
-- **Wait time:** image requests on some models take a while. For those, the API recommends `direct.inference.aivax.net`.
+- **Wait time:** image requests on some models take a while. For those, send the request to `https://direct.inference.aivax.net` and raise your client timeout, as described in [long-running inference](../overview.md#long-running-inference).
 
 ## Generate an image
 

@@ -142,6 +142,71 @@ Replace `<MODEL_OR_GATEWAY_ID>` with a hosted model name from the model listing 
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
+## Long-running inference
+
+If a request ends with HTTP `524` or a proxy timeout while AIVAX is still processing it, use the direct inference host:
+
+```text
+https://direct.inference.aivax.net/v1
+```
+
+The request remains synchronous, not a background job: keep the client connection open until the completion finishes, and configure a client timeout that covers the expected processing time.
+
+Use the same private API key, model or AI Gateway identifier, messages, and request parameters. Change the SDK base URL and timeout:
+
+```python
+import os
+
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://direct.inference.aivax.net/v1",
+    api_key=os.environ["AIVAX_API_KEY"],
+    timeout=300.0,
+)
+
+response = client.chat.completions.create(
+    model="<MODEL_OR_GATEWAY_ID>",
+    messages=[
+        {
+            "role": "user",
+            "content": "Analyze this case carefully and provide a detailed recommendation.",
+        }
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+### Endpoints available on the direct host
+
+The direct host serves only the endpoints below. Paths, authentication, request bodies, and responses are the same as on `https://inference.aivax.net`; only the host changes.
+
+| Method | Path | Endpoint |
+|---|---|---|
+| `POST` | `/v1/chat/completions` or `/api/v1/chat/completions` | [Chat completions](inference/inference.md) with an integrated model or an AI Gateway |
+| `GET` | `/v1/models` or `/api/v1/models` | [Model listing](#make-your-first-request) |
+| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Send a prompt to a chat-client session](inference/chat-clients.md#sending-prompts-from-your-application) |
+| `POST` | `/api/v2/query`, `/api/v2/query/similar`, or `/api/v2/query/browse` | [Search](rag/semantic-search.md) |
+| `POST` | `/api/v1/answer` | [RAG answer generation](rag/document-filters.md#where-filters-are-supported) |
+| `POST` | `/api/v1/generations/images` | [Image generation](generations/images.md) |
+| `POST` | `/api/v1/generations/speech` | [Speech synthesis](generations/speech.md) |
+| `POST` | `/api/v1/generations/audio/transcriptions` | [Audio transcription](generations/audio-transcriptions.md) |
+| `POST` | `/api/v1/generations/descriptions` | [Media descriptions](data-processing/media-descriptions.md) |
+| `POST` | `/api/v1/generations/classify` | [Classification](data-processing/classification.md) |
+| `POST` | `/api/v1/generations/segment` | [Text segmentation](data-processing/text-segmentation.md) |
+| `POST` | `/api/v1/generations/decisions` | [Decisions](data-processing/decisions.md) |
+| `POST` | `/api/v1/generations/rerank` | [Reranking](rag/reranking.md) |
+| `POST` | `/api/v1/generations/agentic-tests` | [Ephemeral agentic test evaluation](inference/agentic-tests.md) |
+| `POST` | `/api/v1/generations/teach-skill` | Teach skill from a tutorial video |
+| `POST` | `/api/v1/web/fetch` | [Web fetch and OCR](web-foundation/fetch-and-ocr.md) |
+
+Compatibility aliases of these generation endpoints, such as `/api/v1/generations/validations` and `/api/v1/generations/reflex/rerank`, are also served.
+
+Any other path returns `404 Not Found` on the direct host. Account management, AI Gateway, collection, document, batch, and other administrative APIs, including web search, remain available only on `https://inference.aivax.net`.
+
+The endpoints most likely to need the direct host are non-streaming chat completions with long reasoning or many tool calls, image generation on slower models, media descriptions and transcriptions of large files, teach skill, and chat-client prompts that run long tool chains. Streaming chat completions send data continuously and rarely need it.
+
 ## Next steps
 
 1. Make your first request with the example above, then read [Inference](inference/inference.md) for the full request contract.

@@ -39,6 +39,7 @@ AIVAX uses two response styles:
 | `429 Too Many Requests` | Retry later and review [Plans and limits](../limits.md) before increasing request volume. |
 | `500 Internal Server Error` | An unexpected AIVAX failure occurred. Retry later; the response does not include internal details. |
 | `503 Service Unavailable` | A service AIVAX depends on is temporarily unavailable. Retry after the interval in the `Retry-After` header. |
+| `524` or proxy timeout | The request took longer than the proxy allows while AIVAX was still processing it. Send it to the [direct inference host](../overview.md#long-running-inference) with a longer client timeout. |
 
 If the request still fails, verify in this order:
 
@@ -46,42 +47,6 @@ If the request still fails, verify in this order:
 2. The API key is available to your process and is a private key.
 3. The selected model or gateway exists and is available to the account.
 4. For a gateway, test a plain prompt before adding RAG, tools, media, or structured output so you can isolate configuration problems.
-
-## Long-running inference
-
-If a request ends with HTTP `524` or a proxy timeout while AIVAX is still processing it, use the direct inference host:
-
-```text
-https://direct.inference.aivax.net/v1
-```
-
-The request remains synchronous, not a background job: keep the client connection open until the completion finishes, and configure a client timeout that covers the expected processing time.
-
-Use the same private API key, model or AI Gateway identifier, messages, and request parameters. Change the SDK base URL and timeout:
-
-```python
-import os
-
-from openai import OpenAI
-
-client = OpenAI(
-    base_url="https://direct.inference.aivax.net/v1",
-    api_key=os.environ["AIVAX_API_KEY"],
-    timeout=300.0,
-)
-
-response = client.chat.completions.create(
-    model="<MODEL_OR_GATEWAY_ID>",
-    messages=[
-        {
-            "role": "user",
-            "content": "Analyze this case carefully and provide a detailed recommendation.",
-        }
-    ],
-)
-
-print(response.choices[0].message.content)
-```
 
 ## Provider routing
 
