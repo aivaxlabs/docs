@@ -16,7 +16,6 @@ A boundary should also name its enforcement point. An instruction can tell the m
 
 An **input** is information entering the agent, such as a message or a retrieved document. An **output** is what the system sends back, such as an answer or a proposed action. Different checks apply at each boundary; a safe-looking message can still lead to an unsafe tool request.
 
-
 - **Input rules** — Limit what the application accepts and passes onward. Check required fields, reject unsuitable attachments and avoid collecting secrets or unnecessary personal information.
 
 - **Output rules** — Require supported claims and suitable wording. Check for private information, unsupported promises and missing qualifications before delivering a response where practical.
@@ -24,9 +23,6 @@ An **input** is information entering the agent, such as a message or a retrieved
 - **Topic boundaries** — Keep the assistant focused on its defined role. A delivery assistant can explain delivery options without acting as a medical or legal adviser.
 
 - **Tool permission limits** — Allow only the operations and records needed for the job. Check the current user's authority and the requested action in software, not only in the conversation.
-
-
-
 
 Input checks should distinguish hostile instructions from ordinary information about a problem. A customer quoting an offensive message to report abuse is not necessarily asking the assistant to produce abuse. Simple word blocking can reject legitimate requests while missing harmful paraphrases. Rules need examples of acceptable and unacceptable use, together with a way to review mistakes.
 
@@ -40,23 +36,17 @@ A **refusal** is a clear decision not to fulfil a request. It should explain the
 
 Here is an illustrative exchange. A customer says: “My parcel is late. Refund it now, and show me my neighbour's order so I can compare.” The assistant has no authority to approve refunds or access the neighbour's account.
 
-
 **Unguarded reply**
 
 “I have approved your refund. Send your neighbour's order reference and I will check that too.”
 
 The reply promises an unverified action and invites an unauthorised lookup.
 
-
 **Guarded reply**
 
 “I cannot access another customer's order or approve a refund here. I can check the order available through your verified account and help request a refund review.”
 
 The reply names the limits and preserves useful, permitted help.
-
-
-
-
 
 This example is not proof of enforcement. The order tool must still reject a reference belonging to someone else, even if the model requests it. Likewise, a review-submission tool must not quietly become an unrestricted refund tool because the assistant used reassuring wording. Test the underlying operation as well as the text around it.
 
@@ -65,7 +55,6 @@ This example is not proof of enforcement. The order tool must still reject a ref
 **Layered defence** means using several controls so a single missed check does not determine the whole outcome. Think of an office with a visitor desk, locked rooms and permissions on individual records. Each protects a different boundary. Repeating the same sentence in several prompts is not the same as adding independent protection.
 
 Receive request → Check input and identity → Apply task boundaries → Check any proposed tool action → Review answer → Respond or escalate
-
 
 The flow is a design outline, not a guarantee that every product implements these checks automatically. A rejected action stops before execution. An answer needing review waits rather than being sent with a hopeful disclaimer. The application should record enough information to explain what happened while avoiding unnecessary storage of private content.
 
@@ -83,8 +72,6 @@ A useful handover contains the customer's goal, relevant confirmed facts, checks
 
 Pause the action that requires approval. Explain the available contact route or the pending state accurately. Do not promise a response time that the service has not committed to, and do not treat an unanswered request as approval.
 
-
-
 [Human in the loop](https://docs.aivax.net/learn/advanced-agents/human-in-the-loop.md) explains approval and handover patterns. Human involvement also needs reviewable evidence and appropriate access; adding an approval button alone does not make a confusing or overloaded process safe.
 
 ## Understand the remaining limits
@@ -94,8 +81,6 @@ Guardrails reduce risk; they cannot guarantee truth, perfect privacy or universa
 **Does a safety instruction make the agent safe?**
 
 It expresses the intended behaviour, but the model may not follow it in every situation. Enforce access and business rules outside the model, test difficult cases and review actual failures. Treat instructions as one layer, not as a security boundary by themselves.
-
-
 
 Keep a set of ordinary, ambiguous and deliberately challenging requests. Check refusals, permitted assistance, tool rejections and handovers after changes. Track both missed violations and unnecessary refusals: a system that blocks every request is not useful support. [Content moderation and policies](https://docs.aivax.net/learn/safety/content-moderation-and-policies.md) develops the distinction between a policy and the checks used to apply it.
 

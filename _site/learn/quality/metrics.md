@@ -6,7 +6,6 @@ Think of running a delivery service. Arrival time matters, but delivering the wr
 
 ## Understand the four perspectives
 
-
 - **Accuracy** — Does the agent provide the correct information and complete the required task under the stated rules? Evaluate against verified expectations.
 
 - **Latency** — How long does the person wait? Measure a clearly defined interval, such as sending a message to receiving a complete answer.
@@ -14,9 +13,6 @@ Think of running a delivery service. Arrival time matters, but delivering the wr
 - **Cost** — What resources are consumed to deliver the outcome? Include failed attempts, connected services and human work where relevant.
 
 - **Satisfaction** — How useful and understandable was the experience to the person using it? Collect feedback, while recognising who did not respond.
-
-
-
 
 **Accuracy** needs a definition that fits the task. For extracting invoice fields, compare each required field with a checked reference. For support, review whether the answer follows the policy and addresses the question. For a booking agent, verify the booking and the required confirmation. A common measure is the proportion of evaluated cases that meet all required criteria. Always state which cases were evaluated and what counted as a pass.
 
@@ -34,16 +30,11 @@ An average combines all measurements into one number, which can hide unusually s
 
 Imagine lining up completed requests from fastest to slowest. The middle request tells you about an ordinary wait; a request near the slow end tells you about a frustrating wait. Neither is the maximum, and p95 does not mean every user will receive an answer before that time. Include the number of observations and the measurement period, because a percentile from a tiny sample is unstable.
 
-
 - **p50** — The middle observation
 
 - **p95** — A view of the slower end
 
 - **Maximum** — The slowest observed case, not a guarantee
-
-
-
-
 
 **Complete-answer waiting time (illustrative)**
 
@@ -55,8 +46,6 @@ Imagine lining up completed requests from fastest to slowest. The middle request
 | Version B p95 | 7 seconds |
 
 Invented observations show why the typical wait and the slow-end wait can move in opposite directions. These are not product benchmarks.
-
-
 
 In this illustrative comparison, version B makes the middle experience slower but improves the slow end. Whether that is desirable depends on the service promise and the task. Also count requests that failed or timed out. Excluding them from the chart without a separate failure measure can make an unreliable service appear fast, because its worst experiences disappeared from the calculation.
 
@@ -73,19 +62,13 @@ The following targets are qualitative starting points, not universal service gua
 | Internal knowledge assistant | Answer supported by current documents | Useful answer while the employee works | Respect access restrictions |
 | Back-office processing | Correct records produced and checked | Finish within the agreed work window | No unauthorised changes |
 
-
 **Optimise one number**
 
 Choose the cheapest response and celebrate lower spending, even though customers repeat questions and staff repair more errors.
 
-
 **Optimise the outcome**
 
 Compare cost per successfully completed task while checking accuracy, waiting time, safety and human correction effort.
-
-
-
-
 
 ## Build a dashboard that supports decisions
 

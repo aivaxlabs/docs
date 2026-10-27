@@ -12,15 +12,11 @@ A **retrieval strategy** is the method used to select information for a question
 
 **Hybrid search** combines signals from keyword and semantic retrieval. It aims to keep exact matches while also handling paraphrases, different ways of expressing the same idea. Combining methods adds choices about how results are merged and ranked, so it still needs evaluation. “Hybrid” describes an approach, not a promise of better answers in every collection.
 
-
 - **Keyword** — Useful when the precise words carry the identity, such as a named form or a copied error message.
 
 - **Semantic** — Useful when the user describes a need in everyday language rather than repeating the document's wording.
 
 - **Hybrid** — Useful when both exact terms and broader meaning matter within the same question set.
-
-
-
 
 Imagine a fictional device called the Trail Lamp. A question about “Trail Lamp battery replacement” benefits from the exact product name. “My outdoor light no longer holds a charge” benefits from meaning-based matching, but may first require clarification about which product the person owns. Search should not silently guess the product merely because one document happens to rank first.
 
@@ -31,7 +27,6 @@ Imagine a fictional device called the Trail Lamp. A question about “Trail Lamp
 A reranker can improve the order of available candidates, but it cannot rescue a document that never entered the candidate set. It also adds processing, which may affect response time and cost. Use it when relevant passages are being found but buried below weaker matches, and verify whether the improvement matters to final answers.
 
 Question → Select eligible documents → Retrieve candidates → Rerank if useful → Select evidence → Generate answer
-
 
 Related: on AIVAX, [reranking](https://docs.aivax.net/docs/rag/reranking.md) provides relevance reordering, and [Reflex](https://docs.aivax.net/docs/rag/reflex.md) is one documented reranking option. These product guides describe the available choices. The general lesson is to judge the selected evidence, not to assume that adding another processing stage automatically improves it.
 
@@ -66,29 +61,21 @@ Change these settings using real examples. A question about a single definition 
 
 Rewriting can expand abbreviations, preserve exact terms and split a compound question into separate searches. Keep the original question available for comparison. If the missing detail cannot be inferred safely from the conversation, ask the user instead. A fluent rewrite of the wrong question can produce very convincing irrelevant evidence.
 
-
 **Exact error message**
 
 Preserve the error wording and confirmed product version. Start by checking exact matches, then use broader meaning if the approved documentation uses a different explanation.
-
 
 **Everyday question**
 
 Use semantic retrieval for paraphrased needs. Confirm the subject before applying restrictive product filters, and check that the selected passage answers the user's intent.
 
-
 **Several plausible passages**
 
 Inspect the candidate set and consider reranking. If all candidates are weak, improve the source or initial search rather than only reordering the same weak evidence.
 
-
-
-
-
 ## Choose with evidence, not a leaderboard
 
 **Precision** measures how much of the retrieved material is relevant under a defined review rule. It differs from **recall**, which asks how much of the needed relevant material was found. A very short result list can be precise while missing an essential exception. Evaluate both retrieval and final answer quality.
-
 
 **Relevant passages in a fictional evaluation (illustrative)**
 
@@ -100,8 +87,6 @@ Inspect the candidate set and consider reranking. If all candidates are weak, im
 | Hybrid plus reranking | 79% |
 
 Invented precision figures for one teaching scenario, not a benchmark or expected ordering. Exact-code questions or different documents can reverse this pattern.
-
-
 
 Use the same labelled questions when comparing a change, and record response time alongside quality. Select the simplest approach that meets the task's requirements. Keep examples where the change helped and where it hurt, so the next adjustment addresses observed weaknesses rather than an attractive chart.
 

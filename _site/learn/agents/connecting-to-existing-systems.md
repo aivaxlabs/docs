@@ -37,15 +37,11 @@ This arrangement also separates responsibility. Business owners decide which out
 
 Start with the smallest set of operations that makes the task useful. An assistant answering delivery questions may need order status but not payment details or permission to cancel orders. A ticket-drafting assistant may prepare a description without submitting it until a person confirms. This approach is called **least privilege**: provide only the authority needed for the job.
 
-
 - **Read a scoped record** — Return only the authorised record and fields. A status question rarely requires the full customer history.
 
 - **Prepare a change** — Let the agent draft an update and show what would change before anything is saved.
 
 - **Execute an approved change** — Check permission and required confirmation immediately before writing. Record the actual result rather than assuming success.
-
-
-
 
 Read-only access is often a useful first stage because it tests identification, relevance, and error handling without allowing record changes. It is not a universal final design. Some tasks genuinely require actions, but those actions should be named and bounded: “add a note to an authorised ticket” is clearer than “manage the support system.”
 
@@ -53,24 +49,17 @@ Read-only access is often a useful first stage because it tests identification, 
 
 The following examples describe possible designs, not features automatically present in every CRM or database. The same business intention can be implemented differently depending on the application's public interfaces and your organisation's policies.
 
-
 **CRM**
 
 A sales assistant reads the authorised customer's company name and account stage to prepare a meeting brief. It drafts a follow-up note for review. Updating the account owner remains a separate operation with its own permission check.
-
 
 **Ticketing**
 
 A support assistant searches the user's existing tickets before drafting another. Before submission, it confirms the issue description and destination queue. The returned ticket reference proves creation; a drafted message does not.
 
-
 **Database**
 
 An internal assistant requests a predefined sales summary for an allowed reporting period. It does not receive unrestricted access to run arbitrary database commands or expose every underlying customer record.
-
-
-
-
 
 Spreadsheets deserve the same care. A sheet may look informal, yet changing a row could affect payroll, purchasing, or a report used for decisions. Define which sheet, rows, and columns are in scope. Decide what should happen if someone edits the record between the agent reading it and proposing a change.
 
@@ -78,29 +67,21 @@ Spreadsheets deserve the same care. A sheet may look informal, yet changing a ro
 
 A useful integration request describes a complete scenario: who is asking, which record is relevant, what information is needed, and what counts as success. “Connect the agent to the ERP” is too broad. “Let signed-in support staff read delivery status for orders they are permitted to handle” provides a testable starting point.
 
-
 1. **Define operations and ownership**
 
 Name each allowed read or change, its business owner, and the system that remains authoritative. Specify operations the agent must never perform.
-
 
 2. **Prepare identity and permissions**
 
 Decide how the calling user is identified and how their permitted records are determined. Store access credentials outside prompts and source documents.
 
-
 3. **Agree on inputs and results**
 
 Document required fields, valid choices, success evidence, and useful errors. Provide a safe testing environment with synthetic records.
 
-
 4. **Test failure and approval paths**
 
 Try missing records, denied access, ambiguous names, unavailable systems, and interrupted requests. Confirm that rejected or uncertain actions are not presented as completed.
-
-
-
-
 
 A connection must also handle an awkward case: the request times out after the external system may already have completed a change. Repeating it blindly could create a duplicate ticket or order. The implementation needs a way to check whether the operation succeeded or safely prevent duplicates. From the user's perspective, “I cannot yet confirm the outcome” is more honest than either promising completion or immediately trying again.
 

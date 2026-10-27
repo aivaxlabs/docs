@@ -6,26 +6,19 @@ O cérebro é inteligente, mas nunca viu o cardápio da padaria. Se ninguém lhe
 
 *Episódio 3 · 1 minuto e 11 segundos*
 
-
 ## O que o vídeo mostra
 
 A Pipi armazena os documentos da padaria em uma **coleção**. Cada pequeno trecho de um documento se torna um cartão de índice. Pequenos trechos são importantes: quando o modelo recebe apenas a passagem relevante, ele lê menos e tem menos probabilidade de misturar tópicos.
 
 Em seguida, surge um problema. Um cartão diz *"diet cake"*, mas o cliente pede algo *"sugar-free"*. Uma busca que combina palavra por palavra não encontra nada, pois ninguém escreveu "sugar-free".
 
-
 **Busca por palavra-chave**
 
 Procura pelas mesmas palavras. "Sugar-free" não corresponde a "diet cake", então o cartão correto é perdido.
 
-
 **Busca semântica**
 
 Procura pelo mesmo significado. Ideias semelhantes ficam próximas, então a pergunta cai ao lado do cartão correto.
-
-
-
-
 
 A busca semântica transforma cada cartão e cada pergunta em uma posição num mapa de significado. Cartões sobre assuntos semelhantes ficam próximos uns dos outros, e a pergunta fica ao lado do cartão que a responde.
 
@@ -34,7 +27,6 @@ A busca semântica transforma cada cartão e cada pergunta em uma posição num 
 O cartão encontrado viaja com a pergunta até o cérebro, e o cérebro responde com base nele. Essa combinação é chamada de **RAG**, abreviação de *geração aumentada por recuperação*: recupere as passagens relevantes e, em seguida, gere a resposta tendo-as em vista.
 
 Pergunta → Busca semântica na coleção → Cartões relevantes + pergunta → Modelo → Resposta fundamentada
-
 
 A Pipi resume como *"sem adivinhações, apenas fatos"*. Na prática, o RAG reduz as adivinhações, mas não as elimina: a resposta só é tão boa quanto os documentos e a busca. Por isso o Learn dedica um módulo inteiro à preparação do conhecimento.
 

@@ -10,15 +10,11 @@ The shared part of the agent decides what the business knows and permits. A **ch
 
 That adapter is also where delivery realities become visible. A messaging platform may reject an outgoing message; a browser tab may close; an audio connection may break. A generated answer is not necessarily a delivered answer. Preserve the difference between prepared, sent and confirmed delivery where the channel exposes that information, and do not promise confirmation a channel cannot provide.
 
-
 - **Shared behaviour** — Keep business policy, knowledge sources, tool permissions and escalation rules consistent. A refund should not become easier to obtain just because the customer changes channels.
 
 - **Channel presentation** — Adapt length, formatting, attachments and pacing. A spoken answer needs different structure from an e-mail summary or a web comparison table.
 
 - **Conversation state** — Track the current exchange, verified identity and unresolved work. Share only the information that is appropriate for the destination and authorised user.
-
-
-
 
 One shared agent does not require one unrestricted conversation history. An internal employee channel may expose tools that a public website must never offer. A family member using a shared phone may not be entitled to another person's records. Reuse the underlying behaviour while preserving different access boundaries.
 
@@ -26,50 +22,35 @@ One shared agent does not require one unrestricted conversation history. An inte
 
 **Latency** means the delay between an input and its useful response. **Media** means content beyond ordinary text, such as images, documents or audio. Both change expectations: a photograph may need interpretation, while someone on a live call cannot comfortably wait through a long silent search.
 
-
 **WhatsApp**
 
 Prefer short, readable messages and a clear next question. People may send several fragments, images or voice notes instead of one complete request. Handle these as parts of a conversation rather than starting unrelated tasks for each fragment. Outgoing messaging must also respect the provider's current delivery, consent and template rules where applicable.
-
 
 **Web chat**
 
 Use the page context carefully and support readable links, buttons or lists when the widget allows them. Explain attachment limits before upload. Browser refreshes, closed tabs and anonymous sessions need deliberate recovery behaviour; a returning visitor is not automatically a verified customer.
 
-
 **E-mail**
 
 Write self-contained replies with a clear subject, short summary and explicit next action. Long quoted histories can contain stale instructions and unrelated information. Preserve the conversation thread without treating a visible sender address or a forwarded signature as proof of account ownership.
-
 
 **Voice**
 
 Use short sentences, allow interruptions and confirm critical details. Read back ambiguous names, dates or amounts before acting. Tell the caller when a lookup will take time. A voice note processed later is different from a live conversation that must keep responding as people speak.
 
-
-
-
-
 These differences should affect the response, not the underlying facts. A long policy can become a concise spoken explanation with an offer to send the details. It should not become a different policy. Likewise, unsupported formatting needs an intentional alternative: a table may become a short list, rather than unreadable fragments in a channel that does not render tables.
-
 
 **Copy the same output everywhere**
 
 Send a dense comparison table to a live voice session, or split a formal e-mail into many chat-sized fragments. The content may be accurate, but the customer has to reconstruct it.
 
-
 **Preserve meaning, adapt the delivery**
 
 Speak the main recommendation and ask whether the caller wants details. Use a compact list in messaging and a complete, structured explanation in e-mail. Keep conditions and uncertainty intact.
 
-
-
-
-
 ## Make waiting understandable
 
 An immediate acknowledgement is different from an answer that completes the task. “I am checking the order” is useful only if the system is actually doing so and will return with a result or a failure. Avoid repeating empty progress messages while nothing changes. For longer work, agree how the customer will receive the outcome if they leave.
-
 
 **Illustrative targets for a first useful response**
 
@@ -82,8 +63,6 @@ An immediate acknowledgement is different from an answer that completes the task
 
 Invented planning targets for one support scenario, not measured averages or channel guarantees. A first useful response may acknowledge real work; final resolution can take longer. Set targets from your customers and service commitments.
 
-
-
 The chart is a discussion aid, not a rule for how long an organisation should take. A critical e-mail can require faster attention than a routine chat. Measure the delay customers actually experience, including media processing, tool calls and delivery. A model that starts writing quickly does not solve a slow external lookup by itself.
 
 For voice, the application may turn speech into text and text back into speech, or use a realtime audio service that exchanges audio continuously. Either approach must handle misunderstandings. A transcript is an interpretation of sound, not a verified statement of intent. Ask for confirmation before acting on an uncertain address or consequential instruction.
@@ -93,7 +72,6 @@ For voice, the application may turn speech into text and text back into speech, 
 A **session** is a bounded conversation with its own history and state. An **identity** is the person or account the application has verified. These are related but not interchangeable. One customer can have several sessions, and a shared device can be used by several people. A persistent chat history alone should not grant access to private records.
 
 Receive message → Find channel session → Verify identity when needed → Apply shared agent rules → Format and deliver reply
-
 
 Use a stable internal reference to connect a verified person to the correct account. Do not merge histories solely because display names match. A phone number, e-mail address or browser identifier can help find a conversation, but the degree of verification needed depends on the sensitivity of the action. Reading public opening hours needs less assurance than changing a delivery address.
 

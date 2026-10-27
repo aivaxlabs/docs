@@ -10,15 +10,11 @@ Imagine a new employee preparing a supplier payment. The employee gathers the in
 
 Assess the impact, reversibility and visibility of the action. Payments change financial position. Deletions can remove information that cannot be recovered. External messages can disclose information or create expectations even if the application later offers a delete button. For these actions, require approval unless a narrow, explicit organisational policy has already authorised the exact class of action under defined conditions.
 
-
 - **Prepare and inspect** — Summarise an authorised document or draft an unsent reply. These actions usually need fewer interruptions, but access and privacy rules still apply.
 
 - **Bounded internal change** — Update a reversible internal record under an explicit policy. Check ownership, permitted fields and recovery options before allowing automatic execution.
 
 - **Consequential action** — Pay, delete, publish or send information externally. Present the exact effect and obtain approval from someone with the required authority.
-
-
-
 
 These are design categories, not universal legal rules. Reading a sensitive medical record can be high risk even though nothing changes, while an agreed routine reminder may already have permission to be sent. Decide the policy with the people responsible for the process. Avoid letting the model invent a lower-risk category simply because a task would be easier without review.
 
@@ -28,34 +24,25 @@ Technical access and approval are different checks. A service account may be cap
 
 An **approval preview** is a readable description of the exact proposed change. For an e-mail, show the sender identity, recipients, subject, body and attachments. For deletion, identify the records and recovery consequences. For payment, show the recipient, amount, currency and purpose. Include important uncertainty before the decision, not in a receipt afterwards.
 
-
 1. **Prepare without executing**
 
 The agent gathers the necessary facts and creates the proposed action. It remains a draft with no external effect.
-
 
 2. **Show the complete preview**
 
 Explain the target, content, consequence and any unresolved issue. Offer clear Confirm, Edit and Cancel choices.
 
-
 3. **Check the approver's authority**
 
 The application verifies that the person may approve this action. It records their decision against this specific proposal.
-
 
 4. **Execute the approved version**
 
 Recheck that the proposal is unchanged and still permitted. A changed recipient, amount or attachment requires a fresh decision.
 
-
 5. **Report the actual outcome**
 
 Show success only after the external system confirms it. Otherwise report a failure or an uncertain result without silently repeating the action.
-
-
-
-
 
 The approval should be tied to a specific version of the proposal. A person who approved one recipient has not approved a new recipient added later. Set an expiry appropriate to the process, because old prices, account details or permissions may no longer be valid. Do not treat silence, a closed window or an ambiguous response as consent.
 
@@ -80,23 +67,17 @@ The application should enforce this boundary before the external action, even if
 
 Approval fatigue happens when people face so many low-value confirmations that they stop reading them. Asking about every harmless formatting change can make a genuinely important payment prompt easier to overlook. Reduce unnecessary prompts by allowing clearly bounded preparation work, then place a deliberate pause at the meaningful action boundary.
 
-
 **Unclear approval**
 
 “Everything is ready. Continue?”
 
 The person cannot see the recipient, attachment or whether continuing will send the message.
 
-
 **Reviewable approval**
 
 “Send this draft to the supplier contact shown below, with the quotation request attached? No order will be placed.”
 
 The full draft and attachment are available to inspect, with separate Send, Edit and Cancel choices.
-
-
-
-
 
 Give the person enough context to judge, but do not bury the decision under a long internal transcript. A useful summary says what the agent checked, what remains uncertain and what will happen if approved. Highlight material differences from a previously reviewed proposal. The reviewer should not have to compare two long drafts unaided to discover that an attachment changed.
 
@@ -111,8 +92,6 @@ Once a human takes ownership, the agent should not continue sending competing an
 **What if the approver is unavailable?**
 
 Keep the action pending or cancel it according to policy. Show the waiting state and an authorised alternative route if one exists. A deadline does not convert missing approval into permission, and the agent should not quietly choose a different person without checking their authority.
-
-
 
 ## Turn feedback into a controlled improvement
 

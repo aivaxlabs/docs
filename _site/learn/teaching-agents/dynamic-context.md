@@ -10,23 +10,17 @@ The Trail Lamp handbook explains warranty conditions. It cannot tell a support a
 
 The same topic can require both. A policy explains what a service plan includes; a current account record establishes which plan the customer has. The policy cannot establish membership, and the account record cannot explain every exception in the policy. An accurate answer combines the relevant evidence without pretending that either source does the other's job.
 
-
 **Shared knowledge**
 
 The approved Trail Lamp support guide describes warranty conditions and the replacement process.
 
 It applies across relevant conversations and changes through document maintenance.
 
-
 **Dynamic context**
 
 The verified customer's current account record shows their plan and an open replacement order for the Trail Lamp.
 
 It applies to this customer and may need another lookup before the next answer.
-
-
-
-
 
 For the broader idea of supplying useful information to a model, revisit [Adding context](https://docs.aivax.net/learn/agents/adding-context.md). Here the emphasis is on **runtime**, the period when the system is actually handling a request. Runtime facts should be selected, checked and supplied at that moment rather than copied into a general instruction document for everyone.
 
@@ -36,7 +30,6 @@ A **tool** is a controlled operation the agent can request, such as looking up a
 
 A pre-step suits facts almost every conversation needs. A tool suits details needed only after the question is understood. Loading all orders before a simple product question adds unnecessary information. Waiting for the model to request a verified identity on every message may be equally unnecessary when the application already has an authenticated session, meaning a sign-in state whose identity the system has checked.
 
-
 - **Customer identity** — Use the application's verified sign-in context. A name typed into chat is not proof of account ownership.
 
 - **Current plan** — Read the authorised account system. Keep the current plan separate from the policy explaining its benefits.
@@ -44,9 +37,6 @@ A pre-step suits facts almost every conversation needs. A tool suits details nee
 - **Open orders** — Look up orders within the verified customer's permitted scope. Ask which order matters if several could match.
 
 - **Today's date** — Supply the date from the application and the relevant time zone. The model should not guess what “today” means.
-
-
-
 
 Do not use the conversation as a shortcut around permissions. “I am the account owner” remains a user statement until the application verifies it. Similarly, a tool response containing a customer's free-text note is still user-authored content inside a system response. Keep it separate from trusted account fields and do not treat instructions inside the note as authority to change agent behaviour.
 
@@ -57,8 +47,6 @@ Related: on AIVAX, [AI Workers](https://docs.aivax.net/docs/inference/workers.md
 Dynamic context need not be shown verbatim to the user. The model needs enough information to answer, while the user needs a clear result and any important limitation. Separate instructions about behaviour from facts about the current case. “Explain uncertainty” is an instruction; “replacement status is awaiting dispatch” is a fact from a particular source at a particular time.
 
 > **Interactive demo: Try it: answer from a current order lookup.** This interactive demo is available on the web page. Step through this fictional exchange. The tool result supplies the current state; the assistant does not turn the missing date into a promise. This demo is a prepared example, not a live order lookup.
-
-
 
 Notice that the handbook alone could not answer the question. It could explain the replacement process, but the current order record is needed to describe this replacement. Equally, “awaiting dispatch” does not prove the package will leave tomorrow. Dynamic context narrows uncertainty; it does not justify filling remaining gaps with plausible details.
 
@@ -79,8 +67,6 @@ When a lookup fails, do not quietly reuse an old value as though it were current
 A model's **context window** is the limited amount of information it can consider in a request. **Tokens** are the text pieces used to measure that space. Instructions, retrieved passages, conversation history and dynamic facts all compete for room, and the application must also leave room for the answer.
 
 > **Interactive demo: Try it: a context budget (illustrative).** This interactive demo is available on the web page. These token quantities are illustrative, not a product limit. Reduce the available space and see which blocks disappear. This simplified demo drops the oldest blocks first and keeps the last one; it does not represent a recommended production policy.
-
-
 
 A real application should deliberately preserve required instructions and the evidence needed for the current decision rather than blindly discard the oldest block. Prefer a compact, accurate record over a full account export. Do not shorten “awaiting dispatch; no confirmed date” to “dispatch soon”, because that saves space by inventing certainty.
 

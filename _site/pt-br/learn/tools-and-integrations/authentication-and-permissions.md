@@ -12,7 +12,6 @@ Frequentemente há várias identidades em uma interação de agente. A aplicaç�
 
 Uma mensagem de chat não é prova de identidade. “Eu sou o proprietário da conta” é apenas texto até que a aplicação a verifique por meio de um processo adequado de login ou verificação de conta. Da mesma forma, um argumento de ferramenta fornecido pelo modelo não deve determinar o acesso por conta própria. O sistema de negócio deve derivar a conta permitida a partir do contexto confiável da aplicação e, em seguida, verificar o registro solicitado contra ele.
 
-
 - **Identity** — Quem é o usuário para quem a aplicação está agindo? Use contexto de usuário verificado, não um nome ou reivindicação de conta escrita na conversa.
 
 - **Permission** — O que essa identidade pode fazer? Imponha acesso tanto à operação quanto aos registros específicos envolvidos.
@@ -21,28 +20,19 @@ Uma mensagem de chat não é prova de identidade. “Eu sou o proprietário da c
 
 - **Audit record** — O que aconteceu, sob qual autoridade e com qual resultado? Mantenha evidências suficientes para investigação sem copiar conteúdo privado desnecessário.
 
-
-
-
 ## Chaves de API e tokens por usuário
 
 Uma **chave de API** é uma credencial que um programa apresenta ao chamar um serviço. Uma **credencial** é evidência usada para obter acesso, como uma senha ou token de acesso. Muitas chaves de API identificam uma aplicação ou conta em vez de um usuário final individual. Isso as torna convenientes para trabalhos de servidor‑para‑servidor, mas perigosas se a aplicação tratar cada usuário como tendo direito a tudo que a chave pode alcançar.
 
 Um **token por usuário** é uma credencial associada ao acesso delegado de um usuário específico. **Delegação** significa permitir que uma aplicação execute um conjunto definido de ações em nome desse usuário. Um assistente de calendário, por exemplo, pode receber permissão para ler o calendário de uma pessoa sem receber as credenciais administrativas da organização. Tokens podem ter tempos de expiração e mecanismos para revogar o acesso; os detalhes dependem do serviço.
 
-
 **Application API key**
 
 Frequentemente adequado para operações em segundo plano de uma conta de serviço. Sua aplicação ainda deve impor quais usuários e registros podem usar essa autoridade. Uma chave compartilhada não cria limites por usuário automaticamente.
 
-
 **Delegated per-user token**
 
 Pode preservar o limite de acesso do usuário no serviço conectado. Requer fluxo de login e consentimento, armazenamento seguro e tratamento para expiração ou permissão revogada.
-
-
-
-
 
 Nenhum tipo de credencial é automaticamente seguro. Um token de usuário com privilégios amplos pode ser excessivo, e uma credencial de serviço restrita pode ser apropriada. Escolha de acordo com quem detém a tarefa. Um relatório de inventário noturno pode pertencer a uma conta de serviço; uma alteração de calendário pessoal normalmente deve preservar a identidade e as permissões da pessoa solicitante.
 
@@ -68,29 +58,21 @@ Os níveis são um auxílio de design, não um sistema de permissão universal. 
 
 A aprovação deve acontecer depois que a ação proposta esteja clara e antes que a operação consequente seja executada. Perguntar “Posso ajudar?” no início da conversa não autoriza um pagamento posterior não especificado. Mostre o registro relevante, destinatário, valor quando aplicável e efeito esperado em linguagem que o aprovador possa verificar.
 
-
 1. **Verificar o usuário e a tarefa permitida**
 
 Estabeleça a identidade fora do texto livre do modelo. Confirme que tanto a operação quanto o registro alvo estão dentro do acesso do usuário.
-
 
 2. **Preparar uma proposta concreta**
 
 Reúna os fatos necessários e descreva exatamente o que será alterado. Mantenha a preparação separada da execução sempre que possível.
 
-
 3. **Obter aprovação significativa**
 
 Peça a uma pessoa apropriadamente autorizada que confirme a proposta específica. Se o alvo ou o efeito mudar, a aprovação antiga não deve cobrir silenciosamente a nova ação.
 
-
 4. **Executar e registrar o resultado**
 
 Verifique novamente as condições materiais, execute a ação aprovada e relate o resultado real. Preserve um registro que vincule a solicitação, autoridade, aprovação e resultado.
-
-
-
-
 
 Esses controles pertencem à lógica da aplicação, não apenas aos prompts. Um prompt pode instruir o modelo a perguntar antes de enviar uma mensagem; a ferramenta de envio ainda deve rejeitar uma solicitação que careça da aprovação necessária. Para mais informações sobre como escolher pontos de revisão, veja [human-in-the-loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md).
 
@@ -104,13 +86,9 @@ Armazene segredos em uma configuração protegida ou serviço de armazenamento d
 
 Não necessariamente. Aprovações repetidas para leituras inofensivas e bem delimitadas podem treinar as pessoas a clicar sem pensar. Ajuste o controle às consequências reais. Uma política de aprovação deve identificar as ações, circunstâncias e pessoas que requerem intervenção, em vez de depender do modelo para decidir o que parece arriscado.
 
-
-
 **O que um registro de auditoria deve conter?**
 
 Registre a identidade atuante, operação, referência de registro relevante, decisão, horário e resultado, com informações de conexão suficientes para acompanhar a solicitação. Evite registrar credenciais ou conversas inteiras por padrão. Proteja o acesso aos registros de auditoria e defina por quanto tempo eles são mantidos.
-
-
 
 Um **log de auditoria** é um registro usado para reconstruir ações e decisões. Ele ajuda a responder se uma falha veio da solicitação do modelo, de uma decisão de permissão ou do serviço conectado. Projete essas evidências antes de um incidente; [logs, rastreamentos e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md) explicam como conectar as peças.
 

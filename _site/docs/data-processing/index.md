@@ -9,4 +9,7 @@ Source: https://docs.aivax.net/docs/data-processing/index.html
 - [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md)
 - [Text Classification](https://docs.aivax.net/docs/data-processing/classification.md)
 - [Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md)
+- [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md)
+- [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md)
+- [Translations](https://docs.aivax.net/docs/data-processing/translations.md)
 

@@ -10,15 +10,11 @@ Uma ferramenta normalmente tem um nome, uma descrição e uma definição das in
 
 Uma descrição clara ajuda o modelo a decidir quando uma ferramenta é apropriada. “Consultar o status de entrega de um pedido ao qual o usuário tem permissão de acesso” é mais útil do que “Gerenciar pedidos”. A descrição mais restrita facilita a compreensão do resultado esperado e dos limites. Também facilita para a aplicação rejeitar solicitações que não se encaixam na operação.
 
-
 - **Consultar informações** — Leia o status de um pedido ou pesquise um catálogo aprovado. A operação não deve alterar o registro, mas ainda requer controles de acesso.
 
 - **Preparar trabalho** — Crie uma resposta rascunho ou prepare um ticket para revisão. Deixe claro se o resultado é apenas um rascunho ou já está visível para outra pessoa.
 
 - **Mudar o mundo** — Envie um e‑mail, confirme uma reserva ou atualize um registro. Essas ações podem ter consequências além da conversa e precisam de salvaguardas adequadas.
-
-
-
 
 **Read-only** significa que uma operação tem a intenção de recuperar informações sem modificá‑las. Não significa inofensivo: ler os registros do cliente errado ainda pode divulgar dados privados. Uma **write operation** altera algo. Separar essas categorias ajuda a decidir quais ferramentas expor primeiro e quais precisam de verificações adicionais ou confirmação humana.
 
@@ -28,29 +24,21 @@ No padrão de chamada de ferramenta descrito aqui, o modelo nunca executa o cód
 
 Essa divisão é importante porque o modelo pode cometer erros. Ele pode selecionar a operação errada, omitir um campo obrigatório ou confundir uma referência fornecida pelo cliente com uma verificada. A aplicação deve tratar a solicitação como entrada proposta para validação, não como uma instrução que sobrescreve automaticamente as regras de acesso.
 
-
 1. **Decidir se uma ação é necessária**
 
 O cliente pergunta onde está um pedido. O modelo reconhece que uma consulta em tempo real é necessária ao invés de responder com base no conhecimento geral de envio.
-
 
 2. **Solicitar a ferramenta**
 
 O modelo fornece a operação solicitada e seus argumentos. Se detalhes necessários estiverem ausentes, ele deve fazer uma pergunta focada ao invés de inventá‑los.
 
-
 3. **Validar e executar**
 
 A aplicação verifica os argumentos e o acesso do usuário atual. Apenas uma solicitação permitida chega ao sistema de negócio.
 
-
 4. **Retornar o resultado**
 
 A ferramenta relata sucesso, falha ou um resultado incerto. O modelo usa essa evidência para responder, fazer outra pergunta ou parar.
-
-
-
-
 
 ```mermaid
 sequenceDiagram
@@ -72,8 +60,6 @@ O diagrama mostra o caminho bem‑sucedido. Se a verificação de permissão fal
 ## Read the conversation as evidence
 
 > **Demonstração interativa: Inspecionar a diferença entre uma solicitação e um resultado.** Esta demonstração interativa está disponível na página web. Esta é uma conversa ilustrativa e preparada. O papel da ferramenta carrega o resultado da consulta; a intenção anterior do assistente de verificar não seria suficiente para sustentar a afirmação final. Nenhum registro de cliente em tempo real é acessado por esta demonstração.
-
-
 
 Agora imagine que a ferramenta retorne “Serviço indisponível”. Uma resposta adequada diria que o status não pôde ser verificado, não que a encomenda provavelmente está a caminho. Se o sistema retornar “Submissão pendente”, a resposta deve preservar esse estado. Os usuários confiam nessas distinções ao decidir se ainda precisam agir.
 

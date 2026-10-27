@@ -12,15 +12,11 @@ Choose a descriptive title that includes the subject and the reader's purpose. �
 
 Open with a short statement of scope: who the rule applies to, what it covers and any important exclusions. Keep unrelated announcements, historical background and marketing material elsewhere. They may be useful documents in their own right, but they make a procedural answer harder to locate when mixed into the same source.
 
-
 - **Descriptive title** — Name the subject and task so readers can recognise the right source before opening it.
 
 - **Clear scope** — State the audience, product, region or version that determines whether the guidance applies.
 
 - **Complete sections** — Keep a rule together with its conditions and exceptions, even when the section is retrieved alone.
-
-
-
 
 ## Make sections self-contained
 
@@ -30,21 +26,15 @@ Pronouns such as “it”, “they” and “this” are not inherently wrong. T
 
 The following fictional excerpts illustrate writing quality, not an actual company policy.
 
-
 **Subject lost**
 
 ### Exceptions
 They cannot be returned after that period. Contact them if it was damaged.
 
-
 **Subject preserved**
 
 ### Returning assembled bicycles
 The standard assembled-bicycle return period does not cover damage claims. Customers reporting delivery damage should contact the support team for the damage-claim procedure.
-
-
-
-
 
 The improved excerpt names the product, distinguishes two situations and identifies the next step. It deliberately does not invent a return duration: if the approved source lacks that fact, the writer must obtain it. Good writing exposes missing information instead of concealing it behind confident prose.
 
@@ -54,19 +44,13 @@ A section that refers to another policy should explain why that reference matter
 
 Words such as “soon”, “normally”, “large” and “recent” can hide important decisions. Ask which event starts a deadline, which unit a quantity uses and which conditions change the rule. If the source gives a date, clarify whether it is the publication date, effective date or expiry date. These are different facts.
 
-
 **Vague deadline**
 
 Claims must be submitted quickly. Managers approve larger amounts. The new rule applies from next month.
 
-
 **Explicit illustrative rule**
 
 For this fictional policy, travel claims must be submitted within 10 calendar days after the trip ends. Claims above the published approval threshold require a manager's review. The policy takes effect on 1 June 2030.
-
-
-
-
 
 The illustrative deadline and date make the structure visible; they are not recommendations for a real expense policy. Notice that the approval threshold still needs a reliable reference or an approved value. Never fill missing amounts or dates from intuition. Precision helps only when the facts are correct.
 
@@ -90,33 +74,23 @@ After conversion, check that each row still connects the request type to its req
 
 No. A troubleshooting sequence needs ordered steps, and a policy with several interacting conditions may need connected prose. Use Q&A when it reflects how people ask, not as a replacement for structure. A useful document can combine a direct answer, a short table and an ordered procedure without duplicating its facts.
 
-
-
 ## Review the document as evidence
-
 
 1. **Read one section alone**
 
 Hide neighbouring paragraphs. Can you identify the subject, applicable audience and conditions without guessing?
 
-
 2. **Ask a realistic question**
 
 Use wording from a customer or colleague. Check whether the section actually answers the question rather than merely mentioning the topic.
-
 
 3. **Trace every important fact**
 
 Confirm dates, quantities and exceptions with the owner. Mark unresolved facts for review instead of filling them in.
 
-
 4. **Check the next action**
 
 Make sure the reader knows what to do, what not to assume and where to go when the rule does not cover the situation.
-
-
-
-
 
 Keep the review practical. Ask a colleague unfamiliar with the topic to interpret an excerpt and explain what they would do. If their answer differs from the owner's intention, improve the source before blaming retrieval. Repeat the check after major edits because a shortened paragraph can accidentally separate a rule from its exception.
 

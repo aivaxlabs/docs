@@ -8,7 +8,6 @@ Imagine a shop receiving complaints about incorrect deliveries. Training the sta
 
 Collect evidence → Classify failures → Fix the cause → Re-test → Deploy and observe
 
-
 **Deploy** means making a tested version available to its intended users. Observation after deployment closes the loop: you check whether the improvement appears in actual work and whether new problems emerge. Keep the evidence linked to the change so another colleague can understand why it was made. Otherwise, instructions accumulate exceptions whose purpose nobody remembers and which may contradict one another.
 
 A **root cause** is the underlying condition that explains the failure, rather than its visible symptom. “The agent gave the wrong answer” is a symptom. “The approved policy was absent from the searchable knowledge” is a candidate root cause. Confirm it using the conversation, the available documents and records of actions. If the evidence is incomplete, label the cause uncertain instead of choosing a convenient explanation.
@@ -25,7 +24,6 @@ Read the whole relevant exchange, not just the last message. A brief answer may 
 
 A **tag** is a consistent label used to group similar cases. Start with a small set of labels your team can apply reliably. Record the user's intended outcome, what happened instead, the supporting evidence and the likely cause. Add severity, meaning the seriousness of the consequence, separately from frequency. A rare unauthorised action can deserve faster attention than a common awkward greeting.
 
-
 - **Instructions** — The relevant information was available, but the agent's directions were ambiguous or conflicting. Clarify the applicable rule and its limits.
 
 - **Knowledge** — The needed source was missing, outdated or hard to find. Correct the source and check that the agent can retrieve it.
@@ -34,11 +32,7 @@ A **tag** is a consistent label used to group similar cases. Start with a small 
 
 - **Process or unresolved cause** — The business rule itself is unclear, or evidence is insufficient. Assign investigation rather than disguising uncertainty as a prompt problem.
 
-
-
-
 A single case can have several contributing causes. For example, an order lookup may fail and the instructions may fail to say how to communicate that situation. Record both, but use a consistent rule when summarising cases in a chart. If each case has one primary category, say so. If categories overlap, do not present them as slices that supposedly account for the whole.
-
 
 **Primary causes in a reviewed failure sample (illustrative)**
 
@@ -51,8 +45,6 @@ A single case can have several contributing causes. For example, an order lookup
 
 Invented review results, with one primary category per case. This is not the failure rate of all conversations or a product benchmark.
 
-
-
 This illustrative distribution suggests where investigation might begin, not what must be fixed first. Consider severity, affected users and the strength of the diagnosis as well as the size of each slice. A frequent knowledge gap may justify an editorial update, while a smaller permission problem may require immediate containment. Assign an owner who can change the actual cause rather than sending every issue to the prompt author.
 
 ## Change the smallest thing that addresses the cause
@@ -61,19 +53,13 @@ A **hypothesis** is a specific explanation you can test. Write one before making
 
 Avoid appending the failed customer's wording to the instructions as a special exception. That may fix the demonstration while creating contradictions or making nearby cases worse. If the authoritative policy is incomplete, repair it rather than copying a private answer into a global prompt. If a tool is broken, a request to “try harder” does not repair the connection or authorise additional actions.
 
-
 **Patch the visible example**
 
 Add “always offer a refund” after one complaint. The example now looks friendly, but unrelated customers receive promises outside the policy.
 
-
 **Correct the underlying rule**
 
 Clarify the eligibility conditions, repair missing source material and check both eligible and ineligible cases before release.
-
-
-
-
 
 A **regression test** checks that a previously working behaviour still works. Every confirmed failure should suggest a safe, reusable case, but the new case is not enough on its own. Re-run related and critical cases, then the wider evaluation set. See [Testing and evaluating agents](https://docs.aivax.net/learn/quality/testing-and-evaluating-agents.md) for constructing those expectations and reviewing results. Do not accept several serious regressions merely because an overall average improved.
 
@@ -81,29 +67,21 @@ A **regression test** checks that a previously working behaviour still works. Ev
 
 A regular review prevents evidence from becoming an unread inbox. Bring a person who understands the business rules, someone who can modify the agent or its connections, and someone responsible for user experience. Keep the meeting focused on decisions: what failed, what evidence supports the cause, who owns the correction and how the team will know it worked.
 
-
 1. **Prepare the evidence**
 
 Select authorised samples and summarise trends. Include examples of successful behaviour so the team sees what must be preserved.
-
 
 2. **Agree on priority and ownership**
 
 Separate urgent containment from ordinary improvement. Name an owner and an observable expected outcome for each selected issue.
 
-
 3. **Review proposed fixes and tests**
 
 Inspect the smallest correction, new test cases and regression results. Keep uncertain diagnoses open rather than declaring them solved.
 
-
 4. **Check earlier releases**
 
 Compare post-release evidence with the prediction. Close an issue when its outcome is verified, not merely when an edit is saved.
-
-
-
-
 
 Weekly review is not a reason to postpone a serious incident. Use a separate urgent response route for privacy exposure, harmful actions or widespread failure. For routine improvements, release in a controlled way and retain a known working configuration. [Versioning](https://docs.aivax.net/learn/production/versioning.md) explains how to identify related prompt, knowledge and tool changes so they can be compared and, when necessary, reversed.
 

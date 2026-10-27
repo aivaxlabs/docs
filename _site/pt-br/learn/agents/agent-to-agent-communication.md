@@ -12,33 +12,23 @@ Por exemplo, um agente de triagem pode identificar se uma solicitação diz resp
 
 No entanto, agentes adicionais não melhoram automaticamente a qualidade. Dois agentes podem compartilhar o mesmo mal-entendido, repetir o mesmo trabalho ou discordar sem evidência. Antes de dividir uma tarefa, identifique um benefício concreto: um limite de permissão distinto, um corpo de conhecimento separado, revisão independente ou trabalho que pode prosseguir separadamente. Se um agente com ferramentas bem escolhidas pode fazer o trabalho claramente, mantenha esse design mais simples.
 
-
 **Um agente com várias ferramentas**
 
 Frequentemente adequado quando a tarefa tem um único proprietário claro, uma base de conhecimento compartilhada e uma sequência curta de ações. Há menos mensagens para coordenar e menos lugares onde o contexto pode se perder.
-
 
 **Vários agentes especializados**
 
 Útil quando as responsabilidades realmente diferem ou partes independentes do trabalho podem ser executadas separadamente. O benefício deve justificar solicitações extras, espera, troca de contexto e coordenação.
 
-
-
-
-
 ## Entrega, delegação e orquestração
 
 Esses termos descrevem diferentes formas de compartilhar responsabilidade. As equipes às vezes usam as palavras de forma flexível, então defina o que elas significam no seu design. As perguntas importantes são quem possui a resposta voltada ao usuário, quem pode tomar ações e se o agente original aguarda um resultado.
-
 
 - **Entrega** — A responsabilidade passa para outro agente. Um agente de triagem encaminha um caso de cobrança para o especialista de cobrança, que continua a conversa dentro de sua própria autoridade.
 
 - **Delegação** — O agente original pede a outro agente que execute uma subtarefa limitada e retorne um resultado. O agente original permanece responsável pela resposta geral.
 
 - **Orquestração** — Um coordenador gerencia várias etapas ou participantes: decidindo o que roda a seguir, coletando resultados, resolvendo dependências e determinando quando o trabalho está completo.
-
-
-
 
 Uma entrega se as com transferir uma chamada. Delegação se as com pedir a um colega que verifique uma cláusula enquanto você continua falando com o cliente. Orquestração se parece com um coordenador de projeto organizando contribuições de vários departamentos. Um coordenador pode ser um software comum, um agente ou uma combinação; não precisa ser outro modelo tomando todas as decisões de agendamento.
 
@@ -77,7 +67,6 @@ Em vez disso, envie um resumo compacto com referências de origem quando necess�
 Preserve a incerteza com o mesmo cuidado que os fatos. Se a identidade não foi verificada ou a data da compra está faltando, inclua isso explicitamente no resumo. Um resumo que elimina a incerteza pode transformar um caso incompleto em uma conclusão falsa. Resumos são úteis, mas sua correção ainda requer atenção.
 
 Definir a subtarefa → Compartilhar fatos e limites relevantes → Executar trabalho limitado → Retornar evidência e status → Verificar o resultado
-
 
 ## Defina limites para a colaboração
 

@@ -6,32 +6,23 @@ O cérebro da série só lê texto. Pequenas notas deslizam facilmente, mas os c
 
 *Episódio 6 · 1 minuto e 13 segundos*
 
-
 ## O que o vídeo mostra
 
 Alguns modelos são **multimodais**: eles veem imagens, escutam áudio e leem arquivos. No vídeo, cada tipo de conteúdo tem sua própria pequena entrada no pote. Um cliente envia uma foto de um bolo, e o cérebro observa atentamente: bolo de cenoura com cobertura de chocolate.
 
 Mas nem todo modelo pode ver. Alguns só leem texto. Para esses, a AIVAX usa uma máquina tradutora: ela observa a mídia primeiro e gera uma nota descrevendo‑a. A nota cabe na ranhura de texto, e o cérebro entende da mesma forma. Essa etapa é chamada de **pré‑processamento**.
 
-
 **Modelo multimodal**
 
 Foto → Modelo multimodal → Resposta
 
-
 O modelo recebe a imagem original. É o melhor quando detalhes visuais finos são importantes e o modelo escolhido suporta esse tipo de mídia.
-
 
 **Pré‑processamento**
 
 Foto → Descrição escrita pela AIVAX → Modelo somente texto → Resposta
 
-
 O modelo principal recebe uma descrição em texto em vez da imagem. Útil para modelos somente texto, ou para manter um modelo para cada canal independentemente do que os clientes enviam.
-
-
-
-
 
 ## Escolhendo entre eles
 

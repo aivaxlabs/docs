@@ -25,6 +25,7 @@ https://inference.aivax.net/v1/mcp/collections
 | `X-Mcp-Use-References` | Set to `none` to enable references in search results; omit the header to disable them. | disabled |
 | `X-Mcp-Allow-Write` | Use `yes` to expose document write and delete tools. | disabled |
 | `X-Mcp-Naming-Convention` | Controls how generated tools are named. Use `default` or `agent`. | `default` |
+| `X-Mcp-Enabled-Tools` | Comma-separated allowlist of tool types to expose: `search`, `write`, `delete`. See [Select which tools are exposed](#select-which-tools-are-exposed). | all available tools |
 
 ## Configuration example
 
@@ -68,5 +69,29 @@ The MCP read tool accepts at most 10 search terms and 500 total characters per c
 When `X-Mcp-Allow-Write` is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.
 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
+
+## Select which tools are exposed
+
+Use the optional `X-Mcp-Enabled-Tools` header to expose only some of the generated tools. Provide a comma-separated allowlist of tool types, not generated tool names, so the same value works with any collection name and naming convention:
+
+- `search`: the read tool.
+- `write`: the document creation/update tool.
+- `delete`: the document delete tool.
+
+For example, to let a client add documents and search without being able to delete them:
+
+```text
+X-Mcp-Allow-Write: yes
+X-Mcp-Enabled-Tools: search, write
+```
+
+To expose only the write tool, for an ingestion agent that should not read the collection:
+
+```text
+X-Mcp-Allow-Write: yes
+X-Mcp-Enabled-Tools: write
+```
+
+The allowlist only narrows the tool set. `write` and `delete` still require `X-Mcp-Allow-Write: yes`; without it, they are not exposed even when listed. Without `X-Mcp-Enabled-Tools`, the server exposes every tool allowed by the other headers. Values are case-insensitive, spaces around commas are ignored, and unknown values are ignored.
 
 Use Collections MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) and let the gateway RAG pipeline retrieve documents automatically.

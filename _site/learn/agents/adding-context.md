@@ -10,7 +10,6 @@ Think of context as a desk prepared before each piece of work. The assistant can
 
 A request commonly contains **system instructions**, meaning higher-priority directions supplied by the application; **conversation history**, meaning selected earlier messages; the current user request; and relevant information supplied by the application. That last category may include verified user details, document excerpts or results returned by tools. Not every system uses the same message structure, but the distinction between instructions and evidence remains important.
 
-
 - **System instructions** — Define the assistant's role and limits: answer delivery questions, distinguish confirmed facts from estimates and escalate exceptional cases.
 
 - **Conversation history** — Preserve relevant details already discussed, such as which product the customer means and which clarification they have answered.
@@ -18,9 +17,6 @@ A request commonly contains **system instructions**, meaning higher-priority dir
 - **Verified user data** — Provide permitted facts about the current case. A verified account relationship is different from a user merely claiming ownership.
 
 - **Retrieved evidence** — Supply relevant passages from approved documents or results from a current lookup, with enough source information to assess their relevance.
-
-
-
 
 **Retrieved** simply means found and brought into the request. A policy might live in a document store until a search selects the relevant section. This can be more effective than inserting the entire handbook into every conversation. It also makes the source easier to maintain: the organisation updates the policy rather than hoping the model's earlier training already reflects it.
 
@@ -32,8 +28,6 @@ If the application omits an earlier correction, the model may not be able to use
 
 > **Interactive demo: Inspect what the assistant receives.** This interactive demo is available on the web page. This illustrative conversation shows different sources of context. The customer's urgency explains the need, while the tool result limits what the assistant can honestly promise. The demo displays prepared messages; it does not query an order system.
 
-
-
 A tool result is evidence about a particular operation, not a new set of rules for the assistant. The same applies to document excerpts and messages quoted from other people. Keeping these sources clearly labelled helps prevent the model from confusing a statement it should analyse with an instruction it should obey.
 
 ## The context window is a limited desk
@@ -44,8 +38,6 @@ A larger desk can hold more papers, but it does not decide which papers matter. 
 
 > **Interactive demo: Try it: fit the case onto the desk.** This interactive demo is available on the web page. The token quantities are illustrative. This simplified demo drops the oldest blocks first and keeps the last block. Real applications must choose their own context policy; they should not blindly discard essential instructions just because those instructions were added first.
 
-
-
 When the desk fills up, an application can select relevant history, summarise older discussion or retrieve only the passages needed for the question. Each choice has trade-offs. A summary saves space but may lose a detail; a narrow search may miss a relevant exception. Preserve decisions, unresolved questions and important source references rather than only keeping the most recent sentences.
 
 ## Why start with context instead of fine-tuning?
@@ -54,19 +46,13 @@ When the desk fills up, an application can select relevant history, summarise ol
 
 For most business questions about changing policies and records, start by supplying reliable context. It is easier to replace an outdated policy excerpt than retrain a model every time the policy changes. Context also lets the application give different authorised information to different users. A model trained on a fact does not itself establish who should be allowed to receive that fact.
 
-
 **Provide current context**
 
 Supply the approved policy excerpt for this question. Update the source when the policy changes and select material according to the user's access.
 
-
 **Change model behaviour**
 
 Consider fine-tuning when repeated examples are needed to shape a stable behaviour. It still needs evaluation, current evidence and separate permission checks.
-
-
-
-
 
 Context is not magic either. The model can misread supplied material, and a wrong source can produce a well-grounded explanation of the wrong rule. Before adding training complexity, check whether the right information was supplied, whether the instructions were clear and whether the task is supported by appropriate tools. These are often more direct improvements.
 

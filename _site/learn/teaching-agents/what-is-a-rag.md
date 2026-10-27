@@ -18,32 +18,23 @@ Many retrieval systems use **embeddings**, numerical representations of text tha
 
 The **context** is the information available to the model while it produces a response. In RAG, retrieved passages become part of that context alongside instructions and the user's question. The model is not browsing the entire knowledge store in its head; it sees what the surrounding system provides.
 
-
 1. **Receive the question**
 
 A club member asks whether a guest may attend the introductory workshop. The wording identifies a topic and a particular event.
-
 
 2. **Retrieve candidate evidence**
 
 The search finds passages about guest access and workshop restrictions. The system selects relevant, authorised material rather than forwarding the whole handbook.
 
-
 3. **Write from the evidence**
 
 The model combines the selected passages into a plain-language answer. It should preserve conditions and distinguish what the source states from what remains unknown.
-
 
 4. **Show the basis or the gap**
 
 The response points to the source when available. If the evidence does not cover the workshop, the agent explains that limitation and offers a suitable next step.
 
-
-
-
-
 Question → Search approved sources → Select passages → Model reads evidence → Answer with limits
-
 
 The order matters. Searching after an answer has already been invented is not equivalent to using evidence before answering. A source added as decoration can make a response look trustworthy even when it does not support the claim. Good checking asks whether each important statement actually follows from the selected passages.
 
@@ -51,14 +42,11 @@ The order matters. Searching after an answer has already been invented is not eq
 
 > **Interactive demo: Try it: find a policy passage.** This interactive demo is available on the web page. Try “guest”, “workshop” and “equipment”. This simplified keyword demonstration illustrates selecting passages, not a real embedding model or a guarantee of retrieval quality. Notice that the guest and workshop passages answer different parts of the question.
 
-
-
 In a real conversation, a member might ask “Can my friend come along?” rather than using the word “guest”. A retrieval method needs to handle that language or ask a clarifying question. It may also need the preceding conversation to know which event “along” refers to. Choosing evidence is therefore more than matching a document title to a sentence.
 
 ## Grounding changes the answer
 
 **Grounding** means tying an answer's factual claims to evidence available for the task. It does not mean copying entire paragraphs. A helpful grounded answer can summarise, compare or explain, provided that it does not quietly add unsupported conditions.
-
 
 **Without supplied club evidence**
 
@@ -66,16 +54,11 @@ In a real conversation, a member might ask “Can my friend come along?” rathe
 
 This sounds plausible but invents the booking condition.
 
-
 **With relevant evidence**
 
 “The introductory workshop is open to visitors, and the workshop policy says booking is required before attendance.”
 
 The answer preserves the actual condition instead of borrowing a general expectation.
-
-
-
-
 
 The first answer is not necessarily wrong for every club. It is unsupported for this one. That distinction matters: a model's general knowledge can be useful for explaining common concepts, but organisation-specific claims need organisation-specific evidence. A convincing tone is not a substitute for the current policy.
 

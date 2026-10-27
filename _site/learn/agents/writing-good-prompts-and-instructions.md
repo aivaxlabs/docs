@@ -16,7 +16,6 @@ Next, describe success in a way a reviewer can observe. For example: answer the 
 
 A good instruction is usually a small, organised document rather than one long paragraph of demands. Keep rules about the same subject together. If several passages describe what to do when information is missing, combine them into one clear rule instead of making the agent reconcile slightly different versions.
 
-
 - **Role and goal** — State who the agent helps and which outcome it should pursue. Name the work, not an exaggerated level of expertise.
 
 - **Scope and evidence** — Identify the subjects it handles and the sources or tools it should consult. Say what to do when those sources do not answer the question.
@@ -27,46 +26,31 @@ A good instruction is usually a small, organised document rather than one long p
 
 - **Examples** — Show realistic inputs and acceptable responses, including uncertainty. Use examples to demonstrate rules, not to introduce hidden exceptions.
 
-
-
-
 The sections should agree. “Never ask a question” conflicts with “verify all required details before updating a record” whenever the user omits a detail. “Always answer confidently” conflicts with admitting that a source is unavailable. Resolve such conflicts in the instruction itself; do not expect the model to discover the business priority you intended.
 
 ## Replace vague adjectives with behaviours
 
 An instruction can be short without being vague. The test is whether two reviewers would recognise the same successful response. “Professional” means different things to different people. “Use plain language, avoid blame, and explain the next available step” points to visible behaviour.
 
-
 **Vague: personality instead of purpose**
 
 You are a world-class support expert. Be helpful, proactive, and confident. Resolve every customer problem.
-
 
 **Specific: a bounded support role**
 
 Help customers understand delivery policy and the status of their own orders. Consult the approved policy for rules and the authorised lookup tool for current status. If evidence is missing, say what is unknown and offer the appropriate support route. Do not promise refunds or delivery dates without supporting authority.
 
-
-
-
-
 The specific version does not guarantee correctness. It gives the application a clearer behavioural target and gives reviewers a basis for checking answers. Tool permissions, source quality, and identity checks still need to work independently. A written rule saying “only read this customer's order” is not sufficient if the connected service exposes every order without checking access.
 
 A second common problem is asking for an output without explaining how it will be used. A manager scanning a case summary needs different detail from an engineer investigating a failure. State the desired structure when it helps the reader or a downstream system use the result.
-
 
 **Vague: an undefined summary**
 
 Summarise this case nicely. Include everything important and keep it short.
 
-
 **Specific: a reviewable case summary**
 
 Write a case summary with these headings: Customer request, Verified facts, Open questions, and Next step. Separate customer-reported claims from tool-confirmed facts. Do not describe a proposed action as completed. Leave unknown details explicitly marked as unknown rather than filling them in.
-
-
-
-
 
 If software needs to read the result automatically, agree on the exact fields and validate the response in software. Human-friendly formatting and machine-readable output are related but different requirements. A heading that looks right to a person does not necessarily satisfy a program expecting a defined data structure.
 
@@ -78,37 +62,27 @@ Keep examples consistent with the written rules. If the rules say a refund requi
 
 > **Interactive demo: Try it: clear instructions produce a reviewable response.** This interactive demo is available on the web page. This is a scripted illustration, not a live model response. Notice the distinction between a failed check and a negative result: the tool did not say that delivery had not occurred.
 
-
-
 That distinction is important in many business tasks. “No record was found” differs from “the search failed.” “The request was submitted” differs from “the change was confirmed.” Useful instructions name these differences because plausible language can otherwise hide operational uncertainty.
 
 ## Draft, test, and refine with real situations
 
 Do not judge an instruction only by reading it. Test how the configured agent behaves when a user is unclear, a source is missing, or a tool returns an error. Use representative conversations from the intended task, with appropriate permission and removal of identifying information. Invented scenarios can fill gaps, but should not be the only evidence of readiness.
 
-
 1. **Write the smallest complete job description**
 
 Define the goal, audience, evidence sources, boundaries, and desired output. Remove unrelated ambitions before adding more detail.
-
 
 2. **Collect representative cases**
 
 Include common questions, ambiguous requests, unsupported requests, and failed lookups. Write down what an acceptable result should show.
 
-
 3. **Inspect the actual failure**
 
 Decide whether the problem came from unclear instructions, missing knowledge, a tool failure, or insufficient permission checks. Do not treat every failure as a wording problem.
 
-
 4. **Make a focused change and recheck**
 
 Change the relevant rule or example, then run the earlier cases again. Confirm that fixing one behaviour did not break another.
-
-
-
-
 
 Keep a versioned copy of instructions: a record of which wording was active and what changed. This makes it easier to explain why behaviour changed and to restore an earlier version if a revision causes problems. Small changes are usually easier to evaluate than replacing the entire instruction after one disappointing answer.
 

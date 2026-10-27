@@ -18,34 +18,25 @@ Um formulário válido não é necessariamente uma solicitação de negócio vá
 
 A **platform** aqui significa o software da aplicação que rodeia o modelo. Dependendo da integração, pode ser um serviço de agente ou sua própria aplicação. Ela fornece definições de ferramentas, verifica solicitações, executa operações aprovadas e devolve resultados ao modelo.
 
-
 1. **Offer the available tools**
 
 A plataforma entrega ao modelo a conversa e a definição de `lookup_order`. Apenas ferramentas adequadas para esse usuário e tarefa devem ser oferecidas.
-
 
 2. **Request an operation**
 
 O modelo emite uma solicitação estruturada: o nome da ferramenta e uma referência de pedido. Isso é uma solicitação de execução, não evidência de que algo aconteceu.
 
-
 3. **Check and execute**
 
 A plataforma verifica os argumentos e permissões, então consulta o sistema de pedidos pelo status atual. Se a referência estiver ausente, o assistente deve perguntar ao cliente em vez de adivinhar.
-
 
 4. **Return the result**
 
 A plataforma envia o resultado de volta como uma mensagem de ferramenta associada àquela solicitação. Um resultado útil indica o que foi encontrado ou por que a busca falhou.
 
-
 5. **Answer from the evidence**
 
 O modelo lê o resultado e o explica em linguagem comum. Deve diferenciar um despacho confirmado de uma data estimada de entrega.
-
-
-
-
 
 ```mermaid
 sequenceDiagram
@@ -66,25 +57,17 @@ Essa separação importa sempre que uma ação tem consequências. “Eu can o p
 
 > **Demonstração interativa: Inspect the evidence behind the answer.** Esta demonstração interativa está disponível na página web. Observe o que a resposta final omite. A ferramenta confirma o despacho, mas não fornece data de entrega. Esta é uma demonstração didática, não uma consulta ao vivo.
 
-
-
 ## Descriptions guide decisions
 
 Os modelos usam descrições de ferramentas para decidir qual operação se encaixa na solicitação. Portanto, as descrições precisam explicar o significado, não apenas repetir o nome da ferramenta. Imagine dar instruções a um colega que nunca usou o sistema: o que o ajudaria a escolher o formulário correto sem abrir cada aplicação?
-
 
 **Vague description**
 
 “Handles orders. Use when needed.”
 
-
 **Useful description**
 
 “Read the current shipping status of one order using its order reference. Use for dispatch and delivery-status questions. This tool does not change orders or guarantee a delivery date.”
-
-
-
-
 
 Descrições boas também esclarecem vizinhos confusos. Uma ferramenta que busca informações de produto não deve soar como uma que verifica estoque em tempo real. Seus resultados respondem a perguntas diferentes. Quando um parâmetro tem significado específico de negócio, explique‑o: “requested arrival date” não é intercambiável com “dispatch date”. Inclua um exemplo curto apenas quando eliminar uma ambiguidade real.
 

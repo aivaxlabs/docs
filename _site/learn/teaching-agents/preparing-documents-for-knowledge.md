@@ -10,32 +10,23 @@ Preparing documents means turning these sources into accurate, understandable ma
 
 Approved source → Convert and clean → Divide by meaning → Label and review → Index and test
 
-
 Start with a small, representative sample rather than the whole archive. Include a straightforward document and a difficult one, such as a scanned warranty sheet. Decide what questions the agent should answer from each source. These questions become practical checks: can the prepared text still explain whether the Trail Lamp battery is covered, including any exceptions?
-
 
 1. **Confirm the source**
 
 Check ownership, approval, currency and permission to use the content. Keep a reference to the original and identify which version is authoritative.
 
-
 2. **Inspect the extracted text**
 
 Read the converted result beside the original. Check headings, reading order, tables and warnings before making it searchable.
-
 
 3. **Prepare complete knowledge units**
 
 Separate unrelated topics, retain necessary conditions and attach useful labels to each passage.
 
-
 4. **Test representative questions**
 
 Search for facts, exceptions and common paraphrases. Review the passages returned, not only the final answer.
-
-
-
-
 
 ## Clean noise without deleting meaning
 
@@ -49,7 +40,6 @@ Keep cleaning different from rewriting policy. If the source says that a battery
 
 **Extraction** turns information from a source into text or another usable representation. Some PDFs contain selectable text; others contain page images. **Optical character recognition**, usually called OCR, recognises letters in images. OCR can misread small print, punctuation and numbers, so apparently fluent output still needs checking against the source.
 
-
 - **PDF documents** — Check page order, columns and footnotes. A sentence from a neighbouring column must not become part of the warranty rule.
 
 - **Presentation slides** — Keep slide titles and explanatory notes together. A short bullet may rely on a diagram or the presenter's explanation.
@@ -57,9 +47,6 @@ Keep cleaning different from rewriting policy. If the source says that a battery
 - **Spreadsheets** — Carry column headings, units and relevant sheet names into the text. A cell value without its product and condition is not a complete fact.
 
 - **Images** — Use OCR for written text and descriptions for visual relationships. Preserve uncertainty when a label or symbol cannot be read reliably.
-
-
-
 
 For slides, “Extended coverage” beneath a product photograph may not explain what is covered or for whom. Obtain an approved explanation rather than generating missing policy from the picture. For spreadsheets, preserve the difference between a displayed result and the formula used to calculate it. A prepared passage should name the product, the measure and any conditions instead of listing disconnected cells.
 
@@ -73,23 +60,17 @@ A **chunk** is a passage stored or handled as a searchable unit. **Segmentation*
 
 Start with natural boundaries such as headings, complete answers and procedure sections. Keep a rule with its conditions and exceptions. Retain the product name when a passage would otherwise begin with “this device”. If the source already consists of short, self-contained answers, additional splitting may create work without improving retrieval.
 
-
 **Chunk too big**
 
 A single Trail Lamp passage contains charging instructions, warranty rules, packaging disposal and the entire accessory catalogue.
 
 A battery-coverage question brings back a large amount of unrelated material, making the important exception harder to identify.
 
-
 **Right-sized for the question**
 
 A passage named “Trail Lamp battery warranty” contains the coverage rule, inspection requirement and exclusions from the approved source.
 
 The passage stays focused while preserving the conditions needed to answer accurately.
-
-
-
-
 
 Too small is also a problem. “Requires inspection” is not useful alone if the product and relevant fault appear in another passage. **Overlap** means repeating some text across neighbouring chunks to preserve continuity. It can help with boundaries, but excessive overlap produces duplicate results and more maintenance. Prefer sensible structure before adding repeated text.
 

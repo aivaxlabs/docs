@@ -6,6 +6,12 @@ Use Media Descriptions when an application needs structured information from aud
 
 Choose the more specialized API when the task is limited to a single medium, such as [Audio Transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md) for speech-to-text.
 
+## Media Descriptions, Extraction, or Fetch
+
+- **Media Descriptions** interprets images, PDFs, audio, and video and returns generated text guided by your instructions. Use it to explain a chart, describe a photo, or answer a question about a video.
+- **[Extraction](https://docs.aivax.net/docs/data-processing/extraction.md)** reads text, images, and PDFs and returns the fields defined by your JSON schema, one object per document. Use it when you need the same fields, such as totals or identifiers, from every document. [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) is its counterpart for short summaries.
+- **[Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md)** returns the readable text of web pages and documents. Use it when you need the full text, for example to index it.
+
 ## Describe media or reason over it directly
 
 There are two ways to extract information from media, and they serve different needs:

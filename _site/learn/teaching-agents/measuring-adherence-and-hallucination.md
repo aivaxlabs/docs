@@ -12,15 +12,11 @@ A **hallucination** is a factual claim that is invented or unsupported but prese
 
 **Coverage** concerns whether the approved knowledge contains answers to the intended questions. Missing coverage is not necessarily a generation failure. If the source does not describe a product's compatibility, an honest “I cannot confirm that from the available information” can be the correct response. An answer can also be fully grounded yet incomplete because it addresses only part of a question.
 
-
 - **Evidence** — Does the source support the claims?
 
 - **Coverage** — Does the knowledge contain the needed answer?
 
 - **Usefulness** — Does the response resolve the actual question?
-
-
-
 
 These are complementary lenses, not interchangeable scores. A system that refuses every question might avoid making unsupported claims, yet be useless. A system that answers everything might appear helpful while inventing conditions. Evaluate the balance using the agent's actual responsibilities and the consequences of mistakes.
 
@@ -30,29 +26,21 @@ A **question set** is a collection of representative prompts or conversation sce
 
 For each case, record the question, applicable source version, expected facts, prohibited claims and acceptable next steps. An **expected answer** need not be a single exact sentence. It can be a checklist: name the eligibility condition, ask for the missing product version and do not promise approval. This allows different helpful phrasings without rewarding unsupported additions.
 
-
 1. **Choose representative cases**
 
 Sample common tasks and deliberately include consequential edge cases. Keep a separate label for each topic so failures are not hidden in one overall result.
-
 
 2. **Write the evidence-based expectation**
 
 Have a knowledgeable reviewer identify the source passages and required conditions. Mark questions that should lead to clarification or escalation.
 
-
 3. **Run and preserve the result**
 
 Record the question, retrieved passages, answer and relevant configuration. Keep the source version so later reviewers know what the agent could see.
 
-
 4. **Review and classify failures**
 
 Separate missing knowledge, failed retrieval, misread evidence and poor communication. Assign the repair to the responsible part of the process.
-
-
-
-
 
 Do not silently rewrite expected answers to match whatever the agent produced. If the approved policy changes, update the expectation with a documented reason. Keep some cases aside while improving the system, then check them later. These held-back cases help reveal whether improvements generalise beyond examples repeatedly used during tuning.
 
@@ -60,23 +48,17 @@ Do not silently rewrite expected answers to match whatever the agent produced. I
 
 Consider a fictional workshop policy: visitors may attend introductory sessions, but booking is required. The question is whether a friend can arrive without booking. A reviewer should inspect both the permission and its condition.
 
-
 **Sounds helpful but fails**
 
 “Yes, your friend is welcome. Just arrive with them and the team will make space.”
 
 The answer preserves visitor access but invents an exception to booking.
 
-
 **Follows the evidence**
 
 “Visitors are welcome at introductory sessions, but booking is required. I cannot confirm a place without a booking.”
 
 The answer retains the restriction and does not turn eligibility into a guaranteed place.
-
-
-
-
 
 A citation to the workshop page would not repair the first answer. The source must support the claim being made, not merely share its topic. Reviewers should also check omissions: leaving out a restriction can mislead even when every sentence that remains is technically true.
 
@@ -94,7 +76,6 @@ Related: AIVAX [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tes
 
 A **metric** is a defined measure calculated from observations. For example, you might report the proportion of reviewed answers whose factual claims are all supported. State what counts as a pass and whether the measure is calculated per claim, per answer or per conversation. Those denominators, the totals being counted, produce different numbers.
 
-
 **Fully grounded answers across revisions (illustrative)**
 
 | | Baseline | Source cleanup | Retrieval adjustment | Instruction revision |
@@ -102,8 +83,6 @@ A **metric** is a defined measure calculated from observations. For example, you
 | Reviewed answers passing | 62% | 75% | 79% | 86% |
 
 Fictional results on the same question set and rubric. The upward line is not a product benchmark or a guarantee that each change improves every topic.
-
-
 
 Compare revisions using the same cases and review rules when possible. If you add harder questions, a lower score may reflect a better test rather than a worse agent. Break results down by topic and failure severity. An improving average can conceal a new failure on a policy exception with serious consequences.
 

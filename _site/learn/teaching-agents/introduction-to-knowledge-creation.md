@@ -16,7 +16,6 @@ Consider a fictional bicycle shop. Customers repeatedly ask whether an assembled
 
 Knowledge is not limited to a formal manual. It includes facts, explanations and procedures that can be approved and reused. The important distinction is between a source that merely exists and a source your organisation is willing to rely on.
 
-
 - **Policies** — Rules and exceptions: who qualifies, what is allowed and which conditions apply.
 
 - **Questions and answers** — Approved responses to recurring questions, including when an answer needs clarification.
@@ -24,9 +23,6 @@ Knowledge is not limited to a formal manual. It includes facts, explanations and
 - **Product facts** — Capabilities, compatibility, limitations and supported options for a named product version.
 
 - **Procedures** — Ordered actions, prerequisites and escalation routes for completing a task safely.
-
-
-
 
 A good source also explains its scope. A warranty document should identify the product range and applicable region. An expense policy should say which employees it covers. If two departments use the same word differently, include the distinction rather than expecting the agent to infer it. “Standard delivery” is not a useful fact until the conditions behind that label are clear.
 
@@ -38,29 +34,21 @@ The work repeats because organisations change. A policy can be correct when publ
 
 Collect → Prepare → Index → Retrieve → Measure → Maintain
 
-
 **Collect** means locating candidate sources and checking who can approve them. **Prepare** means removing noise, resolving contradictions and preserving conditions. **Index** means organising the prepared information so software can search it. **Retrieve** means selecting relevant material for a particular question. **Measure** means checking whether the resulting answers are supported and useful. **Maintain** means updating or retiring sources and repeating those checks.
 
 These stages depend on one another. Excellent search cannot turn an obsolete policy into a current one. Clear writing cannot help if the relevant document was never indexed. A correct answer in one demonstration cannot prove that the agent will handle a changed policy tomorrow. Looking at the whole lifecycle makes failures easier to diagnose and responsibilities easier to assign.
-
 
 1. **Choose one narrow question family**
 
 Begin with a recurring topic such as returns. Write the questions customers actually ask, including common exceptions.
 
-
 2. **Create an approved source set**
 
 Select current documents, record their owners and remove conflicting drafts from the searchable set.
 
-
 3. **Test before expanding**
 
 Check ordinary questions, ambiguous questions and questions that the sources cannot answer. Improve the source set before adding another topic.
-
-
-
-
 
 For the bicycle shop, the first cycle might reveal that the policy mentions unopened accessories but says nothing about assembled bicycles. The right next step is not to encourage a more confident answer. It is to ask the policy owner for a decision, publish the approved wording and test that wording with realistic questions. Until then, the agent should explain that it cannot confirm the condition and direct the customer to support.
 

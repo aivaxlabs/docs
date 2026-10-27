@@ -21,6 +21,8 @@ See [subscription pricing](https://aivax.net/pricing) for monthly plan prices an
 | Image generation | [Image generation](https://docs.aivax.net/docs/generations/images.md) |
 | Text-to-speech and speech-to-text | [Text-to-speech](https://docs.aivax.net/docs/generations/speech.md) and [Speech-to-text](https://docs.aivax.net/docs/generations/audio-transcriptions.md) |
 | Media descriptions, decisions, classification, and segmentation | [Data processing](https://docs.aivax.net/docs/data-processing/media-descriptions.md) pages |
+| Document extraction and summarization | [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) |
+| Translations | [Translations](https://docs.aivax.net/docs/data-processing/translations.md) |
 | Built-in tools and memory | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) |
 
 ## Included daily allowances

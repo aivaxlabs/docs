@@ -13,15 +13,11 @@ A privacidade começa com esta pergunta comum: o que cada parte do fluxo de trab
 
 Algumas informações pessoais recebem proteção adicional. Sob a **LGPD** do Brasil, a Lei Geral de Proteção de Dados, isso inclui categorias como dados de saúde e biométricos em circunstâncias definidas. O **GDPR** da União Europeia, o Regulamento Geral de Proteção de Dados, possui **categorias especiais** comparáveis, com suas próprias definições e condições. Não presuma que as categorias ou exceções sejam idênticas.
 
-
 - **Informação visível** — Uma mensagem, foto ou anexo pode conter detalhes pessoais. Peça aos usuários as informações mínimas necessárias ao invés de convidá-los a fazer upload de tudo.
 
 - **Informação ao redor da mensagem** — Referências de contas, históricos de conversas e logs técnicos podem revelar quem a pessoa é ou o que fez. Os controles de privacidade devem cobrir esses registros também.
 
 - **Inferências sobre pessoas** — O resumo de um agente pode inferir saúde, situação financeira ou preferências pessoais. Informações geradas ainda podem ser dados pessoais e também podem estar erradas.
-
-
-
 
 Segredos empresariais e senhas também requerem proteção, mesmo quando não são dados pessoais. Uma revisão de privacidade e uma revisão de segurança se sobrepõem, mas nenhuma substitui a outra. Por exemplo, criptografar um registro o protege contra alguns acessos não autorizados; isso não estabelece um motivo válido para coletar o registro inicialmente.
 
@@ -49,19 +45,13 @@ Essas semelhanças ajudam a organizar as perguntas; a tabela não indica que as 
 
 **Mascaramento** substitui detalhes identificadores por marcadores. **Pseudonimização** substitui identificadores preservando um modo de reconectar o registro a uma pessoa, como uma tabela de consulta separada. Esses dados geralmente permanecem como dados pessoais. **Anonimização** visa impedir a identificação sob o padrão legal aplicável; substituir apenas um nome não basta para alegar anonimato.
 
-
 **Mensagem bruta: marcadores ilustrativos**
 
 “My name is [FULL NAME], and I live at [HOME ADDRESS]. Please move my delivery because I have [MEDICAL DETAIL]. My order is [ORDER REFERENCE].” Sending all of this to a model for topic classification is unnecessary.
 
-
 **Mensagem mascarada para classificação**
 
 “The customer wants to reschedule a delivery for a personal reason.” The application retains the verified order reference separately for an authorised delivery tool. The model can identify the task without seeing the omitted details.
-
-
-
-
 
 Realize o mascaramento antes da transmissão, não apenas ao exibir logs posteriormente. Revise também anexos e resumos de conversas: ambos podem reintroduzir um detalhe removido da mensagem mais recente. Se os marcadores precisarem ser restaurados, mantenha esse mapeamento em um sistema protegido e restaure apenas os campos necessários para a saída autorizada.
 
@@ -69,34 +59,25 @@ A remoção excessiva também pode prejudicar a tarefa. Uma preferência de idio
 
 ## Crie uma lista de verificação de manipulação de dados
 
-
 1. **Mapear a jornada**
 
 Liste onde mensagens, anexos, entradas e saídas de modelo e logs viajam. Inclua serviços externos e acesso de equipe, não apenas a interface de chat.
-
 
 2. **Justificar cada campo**
 
 Registre o propósito, base legal, aviso obrigatório e responsável. Remova informações que não ajudam a concluir a tarefa autorizada.
 
-
 3. **Proteger o que resta**
 
 Aplique mascaramento antes da transmissão, restrinja acesso e revise as configurações do provedor. Evite copiar mensagens sensíveis para sistemas amplos de depuração ou análise.
-
 
 4. **Definir retenção e exclusão**
 
 Escolha por quanto tempo cada categoria deve ser mantida, documente exceções e implemente a exclusão. Inclua backups, exportações, índices de busca e cópias mantidas pelo provedor quando aplicável.
 
-
 5. **Ensaiar uma solicitação de direitos**
 
 Verifique a identidade do solicitante de forma proporcional, encontre os registros relevantes e encaminhe a solicitação ao seu proprietário. Teste o manuseio de acesso e exclusão sem expor os dados de outra pessoa.
-
-
-
-
 
 **Retenção** é o tempo que as informações são mantidas. Propósitos diferentes podem justificar períodos diferentes: um caso de suporte não resolvido e um registro contábil legal não precisam compartilhar o mesmo cronograma. “Manter tudo por precaução” não é uma política útil. Nem prometer exclusão imediata quando um dever legal documentado exige que alguns registros permaneçam.
 
@@ -109,8 +90,6 @@ Um **acordo de processamento de dados**, ou DPA, registra responsabilidades entr
 **Desativar o treinamento significa que nada é retido?**
 
 Não. Treinamento, armazenamento de conversas, registro de segurança e processamento temporário são atividades diferentes. Revise cada uma separadamente. Uma configuração que interrompe a coleta futura pode não excluir registros passados ou reverter o treinamento concluído do modelo. Prometa aos usuários apenas os controles e direitos que seu serviço completo pode realmente oferecer.
-
-
 
 Relacionado ao AIVAX: leia a [Privacy Policy](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md), [Third-Party Processors](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md) e a documentação de [Data Collecting](https://docs.aivax.net/pt-br/docs/data-sharing.md) em conjunto. O programa opcional de coleta de dados semânticos tem um escopo específico e está desativado por padrão; revise suas condições ao invés de tratá‑lo como uma configuração universal para todo o processamento.
 

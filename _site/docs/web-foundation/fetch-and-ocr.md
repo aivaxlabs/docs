@@ -37,6 +37,8 @@ Use the **Fetch API to extract existing text**. Use [Media Descriptions](https:/
 
 For a PDF report, choose Fetch when you need its text for indexing or later analysis. Choose Media Descriptions when you need an explanation of its charts or a guided interpretation of the content. For a receipt image, Fetch reads the printed text; Media Descriptions can interpret the receipt according to your extraction guidance.
 
+When you need specific fields as JSON from text, images, or PDFs, rather than the document's full text, use [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md). It reads the fields directly from each document and bills only input tokens, while Fetch converts to JSON from the extracted text as a separate, inference-priced step. Fetch remains the choice for web pages, other document formats, files larger than 5 MB, and workflows that also need the full text.
+
 Neither guarantees perfect results. Fetch can lose text or structure because of OCR and layout limitations. Media Descriptions can omit details or introduce incorrect interpretations because its output is model-generated. Verify consequential details against the original source and compare the billing paths in the pricing section below.
 
 ## Choose an integration

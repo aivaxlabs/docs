@@ -6,15 +6,11 @@ Essa suposição molda cada página. Os termos são definidos na primeira vez qu
 
 ## Para quem o Learn é destinado
 
-
 - **Empreendedores e diretores** — Você decide onde os agentes criam valor, quanto custam e quais riscos são aceitáveis. O Learn fornece vocabulário e julgamento sem pedir que você escreva código.
 
 - **Desenvolvedores** — Você já cria software e precisa do modelo mental por trás de prompts, ferramentas, recuperação e avaliação para que seu primeiro agente não seja o último.
 
 - **Pessoas curiosas** — Você continua ouvindo *agente*, *RAG* e *janela de contexto* e quer o significado real, explicado uma vez, corretamente.
-
-
-
 
 Esses três públicos compartilham uma necessidade: um vocabulário comum. Um diretor que entende o que é uma janela de contexto pode fazer ao desenvolvedor uma pergunta precisa sobre custo; um desenvolvedor que entende por que um sistema de recuperação ainda pode produzir uma resposta errada pode explicar um risco a um diretor sem rodeios. O Learn foi escrito para que ambos possam ler a mesma unidade e sair com a mesma visão.
 
@@ -24,7 +20,6 @@ O Learn é deliberadamente neutro. As unidades descrevem como os agentes funcion
 
 Module → Unit → Section → Knowledge check
 
-
 Um **módulo** é um tema, como *Agentes* ou *Segurança, ética e conformidade*. Cada módulo tem uma página de capa que lista suas **unidades** em uma ordem recomendada e mostra quanto dela você completou.
 
 Uma **unidade** é uma ideia explicada de ponta a ponta em oito a quinze minutos. Cada unidade começa com os objetivos que você deve ser capaz de alcançar ao final, desenvolve a ideia com blocos visuais e termina com uma **verificação de conhecimento** e um botão para marcar como concluída. Dentro de uma unidade, **seções** dividem a ideia em passos que você pode retornar depois a partir do índice mostrado em telas largas.
@@ -33,48 +28,35 @@ Você não precisa seguir os módulos em ordem. A página inicial propõe três 
 
 ## Os três caminhos de aprendizado
 
-
 - **Iniciante** — Introdução; Agentes; Engenharia de prompts e contexto; Segurança, ética e conformidade. Comece aqui se você nunca construiu nada com IA e quer entender o que é um agente, passo a passo.
 
 - **Desenvolvedor** — Agentes; Modelos e parâmetros; Ferramentas e integrações; Agentes avançados e fluxos de trabalho; Qualidade, avaliação e observabilidade; Produção e escala. Siga este caminho se você vai projetar, conectar, testar e implantar agentes.
 
 - **Negócios** — Introdução; Ensino de agentes; Qualidade, avaliação e observabilidade; Segurança, ética e conformidade; Guias práticos e estudos de caso. Siga este caminho se você precisa decidir onde os agentes criam valor, quanto custam e quais riscos gerenciar.
 
-
-
-
 Os caminhos são uma recomendação, não uma barreira. Nada está bloqueado, e o módulo de Guias Práticos, em particular, é útil para todos: ele aplica as ideias dos outros módulos a cenários completos, como um agente de suporte ao cliente ou um assistente interno de conhecimento.
 
 ## Os blocos visuais que você encontrará
-
 
 1. **Animações passo a passo**
 
 Blocos como este percorrem um processo passo a passo. Pressione **Play** para avançar automaticamente, use as setas ou clique em qualquer passo.
 
-
 2. **Linhas de tempo**
 
 Linhas de tempo mostram como uma ideia evoluiu, para que você entenda *por que* a abordagem atual existe e não apenas *o que* ela é.
-
 
 3. **Gráficos e tabelas**
 
 Gráficos de barras, linhas e pizza comparam números; tabelas comparam opções. Os valores no Learn são ilustrativos, a menos que a unidade diga o contrário.
 
-
 4. **Demonstrações interativas**
 
 Pequenas simulações permitem que você mova um controle deslizante ou digite uma frase e veja o que muda. Elas são executadas inteiramente no seu navegador e nunca chamam um modelo.
 
-
 5. **Verificações de conhecimento**
 
 Uma pergunta ao final de cada unidade. Não há pontuação; está lá para confirmar que você pode aplicar a ideia.
-
-
-
-
 
 Dois outros blocos aparecem com frequência. Uma **comparação** coloca dois exemplos curtos lado a lado, geralmente uma versão fraca e uma melhor, para que você possa ver a diferença em vez de ler sobre ela. Um **fluxo** é a cadeia horizontal de caixas que você viu acima; ele mostra uma ordem ou um pipeline de relance.
 
@@ -82,19 +64,13 @@ Dois outros blocos aparecem com frequência. Uma **comparação** coloca dois ex
 
 O progresso é armazenado apenas no seu navegador. Nada é enviado para nenhum lugar, e mudar de dispositivo começa do zero.
 
-
 **Marcado automaticamente**
 
 Quando você clica em **Próxima unidade** na parte inferior da página, a unidade atual é marcada como concluída.
 
-
 **Marcado por você**
 
 Clique em **Marcar como concluída** ao final de uma unidade a qualquer momento. Clique novamente para desfazer.
-
-
-
-
 
 A barra lateral mostra uma marca ao lado de cada unidade concluída, e os cartões de módulo na página inicial mostram uma barra de progresso. Se o seu navegador bloquear o armazenamento local, você ainda pode marcar unidades e ler todas as páginas; você simplesmente perde as marcas ao sair da página.
 

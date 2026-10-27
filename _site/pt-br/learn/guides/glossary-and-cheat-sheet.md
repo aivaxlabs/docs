@@ -6,7 +6,6 @@ Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto esp
 
 ## Glossary
 
-
 **A–C**
 
 **A/B test** — Uma comparação que atribui usuários ou casos comparáveis a versões diferentes para que seus resultados possam ser avaliados de forma justa; veja [A/B testing](https://docs.aivax.net/pt-br/learn/quality/ab-testing.md).
@@ -33,7 +32,6 @@ Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto esp
 
 **Context window** — A capacidade do modelo para os tokens considerados dentro de uma requisição, com detalhes de contagem dependendo do modelo; veja [Context window, tokens, and cost](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md).
 
-
 **D–H**
 
 **Deflection** — Um problema elegível resolvido sem intervenção humana, que não deve ser confundido com uma conversa abandonada ou bloqueada; veja [Metrics](https://docs.aivax.net/pt-br/learn/quality/metrics.md).
@@ -57,7 +55,6 @@ Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto esp
 **Hallucination** — Uma afirmação gerada pelo modelo sem suporte ou incorreta que pode soar fluente e confiante apesar da falta de evidência; veja [Measuring adherence and hallucination](https://docs.aivax.net/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.md).
 
 **Human in the loop** — Uma pessoa deliberadamente envolvida em um ponto de decisão ou aprovação definido, em vez de apenas observar depois; veja [Human in the loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md).
-
 
 **I–P**
 
@@ -84,7 +81,6 @@ Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto esp
 **Prompt** — A entrada que pede ao modelo que faça algo e fornece orientações ou material relevante; veja [Anatomy of a prompt](https://docs.aivax.net/pt-br/learn/prompt-engineering/anatomy-of-a-prompt.md).
 
 **Prompt injection** — Uma tentativa de fazer um assistente tratar conteúdo não confiável como instruções que sobrescrevem sua tarefa ou limites pretendidos; veja [Prompt injection and jailbreaks](https://docs.aivax.net/pt-br/learn/safety/prompt-injection-and-jailbreaks.md).
-
 
 **R–W**
 
@@ -116,14 +112,9 @@ Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto esp
 
 **Workflow** — Uma sequência organizada de tarefas e decisões que define como o trabalho avança e onde ele para; veja [Workflows as skills](https://docs.aivax.net/pt-br/learn/agents/workflows-as-skills.md).
 
-
-
-
-
 ## The working cheat sheet
 
 Essas regras cabem em uma agenda de revisão de projeto. São perguntas para verificar, não frases mágicas para colar em cada prompt. Aplique-as às fontes, sistemas e pessoas reais envolvidos.
-
 
 - **Prompts: specify the job** — Declare o objetivo, contexto relevante, formato de saída e limites. Inclua um exemplo quando o formato for difícil de descrever. Remova regras contraditórias. Diga ao assistente o que fazer quando informações estiverem faltando.
 
@@ -135,26 +126,19 @@ Essas regras cabem em uma agenda de revisão de projeto. São perguntas para ver
 
 - **Cost: measure useful outcomes** — Acompanhe toda a tarefa, incluindo busca, ferramentas, tentativas, revisão e retrabalho. Reduza contexto desnecessário antes de sacrificar evidências. Compare o custo por problema resolvido com sucesso em vez de custo por mensagem isolada.
 
-
-
-
 ## Resolve common confusions
 
 **Does adding knowledge train the model?**
 
 Normalmente não. A recuperação coloca documentos selecionados na requisição atual, muito parecido com colocar páginas de referência sobre uma mesa. Treinar muda o próprio modelo. Atualizar um documento pesquisável e treinar um modelo são operações diferentes, com custos e controles distintos.
 
-
 **Does a tool call mean the task succeeded?**
 
 Não. O modelo pode solicitar uma operação, mas o software deve validar e executá‑la. A operação pode falhar ou ter um resultado incerto. O sucesso deve ser relatado somente depois que o sistema confirmar o resultado esperado.
 
-
 **Does a citation make an answer correct?**
 
 Não. A fonte pode estar desatualizada, fora do escopo do usuário ou não estar relacionada à afirmação. Verifique tanto a autoridade da fonte quanto se seu texto realmente sustenta a resposta. Um link que parece credível não é evidência por si só.
-
-
 
 What’s next: choose a route through the material with [FAQ and learning paths by profile](https://docs.aivax.net/pt-br/learn/guides/faq-and-learning-paths.md).
 

@@ -10,15 +10,11 @@ Um **conjunto de teste** é uma coleção de situações que você usará para v
 
 Inclua solicitações comuns porque elas representam grande parte da carga de trabalho. Também inclua situações incomuns porém consequentes: um registro de conta indisponível, documentos de política conflitantes, uma solicitação fora da autoridade do agente ou uma ferramenta que não pode concluir uma ação. Um **ferramenta** é uma função conectada que o agente pode solicitar para executar trabalho, como buscar um pedido. Uma resposta fluente não substitui a verificação de que aquele trabalho realmente aconteceu.
 
-
 - **Trabalho rotineiro** — Um cliente pergunta sobre uma política de devolução publicada. Verifique se a resposta está correta e utilizável.
 
 - **Informação ausente** — Um funcionário pede um procedimento sem nomear seu departamento. Verifique se o agente faz uma pergunta de acompanhamento útil.
 
 - **Limites e falhas** — Um usuário solicita uma ação não autorizada ou uma busca falha. Verifique se o agente recusa ou escalona sem fingir que teve sucesso.
-
-
-
 
 Não deixe o conjunto de teste se tornar uma coleção de perguntas fáceis escritas pela pessoa que escreveu as instruções. Peça a colegas que entendem o trabalho para contribuir com casos. Inclua diferentes formulações, frases incompletas e conversas que mudam de direção. Mantenha um grupo separado de casos fora da edição diária de prompts. Esse **conjunto reservado** oferece uma verificação menos tendenciosa de se uma mudança se generaliza além dos exemplos que seu autor já conhece.
 
@@ -28,19 +24,13 @@ Um **resultado esperado** descreve comportamento observável, não uma frase exa
 
 Separe fatos necessários, ações necessárias e ações proibidas. Alguns requisitos permitem julgamento: uma resposta deve ser compreensível. Outros podem ser verificados diretamente: uma reserva não deve ser criada sem confirmação. Um agente dizendo “Eu arei” não é evidência de uma reserva. Para ações, inspecione um sistema de teste seguro ou um registro independente do que ocorreu, não apenas a transcrição da conversa.
 
-
 **Difícil de avaliar**
 
 “O assistente deve fornecer suporte excelente e deixar o cliente satisfeito.” Revisores diferentes podem dar notas opostas para a mesma resposta.
 
-
 **Expectativa observável**
 
 “O assistente explica a política, identifica informações ausentes e oferece o caminho de escalonamento aprovado sem prometer uma exceção.” Cada requisito pode ser verificado.
-
-
-
-
 
 Uma **rubrica** é a lista de verificação usada para fazer esses julgamentos de forma consistente. Dê aos revisores exemplos de aprovação, falha e caso borderline. Acompanhe requisitos importantes separadamente em vez de escondê‑los dentro de uma pontuação média. Um tom amigável não deve cancelar uma violação de privacidade. A unidade sobre [medição de aderência e alucinação](https://docs.aivax.net/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.md) desenvolve verificações para seguir instruções e evitar alegações não suportadas.
 
@@ -69,29 +59,21 @@ O diagrama mostra os papéis conceituais, não uma rota de mensagem de produto o
 
 Uma **regressão** é um comportamento que funcionava antes, mas deixa de funcionar após uma mudança. Uma nova instrução pode substituir uma antiga; um documento de substituição pode remover uma exceção útil. Mantenha a configuração do agente, os casos de teste e as regras de julgamento identificáveis para que a comparação reflita uma mudança real e não uma mistura desconhecida de alterações.
 
-
 1. **Registrar uma linha de base**
 
 Execute a versão atual e mantenha os resultados, definições de caso e configuração. Este é o ponto de referência para comparações posteriores.
-
 
 2. **Alterar uma coisa significativa**
 
 Atualize o prompt, conhecimento ou comportamento da ferramenta com uma razão declarada. Anote quais casos você espera melhorar.
 
-
 3. **Reexecutar o conjunto relevante**
 
 Verifique o caso reparado, casos relacionados e casos críticos de segurança. Execute o conjunto de regressão mais amplo antes do lançamento.
 
-
 4. **Revisar e decidir**
 
 Inspecione falhas e julgamentos alterados. Lance apenas quando os requisitos acordados forem mantidos e retenha a versão anterior para recuperação.
-
-
-
-
 
 As respostas do modelo podem variar entre execuções mesmo quando a pergunta permanece a mesma. Repita cenários consequentes ou inconsistentes e relate a variação em vez de selecionar a melhor tentativa. Se um teste falhar porque um sistema conectado estava indisponível, registre essa causa; não apague silenciosamente o resultado. A disponibilidade faz parte da experiência, embora diagnosticá‑la separadamente ajude a equipe correta a responder.
 
@@ -100,8 +82,6 @@ Use contas de teste e ferramentas controladas para que a avaliação não envie 
 **Passar no conjunto de testes prova que o agente nunca falhará?**
 
 Não. Os testes cobrem condições selecionadas, e tanto o mundo quanto as dependências do agente podem mudar. Passar é evidência para uma versão particular sob condições particulares. Continue monitorando o uso real, adicionando casos de falha recém‑descobertos e revisando resultados graves com pessoas que entendem o trabalho.
-
-
 
 **Relacionado ao AIVAX:** [Agentic Tests](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md) usa um usuário simulado e um juiz para avaliar conversas com um gateway de IA configurado. Definições de teste reutilizáveis produzem execuções separadas. Consulte o guia do produto para metas, critérios de validação apenas do juiz e interpretação de resultados; não presuma que uma pontuação de teste verifica ações de negócio externas por si só.
 
