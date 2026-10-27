@@ -224,19 +224,32 @@ Store metadata with consistent types per key, and prefer keys made of ASCII lett
 
 Send the filter in the `filter` field of these endpoints:
 
-- [Semantic search](../rag/semantic-search.md)
+- [Query collections, Find similar documents, and Browse documents](../rag/semantic-search.md)
 - Answer generation
 
 The field accepts a string or an array of strings. Array items are combined with `and`:
 
 ```json
 {
-  "term": "How do I request a refund?",
+  "terms": "How do I request a refund?",
   "collections": [ "<collection-id>" ],
   "filter": [
     "tags has \"billing\"",
     "metadata.region = \"latam\""
   ]
+}
+```
+
+The search endpoints also accept a filter for a single collection, combined with the top-level `filter` for that collection:
+
+```json
+{
+  "terms": "How do I request a refund?",
+  "collections": [
+    "<collection-id>",
+    { "id": "<other-collection-id>", "filter": "metadata.source = \"crm\"" }
+  ],
+  "filter": "tags has \"billing\""
 }
 ```
 
@@ -251,7 +264,7 @@ The [`memory_search` tool](../tools/builtin-tools.md#search-memories) also accep
 
 Automatic gateway RAG, which searches before the model call, does not apply filters. An invalid filter in a tool call is returned to the model as a tool error with the same message as the API.
 
-<script src="https://inference.aivax.net/apidocs?embed-target=Semantic%20search&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+<script src="https://inference.aivax.net/apidocs?embed-target=Query%20collections&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Answer%20generation&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
