@@ -216,7 +216,7 @@ Cleanup endpoints are for removing non-running items from a job when they are no
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Retry%20Batch%20Job%20Items)
 
-Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior.
+Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior. For the export filter that matches each retry mode, and how provider batch APIs handle expiry, see [expired batch jobs: partial results and retrying only what failed](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
 
 To remove non‐running items from the job:
 

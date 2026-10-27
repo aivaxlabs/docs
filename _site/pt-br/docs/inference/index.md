@@ -13,6 +13,6 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/pipelines.md)
 - [Workers de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
-- [Processamento em lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
+- [Processamento em Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
 - [Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients.md)
 

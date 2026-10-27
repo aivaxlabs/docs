@@ -3542,7 +3542,7 @@ The agent should load a skill only when it is relevant to the current task. It l
 
 Skills are primarily provided through a slug and a brief description of what that skill is and when it should be used. You can have multiple skills in your account, but only use a subset of them in your [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). The skills enabled in the AI Gateway are listed in the model’s system instructions and the `read_skill` function is added to the context.
 
-When the model calls `read_skill`, it passes an array of skill slugs. The instructions for the matching skills are inserted into the system instructions of the next context turn inside `<activated_skill>` blocks. More than one skill can be activated when a task spans multiple domains, and the model can call `read_skill` again with a different list when the active task changes.
+When the model calls `read_skill`, it passes an array of skill slugs. The instructions for the matching skills are returned as the result of that call, each wrapped in `<skill:slug>` and `</skill:slug>` tags, where `slug` is the skill's own slug. The system instructions keep only the slug and description of each skill. More than one skill can be activated when a task spans multiple domains, and the model can call `read_skill` again with a different list when the active task changes.
 
 For this to work, the chosen base model must support **function calls** and **system instructions**.
 
@@ -3874,7 +3874,7 @@ Cleanup endpoints are for removing non-running items from a job when they are no
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Retry%20Batch%20Job%20Items)
 
-Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior.
+Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior. For the export filter that matches each retry mode, and how provider batch APIs handle expiry, see [expired batch jobs: partial results and retrying only what failed](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
 
 To remove non‐running items from the job:
 
@@ -5184,6 +5184,8 @@ Use MCP when you already have external tools that need to be discovered and call
 Do not use MCP only to replace a single simple HTTP call. When you need to expose an isolated function with a specific callback and nonce authentication, [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) are usually simpler. When the capability already exists in AIVAX, such as web search, URL opening, code execution, or image generation, [built‐in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) are usually the most direct path. MCP is better when there is a set of tools with their own schema, when another system already speaks MCP, or when you want the same server to be used by different clients.
 
 In production, treat the MCP server as an API exposed to an agent. Tool descriptions should be clear, schemas should be restrictive, and authentication should be configured in the server headers. The model should not receive overly generic tools such as `execute`, `request`, or `search` without strong descriptions and controlled parameters. Ambiguous tools increase wrong calls; specific tools like `lookup_customer_by_email` or `create_support_ticket` help the model decide better.
+
+A long tool list also has a cost: every tool offered to the model adds its name, description, and schema to each request. To measure that overhead and reduce it, see [how to measure and cut tool-definition tokens](https://aivax.net/blog/reduce-mcp-tool-definition-tokens-too-many-tools/).
 
 ### Choosing the function name
 
