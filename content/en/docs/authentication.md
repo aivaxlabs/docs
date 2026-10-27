@@ -119,3 +119,25 @@ if (!(await bcrypt.compare(hookKey, nonce))) {
   return res.sendStatus(403);
 }
 ```
+
+## Console sign-in
+
+The console at `console.aivax.net` signs in with the login key e-mailed when the account is created. A login key is not an API key. It only opens a console session. API keys continue to call the API without a login key or authenticator code.
+
+### Two-factor authentication
+
+Account holders can add one or more authenticator apps from **My account**, **Security**. The QR code and secret are shown only while the six-digit code from that app is confirmed. After confirmation, the secret cannot be viewed again.
+
+When at least one authenticator is confirmed, console sign-in and switching to that saved account ask for a current six-digit code. `POST /api/v1/auth/login` accepts an optional `totpCode`. If the login key is valid and the code is missing, the response has `requiresTwoFactor: true` and does not create a session. Send the same login key again with `totpCode`. Accounts without an authenticator are unchanged.
+
+Removing the last authenticator disables the prompt. Disabling two-factor authentication without a current code is handled by [AIVAX support](https://aivax.net/contact/).
+
+### Recover access
+
+The sign-in page links to account support.
+
+- **Recover login key** asks for the registration e-mail. AIVAX shows the same confirmation whether or not that e-mail belongs to an account. When it does, the message contains a one-time sign-in link and a link to reset the login key. Both expire in one hour. The sign-in link still asks for an authenticator code when two-factor authentication is enabled. The reset link creates a new login key, e-mails it, and signs the account out of every console session. It does not disable two-factor authentication or revoke API keys.
+- **Disable two-factor authentication** opens [AIVAX support](https://aivax.net/contact/).
+- If the registration e-mail is no longer available, use the same support page.
+
+Resetting the login key from **Security** asks for confirmation, then does the same rotation: a new key is e-mailed, console sessions are signed out, and the browser's saved login is cleared. API keys keep working.
