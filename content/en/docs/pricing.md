@@ -23,6 +23,8 @@ See [subscription pricing](https://aivax.net/pricing) for monthly plan prices an
 | Image generation | [Image generation](generations/images.md) |
 | Text-to-speech and speech-to-text | [Text-to-speech](generations/speech.md) and [Speech-to-text](generations/audio-transcriptions.md) |
 | Media descriptions, decisions, classification, and segmentation | [Data processing](data-processing/media-descriptions.md) pages |
+| Document extraction and summarization | [Extraction](data-processing/extraction.md) and [Summarization](data-processing/summarization.md) |
+| Translations | [Translations](data-processing/translations.md) |
 | Built-in tools and memory | [Built-in tools](tools/builtin-tools.md) |
 
 ## Included daily allowances
