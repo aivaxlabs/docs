@@ -6,6 +6,47 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Monday, October 26th, 2026
+
+Changes:
+
+- **Language models — More models list their reasoning efforts.** `modelInformation.reasoningEfforts` in `GET /api/v1/information/models.json`, and the model details dialog on the dashboard Models page, now list the accepted levels for `@qwen/qwen3.8-max`, `@qwen/qwen3.8-flash`, `@qwen/qwen3.8-omni-flash`, `@anthropic/claude-4.5-opus`, `@openai/o3`, `@openai/o3-mini`, `@openai/o4-mini`, `@google/gemini-2.5-pro`, `@google/gemini-2.5-flash`, `@google/gemini-2.5-flash-lite`, `@bytedance/seed-2.1-turbo`, and `@nvidia/nemotron-3.5-super-vl`. Requests and gateways are unchanged.
+- **Data processing — New Extraction endpoint.** `POST /api/v1/generations/extract` reads text, JPEG, PNG, TIFF, and PDF documents and returns one JSON object per document, shaped by the required `responseSchema`, in input order. Each schema property is one field to find, and its description is the search criterion; `$ref` and `$defs` are not supported. Images and files accept base64 data URLs or public URLs up to 5 MB, and other content types are rejected. Only input tokens are billed, at $0.04 per million. You can also run it from the Extraction tab on the dashboard Generations page. See [Extraction](/docs/data-processing/extraction.md).
+- **Data processing — New Summarization endpoint.** `POST /api/v1/generations/summarize` accepts the same document types and returns one summary string per document, optionally guided by `instructions`. Only input tokens are billed, at $0.04 per million. Extraction and Summarization share a per-document limit of 10 per minute and 300 per day on Free, 200 per minute on Pro, and 2,500 per minute on Max. You can also run it from the Summarization tab on the dashboard Generations page. See [Summarization](/docs/data-processing/summarization.md).
+- **Data processing — New Translations endpoint.** `POST /api/v1/generations/translate` translates text, the visible text in images, and the speech in audio into any `toLanguage`, and returns one translated string per document, in input order. `fromLanguage` is optional and is detected from the content when omitted. Usage is billed in processing units. Limits are 30 requests per minute and 300 per day on Free, 200 per minute on Pro, and 2,500 per minute on Max. You can also run it from the Translation tab on the dashboard Generations page. See [Translations](/docs/data-processing/translations.md).
+- **Data processing — Clearer guidance between Extraction, Fetch, and Media Descriptions.** The Media Descriptions and Fetch and OCR pages now explain when to use each service. See [Extraction, Fetch, or Media Descriptions](/docs/data-processing/extraction.md#extraction-fetch-or-media-descriptions).
+- **Account — Console two-factor authentication and login recovery.** The console **My account** page has a **Security** tab. Account holders can add one or more authenticator apps; the QR code and secret are shown only until the six-digit code is confirmed, and sign-in asks for a code only after at least one authenticator is confirmed. Switching to a saved account asks for the same code when that account has two-factor authentication. `POST /api/v1/auth/login` accepts `totpCode` and returns `requiresTwoFactor` instead of a session when the code is still required. Accounts without an authenticator are unchanged, and API keys are not affected. The sign-in page links to account support, where **Recover login key** e-mails a one-hour one-time sign-in link and a login-key reset link after asking for the registration e-mail. The confirmation is the same whether or not that e-mail belongs to an account. The reset link, and **Reset login key** in **Security**, create a new login key, e-mail it, and sign the account out of every console session. They do not revoke API keys or disable two-factor authentication. Disabling two-factor authentication without a current authenticator code is handled by [AIVAX support](https://aivax.net/contact/). See [Console sign-in](/docs/authentication.md#console-sign-in).
+- **MCP — Choose which Collections MCP tools are exposed.** The Collections MCP accepts the optional `X-Mcp-Enabled-Tools` header with a comma-separated list of `search`, `write`, and `delete`, so a client can, for example, add and search documents without being able to delete them. `write` and `delete` still require `X-Mcp-Allow-Write: yes`. Without the header, the exposed tools are unchanged. See [Collections and RAG MCP](/docs/mcp-utilities/collections-mcp.md#select-which-tools-are-exposed).
+
+## Sunday, October 25th, 2026
+
+Breaking changes:
+
+- **Language models — MiniMax router alias now selects M3.1 Flash.** `@model-router/minimax:latest` now selects `@minimax/m3.1-flash` instead of `@minimax/m3`. The new model accepts text, images, and video, improves agentic, coding, and cybersecurity results over M3, and its current OpenRouter list price is $0.15 per million input tokens and $0.60 per million output tokens, lower than M3. Call `@minimax/m3` directly to keep using the previous model.
+
+Changes:
+
+- **RAG — New search endpoints.** Added `POST /api/v2/query` (Query collections), `POST /api/v2/query/similar` (Find similar documents), and `POST /api/v2/query/browse` (Browse documents). Queries now return paginated results with a reusable candidate pool, separate similarity, rerank, and final scores, sorting by score, creation, update, or indexing date, or name, and filters per collection. Later pages of a query are not charged again. Find similar documents searches by the stored vector of an indexed document, and Browse documents lists indexed documents in insertion order, optionally filtered; neither has embedding or reranking cost. A reranker combined with a sort other than score is rejected. All three endpoints are also available on the direct host. See [Search](/docs/rag/semantic-search.md).
+- **RAG — Previous search endpoint deprecated.** `POST /api/v1/query` keeps working for existing integrations but is deprecated. To migrate, send `terms` to `POST /api/v2/query`, replace `top` with `limit` and `includeReferences` with `"include": ["content", "metadata", "references"]`, and read results from `data.results[].document` and `data.results[].scores`. Requests without search terms move to `POST /api/v2/query/browse`, which returns the oldest documents first unless `sort` is set.
+
+## Friday, October 23rd, 2026
+
+Breaking changes:
+
+- **Language models — Router aliases now select newer models.** `@model-router/kimi:latest` now selects `@moonshotai/kimi-k3.1-pro` instead of `@moonshotai/kimi-k3`. The new model accepts text, images, and video. Its current OpenRouter list price is $2 per million input tokens and $10 per million output tokens, higher than Kimi K3. `@model-router/mercury:latest` now selects `@inception/mercury-3` instead of `@inception/mercury-2.5`. `@model-router/pareto:latest` now selects `@unbiased/pareto-26.10` instead of `@unbiased/pareto-26.9`. Pareto 26.10 does not accept structured output; keep calling `@unbiased/pareto-26.9` when a request needs `response_format`. The previous models remain available under their own identifiers.
+- **Image generation — Amazon Nova Canvas removed.** `nova-canvas` is no longer in the image catalog. An image API request that names it is rejected, and saving a gateway that still stores that name fails validation. If a gateway already stores it, the chat image tool falls back to the default image model, FLUX Schnell (`flux`). Choose another listed image model if that fallback is not suitable.
+
+Fixes:
+
+- **Language models — Retired Xiaomi endpoints are no longer selected.** The deprecated models `@xiaomi/mimo-v2.5` and `@xiaomi/mimo-v2.5-pro` no longer route to Xiaomi's direct API, which shut down on October 21, 2026. Requests use the remaining providers. Both models stay deprecated.
+
+Changes:
+
+- **Language models — New models and video input.** Added `@moonshotai/kimi-k3.1-pro`, `@minimax/m3.1-flash`, `@inception/mercury-3`, and `@unbiased/pareto-26.10`. `@moonshotai/kimi-k3` now accepts video as well as text and images.
+- **Language models — Groq cached input price.** Cached input tokens for `@openai/gpt-oss-20b` on Groq are billed at $0.037 per million tokens. That Groq price was not set before, so those tokens were not billed as cached input.
+- **Image generation — FLUX.3 Image Klein.** Added `flux-3-image-klein`, including reference images, at an estimated $0.019 per output image for the provider's default size.
+- **Decisions — New text decision models.** Added `@perplexity/pplx-decider-v1.2` ($0.02 per million input tokens), `@perplexity/pplx-decider-flash-v1.2` ($0.01), `@nace-ai/drex-max` ($0.06), `@respan/span-02` ($0.01), and `@liquid/d1-ultra` ($0.042). Existing aliases are unchanged: `@perplexity/pplx-decider` still resolves to Decider V1.1.
+
 ## Monday, October 19th, 2026
 
 Breaking changes:
