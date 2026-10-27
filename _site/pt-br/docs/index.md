@@ -48,11 +48,11 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Fundação Web
 
 - [Pesquisa na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md)
-- [Busca e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md)
+- [Buscar e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md)
 
 ## Geração de mídia
 
-- [Geração de Imagens](https://docs.aivax.net/pt-br/docs/generations/images.md)
+- [Geração de Imagem](https://docs.aivax.net/pt-br/docs/generations/images.md)
 - [Texto para fala (TTS)](https://docs.aivax.net/pt-br/docs/generations/speech.md)
 - [Reconhecimento de fala (STT)](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
 - [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md)
@@ -62,9 +62,12 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Processamento de Dados
 
 - [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md)
-- [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md)
+- [Decisões semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md)
 - [Classificação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/classification.md)
 - [Segmentação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/text-segmentation.md)
+- [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md)
+- [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md)
+- [Traduções](https://docs.aivax.net/pt-br/docs/data-processing/translations.md)
 
 ## Recursos e funcionalidades
 
@@ -93,5 +96,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registro de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

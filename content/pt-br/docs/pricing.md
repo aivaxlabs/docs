@@ -1,59 +1,61 @@
 ---
-{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: dc209e16698ed52d}
+{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: 7c8b9f4370acb223}
 ---
 
 # Preços
 
-AIVAX cobra o uso ao saldo da conta em USD. Cada produto documenta suas próprias tarifas em uma seção de preços dedicada, vinculada abaixo. Esta página cobre as regras compartilhadas por todos os produtos: cotas de assinatura, armazenamento, o cabeçalho de custo da solicitação, o desconto de compartilhamento de dados e os multiplicadores de plano.
+AIVAX cobra o uso ao saldo da conta em USD. Cada produto documenta suas próprias tarifas em uma seção de preços dedicada, vinculada abaixo. Esta página cobre as regras compartilhadas por todos os produtos: limites de assinatura, armazenamento, cabeçalho de custo da requisição, desconto por compartilhamento de dados e multiplicadores de plano.
 
-Consulte [subscription pricing](https://aivax.net/pricing) para preços mensais dos planos e [Plans and limits](limits.md) para cotas a nível de conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo usado e o trabalho realizado.
+Consulte [subscription pricing](https://aivax.net/pricing) para preços mensais de planos e [Plans and limits](limits.md) para cotas ao nível da conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo usado e o trabalho realizado.
 
 ## Preços dos produtos
 
-| Área | Onde encontrar as taxas |
+| Área | Onde encontrar as tarifas |
 | --- | --- |
-| Inferência e moderação | [Inference](inference/inference.md#pricing) |
-| Testes Agênicos | [Agentic Tests](inference/agentic-tests.md#pricing-and-limits) |
-| Voz e em tempo real | [Voice and Realtime](inference/voice-session.md#billing-and-limits) |
-| Coleções RAG, pesquisa e respostas | [Collections](rag/collections.md#pricing-and-limits) |
-| Injetor de mídia | [Documents](rag/documents.md#pricing-and-limits) |
+| Inferência e moderação | [Inferência](inference/inference.md#pricing) |
+| Testes de Agente | [Testes de Agente](inference/agentic-tests.md#pricing-and-limits) |
+| Voz e Tempo Real | [Voz e Tempo Real](inference/voice-session.md#billing-and-limits) |
+| Coleções RAG, busca e respostas | [Coleções](rag/collections.md#pricing-and-limits) |
+| Injetor de mídia | [Documentos](rag/documents.md#pricing-and-limits) |
 | Reflex | [Reflex](rag/reflex.md#pricing-and-limits) |
-| Pesquisa na web e pesquisa X | [Web Search](web-foundation/web-search.md) |
-| Buscar e OCR | [Fetch and OCR](web-foundation/fetch-and-ocr.md) |
-| Geração de imagens | [Image generation](generations/images.md) |
-| Texto para fala e fala para texto | [Text-to-speech](generations/speech.md) and [Speech-to-text](generations/audio-transcriptions.md) |
-| Descrições de mídia, decisões, classificação e segmentação | [Data processing](data-processing/media-descriptions.md) páginas |
-| Ferramentas integradas e memória | [Built-in tools](tools/builtin-tools.md) |
+| Busca na web e busca X | [Busca na web](web-foundation/web-search.md) |
+| Buscar e OCR | [Buscar e OCR](web-foundation/fetch-and-ocr.md) |
+| Geração de imagens | [Geração de imagens](generations/images.md) |
+| Texto-para-fala e fala-para-texto | [Texto-para-fala](generations/speech.md) e [Fala-para-texto](generations/audio-transcriptions.md) |
+| Descrições de mídia, decisões, classificação e segmentação | [Processamento de dados](data-processing/media-descriptions.md) páginas |
+| Extração de documento e sumarização | [Extração](data-processing/extraction.md) e [Sumarização](data-processing/summarization.md) |
+| Traduções | [Traduções](data-processing/translations.md) |
+| Ferramentas integradas e memória | [Ferramentas integradas](tools/builtin-tools.md) |
 
-## Cotas diárias incluídas
+## Limites diários incluídos
 
-Free, Pro e Max incluem cotas diárias separadas para embeddings RAG elegíveis, reranking Reflex, decisões semânticas elegíveis e extração Fetch/OCR. As tarifas do produto se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por solicitação completa: um item que não cabe na cota restante e sua margem permitida é cobrado integralmente. Compare as cotas e verifique as exclusões em [Plans and limits](limits.md#included-daily-subscription-allowances). A cobertura de assinatura de LLM está atualmente desativada. Para saber o que cada cota cobre, veja [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Free, Pro e Max incluem limites diários separados para embeddings RAG elegíveis, reranking Reflex, decisões semânticas elegíveis e extração Fetch/OCR. As tarifas dos produtos se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por requisição completa: um item que não cabe dentro do limite restante e sua margem permitida é cobrado integralmente. Compare os limites e verifique exclusões em [Plans and limits](limits.md#included-daily-subscription-allowances). A cobertura de assinatura LLM está atualmente desativada. Para saber o que cada limite cobre, veja [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Armazenamento
 
-Cada plano inclui armazenamento. Excedentes de Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento gratuito não pode ser expandido.
+Cada plano inclui armazenamento. Excedentes de Pro e Max são cobrados por hora nas tarifas mensais abaixo; o armazenamento Free não pode ser expandido.
 
 | Descrição | Preço |
 | --- | ---: |
-| Armazenamento gratuito | **30 MB incluído**; sem expansão |
+| Armazenamento Free | **30 MB incluído**; sem expansão |
 | Armazenamento Pro | **2 GB incluído**; excedente **$0.50/GB/mês** |
 | Armazenamento Max | **20 GB incluído**; excedente **$0.20/GB/mês** |
 
-## Cabeçalho de custo da solicitação
+## Cabeçalho de custo da requisição
 
-As respostas da API incluem um cabeçalho `Consumed-Credits` quando a solicitação cobra uso do saldo da sua conta. Seu valor é o total cobrado por aquela solicitação em USD, escrito como número decimal com ponto separador, por exemplo `Consumed-Credits: 0.000184`. Já inclui o multiplicador do plano e cobre todo item cobrado durante a solicitação, como inferência, embeddings, reranking e uso de ferramentas.
+As respostas da API incluem um cabeçalho `Consumed-Credits` quando a requisição cobra uso do seu saldo da conta. Seu valor é o total cobrado por essa requisição em USD, escrito como número decimal com ponto como separador, por exemplo `Consumed-Credits: 0.000184`. Já inclui o multiplicador de plano e cobre todos os itens cobrados durante a requisição, como inferência, embeddings, reranking e uso de ferramentas.
 
-O cabeçalho é omitido quando a solicitação não cobra nada, incluindo solicitações rejeitadas por validação ou totalmente cobertas por uma cota de assinatura diária. Considere um cabeçalho ausente como zero.
+O cabeçalho é omitido quando a requisição não cobra nada, incluindo requisições rejeitadas por validação ou totalmente cobertas por um limite diário de assinatura. Considere um cabeçalho ausente como zero.
 
-O valor cobre apenas as cobranças registradas antes do envio da resposta. Uso registrado posteriormente, como trabalho assíncrono [Batch](inference/batch.md), não está incluído. Respostas em streaming enviam seus cabeçalhos antes da conclusão da geração, portanto não dependa desse cabeçalho para elas; leia o uso reportado ao final do stream. Use os registros de uso da sua conta como fonte de verdade para faturamento.
+O valor cobre apenas cobranças registradas antes do envio da resposta. Uso registrado posteriormente, como trabalho assíncrono [Batch](inference/batch.md), não está incluído. Respostas em streaming enviam seus cabeçalhos antes da conclusão da geração, portanto não dependa desse cabeçalho para elas; leia o uso relatado ao final do stream. Use os registros de uso da sua conta como fonte de verdade para a faturação.
 
-## Desconto de compartilhamento de dados
+## Desconto por compartilhamento de dados
 
-Contas que habilitam [Data Sharing](data-sharing.md) recebem um desconto de 10% no uso elegível de embeddings de consulta RAG e nas operações de reranking elegíveis realizadas enquanto o compartilhamento está ativado. Outros serviços mantêm seus preços regulares.
+Contas que habilitam [Data Sharing](data-sharing.md) recebem um desconto de 10% no uso elegível de embeddings de consulta RAG e nas operações de reranking elegíveis realizadas enquanto o compartilhamento está habilitado. Outros serviços mantêm seus preços regulares.
 
 ## Multiplicadores de plano
 
-Taxas de uso estão sujeitas ao imposto de inferência do plano:
+As tarifas de uso estão sujeitas ao imposto de inferência do plano:
 
 | Plano | Imposto de inferência |
 | --- | ---: |
@@ -61,4 +63,4 @@ Taxas de uso estão sujeitas ao imposto de inferência do plano:
 | Pro | +5% |
 | Max | 0% |
 
-O uso de BYOK não é afetado pelos impostos de inferência. As páginas de produto indicam quando uma taxa está isenta do multiplicador do plano, como na geração de imagens.
+O uso de BYOK não é afetado pelos impostos de inferência. As páginas dos produtos indicam quando uma tarifa está isenta do multiplicador de plano, como na geração de imagens.

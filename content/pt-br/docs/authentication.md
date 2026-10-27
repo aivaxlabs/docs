@@ -1,46 +1,46 @@
 ---
-{title: Autenticação,linkTitle: Autenticação,weight: 20,group: Introduction,sourceHash: 3ab84ce2346c8651,aliases: [/docs/pt-br/authentication.html]}
+{title: Autenticação,linkTitle: Autenticação,weight: 20,group: Introduction,sourceHash: 929882118a1be142,aliases: [/docs/pt-br/authentication.html]}
 ---
 
 # Autenticação
 
-AIVAX autentica solicitações de API com chaves de API da conta. AIVAX aceita chaves de API via:
+AIVAX autentica solicitações de API com chaves de API de conta. AIVAX aceita chaves de API via:
 
 - `Authorization: Bearer <API_KEY>`
 - `Authorization: Basic <BASE64_USERNAME_COLON_API_KEY>`
 - `?api-key=<API_KEY>`
 
-Prefira o cabeçalho `Authorization` para chamadas de servidor para servidor. Use o parâmetro de consulta apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento.
+Prefira o cabeçalho `Authorization` para chamadas servidor‑para‑servidor. Use o parâmetro de consulta apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento.
 
 ## Tipos de chave de API
 
-AIVAX tem duas famílias de chaves porque casos de uso de navegador e de servidor têm perfis de risco diferentes. Se seu código roda no seu servidor, use uma chave privada e mantenha-a fora de bundles de cliente, logs e repositórios públicos. Se seu código roda em um navegador ou outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e limite o fluxo de trabalho a rotas projetadas para acesso público.
+AIVAX possui duas famílias de chaves porque os casos de uso voltados para navegador e para servidor têm perfis de risco diferentes. Se seu código roda no seu servidor, use uma chave privada e mantenha‑a fora de bundles de cliente, logs e repositórios públicos. Se seu código roda em um navegador ou outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e limite o fluxo a rotas projetadas para acesso público.
 
 | Tipo | Prefixo | Uso pretendido | Acesso |
 | --- | --- | --- | --- |
 | Chave privada | `sk-aiv-acc` | Integrações do lado do servidor e chamadas de API administrativas. | APIs de conta autenticadas e inferência compatível com OpenAI. |
-| Chave pública | `pk-aiv-` | Chamadas restritas do lado do cliente para rotas explicitamente públicas. | Rotas públicas de consulta/resposta RAG e chamadas restritas de conclusão de chat. |
+| Chave pública | `pk-aiv-` | Chamadas do lado do cliente restritas a rotas explicitamente públicas. | Rotas públicas de consulta/resposta RAG e chamadas restritas de conclusão de chat. |
 
-Chaves públicas podem ser usadas para busca semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e conclusões de chat. Quando uma chave pública chama conclusões de chat:
+Chaves públicas podem ser usadas para pesquisa semântica RAG, geração de respostas RAG, geração de fala, descrições de mídia, geração de imagens e conclusões de chat. Quando uma chave pública chama conclusões de chat:
 
-- O `model` deve ser um UUID completo de gateway de IA; chamadas diretas de modelo integrado e a pesquisa de slug do gateway são desativadas.
-- Fontes MCP, funções de protocolo, ferramentas integradas, Bash, habilidades e opções de sentinela são removidas da solicitação.
-- Apenas estes parâmetros de solicitação são aceitos: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `idempotency_key` e `stream`.
-- Limites de taxa de solicitação e token são aplicados globalmente por chave e por endereço remoto. Veja [Chaves públicas de API](limits.md#public-api-keys) para os valores atuais.
+- O `model` deve ser um UUID completo de gateway de IA; chamadas diretas a modelos integrados e busca por slug de gateway são desativadas.
+- Fontes MCP, funções de protocolo, ferramentas incorporadas, Bash, habilidades e opções de sentinela são removidas da solicitação.
+- Apenas os seguintes parâmetros de solicitação são aceitos: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `idempotency_key` e `stream`.
+- Limites de taxa de requisição e de tokens são aplicados tanto globalmente por chave quanto por endereço remoto. Consulte [Public API keys](limits.md#public-api-keys) para os valores atuais.
 
-Use chaves privadas para serviços de backend, gerenciamento de conta, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo de trabalho que necessite da superfície completa de ferramentas do gateway.
+Use chaves privadas para serviços de backend, gerenciamento de conta, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo que necessite da superfície completa de ferramentas do gateway.
 
-Para sua primeira solicitação do lado do servidor, continue com [Faça sua primeira solicitação](overview.md#make-your-first-request). Se você estiver expondo uma experiência de navegador ou widget para usuários finais, revise [Clientes de Chat](/docs/pt-br/inference/chat-clients) antes de decidir se uma chave pública é o limite correto.
+Para a primeira solicitação do lado do servidor, continue com [Make your first request](overview.md#make-your-first-request). Se você estiver expondo uma experiência de navegador ou widget para usuários finais, revise [Chat Clients](/docs/pt-br/inference/chat-clients) antes de decidir se uma chave pública é o limite adequado.
 
 ## Gerenciar chaves
 
-Crie e revogue chaves de API na área de Chaves de API do painel AIVAX. As chaves pertencem a uma conta e podem ter um rótulo, validade e tipo; chaves expiradas são rejeitadas pela autenticação.
+Crie e revogue chaves de API na área API Keys do painel da AIVAX. As chaves pertencem a uma conta e podem ter um rótulo, validade e tipo; chaves expiradas são rejeitadas pela autenticação.
 
-Crie chaves separadas para aplicações separadas. Isso torna a rotação mais segura: se uma integração for comprometida, você pode revogar apenas essa chave em vez de quebrar todos os serviços vinculados à conta. Use rótulos para identificar o proprietário e a aplicação de cada chave, e datas de validade para planejar quando renovar ou substituir.
+Crie chaves separadas para aplicações separadas. Isso torna a rotação mais segura: se uma integração for comprometida, você pode revogar apenas essa chave sem quebrar todos os serviços vinculados à conta. Use rótulos para identificar o proprietário e a aplicação de cada chave, e datas de validade para planejar quando renová‑la ou substituí‑la.
 
 ## Enviar uma chave com autenticação Bearer
 
-Para SDKs compatíveis com OpenAI, passe a chave AIVAX como a chave de API do SDK e defina a URL base para `https://inference.aivax.net/v1`.
+Para SDKs compatíveis com OpenAI, passe a chave AIVAX como a chave de API do SDK e configure a URL base para `https://inference.aivax.net/v1`.
 
 ```python
 from openai import OpenAI
@@ -53,19 +53,19 @@ client = OpenAI(
 
 ## Autenticação de hook
 
-AIVAX pode autenticar solicitações de saída para seus serviços, como workers de gateway de IA e funções de protocolo do lado do servidor.
+AIVAX pode autenticar solicitações de saída para seus serviços, como workers de AI Gateway e funções de protocolo do lado do servidor.
 
-Esta é a direção reversa da autenticação de API normal. Em uma chamada de API normal, sua aplicação prova que tem permissão para chamar AIVAX enviando uma chave de API. Em um callback de worker ou função de protocolo, AIVAX está chamando seu serviço, portanto seu serviço precisa de um meio de verificar que a solicitação realmente veio da configuração de conta que você controla. É para isso que serve `X-Request-Nonce`.
+Esta é a direção reversa da autenticação de API normal. Em uma chamada de API normal, sua aplicação prova que tem permissão para chamar a AIVAX enviando uma chave de API. Em um callback de worker ou função de protocolo, a AIVAX está chamando seu serviço, portanto seu serviço precisa de um meio de verificar que a solicitação realmente veio da configuração de conta que você controla. É para isso que serve o `X-Request-Nonce`.
 
-Se sua conta tem uma chave de hook, AIVAX envia:
+Se sua conta possui uma chave de hook, a AIVAX envia:
 
 ```text
 X-Request-Nonce: <BCrypt hash>
 ```
 
-O nonce é um hash BCrypt derivado da chave de hook da conta. Valide o cabeçalho verificando a chave de hook em texto plano armazenada contra o hash. Se a conta não tiver chave de hook, o cabeçalho não é enviado.
+O nonce é um hash BCrypt derivado da chave de hook da conta. Valide o cabeçalho verificando a chave de hook em texto plano armazenada contra o hash. Se a conta não possuir chave de hook, o cabeçalho não é enviado.
 
-Rotacionar a chave de hook invalida segredos de validação de workers e integrações existentes.
+Rotacionar a chave de hook invalida segredos de validação existentes de workers e integrações.
 
 ### Exemplo em C#
 
@@ -119,3 +119,25 @@ if (!(await bcrypt.compare(hookKey, nonce))) {
   return res.sendStatus(403);
 }
 ```
+
+## Entrada no console
+
+O console em `console.aivax.net` faz login com a chave de login enviada por e‑mail quando a conta é criada. Uma chave de login não é uma chave de API. Ela apenas abre uma sessão no console. As chaves de API continuam a chamar a API sem uma chave de login ou código de autenticador.
+
+### Autenticação de dois fatores
+
+Os titulares de conta podem adicionar um ou mais aplicativos autenticadores em **My account**, **Security**. O código QR e o segredo são mostrados apenas enquanto o código de seis dígitos desse aplicativo é confirmado. Após a confirmação, o segredo não pode ser visualizado novamente.
+
+Quando ao menos um autenticador está confirmado, o login no console e a troca para aquela conta salva solicitam um código atual de seis dígitos. `POST /api/v1/auth/login` aceita um `totpCode` opcional. Se a chave de login for válida e o código estiver ausente, a resposta contém `requiresTwoFactor: true` e não cria uma sessão. Envie novamente a mesma chave de login com `totpCode`. Contas sem autenticador permanecem inalteradas.
+
+Remover o último autenticador desativa o prompt. Desativar a autenticação de dois fatores sem um código atual é tratado pelo [AIVAX support](https://aivax.net/contact/).
+
+### Recuperar acesso
+
+A página de login contém um link para o suporte da conta.
+
+- **Recover login key** solicita o e‑mail de registro. AIVAX exibe a mesma confirmação independentemente de esse e‑mail pertencer ou não a uma conta. Quando pertence, a mensagem contém um link de login de uso único e um link para redefinir a chave de login. Ambos expiram em uma hora. O link de login ainda solicita um código de autenticador quando a autenticação de dois fatores está habilitada. O link de redefinição cria uma nova chave de login, envia‑a por e‑mail e encerra todas as sessões de console da conta. Não desativa a autenticação de dois fatores nem revoga chaves de API.
+- **Disable two-factor authentication** abre o [AIVAX support](https://aivax.net/contact/).
+- Se o e‑mail de registro não estiver mais disponível, use a mesma página de suporte.
+
+Redefinir a chave de login em **Security** solicita confirmação e, em seguida, realiza a mesma rotação: uma nova chave é enviada por e‑mail, as sessões de console são encerradas e o login salvo no navegador é apagado. As chaves de API continuam funcionando.
