@@ -40,7 +40,7 @@ Instruction settings shape the provider-facing prompt:
 - **User prompt template**: Replaces `{prompt}` with each user message's text before sending it to the model.
 - **Assistant prefill**: Adds initial assistant content before generation when the model supports prefill.
 
-Remote instruction sources are fetched as text, and each response can be at most 5 MB. If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
+Remote instruction sources are fetched as text, and each response can be at most 5 MB. If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) is cached for the full cache duration like a successful one, and there is no stale-if-error fallback: if a previously good source expires during an outage, the model receives only the `# <name>` title with no body (or nothing, if the source has no name), and no error or log entry is shown. Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
 
 Some models do not support assistant prefill, temperature, stop sequences, or reasoning effort. Integrated model validation rejects incompatible gateway settings when those limitations are known.
 

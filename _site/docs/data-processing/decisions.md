@@ -26,9 +26,9 @@ All models below support `choice`, `noul`, and `score`. See [Usage and cost](#us
 | `@cloudflare/clef-flash` |
 | `@liquid/d1-ultra` |
 | `@liquid/d1` |
+| `@liquid/d1.1` |
 | `@perplexity/pplx-decider-v1.2` |
 | `@perplexity/pplx-decider-flash-v1.2` |
-| `@perplexity/pplx-decider-v1.1-27b` |
 | `@openai/gpt-6-luna-decisions` |
 | `@microsoft/microsoft-decision-1` |
 | `@nace-ai/drex-v1.5` |
@@ -48,8 +48,8 @@ Each response returns the canonical model name in `model`. These short names are
 | `@respan/span` | `@respan/span-01` |
 | `@respan/span-lite` | `@respan/span-01-lite` |
 | `@jaredpalmer/kev` | `@jaredpalmer/kev-4b` |
-| `@liquid/d` | `@liquid/d1` |
-| `@perplexity/pplx-decider` | `@perplexity/pplx-decider-v1.1-27b` |
+| `@liquid/d` | `@liquid/d1.1` |
+| `@perplexity/pplx-decider` | `@perplexity/pplx-decider-v1.2` |
 | `@perplexity/pplx-decider-flash` | `@perplexity/pplx-decider-flash-v1.2` |
 | `@nace-ai/drex` | `@nace-ai/drex-v1.5` |
 
@@ -241,9 +241,9 @@ These model-specific limits apply in addition to the account-level request quota
 | `@cloudflare/clef-flash` | 24,576 tokens |
 | `@liquid/d1-ultra` | 32,768 tokens |
 | `@liquid/d1` | 65,536 tokens |
+| `@liquid/d1.1` | 65,536 tokens |
 | `@perplexity/pplx-decider-v1.2` | 262,144 tokens |
 | `@perplexity/pplx-decider-flash-v1.2` | 262,144 tokens |
-| `@perplexity/pplx-decider-v1.1-27b` | 262,144 tokens |
 | `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
 | `@microsoft/microsoft-decision-1` | 32,768 tokens |
 | `@nace-ai/drex-v1.5` | 131,072 tokens |
@@ -292,9 +292,9 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | `@cloudflare/clef-flash` | **$0.038** |
 | `@liquid/d1-ultra` | **$0.042** |
 | `@liquid/d1` | **$0.020** |
+| `@liquid/d1.1` | **$0.020** |
 | `@perplexity/pplx-decider-v1.2` | **$0.020** |
 | `@perplexity/pplx-decider-flash-v1.2` | **$0.010** |
-| `@perplexity/pplx-decider-v1.1-27b` | **$0.020** |
 | `@openai/gpt-6-luna-decisions` | **$0.100** |
 | `@microsoft/microsoft-decision-1` | **$0.042** |
 | `@nace-ai/drex-v1.5` | **$0.040** |

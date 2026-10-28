@@ -6,6 +6,8 @@ An AI Gateway stores a reusable inference configuration. Pass the gateway's ID o
 
 Use a gateway when the same behavior must be reused by multiple clients or changed without redeploying the calling application.
 
+Treat the gateway configuration as sensitive: `GET /api/v1/ai-gateways/<id>` returns the full parameters to the owning account, including `apiKey` in plain text when the gateway uses an external provider key.
+
 ## How to think about a gateway
 
 A direct call to `/v1/chat/completions` can call an integrated AIVAX model directly, for example `@openai/gpt-5-mini`. A gateway stores the decisions you do not want to repeat on every request:
@@ -75,7 +77,7 @@ OpenAI-compatible inference uses `/v1/chat/completions`. The `/v1/responses` end
 
 ## Recommended production configuration
 
-Write the system instructions so the model understands its role, audience, sources of truth, and limits. Include when to use RAG, when to use tools, and how to respond when information is unavailable. Avoid repeating operational settings that already exist in the gateway, such as truncation limits or tool lists.
+Write the system instructions so the model understands its role, audience, sources of truth, and limits. Include when to use RAG, when to use tools, and how to respond when information is unavailable. Avoid repeating operational settings that already exist in the gateway, such as truncation limits or tool lists. If your prompts currently live in OpenAI Prompt Objects or Agent Builder, see [what you lose when they shut down and where each piece can live](https://aivax.net/blog/openai-prompt-objects-agent-builder-shutdown-what-you-lose/).
 
 For RAG, link collections with short, self-contained, well-named documents. Choose the query strategy based on the conversation type:
 

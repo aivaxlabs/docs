@@ -48,7 +48,7 @@ Reference:
 
 ```json
 {
-    "model": "@google/gemini-2.5-flash",
+    "model": "@google/gemini-3.8-flash",
     "prompt": "Search for recent news about electric vehicles.",
     "stream": true,
     "builtin_tools": {

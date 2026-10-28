@@ -27,7 +27,7 @@ https://inference.aivax.net/v1/mcp/collections
 | `X-Mcp-Use-References` | Set to `none` to enable references in search results; omit the header to disable them. | disabled |
 | `X-Mcp-Allow-Write` | Use `yes` to expose document write and delete tools. | disabled |
 | `X-Mcp-Naming-Convention` | Controls how generated tools are named. Use `default` or `agent`. | `default` |
-| `X-Mcp-Enabled-Tools` | Comma-separated allowlist of tool types to expose: `search`, `write`, `delete`. See [Select which tools are exposed](#select-which-tools-are-exposed). | all available tools |
+| `X-Mcp-Enabled-Tools` | Comma-separated allowlist of tool types to expose: `search`, `browse`, `get`, `write`, `delete`. See [Select which tools are exposed](#select-which-tools-are-exposed). | all available tools |
 
 ## Configuration example
 
@@ -68,7 +68,37 @@ It accepts:
 
 The MCP read tool accepts at most 10 search terms and 500 total characters per call.
 
-When `X-Mcp-Allow-Write` is disabled, only the search tool is exposed. This is the recommended mode for assistants that only need to read a knowledge base.
+The browse tool lists indexed documents in a fixed order, without semantic search. Use it when the model needs to see what a collection contains, page through every document, or read a document by its exact name. With the default naming convention, it is named:
+
+```text
+{collection_name}_browse_documents
+```
+
+With the `agent` naming convention, it is named `{collection_name}_list`. It accepts:
+
+- `filter` (`string`, optional): a [document filter](../rag/document-filters.md), such as `name = "setup.md"`, `reference = "manual-v2"`, or `tags has "faq"`.
+- `sort` (`string`, optional): `createdAt`, `updatedAt`, `indexedAt`, or `name`. Defaults to `createdAt`.
+- `descending` (`boolean`, optional): lists newest first, or from Z to A when sorting by name. Defaults to `false`.
+- `include_content` (`boolean`, optional): adds the content and metadata of each document. Defaults to `false`, so the tool returns only names, tags, references, and dates. To read one document, prefer the get document tool.
+- `limit` (`number`, optional): documents per page, from 1 to 50. Defaults to 20.
+- `cursor` (`string`, optional): the `next_cursor` returned by the previous call. Send it with the same `filter`, `sort`, and `descending` values to read the next page. Cursors do not expire.
+
+The browse tool does not embed or rerank anything, so it has no search cost, but each call counts toward the search rate limit of your plan. Documents appear in it only after they are indexed.
+
+The get document tool reads one document by its exact name, such as a name returned by the browse tool. With the default naming convention, it is named:
+
+```text
+{collection_name}_get_document
+```
+
+With the `agent` naming convention, it is named `{collection_name}_get`. It accepts:
+
+- `name` (`string`): the exact document name.
+- `start_line` and `end_line` (`number`, optional): a 1-based, inclusive line range. Without them, the whole document is returned.
+
+It returns the name, tags, reference, metadata, dates, whether the document is already indexed, and the selected line range, followed by the content. A single call returns at most 100,000 characters; read longer documents in parts with `start_line` and `end_line`. Documents that are still waiting to be indexed can also be read. When several collections are configured, the first collection in `X-Mcp-Collection-Id` that has a document with that name is used. Like the browse tool, it has no search cost and counts toward the search rate limit.
+
+When `X-Mcp-Allow-Write` is disabled, only the search, browse, and get document tools are exposed. This is the recommended mode for assistants that only need to read a knowledge base.
 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
 
@@ -77,6 +107,8 @@ When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation
 Use the optional `X-Mcp-Enabled-Tools` header to expose only some of the generated tools. Provide a comma-separated allowlist of tool types, not generated tool names, so the same value works with any collection name and naming convention:
 
 - `search`: the read tool.
+- `browse`: the browse tool.
+- `get`: the get document tool.
 - `write`: the document creation/update tool.
 - `delete`: the document delete tool.
 
@@ -85,6 +117,12 @@ For example, to let a client add documents and search without being able to dele
 ```text
 X-Mcp-Allow-Write: yes
 X-Mcp-Enabled-Tools: search, write
+```
+
+To let a client list and read documents without semantic search:
+
+```text
+X-Mcp-Enabled-Tools: browse, get
 ```
 
 To expose only the write tool, for an ingestion agent that should not read the collection:

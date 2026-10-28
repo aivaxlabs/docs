@@ -60,7 +60,7 @@ When importing PDFs, spreadsheets, web pages, or manuals, inspect the resulting 
 
 ### Document size
 
-Very small documents, below about 10 tokens, are accepted but may not be retrieved reliably. Documents above about 1,562 tokens are accepted and indexed, but they record a warning in the account logs because a single vector represents their whole text less precisely. Text far beyond that size is truncated for embedding. Split large documents instead of relying on truncation.
+Very small documents, below about 32 tokens, are accepted but may not be retrieved reliably. Documents above about 4,096 tokens are accepted and indexed, but they record a warning in the account logs because a single vector represents their whole text less precisely. Text far beyond that size is truncated for embedding. Split large documents instead of relying on truncation.
 
 ## Import documents
 

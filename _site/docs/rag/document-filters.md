@@ -21,7 +21,7 @@ metadata.pages   >   10
 └── field ──┘   └op┘ └value┘
 ```
 
-- **Field** — what to look at: `name`, `content`, `tags`, `createdAt`, `updatedAt`, or `metadata.<key>`. See [Fields](#fields).
+- **Field** — what to look at: `name`, `content`, `reference`, `tags`, `createdAt`, `updatedAt`, or `metadata.<key>`. See [Fields](#fields).
 - **Operator** — how to compare: `=`, `>`, `contains`, `in`, `has`, `exists`, and others. See [Operators](#operators).
 - **Value** — a literal to compare against: a quoted string, a number, `true`, `false`, `null`, a date, or a list in parentheses. See [Values](#values).
 
@@ -33,6 +33,7 @@ The value must always be a literal. Functions, arithmetic, type conversions, and
 | --- | --- | --- |
 | `name` | text | The document name (`docid` in JSONL imports). |
 | `content` | text | The indexed document text. |
+| `reference` | text | The document reference that groups related documents, such as chunks of one source. Documents without a reference never match a positive condition on it. |
 | `tags` | list of text | The document tags (`__tags`). |
 | `createdAt` | date and time | When the document was created. |
 | `updatedAt` | date and time | When the document was last updated. |
@@ -48,7 +49,7 @@ Each operator works only with specific fields and value types. Any other combina
 
 | Operator | Meaning | Fields | Example |
 | --- | --- | --- | --- |
-| `=` | Equals | `name`, `content`, `createdAt`, `updatedAt`, `metadata.<key>` | `name = "refund-policy"` |
+| `=` | Equals | `name`, `content`, `reference`, `createdAt`, `updatedAt`, `metadata.<key>` | `name = "refund-policy"` |
 | `!=` | Not equals; exactly `not field = value` | Same as `=` | `metadata.lang != "en"` |
 
 For `metadata.<key>`, the value may be text, a number, `true`, `false`, or `null`. Text comparison ignores letter case and accents; see [Strings](#strings).
@@ -65,7 +66,7 @@ Ordering works on dates for `createdAt` and `updatedAt`, and on **numbers only**
 
 | Operator | Meaning | Fields | Example |
 | --- | --- | --- | --- |
-| `contains` | Includes the text; at least 3 characters | `name`, `content`, text `metadata.<key>` | `content contains "late fee"` |
+| `contains` | Includes the text; at least 3 characters | `name`, `content`, `reference`, text `metadata.<key>` | `content contains "late fee"` |
 | `startswith` | Begins with the text | Same | `name startswith "contract-"` |
 | `endswith` | Ends with the text | Same | `name endswith ".pdf"` |
 
@@ -75,7 +76,7 @@ These operators match literally, without wildcards: `%` and `_` match only thems
 
 | Operator | Meaning | Fields | Example |
 | --- | --- | --- | --- |
-| `in` | Equals any value in the list | `name`, `content`, `tags`, `metadata.<key>` | `metadata.region in ("latam", "emea")` |
+| `in` | Equals any value in the list | `name`, `content`, `reference`, `tags`, `metadata.<key>` | `metadata.region in ("latam", "emea")` |
 | `has` | The list contains the value | `tags`, array `metadata.<key>` | `tags has "finance"` |
 
 `field in (a, b, c)` is equivalent to `field = a or field = b or field = c`. For `tags`, `in` matches documents that have at least one of the listed tags. `has` is the only equality-style operator for `tags`; `tags = "x"` is rejected.
@@ -193,6 +194,7 @@ Store metadata with consistent types per key, and prefer keys made of ASCII lett
 | Exclude drafts | `not tags has "draft"` |
 | A specific document | `name = "refund-policy"` |
 | Documents from one family | `name startswith "manual-v2-"` |
+| All chunks of one source | `reference = "manual-v2"` |
 | Content mentioning a term | `content contains "late fee"` |
 | Created in the last 30 days | `createdAt >= now-30d` |
 | Updated in September 2026 | `updatedAt >= "2026-09-01" and updatedAt < "2026-10-01"` |
@@ -289,7 +291,7 @@ An invalid filter returns `400 Bad Request` with a message that names the proble
 
 ```json
 {
-  "error": "Invalid filter: Unknown field 'author'. Expected name, content, tags, createdAt, updatedAt or metadata.<key>. (at 0)"
+  "error": "Invalid filter: Unknown field 'author'. Expected name, content, reference, tags, createdAt, updatedAt or metadata.<key>. (at 0)"
 }
 ```
 

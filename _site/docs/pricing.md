@@ -45,7 +45,9 @@ API responses include a `Consumed-Credits` header when the request charged usage
 
 The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance. Treat a missing header as zero.
 
-The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](https://docs.aivax.net/docs/inference/batch.md) work, is not included. Streamed responses send their headers before generation completes, so do not rely on this header for them; read the usage reported at the end of the stream instead. Use your account usage records as the source of truth for billing.
+The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](https://docs.aivax.net/docs/inference/batch.md) work, is not included. Streamed responses never include this header, because it is added after the response has been produced. For a streamed request, read the `cost` recorded with the conversation (available when conversation logging is enabled) or calculate the cost from the reported token counts. Use your account usage records as the source of truth for billing.
+
+Parse the value as a floating-point number. Very small amounts, such as `1E-05`, can be written in scientific notation, and the sum of several charges can carry floating-point noise in its last digits.
 
 ## Data Sharing discount
 

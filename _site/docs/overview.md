@@ -112,6 +112,8 @@ AIVAX also provides MCP utilities for compatible agents:
 
 These utilities expose existing AIVAX capabilities through MCP; they do not replace the underlying account, collection, or inference products.
 
+To operate an account from the terminal or from scripts, install the [AIVAX CLI](https://docs.aivax.net/docs/cli.md) with `bun install -g @aivax/cli`.
+
 ## Make your first request
 
 Create a **private** key in the API Keys area of the AIVAX dashboard and store it as a secret, for example in an environment variable named `AIVAX_API_KEY`. Then install the OpenAI SDK with `python -m pip install openai` and create `quickstart.py`:
