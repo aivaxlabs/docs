@@ -7,12 +7,9 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 - [Bem-vindo](https://docs.aivax.net/pt-br/docs/overview.md)
 - [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md)
-- [Começando](https://docs.aivax.net/pt-br/docs/getting-started.md)
 - [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)
 - [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md)
 - [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md)
-- [Coleta de Dados](https://docs.aivax.net/pt-br/docs/data-collecting.md)
-- [Registro de alterações](https://docs.aivax.net/pt-br/docs/changelogs.md)
 
 ## RAG e coleções
 
@@ -23,14 +20,6 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
 - [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
 - [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
-- [Injetor de Mídia](https://docs.aivax.net/pt-br/docs/rag/media-injector.md)
-- [Segmentação de Texto](https://docs.aivax.net/pt-br/docs/rag/text-segmentation.md)
-- [Classificação de Texto](https://docs.aivax.net/pt-br/docs/rag/classification.md)
-- [Melhores Práticas para RAG](https://docs.aivax.net/pt-br/docs/rag/best-practices.md)
-
-## Filtros
-
-- [Filtros de Documento](https://docs.aivax.net/pt-br/docs/filters/document-filters.md)
 
 ## Inferência
 
@@ -55,9 +44,6 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Geração de Imagem](https://docs.aivax.net/pt-br/docs/generations/images.md)
 - [Texto para fala (TTS)](https://docs.aivax.net/pt-br/docs/generations/speech.md)
 - [Reconhecimento de fala (STT)](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
-- [Decisões semânticas](https://docs.aivax.net/pt-br/docs/generations/decisions.md)
-- [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/generations/media-descriptions.md)
-- [Ensinar Habilidade](https://docs.aivax.net/pt-br/docs/generations/teach-skill.md)
 
 ## Processamento de Dados
 
@@ -68,12 +54,6 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md)
 - [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md)
 - [Traduções](https://docs.aivax.net/pt-br/docs/data-processing/translations.md)
-
-## Recursos e funcionalidades
-
-- [Habilidades](https://docs.aivax.net/pt-br/docs/features/skills.md)
-- [Clientes de Chat](https://docs.aivax.net/pt-br/docs/features/chat-clients.md)
-- [Lote](https://docs.aivax.net/pt-br/docs/features/batch.md)
 
 ## Ferramentas
 
