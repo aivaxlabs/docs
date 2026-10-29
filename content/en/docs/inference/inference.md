@@ -6,7 +6,13 @@
 
 AIVAX exposes an OpenAI-compatible `chat/completions` API with additional AIVAX parameters. The additions are optional and are designed to support gateways, RAG, built-in tools, structured responses, multimodal pre-processing, model routing, and billing metadata.
 
-Use this page for direct inference calls. Use [AI Gateway](/docs/inference/ai-gateway) when the same configuration must be reused or centrally managed.
+This page covers direct inference calls. Use an [AI Gateway](/docs/inference/ai-gateway) when the same configuration must be reused or centrally managed.
+
+## Direct call or gateway
+
+Use a direct call for simple tasks, tests, internal routines, and integrations where the application controls the model, prompt, tools, and context for each request.
+
+Use an AI Gateway when behavior needs to be stable, auditable, and reusable. Gateways are better for support assistants, chat bots, RAG agents, permanent tools, workers, skills, and configurations shared by multiple clients.
 
 ## Endpoint
 
@@ -183,7 +189,7 @@ AIVAX accepts OpenAI-compatible message content parts for text, images, audio, v
                 {
                     "type": "input_audio",
                     "input_audio": {
-                        "data": "base64-encoded-audio",
+                        "data": "<BASE64_WAV_CONTENT>",
                         "format": "wav"
                     }
                 },
@@ -208,7 +214,7 @@ Supported content part mappings:
 - `input_audio`: Audio content. `input_audio.data` is base64 audio data, and `input_audio.format` names the format.
 - `file`: File content. `file.filename` names the file, and `file.file_data` can be an external URL or a base64 data URL.
 
-For video input, send a `video_url` content part. The following example uses a base64 Data URL; prefer a publicly reachable URL for large videos:
+For video input, send a `video_url` content part. The following example uses a base64 data URL; for large videos, prefer a publicly reachable URL:
 
 ```json
 {
@@ -233,9 +239,9 @@ For video input, send a `video_url` content part. The following example uses a b
 }
 ```
 
-External links must be accessible to AIVAX without authentication, firewall restrictions, or JavaScript-only rendering. Failed downloads, redirects, blocked URLs, unsupported formats, or provider-specific size limits can fail the inference.
+External links must be accessible to AIVAX without authentication, firewall restrictions, or JavaScript-only rendering. The inference can fail because of failed downloads, redirects, blocked URLs, unsupported formats, or provider-specific size limits.
 
-You can also send a simple text request with `prompt`:
+For a simple text-only request, you can send `prompt` instead of `messages`:
 
 ```json
 {
@@ -316,7 +322,7 @@ Use `multimodal_resolver` when the main model should receive a textual descripti
                     "type": "file",
                     "file": {
                         "filename": "document.pdf",
-                        "file_data": "data:application/pdf;base64,BASE64_PDF_CONTENT"
+                        "file_data": "data:application/pdf;base64,<BASE64_PDF_CONTENT>"
                     }
                 }
             ]
@@ -374,7 +380,7 @@ When a multimodal inference fails, narrow down the problem:
 
 ## Structured responses
 
-AIVAX supports structured responses through `response_schema`, `response_format`, and `json_only`.
+Use structured responses when your application needs JSON output that matches a schema. AIVAX supports them through `response_schema`, `response_format`, and `json_only`.
 
 ```json
 {
@@ -421,9 +427,9 @@ Read more on [Structured responses](/docs/inference/structured-responses).
 
 If your application cannot parse or validate the result, follow the [invalid JSON troubleshooting guide](https://aivax.net/blog/structured-output-healing-boundary/) before increasing the retry budget.
 
-## On-demand functions
+## On-demand built-in tools
 
-Use `builtin_tools` to enable AIVAX built-in tools for a direct request without creating a gateway:
+Use `builtin_tools` to enable AIVAX [built-in tools](/docs/tools/builtin-tools) for a direct request without creating a gateway:
 
 ```json
 {
@@ -450,7 +456,7 @@ On-demand tools are suitable for occasional calls, prototypes, and integrations 
 
 ## Custom provider request body
 
-When a gateway uses a provided API key and an OpenAI-compatible provider endpoint, `extra_body` can merge custom JSON into the provider request body:
+Use `extra_body` to send provider-specific options. When a gateway uses your own provider API key and an OpenAI-compatible provider endpoint, `extra_body` merges custom JSON into the provider request body:
 
 ```json
 {
@@ -475,7 +481,7 @@ Reasoning parameters differ by provider and model. See [how to set reasoning eff
 
 ## Tool explanations
 
-Set `tool_invocation_explanations: true` to ask AIVAX to include explanation fields in server-side tool arguments. When the model supplies `_tool_reason` and `_tool_goal`, `servertool.explanation` contains a client-friendly copy:
+Use tool explanations when your client shows users why a server-side tool is running. Set `tool_invocation_explanations: true` to ask AIVAX to include explanation fields in server-side tool arguments. When the model supplies `_tool_reason` and `_tool_goal`, `servertool.explanation` contains a client-friendly copy:
 
 ```json
 {
@@ -668,9 +674,3 @@ Inference rates depend on the selected model, provider, input size, and media ty
 | Input moderation | Variable price per PU; separate from the main inference charge |
 
 One moderation PU equals one output token of the moderation model, and input tokens count in proportion to their price. For example, with a model priced at $0.10/M input and $0.40/M output tokens, a check using 3,000 input and 50 output tokens consumes 800 PUs (3,000 × 0.25 + 50), about $0.00032 before the plan multiplier.
-
-## Direct call or gateway
-
-Use a direct call for simple tasks, tests, internal routines, and integrations where the application controls the model, prompt, tools, and context for each request.
-
-Use an AI Gateway when behavior needs to be stable, auditable, and reusable. Gateways are better for support assistants, chat bots, RAG agents, permanent tools, workers, skills, and configurations shared by multiple clients.

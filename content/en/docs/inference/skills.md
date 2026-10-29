@@ -4,40 +4,58 @@
 
 # Skills
 
-Skills (also known as abilities) can be used to improve how your agent performs on specific tasks. Skills are special instructions that are retrieved on demand, and your agent loads these skills as needed.
+Skills (also known as abilities) are instructions that your agent loads on demand to perform specific tasks better. Use them for specialized behavior that only some conversations need, instead of keeping every rule in the system instructions.
 
-The agent should load a skill only when it is relevant to the current task. It loads the skill through the `read_skill` tool, which adds the skill's instructions to the conversation context.
+The agent loads a skill only when it is relevant to the current task. It does this through the `read_skill` tool, which adds the skill's instructions to the conversation context.
 
 ## How do skills work?
 
-Skills are primarily provided through a slug and a brief description of what that skill is and when it should be used. You can have multiple skills in your account, but only use a subset of them in your [AI Gateway](/docs/inference/ai-gateway). The skills enabled in the AI Gateway are listed in the model’s system instructions and the `read_skill` function is added to the context.
+Each skill is identified by a slug and a brief description of what it does and when to use it. Your account can have many skills, and each [AI Gateway](/docs/inference/ai-gateway) enables only the subset it needs.
 
-When the model calls `read_skill`, it passes an array of skill slugs. The instructions for the matching skills are returned as the result of that call, each wrapped in `<skill:slug>` and `</skill:slug>` tags, where `slug` is the skill's own slug. The system instructions keep only the slug and description of each skill. More than one skill can be activated when a task spans multiple domains, and the model can call `read_skill` again with a different list when the active task changes.
+At inference time, the flow is:
+
+1. AIVAX lists the slug and description of each skill enabled in the gateway in the model's system instructions, and adds the `read_skill` function to the context. The full instructions are not included at this point.
+2. When a task matches a skill, the model calls `read_skill` with an array of skill slugs.
+3. The call returns the instructions of the matching skills, each wrapped in `<skill:slug>` and `</skill:slug>` tags, where `slug` is the skill's own slug.
+
+The model can activate more than one skill when a task spans multiple domains. When the active task changes, it can call `read_skill` again with a different list.
 
 For this to work, the chosen base model must support **function calls** and **system instructions**.
 
-- If your model does not support function calls, consider using a [tool handler](/docs/inference/pipelines) to handle function calls.
+- If your model does not support function calls, consider using a [tool handler](/docs/inference/pipelines#function-interpreter) to handle function calls.
 - If your model does not support system instructions, consider using the `No system instructions` flag, which provides system instructions as a user message.
 
 Larger models tend to follow instructions and function calls very strictly. Run tests to confirm that your model loads the right skills and switches them when the task changes.
 
 ## Structure and operation
 
-A skill has `slug`, `description`, `instructions`, and `options`. The `slug` is the technical identifier used by the account and must be 64 characters or fewer, using letters, numbers, underscores, periods, or hyphens. The `description` is the text that helps the model decide when that skill should be loaded; it needs to explain the usage scenario instead of repeating the name. The `instructions` are the full content that will be inserted when the skill is activated. In the current runtime path, `instructionSources` is stored and exported with the skill configuration, but only the inline `instructions` field is injected when the model activates a skill.
+A skill has `slug`, `description`, `instructions`, and `options`:
 
-Write the description as a routing rule. A description like “legal skill” is weak because it doesn’t say when to use it. A better description would be “use when the user asks for analysis, review, or explanation of contractual clauses in simple language.” The instructions, on the other hand, should be operational: explain how to respond, what questions to ask when data is missing, which tools may be useful, what limits must be respected, and the expected final format. The model reads the description to choose the skill and reads the instructions to perform the task.
+- `slug`: The technical identifier used by the account. It must be 64 characters or fewer, using letters, numbers, underscores, periods, or hyphens.
+- `description`: The text that helps the model decide when to load the skill. Explain the usage scenario instead of repeating the name.
+- `instructions`: The full content inserted when the skill is activated.
 
-`allowedToolsNames` is part of the skill configuration and associates runtime tool names with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. When the gateway hides tools without a skill, these tools become available after the model activates the skill with `read_skill`. Only the skills from the most recent successful `read_skill` call are active; a call blocked by a gateway worker or rejected as invalid does not expose them. Use the general always-visible tool list for tools that must stay available regardless of the active skill.
+`instructionSources` is stored and exported with the skill configuration, but only the inline `instructions` field is injected when the model activates a skill.
 
-Skills can also be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least `slug` and `instructions`; `description` and `options` can complement the configuration. When importing a skill with an existing `slug`, AIVAX updates the corresponding skill instead of creating a duplicate.
+Write the description as a routing rule. A description like “legal skill” is weak because it doesn’t say when to use it. A better description would be “use when the user asks for analysis, review, or explanation of contractual clauses in simple language.”
+
+The instructions, on the other hand, should be operational: explain how to respond, what questions to ask when data is missing, which tools may be useful, what limits must be respected, and the expected final format. The model reads the description to choose the skill and reads the instructions to perform the task.
+
+`allowedToolsNames` is part of the skill configuration and associates runtime tool names with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. When the gateway hides tools without a skill, these tools become available after the model activates the skill with `read_skill`.
+
+Only the skills from the most recent successful `read_skill` call are active; a call blocked by a gateway worker or rejected as invalid does not expose them. Use the general always-visible tool list for tools that must stay available regardless of the active skill.
+
+### Import and export skills
+
+Skills can be imported and exported in JSONL. This format is useful for versioning skills, migrating settings between accounts, keeping a set of skills in a repository, or reviewing changes before publishing. Each line must represent a skill with at least `slug` and `instructions`; `description` and `options` can complement the configuration. When importing a skill with an existing `slug`, AIVAX updates the corresponding skill instead of creating a duplicate.
 
 ## How to write skills?
 
-Writing effective skills requires clarity and specificity in the instructions. Here are the main guidelines:
+Effective skills have a clear routing description and specific instructions. Use the following guidelines.
 
 ### Skill structure
 
-A well‐written skill should contain:
+A well-written skill should contain:
 
 1. **Clear, descriptive slug**: Use a short slug that immediately identifies the purpose of the skill, such as `python_code_analysis`, `customer_support`, or `technical_translation`.
 
@@ -52,19 +70,21 @@ A well‐written skill should contain:
 
 ### Best practices
 
-- **Be specific**: Avoid vague instructions. Instead of “be helpful,” say “provide step‐by‐step explanations with code examples.”
+- **Be specific**: Avoid vague instructions. Instead of “be helpful,” say “provide step-by-step explanations with code examples.”
 - **Use imperative language**: Start sentences with action verbs (analyze, explain, compare, list).
 - **Keep the scope limited**: Each skill should focus on a specific knowledge area or type of task.
-- **Iteratively test**: Refine your skills based on how the model responds in practice.
+- **Test iteratively**: Refine your skills based on how the model responds in practice.
 - **Avoid redundancy**: Do not repeat information already present in the base system instructions.
 
 ### Skill example
+
 - Name: Code Performance Analysis
 - Description: Use when the user asks for performance analysis, optimization, or bottleneck identification in code.
+- Instructions:
 
 ```markdown
 - Analyze the provided code identifying possible performance bottlenecks
-- Consider temporal complexity (Big O) and memory usage
+- Consider time complexity (Big O) and memory usage
 - Suggest specific optimizations with code examples
 - Explain the impact of each proposed optimization
 - Prioritize readability and maintainability alongside performance
@@ -72,11 +92,11 @@ A well‐written skill should contain:
 
 ## When to use skills?
 
-Skills are most useful in specific scenarios where you need specialized behavior:
+Skills are most useful when the agent needs specialized behavior only in some conversations.
 
 ### Ideal scenarios
 
-**1. Domain‐specific expertise**
+**1. Domain-specific expertise**
 - Technical terminology specific to an industry
 - Compliance with regulations or standards
 - Specific methodologies (Scrum, ITIL, SOC 2, etc.)
@@ -87,7 +107,7 @@ Skills are most useful in specific scenarios where you need specialized behavior
 - Different personas or roles
 
 **3. Complex, structured processes**
-- Multi‐step workflows
+- Multi-step workflows
 - Analyses that follow specific frameworks
 - Document generation with strict formats
 
@@ -120,6 +140,6 @@ Skills are most useful in specific scenarios where you need specialized behavior
 - **Avoid overlap**: Skills with similar descriptions can confuse the model.
 - **Test transitions**: Ensure the model switches skills when appropriate.
 
-## When to choose RAG or system instructions instead
+## Combine skills with RAG and pipelines
 
-Use skills together with [collections](/docs/rag/collections) when the task needs searchable knowledge, and with [pipelines](/docs/inference/pipelines) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building Production‐Ready RAG Applications](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](/docs/inference/ai-gateway).
+Use skills together with [collections](/docs/rag/collections) when the task needs searchable knowledge, and with [pipelines](/docs/inference/pipelines) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building effective agents](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](/docs/inference/ai-gateway).

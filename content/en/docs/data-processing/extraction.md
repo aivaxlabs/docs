@@ -28,7 +28,7 @@ Choose Extraction when you already know which fields you need and want them read
     <span>/api/v1/generations/extract</span>
 </div>
 
-## Request behavior
+## Build the request
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -38,7 +38,11 @@ Choose Extraction when you already know which fields you need and want them read
 
 Each property in `responseSchema` is one field to find. Its `description` is the search criterion, so write it as a short, specific definition, such as "total amount due" instead of "total". Nested objects and arrays of objects are supported. `$ref` and `$defs` are not; inline every definition instead.
 
-Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, up to 5 MB each; the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request` with the index of the rejected document.
+Images and files accept base64 data URLs or public HTTP(S) URLs:
+
+- Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs.
+- AIVAX downloads remote URLs before processing, up to 5 MB each. The resource must be reachable without sign-in.
+- Other content types, such as audio or video, return `400 Bad Request` with the index of the rejected document.
 
 The following request extracts invoice fields from a text document and a PDF:
 
@@ -99,7 +103,7 @@ The following request extracts invoice fields from a text document and a PDF:
 }
 ```
 
-Documents are processed independently and in parallel. If any document fails, the request returns an error instead of partial results, so correct or remove that document and retry.
+Documents are processed independently and in parallel. If any document fails, the whole request returns an error instead of partial results. Correct or remove that document and retry.
 
 Extracted values are model-generated. They can be missing, incomplete, or wrong, especially in low-quality scans or complex layouts. Validate the structure and verify consequential values, such as amounts and identifiers, against the original document.
 

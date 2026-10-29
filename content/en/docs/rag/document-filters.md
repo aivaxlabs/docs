@@ -8,6 +8,8 @@ An advanced filter, also called a document filter, restricts a RAG search to the
 
 Filters are evaluated **before** the search terms are embedded. When no document in the requested collections matches the filter, the request returns an empty result without generating embeddings or charging for the search.
 
+Some example filters:
+
 ```text
 tags has "finance"
 metadata.department = "finance" and createdAt >= now-30d
@@ -226,8 +228,8 @@ Store metadata with consistent types per key, and prefer keys made of ASCII lett
 
 Send the filter in the `filter` field of these endpoints:
 
-- [Query collections, Find similar documents, and Browse documents](../rag/semantic-search.md)
-- Answer generation
+- [Query collections](semantic-search.md#query-collections), [Find similar documents](semantic-search.md#find-similar-documents), and [Browse documents](semantic-search.md#browse-documents)
+- Answer generation (see the endpoint reference below)
 
 The field accepts a string or an array of strings. Array items are combined with `and`:
 
@@ -285,7 +287,11 @@ These limits apply to every filter, including filters used by memory search and 
 | Minimum `contains` length | 3 characters |
 | Execution time | 10 seconds |
 
-Conditions on `content`, `endswith`, tags, and metadata examine every document in the requested collections, so they take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. Prefer conditions on `name` (`=`, `in`, `startswith`), split very large corpora into smaller collections, and reserve `content contains` for collections where it stays fast.
+Conditions on `content`, `endswith`, tags, and metadata examine every document in the requested collections, so they take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
+
+- Prefer conditions on `name` (`=`, `in`, `startswith`).
+- Split very large corpora into smaller collections.
+- Reserve `content contains` for collections where it stays fast.
 
 ## Errors
 

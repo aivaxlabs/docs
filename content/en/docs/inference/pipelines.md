@@ -6,11 +6,11 @@
 
 AI Gateway pipelines are the processing steps AIVAX applies before and during inference. They can add context, rewrite queries, expose tools, moderate input, route models, truncate conversations, and call external workers.
 
-Most pipelines are configured in the gateway parameters. Request-level options can override some inference parameters on direct `chat/completions` calls.
+Most pipelines are configured in the [AI Gateway](/docs/inference/ai-gateway) parameters. Request-level options can override some inference parameters on direct [`chat/completions`](/docs/inference/inference) calls.
 
 ## RAG
 
-RAG links [collections](/docs/rag/collections) to an AI Gateway. The gateway controls:
+The RAG pipeline adds knowledge from your documents to the model context. It links [collections](/docs/rag/collections) to an AI Gateway. The gateway controls:
 
 - Collections included in retrieval.
 - Maximum number of retrieved documents.
@@ -42,13 +42,19 @@ Instruction settings shape the provider-facing prompt:
 - **User prompt template**: Replaces `{prompt}` with each user message's text before sending it to the model.
 - **Assistant prefill**: Adds initial assistant content before generation when the model supports prefill.
 
-Remote instruction sources are fetched as text, and each response can be at most 5 MB. If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) is cached for the full cache duration like a successful one, and there is no stale-if-error fallback: if a previously good source expires during an outage, the model receives only the `# <name>` title with no body (or nothing, if the source has no name), and no error or log entry is shown. Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
+Remote instruction sources are fetched as text, and each response can be at most 5 MB. Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
+
+If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. Keep these failure rules in mind:
+
+- A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) is cached for the full cache duration, like a successful one.
+- There is no stale-if-error fallback. If a previously good source expires during an outage, the model receives only the `# <name>` title with no body (or nothing, if the source has no name).
+- No error or log entry is shown when this happens.
 
 Some models do not support assistant prefill, temperature, stop sequences, or reasoning effort. Integrated model validation rejects incompatible gateway settings when those limitations are known.
 
 ## Skills
 
-Skills are on-demand instruction packs available to the model. When a gateway enables skills, AIVAX loads the account skills configured on the gateway and can expose skill-related built-in functions.
+Skills are on-demand instruction packs available to the model. Use them for specialized instructions that only some tasks need. When a gateway enables skills, AIVAX loads the account skills configured on the gateway and can expose skill-related built-in functions.
 
 Read more about [skills](/docs/inference/skills).
 
@@ -64,7 +70,7 @@ Results are cached by content and engine for reuse.
 
 ## Parameterization
 
-The parameterization pipeline configures model request options such as:
+The parameterization pipeline sets default model request options for the gateway, such as:
 
 - `temperature`
 - `top_p`
@@ -80,7 +86,7 @@ Request-level values can override gateway values when the endpoint supports the 
 
 ## Context truncation
 
-The context truncation pipeline uses an approximate token count. When `ContextMaximumSize` is set and the conversation exceeds the limit, the gateway follows `ContextOverflowAction`:
+Context truncation keeps long conversations within a maximum input size. It uses an approximate token count. When `ContextMaximumSize` is set and the conversation exceeds the limit, the gateway follows `ContextOverflowAction`:
 
 - `Throw`: Return an error instead of calling the model.
 - `Truncate`: Remove the oldest non-system messages until the remaining conversation messages fit. The request continues even if the prompt, including system instructions and retrieved RAG context, still exceeds the limit.
@@ -98,7 +104,9 @@ On lower plans, the effective input context may be capped even when a larger con
 [tool response truncated - call this tool again]
 ```
 
-This can reduce context usage in long agentic conversations. It can also hurt chains where an old tool result remains important, so use it only when the model can safely call the tool again. Rewriting older tool messages also changes the request prefix, which can lower the prompt cache hit rate; to check this on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+This can reduce context usage in long agentic conversations. It can also hurt chains where an old tool result remains important, so use it only when the model can safely call the tool again.
+
+Rewriting older tool messages also changes the request prefix, which can lower the prompt cache hit rate; to check this on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ## Server-side tools
 
@@ -143,7 +151,7 @@ See [Protocol functions](/docs/tools/protocol-functions) and [MCP](/docs/tools/m
 
 ## Function interpreter
 
-A tool handler can add tool-calling behavior for models that do not reliably produce native tool calls. Supported values are:
+The function interpreter, also called the tool handler, adds tool-calling behavior for models that do not reliably produce native tool calls. Supported values are:
 
 - `native` or `null`: Use native model tool calling.
 - `react.v1.selfcall`: Use the ReAct-style self-call handler.
@@ -152,7 +160,9 @@ If a handler name is not recognized, gateway configuration fails at inference ti
 
 ## Moderation
 
-Moderation is an input gate that runs before the main model. When at least one moderation category is enabled, AIVAX sends the available textual conversation to a safeguard model. The safeguard evaluates the latest user request in the context established by the conversation and returns a score from 0 to 10 for every category.
+Moderation is an input gate that runs before the main model. Use it to block unsafe or out-of-policy requests before the main model answers them.
+
+When at least one moderation category is enabled, AIVAX sends the available textual conversation to a safeguard model. The safeguard evaluates the latest user request in the context established by the conversation and returns a score from 0 to 10 for every category.
 
 | Category | Gateway property | What the safeguard evaluates |
 | --- | --- | --- |
@@ -215,7 +225,9 @@ When any enabled category reaches its cutoff:
 2. AIVAX replaces them with an instruction identifying the categories that caused the block.
 3. The main model generates a refusal instead of answering the original request.
 
-The refusal is model-generated; moderation does not return a fixed response body. If every moderation model fails to produce a valid result, the request is not rejected. The main model instead receives strict instructions derived from the configured categories, sensitivity levels, and additional rules, and applies the policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
+The refusal is model-generated; moderation does not return a fixed response body.
+
+If every moderation model fails to produce a valid result, the request is not rejected. The main model instead receives strict instructions derived from the configured categories, sensitivity levels, and additional rules, and applies the policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
 
 ### Context and current limitations
 
@@ -234,4 +246,4 @@ For a decision guide on system prompts, a separate moderation step, and authoriz
 
 ## Workers
 
-Configure worker events and endpoint details in the gateway parameters; implement the event behavior at your external endpoint. See [AI Workers](/docs/inference/workers).
+Workers call your external endpoint during gateway events, so your own code can allow, stop, or change the request. Configure worker events and endpoint details in the gateway parameters, and implement the event behavior at your endpoint. See [AI Workers](/docs/inference/workers).

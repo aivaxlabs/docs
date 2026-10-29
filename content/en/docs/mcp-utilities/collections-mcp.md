@@ -6,7 +6,9 @@
 
 The Collections MCP exposes one or more AIVAX RAG collections as tools for compatible MCP clients. Use it when an external model, agent, IDE, or desktop assistant should decide when to search an AIVAX knowledge base.
 
-For information about creating collections, preparing documents, and improving retrieval quality, see [Collections and Documents](/docs/rag/collections) and [Semantic Search](/docs/rag/semantic-search).
+For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](/docs/inference/ai-gateway) and let the gateway RAG pipeline retrieve documents automatically.
+
+For information about creating collections, preparing documents, and improving retrieval quality, see [Collections](/docs/rag/collections), [Documents](/docs/rag/documents), and [Semantic Search](/docs/rag/semantic-search).
 
 ## Endpoint
 
@@ -55,6 +57,10 @@ Visual Studio Code:
 
 ## Generated tools
 
+The server generates up to five tools per configuration: search, browse, get document, and, when writes are allowed, write and delete. Tool names are built from `X-Mcp-Collection-Name` and the naming convention.
+
+### Search tool
+
 With the default naming convention, the read tool is named:
 
 ```text
@@ -67,6 +73,8 @@ It accepts:
 - `filter` (`string`, optional): a [document filter](../rag/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
 The MCP read tool accepts at most 10 search terms and 500 total characters per call.
+
+### Browse tool
 
 The browse tool lists indexed documents in a fixed order, without semantic search. Use it when the model needs to see what a collection contains, page through every document, or read a document by its exact name. With the default naming convention, it is named:
 
@@ -85,6 +93,8 @@ With the `agent` naming convention, it is named `{collection_name}_list`. It acc
 
 The browse tool does not embed or rerank anything, so it has no search cost, but each call counts toward the search rate limit of your plan. Documents appear in it only after they are indexed.
 
+### Get document tool
+
 The get document tool reads one document by its exact name, such as a name returned by the browse tool. With the default naming convention, it is named:
 
 ```text
@@ -96,7 +106,14 @@ With the `agent` naming convention, it is named `{collection_name}_get`. It acce
 - `name` (`string`): the exact document name.
 - `start_line` and `end_line` (`number`, optional): a 1-based, inclusive line range. Without them, the whole document is returned.
 
-It returns the name, tags, reference, metadata, dates, whether the document is already indexed, and the selected line range, followed by the content. A single call returns at most 100,000 characters; read longer documents in parts with `start_line` and `end_line`. Documents that are still waiting to be indexed can also be read. When several collections are configured, the first collection in `X-Mcp-Collection-Id` that has a document with that name is used. Like the browse tool, it has no search cost and counts toward the search rate limit.
+It returns the name, tags, reference, metadata, dates, whether the document is already indexed, and the selected line range, followed by the content.
+
+- A single call returns at most 100,000 characters. Read longer documents in parts with `start_line` and `end_line`.
+- Documents that are still waiting to be indexed can also be read.
+- When several collections are configured, the first collection in `X-Mcp-Collection-Id` that has a document with that name is used.
+- Like the browse tool, it has no search cost and counts toward the search rate limit.
+
+### Write and delete tools
 
 When `X-Mcp-Allow-Write` is disabled, only the search, browse, and get document tools are exposed. This is the recommended mode for assistants that only need to read a knowledge base.
 
@@ -133,5 +150,3 @@ X-Mcp-Enabled-Tools: write
 ```
 
 The allowlist only narrows the tool set. `write` and `delete` still require `X-Mcp-Allow-Write: yes`; without it, they are not exposed even when listed. Without `X-Mcp-Enabled-Tools`, the server exposes every tool allowed by the other headers. Values are case-insensitive, spaces around commas are ignored, and unknown values are ignored.
-
-Use Collections MCP when an external model or MCP client should decide when to search. For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](/docs/inference/ai-gateway) and let the gateway RAG pipeline retrieve documents automatically.

@@ -6,9 +6,19 @@
 
 The account management MCP exposes selected AIVAX account operations to an MCP-compatible client, such as an IDE, desktop assistant, internal agent, or automation environment. It is designed for trusted operators and backend workflows that need to inspect account capabilities, discover documentation, or call authenticated AIVAX API routes without leaving the MCP client.
 
-This endpoint is different from configuring an external MCP source inside an [AI Gateway](/docs/tools/mcp). In that flow, AIVAX is the MCP client and your gateway calls another server during inference. With the account management MCP, AIVAX is the MCP server. Your MCP client connects to AIVAX and receives tools for operating the authenticated account.
+This is not the same as adding an [external MCP source to an AI Gateway](/docs/tools/mcp):
 
-Use this MCP when an agent needs account-aware context before it acts: which models are available to the current plan, how a feature is documented, what an API route returns, or whether an account resource can be created, updated, or inspected through the existing AIVAX API. It is especially useful for internal support assistants, development environments, account administration copilots, and implementation agents that need to combine documentation lookup with real API calls.
+- **External MCP source:** AIVAX is the MCP client. Your gateway calls another server during inference.
+- **Account management MCP:** AIVAX is the MCP server. Your MCP client connects to AIVAX and receives tools for operating the authenticated account.
+
+Use this MCP when an agent needs account-aware context before it acts, for example:
+
+- Which models are available to the current plan.
+- How a feature is documented.
+- What an API route returns.
+- Whether an account resource can be created, updated, or inspected through the existing AIVAX API.
+
+It is especially useful for internal support assistants, development environments, account administration copilots, and implementation agents that need to combine documentation lookup with real API calls.
 
 Because the MCP can invoke authenticated AIVAX functions, connect it only from trusted clients and use a private API key. Do not expose this server to end users or browser-side applications.
 
@@ -51,7 +61,7 @@ After the client connects, it can list the tools exposed by the account manageme
 
 ## What you can use it for
 
-The account management MCP is useful when the assistant needs to reason about the account itself, not only answer an end-user prompt. It gives an MCP client a controlled way to combine AIVAX documentation, model metadata, and authenticated account API calls. This makes it a good fit for operational agents, implementation copilots, and internal assistants that need to inspect how an AIVAX workspace is configured before recommending or changing something.
+The account management MCP is useful when the assistant needs to reason about the account itself, not only answer an end-user prompt. It combines AIVAX documentation, model metadata, and authenticated account API calls in one controlled tool set. The scenarios below show typical uses; in each one, the assistant inspects how the account is configured before recommending or changing something.
 
 ### Create and maintain agents
 
@@ -105,6 +115,11 @@ The best workflow is iterative: inspect a failing answer, identify which context
 
 Treat this MCP server as an administrative integration. A private key connected to it may be able to read or mutate account resources depending on the routes the agent invokes.
 
-Use a dedicated API key for each MCP client or automation. Label it clearly, set an expiration when possible, and rotate it if the client is shared, compromised, or no longer needed. Store the key in the MCP client's secret mechanism or local configuration store, not in source control.
+For each MCP client or automation:
+
+- Use a dedicated API key and label it clearly.
+- Set an expiration when possible.
+- Rotate the key if the client is shared, compromised, or no longer needed.
+- Store the key in the MCP client's secret mechanism or local configuration store, not in source control.
 
 Do not connect the account management MCP to untrusted agents, public chat clients, or user-controlled browser sessions. If a workflow only needs retrieval from a RAG collection, use the [collection MCP](/docs/mcp-utilities/collections-mcp) with read-only configuration. If a gateway needs to call your external tools during inference, configure [MCP functions](/docs/tools/mcp) or [server-side functions](/docs/tools/protocol-functions) instead.
