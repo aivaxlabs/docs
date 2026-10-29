@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const crypto = require('crypto');
 const { spawn } = require('child_process');
 
@@ -9,10 +10,9 @@ const ROOT = __dirname;
 const SOURCE = path.join(ROOT, 'content/en');
 const SITE = path.join(ROOT, '_site');
 const LANGUAGES = { 'pt-br': 'Brazilian Portuguese' };
+const DIRECT_ENDPOINT = 'https://direct.inference.aivax.net';
 const DEFAULT_TRANSLATION = {
-    apiUrl: 'https://inference.aivax.net/v1/chat/completions',
-    apiKeyEnv: 'AIVAX_API_KEY',
-    model: '@inception/mercury-2',
+    profile: null,
     concurrency: 3,
     maxRetries: 5
 };
@@ -30,8 +30,10 @@ Commands:
   help, --help, -h           Show this help (also shown without arguments)
 
 Languages: pt-br (Brazilian Portuguese); English is the source.
-Translation settings: config.json; key from the configured environment variable
-(default AIVAX_API_KEY). Never put credentials in config.json.
+Translation runs "aivax generate translate" from the AIVAX CLI, which must be on PATH.
+Requests go to the direct long-inference host unless AIVAX_ENDPOINT is set.
+It authenticates with AIVAX_API_KEY when set, otherwise with the CLI profile from
+config.json (translation.profile) or the CLI default profile. Never put credentials in config.json.
 Progress includes errors and ETA. Failures: translate.errors.txt; logs: debug.log.
 --debug enables detailed processing logs. Translation skips matching sourceHash values.
 
@@ -102,85 +104,88 @@ async function translate(language, force, debug) {
     const config = { ...DEFAULT_TRANSLATION, ...(fs.existsSync(configFile) ? JSON.parse(fs.readFileSync(configFile, 'utf8')).translation : {}) };
     if (!Number.isInteger(config.concurrency) || config.concurrency < 1) throw new Error('translation.concurrency must be a positive integer');
     if (!Number.isInteger(config.maxRetries) || config.maxRetries < 1) throw new Error('translation.maxRetries must be a positive integer');
-    const apiKey = process.env[config.apiKeyEnv];
-    if (!apiKey) throw new Error(`Environment variable ${config.apiKeyEnv} is not set`);
     const errors = [];
     const errorsFile = path.join(ROOT, 'translate.errors.txt');
     const started = Date.now();
     let cursor = 0;
     let done = 0;
-    log(`Translating ${pending.length} pages with ${config.model}; concurrency ${config.concurrency}`);
+    log(`Translating ${pending.length} pages with the AIVAX CLI; concurrency ${config.concurrency}`);
     await Promise.all(Array.from({ length: Math.min(config.concurrency, pending.length) }, async (_, workerId) => {
         while (cursor < pending.length) {
             const job = pending[cursor++];
             log(`Processing item "${job.rel}" (WorkerId="${workerId}")`);
             try {
                 const source = parse(job.text);
-                const prompt = `You are translating AIVAX documentation to ${LANGUAGES[job.lang]}.
-Rules:
-- Translate prose, headings, table text and code comments, but not code symbols, identifiers, variables or constants.
-- Do not translate script-header file names, language names, code fence titles, CLI commands or HTML tag names.
-- Keep the same Markdown structure, headings, lists, tables, code fences, attributes and alert markers such as [!NOTE], [!TIP], [!IMPORTANT], [!WARNING] and [!CAUTION].
-- Keep every link target and anchor unchanged. The build script localizes documentation links after translation.
-- Preserve YAML structure and keys. Translate only front matter values title, linkTitle and description, the objectives list items, and the title and description of each paths item; copy all other keys and values exactly.
-- "Learn" is the name of the AIVAX learning section; keep it in English when it names the section, as in "AIVAX Learn" or "How Learn works".
-- "Pipi" is the female cat mascot of the AIVAX Learn videos. In languages with grammatical gender, always use feminine forms for her, for example "a Pipi" and "gatinha" in Portuguese.
-- In Portuguese, translate "AI gateway" as "gateway de IA" and "system instruction" as "instrução de sistema"; never use "portal" or "porta" for gateway.
-- Reply ONLY with the translated document: no greetings, advice, comments or wrapping code fence.
-File: ${job.rel}
-<translation-input>
-${job.text}
-</translation-input>`;
-                let output;
-                for (let attempt = 1; attempt <= config.maxRetries; attempt++) {
-                    const response = await fetch(config.apiUrl, {
-                        method: 'POST',
-                        headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ model: config.model, messages: [{ role: 'user', content: prompt }], stream: false }),
-                        signal: AbortSignal.timeout(180000)
-                    });
-                    if (response.ok) {
-                        output = (await response.json()).choices?.[0]?.message?.content;
-                        break;
-                    }
-                    if (!(response.status === 429 || response.status >= 500) || attempt === config.maxRetries) {
-                        throw new Error(`HTTP ${response.status}`);
-                    }
-                    const retryAfter = response.headers.get('retry-after');
-                    const delay = retryAfter && Number.isFinite(Number(retryAfter))
-                        ? Number(retryAfter) * 1000
-                        : retryAfter && Number.isFinite(Date.parse(retryAfter))
-                            ? Math.max(0, Date.parse(retryAfter) - Date.now()) : attempt * 5000;
-                    log(`HTTP ${response.status}; retry ${attempt}/${config.maxRetries} in ${delay}ms`, 'WARN');
-                    await Bun.sleep(delay);
+                const data = { ...source.data, sourceHash: job.hash };
+                const fields = [];
+                let body = '';
+
+                for (const key of ['title', 'linkTitle', 'description']) {
+                    if (typeof source.data[key] === 'string') fields.push({ text: source.data[key], set: value => data[key] = value });
                 }
-                if (typeof output !== 'string' || !output.trim()) throw new Error('Empty translation response');
-                const translated = parse(output.trim().replace(/^```(?:markdown|md)?\n([\s\S]*)\n```$/, '$1'));
+                if (Array.isArray(source.data.objectives)) {
+                    data.objectives = [...source.data.objectives];
+                    data.objectives.forEach((text, index) => fields.push({ text, set: value => data.objectives[index] = value }));
+                }
+                if (Array.isArray(source.data.paths)) {
+                    data.paths = source.data.paths.map(item => ({ ...item }));
+                    data.paths.forEach(item => ['title', 'description']
+                        .filter(key => typeof item[key] === 'string')
+                        .forEach(key => fields.push({ text: item[key], set: value => item[key] = value })));
+                }
+                if (source.body.trim()) fields.push({ text: source.body, set: value => body = value });
+
+                const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'aivax-docs-'));
+                let translations;
+                try {
+                    const args = ['generate', 'translate', '--from', 'English', '--to', LANGUAGES[job.lang], '--verbose'];
+                    if (config.profile) args.push('--profile', config.profile);
+                    fields.forEach((field, index) => {
+                        const file = path.join(directory, `${index}.md`);
+                        fs.writeFileSync(file, field.text);
+                        args.push('-f', file);
+                    });
+
+                    for (let attempt = 1; ; attempt++) {
+                        const child = Bun.spawn(['aivax', ...args], {
+                            cwd: ROOT,
+                            stdout: 'pipe',
+                            stderr: 'pipe',
+                            env: { ...process.env, AIVAX_ENDPOINT: process.env.AIVAX_ENDPOINT ?? DIRECT_ENDPOINT }
+                        });
+                        const [stdout, stderr, code] = await Promise.all([
+                            new Response(child.stdout).text(),
+                            new Response(child.stderr).text(),
+                            child.exited
+                        ]);
+                        if (code === 0) {
+                            translations = JSON.parse(stdout).data;
+                            break;
+                        }
+                        const message = stderr.trim() || `aivax exited with code ${code}`;
+                        const status = Number(message.match(/HTTP (\d{3})/)?.[1]);
+                        if (!(status === 429 || status >= 500) || attempt === config.maxRetries) throw new Error(message);
+                        log(`${message}; retry ${attempt}/${config.maxRetries} in ${attempt * 5000}ms`, 'WARN');
+                        await Bun.sleep(attempt * 5000);
+                    }
+                } finally {
+                    fs.rmSync(directory, { recursive: true, force: true });
+                }
+
+                if (!Array.isArray(translations) || translations.length !== fields.length) throw new Error('Unexpected translation response');
+                translations.forEach((value, index) => {
+                    if (typeof value !== 'string' || !value.trim()) throw new Error('Empty translation response');
+                    fields[index].set(value.trim().replace(/^```(?:markdown|md)?\n([\s\S]*)\n```$/, '$1'));
+                });
+
                 for (const [label, regex] of [['fences', /^\s*(?:```|~~~)/gm], ['headings', /^#{1,6} /gm], ['alerts', /^\s*>\s*\[!\w+\]/gm]]) {
-                    if ((source.body.match(regex) || []).length !== (translated.body.match(regex) || []).length) {
+                    if ((source.body.match(regex) || []).length !== (body.match(regex) || []).length) {
                         throw new Error(`Structure mismatch: ${label}`);
                     }
                 }
                 const sourceEmbeds = source.body.match(/<script\b[^>]*src="https:\/\/inference\.aivax\.net\/apidocs[^>]*>[\s\S]*?<\/script>/g) || [];
-                const translatedEmbeds = translated.body.match(/<script\b[^>]*src="https:\/\/inference\.aivax\.net\/apidocs[^>]*>[\s\S]*?<\/script>/g) || [];
+                const translatedEmbeds = body.match(/<script\b[^>]*src="https:\/\/inference\.aivax\.net\/apidocs[^>]*>[\s\S]*?<\/script>/g) || [];
                 if (JSON.stringify(sourceEmbeds) !== JSON.stringify(translatedEmbeds)) throw new Error('Structure mismatch: endpoint embeds');
-                const data = { ...source.data, sourceHash: job.hash };
-                for (const key of ['title', 'linkTitle', 'description']) {
-                    if (source.data[key] !== undefined) {
-                        if (typeof translated.data[key] !== 'string') throw new Error(`Missing translated front matter: ${key}`);
-                        data[key] = translated.data[key];
-                    }
-                }
-                if (Array.isArray(source.data.objectives)) {
-                    const objectives = translated.data.objectives;
-                    if (!Array.isArray(objectives) || objectives.length !== source.data.objectives.length) throw new Error('Structure mismatch: objectives');
-                    data.objectives = objectives;
-                }
-                if (Array.isArray(source.data.paths)) {
-                    const paths = translated.data.paths;
-                    if (!Array.isArray(paths) || paths.length !== source.data.paths.length) throw new Error('Structure mismatch: paths');
-                    data.paths = source.data.paths.map((item, index) => ({ ...item, title: paths[index].title, description: paths[index].description }));
-                }
                 const prefix = `/docs/${job.lang}/`;
                 if (data.aliases) data.aliases = data.aliases.map(alias => alias.startsWith('/docs/')
                     ? alias.replace(/^\/docs\//, prefix) : `/${job.lang}${alias}`);
@@ -188,10 +193,10 @@ ${job.text}
                 if (job.rel.startsWith('docs/')) {
                     data.aliases = [...new Set([...(data.aliases || []), prefix + job.rel.slice(5).replace(/_index\.md$/, 'index.html').replace(/\.md$/, '.html')])];
                 }
-                const body = translated.body
+                const localizedBody = body
                     .replace(/(\]\(|(?:href|src)=["']|^\s*\[[^\]]+\]:\s*|<)(https:\/\/docs\.aivax\.net)?\/docs\/(?!pt-br\/)/gm, `$1$2${prefix}`);
                 fs.mkdirSync(path.dirname(job.target), { recursive: true });
-                fs.writeFileSync(job.target, serialize(data, body));
+                fs.writeFileSync(job.target, serialize(data, localizedBody));
                 if (debug) log(`WorkerId="${workerId}" Action="Translate" State="Success" File="${job.rel}"`, 'DEBUG');
             } catch (error) {
                 const message = `${job.lang}|${job.rel}|${error.message}`;

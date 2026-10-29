@@ -48,11 +48,11 @@ Only after an explicit request authorizing paid translation:
 bun build.js translate pt-br
 ```
 
-`config.json` and `config.json.example` specify the OpenAI-compatible endpoint, model, API-key environment variable, concurrency and retry limit. Defaults: `https://inference.aivax.net/v1/chat/completions`, `@inception/mercury-2`, `AIVAX_API_KEY`. Never store a key in either file.
+Translation runs `aivax generate translate` from the [AIVAX CLI](https://docs.aivax.net/docs/cli), which must be installed and on `PATH`. Each page is one request: the body and every translatable front matter value (`title`, `linkTitle`, `description`, `objectives` items, `paths` titles and descriptions) are sent as separate documents. The CLI authenticates with `AIVAX_API_KEY` when it is set; otherwise it uses `translation.profile` from `config.json`, or the CLI default profile (`aivax auth login`). `config.json` and `config.json.example` also set concurrency and the retry limit. Never store a key in either file. Requests go to the direct long-inference host `https://direct.inference.aivax.net`, which avoids proxy timeouts on long pages; set `AIVAX_ENDPOINT` to use another host.
 
 Each generated page stores the first 16 hex characters of SHA-256 of the English source with normalized LF line endings. `status` reports current, outdated, missing and orphan files without API calls. Imported translations have `sourceHash: legacy-unverified`: their freshness cannot be established from the previous pipeline, so they intentionally count as outdated. Missing Portuguese media-generation documentation remains missing; the language menu falls back to the Portuguese home rather than inventing a translation.
 
-Translation preserves non-translatable front matter, validates fence/heading/alert counts and exact endpoint embeds, localizes documentation links, skips matching hashes, retries 429/5xx with numeric/date Retry-After, prints progress/ETA, logs processing in `debug.log`, and writes failures to `translate.errors.txt`. A failed page does not overwrite the existing translation. Orphans are reported, never automatically deleted. Tests must use an isolated local mock and dummy key, not the real paid endpoint.
+Translation preserves non-translatable front matter, validates fence/heading/alert counts and exact endpoint embeds, localizes documentation links, skips matching hashes, retries CLI failures reporting HTTP 429/5xx with linear backoff, prints progress/ETA, logs processing in `debug.log`, and writes failures to `translate.errors.txt`. A failed page does not overwrite the existing translation. Orphans are reported, never automatically deleted. Tests must use an isolated local mock and dummy key, not the real paid endpoint.
 
 ## Search and agent outputs
 
