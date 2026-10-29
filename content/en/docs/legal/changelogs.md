@@ -6,6 +6,12 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Thursday, October 29th, 2026
+
+Changes:
+
+- **Account — Compact two-factor authentication dialog.** The **Security** tab's two-factor authentication dialog is narrower. When adding an authenticator, the QR code is shown next to the secret, followed by the name and six-digit code fields. The dialog closes from its header, and **Cancel** returns to the authenticator list.
+
 ## Wednesday, October 28th, 2026
 
 Breaking changes:
