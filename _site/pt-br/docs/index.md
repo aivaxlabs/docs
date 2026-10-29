@@ -7,6 +7,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 - [Bem-vindo](https://docs.aivax.net/pt-br/docs/overview.md)
 - [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md)
+- [Ferramenta de linha de comando](https://docs.aivax.net/pt-br/docs/cli.md)
 - [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)
 - [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md)
 - [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md)
@@ -23,7 +24,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 ## Inferência
 
-- [Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md)
+- [Portais de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md)
 - [Inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md)
 - [Respostas Estruturadas](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md)
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
@@ -48,7 +49,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Processamento de Dados
 
 - [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md)
-- [Decisões semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md)
+- [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md)
 - [Classificação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/classification.md)
 - [Segmentação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/text-segmentation.md)
 - [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md)
@@ -76,5 +77,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Registro de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

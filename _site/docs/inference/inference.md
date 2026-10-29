@@ -60,6 +60,7 @@ Available routing preferences are:
 | `Cheapest` | Selects the provider with the lowest applicable input and output token price. |
 | `Fastest` | Prioritizes the provider with the highest available throughput. |
 | `Quality` | Selects the provider that AIVAX ranks highest for quality, without optimizing for price or speed. |
+| `Special` | Works like `Balanced`, but also includes [special providers](#special-providers) and gives them priority. |
 
 ### Configure routing in an AI Gateway
 
@@ -109,7 +110,7 @@ Use `routing_options` to choose how providers are selected for one request. The 
 
 | Field | Description |
 |---|---|
-| `preset` | Routing preference: `Balanced`, `Cheapest`, `Fastest`, or `Quality`. When omitted, the gateway's saved `routingOption` is used. |
+| `preset` | Routing preference: `Balanced`, `Cheapest`, `Fastest`, `Quality`, or `Special`. When omitted, the gateway's saved `routingOption` is used. |
 | `allowed_providers` | Ordered list of provider tags. AIVAX tries the first tag and moves to the next one only when no matching provider is available or compatible with the request. `"*"` matches any provider. When omitted, the gateway's saved `allowedProviders` is used, which defaults to `["*"]`. |
 
 Within each step, `preset` chooses among the matching providers. Without `"*"` at the end, the request fails when none of the listed providers is available. An empty `allowed_providers` list is rejected. Tag matching is case-insensitive.
@@ -127,6 +128,18 @@ The previous `routing_preset` field is deprecated but still accepted. Replace `"
 Enable **Zero data retention providers only** in the dashboard account settings to route text inference with integrated models only to providers that do not retain prompts. Providers that are not zero data retention are excluded before `allowed_providers` and `preset` are applied. When the model has no zero data retention provider available, the request fails instead of falling back to another provider; choose a model with a zero data retention provider or disable the option.
 
 The option applies only to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
+
+### Special providers
+
+Some integrated models are also offered by special providers, which serve them at discounted prices under conditions that may be less transparent than those of regular providers. Special providers are never selected unless you opt in:
+
+| Routing preference | Special providers |
+|---|---|
+| `Balanced` | Never used. |
+| `Cheapest`, `Fastest`, `Quality` | Considered only when **Allow special providers** is enabled in the dashboard account privacy settings. It is disabled by default. |
+| `Special` | Always considered and prioritized, regardless of the account setting. |
+
+When a model is currently available only through special providers, requests that do not allow them fail. Use the `Special` preference, or enable **Allow special providers** and use a preference other than `Balanced`. [Zero data retention providers only](#zero-data-retention-providers-only) and `allowed_providers` still apply to special providers.
 
 ### Provider in responses
 

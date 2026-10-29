@@ -5,7 +5,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 
 ## Inferência
 
-- [Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md)
+- [Portais de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md)
 - [Inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md)
 - [Respostas Estruturadas](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md)
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
