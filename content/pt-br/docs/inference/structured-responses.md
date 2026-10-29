@@ -1,43 +1,43 @@
 ---
-{title: Respostas Estruturadas,linkTitle: Respostas Estruturadas,weight: 30,group: Inference,sourceHash: 301ea1f986187b84,aliases: [/docs/pt-br/inference/structured-responses.html]}
+{title: Respostas Estruturadas,linkTitle: Respostas Estruturadas,weight: 30,group: Inference,sourceHash: c16225990e05128c,aliases: [/docs/pt-br/inference/structured-responses.html]}
 ---
 
 # Respostas Estruturadas
 
 AIVAX pode produzir JSON estruturado por meio de dois caminhos:
 
-- `response_schema`: AIVAX valida a saída final do modelo contra um JSON Schema e tenta novamente com feedback de validação quando a saída está inválida. Este é o caminho de Cura JSON.
-- `response_format`: AIVAX envia um formato de resposta nativo compatível com OpenAI ao provedor, ou aplica cura quando `healing_options` está presente ou a Cura JSON automática está habilitada na conta.
+- `response_schema`: AIVAX valida a saída final do modelo contra um Esquema JSON e tenta novamente com feedback de validação quando a saída é inválida. Este é o caminho de Cura de JSON (JSON Healing).
+- `response_format`: AIVAX passa um formato de resposta nativo compatível com OpenAI ao provedor, ou aplica cura quando `healing_options` está presente ou a Cura de JSON automática está habilitada na conta.
 
-Use respostas estruturadas quando outro sistema consumirá a saída e texto livre seria frágil.
+Use respostas estruturadas quando outro sistema consumir a saída e o texto livre fosse frágil.
 
-## Como funciona a Cura JSON
+## Como funciona a Cura de JSON
 
-Quando `response_schema` está presente, AIVAX adiciona instruções de esquema à requisição do modelo. Após o modelo gerar uma resposta, AIVAX tenta extrair JSON de:
+Quando `response_schema` está presente, AIVAX adiciona instruções de esquema à solicitação do modelo. Após o modelo gerar uma resposta, AIVAX tenta extrair JSON de:
 
-- Todo o texto gerado.
+- O texto gerado completo.
 - Variantes reparadas comuns, como chaves de abertura ou fechamento ausentes.
 - Blocos de código JSON encontrados no texto gerado.
 
-Se o JSON extraído não validar contra o esquema, AIVAX adiciona uma mensagem de feedback com os erros de validação e pede ao modelo que gere o JSON novamente. Isso continua até que um valor JSON válido seja gerado ou o limite de tentativas configurado seja alcançado.
+Se o JSON extraído não for válido em relação ao esquema, AIVAX adiciona uma mensagem de feedback com os erros de validação e solicita que o modelo gere o JSON novamente. Isso continua até que um valor JSON válido seja gerado ou o limite de tentativas configurado seja atingido.
 
-A Cura JSON melhora a confiabilidade, mas não é uma garantia absoluta. Se o modelo falhar repetidamente no esquema, a requisição pode falhar após o limite de tentativas.
+A Cura de JSON melhora a confiabilidade, mas não é uma garantia absoluta. Se o modelo falhar repetidamente na validação do esquema, a solicitação poderá falhar após o limite de tentativas.
 
 ## Escolhendo um modo
 
-Use `response_schema` quando a AIVAX deve ser responsável pela validação e reparo. Este é o modo mais seguro para modelos que não suportam nativamente saída estruturada, para respostas que utilizam ferramentas antes de gerar JSON, e para sistemas que não podem tolerar JSON malformado.
+Use `response_schema` quando a AIVAX deve assumir a validação e o reparo. Este é o modo mais seguro para modelos que não suportam nativamente saída estruturada, para respostas que usam ferramentas antes de produzir JSON e para sistemas que não podem tolerar JSON malformado.
 
-Use `response_format` com `type: "json_schema"` quando o modelo do provedor deve lidar nativamente com a saída estruturada. AIVAX ainda usará o esquema internamente, e a cura será aplicada quando `response_format.json_schema.healing_options` for fornecido ou a conta tiver Cura JSON automática habilitada.
+Use `response_format` com `type: "json_schema"` quando o modelo do provedor deve lidar com a saída estruturada nativamente. AIVAX ainda usará o esquema internamente, e a cura será aplicada quando `response_format.json_schema.healing_options` for fornecido ou a conta tiver a Cura de JSON automática habilitada.
 
 Use `json_only: true` quando o corpo da resposta HTTP deve conter apenas o JSON final. Isso remove o envelope normal de conclusão de chat, escolhas, uso e metadados de geração do corpo da resposta.
 
-Para uma lista de verificação de solução de problemas que cobre recusas, fluxos incompletos e aplicação nativa versus cura, leia [Como corrigir JSON inválido de uma API LLM com saídas estruturadas](https://aivax.net/blog/structured-output-healing-boundary/).
+Para uma lista de verificação de solução de problemas que cobre recusas, streams incompletos e aplicação nativa versus cura, leia [Como corrigir JSON inválido de uma API LLM com saídas estruturadas](https://aivax.net/blog/structured-output-healing-boundary/).
 
 ## Exemplo básico
 
-A requisição abaixo permite que o modelo pesquise na web e depois retorne os resultados como JSON validado contra `response_schema`.
+A solicitação abaixo permite que o modelo pesquise na web e retorne os resultados como JSON validado contra `response_schema`.
 
-Reference:
+Referência:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Inference%20(chat%20completions)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -50,7 +50,7 @@ Reference:
 
 ```json
 {
-    "model": "@google/gemini-2.5-flash",
+    "model": "@google/gemini-3.8-flash",
     "prompt": "Search for recent news about electric vehicles.",
     "stream": true,
     "builtin_tools": {
@@ -87,11 +87,11 @@ Reference:
 }
 ```
 
-`builtin_tools` é opcional. Se você habilitar ferramentas, o modelo selecionado deve suportar chamada de ferramentas ou o gateway de IA deve fornecer um manipulador de ferramentas.
+`builtin_tools` é opcional. Se você habilitar ferramentas, o modelo selecionado deve suportar chamada de ferramentas ou o gateway deve fornecer um manipulador de ferramentas.
 
 ## Saída estruturada nativa
 
-Use `response_format` quando quiser usar o suporte nativo de JSON Schema do provedor:
+Use `response_format` quando quiser usar o suporte nativo ao JSON Schema do provedor:
 
 ```json
 {
@@ -127,11 +127,11 @@ Use `response_format` quando quiser usar o suporte nativo de JSON Schema do prov
 }
 ```
 
-Se o modelo integrado selecionado tem suporte estrito a JSON, AIVAX pode encaminhar o esquema usando o formato de resposta JSON Schema do provedor.
+Se o modelo integrado selecionado tiver suporte estrito a JSON, a AIVAX pode encaminhar o esquema usando o formato de resposta JSON Schema do provedor.
 
-## Habilitando cura em `response_format`
+## Habilitando a cura em `response_format`
 
-Você pode habilitar explicitamente a Cura JSON dentro de `response_format.json_schema`:
+Você pode habilitar explicitamente a Cura de JSON dentro de `response_format.json_schema`:
 
 ```json
 {
@@ -161,11 +161,11 @@ Você pode habilitar explicitamente a Cura JSON dentro de `response_format.json_
 }
 ```
 
-`max_attempts` deve estar entre 1 e 10. Cada nova tentativa é outra geração do modelo e pode aumentar custo e latência.
+`max_attempts` deve estar entre 1 e 10. Cada nova tentativa é outra tentativa de geração do modelo e pode aumentar o custo e a latência.
 
-Se a cura frequentemente atinge o limite de tentativas, ajuste a instrução e o esquema antes de aumentar o limite. Causas comuns são esquemas excessivamente rígidos, campos `required` ausentes, instruções vagas, resultados de ferramentas ruidosos ou um modelo muito pequeno para a tarefa.
+Se a cura frequentemente atingir o limite de tentativas, ajuste as instruções e o esquema antes de aumentar o limite. As causas comuns são esquemas excessivamente rígidos, campos `required` ausentes, prompts vagos, resultados de ferramentas ruidosos ou um modelo muito pequeno para a tarefa.
 
-## modo `json_only`
+## Modo `json_only`
 
 Defina `json_only: true` quando o cliente deve receber apenas o JSON gerado:
 
@@ -199,11 +199,11 @@ Defina `json_only: true` quando o cliente deve receber apenas o JSON gerado:
 }
 ```
 
-Com `stream: false`, o corpo da resposta HTTP é o JSON final com `Content-Type: application/json`. Com `stream: true`, a AIVAX envia o JSON completo como um único evento de dados SSE e então envia `[DONE]`.
+Com `stream: false`, o corpo da resposta HTTP é o JSON final com `Content-Type: application/json`. Com `stream: true`, a AIVAX envia o JSON completo como um único evento de dados SSE e depois envia `[DONE]`.
 
 ## Recursos de esquema suportados
 
-AIVAX valida o JSON gerado com JSON Schema. Os recursos suportados documentados são:
+A AIVAX valida o JSON gerado com JSON Schema. Os recursos documentados suportados são:
 
 - `string`: `minLength`, `maxLength`, `pattern`, `format` e `enum`.
 - `number` e `integer`: `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum` e `multipleOf`.
@@ -211,16 +211,16 @@ AIVAX valida o JSON gerado com JSON Schema. Os recursos suportados documentados 
 - `object`: `properties` e `required`.
 - `boolean` e `bool`.
 - `null`.
-- Tipos múltiplos, por exemplo `"type": ["string", "number"]`.
+- Múltiplos tipos, por exemplo `"type": ["string", "number"]`.
 
-Use `required` para campos que sua aplicação deve receber. Use `items` explícito para arrays. Use `enum`, `format` e restrições de comprimento ou padrão quando os valores aceitos são conhecidos.
+Use `required` para campos que seu aplicativo deve receber. Use `items` explícitos para arrays. Use `enum`, `format` e restrições de comprimento ou padrão quando os valores aceitos forem conhecidos.
 
 ## Padrões práticos
 
-Para extração, informe ao modelo quais campos devem ser inferidos, quais campos devem ser `null` quando ausentes e quais campos não devem ser inventados.
+Para extração, diga ao modelo quais campos devem ser inferidos, quais campos devem ser `null` quando ausentes e quais campos não devem ser inventados.
 
-Para classificação, use `enum` para o r final e adicione um campo curto `reason` quando humanos precisarem auditar a decisão.
+Para classificação, use `enum` para o rótulo final e adicione um campo `reason` curto quando humanos precisarem auditar a decisão.
 
-Para JSON suportado por ferramentas, permita que o modelo use ferramentas antes de gerar o JSON e inclua campos de origem quando a aplicação precisar de procedência.
+Para JSON baseado em ferramentas, permita que o modelo use ferramentas antes de produzir o JSON e inclua campos de origem quando o aplicativo precisar de proveniência.
 
-Para gravações em banco de dados ou chamadas de APIs externas, valide o JSON novamente em sua aplicação. AIVAX valida a estrutura do JSON, mas sua aplicação continua responsável por regras de negócio como permissões, IDs válidos, intervalos de datas e restrições específicas da conta.
+Para gravações em banco de dados ou chamadas de API externas, valide o JSON novamente em seu aplicativo. A AIVAX valida a forma do JSON, mas seu aplicativo permanece responsável pelas regras de negócios, como permissões, IDs válidos, intervalos de datas e restrições específicas da conta.
