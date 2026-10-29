@@ -42,7 +42,7 @@ Images and files accept base64 data URLs or public HTTP(S) URLs:
 
 - Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs.
 - AIVAX downloads remote URLs before processing, up to 5 MB each. The resource must be reachable without sign-in.
-- Other content types, such as audio or video, return `400 Bad Request` with the index of the rejected document.
+- Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 The following request extracts invoice fields from a text document and a PDF:
 
@@ -103,7 +103,7 @@ The following request extracts invoice fields from a text document and a PDF:
 }
 ```
 
-Documents are processed independently and in parallel. If any document fails, the whole request returns an error instead of partial results. Correct or remove that document and retry.
+Documents are processed independently and in parallel. If any document fails, the whole request returns an error instead of partial results. Correct or remove that document and retry. Documents that finished before the failure are still billed and count toward your quota, so retry only after fixing the failing document.
 
 Extracted values are model-generated. They can be missing, incomplete, or wrong, especially in low-quality scans or complex layouts. Validate the structure and verify consequential values, such as amounts and identifiers, against the original document.
 
