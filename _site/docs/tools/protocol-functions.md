@@ -2,9 +2,9 @@ Source: https://docs.aivax.net/docs/tools/protocol-functions.html
 
 # Protocol Functions
 
-Protocol functions are AIVAX server-side tools. They let a model request a named action while AIVAX executes the action from the server by calling your HTTP callback or an internal AIVAX callback URL.
+Protocol functions are AIVAX server-side tools. The model requests a named action, and AIVAX executes it from the server by calling your HTTP callback or an internal AIVAX callback URL.
 
-Use them when an assistant needs a controlled way to interact with your application, such as checking an order, opening a support ticket, validating a coupon, registering a lead, or querying a private service. The model sees the tool name, description, and JSON argument schema. It does not see the callback URL or headers.
+Use them when an assistant needs a controlled way to interact with your application, such as checking an order, opening a support ticket, or querying a private service. The model sees the tool name, description, and JSON argument schema. It does not see the callback URL or headers.
 
 <img src="/assets/diagrams/protocol-functions-1.drawio.svg">
 
@@ -17,13 +17,9 @@ This separation keeps implementation details out of the prompt while still givin
 
 ## When to use protocol functions
 
-Use protocol functions when you want to expose a specific HTTP action to an AI Gateway without creating a full MCP server. They are good for point integrations, such as checking an order, opening a ticket, fetching a user, validating a coupon, registering a lead, or invoking an internal automation. AIVAX keeps the URL invisible to the model, sends the request from the server side, and adds the textual result to the conversation context.
+Use protocol functions to expose a specific HTTP action to an AI Gateway without building a full MCP server. They fit point integrations, such as fetching a user, registering a lead, or invoking an internal automation. AIVAX keeps the URL hidden from the model, sends the request from the server side, and adds the textual result to the conversation context.
 
-If you have many tools, dynamic tools, or a system that already implements Model Context Protocol, prefer [MCP](https://docs.aivax.net/docs/tools/mcp.md). If you want to use capabilities already maintained by AIVAX, prefer [built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md). If you need to make decisions before or after inference events, prefer [workers](https://docs.aivax.net/docs/inference/workers.md). Protocol functions sit in the middle: they are simpler than MCP and more specific than workers, but still give the model a controlled tool to execute an external action.
-
-A protocol function must have a tool name, a description, a callback URL, and an argument schema. The name helps the model recognize the action; the description explains when to call; the schema limits the argument format. Function names must be valid JavaScript identifiers with at least three characters. The callback URL and authentication details are not visible to the model. This allows creating specialized tools without exposing internal endpoints, provided your service validates the `X-Request-Nonce`, validates received arguments, and applies its own authorization when the call depends on the user.
-
-Use the following rule of thumb:
+Protocol functions sit between other tool types: they are simpler than [MCP](https://docs.aivax.net/docs/tools/mcp.md) and more specific than [workers](https://docs.aivax.net/docs/inference/workers.md), while still giving the model a controlled tool for an external action. Use this rule of thumb:
 
 | Need | Prefer |
 |---|---|
@@ -32,6 +28,15 @@ Use the following rule of thumb:
 | Web search, URL reading, code execution, image generation, memory, or HTTP request tools maintained by AIVAX | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) |
 | Event-time policy, message rewriting, dynamic tool injection, or blocking a tool call before execution | [Workers](https://docs.aivax.net/docs/inference/workers.md) |
 | Provider-native tool definitions that your own client will execute | Raw `tools` in an OpenAI-compatible request |
+
+Every protocol function has four parts:
+
+- **Name**: helps the model recognize the action. It must be a valid JavaScript identifier with at least three characters.
+- **Description**: tells the model when to call the function.
+- **Argument schema** (`contentFormat`): limits the format of the arguments.
+- **Callback URL** (`callbackUrl`): where AIVAX sends the call. The model never sees it or its authentication details.
+
+Because the callback stays hidden, you can create specialized tools without exposing internal endpoints. Your service must still validate the `X-Request-Nonce`, validate the received arguments, and apply its own authorization when the call depends on the user.
 
 ### Choosing the function name
 
@@ -48,8 +53,6 @@ Weak names include:
 - `query_user_in_database_data` (long and noisy)
 - `pesquisa-usuario` (name not in English)
 - `search user` (name with improper characters)
-
-Having the function name, we can think about the function description.
 
 ### Choosing the function description
 
@@ -107,15 +110,22 @@ Reference:
 }
 ```
 
-In the snippet above, the gateway exposes `list_clients` and `view_client` to the model. The model decides whether to call one of them during generation. If it calls `view_client`, AIVAX validates the arguments against `contentFormat`, then sends the callback request to your service.
+In the snippet above, the gateway exposes `list_clients` and `view_client` to the model. The model decides whether to call one of them during generation. If it calls `view_client`, AIVAX validates the arguments against `contentFormat`, then sends the callback request to your service, as described in [Handling function calls](#handling-function-calls).
+
+> [!IMPORTANT]
+>
+> Every function definition, including its name, description, and schema, consumes input tokens. The more functions you define, the more input tokens you consume.
 
 ## Protocol function sources
 
-Protocol function sources let a gateway load its protocol functions from one or more remote endpoints instead of storing every function inline. In the gateway configuration, `protocolFunctionSources` is an array of URL strings, not an array of source objects. Use sources when the function catalog belongs to another service, changes independently from the gateway, or needs to be shared by multiple gateways.
+Protocol function sources let a gateway load its protocol functions from one or more remote endpoints instead of storing every function inline. Use sources when the function catalog belongs to another service, changes independently from the gateway, or is shared by multiple gateways.
 
-Each source URL is an HTTP endpoint that returns a JSON object with a `functions` array. AIVAX fetches the source before preparing the inference options, converts each returned definition into a server-side tool, and caches the result for 10 minutes per account and source URL. During the cache window, AIVAX reuses the function definitions instead of making another listing request.
+- Use inline `protocolFunctions` for stable, gateway-owned tools.
+- Use `protocolFunctionSources` for remotely managed catalogs. It is an array of URL strings, not an array of source objects.
 
-Use inline `protocolFunctions` for stable, gateway-owned tools. Use `protocolFunctionSources` for remotely managed catalogs. You can use both in the same gateway, but function names must remain unique after inline functions, sourced functions, MCP tools, built-in tools, and raw tools are combined.
+You can use both in the same gateway. Function names must remain unique after inline functions, sourced functions, MCP tools, built-in tools, and raw tools are combined.
+
+Each source URL is an HTTP endpoint that returns a JSON object with a `functions` array. AIVAX fetches the source before preparing the inference options and converts each returned definition into a server-side tool. The result is cached for 10 minutes per account and source URL; during that window, AIVAX reuses the definitions instead of making another listing request.
 
 <img src="/assets/diagrams/protocol-functions-2.drawio.svg">
 
@@ -178,9 +188,9 @@ The returned function objects use the same shape as inline `protocolFunctions`: 
 
 If the source endpoint returns a non-success status, AIVAX logs the error and the inference request fails while preparing the tools. Make the source endpoint fast, stable, and small enough to return only the functions the gateway should expose. If the catalog is user- or tenant-specific, use the request nonce and your own authorization rules to decide which functions to return.
 
-### Handling function calls
+## Handling function calls
 
-Functions are invoked at the provided endpoint in `callbackUrl` via an HTTP POST request. AIVAX sends `Content-Type: application/json` and a body equivalent to:
+When the model calls a function, inline or sourced, AIVAX sends an HTTP `POST` request to its `callbackUrl` with `Content-Type: application/json` and a body equivalent to:
 
 ```json
 {
@@ -204,9 +214,11 @@ Functions are invoked at the provided endpoint in `callbackUrl` via an HTTP POST
 }
 ```
 
-The response to this action must return a successful HTTP status (2xx), even for errors the assistant may have made. A non-success response is logged and the model receives a generic tool-call error instead of your response body.
+`function.content` holds the model-generated arguments, and `context` describes the inference that triggered the call.
 
-#### Context fields
+Your callback must return a successful HTTP status (2xx), even when the assistant made a mistake in the call. A non-success response is logged, and the model receives a generic tool-call error instead of your response body.
+
+### Context fields
 
 AIVAX builds `context` separately from the model-generated arguments in `function.content`. Your callback should validate the arguments against the function schema and use context to correlate the request with your application. Context is not an additional set of model-selected function arguments.
 
@@ -222,41 +234,42 @@ Custom metadata stays nested under `context.metadata`; it is not merged into `co
 
 The authentication nonce is **not** a `context` or `metadata` field. Protocol functions receive it in the `X-Request-Nonce` HTTP header when the account has a hook key. MCP tool calls carry the equivalent value in `params._meta._aiv_nonce` instead. These context fields describe execution POST requests; do not assume that function source-listing requests have this JSON body.
 
-#### Response format
+### Response format
 
-Successful responses should be textual and will be attached as the function response in whatever way the endpoint returns. There is no JSON format or structure for this response, but it is advisable to give a simple, human-readable answer so that the assistant can read the action result.
+Return a textual response body. AIVAX attaches it to the conversation as the function result exactly as your endpoint returns it. No JSON structure is required, but a short, human-readable answer is easiest for the assistant to use.
 
-Errors can be common, such as not finding a client by ID or a field not being in the desired format. In these cases, respond with an OK status and include a human description of the error in the response body and how the assistant can work around it.
+Write the response for the model, not for the end user. It may contain data, warnings, and short instructions on how to use the result. For example:
 
-Arguments are validated against the JSON Schema before execution. Your callback should still validate received arguments, because schemas can limit structure but cannot replace business authorization or consistency checks. Functions that do not expect arguments should use an empty object schema.
+- If an order search finds the order, return its status, expected date, and relevant restrictions.
+- If the order is not found, say so and indicate which data the assistant should ask the user for.
 
-The function response should be written for the model, not for the end user. It may contain data, warnings, and short instructions on how to use the result. For example, if an order search finds the status, respond with the status, expected date, and relevant restrictions. If not found, respond that the order was not located and indicate which data the assistant should ask the user for. Avoid returning huge objects, HTML, raw logs, or internal messages, because this content enters the context and can confuse the next response.
+Expected errors, such as a client ID that does not exist or a field in the wrong format, are common. Return them with a 2xx status and describe the error and how the assistant can work around it in the response body.
 
-> [!IMPORTANT]
->
-> The more functions you define, the more input tokens you will consume in the reasoning process. The function definition, as well as its format, consumes tokens from the reasoning process.
+Avoid returning huge objects, HTML, raw logs, or internal messages. This content enters the context and can confuse the next response.
 
-#### Authentication
+AIVAX validates arguments against the JSON Schema before execution. Your callback should still validate them, because a schema limits structure but cannot replace business authorization or consistency checks. Functions that take no arguments should use an empty object schema.
+
+### Authentication
 
 Request authentication is done via the `X-Request-Nonce` header sent in protocol function calls and source-listing requests.
 
 See the [authentication](https://docs.aivax.net/docs/authentication.md) manual to understand how to authenticate reverse requests from AIVAX.
 
-#### User authentication
+### User authentication
 
 Use `context.externalUserId` to look up the caller in your application, then check whether that user may access the requested resource or perform the requested action. If a function requires an identified user, reject calls without a usable identifier rather than silently granting anonymous access.
 
 Validate the nonce and enforce your own user and tenant authorization rules. Request and session metadata can contain caller-supplied values: a `tenant_id`, `callSource`, or `conversationToken` is not proof of permission. Avoid putting secrets in metadata because it is forwarded to your callback. The nonce verifies the account hook key, not the individual user's permissions, and does not sign the body or prevent replay; use your own duplicate-operation controls for writes.
 
-#### Security considerations
+### Security considerations
 
-For the AI model, only the name, description, and format of the function are visible. It cannot see the endpoint the function points to. It also does not receive the callback headers configured for the function. Treat all callback requests as privileged server-to-server calls: validate the nonce, validate arguments, enforce authorization, and avoid exposing broad write actions unless your application has its own approval rules.
+The model sees only the function's name, description, and argument schema. It cannot see the callback endpoint or the callback headers configured for the function. Treat all callback requests as privileged server-to-server calls: validate the nonce, validate arguments, enforce authorization, and avoid exposing broad write actions unless your application has its own approval rules.
 
 ## Specialist functions
 
-In addition to [built-in functions](https://docs.aivax.net/docs/tools/builtin-tools.md), you can define specialist functions that perform specific tasks in your AIVAX account.
+Specialist functions are protocol functions whose callback is an AIVAX capability instead of your own endpoint. Unlike [built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md), you name and describe them yourself, so you can point several functions at different resources in your AIVAX account.
 
-You define specialist functions using the `aivax://` URL scheme, following the example below:
+Define a specialist function by setting `callbackUrl` to an `aivax://` URL:
 
 ```json
 {
@@ -287,13 +300,13 @@ You define specialist functions using the `aivax://` URL scheme, following the e
 }
 ```
 
-The above function creates a tool for the AI to query a specific [document collection](https://docs.aivax.net/docs/rag/collections.md), guiding the assistant on what to search in that collection and what to expect from a response. This way, you can link multiple RAG collections for an assistant to retrieve specialist content.
+This function lets the model query a specific [document collection](https://docs.aivax.net/docs/rag/collections.md). Its description tells the assistant what to search in that collection and what to expect back. Define one function per collection to give an assistant several sources of specialist content.
 
-You can customize the description of the JSON Schema properties for specialist functions, but their structure is fixed. Specialist function parameters are supplied in the URL via query parameters.
+The JSON Schema structure of a specialist function is fixed, but you can customize its property descriptions. Specialist function settings are passed as query parameters in the URL.
 
 Currently, only one specialist function exists:
 
-- `query-collection`: performs an RAG search on a specified collection.
+- `query-collection`: performs a RAG search on a specified collection.
 
 Query parameters:
 

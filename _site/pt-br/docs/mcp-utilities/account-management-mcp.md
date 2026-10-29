@@ -2,16 +2,26 @@ Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/account-management-mcp.h
 
 # Gerenciamento de conta MCP
 
-O MCP de gerenciamento de conta expõe operações selecionadas de conta AIVAX para um cliente compatível com MCP, como um IDE, assistente de desktop, agente interno ou ambiente de automação. Ele é projetado para operadores confiáveis e fluxos de trabalho de back‑end que precisam inspecionar capacidades de conta, descobrir documentação ou chamar rotas de API AIVAX autenticadas sem sair do cliente MCP.
+O MCP de gerenciamento de conta expõe operações selecionadas da conta AIVAX a um cliente compatível com MCP, como uma IDE, assistente de desktop, agente interno ou ambiente de automação. Ele foi projetado para operadores confiáveis e fluxos de trabalho de back-end que precisam inspecionar as capacidades da conta, descobrir documentação ou chamar rotas autenticadas da API AIVAX sem sair do cliente MCP.
 
-Este endpoint é diferente de configurar uma fonte externa de MCP dentro de um [gateway de IA](https://docs.aivax.net/pt-br/docs/tools/mcp.md). Nesse fluxo, AIVAX é o cliente MCP e seu gateway chama outro servidor durante a inferência. Com o MCP de gerenciamento de conta, AIVAX é o servidor MCP. Seu cliente MCP se conecta ao AIVAX e recebe ferramentas para operar a conta autenticada.
+Isso não é o mesmo que adicionar uma [fonte MCP externa a um Gateway AI](https://docs.aivax.net/pt-br/docs/tools/mcp.md):
 
-Use este MCP quando um agente precisa de contexto consciente da conta antes de agir: quais modelos estão disponíveis no plano atual, como um recurso está documentado, o que uma rota de API retorna ou se um recurso de conta pode ser criado, atualizado ou inspecionado através da API AIVAX existente. É especialmente útil para assistentes de suporte interno, ambientes de desenvolvimento, copilotos de administração de conta e agentes de implementação que precisam combinar busca de documentação com chamadas reais de API.
+- **Fonte MCP externa:** AIVAX é o cliente MCP. Seu gateway chama outro servidor durante a inferência.
+- **MCP de gerenciamento de conta:** AIVAX é o servidor MCP. Seu cliente MCP se conecta ao AIVAX e recebe ferramentas para operar a conta autenticada.
 
-Como o MCP pode invocar funções AIVAX autenticadas, conecte‑o apenas a clientes confiáveis e use uma chave de API privada. Não exponha este servidor a usuários finais ou aplicações do lado do navegador.
+Use este MCP quando um agente precisar de contexto consciente da conta antes de agir, por exemplo:
+
+- Quais modelos estão disponíveis para o plano atual.
+- Como um recurso é documentado.
+- O que uma rota de API retorna.
+- Se um recurso da conta pode ser criado, atualizado ou inspecionado por meio da API AIVAX existente.
+
+É especialmente útil para assistentes de suporte internos, ambientes de desenvolvimento, copilotos de administração de contas e agentes de implementação que precisam combinar pesquisa de documentação com chamadas reais de API.
+
+Como o MCP pode invocar funções autenticadas do AIVAX, conecte-o apenas a clientes confiáveis e use uma chave de API privada. Não exponha este servidor aos usuários finais ou aplicativos do lado do navegador.
 
 > [!NOTE]
-> Não configure o MCP de gerenciamento de conta junto com o [documentation MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/documentation-mcp.md) no mesmo cliente, a menos que tenha um motivo específico para duplicar ferramentas. O MCP de gerenciamento de conta já inclui funções de busca de documentação, portanto adicionar ambos os servidores geralmente cria ferramentas de documentação redundantes e pode tornar a seleção de ferramentas menos previsível.
+> Não configure o MCP de gerenciamento de conta junto com o [MCP de documentação](https://docs.aivax.net/pt-br/docs/mcp-utilities/documentation-mcp.md) no mesmo cliente, a menos que você tenha um motivo específico para duplicar ferramentas. O MCP de gerenciamento de conta já inclui funções de pesquisa de documentação, portanto, adicionar ambos os servidores geralmente cria ferramentas de documentação redundantes e pode tornar a seleção de ferramentas menos previsível.
 
 ## Endpoint
 
@@ -19,17 +29,17 @@ Como o MCP pode invocar funções AIVAX autenticadas, conecte‑o apenas a clien
 https://inference.aivax.net/v1/mcp/account-management
 ```
 
-A requisição deve ser autenticada com uma chave de API de conta. Use uma chave privada com o cabeçalho `Authorization`:
+A solicitação deve ser autenticada com uma chave de API da conta. Use uma chave privada com o cabeçalho `Authorization`:
 
 ```text
 Authorization: Bearer <AIVAX_PRIVATE_API_KEY>
 ```
 
-Para tipos de chave e opções de autenticação, veja [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md).
+Para tipos de chaves e opções de autenticação, consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md).
 
 ## Exemplo de configuração
 
-A forma exata da configuração do MCP depende do cliente. Para clientes que aceitam uma entrada de servidor HTTP Streamable, configure o endpoint AIVAX e envie a chave privada como cabeçalho.
+A forma exata da configuração do MCP depende do cliente. Para clientes que aceitam uma entrada de servidor HTTP Streamable, configure o endpoint do AIVAX e envie a chave privada como um cabeçalho.
 
 ```json
 {
@@ -45,64 +55,69 @@ A forma exata da configuração do MCP depende do cliente. Para clientes que ace
 }
 ```
 
-Após o cliente conectar‑se, ele pode listar as ferramentas expostas pelo servidor de gerenciamento de conta. Os nomes das ferramentas são estáveis e intencionalmente prefixados com `aivax_` para que permaneçam claros quando misturados com ferramentas de outros servidores MCP.
+Após a conexão do cliente, ele pode listar as ferramentas expostas pelo servidor de gerenciamento de conta. Os nomes das ferramentas são estáveis e intencionalmente prefixados com `aivax_` para permanecerem claros quando misturados com ferramentas de outros servidores MCP.
 
-## O que você pode usar para
+## Para que você pode usá-lo
 
-O MCP de gerenciamento de conta é útil quando o assistente precisa raciocinar sobre a própria conta, não apenas responder a um prompt de usuário final. Ele oferece ao cliente MCP uma forma controlada de combinar documentação AIVAX, metadados de modelo e chamadas de API de conta autenticadas. Isso o torna adequado para agentes operacionais, copilotos de implementação e assistentes internos que precisam inspecionar como um workspace AIVAX está configurado antes de recomendar ou mudar algo.
+O MCP de gerenciamento de conta é útil quando o assistente precisa raciocinar sobre a própria conta, não apenas responder a um prompt de usuário final. Ele combina documentação do AIVAX, metadados de modelos e chamadas de API de conta autenticadas em um conjunto de ferramentas controlado. Os cenários abaixo mostram usos típicos; em cada um deles, o assistente inspeciona como a conta está configurada antes de recomendar ou alterar algo.
 
 ### Criar e manter agentes
 
-Um agente de desenvolvimento interno pode usar o MCP para ajudar a criar, revisar e ajustar [gateways de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Antes de mudar um gateway, o agente pode buscar no manual AIVAX o recurso relevante, listar os modelos disponíveis para a conta atual, comparar capacidades de modelo e disponibilidade de plano, e então invocar a rota de API de conta apropriada.
+Um agente de desenvolvimento interno pode usar o MCP para ajudar a criar, revisar e ajustar [Gateways AI](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Antes de alterar um gateway, o agente pode pesquisar o manual do AIVAX para encontrar o recurso relevante, listar os modelos disponíveis para a conta atual, comparar as capacidades dos modelos e a disponibilidade do plano e, em seguida, invocar a rota de API da conta apropriada.
 
-Isso é útil quando equipes criam assistentes para diferentes departamentos, locatários ou produtos com frequência. O MCP permite que o operador peça um agente em termos de produto, como “criar um assistente de suporte para políticas de reembolso com o CRM MCP habilitado”, enquanto o assistente de implementação verifica quais modelos, ferramentas, coleções RAG e opções de gateway estão disponíveis na conta.
+Isso é útil quando as equipes criam frequentemente assistentes para diferentes departamentos, inquilinos ou produtos. O MCP permite que o operador peça um agente em termos de produto, como "criar um assistente de suporte para políticas de reembolso com o MCP CRM habilitado", enquanto o assistente de implementação verifica quais modelos, ferramentas, coleções RAG e opções de gateway estão disponíveis na conta.
 
-Para fluxos de trabalho de produção, mantenha uma etapa de aprovação humana antes de gravações. O MCP pode ajudar a preparar a configuração, explicar os trade‑offs e mostrar a ação de API que pretende executar antes de modificar o estado da conta.
+Para fluxos de trabalho de produção, mantenha uma etapa de aprovação humana antes das gravações. O MCP pode ajudar a preparar a configuração, explicar as compensações e mostrar a ação da API que pretende realizar antes de modificar o estado da conta.
 
-### Monitorar custos e escolhas de modelo
+### Monitorar custos e escolhas de modelos
 
-O MCP pode ajudar um assistente de operações a investigar padrões de custo e seleção de modelo. Listando modelos e invocando rotas de API de conta para uso, faturamento, gateway ou informações de chave, o assistente pode explicar quais modelos são caros, quais rotas usam um multiplicador de assinatura e se um modelo mais barato poderia lidar com parte da carga de trabalho.
+O MCP pode ajudar um assistente de operações a investigar padrões de custo e seleção de modelos. Listando modelos e invocando rotas de API da conta para informações de uso, faturamento, gateway ou chave, o assistente pode explicar quais modelos são caros, quais rotas usam um multiplicador de assinatura e se um modelo mais barato poderia lidar com parte da carga de trabalho.
 
-Isso é especialmente útil quando uma equipe tem muitos gateways ou trabalhos em lote e deseja entender por que o gasto mudou. Em vez de olhar apenas para os totais, um assistente pode conectar uso a metadados de modelo, disponibilidade de plano, configuração de gateway e escolhas de recurso como RAG, ferramentas, lote ou entrada multimodal.
+Isso é especialmente útil quando uma equipe tem muitos gateways ou trabalhos em lote e deseja entender por que os gastos mudaram. Em vez de olhar apenas para os totais, um assistente pode conectar o uso aos metadados do modelo, disponibilidade do plano, configuração do gateway e escolhas de recursos, como RAG, ferramentas, processamento em lote ou entrada multimodal.
 
-Use isso para verificações recorrentes, como “quais gateways provavelmente gerarão custo esta semana?”, “quais famílias de modelo estão sendo mais usadas?” ou “podemos mover este fluxo de trabalho de baixo risco para um modelo menor sem perder capacidades necessárias?”
+Use isso para verificações recorrentes, como "quais gateways provavelmente gerarão custos esta semana?", "quais famílias de modelos estão sendo usadas com mais frequência?" ou "podemos mover esse fluxo de trabalho de baixo risco para um modelo menor sem perder as capacidades necessárias?".
 
-### Entender erros e melhorar observabilidade
+### Entender erros e melhorar a observabilidade
 
-Quando uma integração falha, o MCP de gerenciamento de conta pode ajudar um assistente a passar de um erro genérico para um diagnóstico útil. O assistente pode buscar documentação para a rota ou recurso que falhou, inspecionar recursos de conta via chamadas de API e comparar a resposta observada com o comportamento esperado.
+Quando uma integração falha, o MCP de gerenciamento de conta pode ajudar um assistente a passar de um erro genérico para um diagnóstico útil. O assistente pode pesquisar a documentação para a rota ou recurso com falha, inspecionar os recursos da conta por meio de chamadas de API e comparar a resposta observada com o comportamento esperado.
 
-Por exemplo, um assistente de suporte pode investigar se a falha foi causada por uma chave de API expirada, saldo insuficiente, restrições de plano, coleção ausente, rota de provedor desativada, configuração de gateway inválida ou problema de esquema de ferramenta. O resultado é uma explicação mais clara: o que falhou, onde provavelmente falhou, quais evidências sustentam a conclusão e o que o operador deve verificar em seguida.
+Por exemplo, um assistente de suporte pode investigar se uma falha é causada por uma chave de API expirada, saldo insuficiente, restrições de plano, uma coleção ausente, uma rota de provedor desativada, uma configuração de gateway inválida ou um problema de esquema de ferramenta. O resultado é uma explicação mais clara: o que falhou, onde provavelmente falhou, quais evidências sustentam essa conclusão e o que o operador deve verificar em seguida.
 
-Esse tipo de observabilidade é mais valioso quando o assistente tem permissão para ler o estado relevante da conta, mas não alterá‑lo automaticamente. Conceda acesso de escrita apenas a fluxos de manutenção confiáveis.
+Esse tipo de observabilidade é mais valioso quando o assistente tem permissão para ler o estado relevante da conta, mas não alterá-lo automaticamente. Dê acesso de gravação apenas a fluxos de trabalho de manutenção confiáveis.
 
-### Meta‑prompting e revisão de conversas
+### Meta-prompting e revisão de conversas
 
-O MCP pode suportar fluxos de meta‑prompting onde um assistente revisa conversas anteriores, comportamento de gateway e documentação para sugerir melhorias. O objetivo não é responder novamente ao usuário original; é inspecionar como o agente se comportou e identificar o que pode ser aprimorado em prompts, instruções, ferramentas, escolha de modelo ou configuração RAG.
+O MCP pode suportar fluxos de trabalho de meta-prompting, nos quais um assistente revisa conversas anteriores, comportamento do gateway e documentação para sugerir melhorias. O objetivo não é responder novamente ao usuário original; é inspecionar como o agente se comportou e identificar o que pode ser melhorado em prompts, instruções, ferramentas, escolha de modelo ou configuração de RAG.
 
-Um agente de revisão pode buscar padrões como respostas muito longas, perguntas ausentes, seleção de ferramenta errada, loops de clarificação repetidos, suposições inseguras ou respostas que ignoram o contexto recuperado. Em seguida, pode propor mudanças concretas: uma instrução de sistema melhor, uma descrição de ferramenta mais estreita, um esquema de saída estruturada mais forte, um modelo diferente ou uma fonte de recuperação adicional.
+Um agente de revisão pode procurar padrões, como respostas muito longas, perguntas ausentes, seleção incorreta de ferramentas, loops repetidos de esclarecimento, suposições inseguras ou respostas que ignoram o contexto recuperado. Em seguida, pode propor mudanças concretas: uma instrução de sistema melhor, uma descrição de ferramenta mais específica, um esquema de saída estruturada mais forte, um modelo diferente ou uma fonte de recuperação adicionada.
 
-Isso é útil para equipes que tratam assistentes como produtos. Em vez de ajustar prompts apenas por intuição, elas podem revisar interações reais e transformar os achados em mudanças menores de gateway ou de base de conhecimento.
+Isso é útil para equipes que tratam assistentes como produtos. Em vez de ajustar prompts apenas por intuição, elas podem revisar interações reais e transformar as descobertas em alterações menores no gateway ou na base de conhecimento.
 
-### Identificar por que modelos falham em situações específicas
+### Identificar por que os modelos falham em situações específicas
 
-Algumas falhas de modelo não são causadas apenas pelo modelo. Uma resposta errada pode vir de contexto ausente, prompt fraco, resultado de recuperação ruim, ferramenta indisponível, capacidade de modelo incompatível ou um esquema que permite ao modelo gerar saída ambígua.
+Algumas falhas de modelo não são causadas apenas pelo modelo. Uma resposta errada pode vir de contexto ausente, um prompt fraco, um resultado de recuperação ruim, uma ferramenta indisponível, uma capacidade de modelo incompatível ou um esquema que permite ao modelo produzir uma saída ambígua.
 
-Com o contexto de conta disponível via MCP, um assistente pode investigar essas camadas juntas. Ele pode verificar qual modelo foi selecionado, se esse modelo suporta a capacidade necessária, qual configuração de gateway estava ativa, se a coleção RAG relevante existe e qual documentação explica o comportamento esperado.
+Com o contexto da conta disponível por meio do MCP, um assistente pode investigar essas camadas juntas. Ele pode verificar qual modelo foi selecionado, se esse modelo suporta a capacidade necessária, qual configuração de gateway estava ativa, se a coleção RAG relevante existe e qual documentação explica o comportamento esperado.
 
-Isso ajuda a responder perguntas como “por que o assistente falha quando usuários perguntam sobre reembolsos?”, “por que este modelo ignora uma ferramenta?” ou “por que as respostas degradam quando a requisição inclui um arquivo?”. O resultado deve ser uma explicação baseada em evidências e uma correção focada, como mudar o modelo, melhorar a descrição da ferramenta, adicionar material de recuperação ou reescrever a instrução de gateway.
+Isso ajuda a responder perguntas como "por que o assistente falha quando os usuários perguntam sobre reembolsos?", "por que este modelo ignora uma ferramenta?" ou "por que as respostas pioram quando a solicitação inclui um arquivo?". O resultado deve ser uma explicação baseada em evidências e uma correção focada, como alterar o modelo, melhorar a descrição da ferramenta, adicionar material de recuperação ou reescrever a instrução do gateway.
 
 ### Melhorar a qualidade do RAG
 
-O MCP de gerenciamento de conta também é útil para manter sistemas RAG. Um assistente pode inspecionar o comportamento da API relacionado a coleções, buscar na documentação AIVAX orientações de recuperação e ajudar a comparar a configuração do gateway com o fluxo de recuperação pretendido.
+O MCP de gerenciamento de conta também é útil para manter sistemas RAG. Um assistente pode inspecionar o comportamento relacionado à coleção via API, pesquisar a documentação do AIVAX para orientações de recuperação e ajudar a comparar a configuração do gateway com o fluxo de recuperação pretendido.
 
-Use‑o para investigar recuperação fraca, citações ausentes, trechos irrelevantes, buscas excessivamente amplas, documentos de baixa qualidade ou casos em que um gateway deveria usar uma coleção mas não o faz. Um assistente de manutenção RAG pode sugerir melhor formulação de consultas, mudanças de chunking, organização de coleções, ajustes de reranker, ajustes de `top` e `minScore`, ou quando expor uma coleção através do [collection MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md).
+Use-o para investigar recuperação fraca, citações ausentes, trechos irrelevantes, pesquisas muito amplas, documentos de baixa qualidade ou casos em que um gateway deveria usar uma coleção, mas não usa. Um assistente de manutenção de RAG pode sugerir uma formulação de consulta melhor, alterações no chunking, organização da coleção, configurações de reranker, ajustes em `top` e `minScore`, ou quando expor uma coleção por meio do [collection MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md).
 
-O melhor fluxo de trabalho é iterativo: inspecionar uma resposta falha, identificar qual contexto deveria ter sido recuperado, testar ou revisar o caminho de recuperação, atualizar documentos ou configurações de gateway e então re‑verificar o mesmo padrão de conversa.
+O melhor fluxo de trabalho é iterativo: inspecione uma resposta com falha, identifique qual contexto deveria ter sido recuperado, teste ou revise o caminho de recuperação, atualize documentos ou configurações do gateway e, em seguida, verifique novamente o mesmo padrão de conversa.
 
-## Orientações de segurança
+## Diretrizes de segurança
 
-Trate este servidor MCP como uma integração administrativa. Uma chave privada conectada a ele pode ser capaz de ler ou mutar recursos de conta dependendo das rotas que o agente invoca.
+Trate este servidor MCP como uma integração administrativa. Uma chave privada conectada a ele pode ser capaz de ler ou mutar recursos da conta, dependendo das rotas que o agente invoca.
 
-Use uma chave de API dedicada para cada cliente ou automação MCP. Rotule‑a claramente, defina uma expiração quando possível e rotacione‑a se o cliente for compartilhado, comprometido ou não mais necessário. Armazene a chave no mecanismo secreto do cliente MCP ou em armazenamento de configuração local, não no controle de versão.
+Para cada cliente MCP ou automação:
 
-Não conecte o MCP de gerenciamento de conta a agentes não confiáveis, clientes de chat público ou sessões de navegador controladas pelo usuário. Se um fluxo de trabalho precisar apenas de recuperação de uma coleção RAG, use o [collection MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md) com configuração somente leitura. Se um gateway precisar chamar suas ferramentas externas durante a inferência, configure [MCP functions](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ou [server-side functions](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) em vez disso.
+- Use uma chave de API dedicada e rotule-a claramente.
+- Defina uma data de expiração, quando possível.
+- Rodeie a chave se o cliente for compartilhado, comprometido ou não for mais necessário.
+- Armazene a chave no mecanismo de segredo do cliente MCP ou no armazenamento de configuração local, não no controle de origem.
+
+Não conecte o MCP de gerenciamento de conta a agentes não confiáveis, clientes de chat públicos ou sessões de navegador controladas pelo usuário. Se um fluxo de trabalho precisar apenas de recuperação de uma coleção RAG, use o [collection MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md) com configuração somente leitura. Se um gateway precisar chamar suas ferramentas externas durante a inferência, configure [funções MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ou [funções do lado do servidor](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) em vez disso.

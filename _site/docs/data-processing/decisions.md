@@ -39,7 +39,7 @@ All models below support `choice`, `noul`, and `score`. See [Usage and cost](#us
 | `@scaledown/classify-1` |
 | `@inception/mercury-decide` |
 
-Each response returns the canonical model name in `model`. These short names are also accepted as aliases and resolve to a fixed canonical model; an alias can move to a newer version when one is released, so pin the canonical name when you need a stable version:
+Each response returns the canonical model name in `model`. You can also send one of the short aliases below. Each alias currently resolves to the canonical model shown, but it can move to a newer version when one is released. Pin the canonical name when you need a stable version.
 
 | Alias | Resolves to |
 | --- | --- |
@@ -124,7 +124,11 @@ Send the following JSON body to `POST /api/v1/generations/decisions`. The exampl
 }
 ```
 
-Keep only relevant evidence in the state. Instructions should explain the decision, not ask for a chain of reasoning or additional text. Avoid overlapping choice descriptions unless that ambiguity is intentional.
+Tips for reliable answers:
+
+- Keep only relevant evidence in the state.
+- Write instructions that explain the decision, not ones that ask for a chain of reasoning or additional text.
+- Avoid overlapping choice descriptions unless that ambiguity is intentional.
 
 For a walkthrough with routing code and model prices, see [Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
 
@@ -213,15 +217,15 @@ Other models may omit optional fields such as `probabilities`, `legend`, or `con
 
 ## Account rate limits
 
-Semantic decision requests share an account-level rate limit across models and API keys. Each request counts once, even when it contains multiple questions. This quota is separate from the daily subscription allowance and applies to both included and paid usage. An em dash (`—`) means the plan does not impose a limit.
+Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request consumes one unit, regardless of how many questions it contains or which decision model it selects. An em dash (`—`) means the plan does not impose a limit.
 
 | Limit | Free | Pro | Max |
 | --- | --- | --- | --- |
 | Semantic decision requests | 10/min | 50/min | — |
 
-These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing: included usage still consumes the request quota. Each request consumes one unit, regardless of how many questions it contains or which decision model it selects.
+This quota is independent of the daily subscription allowance and of billing: included usage still consumes request units. Max has no plan-imposed limit for this quota, but other applicable limits remain in effect.
 
-Requests above the limit return `429 Too Many Requests` before evaluation. Pace calls across the account and retry with backoff after the rate-limit window clears; changing API keys within the same account does not provide a separate quota. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit for this quota, but other applicable limits remain in effect.
+Requests above the limit return `429 Too Many Requests` before evaluation. An immediate retry still encounters the active rate-limit window, and changing API keys within the same account does not provide a separate quota. Pace calls across the account and retry with backoff after the window clears.
 
 ## Model-specific limits
 
@@ -276,7 +280,7 @@ Inputs exceeding the context or question/options budget are rejected, not silent
 
 ## Usage and cost
 
-The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers)). Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described below; other decision models are billed normally.
+The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers)). Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described after the table.
 
 | Model | Input price / million tokens |
 | --- | ---: |
@@ -305,9 +309,9 @@ The decision-model rates below are base USD prices per million input tokens, bef
 | `@scaledown/classify-1` | **$0.050** |
 | `@inception/mercury-decide` | **$0.040** |
 
-For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question. Multiple questions over one state do not have the same input usage as one question over that state. Julia-1 does not generate text, so its `output_tokens` value is zero.
+For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question, so input usage grows with the number of questions even when they share one state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
-Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across eligible decision calls, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
+Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across all eligible decision calls of the account, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
 
 When not covered, Julia-1 input is billed at the [listed rate](#usage-and-cost), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 

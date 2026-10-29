@@ -2,7 +2,13 @@ Source: https://docs.aivax.net/docs/inference/agentic-tests.html
 
 # Agentic Tests
 
-Agentic Tests evaluates how an AI Gateway behaves across a complete, goal-oriented conversation instead of grading one isolated response. AIVAX simulates the user's next message, sends each turn to the selected gateway, and uses an independent judge to determine whether the conversation reached its goal, remains recoverable, or has persistently moved away from the expected outcome.
+Agentic Tests evaluate how an AI Gateway behaves across a complete, goal-oriented conversation instead of grading one isolated response. On each turn, AIVAX:
+
+1. simulates the user's next message;
+2. sends it to the selected gateway;
+3. asks an independent judge whether the conversation reached its goal, remains recoverable, or has persistently moved away from the expected outcome.
+
+You can run tests in two ways: as [persistent tests in the dashboard](#persistent-tests-in-the-dashboard), with history, schedules, and notifications, or as ephemeral evaluations through [direct API execution](#direct-api-execution).
 
 Use Agentic Tests to create repeatable regression checks for support, sales, onboarding, tool use, RAG, and other multi-turn agent flows. Because a test runs through the configured AI Gateway, it exercises the gateway's model, instructions, tools, skills, knowledge, and inference settings together.
 
@@ -32,7 +38,9 @@ Use **Validation criteria** for optional requirements that should affect only th
 
 Keeping these criteria separate prevents the simulated user from unnaturally steering the conversation toward the checks that the judge will apply.
 
-Use **Start messages** when the scenario requires an established context, such as a customer objection, a prior assistant response, or a specific point in an existing flow. Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
+Use **Start messages** when the scenario requires an established context, such as a customer objection, a prior assistant response, or a specific point in an existing flow.
+
+Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
 
 Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; a test accepts up to 16 resources (see [Pricing and limits](#pricing-and-limits)). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
 
@@ -51,7 +59,10 @@ Use `resources` to give the simulated user and judge shared context that does no
 }
 ```
 
-Resources are visible to the simulated user and judge; they are not sent to the gateway under test as conversation history. They do not add knowledge to the gateway. If the assistant must retrieve the same material, make it available through the gateway's own knowledge or tools. The simulated user may still reveal resource information naturally in its messages, so do not treat resources as hidden judge-only criteria.
+Keep in mind how resources are used:
+
+- They are visible to the simulated user and judge only. They are not sent to the gateway under test as conversation history and do not add knowledge to the gateway. If the assistant must retrieve the same material, make it available through the gateway's own knowledge or tools.
+- The simulated user may still reveal resource information naturally in its messages, so do not treat resources as hidden judge-only criteria. Use **Validation criteria** for that.
 
 Remote content can change between test runs and contributes to usage. Use only trusted, publicly reachable URLs whose content is appropriate for the test.
 
@@ -61,7 +72,7 @@ Follow the [multi-turn conversation testing walkthrough](https://aivax.net/blog/
 
 ### Validation hooks
 
-Persisted Agentic Tests may call external validation hooks during a run. Configure the `hooks` array when creating or updating a test:
+Validation hooks let your own service observe a persisted run and stop it when a check fails, for example to inspect the conversation after each gateway response. Configure the `hooks` array when creating or updating a test:
 
 ```json
 {
@@ -122,7 +133,13 @@ Each hook receives a worker-compatible JSON envelope:
 
 The hook URL must be an absolute HTTP or HTTPS URL without embedded credentials and must not resolve to localhost, loopback, private, link-local, or other blocked local addresses. When the account has a hook key, AIVAX also sends `X-Request-Nonce`; validate it before trusting the payload. Hook requests use `POST` with `Content-Type: application/json`.
 
-Hook responses follow the worker convention: any `2xx` response continues the run; a non-`2xx` response or HTTP request failure interrupts it immediately. The response body does not select another action. The interrupted run is stored as `failed`, emits a terminal result with `reason: "validation_hook_interrupted"`, and includes hook call audit entries in the run `result.hooks` array. Audit entries contain the event, URL, timestamp, status or error, whether execution continued, and up to 4,000 characters of the response body.
+Hook responses follow the [worker](https://docs.aivax.net/docs/inference/workers.md) convention:
+
+- Any `2xx` response continues the run.
+- A non-`2xx` response or an HTTP request failure interrupts the run immediately.
+- The response body does not select another action.
+
+An interrupted run is stored as `failed` and emits a terminal result with `reason: "validation_hook_interrupted"`. The run's `result.hooks` array records an audit entry for each hook call, with the event, URL, timestamp, status or error, whether execution continued, and up to 4,000 characters of the response body.
 
 ### Run and inspect a test
 
@@ -130,7 +147,7 @@ Select **Run test** to queue an execution. Runs can be `pending`, `running`, `su
 
 Manual runs, scheduled runs, and direct API evaluations share one new-run quota across the account's API keys. A persisted run counts when it is queued and does not count again when execution begins. Conversation turns do not consume additional run units, although applicable inference limits still apply. A manual run request above the quota returns HTTP 429 without creating a run; wait for the rate-limit window to clear before retrying.
 
-A run processes its conversation sequentially, while eligible runs from the same account can execute concurrently. Every turn checks that the account can continue operating. A run can fail if the balance is exhausted or inference cannot continue, and a pending or running run can be cancelled from the dashboard.
+A run processes its conversation turn by turn, while eligible runs from the same account can execute concurrently. Before every turn, AIVAX checks that the account can continue operating. A run can fail if the balance is exhausted or inference cannot continue. You can cancel a pending or running run from the dashboard.
 
 The run inspector retains:
 
@@ -164,6 +181,8 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 
 ## Evaluation settings
 
+These settings control the simulated conversation and the judge. Persistent tests use them; [direct API execution](#direct-api-execution) accepts the same core settings, but not `hooks`.
+
 | Setting | Default | Accepted values | Description |
 | --- | ---: | --- | --- |
 | `validation_criteria` | `null` | String, message part, or list of message parts | Optional requirements supplied only to the judge. They do not guide the simulated user or the gateway under test. |
@@ -179,7 +198,13 @@ Succeeded and failed runs are retained for one month. Cancelled runs are retaine
 | `user_sampling.top_k` | `0.4` | `0`–`2` | Controls how many sampled communication characteristics guide the simulated user. Higher values increase variation. |
 | `user_sampling.max_decay` | `0.02` | `0`–`1` | Controls how sampled user characteristics may change between turns. |
 
-Reduce `max_turns` for fast, bounded regression checks. Increase it for flows that naturally require discovery or several tool calls. `minimum_turns` and `judge_start_turn` must each be less than `max_turns`; they are otherwise independent. Delay `judge_start_turn` when early clarification is expected and intermediate scores are not useful. Disable `allow_user_exit` when only the judge or the turn budget should end the test; `minimum_turns` controls only when the simulated user sees its exit option and does not delay judge decisions. Keep a wide gap between the loss and success thresholds unless the policy has been calibrated against representative conversations.
+Tuning guidance:
+
+- **`max_turns`**: reduce it for fast, bounded regression checks; increase it for flows that naturally require discovery or several tool calls.
+- **`minimum_turns` and `judge_start_turn`**: each must be less than `max_turns`; they are otherwise independent. `minimum_turns` controls only when the simulated user sees its exit option and does not delay judge decisions.
+- **`judge_start_turn`**: delay it when early clarification is expected and intermediate scores are not useful.
+- **`allow_user_exit`**: disable it when only the judge or the turn budget should end the test.
+- **`loss_threshold` and `base_threshold`**: keep a wide gap between them unless the policy has been calibrated against representative conversations.
 
 ## Pricing and limits
 
@@ -210,15 +235,26 @@ Each test accepts up to 16 `resources` and 16 `hooks`.
 
 ## Direct API execution
 
-Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Pricing and limits](#pricing-and-limits).
-
-Use the direct generation endpoint when an application needs to run an ephemeral test and consume its events immediately. A direct execution does **not** create a persistent test case or run in the dashboard.
+Use the direct evaluation endpoint when an application needs to run an ephemeral test and consume its events immediately as a Server-Sent Events (SSE) stream. A direct execution does **not** create a persistent test case or run in the dashboard.
 
 Authenticate with a private AIVAX API key, send `Accept: text/event-stream`, and keep the key on a trusted backend. Do not expose a private key in browser code or a distributed application bundle.
 
+Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Pricing and limits](#pricing-and-limits).
+
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Evaluate%20Agentic%20Test)
 
-The request accepts the same core evaluation settings as a persistent test. Use `model` for the AI Gateway slug, `goal` for the desired outcome shared with the simulated user and judge, `validation_criteria` for optional judge-only requirements, `minimum_turns` and `allow_user_exit` to control when the simulated user sees its exit option, `judge_start_turn` to schedule judge evaluation, `start` for optional initial messages, `resources` for additional `Text` or `RemoteResource` context, and `external_user_id` for an identity forwarded to gateway inference.
+The request accepts the same core [evaluation settings](#evaluation-settings) as a persistent test, except `hooks`. The main fields are:
+
+- `model`: the AI Gateway slug.
+- `goal`: the desired outcome, shared with the simulated user and judge.
+- `validation_criteria`: optional judge-only requirements.
+- `minimum_turns` and `allow_user_exit`: when the simulated user sees its exit option.
+- `judge_start_turn`: when judge evaluation starts.
+- `start`: optional initial messages.
+- `resources`: additional `Text` or `RemoteResource` context.
+- `external_user_id`: an identity forwarded to gateway inference.
+
+### Stream events
 
 Every Server-Sent Events message contains this envelope:
 
@@ -371,6 +407,8 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
+### Judge states and outcomes
+
 The judge state can be `active`, `at_risk`, `success`, or `loss`. A weak turn does not immediately fail a recoverable conversation: the low score and cumulative trajectory must remain at or below the configured loss threshold for the required consecutive evaluations.
 
 Final outcomes are:
@@ -381,6 +419,8 @@ Final outcomes are:
 | `loss` | The score and cumulative trajectory remained at or below `loss_threshold` for the required consecutive judged turns. |
 | `incomplete` | The conversation exhausted `max_turns` without reaching success or a persistent loss. |
 | `interrupted` | A validation rule stopped the evaluation before it completed. |
+
+### Errors
 
 A missing or invalid key returns `401 Unauthorized`; a public API key returns `403 Forbidden`; insufficient balance returns `402 Payment Required`; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return `400 Bad Request`. An inference failure can instead arrive as an SSE event after streaming begins.
 

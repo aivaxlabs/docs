@@ -2,21 +2,31 @@ Source: https://docs.aivax.net/docs/tools/builtin-tools.html
 
 # Built-in Tools
 
-AIVAX provides a list of built-in tools for you to enable in your model. These tools can be used together with the [server-side functions](https://docs.aivax.net/docs/tools/protocol-functions.md).
+Built-in tools are capabilities maintained by AIVAX, such as web search, URL reading, code execution, memory, and file generation, that you can enable for a model without writing your own callback. You can combine them with your own [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) and [MCP](https://docs.aivax.net/docs/tools/mcp.md) tools.
 
-Some functions have usage charges. See [Pricing and limits](#pricing-and-limits) before enabling them in a production workflow.
+Some tools have usage charges. See [Pricing and limits](#pricing-and-limits) before enabling them in a production workflow.
 
-Note that each model decides which function to call and its parameters. Not all models can obey the call rules.
+The model decides which tool to call and which arguments to send. Not every model follows tool-call rules reliably.
 
 ## How to Choose and Combine Tools
 
 Built-in tools should be enabled as work capabilities, not as agent decoration. Each tool adds a decision to the model: it needs to perceive that the tool exists, understand when to use it, assemble valid arguments, wait for the result, and continue the response. The more similar tools are available at the same time, the higher the chance of redundant use or poor choice. Start with the smallest set that solves the use case and write clear instructions on when to use each.
 
-Use `WebSearch` when the answer depends on public, recent, or variable information. Use `OpenUrl` when the user has already provided a URL and wants the assistant to analyze that specific content. `AdvancedWebUsage` is disabled and returns an unavailable response; see [Changelogs](https://docs.aivax.net/docs/legal/changelogs.md). Use `Code` for calculation, data transformation, and small algorithmic reasoning. Use `Request` when the model needs to call an HTTP API with method, headers, or custom body. Use `Remember` only in chat clients or calls with an identifiable user, because memory tools store and retrieve persistent information for that user.
+Pick each tool by the kind of need it covers:
 
-Generation tools, such as image, document, and web page, should be treated as output actions. They do more than improve an answer; they create artifacts hosted or attached to the conversation. Therefore, instruct the model on when to generate an artifact and when to reply in text. In support, for example, generating a document can be useful for a quote, proposal, or formal summary; generating a web page can be useful for a visual report; generating an image can be useful for creative ideation. If the user only asked for an explanation, plain text is usually sufficient.
+- `WebSearch`: the answer depends on public, recent, or changing information.
+- `OpenUrl`: the user already provided a URL and wants the assistant to analyze that specific content.
+- `Code`: calculations, data transformations, and small algorithmic tasks.
+- `Request`: the model must call an HTTP API with a specific method, headers, or body.
+- `Remember`: only in chat clients or calls with an identifiable user, because memory tools store and retrieve persistent information for that user.
+- `AdvancedWebUsage`: disabled; it returns an unavailable response. See [Changelogs](https://docs.aivax.net/docs/legal/changelogs.md).
 
-When tools are available via `builtin_tools` in a direct call, the application making the request decides the list for each inference. When configured in the AI Gateway, the list is centralized and can be combined with skills, workers, MCP, protocol functions, and shell. In production, prefer the gateway for permanent policies, because it prevents different clients from enabling different tools without control. Use direct calls for testing, internal routines, and flows where the application truly needs to choose tools dynamically.
+Treat generation tools (image, document, and web page) as output actions. They do more than improve an answer: they create artifacts that are hosted or attached to the conversation. Tell the model when to generate an artifact and when to reply in text. In support, for example, a document fits a quote, proposal, or formal summary; a web page fits a visual report; an image fits creative ideation. When the user only asks for an explanation, plain text is usually enough.
+
+You can enable tools in two places:
+
+- **In the request**, through `builtin_tools`. The calling application chooses the list for each inference. Use this for testing, internal routines, and flows where the application truly needs to choose tools dynamically.
+- **In the [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md)**. The list is centralized and can be combined with skills, workers, MCP, protocol functions, and shell. Prefer the gateway for permanent production policies, because it prevents different clients from enabling different tools without control.
 
 The values in `builtin_tools.tools` are configuration flags such as `WebSearch`, `Code`, and `OpenUrl`. The model sees runtime function names such as `web_search`, `evaluate_code`, and `open_url`. Use runtime function names when configuring skill tool allowlists or shell tool allowlists.
 
@@ -55,20 +65,20 @@ The date uses `yyyy-MM-dd`, time uses 24-hour `HH:mm:ss`, and weekday names are 
 
 ## Internet Search
 
-This function enables internet search in your model. With this, the model can query specific or real‐time information such as weather data, news, game results, etc.
+Enable `WebSearch` to let the model search the internet for specific or real-time information, such as weather, news, or game results.
 
-Internet search is performed by multiple providers, chosen based on network availability and latency. AIVAX uses a mix of providers to perform internet searches.
+AIVAX runs searches through a mix of providers, chosen by network availability and latency.
 
-AIVAX provides two types of searches configurable via its dashboard:
+You can choose between two search modes in the dashboard:
 
-- **Full**: the performed search is complete, inserting the entire content of each result into the conversation context.
-- **Summarized**: the performed search is summarized, inserting into the conversation context a summary generated by AI by the search provider itself.
+- **Full**: inserts the entire content of each result into the conversation context.
+- **Summarized**: inserts an AI-generated summary of the results, produced by the search provider.
 
-The `Full` mode may consume more input tokens from the conversation, but can provide more precise results. See [Pricing and limits](#pricing-and-limits) before enabling internet search in production.
+`Full` can give more precise results but may consume more input tokens. See [Pricing and limits](#pricing-and-limits) before enabling internet search in production.
 
-> [!NOTE] 
+> [!NOTE]
 >
-> **Important:** the `Full` search is not always available.
+> The `Full` mode is not always available.
 
 Activation via `builtin_tools`:
 
@@ -90,7 +100,7 @@ Activation via `builtin_tools`:
 
 ## Code Execution
 
-This function allows the model to execute JavaScript code and inspect the execution result. With this, the model can evaluate algorithmic results of mathematical expressions and other situations that are better represented through code.
+Enable `Code` to let the model run JavaScript and inspect the result. Use it for mathematical expressions and other problems that are easier to solve with code than with text.
 
 The code runs in a protected JavaScript environment. It is intended for calculations and small transformations, not for file I/O, network access, or importing external scripts.
 
@@ -108,15 +118,15 @@ Activation via `builtin_tools`:
 
 ## URL Context
 
-This function allows the model to access external content at URLs and links provided by the user. With this function, the model can access links and evaluate their content.
+Enable `OpenUrl` to let the model read the content of URLs and links provided by the user.
 
-Note that some destinations may identify the access as a bot and block it, as this function is not crawling but a simple GET to the destination.
+The tool sends a simple `GET` request to the destination; it does not crawl. Some sites may identify the access as a bot and block it.
 
-Upon obtaining link content, the system checks the return content and handles it according to each type:
+AIVAX handles the returned content by type:
 
-- HTML content is rendered: HTML tags, scripts, CSS, and “noise” are removed from the access result, keeping only the plain text of the link.
-- Other textual content: the content is read directly and no transformation is performed.
-- Non‐textual content: when the link responds with non‐textual content and the response indicates a filename (either by path or by the `Content‐Disposition` header), the system attempts to convert the downloaded file to a textual version.
+- **HTML**: tags, scripts, CSS, and other noise are removed, keeping only the page's plain text.
+- **Other text**: the content is read as is.
+- **Non-text content**: when the response indicates a filename (in the path or the `Content-Disposition` header), AIVAX tries to convert the downloaded file to text.
 
 Activation via `builtin_tools`:
 
@@ -228,19 +238,15 @@ For application-level controls around memory writes, deletion policies, and revi
 
 ## Image Generation
 
-This function allows the model to create AI images.
+Enable `ImageGeneration` to let the model create images. The available image generation models are listed in the AIVAX console.
 
-AI‐generated images are attached to the conversation context, but are not directly visible to the assistant.
+Generated images are attached to the conversation context, but the assistant cannot see them directly. They are stored on AIVAX servers for a few months before being permanently removed.
 
 Image generation can incur usage charges. See [Pricing and limits](#pricing-and-limits) before enabling it in production.
 
-You can also enable the generation of explicit and adult images in image generation. When this feature is enabled, the model will be allowed to generate adult material. For this to happen, the model must also “agree” to generate such content. Some models have a lower security filter than others. For example, Gemini models have the lowest security filter, making them a viable option for role‐play and generating such material.
+You can also allow explicit and adult images with `image_generation_allow_mature_content`. When this feature is enabled, the model will be allowed to generate adult material. For this to happen, the model must also “agree” to generate such content. Some models have a lower security filter than others. For example, Gemini models have the lowest security filter, making them a viable option for role‐play and generating such material.
 
-You are always responsible for the [material you generate](https://docs.aivax.net/docs/legal/terms-of-service.md) and the generated material must be compatible with our terms of service.
-
-The available image generation models are listed in the AIVAX console.
-
-Generated images are stored on AIVAX servers for a few months before being permanently removed.
+You are always responsible for the [material you generate](https://docs.aivax.net/docs/legal/terms-of-service.md), and it must comply with our terms of service.
 
 Activation via `builtin_tools`:
 
@@ -261,11 +267,9 @@ Activation via `builtin_tools`:
 
 ## X Posts Search
 
-This function allows the model to search for posts on X (formerly Twitter), and to read a specific post when the model has a post ID.
+Enable `XPostsSearch` to let the model search posts on X (formerly Twitter) and read a specific post when it has the post ID.
 
-It is a direct alternative to `web_search`, as it can be used to look for up‐to‐date information in real time, such as news, information, game results, etc. This tool provides much more recent results than the conventional internet search tool.
-
-It is not recommended to use both functions together because they have the same purpose.
+It is a direct alternative to [internet search](#internet-search) (`web_search`) for real-time information, such as news or game results, and returns much more recent results. Avoid enabling both tools together, because they serve the same purpose.
 
 This function can incur usage charges. See [Pricing and limits](#pricing-and-limits) before enabling it in production.
 
@@ -283,11 +287,9 @@ Activation via `builtin_tools`:
 
 ## Document Generation
 
-This function allows the model to create PDFs from HTML text.
+Enable `GenerateDocument` to let the model create PDFs from HTML.
 
-The created files are hosted on AIVAX servers and made available by the assistant.
-
-The content is hosted for a few months before being permanently deleted.
+AIVAX hosts the created files and the assistant shares them in the conversation. They are kept for a few months before being permanently deleted.
 
 Activation via `builtin_tools`:
 
@@ -303,11 +305,9 @@ Activation via `builtin_tools`:
 
 ## Web Page Generation
 
-This function allows the model to host HTML pages on AIVAX servers.
+Enable `GenerateWebPage` to let the model host HTML pages on AIVAX servers, such as reports, landing pages, and infographics.
 
-This allows the model to host reports, landing pages, and other HTML infographics.
-
-The content is hosted for a few months before being permanently deleted.
+The pages are kept for a few months before being permanently deleted.
 
 Activation via `builtin_tools`:
 
@@ -323,7 +323,7 @@ Activation via `builtin_tools`:
 
 ## Advanced Request
 
-This function provides the model with an advanced HTTP request tool. With this function, the model can set headers, forms, contents, and methods to perform advanced HTTP requests.
+Enable `Request` to give the model a full HTTP request tool. The model can set the method, headers, form fields, and body of each request.
 
 Text responses are read up to the platform content limit. Binary responses are not expanded into the context; the tool returns a short binary-content marker with the content type and size when available.
 
@@ -363,12 +363,23 @@ An em dash (`—`) means the plan does not impose a limit, and `Not available` m
 | General service actions | 30/day | 5,000/day | 100,000/day |
 | [Bash commands](https://docs.aivax.net/docs/tools/shell.md#pricing-and-limits) | 300/hour | 30,000/hour | — |
 
-General service actions share one daily service-action quota. A memory content is limited to 10 KB.
+General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
 
 ## Tool Diagnosis
 
-When a tool is not called, first confirm that it is enabled in the gateway or in the `builtin_tools` field of the request. Then, check whether the selected model supports function calls or if a tool handler is configured for models without native support. Next, review the instruction: if it does not specify when to search, open a URL, generate an image, or query memory, the model may respond only with its own knowledge. Finally, test a direct question that clearly requires the tool, such as requesting a recent news article for `WebSearch` or asking to open a specific URL for `OpenUrl`.
+Use these checks when a tool is not called, is called too often, or fails.
 
-When a tool is called too often, reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link. For `Remember`, distinguish a request to save information from a question that requires retrieving an existing memory. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use workers to block or replace calls in specific scenarios.
+### The tool is not called
 
-When a tool fails, treat it as a normal part of the experience. Searches may return little content, URLs may block bots, APIs may deny authorization, image generation may refuse content, and code execution may receive ambiguous input. Instruct the model to explain the limitation objectively and offer the next step, such as requesting another link, trying a more specific query, asking for authorization, or responding based only on the available context. Do not rely on an external tool as the sole way to conclude a critical conversation without an experience fallback.
+1. Confirm that the tool is enabled in the gateway or in the request's `builtin_tools` field.
+2. Check whether the selected model supports function calls, or whether a tool handler is configured for models without native support.
+3. Review the instructions. If they do not say when to search, open a URL, generate an image, or query memory, the model may answer only from its own knowledge.
+4. Test a direct question that clearly requires the tool, such as asking for a recent news article for `WebSearch` or asking to open a specific URL for `OpenUrl`.
+
+### The tool is called too often
+
+Reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link. For `Remember`, distinguish a request to save information from a question that requires retrieving an existing memory. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use [workers](https://docs.aivax.net/docs/inference/workers.md) to block or replace calls in specific scenarios.
+
+### The tool fails
+
+Treat tool failures as a normal part of the experience. Searches may return little content, URLs may block bots, APIs may deny authorization, image generation may refuse content, and code execution may receive ambiguous input. Instruct the model to explain the limitation objectively and offer the next step, such as requesting another link, trying a more specific query, asking for authorization, or responding based only on the available context. Do not rely on an external tool as the sole way to conclude a critical conversation without an experience fallback.

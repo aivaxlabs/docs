@@ -56,7 +56,11 @@ The first version can be retrieved and understood without external context.
 
 ### Chunking larger sources
 
-When importing PDFs, spreadsheets, web pages, or manuals, inspect the resulting chunks before relying on the collection. Remove repeated headers, footers, navigation menus, broken tables, boilerplate, and irrelevant disclaimers when possible. A good chunk includes a title or source heading, the immediate section context, and the complete rule, answer, or explanation. A poor chunk contains half of a table row, a sentence that depends on the previous page, or several policies mixed together. [Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) can split source text into cohesive segments before import.
+When importing PDFs, spreadsheets, web pages, or manuals, inspect the resulting chunks before relying on the collection. Remove repeated headers, footers, navigation menus, broken tables, boilerplate, and irrelevant disclaimers when possible.
+
+A good chunk includes a title or source heading, the immediate section context, and the complete rule, answer, or explanation. A poor chunk contains half of a table row, a sentence that depends on the previous page, or several policies mixed together.
+
+[Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) can split source text into cohesive segments before import.
 
 ### Document size
 
@@ -76,7 +80,10 @@ AIVAX supports several ways to add documents. All of them queue new or changed d
 
 Documents are matched by name. When a document is created, it is queued for indexing. When its contents change, it is queued again and its vectors are regenerated. Unchanged documents are skipped.
 
-The single-document update can change the reference, tags, or metadata without reindexing, and fields omitted from it keep their current values. A batch import updates metadata alone without reindexing, but updates the reference and tags only together with changed contents; a line that changes only the reference or tags is skipped.
+What you can update without changing the contents depends on the import method:
+
+- **Single-document update:** changes the reference, tags, or metadata without reindexing. Fields you omit keep their current values.
+- **Batch import:** updates metadata alone without reindexing. The reference and tags are updated only together with changed contents, so a line that changes only the reference or tags is skipped.
 
 > [!WARNING]
 > Indexing incurs cost based on document text tokens when documents are created or when their contents change.
@@ -123,7 +130,9 @@ In the Console:
 5. Follow the jobs under **Batch > Media Processing**.
 6. After each job completes, review the generated documents and wait for indexing before testing [Search](https://docs.aivax.net/docs/rag/semantic-search.md).
 
-A job can be `queued`, `processing`, `completed`, `failed`, or `cancelled`. Failed or cancelled jobs can be retried while their uploaded data is still available. If no job appears, the upload did not reach its completion step; retry the upload and check the error shown. File names are preserved during upload, including accented letters and non-Latin scripts.
+A job can be `queued`, `processing`, `completed`, `failed`, or `cancelled`. Failed or cancelled jobs can be retried while their uploaded data is still available.
+
+If no job appears, the upload did not reach its completion step. Retry the upload and check the error shown. File names are preserved during upload, including accented letters and non-Latin scripts.
 
 | Source group | Processing behavior |
 | --- | --- |
@@ -142,7 +151,15 @@ This is the 2026 support policy for Acme Cloud customers in Brazil. Prioritize e
 
 Do not ask it to infer conclusions, supply missing information, or calculate values the source does not report.
 
-Generated documents prioritize source identity, scope, principal facts, relationships, and exceptions; combine closely related facts; ignore decorative text and pagination; and preserve the source's language, terminology, dates, and number formats. They are tagged as automatically produced content and indexed like other documents. Inspect documents generated from tables, scans, and repeated layouts before relying on them in production.
+Generated documents:
+
+- Prioritize source identity, scope, principal facts, relationships, and exceptions.
+- Combine closely related facts.
+- Ignore decorative text and pagination.
+- Preserve the source's language, terminology, dates, and number formats.
+- Are tagged as automatically produced content and indexed like other documents.
+
+Inspect documents generated from tables, scans, and repeated layouts before relying on them in production.
 
 ## Manage documents
 
