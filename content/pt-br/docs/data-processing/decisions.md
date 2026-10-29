@@ -1,5 +1,5 @@
 ---
-{title: Decisões Semânticas,linkTitle: Decisões Semânticas,weight: 20,group: Data processing,aliases: [/docs/pt-br/generations/decisions.html,/docs/pt-br/data-processing/decisions.html],sourceHash: d32086b2f5a5a480}
+{title: Decisões Semânticas,linkTitle: Decisões Semânticas,weight: 20,group: Data processing,aliases: [/docs/pt-br/generations/decisions.html,/docs/pt-br/data-processing/decisions.html],sourceHash: 7311efe343b597d0}
 ---
 
 # Decisões Semânticas
@@ -41,7 +41,7 @@ Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Uso e cus
 | `@scaledown/classify-1` |
 | `@inception/mercury-decide` |
 
-Cada resposta retorna o nome canônico do modelo em `model`. Esses nomes curtos também são aceitos como aliases e resolvem-se para um modelo canônico fixo; um alias pode mudar para uma versão mais recente quando uma for lançada, portanto, fixe o nome canônico quando precisar de uma versão estável:
+Cada resposta retorna o nome canônico do modelo em `model`. Você também pode enviar um dos seguintes aliases curtos. Cada alias resolve atualmente para o modelo canônico mostrado, mas pode mudar para uma versão mais nova quando uma for lançada. Fixe o nome canônico quando precisar de uma versão estável.
 
 | Alias | Resolve para |
 | --- | --- |
@@ -57,11 +57,11 @@ Cada resposta retorna o nome canônico do modelo em `model`. Esses nomes curtos 
 
 Um limite de contexto não especificado não significa entrada ilimitada. Os limites específicos do modelo e a interpretação das pontuações podem variar; valide um modelo com exemplos representativos antes de direcionar o tráfego de produção.
 
-É necessária uma chave de API autenticada e um saldo positivo na conta, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Autenticação](../authentication.md), [Preços](../pricing.md) e [Planos e limites](../limits.md).
+Uma chave de API autenticada e um saldo positivo na conta são necessários, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Autenticação](../authentication.md), [Preços](../pricing.md) e [Planos e limites](../limits.md).
 
 ### Descubra modelos programaticamente
 
-`GET /api/v1/information/decisions-models.json` lista o catálogo atual de modelos de decisão sem autenticação. A matriz `data` da resposta contém:
+`GET /api/v1/information/decisions-models.json` lista o catálogo atual de modelos de decisão sem autenticação. O array `data` da resposta contém:
 
 - `name`: o identificador canônico a ser usado em uma solicitação de decisão.
 - `aliases`: outros identificadores aceitos para esse modelo.
@@ -71,15 +71,15 @@ Um limite de contexto não especificado não significa entrada ilimitada. Os lim
 - `capabilities`: tipos de perguntas suportados (`noul`, `choice` e/ou `score`).
 - `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; consulte [Uso e custo](#usage-and-cost).
 
-Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve os modelos configurados, não uma verificação de saúde do provedor em tempo real. Os limites específicos de opções e perguntas do modelo não estão incluídos nesta listagem.
+Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve os modelos configurados, não uma verificação de saúde do provedor em tempo real. Limites específicos do modelo para opções e perguntas não estão incluídos nesta listagem.
 
 ## Escreva as perguntas
 
-| Tipo | Formato de `criteria` | Use-o para |
+| Tipo | Formato de `criteria` | Use para |
 | --- | --- | --- |
-| `choice` | Objeto mapeando IDs de escolha para descrições | Selecione um destino ou categoria |
-| `noul` | Objeto com descrições não vazias para `false` e `true` | Avalie uma condição Booleana |
-| `score` | Matriz ordenada de descrições de nível | Avalie uma condição graduada |
+| `choice` | Objeto mapeando IDs de escolha para descrições | Selecionar um destino ou categoria |
+| `noul` | Objeto com descrições não vazias para `false` e `true` | Avaliar uma condição Booleana |
+| `score` | Array ordenado de descrições de nível | Avaliar uma condição graduada |
 
 Toda pergunta requer `instructions` não vazios. Use descrições que distingam as opções, não apenas IDs opacos. Por exemplo, `"billing": "Charges, payments, and refunds"` fornece mais evidências do que `"billing": "B"`.
 
@@ -87,7 +87,7 @@ Para `noul`, ambos os critérios são obrigatórios. Descreva o que conta como f
 
 ## Avalie uma solicitação de suporte
 
-Envie o seguinte corpo JSON para `POST /api/v1/generations/decisions`. O exemplo usa Julia-1; seu estado pode ser texto, um objeto ou uma matriz.
+Envie o seguinte corpo JSON para `POST /api/v1/generations/decisions`. O exemplo usa Julia-1; seu estado pode ser texto, um objeto ou um array.
 
 ```json
 {
@@ -126,13 +126,17 @@ Envie o seguinte corpo JSON para `POST /api/v1/generations/decisions`. O exemplo
 }
 ```
 
-Mantenha apenas evidências relevantes no estado. As instruções devem explicar a decisão, não pedir uma cadeia de raciocínio ou texto adicional. Evite descrições de escolha sobrepostas, a menos que essa ambiguidade seja intencional.
+Dicas para respostas confiáveis:
+
+- Mantenha apenas evidências relevantes no estado.
+- Escreva instruções que expliquem a decisão, não aquelas que pedem uma cadeia de raciocínio ou texto adicional.
+- Evite descrições de escolha sobrepostas, a menos que essa ambiguidade seja intencional.
 
 Para um tutorial com código de roteamento e preços de modelo, consulte [Exemplo da API de Decisões: triagem de um ticket de suporte](https://aivax.net/blog/support-triage-typed-decisions/).
 
 ### Envie imagens
 
-`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni` e `@openai/gpt-6-luna-decisions` aceitam imagens. Coloque cada imagem diretamente em uma matriz `state` de nível superior como uma parte `image_url`, ao lado de itens de texto escritos como strings simples:
+`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni` e `@openai/gpt-6-luna-decisions` aceitam imagens. Coloque cada imagem diretamente em um array `state` de nível superior como uma parte `image_url`, ao lado de itens de texto escritos como strings simples:
 
 ```json
 {
@@ -215,19 +219,19 @@ Outros modelos podem omitir campos opcionais como `probabilities`, `legend` ou `
 
 ## Limites de taxa da conta
 
-As solicitações de decisão semântica compartilham um limite de taxa em nível de conta entre modelos e chaves de API. Cada solicitação conta uma vez, mesmo quando contém várias perguntas. Esta cota é separada da cota diária de assinatura e aplica-se ao uso incluído e pago. Um travessão longo (`—`) significa que o plano não impõe um limite.
+Solicitações de decisão semântica compartilham um limite de taxa por minuto por conta, entre todos os modelos de decisão e chaves de API. Cada solicitação consome uma unidade, independentemente de quantas perguntas ela contenha ou qual modelo de decisão ela selecione. Um travessão longo (`—`) significa que o plano não impõe um limite.
 
-| Limite | Gratuito | Pro | Max |
+| Limite | Free | Pro | Max |
 | --- | --- | --- | --- |
 | Solicitações de decisão semântica | 10/min | 50/min | — |
 
-Esses limites por minuto são compartilhados entre chaves de API pertencentes à mesma conta. Eles são independentes das cotas de assinatura e faturamento: o uso incluído ainda consome a cota de solicitações. Cada solicitação consome uma unidade, independentemente de quantas perguntas ela contenha ou qual modelo de decisão ela selecione.
+Esta cota é independente da alocação diária de assinatura e da cobrança: o uso incluído ainda consome unidades de solicitação. Max não tem limite imposto pelo plano para esta cota, mas outros limites aplicáveis permanecem em vigor.
 
-Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Ritme as chamadas através da conta e tente novamente com backoff após a janela de limite de taxa ser liberada; alterar chaves de API dentro da mesma conta não fornece uma cota separada. Uma tentativa imediata ainda encontra a janela ativa de limite de taxa. Max não tem limite imposto pelo plano para esta cota, mas outros limites aplicáveis permanecem em vigor.
+Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Uma nova tentativa imediata ainda encontra a janela ativa de limite de taxa, e alterar chaves de API dentro da mesma conta não fornece uma cota separada. Ritme as chamadas através da conta e tente novamente com backoff após a janela ser liberada.
 
 ## Limites específicos do modelo
 
-Estes limites específicos do modelo se aplicam além da cota de solicitações em nível de conta acima. Um limite de contexto não especificado não implica entrada ilimitada.
+Estes limites específicos do modelo se aplicam além da cota de solicitação de nível de conta acima. Um limite de contexto não especificado não implica entrada ilimitada.
 
 | Modelo | Contexto |
 | --- | --- |
@@ -278,7 +282,7 @@ Entradas que excedem o contexto ou o orçamento de pergunta/opções são rejeit
 
 ## Uso e custo
 
-As taxas de modelos de decisão abaixo são preços base em USD por milhão de tokens de entrada, antes dos ajustes de conta e plano (consulte o [multiplicador de plano](../pricing.md#plan-multipliers)). Tokens de saída não têm custo no catálogo atual de modelos de decisão. Julia-1 é elegível para a cota diária descrita abaixo; outros modelos de decisão são cobrados normalmente.
+As taxas dos modelos de decisão abaixo são preços base em USD por milhão de tokens de entrada, antes dos ajustes de conta e plano (consulte o [multiplicador de plano](../pricing.md#plan-multipliers)). Tokens de saída não têm cobrança no catálogo atual de modelos de decisão. Julia-1 é elegível para a alocação diária descrita após a tabela.
 
 | Modelo | Preço de entrada / milhão de tokens |
 | --- | ---: |
@@ -307,21 +311,21 @@ As taxas de modelos de decisão abaixo são preços base em USD por milhão de t
 | `@scaledown/classify-1` | **$0,050** |
 | `@inception/mercury-decide` | **$0,040** |
 
-Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo o preenchimento. O estado compartilhado é, portanto, contado novamente para cada pergunta. Múltiplas perguntas sobre um único estado não têm o mesmo uso de entrada que uma única pergunta sobre esse estado. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
+Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo o preenchimento. O estado compartilhado é portanto contado novamente para cada pergunta, então o uso de entrada cresce com o número de perguntas mesmo quando elas compartilham um estado. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
 
-Julia-1 é atualmente elegível para a cota diária de decisão semântica em Gratuito, Pro e Max. Outros modelos de decisão são cobrados normalmente. A cota é compartilhada entre chamadas de decisão elegíveis, não reservada para cada pergunta ou chave de API. Consulte [Planos e Limites](../limits.md#included-daily-subscription-allowances) para capacidade relativa do plano e regras de cobertura.
+Julia-1 é atualmente elegível para a alocação diária de decisão semântica no Free, Pro e Max. Outros modelos de decisão são cobrados normalmente. A alocação é compartilhada entre todas as chamadas de decisão elegíveis da conta, não reservada para cada pergunta ou chave de API. Consulte [Planos e Limites](../limits.md#included-daily-subscription-allowances) para capacidade relativa do plano e regras de cobertura.
 
-Quando não coberto, a entrada do Julia-1 é cobrada na [taxa listada](#usage-and-cost), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor realmente cobrado; ele é zero quando a entrada é totalmente coberta pela cota.
+Quando não coberto, a entrada do Julia-1 é cobrada na [taxa listada](#usage-and-cost), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor realmente cobrado; ele é zero quando a entrada é totalmente coberta pela alocação.
 
 ## Erros e uso confiável
 
 - **Modelo ou pergunta inválido:** verifique o identificador exato do modelo, tipo de pergunta, instruções e forma dos critérios. Os IDs de pergunta e IDs de escolha devem ser não vazios.
 - **Limite de contexto ou opção excedido:** encurte o estado ou as descrições, reduza a contagem de opções ou selecione um modelo com limites adequados. Tentar novamente a mesma entrada inválida não resolverá o problema.
 - **Erro de autenticação ou saldo:** verifique a chave de API e o saldo da conta antes de tentar novamente. Um modelo de preço zero ainda requer um saldo positivo.
-- **Limite de taxa (429):** reduza a taxa de solicitações da conta e tente novamente com backoff. Múltiplas perguntas em uma única solicitação ainda contam como uma solicitação, mas os limites de payload específicos do modelo e o uso por pergunta continuam aplicáveis.
+- **Limite de taxa (429):** reduza a taxa de solicitação da conta e tente novamente com backoff. Múltiplas perguntas em uma única solicitação ainda contam como uma solicitação, mas os limites de payload específicos do modelo e o uso por pergunta permanecem aplicáveis.
 - **Capacidade temporária ou indisponibilidade do provedor:** evite uma tempestade de tentativas paralelas imediatas. Reduza a concorrência e use tentativas limitadas com backoff para falhas transitórias.
 
-Avalie `choice`, `noul` e `score` separadamente ao validar um modelo: o sucesso no roteamento não estabelece comportamento confiável de pontuação ou Booleano. Inclua estados ambíguos e incompletos em seu conjunto de testes e use revisão humana onde uma decisão errada tenha consequências materiais. Uma nova tentativa é uma nova solicitação; não assuma deduplicação automática ou saídas idênticas do modelo.
+Avalie `choice`, `noul` e `score` separadamente ao validar um modelo: o sucesso no roteamento não estabelece pontuação confiável ou comportamento Booleano. Inclua estados ambíguos e incompletos em seu conjunto de testes e use revisão humana onde uma decisão errada tenha consequências materiais. Uma nova tentativa é uma nova solicitação; não assuma deduplicação automática ou saídas idênticas do modelo.
 
 ## Referência da API
 
