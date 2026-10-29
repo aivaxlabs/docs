@@ -8,6 +8,10 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 ## Thursday, October 29th, 2026
 
+Fixes:
+
+- **Account — Adding the first authenticator.** Confirming the first authenticator no longer fails with a required-property error. The current authenticator code is only needed when the account already has one.
+
 Changes:
 
 - **Account — Compact two-factor authentication dialog.** The **Security** tab's two-factor authentication dialog is narrower. When adding an authenticator, the QR code is shown next to the secret, followed by the name and six-digit code fields. The dialog closes from its header, and **Cancel** returns to the authenticator list.
