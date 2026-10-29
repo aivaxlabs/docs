@@ -6,6 +6,17 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Wednesday, October 28th, 2026
+
+Breaking changes:
+
+- **Language models — Special providers require opt-in.** Integrated text models no longer route to special discounted providers by default. Requests for a model that is currently available only through special providers fail unless they use the new `Special` routing preference, or the account enables **Allow special providers** and uses a preference other than `Balanced`. See [Special providers](/docs/inference/inference.md#special-providers).
+
+Changes:
+
+- **Account — Allow special providers.** The account privacy settings include **Allow special providers**, disabled by default. When enabled, the `Cheapest`, `Fastest`, and `Quality` routing preferences also consider special providers, which serve models at discounted prices under conditions that may be less transparent. `Balanced` never uses them.
+- **Language models — `Special` routing preference.** AI Gateways (`parameters.routingOption`) and `routing_options.preset` accept `Special`, which works like `Balanced` but also includes special providers and gives them priority, regardless of the account setting.
+
 ## Tuesday, October 27th, 2026
 
 Breaking changes:
