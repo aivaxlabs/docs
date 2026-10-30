@@ -158,9 +158,16 @@ If a handler name is not recognized, gateway configuration fails at inference ti
 
 ## Moderation
 
-Moderation is an input gate that runs before the main model. Use it to block unsafe or out-of-policy requests before the main model answers them.
+Moderation enforces safety policy on user requests before the main model answers them. Use it to block unsafe or out-of-policy requests.
 
-When at least one moderation category is enabled, AIVAX sends the available textual conversation to a safeguard model. The safeguard evaluates the latest user request in the context established by the conversation and returns a score from 0 to 10 for every category.
+The `moderationParameters.mode` field selects how moderation runs:
+
+- `LayeredGuardrail` (default): An independent safeguard model analyzes the conversation's input text before the main model. Flagged conversations are blocked, and the main model responds with a refusal. Moderation usage is billed as described in [Inference pricing](https://docs.aivax.net/docs/inference/inference.md#pricing).
+- `SelfAssessment`: No separate safeguard model runs, so there is no moderation analysis charge. The main model receives moderation instructions built from the same category sensitivity levels and additional rules, plus an internal refusal tool. When the model judges that the latest request reaches the boundary of an enabled category, it calls the tool with a reason, the violated categories, and a final message for the user. The inference ends immediately, other tool calls from that turn are skipped, the final message is returned as the assistant reply, and the response is marked as a refusal. The request is rejected when the selected model does not support tool calling.
+
+Because `SelfAssessment` relies on the main model's judgment instead of an independent classifier, it trades lower latency and cost for weaker isolation: it is not an independent layer, and enforcement quality depends on the model.
+
+In `LayeredGuardrail` mode, when at least one moderation category is enabled, AIVAX sends the available textual conversation to a safeguard model. The safeguard evaluates the latest user request in the context established by the conversation and returns a score from 0 to 10 for every category.
 
 | Category | Gateway property | What the safeguard evaluates |
 | --- | --- | --- |
@@ -185,9 +192,11 @@ The value configured in the gateway is a **sensitivity level**, not the safeguar
 
 For enabled categories, the blocking cutoff is `11 - sensitivity level`. A safeguard score of `0` never blocks. Configure each category independently; the request is blocked when any enabled category reaches its cutoff.
 
+In `SelfAssessment` mode, the same sensitivity levels define the boundary the main model must enforce, although there is no numeric safeguard score.
+
 ### Add gateway-specific rules
 
-**Additional moderation rules** let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all five scores.
+**Additional moderation rules** let a gateway administrator describe policy that is not fully expressed by the built-in category descriptions. The safeguard reads these rules together with the built-in policy and uses them to calibrate all five scores. In `SelfAssessment` mode, the main model receives the same rules with its moderation instructions.
 
 For example:
 
@@ -223,20 +232,20 @@ When any enabled category reaches its cutoff:
 2. AIVAX replaces them with an instruction identifying the categories that caused the block.
 3. The main model generates a refusal instead of answering the original request.
 
-The refusal is model-generated; moderation does not return a fixed response body.
+The refusal is model-generated; moderation does not return a fixed response body. In `SelfAssessment` mode, the main model produces the refusal itself through the refusal tool, as described above.
 
-If every moderation model fails to produce a valid result, the request is not rejected. The main model instead receives strict instructions derived from the configured categories, sensitivity levels, and additional rules, and applies the policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
+In `LayeredGuardrail` mode, if every moderation model fails to produce a valid result, the request is not rejected. The main model instead receives strict instructions derived from the configured categories, sensitivity levels, and additional rules, and applies the policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
 
 ### Context and current limitations
 
-The safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data to reduce the chance that instructions inside the conversation override the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.
+In `LayeredGuardrail` mode, the safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data to reduce the chance that instructions inside the conversation override the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.
 
 Moderation currently applies only to input text:
 
 - Generated output is not moderated.
 - Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
 - Tool or worker authorization still requires application-level policy; moderation is not an authorization mechanism.
-- Moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage (see [Inference pricing](https://docs.aivax.net/docs/inference/inference.md#pricing)).
+- In `LayeredGuardrail` mode, moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage (see [Inference pricing](https://docs.aivax.net/docs/inference/inference.md#pricing)). `SelfAssessment` mode adds no separate inference.
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 

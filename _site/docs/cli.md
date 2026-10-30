@@ -27,7 +27,13 @@ bun install -g @aivax/cli
 aivax auth login
 ```
 
-`aivax auth login` saves an account profile. The access key is kept in the operating system credential store. For scripts and CI, set the `AIVAX_API_KEY` environment variable instead of logging in.
+`aivax auth login` saves an account profile. The access key is kept in the operating system credential store. To link a profile without sharing the account login key, for example when a coding agent sets up the CLI, pass an existing API key instead:
+
+```bash
+aivax auth login --api-key <API_KEY> --profile-name <PROFILE_NAME>
+```
+
+For scripts and CI, set the `AIVAX_API_KEY` environment variable instead of logging in.
 
 ## What it can do
 
