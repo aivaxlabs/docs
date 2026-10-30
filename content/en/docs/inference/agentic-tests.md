@@ -63,7 +63,7 @@ Use `resources` to give the simulated user and judge shared context that does no
 
 Keep in mind how resources are used:
 
-- They are visible to the simulated user and judge only. They are not sent to the gateway under test as conversation history and do not add knowledge to the gateway. If the assistant must retrieve the same material, make it available through the gateway's own knowledge or tools.
+- `visibility` decides who receives a resource: `Internal` (the default) shows it to the simulated user and judge only, `Gateway` shows it to the gateway under test only, and `Both` shows it to all three. An `Internal` resource is not sent to the gateway and adds no knowledge to it. A `Gateway` or `Both` resource gives the gateway extra context during the test, so use it only for material your application also supplies at run time, such as current account state. If the assistant must retrieve the same material in production, make it available through the gateway's own knowledge or tools.
 - The simulated user may still reveal resource information naturally in its messages, so do not treat resources as hidden judge-only criteria. Use **Validation criteria** for that.
 
 Remote content can change between test runs and contributes to usage. Use only trusted, publicly reachable URLs whose content is appropriate for the test.
@@ -188,7 +188,7 @@ These settings control the simulated conversation and the judge. Persistent test
 | Setting | Default | Accepted values | Description |
 | --- | ---: | --- | --- |
 | `validation_criteria` | `null` | String, message part, or list of message parts | Optional requirements supplied only to the judge. They do not guide the simulated user or the gateway under test. |
-| `resources` | `[]` | `{ "type", "data" }` objects | Additional context supplied to the simulated user and judge. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
+| `resources` | `[]` | `{ "type", "data", "visibility" }` objects | Additional context. `visibility` selects the recipients: `Internal` (default) for the simulated user and judge, `Gateway` for the gateway under test only, or `Both`. Use `Text` for literal `data` or `RemoteResource` for content retrieved from the URL in `data`. |
 | `hooks` | `[]` | `{ "event", "url" }` objects | External callbacks for persisted runs. Supported events are `before-test`, `after-test`, `before-inference`, `after-inference`, and `context-changed`; `before-inference` and `after-inference` require an AI Gateway. |
 | `profile` | `medium` | `low`, `medium`, `high` | Selects the capability and price tier used by the simulated user and judge. It does not replace the model configured on the gateway under test. |
 | `max_turns` | `10` | `2`–`64` | Maximum number of simulated-user turns before the run ends. |

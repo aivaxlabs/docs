@@ -94,7 +94,7 @@ Compare post-release evidence with the prediction. Close an issue when its outco
 
 Weekly review is not a reason to postpone a serious incident. Use a separate urgent response route for privacy exposure, harmful actions or widespread failure. For routine improvements, release in a controlled way and retain a known working configuration. [Versioning](../production/versioning.md) explains how to identify related prompt, knowledge and tool changes so they can be compared and, when necessary, reversed.
 
-**Related on AIVAX:** [Agentic Tests](../../docs/inference/agentic-tests.md) can turn a conversational failure into a reusable scenario. Keep its expected outcome clear and review results alongside real-world evidence. Simulated improvement supports a release decision; it does not replace checking what happens after users encounter the change.
+**Related on AIVAX:** [Agentic Tests](../../docs/inference/agentic-tests.md) can turn a conversational failure into a reusable scenario. Keep its expected outcome clear and review results alongside real-world evidence. Simulated improvement supports a release decision; it does not replace checking what happens after users encounter the change. To find the turn where a real conversation became at risk and turn that shape into a test, see [using the judge trajectory as a production signal](https://aivax.net/blog/judge-trajectory-production-signal/).
 
 **What's next:** Compare proposed alternatives fairly in [A/B testing prompts and models](ab-testing.md).
 
