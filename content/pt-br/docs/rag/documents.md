@@ -1,10 +1,10 @@
 ---
-{title: Documentos,linkTitle: Documentos,weight: 20,group: RAG and collections,aliases: [/docs/pt-br/rag/media-injector.html,/docs/pt-br/rag/best-practices.html,/docs/pt-br/rag/documents.html],sourceHash: 583449c08b4e5b98}
+{title: Documentos,linkTitle: Documentos,weight: 20,group: RAG and collections,aliases: [/docs/pt-br/rag/media-injector.html,/docs/pt-br/rag/best-practices.html,/docs/pt-br/rag/documents.html],sourceHash: a24f67f918f881e8}
 ---
 
 # Documentos
 
-Um documento é a unidade que o AIVAX indexa e recupera dentro de uma [coleção](collections.md). Cada documento armazena texto, uma referência opcional, tags opcionais, metadados opcionais e os vetores gerados pelo trabalho de indexação. A qualidade da busca depende fortemente de quão claros, focados e autocontidos são os documentos.
+Um documento é a unidade que o AIVAX indexa e recupera dentro de uma [coleção](collections.md). Cada documento armazena texto, uma referência opcional, tags opcionais, metadados opcionais e os vetores gerados pelo trabalho de indexação. A qualidade da pesquisa depende fortemente do quão claros, focados e autocontidos são cada um dos documentos.
 
 ## Anatomia de um documento
 
@@ -18,16 +18,16 @@ Um documento é a unidade que o AIVAX indexa e recupera dentro de uma [coleção
 
 Apenas o conteúdo é incorporado. Metadados e tags são retornados com os resultados e podem ser usados em [filtros avançados](document-filters.md), mas não influenciam a correspondência semântica. Se os usuários puderem pesquisar por "política de reembolso", essas palavras devem aparecer no conteúdo, não apenas em uma tag.
 
-Use referências quando vários documentos representam partes da mesma fonte, como seções de um contrato, cláusulas de uma política ou trechos de um PDF. Quando uma busca permite a expansão por referência, um documento correspondente pode trazer os outros documentos que compartilham sua referência.
+Use referências quando vários documentos representam partes da mesma fonte, como seções de um contrato, cláusulas de uma política ou trechos de um PDF. Quando uma pesquisa permite a expansão por referência, um documento correspondente pode trazer os outros documentos que compartilham sua referência.
 
 ## Escreva bons documentos
 
-Um documento deve representar uma única peça limitada de conhecimento. Como meta prática, mantenha a maioria dos documentos entre 20 e 700 palavras. Esta não é uma regra da API, mas geralmente fornece ao modelo de incorporação contexto suficiente sem misturar tópicos não relacionados. Divida conteúdos mais longos em limites lógicos, como seções, cláusulas, entradas de FAQ ou descrições de produtos.
+Um documento deve representar um único pedaço limitado de conhecimento. Como meta prática, mantenha a maioria dos documentos entre 20 e 700 palavras. Esta não é uma regra da API, mas geralmente fornece ao modelo de incorporação contexto suficiente sem misturar tópicos não relacionados. Divida conteúdos mais longos em limites lógicos, como seções, cláusulas, entradas de FAQ ou descrições de produtos.
 
 Faça:
 
 - Dê a cada documento um nome claro e um texto focado.
-- Coloque o assunto no início do documento.
+- Coloque o assunto perto do início do documento.
 - Use linguagem natural semelhante à maneira como os usuários fazem perguntas.
 - Repita identificadores importantes, nomes de produtos, nomes de políticas, siglas e termos quando forem relevantes.
 - Inclua contexto suficiente para que o texto seja compreendido por si só.
@@ -36,8 +36,8 @@ Evite:
 
 - Documentos vazios, minúsculos ou apenas com título.
 - PDFs inteiros, capítulos, logs ou manuais como um único documento.
-- Múltiplos assuntos não relacionados em um documento.
-- Texto que dependa de páginas vizinhas para fazer sentido.
+- Múltiplos assuntos não relacionados em um único documento.
+- Texto que dependa de páginas adjacentes para fazer sentido.
 - Idiomas misturados no mesmo documento, a menos que se espere que os usuários pesquisem dessa forma.
 - JSON bruto, código, tabelas ou logs sem uma breve explicação em linguagem natural.
 - Pronomes como "ele" ou "o produto" quando o documento não identifica o sujeito.
@@ -60,9 +60,9 @@ A primeira versão pode ser recuperada e compreendida sem contexto externo.
 
 Ao importar PDFs, planilhas, páginas da web ou manuais, inspecione os trechos resultantes antes de confiar na coleção. Remova cabeçalhos, rodapés, menus de navegação, tabelas quebradas, textos genéricos e avisos irrelevantes sempre que possível.
 
-Um bom trecho inclui um título ou cabeçalho de seção, o contexto imediato da seção e a regra, resposta ou explicação completa. Um trecho ruim contém metade de uma linha de tabela, uma frase que depende da página anterior ou várias políticas misturadas.
+Um bom trecho inclui um título ou cabeçalho de seção da fonte, o contexto imediato da seção e a regra completa, resposta ou explicação. Um trecho ruim contém metade de uma linha de tabela, uma frase que depende da página anterior ou várias políticas misturadas.
 
-A [Segmentação de Texto](../data-processing/text-segmentation.md) pode dividir o texto da fonte em segmentos coesos antes da importação.
+A [Segmentação de Texto](../data-processing/text-segmentation.md) pode dividir o texto da fonte em segmentos coesos antes da importação. Para um script de ponta a ponta que converte um PDF com Fetch, o segmenta e grava JSONL com valores `docid` estáveis, consulte [como converter um PDF para Markdown para RAG e dividi-lo em trechos](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
 
 ### Tamanho do documento
 
@@ -74,9 +74,9 @@ O AIVAX oferece várias maneiras de adicionar documentos. Todos eles colocam nov
 
 | Método | Use quando |
 | --- | --- |
-| Criar ou atualizar um documento | Seu aplicativo gerencia documentos um de cada vez, como uma tela de administrador que salva uma entrada de FAQ. |
+| Criar ou atualizar um documento | Seu aplicativo gerencia documentos um de cada vez, como uma tela de administração que salva uma entrada de FAQ. |
 | Importação em lote via WebSocket | Você tem muitos documentos preparados, como trechos gerados a partir de PDFs, catálogos, políticas ou artigos de centro de ajuda. |
-| Importar de arquivos com Media Injector | Você tem arquivos-fonte cujo conhecimento ainda não foi dividido em texto pronto para recuperação. |
+| Importação de arquivos com Media Injector | Você tem arquivos-fonte cujo conhecimento ainda não foi dividido em texto pronto para recuperação. |
 
 ### Atualizações e reindexação
 
@@ -99,7 +99,7 @@ Cada linha JSONL representa um documento:
 | Propriedade | Obrigatório | Descrição |
 | --- | --- | --- |
 | `docid` | Sim | Nome do documento. Documentos existentes são correspondidos por este valor. |
-| `text` | Sim | Conteúdo para indexar. |
+| `text` | Sim | Conteúdo a ser indexado. |
 | `__ref` | Não | ID de referência. |
 | `__tags` | Não | Tags. |
 | `__meta` | Não | Objeto de metadados. |
@@ -117,11 +117,11 @@ Quando uma linha altera o texto de um documento existente, sua referência e tag
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Index%20Documents%20(JSONL%20WebSocket)&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-### Importar de arquivos com Media Injector
+### Importação de arquivos com Media Injector
 
 O Media Injector transforma um arquivo-fonte em documentos focados e autocontidos. Ele examina a fonte, identifica o conhecimento materialmente útil, escreve documentos factuais concisos no idioma predominante da fonte e os coloca na fila para indexação. Use a importação direta quando precisar de redação exata da fonte, limites determinísticos, nomes de documentos estáveis ou controle de metadados pela aplicação.
 
-O Media Injector é útil para PDFs que contêm vários tópicos independentes, imagens ou páginas digitalizadas cujo conteúdo visível deve tornar-se pesquisável, e áudio ou vídeo cujos fatos devem estar disponíveis por meio de RAG. Ele não preserva a fonte como um único documento pesquisável. Revise os documentos gerados quando a redação, cobertura, fidelidade legal ou tratamento de dados sensíveis for importante.
+O Media Injector é útil para PDFs que contêm vários tópicos independentes, imagens ou páginas digitalizadas cujo conteúdo visível deve se tornar pesquisável, e áudio ou vídeo cujos fatos devem estar disponíveis por meio de RAG. Ele não preserva a fonte como um único documento pesquisável. Revise os documentos gerados quando a redação, cobertura, fidelidade legal ou tratamento de dados sensíveis for importante.
 
 No Console:
 
@@ -129,23 +129,23 @@ No Console:
 2. Selecione um ou mais arquivos-fonte.
 3. Opcionalmente, forneça contexto de processamento. O mesmo contexto é aplicado a todos os arquivos selecionados.
 4. Confirme a importação. Os arquivos são carregados sequencialmente, e um trabalho separado é criado para cada arquivo após todos os seus trechos chegarem ao AIVAX.
-5. Acompanhe os trabalhos em **Batch > Media Processing**.
-6. Após a conclusão de cada trabalho, revise os documentos gerados e aguarde a indexação antes de testar a [Busca](semantic-search.md).
+5. Acompanhe os trabalhos em **Lote > Processamento de Mídia**.
+6. Após a conclusão de cada trabalho, revise os documentos gerados e aguarde a indexação antes de testar a [Pesquisa](semantic-search.md).
 
 Um trabalho pode estar `queued` (em fila), `processing` (processando), `completed` (concluído), `failed` (falhou) ou `cancelled` (cancelado). Trabalhos falhados ou cancelados podem ser retryados enquanto seus dados carregados ainda estiverem disponíveis.
 
-Se nenhum trabalho aparecer, o carregamento não atingiu sua etapa de conclusão. Retry o carregamento e verifique o erro exibido. Os nomes dos arquivos são preservados durante o carregamento, incluindo letras acentuadas e scripts não latinos.
+Se nenhum trabalho aparecer, o upload não atingiu sua etapa de conclusão. Retry o upload e verifique o erro exibido. Os nomes dos arquivos são preservados durante o upload, incluindo letras acentuadas e scripts não latinos.
 
 | Grupo de origem | Comportamento de processamento |
 | --- | --- |
 | Documentos PDF | Lê a estrutura do documento, o texto e o conteúdo visual relevante. |
-| Imagens | Interpreta texto e conteúdo visível. |
-| Áudio | Interpreta conteúdo falado e outro conteúdo auditivo relevante; arquivos grandes são segmentados automaticamente. |
-| Vídeo | Interpreta conteúdo visual e auditivo relevante; arquivos grandes são segmentados automaticamente. |
+| Imagens | Interpreta o texto e o conteúdo visíveis. |
+| Áudio | Interpreta o conteúdo falado e outro conteúdo auditivo relevante; arquivos grandes são segmentados automaticamente. |
+| Vídeo | Interpreta o conteúdo visual e auditivo relevante; arquivos grandes são segmentados automaticamente. |
 
 Use a extensão de arquivo original e precisa, pois ela identifica o tipo de mídia. Se um arquivo de áudio ou vídeo falhar, converta-o para um formato comum e tente novamente.
 
-**Contexto de processamento** é uma instrução opcional que ajuda o Media Injector a decidir quais fatos são mais valiosos. Não é tratado como uma fonte factual e não pode adicionar fatos ausentes do arquivo. Descreva a identidade e o propósito da fonte, o público-alvo, os tópicos relevantes, a terminologia ambígua e o conteúdo a ser priorizado negativamente:
+O **contexto de processamento** é uma instrução opcional que ajuda o Media Injector a decidir quais fatos são mais valiosos. Não é tratado como uma fonte factual e não pode adicionar fatos ausentes do arquivo. Descreva a identidade e o propósito da fonte, o público-alvo, os tópicos relevantes, terminologia ambígua e conteúdo a ser priorizado negativamente:
 
 ```text
 Esta é a política de suporte de 2026 para clientes da Acme Cloud no Brasil. Priorize regras de elegibilidade, prazos, diferenças de planos, exceções e os passos que um agente de suporte deve comunicar. Ignore cabeçalhos de página repetidos e blocos de assinatura.
@@ -161,34 +161,34 @@ Documentos gerados:
 - Preservam o idioma, a terminologia, as datas e os formatos numéricos da fonte.
 - São marcados como conteúdo produzido automaticamente e indexados como outros documentos.
 
-Inspecione os documentos gerados a partir de tabelas, digitalizações e layouts repetidos antes de confiá-los em produção.
+Inspecione os documentos gerados a partir de tabelas, digitalizações e layouts repetidos antes de confiá-los em produção. Para um procedimento de amostragem que classifica cada documento gerado contra fatos que você anotou previamente, consulte [como verificar a qualidade da ingestão de PDF e digitalizações antes de incorporar para RAG](https://aivax.net/blog/check-pdf-ingestion-quality-before-embedding-for-rag/).
 
 ## Gerenciar documentos
 
-Você pode gerenciar documentos no Console, na aba **Browse documents** (Navegar documentos) da coleção ou por meio da API. As capacidades de gerenciamento incluem:
+Você pode gerenciar documentos no Console, na aba **Navegar documentos** da coleção ou por meio da API. As capacidades de gerenciamento incluem:
 
-- **Navegar e filtrar** por tag, referência, conteúdo, nome ou ID, pelo estado de indexação (em fila ou indexado) e classificados por data de criação, atualização ou indexação.
+- **Navegar e filtrar** por tag, referência, conteúdo, nome ou ID, por estado de indexação (em fila ou indexado) e classificado por data de criação, atualização ou indexação.
 - **Inspecionar** o conteúdo, referência, tags, metadados, carimbos de data/hora e contagem aproximada de tokens de um documento. O editor do Console também alerta quando um documento tem muitas ou poucas palavras.
 - **Editar** conteúdo, referência, tags e metadados. Alterar o conteúdo reindexa o documento.
 - **Excluir** documentos individuais ou remover documentos que não foram enviados em uma importação em lote sincronizada com `insert-mode=sync`.
 - **Exportar** todos os documentos de uma coleção como JSONL.
 - **Remover duplicatas** com o [deduplicador de coleções](collections.md#de-duplicator).
 
-Veja os grupos Documents (Documentos) e Collections (Coleções) da [referência da API](https://inference.aivax.net/apidocs) para os endpoints, incluindo **Create or Update Document** (Criar ou Atualizar Documento), **Browse Documents** (Navegar Documentos), **Get Document** (Obter Documento), **Delete Document** (Excluir Documento) e **Export Collection** (Exportar Coleção).
+Veja os grupos Documentos e Coleções da [referência da API](https://inference.aivax.net/apidocs) para os endpoints, incluindo **Criar ou Atualizar Documento**, **Navegar Documentos**, **Obter Documento**, **Excluir Documento** e **Exportar Coleção**.
 
 ## Solucionar problemas de recuperação
 
-Quando os resultados da busca são ruins, verifique o básico primeiro:
+Quando os resultados da pesquisa são ruins, verifique o básico primeiro:
 
 - Confirme se os documentos estão indexados.
-- Teste a coleção com [Search](semantic-search.md) ou o playground do Console antes de testar por meio de um AI Gateway.
+- Teste a coleção com a [Pesquisa](semantic-search.md) ou o playground do Console antes de testar por meio de um Gateway de IA.
 - Tente uma pergunta completa em vez de palavras-chave isoladas e compare o idioma da consulta com o idioma do documento.
 - Verifique se a resposta está dividida em muitos documentos pequenos ou enterrada em um muito grande.
-- Verifique o histórico de buscas e a cobertura de consultas em [RAG Observability](observability.md).
+- Verifique o histórico de pesquisa e a cobertura de consultas no [Observabilidade de RAG](observability.md).
 
 ## Preços e limites
 
-A indexação de documentos é cobrada como incorporação de texto da coleção; consulte [Coleções](collections.md#pricing-and-limits). O Media Injector é cobrado por entrada, entrada em cache, saída e uso de mídia do trabalho de processamento, além do custo normal de incorporação dos documentos gerados. As taxas dependem do tipo de mídia e do volume de tokens de entrada.
+A indexação de documentos é cobrada como incorporação de texto de coleção; veja [Coleções](collections.md#pricing-and-limits). O Media Injector é cobrado por entrada, entrada em cache, saída e uso de mídia do trabalho de processamento, além do custo normal de incorporação dos documentos gerados. As taxas dependem do tipo de mídia e do volume de tokens de entrada.
 
 | Media Injector | Preço |
 | --- | ---: |
@@ -198,7 +198,7 @@ A indexação de documentos é cobrada como incorporação de texto da coleção
 | Áudio - acima de 256K tokens de entrada | Entrada/mídia **$1,20/M tokens**; cache **$0,24/M tokens**; saída **$6,00/M tokens** |
 | Vídeo | Entrada/mídia **$0,45/M tokens**; cache **$0,045/M tokens**; saída **$3,75/M tokens** |
 
-| Limite | Gratuito | Pro | Máx |
+| Limite | Grátis | Pro | Max |
 | --- | --- | --- | --- |
 | Inserções de documentos | 500/dia | 10.000/dia | — |
 | Documentos por importação JSONL multipart | 1.000 | 10.000 | 1.000.000 |
