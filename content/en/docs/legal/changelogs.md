@@ -6,6 +6,16 @@
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Friday, October 30th, 2026
+
+Changes:
+
+- **AI Gateways — Moderation mode.** AI gateway parameters accept `moderationParameters.mode`, with `LayeredGuardrail` (the default and previous behavior) and `SelfAssessment`. `LayeredGuardrail` analyzes the conversation's input text with an independent safeguard model before the main model and blocks flagged conversations. `SelfAssessment` runs no separate moderation call, so there is no moderation analysis charge: the main model receives moderation instructions built from the same category sensitivity levels and additional rules, plus an internal refusal tool, and ends the inference with a refusal when the latest request reaches an enabled category's boundary. It requires a model that supports tool calling and trades lower latency and cost for judgment that is not independent from the main model. The AI gateway editor's Content Moderation section includes a **Moderation mode** selector, and the gateway pipeline summary shows the active mode when moderation is enabled. See [Processing pipeline](/docs/inference/pipelines.md#moderation).
+- **Dashboard — Agent setup prompt options.** The home page **Copy Prompt** button opens a menu with two setup prompts for coding agents: **Agent MCP + Skills**, which configures the account management MCP and the AIVAX agent skills, and **Agent CLI**, which installs the [AIVAX CLI](/docs/cli.md) and links the account as a CLI profile. The `GET /api/v1/accounts/agent-setup-prompt` endpoint accepts an optional `type` query parameter (`mcp`, the default, or `cli`).
+- **CLI — Log in with an API key.** `aivax auth login --api-key <API_KEY>` links an account profile using an existing API key, without the account login key or authenticator code. See [CLI tool](/docs/cli.md#install).
+- **Accounts — Get the authenticated account.** The new `GET /api/v1/accounts` endpoint returns the identifier, display name and e-mail of the account that owns the API key.
+- **Conversations — Follow conversations in progress.** The new `GET /api/v1/conversations/management/live` Server-Sent Events stream sends the status of conversations being generated in the account: origin, model, elapsed time, partial token usage, and input and output previews. A finished conversation stays in the stream for 10 seconds with status `completed` and the stored `conversationId`, which is `null` when the conversation was not stored. `GET /api/v1/conversations/<id>` also accepts the live identifier and returns the current messages, and `GET /api/v1/conversations/<id>/sse` streams them until the conversation finishes. Only conversations that would be stored are tracked, so requests with conversation logging disabled do not appear. Server-side tool calls are only shown after the conversation is stored. On the **Conversations** page, conversations in progress appear above the stored list and the list refreshes when they finish; opening one follows it live and switches to the stored conversation when it is saved.
+
 ## Thursday, October 29th, 2026
 
 Fixes:
