@@ -44,7 +44,7 @@ Use **Start messages** when the scenario requires an established context, such a
 
 Use `external_user_id` when the gateway behavior depends on an identity from your own application. The value is forwarded to gateway inference for every run of that test.
 
-Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; a test accepts up to 16 resources (see [Pricing and limits](#pricing-and-limits)). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
+Use `resources` to give the simulated user and judge shared context that does not belong in the initial conversation. Provide objects with a `type` and non-empty `data` value; the maximum number of resources per test is listed in [Pricing and limits](#pricing-and-limits). `Text` uses `data` as literal context; `RemoteResource` retrieves the content from the URL in `data`. For example:
 
 ```json
 {
