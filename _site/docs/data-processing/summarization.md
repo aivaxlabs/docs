@@ -22,7 +22,7 @@ Before calling this endpoint, [create an API key](https://docs.aivax.net/docs/au
 | `documents` | Content part array | Yes | One or more documents as OpenAI-compatible content parts: `text`, `image_url`, or `file`. |
 | `instructions` | String | No | Guidance that applies to every summary, such as format, language, focus, or length. |
 
-Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, up to 5 MB each; the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request` with the index of the rejected document.
+Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, up to 5 MB each; the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 ```json
 {
@@ -52,7 +52,7 @@ Images and files accept base64 data URLs or public HTTP(S) URLs. Supported forma
 }
 ```
 
-If any document fails, the request returns an error instead of partial results. Summaries are model-generated and can omit or misstate details; verify consequential information against the original document.
+If any document fails, the request returns an error instead of partial results. Documents that finished before the failure are still billed and count toward your quota, so retry only after fixing the failing document. Summaries are model-generated and can omit or misstate details; verify consequential information against the original document.
 
 ## Pricing and limits
 

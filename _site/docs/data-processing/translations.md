@@ -23,7 +23,7 @@ Before calling this endpoint, [create an API key](https://docs.aivax.net/docs/au
 
 Languages are free-form: a name such as `Japanese`, a code such as `pt-BR`, or a variant such as `Spanish (Mexico, informal)`. The same languages apply to every document in the request.
 
-The service returns only the translated content. It preserves formatting, line breaks, Markdown, code, URLs, numbers, and proper names, and treats the content as text to translate, not as instructions. For images, it translates the visible text; for audio, it translates the spoken content. Other content types, such as files or video, return `400 Bad Request` with the index of the rejected document.
+The service returns only the translated content. It preserves formatting, line breaks, Markdown, code, URLs, numbers, and proper names, and treats the content as text to translate, not as instructions. For images, it translates the visible text; for audio, it translates the spoken content. Other content types, such as files or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 ```json
 {
@@ -46,7 +46,7 @@ The service returns only the translated content. It preserves formatting, line b
 
 ## Read the response
 
-`data` contains one translated string per document, in the same order as `documents`. Documents are translated independently and in parallel. If any document fails, the request returns an error instead of partial results.
+`data` contains one translated string per document, in the same order as `documents`. Documents are translated independently and in parallel. If any document fails, the request returns an error instead of partial results. Documents that finished before the failure are still billed, so retry only after fixing the failing document.
 
 ```json
 {

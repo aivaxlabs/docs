@@ -149,7 +149,7 @@ When the caller speaks over the assistant:
 2. Send `response.cancel` if a response is still being generated.
 3. Send the native conversation-item truncation event with the assistant item identifier and the amount of audio that was actually played.
 
-Cancellation stops generation; truncation keeps the server conversation aligned with what the caller heard. Track played audio duration in the client rather than assuming every received chunk reached the speaker. Treat already-finished response races as normal and make cancel handling idempotent.
+Cancellation stops generation; truncation keeps the server conversation aligned with what the caller heard. Track played audio duration in the client rather than assuming every received chunk reached the speaker. Treat already-finished response races as normal and make cancel handling idempotent. For a client-side ledger that computes the played duration per item, and the common ways that offset goes wrong, see [handling Realtime API interruptions with conversation.item.truncate](https://aivax.net/blog/openai-realtime-api-interruptions-conversation-item-truncate/).
 
 ## Use tools
 

@@ -259,7 +259,7 @@ See the [authentication](https://docs.aivax.net/docs/authentication.md) manual t
 
 Use `context.externalUserId` to look up the caller in your application, then check whether that user may access the requested resource or perform the requested action. If a function requires an identified user, reject calls without a usable identifier rather than silently granting anonymous access.
 
-Validate the nonce and enforce your own user and tenant authorization rules. Request and session metadata can contain caller-supplied values: a `tenant_id`, `callSource`, or `conversationToken` is not proof of permission. Avoid putting secrets in metadata because it is forwarded to your callback. The nonce verifies the account hook key, not the individual user's permissions, and does not sign the body or prevent replay; use your own duplicate-operation controls for writes.
+Validate the nonce and enforce your own user and tenant authorization rules. Request and session metadata can contain caller-supplied values: a `tenant_id`, `callSource`, or `conversationToken` is not proof of permission. Avoid putting secrets in metadata because it is forwarded to your callback. The nonce verifies the account hook key, not the individual user's permissions, and does not sign the body or prevent replay; use your own duplicate-operation controls for writes. For a worked pattern that derives an operation key and returns the stored result on repeats, see [how to make LLM tool calls idempotent](https://aivax.net/blog/make-llm-tool-calls-idempotent-protocol-functions/).
 
 ### Security considerations
 

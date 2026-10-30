@@ -60,7 +60,7 @@ When importing PDFs, spreadsheets, web pages, or manuals, inspect the resulting 
 
 A good chunk includes a title or source heading, the immediate section context, and the complete rule, answer, or explanation. A poor chunk contains half of a table row, a sentence that depends on the previous page, or several policies mixed together.
 
-[Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) can split source text into cohesive segments before import.
+[Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) can split source text into cohesive segments before import. For an end-to-end script that converts a PDF with Fetch, segments it, and writes JSONL with stable `docid` values, see [how to convert a PDF to Markdown for RAG and split it into chunks](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
 
 ### Document size
 
@@ -159,7 +159,7 @@ Generated documents:
 - Preserve the source's language, terminology, dates, and number formats.
 - Are tagged as automatically produced content and indexed like other documents.
 
-Inspect documents generated from tables, scans, and repeated layouts before relying on them in production.
+Inspect documents generated from tables, scans, and repeated layouts before relying on them in production. For a sampling procedure that grades each generated document against facts you wrote down beforehand, see [how to check PDF and scan ingestion quality before you embed for RAG](https://aivax.net/blog/check-pdf-ingestion-quality-before-embedding-for-rag/).
 
 ## Manage documents
 
