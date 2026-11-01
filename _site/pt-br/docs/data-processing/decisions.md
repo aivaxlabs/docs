@@ -10,7 +10,7 @@ Use [respostas estruturadas](https://docs.aivax.net/pt-br/docs/inference/structu
 
 ## Escolha um modelo
 
-Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Uso e custo](#usage-and-cost) para as taxas dos modelos e [Limites específicos do modelo](#model-specific-limits) para os limites dos modelos.
+Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Uso e custo](#uso-e-custo) para as taxas dos modelos e [Limites específicos do modelo](#model-specific-limits) para os limites dos modelos.
 
 | Modelo |
 | --- |
@@ -39,23 +39,23 @@ Todos os modelos abaixo suportam `choice`, `noul` e `score`. Consulte [Uso e cus
 | `@scaledown/classify-1` |
 | `@inception/mercury-decide` |
 
-Cada resposta retorna o nome canônico do modelo em `model`. Você também pode enviar um dos seguintes aliases curtos. Cada alias resolve atualmente para o modelo canônico mostrado, mas pode mudar para uma versão mais nova quando uma for lançada. Fixe o nome canônico quando precisar de uma versão estável.
+Cada resposta retorna o nome canônico do modelo em `model`. Você também pode enviar um dos seguintes aliases curtos. Cada alias resolve atualmente para o modelo canônico mostrado, mas pode mudar para uma versão mais recente quando uma for lançada. Fixe o nome canônico quando precisar de uma versão estável.
 
 | Alias | Resolve para |
 | --- | --- |
-| `@supersonic-labs/julia` | `@supersonic-labs/julia-1` |
-| `@typesafe/jev` | `@typesafe/jev-1.14` |
-| `@respan/span` | `@respan/span-01` |
-| `@respan/span-lite` | `@respan/span-01-lite` |
-| `@jaredpalmer/kev` | `@jaredpalmer/kev-4b` |
-| `@liquid/d` | `@liquid/d1.1` |
-| `@perplexity/pplx-decider` | `@perplexity/pplx-decider-v1.2` |
-| `@perplexity/pplx-decider-flash` | `@perplexity/pplx-decider-flash-v1.2` |
-| `@nace-ai/drex` | `@nace-ai/drex-v1.5` |
+| `@supersonic-labs/julia:latest` | `@supersonic-labs/julia-1` |
+| `@typesafe/jev:latest` | `@typesafe/jev-1.14` |
+| `@respan/span:latest` | `@respan/span-01` |
+| `@respan/span-lite:latest` | `@respan/span-01-lite` |
+| `@jaredpalmer/kev:latest` | `@jaredpalmer/kev-4b` |
+| `@liquid/d:latest` | `@liquid/d1.1` |
+| `@perplexity/pplx-decider:latest` | `@perplexity/pplx-decider-v1.2` |
+| `@perplexity/pplx-decider-flash:latest` | `@perplexity/pplx-decider-flash-v1.2` |
+| `@nace-ai/drex:latest` | `@nace-ai/drex-v1.5` |
 
 Um limite de contexto não especificado não significa entrada ilimitada. Os limites específicos do modelo e a interpretação das pontuações podem variar; valide um modelo com exemplos representativos antes de direcionar o tráfego de produção.
 
-Uma chave de API autenticada e um saldo positivo na conta são necessários, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md), [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
+É necessária uma chave de API autenticada e um saldo positivo na conta, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md), [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
 ### Descubra modelos programaticamente
 
@@ -67,9 +67,9 @@ Uma chave de API autenticada e um saldo positivo na conta são necessários, inc
 - `maxImages`: o número de imagens aceitas por solicitação, ou `0` para modelos apenas de texto.
 - `releaseDate`: a data de lançamento do catálogo no formato `yyyy-MM-dd`.
 - `capabilities`: tipos de perguntas suportados (`noul`, `choice` e/ou `score`).
-- `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; consulte [Uso e custo](#usage-and-cost).
+- `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; consulte [Uso e custo](#uso-e-custo).
 
-Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve os modelos configurados, não uma verificação de saúde do provedor em tempo real. Limites específicos do modelo para opções e perguntas não estão incluídos nesta listagem.
+Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve os modelos configurados, não uma verificação de saúde do provedor em tempo real. Limites específicos de opções e perguntas por modelo não estão incluídos nesta listagem.
 
 ## Escreva as perguntas
 
@@ -134,7 +134,7 @@ Para um tutorial com código de roteamento e preços de modelo, consulte [Exempl
 
 ### Envie imagens
 
-`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni` e `@openai/gpt-6-luna-decisions` aceitam imagens. Coloque cada imagem diretamente em um array `state` de nível superior como uma parte `image_url`, ao lado de itens de texto escritos como strings simples:
+`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni` e `@openai/gpt-6-luna-decisions` aceitam imagens. Coloque cada imagem diretamente em um array `state` de nível superior como parte `image_url`, junto aos itens de texto escritos como strings simples:
 
 ```json
 {
@@ -156,7 +156,7 @@ Para um tutorial com código de roteamento e preços de modelo, consulte [Exempl
 - `url` deve ser uma URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotos `http(s)` não são buscados e são rejeitados.
 - Imagens aninhadas dentro de objetos em `state` não são lidas como imagens. Um campo `images` de nível superior, partes `input_image` e base64 sem o prefixo `data:image/...;base64,` não são suportados.
 - Apenas alguns modelos aceitam imagens, cada um até um máximo por solicitação. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`. Consulte [Limites específicos do modelo](#model-specific-limits).
-- Clef e Clef Flash também limitam o tamanho da imagem e a quantidade de texto que leem em `state`; consulte a mesma seção de limites. A cobrança usa os tokens de entrada processados pelo modelo, conforme relatado em `usage.input_tokens`.
+- Clef e Clef Flash também limitam o tamanho da imagem e a quantidade de texto que leem de `state`; consulte a mesma seção de limites. A cobrança usa os tokens de entrada processados pelo modelo, conforme relatado em `usage.input_tokens`.
 
 ### Leia a resposta
 
@@ -211,21 +211,21 @@ Com Julia-1:
 - `choice` é o ID definido pelo chamador selecionado, não a descrição da opção.
 - `noul` é a probabilidade atribuída ao critério verdadeiro, não um Booleano JSON. Sua aplicação escolhe o limiar e como lidar com casos incertos.
 - `score` é o **índice de nível baseado em zero** esperado. No exemplo, `0 × 0.8 + 1 × 0.1 + 2 × 0.1 = 0.3`. Não é necessariamente um inteiro, e não é uma pontuação normalizada de 0–1 quando há mais de dois níveis.
-- `probabilities` são chaves por IDs de escolha, `false`/`true` ou índices de nível de pontuação. `legend` descreve os níveis de pontuação.
+- `probabilities` são chavesadas por IDs de escolha, `false`/`true` ou índices de nível de pontuação. `legend` descreve os níveis de pontuação.
 
 Outros modelos podem omitir campos opcionais como `probabilities`, `legend` ou `confidence`. Não assuma que todos os provedores usam a mesma escala de pontuação ou definição de confiança. Uma alta probabilidade não é prova de que a decisão está correta; valide limiares e regras de escalonamento com exemplos rotulados do seu próprio domínio.
 
 ## Limites de taxa da conta
 
-Solicitações de decisão semântica compartilham um limite de taxa por minuto por conta, entre todos os modelos de decisão e chaves de API. Cada solicitação consome uma unidade, independentemente de quantas perguntas ela contenha ou qual modelo de decisão ela selecione. Um travessão longo (`—`) significa que o plano não impõe um limite.
+As solicitações de decisão semântica compartilham um limite de taxa por minuto por conta, entre todos os modelos de decisão e chaves de API. Cada solicitação consome uma unidade, independentemente de quantas perguntas ela contenha ou qual modelo de decisão ela selecione. Um travessão (`—`) significa que o plano não impõe um limite.
 
 | Limite | Free | Pro | Max |
 | --- | --- | --- | --- |
 | Solicitações de decisão semântica | 10/min | 50/min | — |
 
-Esta cota é independente da alocação diária de assinatura e da cobrança: o uso incluído ainda consome unidades de solicitação. Max não tem limite imposto pelo plano para esta cota, mas outros limites aplicáveis permanecem em vigor.
+Esta cota é independente da concessão diária de assinatura e da cobrança: o uso incluído ainda consome unidades de solicitação. Max não tem limite imposto pelo plano para esta cota, mas outros limites aplicáveis permanecem em vigor.
 
-Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Uma nova tentativa imediata ainda encontra a janela ativa de limite de taxa, e alterar chaves de API dentro da mesma conta não fornece uma cota separada. Ritme as chamadas através da conta e tente novamente com backoff após a janela ser liberada.
+Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Uma nova tentativa imediata ainda encontra a janela de limite de taxa ativa, e alterar chaves de API dentro da mesma conta não fornece uma cota separada. Ritme as chamadas através da conta e tente novamente com backoff após a janela ser liberada.
 
 ## Limites específicos do modelo
 
@@ -280,7 +280,7 @@ Entradas que excedem o contexto ou o orçamento de pergunta/opções são rejeit
 
 ## Uso e custo
 
-As taxas dos modelos de decisão abaixo são preços base em USD por milhão de tokens de entrada, antes dos ajustes de conta e plano (consulte o [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers)). Tokens de saída não têm cobrança no catálogo atual de modelos de decisão. Julia-1 é elegível para a alocação diária descrita após a tabela.
+As taxas dos modelos de decisão abaixo são preços base em USD por milhão de tokens de entrada, antes dos ajustes de conta e plano (consulte o [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers)). Tokens de saída não têm custo no catálogo atual de modelos de decisão. Julia-1 é elegível para a concessão diária descrita após a tabela.
 
 | Modelo | Preço de entrada / milhão de tokens |
 | --- | ---: |
@@ -309,11 +309,11 @@ As taxas dos modelos de decisão abaixo são preços base em USD por milhão de 
 | `@scaledown/classify-1` | **$0,050** |
 | `@inception/mercury-decide` | **$0,040** |
 
-Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo o preenchimento. O estado compartilhado é portanto contado novamente para cada pergunta, então o uso de entrada cresce com o número de perguntas mesmo quando elas compartilham um estado. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
+Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo o preenchimento. O estado compartilhado é portanto contado novamente para cada pergunta, então o uso de entrada cresce com o número de perguntas mesmo quando elas compartilham um único estado. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
 
-Julia-1 é atualmente elegível para a alocação diária de decisão semântica no Free, Pro e Max. Outros modelos de decisão são cobrados normalmente. A alocação é compartilhada entre todas as chamadas de decisão elegíveis da conta, não reservada para cada pergunta ou chave de API. Consulte [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) para capacidade relativa do plano e regras de cobertura.
+Julia-1 é atualmente elegível para a concessão diária de decisão semântica em Free, Pro e Max. Outros modelos de decisão são cobrados normalmente. A concessão é compartilhada entre todas as chamadas de decisão elegíveis da conta, não reservada para cada pergunta ou chave de API. Consulte [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) para capacidade relativa do plano e regras de cobertura.
 
-Quando não coberto, a entrada do Julia-1 é cobrada na [taxa listada](#usage-and-cost), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor realmente cobrado; ele é zero quando a entrada é totalmente coberta pela alocação.
+Quando não coberto, a entrada do Julia-1 é cobrada na [taxa listada](#uso-e-custo), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor realmente cobrado; ele é zero quando a entrada é totalmente coberta pela concessão.
 
 ## Erros e uso confiável
 
@@ -321,9 +321,9 @@ Quando não coberto, a entrada do Julia-1 é cobrada na [taxa listada](#usage-an
 - **Limite de contexto ou opção excedido:** encurte o estado ou as descrições, reduza a contagem de opções ou selecione um modelo com limites adequados. Tentar novamente a mesma entrada inválida não resolverá o problema.
 - **Erro de autenticação ou saldo:** verifique a chave de API e o saldo da conta antes de tentar novamente. Um modelo de preço zero ainda requer um saldo positivo.
 - **Limite de taxa (429):** reduza a taxa de solicitação da conta e tente novamente com backoff. Múltiplas perguntas em uma única solicitação ainda contam como uma solicitação, mas os limites de payload específicos do modelo e o uso por pergunta permanecem aplicáveis.
-- **Capacidade temporária ou indisponibilidade do provedor:** evite uma tempestade de tentativas paralelas imediatas. Reduza a concorrência e use tentativas limitadas com backoff para falhas transitórias.
+- **Capacidade temporária ou indisponibilidade do provedor:** evite uma tempestade de novas tentativas paralelas imediatas. Reduza a concorrência e use novas tentativas limitadas com backoff para falhas transitórias.
 
-Avalie `choice`, `noul` e `score` separadamente ao validar um modelo: o sucesso no roteamento não estabelece pontuação confiável ou comportamento Booleano. Inclua estados ambíguos e incompletos em seu conjunto de testes e use revisão humana onde uma decisão errada tenha consequências materiais. Uma nova tentativa é uma nova solicitação; não assuma deduplicação automática ou saídas idênticas do modelo.
+Avalie `choice`, `noul` e `score` separadamente ao validar um modelo: o sucesso no roteamento não estabelece comportamento confiável de pontuação ou Booleano. Inclua estados ambíguos e incompletos em seu conjunto de testes e use revisão humana onde uma decisão errada tenha consequências materiais. Uma nova tentativa é uma nova solicitação; não assuma deduplicação automática ou saídas idênticas do modelo.
 
 ## Referência da API
 

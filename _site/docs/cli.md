@@ -20,12 +20,14 @@ For application code that serves end users, call the [API](https://docs.aivax.ne
 
 ## Install
 
-The CLI requires [Bun](https://bun.sh) 1.3.14 or newer.
+The CLI requires [Node.js](https://nodejs.org) 22.19 or newer.
 
 ```bash
-bun install -g @aivax/cli
+npm install -g @aivax/cli
 aivax auth login
 ```
+
+Other package managers also work, such as `pnpm add -g @aivax/cli` or `bun install -g @aivax/cli`.
 
 `aivax auth login` saves an account profile. The access key is kept in the operating system credential store. To link a profile without sharing the account login key, for example when a coding agent sets up the CLI, pass an existing API key instead:
 

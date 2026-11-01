@@ -43,15 +43,15 @@ Each response returns the canonical model name in `model`. You can also send one
 
 | Alias | Resolves to |
 | --- | --- |
-| `@supersonic-labs/julia` | `@supersonic-labs/julia-1` |
-| `@typesafe/jev` | `@typesafe/jev-1.14` |
-| `@respan/span` | `@respan/span-01` |
-| `@respan/span-lite` | `@respan/span-01-lite` |
-| `@jaredpalmer/kev` | `@jaredpalmer/kev-4b` |
-| `@liquid/d` | `@liquid/d1.1` |
-| `@perplexity/pplx-decider` | `@perplexity/pplx-decider-v1.2` |
-| `@perplexity/pplx-decider-flash` | `@perplexity/pplx-decider-flash-v1.2` |
-| `@nace-ai/drex` | `@nace-ai/drex-v1.5` |
+| `@supersonic-labs/julia:latest` | `@supersonic-labs/julia-1` |
+| `@typesafe/jev:latest` | `@typesafe/jev-1.14` |
+| `@respan/span:latest` | `@respan/span-01` |
+| `@respan/span-lite:latest` | `@respan/span-01-lite` |
+| `@jaredpalmer/kev:latest` | `@jaredpalmer/kev-4b` |
+| `@liquid/d:latest` | `@liquid/d1.1` |
+| `@perplexity/pplx-decider:latest` | `@perplexity/pplx-decider-v1.2` |
+| `@perplexity/pplx-decider-flash:latest` | `@perplexity/pplx-decider-flash-v1.2` |
+| `@nace-ai/drex:latest` | `@nace-ai/drex-v1.5` |
 
 An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
