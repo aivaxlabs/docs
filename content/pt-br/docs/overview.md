@@ -114,7 +114,7 @@ A AIVAX também fornece utilitários MCP para agentes compatíveis:
 
 Esses utilitários expõem capacidades existentes da AIVAX por meio do MCP; eles não substituem os produtos subjacentes de conta, coleção ou inferência.
 
-Para operar uma conta a partir do terminal ou de scripts, instale a [CLI da AIVAX](cli.md) com `bun install -g @aivax/cli`.
+Para operar uma conta a partir do terminal ou de scripts, instale a [CLI da AIVAX](cli.md) com `npm install -g @aivax/cli`.
 
 ## Faça sua primeira solicitação
 

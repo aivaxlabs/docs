@@ -114,7 +114,7 @@ AIVAX also provides MCP utilities for compatible agents:
 
 These utilities expose existing AIVAX capabilities through MCP; they do not replace the underlying account, collection, or inference products.
 
-To operate an account from the terminal or from scripts, install the [AIVAX CLI](cli.md) with `bun install -g @aivax/cli`.
+To operate an account from the terminal or from scripts, install the [AIVAX CLI](cli.md) with `npm install -g @aivax/cli`.
 
 ## Make your first request
 

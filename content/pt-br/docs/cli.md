@@ -22,12 +22,14 @@ Para código de aplicativo que atende usuários finais, chame a [API](overview.m
 
 ## Instalação
 
-O CLI requer o [Bun](https://bun.sh) 1.3.14 ou versão mais recente.
+O CLI requer o [Node.js](https://nodejs.org) 22.19 ou versão mais recente.
 
 ```bash
-bun install -g @aivax/cli
+npm install -g @aivax/cli
 aivax auth login
 ```
+
+Outros gerenciadores de pacotes também funcionam, como `pnpm add -g @aivax/cli` ou `bun install -g @aivax/cli`.
 
 `aivax auth login` salva um perfil de conta. A chave de acesso é mantida no armazenamento de credenciais do sistema operacional. Para vincular um perfil sem compartilhar a chave de login da conta, por exemplo, quando um agente de codificação configura o CLI, passe uma chave de API existente:
 
