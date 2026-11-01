@@ -51,7 +51,7 @@ Use the `type` property to route every event. Audio remains base64-encoded insid
 Send `session.update` as the first client event. AIVAX supports the GA Realtime session fields and adds two optional selectors:
 
 - `gateway`: an AI Gateway slug available to the authenticated account;
-- `model`: `gpt-realtime-2.1` or `gpt-realtime-2.1-mini`.
+- `model`: `@openai/gpt-realtime-2.1` or `@openai/gpt-realtime-2.1-mini`.
 
 The selector supplied in the event determines the AIVAX configuration used for the session. Configure the output voice at `session.audio.output.voice` and reasoning effort at `session.reasoning.effort`.
 
@@ -61,7 +61,7 @@ The selector supplied in the event determines the AIVAX configuration used for t
   "session": {
     "type": "realtime",
     "gateway": "<GATEWAY_SLUG>",
-    "model": "gpt-realtime-2.1",
+    "model": "@openai/gpt-realtime-2.1",
     "instructions": "Help the caller complete the requested task.",
     "audio": {
       "input": {
@@ -90,8 +90,8 @@ The selector supplied in the event determines the AIVAX configuration used for t
 
 Choose the model based on the experience you need:
 
-- `gpt-realtime-2.1` for the highest-quality realtime conversations;
-- `gpt-realtime-2.1-mini` for lower-cost, lighter-weight realtime workloads.
+- `@openai/gpt-realtime-2.1` for the highest-quality realtime conversations;
+- `@openai/gpt-realtime-2.1-mini` for lower-cost, lighter-weight realtime workloads.
 
 You can also provide standard GA Realtime instructions, tools, and turn-detection settings in the same update. Input-transcription sessions are not currently supported, so do not configure `audio.input.transcription` or depend on `conversation.item.input_audio_transcription.*` events. Wait for the server's session confirmation event before treating the configuration as active. A voice cannot be changed after the session has already produced audio; reconnect to select a different voice.
 

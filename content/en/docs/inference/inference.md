@@ -131,6 +131,43 @@ The request values override the gateway's saved routing for that request only; t
 
 The previous `routing_preset` field is deprecated but still accepted. Replace `"routing_preset": "Fastest"` with `"routing_options": { "preset": "Fastest" }`. When both are sent, `routing_options.preset` takes precedence.
 
+### Inline routing in the model name
+
+An integrated model name accepts a routing suffix after `#`. Use it when your client can only change the `model` string, such as an OpenAI-compatible tool or SDK that does not send extra body fields:
+
+| Model name | Effect |
+|---|---|
+| `@openai/gpt-6-luna#cheapest` | Uses the `Cheapest` preference. Any preference from the table above works, case-insensitive. |
+| `@openai/gpt-6-luna#azure-us` | Uses only the provider with the `azure-us` tag, like `"allowed_providers": [ "azure-us" ]`. |
+
+A suffix that matches a preference name is read as a preference; any other value is read as a provider tag. A provider tag has no `"*"` fallback, so the request fails when that provider is not available. Only one suffix is supported per name.
+
+```json
+{
+    "model": "@openai/gpt-6-luna#fastest",
+    "messages": [
+        {
+            "role": "user",
+            "content": "Summarize this incident report."
+        }
+    ]
+}
+```
+
+The suffix also works in the model name saved in an AI Gateway and in the model names of the complexity router, so each routed model can have its own routing:
+
+```json
+{
+    "name": "Cost-optimized assistant",
+    "parameters": {
+        "baseAddress": "@integrated",
+        "modelName": "@openai/gpt-6-luna#cheapest"
+    }
+}
+```
+
+The suffix is resolved at runtime, on every request. It takes precedence over the gateway's saved `routingOption` and `allowedProviders`, but `routing_options` in `chat/completions` stays the final override. For example, `"model": "@openai/gpt-6-luna#cheapest"` with `"routing_options": { "preset": "Quality" }` uses `Quality`. The `model` returned in responses is the model name without the suffix.
+
 ### Zero data retention providers only
 
 Enable **Zero data retention providers only** in the dashboard account settings to route text inference with integrated models only to providers that do not retain prompts. Providers that are not zero data retention are excluded before `allowed_providers` and `preset` are applied. When the model has no zero data retention provider available, the request fails instead of falling back to another provider; choose a model with a zero data retention provider or disable the option.
@@ -309,7 +346,7 @@ Use `multimodal_resolver` when the main model should receive a textual descripti
 
 ```json
 {
-    "model": "@metaai/llama-3.3-70b",
+    "model": "@meta/llama-3.3-70b",
     "messages": [
         {
             "role": "user",

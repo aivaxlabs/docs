@@ -258,7 +258,7 @@ Activation via `builtin_tools`:
         "ImageGeneration"
     ],
     "options": {
-        "image_generation_model_name": "grok-imagine",
+        "image_generation_model_name": "@x-ai/grok-imagine",
         "image_generation_allow_reference_usage": true,
         "image_generation_quality": "high",
         "image_generation_max_results": 2,
