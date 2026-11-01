@@ -45,7 +45,13 @@
 - Describe only public contracts and observable behavior. Never include source code, source filenames or paths, classes, methods, commit hashes, repository details, internal infrastructure, credentials, confidential data, or implementation mechanisms. Public API fields, model identifiers, and product options may be named when necessary for users to act.
 - Verify descriptions against the actual change and current behavior, not commit titles alone. Avoid speculative benefits, unsupported guarantees, and invented release dates. Keep implementation evidence outside the public page.
 - NEVER use `Unreleased`, `Not scheduled`, or any undated/pending section. Every new or updated entry must appear under the current date of the changelog update, written out in the level-two heading using the format above. This also applies to entries based on uncommitted changes or older commits: use the changelog update date, not the commit date. The date records a documentation update, not proof of deployment; do not invent availability claims.
-- Changelog IS PUBLIC!!! Only write information that is useful and relevant to users that uses AIVAX would see, not internal or confidential data.
+- The changelog is public and read by customers and competitors. Before keeping a sentence, ask whether a user can observe or act on it through the API, dashboard, or published guides. If not, rewrite it as the user-visible outcome or remove it. Common leaks to avoid:
+  - Upstream suppliers, resellers, or catalogs not listed in `content/en/docs/legal/third-party-processors.md`, including their prices or formats ("OpenRouter list price" → the AIVAX catalog price or the Models page).
+  - Background jobs, polling cadences, retry windows, or reconciliation logic ("invoices are checked every few minutes" → "paid invoices are confirmed even when the notification is delayed").
+  - Internal flags, states, or response fields that are not documented in the API reference, and how billing records are stored.
+  - Margins, markups, cost structure, negotiated terms, or exceptions for specific plans or accounts that the public plan pages do not state.
+  - How a bug happened internally ("left extraction running indefinitely" → "extraction no longer stalls after a cancellation").
+  - Legacy or internal names for renamed plans, products, or features; use the current public name.
 - Keep dated sections newest first. Consolidate changes with the same user-facing outcome, including backend/UI work, instead of adding one entry per commit or file. When updating an entry, move it to the current update date without duplicating it; leave unrelated historical entries and their dates unchanged.
 - Link to relevant product guides rather than duplicating them. Check links, date headings, group placement, factual accuracy, and confidentiality before finishing. Follow the existing build and translation restrictions when validating the page.
 
