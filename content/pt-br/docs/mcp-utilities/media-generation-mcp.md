@@ -1,12 +1,12 @@
 ---
-{title: Geração de mídia MCP,linkTitle: Geração de mídia MCP,weight: 50,group: MCP Utilities,sourceHash: cba95bf781395b6a,aliases: [/docs/pt-br/mcp-utilities/media-generation-mcp.html]}
+{title: Geração de mídia MCP,linkTitle: Geração de mídia MCP,weight: 50,group: MCP Utilities,sourceHash: 08a179e5509cbee2,aliases: [/docs/pt-br/mcp-utilities/media-generation-mcp.html]}
 ---
 
 # Geração de mídia MCP
 
-O MCP de geração de mídia expõe a geração de imagens e a geração de fala (texto‑para‑fala) da AIVAX a qualquer cliente compatível com MCP. Use‑o quando um agente, IDE, assistente de desktop ou ambiente de automação precisar criar imagens ou áudio falado sem chamar as APIs de geração diretamente ou executar uma inferência de modelo AIVAX.
+O MCP de geração de mídia expõe a geração de imagens e a geração de fala (texto para fala) do AIVAX a qualquer cliente compatível com MCP. Utilize-o quando um agente, IDE, assistente de desktop ou ambiente de automação precisar criar imagens ou áudio falado sem chamar as APIs de geração diretamente ou executar inferência de modelos do AIVAX.
 
-A AIVAX hospeda este servidor MCP e realiza as gerações para a conta autenticada. As ferramentas usam os mesmos modelos, faturamento e limites aplicáveis que [Image Generation](/docs/pt-br/generations/images) e [Speech Generation](/docs/pt-br/generations/speech).
+O AIVAX hospeda este servidor MCP e realiza as gerações para a conta autenticada. As ferramentas utilizam os mesmos modelos, cobrança e limites aplicáveis que [Geração de Imagens](/docs/pt-br/generations/images) e [Geração de Fala](/docs/pt-br/generations/speech).
 
 ## Endpoint
 
@@ -14,15 +14,15 @@ A AIVAX hospeda este servidor MCP e realiza as gerações para a conta autentica
 https://inference.aivax.net/v1/mcp/media-generation
 ```
 
-O servidor usa HTTP transmissível. Autentique as solicitações com uma chave de API da conta:
+O servidor utiliza HTTP Streamable. Autentique as solicitações com uma chave de API da conta:
 
 ```text
 Authorization: Bearer <AIVAX_API_KEY>
 ```
 
-Para tipos de chave e opções de autenticação, veja [Authentication](/docs/pt-br/authentication).
+Para tipos de chaves e opções de autenticação, consulte [Autenticação](/docs/pt-br/authentication).
 
-## Configuration example
+## Exemplo de configuração
 
 A forma exata da configuração depende do cliente MCP. O exemplo a seguir habilita todas as ferramentas:
 
@@ -41,13 +41,13 @@ A forma exata da configuração depende do cliente MCP. O exemplo a seguir habil
 }
 ```
 
-Após o cliente conectar, ele pode descobrir e chamar as ferramentas habilitadas através dos métodos padrão MCP `tools/list` e `tools/call`.
+Após o cliente se conectar, ele pode descobrir e chamar as ferramentas habilitadas por meio dos métodos padrão `tools/list` e `tools/call` do MCP.
 
-## Select which tools are exposed
+## Selecione quais ferramentas são expostas
 
-Use o cabeçalho de solicitação opcional `X-Mcp-Enabled-Tools` para controlar quais ferramentas o servidor expõe a esse cliente. Forneça uma lista de permissões separada por vírgulas contendo qualquer um de `list_models`, `generate_image` e `generate_speech`.
+Use o cabeçalho de solicitação opcional `X-Mcp-Enabled-Tools` para controlar quais ferramentas o servidor expõe ao cliente. Forneça uma lista de permissão separada por vírgulas contendo qualquer uma das seguintes: `list_models`, `generate_image` e `generate_speech`.
 
-Expor apenas geração de imagem:
+Expor apenas geração de imagens:
 
 ```text
 X-Mcp-Enabled-Tools: list_models, generate_image
@@ -59,23 +59,25 @@ Expor apenas geração de fala:
 X-Mcp-Enabled-Tools: list_models, generate_speech
 ```
 
-Os nomes das ferramentas não diferenciam maiúsculas de minúsculas, e espaços ao redor de valores separados por vírgulas são ignorados.
+Os nomes das ferramentas não diferenciam maiúsculas de minúsculas, e os espaços ao redor dos valores separados por vírgula são ignorados.
 
-- Se o cabeçalho for omitido, todas as ferramentas são expostas.
-- Se o cabeçalho listar ferramentas reconhecidas, apenas essas ferramentas são expostas.
+- Se o cabeçalho for omitido, todas as ferramentas serão expostas.
+- Se o cabeçalho listar ferramentas reconhecidas, apenas essas ferramentas serão expostas.
 - Se o cabeçalho estiver vazio ou não contiver nomes de ferramentas reconhecidas, nenhuma ferramenta será exposta.
 
-Mantenha `list_models` habilitado junto com uma ferramenta de geração para que o agente possa descobrir nomes de modelo válidos em vez de adivinhá‑los. Como a descoberta de ferramentas pode ser armazenada em cache pelo cliente MCP, reconecte ou atualize o servidor após alterar este cabeçalho.
+Mantenha `list_models` habilitado junto com uma ferramenta de geração para que o agente possa descobrir os nomes válidos dos modelos em vez de adivinhá-los. Como a descoberta de ferramentas pode ser armazenada em cache pelo cliente MCP, reconecte ou atualize o servidor após alterar este cabeçalho.
 
-## Tools
+## Ferramentas
 
 ### `list_models`
 
-Lista os modelos disponíveis para geração de imagem ou geração de fala, incluindo a descrição e o preço de cada modelo. Modelos de imagem também indicam se aceitam imagens de referência. Modelos de imagem depreciados não são listados.
+Lista os modelos disponíveis para geração de imagens ou geração de fala, incluindo a descrição e o preço de cada modelo. Os modelos de imagem também indicam se aceitam imagens de referência. Modelos de imagem obsoletos não são listados.
 
-| Campo   | Tipo   | Obrigatório | Descrição |
-| ------- | ------ | ----------- | --------- |
-| `type`  | string | Sim         | `image` para listar modelos de geração de imagem, ou `audio` para listar modelos de geração de fala. |
+Entrada:
+
+| Campo | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `type` | string | Sim | `image` para listar modelos de geração de imagens, ou `audio` para listar modelos de geração de fala. |
 
 Exemplo de argumentos:
 
@@ -85,66 +87,73 @@ Exemplo de argumentos:
 }
 ```
 
-A ferramenta retorna a lista de modelos como texto MCP. Use o nome do modelo retornado como argumento `model` da ferramenta de geração correspondente. Chamar esta ferramenta não tem custo.
+A ferramenta retorna a lista de modelos como texto MCP. Use o nome do modelo retornado como o argumento `model` da ferramenta de geração correspondente. Chamar esta ferramenta não tem custo.
 
 ### `generate_image`
 
 Gera de uma a quatro imagens a partir de um prompt e retorna seus URLs.
 
-| Campo            | Tipo            | Obrigatório | Descrição |
-| ---------------- | --------------- | ----------- | --------- |
-| `prompt`         | string          | Sim         | Descrição não vazia da imagem a ser gerada. |
-| `model`          | string          | Sim         | Um nome de modelo de imagem retornado por `list_models` com `type` definido como `image`. Não diferencia maiúsculas de minúsculas. |
-| `count`          | integer         | Não         | Quantas imagens gerar, de 1 a 4. O padrão é 1. |
-| `reference_images` | array of strings | Não     | Até quatro URLs de imagens HTTP(S) públicas que orientam o resultado. Aceito apenas por modelos que suportam imagens de referência. |
+Entrada:
+
+| Campo | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `prompt` | string | Sim | Uma descrição não vazia da imagem a ser gerada. |
+| `model` | string | Sim | Um nome de modelo de imagem retornado por `list_models` com `type` definido como `image`. Não diferencia maiúsculas de minúsculas. |
+| `count` | integer | Não | Quantas imagens gerar, de 1 a 4. O padrão é 1. |
+| `reference_images` | array de strings | Não | Até quatro URLs de imagens públicas HTTP(S) que orientam o resultado. Aceitas apenas por modelos que suportam imagens de referência. |
+| `size` | string | Não | Tamanho de saída no formato `<largura>x<altura>`, como `1024x1024`. Cada lado varia de 64 a 4096 pixels. O padrão é 1080x1920. |
+| `format` | string | Não | `png`, `jpeg` ou `webp`. O padrão é o formato produzido pelo modelo. |
+| `quality` | integer | Não | Qualidade de codificação de 1 a 100 para `jpeg` e `webp`. |
 
 Exemplo de argumentos:
 
 ```json
 {
-  "prompt": "A flat illustration of a lighthouse at dusk, warm palette, no text",
-  "model": "<IMAGE_MODEL_NAME>",
+  "prompt": "Uma ilustração plana de um farol ao entardecer, paleta quente, sem texto",
+  "model": "<NOME_DO_MODELO_DE_IMAGEM>",
   "count": 2
 }
 ```
 
-A ferramenta retorna as URLs das imagens geradas como texto MCP. As URLs são publicamente acessíveis, portanto qualquer pessoa com a URL pode abrir a imagem. Baixe e armazene as imagens se seu fluxo de trabalho precisar mantê‑las sob seu próprio controle de acesso.
+A ferramenta retorna texto MCP com o URL e o custo de cada imagem gerada, o erro de cada imagem falhada e o custo total. Imagens falhas não são cobradas. Os URLs são publicamente acessíveis, portanto, qualquer pessoa com um URL pode abrir a imagem. Baixe e armazene as imagens se seu fluxo de trabalho precisar mantê-las sob seu próprio controle de acesso.
 
-Para orientação de prompt e comportamento de imagem de referência, veja [Image Generation](/docs/pt-br/generations/images).
+Para orientação sobre prompts e comportamento de imagens de referência, consulte [Geração de Imagens](/docs/pt-br/generations/images).
 
 ### `generate_speech`
 
-Sintetiza fala a partir de texto e retorna a URL do áudio MP3 gerado.
+Sintetiza fala a partir de texto e retorna o URL do áudio MP3 gerado.
 
-| Campo          | Tipo   | Obrigatório | Descrição |
-|  | ------ | ----------- | --------- |
-| `input`        | string | Sim         | O texto não vazio a ser sintetizado. |
-| `model`        | string | Sim         | Um nome de modelo de fala retornado por `list_models` com `type` definido como `audio`. Não diferencia maiúsculas de minúsculas. |
-| `voice`        | string | Não         | Uma voz suportada pelo modelo selecionado. A voz padrão do modelo é usada quando omitida. |
-| `instructions` | string | Não         | Orientação sobre tom, emoção ou ritmo para a fala gerada. |
+Entrada:
+
+| Campo | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `input` | string | Sim | O texto não vazio a ser sintetizado. |
+| `model` | string | Sim | Um nome de modelo de fala retornado por `list_models` com `type` definido como `audio`. Não diferencia maiúsculas de minúsculas. |
+| `voice` | string | Não | Uma voz suportada pelo modelo selecionado. A voz padrão do modelo é usada quando omitida. |
+| `instructions` | string | Não | Orientações sobre tom, emoção ou ritmo para a fala gerada. |
 
 Exemplo de argumentos:
 
 ```json
 {
-  "input": "Your order has shipped and should arrive on Thursday.",
-  "model": "<SPEECH_MODEL_NAME>",
-  "instructions": "Friendly and calm, moderate pace."
+  "input": "Seu pedido foi enviado e deve chegar na quinta-feira.",
+  "model": "<NOME_DO_MODELO_DE_FALA>",
+  "instructions": "Amigável e calmo, ritmo moderado."
 }
 ```
 
-A ferramenta retorna a URL do áudio MP3 como texto MCP. A URL é publicamente acessível, portanto quem a possuir pode reproduzir o áudio. Diferente da API de geração de fala, esta ferramenta não retorna o áudio embutido e não oferece outros formatos de saída; converta o arquivo baixado se seu fluxo de trabalho precisar de WAV ou OGG.
+A ferramenta retorna o URL do áudio MP3 como texto MCP. O URL é publicamente acessível, portanto, qualquer pessoa com ele pode reproduzir o áudio. Diferentemente da API de Geração de Fala, esta ferramenta não retorna o áudio inline e não oferece outros formatos de saída; converta o arquivo baixado se seu fluxo de trabalho precisar de WAV ou OGG.
 
-As vozes variam por modelo de fala. Para seleção de voz e orientação de preparação de texto, veja [Speech Generation](/docs/pt-br/generations/speech).
+As vozes variam por modelo de fala. Para orientação sobre seleção de vozes e preparação de texto, consulte [Geração de Fala](/docs/pt-br/generations/speech).
 
-## Pricing and limits
+## Preços e limites
 
-Chamadas de geração utilizam o mesmo preço e cotas que [Image Generation](/docs/pt-br/generations/images#pricing-limits-and-errors) e [Speech Generation](/docs/pt-br/generations/speech#pricing-limits-and-errors) e são cobradas na conta autenticada. Para regras gerais de faturamento, veja [Pricing](/docs/pt-br/pricing).
+As chamadas de geração utilizam os mesmos preços e cotas que [Geração de Imagens](/docs/pt-br/generations/images#pricing-limits-and-errors) e [Geração de Fala](/docs/pt-br/generations/speech#pricing-limits-and-errors) e são cobradas na conta autenticada. Para regras gerais de faturamento, consulte [Preços](/docs/pt-br/pricing).
 
-É necessário saldo positivo na conta para usar essas ferramentas.
+É necessário um saldo positivo na conta para usar essas ferramentas.
 
-## Security guidance
+## Orientações de segurança
 
-Use o MCP apenas de clientes confiáveis e mantenha a chave de API no armazenamento seguro de segredos do cliente. Não coloque a chave no controle de versão, código do lado do navegador, prompts compartilhados ou logs.
+Utilize o MCP apenas de clientes confiáveis e mantenha a chave de API no armazenamento seguro de segredos do cliente. Não coloque a chave no controle de origem, código do lado do navegador, prompts compartilhados ou logs.
 
-As URLs de mídia geradas são públicas. Não gere imagens ou áudios contendo informações pessoais, confidenciais ou sensíveis, a menos que o fluxo de trabalho leve isso em conta. Revise os ativos gerados quanto à precisão e adequação antes de publicá‑los.
+Os URLs de mídia gerada são públicos. Não gere imagens ou áudio contendo informações pessoais, confidenciais ou sensíveis, a menos que o fluxo de trabalho leve essa exposição em consideração. Revise os ativos gerados quanto à precisão e adequação antes de publicá-los.
