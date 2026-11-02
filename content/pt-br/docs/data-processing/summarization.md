@@ -1,12 +1,12 @@
 ---
-{title: Resumo,linkTitle: Resumo,weight: 60,group: Data processing,sourceHash: bd9ef167a609fe05,aliases: [/docs/pt-br/data-processing/summarization.html]}
+{title: Resumo,linkTitle: Resumo,weight: 60,group: Data processing,sourceHash: 5b2be21dd9163e1a,aliases: [/docs/pt-br/data-processing/summarization.html]}
 ---
 
 # Resumo
 
-Use o recurso de Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. Ele se adapta a relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, pesquisa ou de uma etapa posterior do fluxo de trabalho.
+Use o recurso de Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. Ele se adapta a relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, busca ou de uma etapa posterior do fluxo de trabalho.
 
-Um resumo reafirma o documento com novas palavras, sem adicionar informações ou comentários. Para obter campos específicos em JSON, use [Extração](extraction.md). Para fazer perguntas abertas sobre mídia ou descrever conteúdo visual, use [Descrições de Mídia](media-descriptions.md).
+Um resumo reafirma o documento com novas palavras, sem adicionar informações ou comentários. Para obter campos específicos no formato JSON, use [Extração](extraction.md). Para fazer perguntas abertas sobre mídia ou descrever conteúdo visual, use [Descrições de Mídia](media-descriptions.md).
 
 Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e certifique-se de que a conta tenha um saldo positivo.
 
@@ -24,7 +24,7 @@ Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e c
 | `documents` | Matriz de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
 | `instructions` | String | Não | Orientações que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
 
-Imagens e arquivos aceitam dados URL base64 ou URLs HTTP(S) públicos. Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas. A AIVAX baixa URLs remotos antes do processamento, até 5 MB cada; o recurso deve ser acessível sem login. Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, portanto, verifique o tipo de conteúdo de cada documento na solicitação.
+Imagens e arquivos aceitam dados URL base64 ou URLs HTTP(S) públicos. Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas. A AIVAX baixa URLs remotos antes do processamento, dentro do limite de tamanho de arquivo em [Preços e limites](#preços-e-limites); o recurso deve ser acessível sem login. Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, portanto, verifique o tipo de conteúdo de cada documento na solicitação.
 
 ```json
 {
@@ -49,7 +49,7 @@ Imagens e arquivos aceitam dados URL base64 ou URLs HTTP(S) públicos. Os format
 {
   "message": null,
   "data": [
-    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne a dupla gasto com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Permanece seguro enquanto nós honestos controlam a maior parte do poder de computação."
+    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne a dupla despesa com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Permanece seguro enquanto nós honestos controlam a maior parte do poder de computação."
   ]
 }
 ```
@@ -64,7 +64,7 @@ O Resumo é cobrado pelos tokens de entrada de cada documento. Tokens de saída 
 | --- | ---: |
 | Entrada de Resumo | **$0,04/M tokens** |
 
-Resumo e [Extração](extraction.md) compartilham os mesmos limites de documentos. Um travessão (`—`) significa que o plano não impõe um limite.
+O Resumo e a [Extração](extraction.md) compartilham os mesmos limites de documentos. Arquivos remotos são baixados até 5 MB cada. Um travessão (`—`) significa que o plano não impõe um limite.
 
 | Limite | Gratuito | Pro | Máx |
 | --- | --- | --- | --- |
