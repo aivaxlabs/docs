@@ -20,6 +20,14 @@ When several models are available, compare them by capability:
 
 Use prompts that state the outcome you need rather than relying on vague visual labels. Include the important details, such as the subject, environment, framing, and any text that must be present. One request can carry a single prompt or an array of prompts. Each prompt generates `count` images, and their URLs come back grouped by input prompt.
 
+Control the output with these optional fields:
+
+- `size`: the image dimensions, either as a `"1024x1024"` string or as `{ "width": 1024, "height": 1024 }`. Each side must be between 64 and 4096 pixels. The default is 1080×1920. The model may adjust the size to dimensions it supports, so check the delivered image.
+- `format`: `png`, `jpeg` or `webp`. When omitted, the image keeps the format produced by the model.
+- `quality`: an integer from 1 to 100 that sets the `jpeg` or `webp` encoding quality. It has no effect on `png`. When the image is converted and `quality` is omitted, 90 is used.
+
+Each prompt group returns `images`, the URLs of the delivered images, and `outputs`, one entry per requested image in request order. Each entry has the image `url`, the `cost` charged for it and, when it failed, an `error` message with a `null` URL. The group `cost` is the sum charged for that prompt. A request can succeed with some failed images, so check `outputs` rather than assuming `images` has `count` entries.
+
 Supply up to four HTTP(S) reference images when the selected model supports them and the output must follow an existing subject, style, or composition. References guide the result; they do not guarantee identity preservation, so inspect the output before publishing.
 
 Treat generated assets as drafts and review them for accuracy, brand suitability, and unintended content before release. When the first result is close but not right, iterate by tightening one element at a time — subject detail, composition, style constraint — rather than rewriting the whole prompt at once.

@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/extraction.html
 
 # Extração
 
-Use a Extração para transformar texto, imagens e PDFs em JSON moldado por um esquema que você define. Ela se adapta a faturas, recibos, formulários, contratos e outros documentos onde seu aplicativo precisa dos mesmos campos em cada documento, como um número, o nome de uma empresa, um total ou uma lista de itens.
+Use a Extração para transformar texto, imagens e PDFs em JSON moldado por um esquema que você define. Ela se adapta a faturas, recibos, formulários, contratos e outros documentos onde seu aplicativo precisa dos mesmos campos de cada documento, como um número, o nome de uma empresa, um total ou uma lista de itens.
 
 Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt-br/docs/authentication.md) e certifique-se de que a conta tenha um saldo positivo.
 
@@ -12,7 +12,7 @@ Estes três serviços leem documentos, mas retornam coisas diferentes:
 
 | | Extração | [Busca e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md) | [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md) |
 | --- | --- | --- | --- |
-| Objetivo principal | Encontrar campos específicos em cada documento e retorná-los como JSON. | Recuperar o texto legível de páginas da web e documentos, usando OCR quando necessário. | Interpretar mídias com IA e retornar uma descrição textual guiada pelas suas instruções. |
+| Propósito principal | Encontrar campos específicos em cada documento e retorná-los como JSON. | Recuperar o texto legível de páginas da web e documentos, usando OCR quando necessário. | Interpretar mídias com IA e retornar uma descrição textual guiada pelas suas instruções. |
 | Entrada | Texto, JPEG, PNG, TIFF e conteúdo PDF. | Páginas da web e muitos formatos de documento, incluindo arquivos Office, planilhas e e-books. | Imagens, PDFs, áudio e vídeo. |
 | Saída | Um objeto JSON por documento, moldado pelo seu esquema. | Texto extraído, além de JSON opcional convertido a partir desse texto. | Texto gerado. |
 | Cobrança | Apenas tokens de entrada. | Unidades de processamento com cotas do plano diário; a conversão para JSON é cobrada separadamente. | Custos de uso de IA para entrada e saída. |
@@ -34,12 +34,12 @@ Escolha a Extração quando você já sabe quais campos precisa e deseja que sej
 | `documents` | Matriz de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
 | `instructions` | String | Não | Orientações que se aplicam a todos os documentos, como qual parte conta como fornecedor. |
 
-Cada propriedade em `responseSchema` é um campo a ser encontrado. Sua `description` é o critério de busca, então escreva-a como uma definição curta e específica, como "valor total devido" em vez de "total". Objetos aninhados e matrizes de objetos são suportados. `$ref` e `$defs` não são; incorpore todas as definições inline.
+Cada propriedade em `responseSchema` é um campo a ser encontrado. Sua `description` é o critério de busca, portanto, escreva-a como uma definição curta e específica, como "valor total devido" em vez de "total". Objetos aninhados e matrizes de objetos são suportados. `$ref` e `$defs` não são; incorpore todas as definições inline.
 
 Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos:
 
-- Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de múltiplas páginas.
-- O AIVAX baixa URLs remotos antes do processamento, até 5 MB cada. O recurso deve ser acessível sem login.
+- Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas.
+- A AIVAX baixa URLs remotos antes do processamento, dentro do limite de tamanho de arquivo em [Preços e limites](#precos-e-limites). O recurso deve ser acessível sem login.
 - Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, portanto, verifique o tipo de conteúdo de cada documento na solicitação.
 
 A seguinte solicitação extrai campos de fatura de um documento de texto e um PDF:
@@ -73,8 +73,8 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
     {
       "type": "file",
       "file": {
-        "filename": "fatura.pdf",
-        "file_data": "https://example.com/fatura.pdf"
+        "filename": "invoice.pdf",
+        "file_data": "https://example.com/invoice.pdf"
       }
     }
   ]
@@ -103,7 +103,7 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
 
 Os documentos são processados independentemente e em paralelo. Se qualquer documento falhar, toda a solicitação retorna um erro em vez de resultados parciais. Corrija ou remova esse documento e tente novamente. Documentos que foram concluídos antes da falha ainda são cobrados e contam para sua cota, portanto, tente novamente apenas após corrigir o documento com falha.
 
-Os valores extraídos são gerados pelo modelo. Eles podem estar ausentes, incompletos ou errados, especialmente em digitalizações de baixa qualidade ou layouts complexos. Valide a estrutura e verifique valores críticos, como montantes e identificadores, contra o documento original.
+Os valores extraídos são gerados pelo modelo. Eles podem estar ausentes, incompletos ou errados, especialmente em digitalizações de baixa qualidade ou layouts complexos. Valide a estrutura e verifique valores consequentes, como montantes e identificadores, contra o documento original.
 
 ## Preços e limites
 
@@ -113,14 +113,14 @@ A Extração é cobrada pelos tokens de entrada de cada documento. Tokens de sa�
 | --- | ---: |
 | Entrada de Extração | **$0,04/M tokens** |
 
-Extração e [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md) compartilham os mesmos limites de documentos. Um travessão (`—`) significa que o plano não impõe um limite.
+A Extração e o [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md) compartilham os mesmos limites de documentos. Arquivos remotos são baixados até 5 MB cada. Um travessão (`—`) significa que o plano não impõe um limite.
 
-| Limite | Gratuito | Pro | Max |
+| Limite | Grátis | Pro | Max |
 | --- | --- | --- | --- |
 | Documentos processados | 10/min e 300/dia | 200/min | 2.500/min |
 
 A cota conta cada item na matriz `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`. Para limites em nível de conta, consulte [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
-A referência de API embutida contém os detalhes mantidos pelo servidor de solicitação, resposta, autenticação e erro:
+A referência de API embutida contém os detalhes mantidos pelo servidor sobre solicitações, respostas, autenticação e erros:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Extract%20data%20from%20documents)

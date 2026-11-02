@@ -22,7 +22,7 @@ Before calling this endpoint, [create an API key](https://docs.aivax.net/docs/au
 | `documents` | Content part array | Yes | One or more documents as OpenAI-compatible content parts: `text`, `image_url`, or `file`. |
 | `instructions` | String | No | Guidance that applies to every summary, such as format, language, focus, or length. |
 
-Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, up to 5 MB each; the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
+Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, within the file size limit in [Pricing and limits](#pricing-and-limits); the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 ```json
 {
@@ -62,7 +62,7 @@ Summarization is billed for the input tokens of each document. Output tokens are
 | --- | ---: |
 | Summarization input | **$0.04/M tokens** |
 
-Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. An em dash (`—`) means the plan does not impose a limit.
+Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. Remote files are downloaded up to 5 MB each. An em dash (`—`) means the plan does not impose a limit.
 
 | Limit | Free | Pro | Max |
 | --- | --- | --- | --- |

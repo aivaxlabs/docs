@@ -36,11 +36,16 @@ Choose Extraction when you already know which fields you need and want them read
 
 Each property in `responseSchema` is one field to find. Its `description` is the search criterion, so write it as a short, specific definition, such as "total amount due" instead of "total". Nested objects and arrays of objects are supported. `$ref` and `$defs` are not; inline every definition instead.
 
+
 Images and files accept base64 data URLs or public HTTP(S) URLs:
 
 - Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs.
-- AIVAX downloads remote URLs before processing, up to 5 MB each. The resource must be reachable without sign-in.
+- AIVAX downloads remote URLs before processing, within the file size limit in [Pricing and limits](#pricing-and-limits). The resource must be reachable without sign-in.
 - Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
+
+
+
+
 
 The following request extracts invoice fields from a text document and a PDF:
 
@@ -113,7 +118,7 @@ Extraction is billed for the input tokens of each document. Output tokens are no
 | --- | ---: |
 | Extraction input | **$0.04/M tokens** |
 
-Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. An em dash (`—`) means the plan does not impose a limit.
+Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. An em dash (`—`) means the plan does not impose a limit.
 
 | Limit | Free | Pro | Max |
 | --- | --- | --- | --- |

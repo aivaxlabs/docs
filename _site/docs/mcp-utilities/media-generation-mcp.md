@@ -99,6 +99,9 @@ Input:
 | `model` | string | Yes | An image model name returned by `list_models` with `type` set to `image`. Case-insensitive. |
 | `count` | integer | No | How many images to generate, from 1 to 4. Defaults to 1. |
 | `reference_images` | array of strings | No | Up to four public HTTP(S) image URLs that guide the result. Only accepted by models that support reference images. |
+| `size` | string | No | Output size as `<width>x<height>`, such as `1024x1024`. Each side from 64 to 4096 pixels. Defaults to 1080x1920. |
+| `format` | string | No | `png`, `jpeg` or `webp`. Defaults to the format produced by the model. |
+| `quality` | integer | No | Encoding quality from 1 to 100 for `jpeg` and `webp`. |
 
 Example arguments:
 
@@ -110,7 +113,7 @@ Example arguments:
 }
 ```
 
-The tool returns the generated image URLs as MCP text. The URLs are publicly accessible, so anyone with a URL can open the image. Download and store the images if your workflow needs to keep them under its own access control.
+The tool returns MCP text with the URL and cost of each generated image, the error of each failed image, and the total cost. Failed images are not charged. The URLs are publicly accessible, so anyone with a URL can open the image. Download and store the images if your workflow needs to keep them under its own access control.
 
 For prompt guidance and reference-image behavior, see [Image Generation](https://docs.aivax.net/docs/generations/images.md).
 
