@@ -8042,6 +8042,16 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Tuesday, November 3rd, 2026
+
+Fixes:
+
+- **Dashboard — Two-factor code prompt no longer stuck loading.** When signing in or switching to a saved account with two-factor authentication, the authentication code dialog shows the code fields instead of staying on "Getting things ready...".
+
+Changes:
+
+- **Account — Step-by-step authenticator setup.** Adding an authenticator in the **Security** tab's two-factor authentication dialog now goes through separate steps. The first step shows the QR code and the secret in **QR code** and **Secret** tabs, with the reminder to save the secret. **Continue** opens the name and six-digit code fields. When the account already has an authenticator, a following step asks for a code from a current one. A confirmation step ends the setup. Invalid codes are shown inside the dialog, and **Back** returns to the previous step without clearing what was typed.
+
 ## Monday, November 2nd, 2026
 
 Breaking changes:
@@ -8093,10 +8103,6 @@ Changes:
 Fixes:
 
 - **Account — Adding the first authenticator.** Confirming the first authenticator no longer fails with a required-property error. The current authenticator code is only needed when the account already has one.
-
-Changes:
-
-- **Account — Compact two-factor authentication dialog.** The **Security** tab's two-factor authentication dialog is narrower. When adding an authenticator, the QR code is shown next to the secret, followed by the name and six-digit code fields. The dialog closes from its header, and **Cancel** returns to the authenticator list.
 
 ## Wednesday, October 28th, 2026
 
