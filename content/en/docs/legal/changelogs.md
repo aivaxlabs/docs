@@ -8,12 +8,23 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 ## Tuesday, November 3rd, 2026
 
+Breaking changes:
+
+- **Models — `is_deprecated` now means old or deprecated.** In `GET /v1/models` and `GET /api/v1/models`, `_details.provider_model.is_deprecated` was inverted: models released in the last 12 months were reported as deprecated, and older models were reported as current. It is now `true` only when the model is flagged as deprecated or its release date is more than 12 months before the current day. Models with no release date are not marked deprecated by age. Clients that hid or selected models from the previous value should invert that check. See [Deprecated models](/docs/inference/inference.md#deprecated-models).
+
 Fixes:
 
+- **API — Malformed resource identifiers return 400.** A path identifier that cannot be read, such as an incomplete ID on an AI Gateway or another resource route, now returns `400 Bad Request` instead of `500 Internal Server Error`. Treat that response as an invalid request and do not retry it as a server failure. See [Troubleshoot requests](/docs/inference/inference.md#troubleshoot-requests).
+- **API — Browser clients can read request and cost headers.** Cross-origin responses now expose `X-Request-ID` and `Consumed-Credits`, so browser JavaScript can read the request identifier and the request cost when those headers are present. See [Request cost header](/docs/pricing.md#request-cost-header).
+- **RAG — Indexing no longer fails when long documents are embedded together.** Indexing a collection no longer fails only because several long documents were embedded in one request. Split very large documents before import when you need precise retrieval; see [Document size](/docs/rag/documents.md#document-size).
 - **Dashboard — Two-factor code prompt no longer stuck loading.** When signing in or switching to a saved account with two-factor authentication, the authentication code dialog shows the code fields instead of staying on "Getting things ready...".
 
 Changes:
 
+- **Account — Pro and Max list prices.** The public Pro subscription is $19 per month, down from $39. Max is $99 per month, down from $399. These are list prices, not a negotiated account price. See [subscription pricing](https://aivax.net/pricing) and [Plan list prices](/docs/pricing.md#plan-list-prices).
+- **Account — Public plan list prices.** `GET /api/v1/information/plans.json` returns the Free, Pro, and Max list prices without authentication. Each entry has `plan` and `monthlyPrice` in USD. Free is `0`. It does not return negotiated prices. See [Plan list prices](/docs/pricing.md#plan-list-prices).
+- **Models — GLM-5.3-FlashX-Legal and Particle 1.** Adds `@z-ai/glm-5.3-flashx-legal` and `@particle-ai/particle-1` as selectable text models, billed per provider at published token rates. Existing account and plan adjustments still apply. Existing model identifiers remain unchanged.
+- **RAG — Document text counts as UTF-8 bytes.** Text stored in a collection now counts toward the storage quota as UTF-8 bytes. Text that uses only basic Latin characters is unchanged. Text with accents or other non-Latin characters can use more of the quota than it did before. Other stored data is counted as before. See [Account limits](/docs/limits.md#account-limits).
 - **Account — Step-by-step authenticator setup.** Adding an authenticator in the **Security** tab's two-factor authentication dialog now goes through separate steps. The first step shows the QR code and the secret in **QR code** and **Secret** tabs, with the reminder to save the secret. **Continue** opens the name and six-digit code fields. When the account already has an authenticator, a following step asks for a code from a current one. A confirmation step ends the setup. Invalid codes are shown inside the dialog, and **Back** returns to the previous step without clearing what was typed.
 
 ## Monday, November 2nd, 2026

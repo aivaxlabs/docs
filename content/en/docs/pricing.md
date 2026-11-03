@@ -8,6 +8,12 @@ AIVAX charges usage to the account balance in USD. Each product documents its ow
 
 See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](limits.md) for account-level quotas. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
 
+## Plan list prices
+
+Use the pricing page when you are choosing a plan in a browser. To read the same public list prices from an application, call `GET /api/v1/information/plans.json`. No API key is required. The response lists Free, Pro, and Max. Each entry has `plan` and `monthlyPrice` in USD. Free is `0` because that plan has no subscription fee. A negotiated Custom price, or the price currently applied to an account, is not included. Use the Subscriptions API when you need the authenticated account's price.
+
+<script src="https://inference.aivax.net/apidocs?embed-target=Get%20Plans&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
+
 ## Product pricing
 
 | Area | Where to find rates |
@@ -33,7 +39,7 @@ Free, Pro, and Max include separate daily allowances for eligible RAG embeddings
 
 ## Storage
 
-Each plan includes storage. Pro and Max overages are billed hourly at the monthly rates below; Free storage cannot be expanded.
+Each plan includes storage. Pro and Max overages are billed hourly at the monthly rates below; Free storage cannot be expanded. Document text stored in a collection counts as UTF-8 bytes. Text with accents or non-Latin characters can use more of the included quota than basic Latin text of the same length.
 
 | Description | Pricing |
 | --- | ---: |
@@ -44,6 +50,8 @@ Each plan includes storage. Pro and Max overages are billed hourly at the monthl
 ## Request cost header
 
 API responses include a `Consumed-Credits` header when the request charged usage to your account balance. Its value is the total charged by that request in USD, written as a decimal number with a dot separator, for example `Consumed-Credits: 0.000184`. It already includes the plan multiplier and covers every item charged during the request, such as inference, embeddings, reranking, and tool usage.
+
+Cross-origin responses expose `Consumed-Credits` and `X-Request-ID`, so browser JavaScript on another origin can read them when they are present. `X-Request-ID` is the identifier AIVAX assigned to that request.
 
 The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance. Treat a missing header as zero.
 
