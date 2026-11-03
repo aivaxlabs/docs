@@ -1,12 +1,18 @@
 ---
-{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: 4521a2cdca320174}
+{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: 782f8f32cf3d1187}
 ---
 
 # Preços
 
 A AIVAX cobra o uso do saldo da conta em USD. Cada produto documenta suas próprias tarifas em uma seção de preços dedicada, vinculada abaixo. Esta página abrange as regras compartilhadas por todos os produtos: cotas de assinatura, armazenamento, cabeçalho de custo de solicitação, desconto por compartilhamento de dados e multiplicadores de plano.
 
-Veja [preços de assinatura](https://aivax.net/pricing) para os preços dos planos mensais e [Planos e limites](limits.md) para as cotas em nível de conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo utilizado e o trabalho realizado.
+Veja [preços de assinatura](https://aivax.net/pricing) para os preços dos planos mensais e [Planos e limites](limits.md) para as cotas em nível de conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Os preços aproximados (`~`) variam conforme o modelo utilizado e o trabalho realizado.
+
+## Preços de lista dos planos
+
+Use a página de preços ao escolher um plano em um navegador. Para ler os mesmos preços públicos de lista a partir de um aplicativo, chame `GET /api/v1/information/plans.json`. Nenhuma chave de API é necessária. A resposta lista Free, Pro e Max. Cada entrada possui `plan` e `monthlyPrice` em USD. O plano Free é `0` porque não há taxa de assinatura. Um preço Custom negociado ou o preço atualmente aplicado a uma conta não estão incluídos. Use a API de Assinaturas quando precisar do preço da conta autenticada.
+
+<script src="https://inference.aivax.net/apidocs?embed-target=Get%20Plans&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Preços por produto
 
@@ -29,11 +35,11 @@ Veja [preços de assinatura](https://aivax.net/pricing) para os preços dos plan
 
 ## Cotas diárias incluídas
 
-Os planos Free, Pro e Max incluem cotas diárias separadas para embeddings RAG elegíveis, reranking do Reflex, decisões semânticas elegíveis e extração Fetch/OCR. As tarifas do produto se aplicam quando um item medido não está coberto. A cobertura é total ou nula por item, não necessariamente por solicitação completa: um item que não pode caber dentro da cota restante e sua margem permitida será cobrado integralmente. Compare as cotas e verifique as exclusões em [Planos e limites](limits.md#included-daily-subscription-allowances). A cobertura de assinatura LLM está atualmente desativada. Para saber o que cada cota cobre, consulte [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Free, Pro e Max incluem cotas diárias separadas para embeddings RAG elegíveis, reranking do Reflex, decisões semânticas elegíveis e extração Fetch/OCR. As tarifas do produto se aplicam quando um item medido não está coberto. A cobertura é tudo ou nada por item, não necessariamente por solicitação completa: um item que não pode caber dentro da cota restante e sua margem permitida será cobrado integralmente. Compare as cotas e verifique as exclusões em [Planos e limites](limits.md#included-daily-subscription-allowances). A cobertura de assinatura LLM está atualmente desativada. Para saber o que cada cota cobre, consulte [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Armazenamento
 
-Cada plano inclui armazenamento. Excedentes dos planos Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento Free não pode ser expandido.
+Cada plano inclui armazenamento. Excedentes de Pro e Max são cobrados por hora nas taxas mensais abaixo; o armazenamento Free não pode ser expandido. O texto de documento armazenado em uma coleção conta como bytes UTF-8. Texto com acentos ou caracteres não latinos pode usar mais da cota incluída do que texto latino básico do mesmo comprimento.
 
 | Descrição | Preço |
 | --- | ---: |
@@ -45,17 +51,19 @@ Cada plano inclui armazenamento. Excedentes dos planos Pro e Max são cobrados p
 
 As respostas da API incluem um cabeçalho `Consumed-Credits` quando a solicitação cobrou o uso do seu saldo da conta. Seu valor é o total cobrado por essa solicitação em USD, escrito como um número decimal com separador de ponto, por exemplo `Consumed-Credits: 0.000184`. Ele já inclui o multiplicador do plano e cobre todos os itens cobrados durante a solicitação, como inferência, embeddings, reranking e uso de ferramentas.
 
-O cabeçalho é omitido quando a solicitação não cobrou nada, incluindo solicitações rejeitadas pela validação ou totalmente cobertas por uma cota diária de assinatura. Considere a ausência do cabeçalho como zero.
+Respostas cross-origin expõem `Consumed-Credits` e `X-Request-ID`, então o JavaScript do navegador em outra origem pode lê-los quando estiverem presentes. `X-Request-ID` é o identificador atribuído pela AIVAX àquela solicitação.
 
-O valor cobre apenas as cobranças registradas antes do envio da resposta. O uso registrado posteriormente, como trabalho assíncrono em [Batch](inference/batch.md), não está incluído. Respostas transmitidas (streamed) nunca incluem este cabeçalho, pois ele é adicionado após a produção da resposta. Para uma solicitação transmitida, leia o `cost` registrado com a conversa (disponível quando o registro de conversas está habilitado) ou calcule o custo a partir das contagens de tokens relatadas. Use seus registros de uso da conta como fonte da verdade para faturamento.
+O cabeçalho é omitido quando a solicitação não cobrou nada, incluindo solicitações rejeitadas pela validação ou totalmente cobertas por uma cota de assinatura diária. Trate a ausência do cabeçalho como zero.
 
-Analise o valor como um número de ponto flutuante. Valores muito pequenos, como `1E-05`, podem ser escritos em notação científica, e a soma de várias cobranças pode apresentar ruído de ponto flutuante nos dígitos finais.
+O valor cobre apenas as cobranças registradas antes do envio da resposta. O uso registrado posteriormente, como trabalho assíncrono em [Batch](inference/batch.md), não está incluído. Respostas em streaming nunca incluem este cabeçalho, pois ele é adicionado após a produção da resposta. Para uma solicitação em streaming, leia o `cost` registrado na conversa (disponível quando o registro de conversas está habilitado) ou calcule o custo a partir das contagens de tokens relatadas. Use seus registros de uso da conta como fonte da verdade para faturamento.
 
-## Desconto por compartilhamento de dados
+Analise o valor como um número de ponto flutuante. Valores muito pequenos, como `1E-05`, podem ser escritos em notação científica, e a soma de várias cobranças pode ter ruído de ponto flutuante nos dígitos finais.
 
-Contas que habilitam o [Compartilhamento de Dados](data-sharing.md) recebem um desconto de 10% no uso de embeddings de consulta RAG elegíveis e operações de reranking elegíveis realizadas enquanto o compartilhamento estiver habilitado. Outros serviços mantêm seus preços regulares.
+## Desconto por Compartilhamento de Dados
 
-## Multiplicadores de plano
+Contas que habilitam o [Compartilhamento de Dados](data-sharing.md) recebem um desconto de 10% no uso de embedding de consulta RAG elegível e nas operações de reranking elegíveis realizadas enquanto o compartilhamento estiver habilitado. Outros serviços mantêm seus preços regulares.
+
+## Multiplicadores de Plano
 
 As tarifas de uso estão sujeitas ao imposto de inferência do plano:
 
@@ -65,4 +73,4 @@ As tarifas de uso estão sujeitas ao imposto de inferência do plano:
 | Pro | +5% |
 | Max | 0% |
 
-O uso BYOK (Bring Your Own Key) não é afetado pelos impostos de inferência. As páginas de produto indicam quando uma tarifa está isenta do multiplicador do plano, como na geração de imagens.
+O uso BYOK não é afetado pelos impostos de inferência. As páginas de produto indicam quando uma tarifa está isenta do multiplicador do plano, como na geração de imagens.
