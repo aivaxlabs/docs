@@ -287,7 +287,7 @@ These limits apply to every filter, including filters used by memory search and 
 | Minimum `contains` length | 3 characters |
 | Execution time | 10 seconds |
 
-Conditions on `content`, `endswith`, tags, and metadata examine every document in the requested collections, so they take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
+Conditions on `content`, `endswith`, and tags examine every document in the requested collections, so they take longer in large collections. Metadata conditions use an index of metadata values and stay fast in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
 
 - Prefer conditions on `name` (`=`, `in`, `startswith`).
 - Split very large corpora into smaller collections.
