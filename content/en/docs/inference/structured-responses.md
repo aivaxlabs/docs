@@ -6,7 +6,7 @@
 
 AIVAX can produce structured JSON through two paths:
 
-- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path.
+- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path; [When an LLM returns invalid JSON](https://aivax.net/blog/structured-output-healing-boundary/) explains how truncation, refusals, and repair differ.
 - `response_format`: AIVAX passes a native OpenAI-compatible response format to the provider, or applies healing when `healing_options` is present or automatic JSON Healing is enabled on the account.
 
 Use structured responses when another system will consume the output and free-form text would be fragile.
