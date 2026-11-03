@@ -36,7 +36,7 @@ AIVAX uses two response styles:
 
 | Status | What to check |
 | --- | --- |
-| `400 Bad Request` | Confirm the model or gateway identifier and remove unsupported parameters from the request. |
+| `400 Bad Request` | Confirm the model or gateway identifier and remove unsupported parameters from the request. A malformed resource identifier in the path is an invalid request, not a server error. |
 | `401 Unauthorized` | Confirm that the private key is present, complete, active, and sent through the SDK configuration. |
 | `402 Payment Required` | Review [Pricing](https://docs.aivax.net/docs/pricing.md) and confirm that the account is ready for a billable request. |
 | `403 Forbidden` | Confirm that the key type, model, or selected resource allows this operation. |
@@ -123,7 +123,7 @@ Within each step, `preset` chooses among the matching providers. Without `"*"` a
 
 Each provider's tag is shown in the provider details of the dashboard **Models** page, where it can be copied, and returned as `tag` in the provider list of `GET /v1/models`. A tag identifies a provider endpoint, including its region or variant when one exists, such as `azure-us` or `azure-eu`.
 
-`GET /v1/models` accepts an optional `filter` query parameter with a model name, such as `?filter=@openai/gpt-4o`. The response then contains only entries whose name equals it or is a dated snapshot of it (a trailing numeric suffix of at least four digits), ordered from the closest match, with the newest snapshot first. Without `filter`, the full list is returned.
+`GET /v1/models` accepts an optional `filter` query parameter with a model name, such as `?filter=@openai/gpt-4o`. The response then contains only entries whose name equals it or is a dated snapshot of it (a trailing numeric suffix of at least four digits), ordered from the closest match, with the newest snapshot first. Without `filter`, the full list is returned. See [Deprecated models](#deprecated-models) for how to tell a current model from an old one.
 
 The request values override the gateway's saved routing for that request only; they do not update the gateway. Because `routing_options` is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK.
 
@@ -198,6 +198,10 @@ Responses for integrated models include a `provider` field next to `model` with 
 ```
 
 If a provider fails and AIVAX retries the request on another provider, `provider` reflects the provider that produced the response.
+
+### Deprecated models
+
+Use `_details.provider_model.is_deprecated` in `GET /v1/models` when you need to prefer a current integrated model. It is `true` when the model is flagged as deprecated, or when it has a release date more than 12 months before the current day. A model with no release date is not marked deprecated by age alone. The flag does not by itself remove the model from the list.
 
 ## Input and multimodality
 

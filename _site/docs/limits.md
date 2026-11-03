@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/docs/limits.html
 
 AIVAX has three account plans: **Free**, **Pro**, and **Max**. The current plan controls model access, account-level rate limits, storage quota, conversation retention, and included daily service allowances.
 
-For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). This page documents account-level limits only. Limits that belong to a specific product, such as RAG searches, web search, Agentic Tests, or Batch, are documented in that product's page.
+For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). The same public list prices are available from [Plan list prices](https://docs.aivax.net/docs/pricing.md#plan-list-prices). This page documents account-level limits only. Limits that belong to a specific product, such as RAG searches, web search, Agentic Tests, or Batch, are documented in that product's page.
 
 ## Account limits
 
@@ -25,6 +25,8 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Cost per excess GB | — | $0.50/GB/month | $0.20/GB/month |
 | Conversation retention | 2 hours | 2 days | 30 days |
 | Support level | Email | Priority | Dedicated |
+
+Document text stored in a collection counts toward the storage quota as UTF-8 bytes. Text with accents or non-Latin characters can use more of that quota than basic Latin text of the same length.
 
 Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:
 
