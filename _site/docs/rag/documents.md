@@ -99,7 +99,7 @@ Each JSONL line represents one document:
 | `docid` | Yes | Document name. Existing documents are matched by this value. |
 | `text` | Yes | Contents to index. |
 | `__ref` | No | Reference ID. |
-| `__tags` | No | Tags. |
+| `__tags` | No | Tags. See [RAG metadata filtering](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for how tags, metadata, and dates pre-filter search results. |
 | `__meta` | No | Metadata object. |
 
 The import works as follows:

@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/docs/data-processing/text-segmentation.html
 
 Text segmentation divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG collection. It returns segments to your application; it does not create embeddings or store submitted documents.
 
-Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](https://docs.aivax.net/docs/rag/documents.md#import-from-files-with-media-injector).
+Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](https://docs.aivax.net/docs/rag/documents.md#import-from-files-with-media-injector). For a full walkthrough that turns a PDF into segmented, importable chunks, see [PDF to Markdown for RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
 
 To see how segmentation relates to storage, updates, and retrieval, read [where segmentation fits in a RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
@@ -34,7 +34,7 @@ For the supported request, response, authentication, and error contract, use the
 
 | Description | Pricing |
 | --- | ---: |
-| Text segmentation | **$0.30/M tokens** |
+| Text segmentation | **$0.10/M tokens** |
 
 An em dash (`—`) means the plan does not impose a limit.
 

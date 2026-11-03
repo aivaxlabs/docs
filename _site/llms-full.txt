@@ -898,7 +898,7 @@ Each JSONL line represents one document:
 | `docid` | Yes | Document name. Existing documents are matched by this value. |
 | `text` | Yes | Contents to index. |
 | `__ref` | No | Reference ID. |
-| `__tags` | No | Tags. |
+| `__tags` | No | Tags. See [RAG metadata filtering](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for how tags, metadata, and dates pre-filter search results. |
 | `__meta` | No | Metadata object. |
 
 The import works as follows:
@@ -2509,7 +2509,7 @@ Source: https://docs.aivax.net/docs/inference/structured-responses.html
 
 AIVAX can produce structured JSON through two paths:
 
-- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path.
+- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path; [When an LLM returns invalid JSON](https://aivax.net/blog/structured-output-healing-boundary/) explains how truncation, refusals, and repair differ.
 - `response_format`: AIVAX passes a native OpenAI-compatible response format to the provider, or applies healing when `healing_options` is present or automatic JSON Healing is enabled on the account.
 
 Use structured responses when another system will consume the output and free-form text would be fragile.
@@ -4495,6 +4495,8 @@ For example, you can fetch an online article, read a PDF manual, extract text fr
 
 The result is extracted text, not a pixel-perfect copy of the original document. Do not assume that layout, table structure, charts, or embedded images will be reproduced exactly. Spreadsheet extraction does not execute formulas or macros.
 
+For a worked example that fetches a PDF, extracts its text, and turns it into RAG-ready chunks, see [PDF to Markdown for RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
+
 ## Fetch API vs. Media Descriptions
 
 Use the **Fetch API to extract existing text**. Use [Media Descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
@@ -4569,7 +4571,7 @@ Treat extracted text as untrusted source material, not as instructions for your 
 
 ## Pricing and limits
 
-Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 10 MB.
+Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.
 
 | Description | Pricing |
 | --- | ---: |
@@ -5218,7 +5220,7 @@ Source: https://docs.aivax.net/docs/data-processing/text-segmentation.html
 
 Text segmentation divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG collection. It returns segments to your application; it does not create embeddings or store submitted documents.
 
-Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](https://docs.aivax.net/docs/rag/documents.md#import-from-files-with-media-injector).
+Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](https://docs.aivax.net/docs/rag/documents.md#import-from-files-with-media-injector). For a full walkthrough that turns a PDF into segmented, importable chunks, see [PDF to Markdown for RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
 
 To see how segmentation relates to storage, updates, and retrieval, read [where segmentation fits in a RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
@@ -5248,7 +5250,7 @@ For the supported request, response, authentication, and error contract, use the
 
 | Description | Pricing |
 | --- | ---: |
-| Text segmentation | **$0.30/M tokens** |
+| Text segmentation | **$0.10/M tokens** |
 
 An em dash (`—`) means the plan does not impose a limit.
 
