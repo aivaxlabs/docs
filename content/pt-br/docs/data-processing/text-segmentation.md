@@ -1,34 +1,34 @@
 ---
-{title: Segmentação de Texto,linkTitle: Segmentação de Texto,weight: 40,group: Data processing,aliases: [/docs/pt-br/rag/text-segmentation.html,/docs/pt-br/data-processing/text-segmentation.html],sourceHash: 2e75eca8eb0a6975}
+{title: Segmentação de Texto,linkTitle: Segmentação de Texto,weight: 40,group: Data processing,aliases: [/docs/pt-br/rag/text-segmentation.html,/docs/pt-br/data-processing/text-segmentation.html],sourceHash: 93a0047ca39d88cd}
 ---
 
 # Segmentação de Texto
 
-A segmentação de texto divide documentos de origem em cadeias semanticamente coesas que podem ser incorporadas ou indexadas em uma coleção RAG. Ela devolve segmentos para sua aplicação; não cria incorporações nem armazena documentos enviados.
+A segmentação de texto divide documentos fonte em strings semanticamente coesas que podem ser incorporadas ou indexadas em uma coleção RAG. Ela retorna segmentos para o seu aplicativo; não cria incorporações (embeddings) nem armazena os documentos submetidos.
 
-Use quando um documento de origem precisa de limites revisáveis e prontos para recuperação antes de criar ou atualizar documentos da coleção. Se você já tem texto focado e autocontido, pode importá‑lo diretamente. Se quiser que o AIVAX processe arquivos de origem em documentos da coleção, veja [Media Injector](../rag/documents.md#import-from-files-with-media-injector).
+Use-a quando um documento fonte precisar de limites revisáveis e prontos para recuperação antes de criar ou atualizar documentos na coleção. Se você já tiver texto focado e autocontido, poderá importá-lo diretamente. Se quiser que a AIVAX processe arquivos fonte em documentos da coleção, consulte [Injetor de Mídia](../rag/documents.md#import-from-files-with-media-injector). Para um tutorial completo que transforma um PDF em pedaços segmentados e importáveis, consulte [PDF para Markdown para RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
 
-Para entender como a segmentação se relaciona com armazenamento, atualizações e recuperação, leia [where segmentation fits in a RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
+Para entender como a segmentação se relaciona com armazenamento, atualizações e recuperação, leia [onde a segmentação se encaixa em um pipeline RAG](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
-## Ignorar segmentação quando o texto já está focado
+## Ignore a segmentação quando o texto já estiver focado
 
-A segmentação se justifica em fontes longas e com múltiplos tópicos — manuais, artigos, transcrições — onde uma incoração por página borraria assuntos distintos. Não segmente texto que já contém uma ideia por unidade: respostas de FAQ, descrições de produtos, políticas curtas ou trechos já divididos podem entrar diretamente na coleção. Cada divisão desnecessária adiciona trabalho de indexação e corre o separar declarações que só fazem sentido juntas.
+A segmentação justifica-se em fontes longas e multitemáticas — manuais, artigos, transcrições — onde uma única incorporação por página borraria assuntos distintos entre si. Não segmente texto que já seja uma ideia por unidade: respostas de FAQ, descrições de produtos, políticas curtas ou trechos pré-divididos podem ir direto para a coleção. Cada divisão desnecessária adiciona trabalho de indexação e corre o risco de separar declarações que só fazem sentido juntas.
 
-## O que torna um bom segmento
+## O que constitui um bom segmento
 
-Um bom segmento é o menor trecho que ainda responde a uma pergunta por si só: uma declaração completa ou um grupo compacto de declarações sobre um sub‑tópico, tipicamente um parágrafo ou uma seção curta. Segmentos são mais úteis quando a fonte tem títulos claros, parágrafos e declarações completas — o segmentador preserva esses limites ao invés de cortar no meio do raciocínio.
+Um bom segmento é o menor trecho que ainda responde a uma pergunta por si só: uma declaração completa ou um grupo apertado de declarações sobre um único subtópico, tipicamente um parágrafo ou uma seção curta. Os segmentos são mais úteis quando a fonte possui cabeçalhos claros, parágrafos e declarações completas — o segmentador preserva esses limites em vez de cortar no meio do pensamento.
 
-Observe os modos de falha de fontes desordenadas. Tabelas perdem seus cabeçalhos, OCR elimina a estrutura de linhas, transcrições divagam entre tópicos e documentos exportados repetem cabeçalhos em todas as páginas. Revise os resultados dessas fontes antes de indexar e prefira limpar a fonte (corrigir títulos, remover conteúdo padrão) ao invés de pedir ao segmentador que adivinhe ao redor disso.
+Observe os modos de falha de fontes desordenadas. Tabelas perdem seus cabeçalhos, o OCR perde a estrutura de linhas, as transcrições divagam entre tópicos e os documentos exportados repetem cabeçalhos rodantes em cada página. Revise os resultados dessas fontes antes da indexação e prefira limpar a fonte (corrigindo cabeçalhos, removendo textos padrão) a pedir ao segmentador que tente adivinhar contornando esses problemas.
 
-## Preparar texto de origem
+## Prepare o texto fonte
 
-Forneça o texto completo de origem sempre que possível, limpo conforme descrito acima.
+Forneça texto fonte completo sempre que possível, limpo conforme descrito acima.
 
-Sem sanitização, os segmentos têm cerca de 300 tokens e cobrem todo o documento na ordem original, sem sobreposição. Os limites seguem a estrutura do documento e a similaridade semântica dos trechos vizinhos; documentos desse tamanho ou menores são retornados como um único segmento.
+Sem sanitização, os segmentos visam cerca de 300 tokens e cobrem todo o documento na ordem original, sem sobreposição. Os limites seguem a estrutura do documento e a similaridade semântica das passagens vizinhas; documentos de tamanho aproximadamente igual ou inferior são retornados como um único segmento.
 
-Use sanitização somente quando o conteúdo omitido for realmente irrelevante para a recuperação. Solicitações sanitizadas são processadas por um modelo de linguagem e levam mais tempo. Quando a redação exata da origem, a fidelidade legal ou a rastreabilidade completa são importantes, retenha e revise o texto de origem.
+Use a sanitização apenas quando o conteúdo omitido for genuinamente irrelevante para a recuperação. Solicitações sanitizadas são processadas por um modelo de linguagem e levam mais tempo. Quando a redação exata da fonte, fidelidade legal ou rastreabilidade completa forem importantes, mantenha e revise o texto fonte em vez disso.
 
-Para o contrato de solicitação, resposta, autenticação e erro suportado, use a Referência da API:
+Para a solicitação suportada, resposta, autenticação e contrato de erro, use a Referência da API:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Segment%20text&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -36,7 +36,7 @@ Para o contrato de solicitação, resposta, autenticação e erro suportado, use
 
 | Descrição | Preço |
 | --- | ---: |
-| Segmentação de texto | **$0.30/M tokens** |
+| Segmentação de texto | **$0,10/M tokens** |
 
 Um travessão (`—`) indica que o plano não impõe limite.
 
@@ -44,4 +44,4 @@ Um travessão (`—`) indica que o plano não impõe limite.
 | --- | --- | --- | --- |
 | Documentos de segmentação de texto | 10/min e 100/dia | 300/min | 2.500/min |
 
-A cota conta cada item no array `documents` da solicitação, não cada requisição HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
+A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retornará `429 Too Many Requests`.

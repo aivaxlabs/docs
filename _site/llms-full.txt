@@ -279,10 +279,15 @@ AIVAX has two key families because browser-facing and server-side use cases have
 
 | Type | Prefix | Intended use | Access |
 | --- | --- | --- | --- |
-| Private key | `sk-aiv-acc` | Server-side integrations and administrative API calls. | Authenticated account APIs and OpenAI-compatible inference. |
-| Public key | `pk-aiv-` | Restricted client-side calls to explicitly public routes. | Public RAG query/answer routes and restricted chat-completion calls. |
+| Private key | `sk-aiv-acc` | Server-side integrations and administrative API calls. | Every authenticated account API except API key and credential management. |
+| Public key | `pk-aiv-` | Restricted client-side calls. | Text inference, generations, and RAG retrieval. |
+| Application key | `sk-aiv-apk` | Third-party applications authorized by the account holder. | The permissions approved through [OAuth](https://docs.aivax.net/docs/oauth.md), plus the account identity. |
 
-Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. When a public key calls chat completions:
+Each key type grants a fixed set of permissions, and each route requires some of them. A request whose key lacks a permission required by the route returns `403 Forbidden`, and the error message names the missing permissions.
+
+Private keys cannot list, create, or delete API keys, roll the account salt, manage authenticators, or reset the login key. Use the dashboard for these operations.
+
+Public keys can be used for chat completions, the `/api/v1/generations/*` endpoints, RAG semantic search, and RAG answer generation. They cannot read or change account resources, open voice sessions, or use the web search and fetch endpoints. When a public key calls chat completions:
 
 - The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.
 - MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options are stripped from the request.
@@ -298,6 +303,10 @@ For a first server-side request, continue with [Make your first request](https:/
 Create and revoke API keys in the API Keys area of the AIVAX dashboard. Keys belong to an account and can have a label, expiration, and type; expired keys are rejected by authentication.
 
 Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Use labels to identify each key's owner and application, and expiration dates to plan when to renew or replace it.
+
+## OAuth authorization
+
+A third-party application can ask an AIVAX account holder for an application key instead of asking them to copy an API key. The account holder reviews the request in the console, chooses how long the access lasts, and can revoke it at any time. See [OAuth](https://docs.aivax.net/docs/oauth.md) for the complete flow, permissions and callback handling.
 
 ## Send a key with Bearer auth
 
@@ -402,6 +411,129 @@ The sign-in page links to account support.
 - If the registration e-mail is no longer available, use the same support page.
 
 Resetting the login key from **Security** asks for confirmation, then does the same rotation: a new key is e-mailed, console sessions are signed out, and the browser's saved login is cleared. API keys keep working.
+
+---
+
+Source: https://docs.aivax.net/docs/oauth.html
+
+# OAuth
+
+OAuth lets your application use a person's AIVAX account for its AI features. Instead of building your own model access, billing and limits, your application asks the account holder for permission, and AIVAX gives it an access token limited to what the person approved.
+
+It is designed for applications that need AI resources but should not own them: desktop and mobile apps, editor plugins, browser extensions, automation tools and SaaS products where each user brings their own AIVAX account. The account holder keeps control of the account. Requests made with the token use that account's models, AI gateways, collections and balance, and the person can revoke the access at any time.
+
+## When to use it
+
+Use OAuth when the person who owns the AIVAX account is not the developer of the application. They should never have to copy an API key into a third-party product, and the application should only receive the permissions it needs.
+
+Use a [private or public API key](https://docs.aivax.net/docs/authentication.md#api-key-types) when the application and the AIVAX account belong to you. For example, a backend that serves your own users with your own AIVAX account should use a private key.
+
+## How it works
+
+1. Your application creates an authorization request with its name, the reason it needs access, the permissions it wants and the address that receives the result.
+2. Your application sends the person to the authorization address returned by AIVAX.
+3. The person signs in to the AIVAX console if needed, reviews the request and chooses how long the access lasts: 1 day, 7 days, 90 days or 1 year.
+4. AIVAX redirects the person back to your application with an access token, or with an error if access was denied.
+5. Your application calls the AIVAX API with the token, like any other API key.
+
+No refresh token is issued. When the token expires or is revoked, start a new authorization.
+
+## Create an authorization request
+
+This endpoint does not require authentication and is rate limited per remote address.
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20OAuth%20Authorization%20Request)
+
+The request body has:
+
+- `clientName`: the name shown to the person, from 3 to 64 characters.
+- `reason`: why your application needs access, from 3 to 500 characters and at most 6 lines. Be specific, for example "Summarize your meeting notes with your AI gateways".
+- `permissions`: the [permissions](#permissions) your application needs.
+- `returnUrl`: the address that receives the result.
+
+The `returnUrl` must be an absolute `http` or `https` address without credentials or fragment. It cannot point to the AIVAX console, repeat query parameters, or already contain `access_token`, `expires_in` or `error` in its query.
+
+The response has `authorizationUrl`, the console address where the person approves the request, and `expiresIn`, in seconds. The request expires after one hour and can be approved or denied once.
+
+## Send the person to the console
+
+Open `authorizationUrl` in the person's browser. The console asks them to sign in when they are not signed in, and returns to the request afterwards.
+
+The console shows your application name, the reason, the requested permissions and the full return address. The **Authorize** button stays disabled for five seconds so the request can be read, and authorizing requires a browser check.
+
+## Receive the token
+
+After approval, AIVAX redirects the person to `returnUrl` with these query parameters:
+
+- `access_token`: the application key, starting with `sk-aiv-apk`.
+- `expires_in`: the token lifetime, in seconds.
+
+If the person denies access, the query has `error=access_denied` instead.
+
+Query parameters already present in `returnUrl` are kept. Add your own random `state` value when you create the request, store it in the person's session and compare it in the callback, so your application only accepts results of requests it started.
+
+The token arrives in a URL. Read it on your server, store it as a secret, and redirect the browser to an address without it. Do not log callback URLs or send the token to the browser.
+
+```javascript
+app.get("/oauth/callback", async (req, res) => {
+  if (!req.query.state || req.query.state !== req.session.oauthState) {
+    return res.status(400).send("Invalid state.");
+  }
+
+  if (req.query.error) {
+    return res.redirect("/settings?aivax=denied");
+  }
+
+  if (!req.query.access_token) {
+    return res.status(400).send("Missing token.");
+  }
+
+  await saveAivaxToken(req.session.userId, {
+    token: req.query.access_token,
+    expiresAt: Date.now() + Number(req.query.expires_in) * 1000
+  });
+
+  res.redirect("/settings?aivax=connected");
+});
+```
+
+## Use the token
+
+Send the token like any other API key, preferably in the `Authorization` header. For OpenAI-compatible SDKs, pass it as the API key and set the base URL to `https://inference.aivax.net/v1`.
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://inference.aivax.net/v1",
+    api_key="<ACCESS_TOKEN>"
+)
+```
+
+Usage made with the token is charged to the account that authorized your application. Every application key can call `GET /api/v1/accounts` to read the account identifier, name and e-mail, so your application can show which account it is connected to.
+
+A request that needs a permission the token does not have returns `403 Forbidden`, and the error message names the missing permissions. A revoked or expired token returns `401 Unauthorized`; ask the person to connect again.
+
+## Permissions
+
+Request only what your application uses. The console shows each permission to the person before they approve it.
+
+- `InferenceText`: chat completions with models and AI gateways.
+- `InferenceGenerations`: image, speech, transcription, decision, extraction and other generations.
+- `InferenceRealtime`: realtime voice sessions.
+- `ResourcesRead`: read AI gateways, chat clients, batch, skills, shell sandbox files and other resources, and list models.
+- `ResourcesWrite`: create, edit and delete those resources.
+- `RagRead`: semantic search and reading documents of RAG collections.
+- `RagWrite`: create, edit and delete RAG collections and documents.
+- `ManagementAnalytics`: read balance, consumption and billing information.
+- `Account`: payments, subscriptions, plan changes, notifications and other account-level operations.
+- `WebUtilities`: web search and URL fetching.
+
+`ManagementKeys` cannot be requested, so application keys can never list, create or delete API keys or manage the account credentials.
+
+## Revoke access
+
+The account holder can see every authorized application, its permissions, expiration and last use in **My account**, **Authorized applications**, and revoke it there. Revoking invalidates the token immediately.
 
 ---
 
@@ -631,7 +763,7 @@ Public keys have additional limits independent of the account plan.
 | Per remote address | 100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day |
 | Global per key | 500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day |
 
-Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](https://docs.aivax.net/docs/authentication.md).
+Public keys can be used for chat completions, the `/api/v1/generations/*` endpoints, RAG semantic search, and RAG answer generation. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](https://docs.aivax.net/docs/authentication.md).
 
 ---
 
@@ -898,7 +1030,7 @@ Each JSONL line represents one document:
 | `docid` | Yes | Document name. Existing documents are matched by this value. |
 | `text` | Yes | Contents to index. |
 | `__ref` | No | Reference ID. |
-| `__tags` | No | Tags. |
+| `__tags` | No | Tags. See [RAG metadata filtering](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for how tags, metadata, and dates pre-filter search results. |
 | `__meta` | No | Metadata object. |
 
 The import works as follows:
@@ -1483,7 +1615,7 @@ These limits apply to every filter, including filters used by memory search and 
 | Minimum `contains` length | 3 characters |
 | Execution time | 10 seconds |
 
-Conditions on `content`, `endswith`, tags, and metadata examine every document in the requested collections, so they take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
+Conditions on `content`, `endswith`, and tags examine every document in the requested collections, so they take longer in large collections. Metadata conditions use an index of metadata values and stay fast in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
 
 - Prefer conditions on `name` (`=`, `in`, `startswith`).
 - Split very large corpora into smaller collections.
@@ -2509,7 +2641,7 @@ Source: https://docs.aivax.net/docs/inference/structured-responses.html
 
 AIVAX can produce structured JSON through two paths:
 
-- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path.
+- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path; [When an LLM returns invalid JSON](https://aivax.net/blog/structured-output-healing-boundary/) explains how truncation, refusals, and repair differ.
 - `response_format`: AIVAX passes a native OpenAI-compatible response format to the provider, or applies healing when `healing_options` is present or automatic JSON Healing is enabled on the account.
 
 Use structured responses when another system will consume the output and free-form text would be fragile.
@@ -4495,6 +4627,8 @@ For example, you can fetch an online article, read a PDF manual, extract text fr
 
 The result is extracted text, not a pixel-perfect copy of the original document. Do not assume that layout, table structure, charts, or embedded images will be reproduced exactly. Spreadsheet extraction does not execute formulas or macros.
 
+For a worked example that fetches a PDF, extracts its text, and turns it into RAG-ready chunks, see [PDF to Markdown for RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
+
 ## Fetch API vs. Media Descriptions
 
 Use the **Fetch API to extract existing text**. Use [Media Descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
@@ -4569,7 +4703,7 @@ Treat extracted text as untrusted source material, not as instructions for your 
 
 ## Pricing and limits
 
-Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 10 MB.
+Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.
 
 | Description | Pricing |
 | --- | ---: |
@@ -5218,7 +5352,7 @@ Source: https://docs.aivax.net/docs/data-processing/text-segmentation.html
 
 Text segmentation divides source documents into semantically cohesive strings that can be embedded or indexed in a RAG collection. It returns segments to your application; it does not create embeddings or store submitted documents.
 
-Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](https://docs.aivax.net/docs/rag/documents.md#import-from-files-with-media-injector).
+Use it when a source document needs reviewable, retrieval-ready boundaries before you create or update collection documents. If you already have focused, self-contained text, you can import it directly. If you want AIVAX to process source files into collection documents, see [Media Injector](https://docs.aivax.net/docs/rag/documents.md#import-from-files-with-media-injector). For a full walkthrough that turns a PDF into segmented, importable chunks, see [PDF to Markdown for RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
 
 To see how segmentation relates to storage, updates, and retrieval, read [where segmentation fits in a RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
@@ -5248,7 +5382,7 @@ For the supported request, response, authentication, and error contract, use the
 
 | Description | Pricing |
 | --- | ---: |
-| Text segmentation | **$0.30/M tokens** |
+| Text segmentation | **$0.10/M tokens** |
 
 An em dash (`—`) means the plan does not impose a limit.
 
@@ -7908,15 +8042,31 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+## Tuesday, November 3rd, 2026
+
+Fixes:
+
+- **Dashboard — Two-factor code prompt no longer stuck loading.** When signing in or switching to a saved account with two-factor authentication, the authentication code dialog shows the code fields instead of staying on "Getting things ready...".
+
+Changes:
+
+- **Account — Step-by-step authenticator setup.** Adding an authenticator in the **Security** tab's two-factor authentication dialog now goes through separate steps. The first step shows the QR code and the secret in **QR code** and **Secret** tabs, with the reminder to save the secret. **Continue** opens the name and six-digit code fields. When the account already has an authenticator, a following step asks for a code from a current one. A confirmation step ends the setup. Invalid codes are shown inside the dialog, and **Back** returns to the previous step without clearing what was typed.
+
 ## Monday, November 2nd, 2026
+
+Breaking changes:
+
+- **API keys — Permissions by key type.** Each API key type now grants a fixed set of permissions, and routes that need a permission the key does not have return `403 Forbidden`, with the missing permissions in the error message. Private keys (`sk-aiv-acc`) can no longer list, create, or delete API keys, roll the account salt, manage authenticators, or reset the login key; use the dashboard instead. Public keys (`pk-aiv-`) can now call every `/api/v1/generations/*` endpoint, including classification, decisions, extraction, reranking, segmentation, summarization and translation. Public keys still cannot read or change account resources, open voice sessions, or use web search and fetch. See [Authentication](https://docs.aivax.net/docs/authentication.md).
 
 Fixes:
 
 - **Dashboard and website — Image model previews are back.** The image model picker on the **Generations** page and the image model catalog on the website show the model preview images again. They had stopped loading after image models moved to `@provider/model` names.
 - **Dashboard — Readable capability icons in the light theme.** On the **Models** page, capability icons are now white on their colored circle in the light theme, instead of dark and hard to see.
+- **RAG — Faster metadata filters in large collections.** [Document filters](https://docs.aivax.net/docs/rag/document-filters.md) with `metadata.<key>` conditions, such as `metadata.path startswith "docs/"`, no longer read the metadata of every document in the collection, so they are much less likely to exceed the execution time limit in large collections. This applies to collection queries, document browsing, memory search and the Collections MCP. Filter syntax and results are unchanged.
 
 Changes:
 
+- **Authentication — OAuth authorization for third-party applications.** Applications can request access to an account without asking for an API key. `POST /api/v1/auth/oauth` creates an authorization request with the application name, a reason, the requested permissions and a return URL, and returns the console address where the account holder approves it. The request expires in one hour. After signing in, the account holder reviews the request, chooses a duration of 1 day, 7 days, 90 days or 1 year, and is redirected back with an `access_token` (`sk-aiv-apk`) that has only the approved permissions. No refresh token is issued, and the API key management permission cannot be requested. Every application key can call `GET /api/v1/accounts`. **My account** has a new **Authorized applications** tab to list and revoke them. See [OAuth](https://docs.aivax.net/docs/oauth.md).
 - **Image generation — Size, format, quality and per-image results.** `POST /api/v1/generations/images` accepts optional `size` (`"1024x1024"` or `{ "width": 1024, "height": 1024 }`, 64 to 4096 pixels per side), `format` (`png`, `jpeg` or `webp`) and `quality` (1 to 100, for `jpeg` and `webp`). Each prompt group keeps `images` and adds `outputs`, with the `url`, `cost` and `error` of every requested image, plus the group `cost`. Failed images have a `null` URL and are not charged. The `generate_image` tool of the [Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md) accepts the same options and reports each image's cost or error, and `aivax generate image` adds `--size`, `--format` and `--quality`. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
 - **Dashboard — Richer image, speech, reranking and decision model catalogs.** On the **Models** page, the **Image models**, **Speech-to-text models**, **Text-to-speech models**, **Reranking models** and **Decision models** tabs show model cards like the **Text models** tab instead of a table. Image model cards show a sample image generated by that model. Each card shows the provider, the model name with a copy button, the description, the release date and the prices by unit, such as per output image, per reference image, per minute, per 1,000 characters or per 1M tokens. When available, it also shows decision model aliases, context size, maximum documents or images per request, supported audio formats, and capabilities such as image editing, mature content, yes/no, choice, score and image input. Badges mark default models, models included in subscriptions, rerankers that can only be used after RAG retrieval, and deprecated models. Each tab has a model search, and clicking the provider name filters by it. The actions menu adds **Model source** when the model has a published source.
 
@@ -7953,10 +8103,6 @@ Changes:
 Fixes:
 
 - **Account — Adding the first authenticator.** Confirming the first authenticator no longer fails with a required-property error. The current authenticator code is only needed when the account already has one.
-
-Changes:
-
-- **Account — Compact two-factor authentication dialog.** The **Security** tab's two-factor authentication dialog is narrower. When adding an authenticator, the QR code is shown next to the secret, followed by the name and six-digit code fields. The dialog closes from its header, and **Cancel** returns to the authenticator list.
 
 ## Wednesday, October 28th, 2026
 

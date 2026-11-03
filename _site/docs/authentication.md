@@ -16,10 +16,15 @@ AIVAX has two key families because browser-facing and server-side use cases have
 
 | Type | Prefix | Intended use | Access |
 | --- | --- | --- | --- |
-| Private key | `sk-aiv-acc` | Server-side integrations and administrative API calls. | Authenticated account APIs and OpenAI-compatible inference. |
-| Public key | `pk-aiv-` | Restricted client-side calls to explicitly public routes. | Public RAG query/answer routes and restricted chat-completion calls. |
+| Private key | `sk-aiv-acc` | Server-side integrations and administrative API calls. | Every authenticated account API except API key and credential management. |
+| Public key | `pk-aiv-` | Restricted client-side calls. | Text inference, generations, and RAG retrieval. |
+| Application key | `sk-aiv-apk` | Third-party applications authorized by the account holder. | The permissions approved through [OAuth](https://docs.aivax.net/docs/oauth.md), plus the account identity. |
 
-Public keys can be used for RAG semantic search, RAG answer generation, speech generation, media descriptions, image generation, and chat completions. When a public key calls chat completions:
+Each key type grants a fixed set of permissions, and each route requires some of them. A request whose key lacks a permission required by the route returns `403 Forbidden`, and the error message names the missing permissions.
+
+Private keys cannot list, create, or delete API keys, roll the account salt, manage authenticators, or reset the login key. Use the dashboard for these operations.
+
+Public keys can be used for chat completions, the `/api/v1/generations/*` endpoints, RAG semantic search, and RAG answer generation. They cannot read or change account resources, open voice sessions, or use the web search and fetch endpoints. When a public key calls chat completions:
 
 - The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.
 - MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options are stripped from the request.
@@ -35,6 +40,10 @@ For a first server-side request, continue with [Make your first request](https:/
 Create and revoke API keys in the API Keys area of the AIVAX dashboard. Keys belong to an account and can have a label, expiration, and type; expired keys are rejected by authentication.
 
 Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Use labels to identify each key's owner and application, and expiration dates to plan when to renew or replace it.
+
+## OAuth authorization
+
+A third-party application can ask an AIVAX account holder for an application key instead of asking them to copy an API key. The account holder reviews the request in the console, chooses how long the access lasts, and can revoke it at any time. See [OAuth](https://docs.aivax.net/docs/oauth.md) for the complete flow, permissions and callback handling.
 
 ## Send a key with Bearer auth
 

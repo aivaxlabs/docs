@@ -7,6 +7,7 @@ Source: https://docs.aivax.net/docs/index.html
 
 - [Welcome](https://docs.aivax.net/docs/overview.md)
 - [Authentication](https://docs.aivax.net/docs/authentication.md)
+- [OAuth](https://docs.aivax.net/docs/oauth.md)
 - [CLI tool](https://docs.aivax.net/docs/cli.md)
 - [Pricing](https://docs.aivax.net/docs/pricing.md)
 - [Plans and Limits](https://docs.aivax.net/docs/limits.md)

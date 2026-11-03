@@ -7,6 +7,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 - [Bem-vindo](https://docs.aivax.net/pt-br/docs/overview.md)
 - [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md)
+- [OAuth](https://docs.aivax.net/pt-br/docs/oauth.md)
 - [Ferramenta de linha de comando](https://docs.aivax.net/pt-br/docs/cli.md)
 - [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)
 - [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md)
@@ -38,7 +39,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Fundação Web
 
 - [Pesquisa na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md)
-- [Buscar e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md)
+- [Buscar e fazer OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md)
 
 ## Geração de mídia
 

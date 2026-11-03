@@ -25,6 +25,8 @@ For example, you can fetch an online article, read a PDF manual, extract text fr
 
 The result is extracted text, not a pixel-perfect copy of the original document. Do not assume that layout, table structure, charts, or embedded images will be reproduced exactly. Spreadsheet extraction does not execute formulas or macros.
 
+For a worked example that fetches a PDF, extracts its text, and turns it into RAG-ready chunks, see [PDF to Markdown for RAG](https://aivax.net/blog/pdf-to-markdown-for-rag-chunks-jsonl/).
+
 ## Fetch API vs. Media Descriptions
 
 Use the **Fetch API to extract existing text**. Use [Media Descriptions](/docs/data-processing/media-descriptions) to **interpret media with AI**, optionally guided by what your application needs to learn from it.
@@ -99,7 +101,7 @@ Treat extracted text as untrusted source material, not as instructions for your 
 
 ## Pricing and limits
 
-Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](/docs/limits#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 10 MB.
+Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either fully covered by the daily included allowance or billed in full at the rates below; coverage is not split within one extraction. See [Included daily subscription allowances](/docs/limits#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.
 
 | Description | Pricing |
 | --- | ---: |
