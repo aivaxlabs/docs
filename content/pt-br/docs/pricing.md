@@ -1,16 +1,16 @@
 ---
-{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: 782f8f32cf3d1187}
+{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: 435da724c0d00720}
 ---
 
 # Preços
 
-A AIVAX cobra o uso do saldo da conta em USD. Cada produto documenta suas próprias tarifas em uma seção de preços dedicada, vinculada abaixo. Esta página abrange as regras compartilhadas por todos os produtos: cotas de assinatura, armazenamento, cabeçalho de custo de solicitação, desconto por compartilhamento de dados e multiplicadores de plano.
+A AIVAX cobra o uso do saldo da conta em USD. Cada produto documenta suas próprias tarifas em uma seção de preços dedicada, vinculada abaixo. Esta página abrange as regras compartilhadas por todos os produtos: cotas de assinatura, armazenamento, cabeçalho de custo de solicitação, desconto para compartilhamento de dados e multiplicadores de plano.
 
 Veja [preços de assinatura](https://aivax.net/pricing) para os preços dos planos mensais e [Planos e limites](limits.md) para as cotas em nível de conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Os preços aproximados (`~`) variam conforme o modelo utilizado e o trabalho realizado.
 
 ## Preços de lista dos planos
 
-Use a página de preços ao escolher um plano em um navegador. Para ler os mesmos preços públicos de lista a partir de um aplicativo, chame `GET /api/v1/information/plans.json`. Nenhuma chave de API é necessária. A resposta lista Free, Pro e Max. Cada entrada possui `plan` e `monthlyPrice` em USD. O plano Free é `0` porque não há taxa de assinatura. Um preço Custom negociado ou o preço atualmente aplicado a uma conta não estão incluídos. Use a API de Assinaturas quando precisar do preço da conta autenticada.
+Use a página de preços ao escolher um plano em um navegador. Para ler os mesmos preços públicos de lista a partir de um aplicativo, chame `GET /api/v1/information/plans.json`. Nenhuma chave de API é necessária. A resposta lista Free, Pro e Max. Cada entrada possui `plan` e `monthlyPrice` em USD. O plano Free é `0` porque não há taxa de assinatura. Um preço Custom negociado ou o preço atualmente aplicado a uma conta não estão incluídos. Use a API Subscriptions quando precisar do preço da conta autenticada.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Plans&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -18,7 +18,7 @@ Use a página de preços ao escolher um plano em um navegador. Para ler os mesmo
 
 | Área | Onde encontrar as tarifas |
 | --- | --- |
-| Inferência e moderação | [Inferência](inference/inference.md#pricing) |
+| Inferência e moderação | [Inferência](/docs/pt-br/inference/chat-completions/concepts.md#pricing) |
 | Testes Agentic | [Testes Agentic](inference/agentic-tests.md#pricing-and-limits) |
 | Voz e Realtime | [Voz e Realtime](inference/voice-session.md#billing-and-limits) |
 | Coleções RAG, busca e respostas | [Coleções](rag/collections.md#pricing-and-limits) |
@@ -49,21 +49,21 @@ Cada plano inclui armazenamento. Excedentes de Pro e Max são cobrados por hora 
 
 ## Cabeçalho de custo de solicitação
 
-As respostas da API incluem um cabeçalho `Consumed-Credits` quando a solicitação cobrou o uso do seu saldo da conta. Seu valor é o total cobrado por essa solicitação em USD, escrito como um número decimal com separador de ponto, por exemplo `Consumed-Credits: 0.000184`. Ele já inclui o multiplicador do plano e cobre todos os itens cobrados durante a solicitação, como inferência, embeddings, reranking e uso de ferramentas.
+As respostas da API incluem um cabeçalho `Consumed-Credits` quando a solicitação cobrou o uso do seu saldo da conta. Seu valor é o total cobrado por aquela solicitação em USD, escrito como um número decimal com separador de ponto, por exemplo `Consumed-Credits: 0.000184`. Ele já inclui o multiplicador do plano e cobre todos os itens cobrados durante a solicitação, como inferência, embeddings, reranking e uso de ferramentas.
 
-Respostas cross-origin expõem `Consumed-Credits` e `X-Request-ID`, então o JavaScript do navegador em outra origem pode lê-los quando estiverem presentes. `X-Request-ID` é o identificador atribuído pela AIVAX àquela solicitação.
+Respostas cross-origin expõem `Consumed-Credits` e `X-Request-ID`, para que o JavaScript do navegador em outra origem possa lê-los quando estiverem presentes. `X-Request-ID` é o identificador atribuído pela AIVAX àquela solicitação.
 
-O cabeçalho é omitido quando a solicitação não cobrou nada, incluindo solicitações rejeitadas pela validação ou totalmente cobertas por uma cota de assinatura diária. Trate a ausência do cabeçalho como zero.
+O cabeçalho é omitido quando a solicitação não cobrou nada, incluindo solicitações rejeitadas por validação ou totalmente cobertas por uma cota de assinatura diária. Trate a ausência do cabeçalho como zero.
 
-O valor cobre apenas as cobranças registradas antes do envio da resposta. O uso registrado posteriormente, como trabalho assíncrono em [Batch](inference/batch.md), não está incluído. Respostas em streaming nunca incluem este cabeçalho, pois ele é adicionado após a produção da resposta. Para uma solicitação em streaming, leia o `cost` registrado na conversa (disponível quando o registro de conversas está habilitado) ou calcule o custo a partir das contagens de tokens relatadas. Use seus registros de uso da conta como fonte da verdade para faturamento.
+O valor cobre apenas as cobranças registradas antes do envio da resposta. O uso registrado posteriormente, como trabalho assíncrono em [Batch](inference/batch.md), não está incluído. Respostas streamadas nunca incluem este cabeçalho, pois ele é adicionado após a produção da resposta. Para uma solicitação streamada, leia o `cost` registrado com a conversa (disponível quando o registro de conversas está habilitado) ou calcule o custo a partir das contagens de tokens relatadas. Use seus registros de uso da conta como fonte da verdade para faturamento.
 
-Analise o valor como um número de ponto flutuante. Valores muito pequenos, como `1E-05`, podem ser escritos em notação científica, e a soma de várias cobranças pode ter ruído de ponto flutuante nos dígitos finais.
+Analise o valor como um número de ponto flutuante. Valores muito pequenos, como `1E-05`, podem ser escritos em notação científica, e a soma de várias cobranças pode apresentar ruído de ponto flutuante em seus últimos dígitos.
 
-## Desconto por Compartilhamento de Dados
+## Desconto para Compartilhamento de Dados
 
 Contas que habilitam o [Compartilhamento de Dados](data-sharing.md) recebem um desconto de 10% no uso de embedding de consulta RAG elegível e nas operações de reranking elegíveis realizadas enquanto o compartilhamento estiver habilitado. Outros serviços mantêm seus preços regulares.
 
-## Multiplicadores de Plano
+## Multiplicadores de plano
 
 As tarifas de uso estão sujeitas ao imposto de inferência do plano:
 
@@ -73,4 +73,4 @@ As tarifas de uso estão sujeitas ao imposto de inferência do plano:
 | Pro | +5% |
 | Max | 0% |
 
-O uso BYOK não é afetado pelos impostos de inferência. As páginas de produto indicam quando uma tarifa está isenta do multiplicador do plano, como na geração de imagens.
+O uso BYOK não é afetado pelos impostos de inferência. As páginas de produto indicam quando uma tarifa é isenta do multiplicador do plano, como na geração de imagens.

@@ -1,20 +1,20 @@
 ---
-{title: Habilidades,linkTitle: Habilidades,weight: 80,group: Inference,aliases: [/docs/pt-br/platform/skills.html,/docs/pt-br/features/skills.html,/docs/pt-br/inference/skills.html],sourceHash: 3810519b9e4f29a9}
+{title: Habilidades,linkTitle: Habilidades,weight: 80,group: Inference,aliases: [/docs/pt-br/platform/skills.html,/docs/pt-br/features/skills.html,/docs/pt-br/inference/skills.html],sourceHash: 07a05727f8a50ff2}
 ---
 
 # Habilidades
 
-As habilidades (também conhecidas como capacidades) são instruções que seu agente carrega sob demanda para realizar tarefas específicas com mais eficiência. Utilize-as para comportamentos especializados que apenas algumas conversas exigem, em vez de manter todas as regras nas instruções do sistema.
+Habilidades (também conhecidas como capacidades) são instruções que seu agente carrega sob demanda para realizar tarefas específicas com mais eficiência. Utilize-as para comportamentos especializados que apenas algumas conversas exigem, em vez de manter todas as regras nas instruções do sistema.
 
 O agente carrega uma habilidade apenas quando ela é relevante para a tarefa atual. Ele faz isso por meio da ferramenta `read_skill`, que adiciona as instruções da habilidade ao contexto da conversa.
 
 ## Como funcionam as habilidades?
 
-Cada habilidade é identificada por um slug e uma breve descrição do que ela faz e quando deve ser usada. Sua conta pode ter muitas habilidades, e cada [AI Gateway](/docs/pt-br/inference/ai-gateway) habilita apenas o subconjunto que precisa.
+Cada habilidade é identificada por um slug e uma breve descrição do que ela faz e quando deve ser usada. Sua conta pode ter muitas habilidades, e cada [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md) habilita apenas o subconjunto que precisa.
 
 No momento da inferência, o fluxo é:
 
-1. O AIVAX lista o slug e a descrição de cada habilidade habilitada no gateway nas instruções do sistema do modelo e adiciona a função `read_skill` ao contexto. As instruções completas não são incluídas neste momento.
+1. AIVAX lista o slug e a descrição de cada habilidade habilitada no gateway nas instruções do sistema do modelo e adiciona a função `read_skill` ao contexto. As instruções completas não são incluídas neste ponto.
 2. Quando uma tarefa corresponde a uma habilidade, o modelo chama `read_skill` com um array de slugs de habilidades.
 3. A chamada retorna as instruções das habilidades correspondentes, cada uma envolvida nas tags `<skill:slug>` e `</skill:slug>`, onde `slug` é o próprio slug da habilidade.
 
@@ -22,8 +22,8 @@ O modelo pode ativar mais de uma habilidade quando uma tarefa abrange múltiplos
 
 Para que isso funcione, o modelo base escolhido deve suportar **chamadas de função** e **instruções do sistema**.
 
-- Se o seu modelo não suportar chamadas de função, considere usar um [manipulador de ferramentas](/docs/pt-br/inference/pipelines#function-interpreter) para lidar com as chamadas de função.
-- Se o seu modelo não suportar instruções do sistema, considere usar o sinalizador `No system instructions`, que fornece as instruções do sistema como uma mensagem do usuário.
+- Se seu modelo não suportar chamadas de função, considere usar um [manipulador de ferramentas](/docs/pt-br/inference/pipelines#function-interpreter) para lidar com as chamadas de função.
+- Se seu modelo não suportar instruções do sistema, considere usar o sinalizador `No system instructions`, que fornece as instruções do sistema como uma mensagem do usuário.
 
 Modelos maiores tendem a seguir instruções e chamadas de função de forma muito estrita. Execute testes para confirmar que seu modelo carrega as habilidades corretas e as alterna quando a tarefa muda.
 
@@ -37,9 +37,9 @@ Uma habilidade possui `slug`, `description`, `instructions` e `options`:
 
 `instructionSources` é armazenado e exportado com a configuração da habilidade, mas apenas o campo inline `instructions` é injetado quando o modelo ativa uma habilidade.
 
-Escreva a descrição como uma regra de roteamento. Uma descrição como “habilidade jurídica” é fraca porque não diz quando usá-la. Uma descrição melhor seria “use quando o usuário pedir análise, revisão ou explicação de cláusulas contratuais em linguagem simples.”
+Escreva a descrição como uma regra de roteamento. Uma descrição como “habilidade jurídica” é fraca porque não diz quando usá-la. Uma descrição melhor seria “use quando o usuário solicitar análise, revisão ou explicação de cláusulas contratuais em linguagem simples.”
 
-As instruções, por outro lado, devem ser operacionais: explique como responder, quais perguntas fazer quando os dados estiverem faltando, quais ferramentas podem ser úteis, quais limites devem ser respeitados e o formato final esperado. O modelo lê a descrição para escolher a habilidade e lê as instruções para executar a tarefa.
+As instruções, por outro lado, devem ser operacionais: explique como responder, quais perguntas fazer quando os dados estiverem ausentes, quais ferramentas podem ser úteis, quais limites devem ser respeitados e o formato final esperado. O modelo lê a descrição para escolher a habilidade e lê as instruções para executar a tarefa.
 
 `allowedToolsNames` faz parte da configuração da habilidade e associa nomes de ferramentas em tempo de execução a uma habilidade, como `web_search`, `open_url`, `generate_image` ou `generate_web_page`. Quando o gateway oculta ferramentas sem uma habilidade, essas ferramentas ficam disponíveis após o modelo ativar a habilidade com `read_skill`.
 
@@ -47,7 +47,7 @@ Apenas as habilidades da chamada `read_skill` bem-sucedida mais recente estão a
 
 ### Importar e exportar habilidades
 
-As habilidades podem ser importadas e exportadas em JSONL. Este formato é útil para versionamento de habilidades, migração de configurações entre contas, manutenção de um conjunto de habilidades em um repositório ou revisão de alterações antes da publicação. Cada linha deve representar uma habilidade com pelo menos `slug` e `instructions`; `description` e `options` podem complementar a configuração. Ao importar uma habilidade com um `slug` existente, o AIVAX atualiza a habilidade correspondente em vez de criar um duplicado.
+As habilidades podem ser importadas e exportadas em JSONL. Este formato é útil para versionamento de habilidades, migração de configurações entre contas, manutenção de um conjunto de habilidades em um repositório ou revisão de alterações antes da publicação. Cada linha deve representar uma habilidade com pelo menos `slug` e `instructions`; `description` e `options` podem complementar a configuração. Ao importar uma habilidade com um `slug` existente, a AIVAX atualiza a habilidade correspondente em vez de criar um duplicado.
 
 ## Como escrever habilidades?
 
@@ -74,12 +74,12 @@ Uma habilidade bem escrita deve conter:
 - **Use linguagem imperativa**: Comece frases com verbos de ação (analyze, explain, compare, list).
 - **Mantenha o escopo limitado**: Cada habilidade deve focar em uma área de conhecimento específica ou tipo de tarefa.
 - **Teste iterativamente**: Refine suas habilidades com base na resposta do modelo na prática.
-- **Evite redundância**: Não repita informações já presentes nas instruções do sistema base.
+- **Evite redundância**: Não repita informações já presentes nas instruções básicas do sistema.
 
 ### Exemplo de habilidade
 
 - Nome: Análise de Desempenho de Código
-- Descrição: Use quando o usuário pedir análise de desempenho, otimização ou identificação de gargalos em código.
+- Descrição: Use quando o usuário solicitar análise de desempenho, otimização ou identificação de gargalos em código.
 - Instruções:
 
 ```markdown
@@ -96,32 +96,32 @@ As habilidades são mais úteis quando o agente precisa de comportamento especia
 
 ### Cenários ideais
 
-**1. Especialização específica de domínio**
+**1. Especialismo específico de domínio**
 - Terminologia técnica específica de uma indústria
 - Conformidade com regulamentações ou padrões
 - Metodologias específicas (Scrum, ITIL, SOC 2, etc.)
 
 **2. Mudança de tom ou estilo**
-- Serviço formal vs. casual
-- Comunicação técnica vs. simplificada
+- Serviço formal versus casual
+- Comunicação técnica versus simplificada
 - Diferentes personas ou papéis
 
 **3. Processos complexos e estruturados**
-- Fluxos de trabalho em várias etapas
-- Análises que seguem estruturas específicas
+- Fluxos de trabalho em múltiplas etapas
+- Análises que seguem frameworks específicos
 - Geração de documentos com formatos rigorosos
 
-**4. Tarefas que exigem contexto extensivo**
+**4. Tarefas que requerem contexto extensivo**
 - Quando as instruções são longas demais para serem incluídas toda vez
 - Conhecimento que é relevante apenas ocasionalmente
 - Múltiplos conjuntos de regras mutuamente exclusivos
 
 ### Quando NÃO usar habilidades
 
-- **Instruções permanentes**: Se as instruções devem estar sempre ativas, coloque-as nas instruções do sistema base.
+- **Instruções permanentes**: Se as instruções devem estar sempre ativas, coloque-as nas instruções básicas do sistema.
 - **Tarefas simples**: Para respostas diretas que não requerem contexto especial.
-- **Conhecimento geral**: Informações que o modelo já conhece bem não precisam ser reforçadas por meio de habilidades.
-- **Poucas ou muitas habilidades**: Busque ter entre 3 e 10 habilidades. Menos que isso, considere usar instruções base. Mais que isso pode confundir o modelo.
+- **Conhecimento geral**: Informações que o modelo já conhece bem não precisam ser reforçadas via habilidades.
+- **Poucas ou muitas habilidades**: Busque ter entre 3 e 10 habilidades. Menos que isso, considere usar instruções básicas. Mais que isso pode confundir o modelo.
 
 ### Comparação: Habilidades vs. Instruções do Sistema
 
@@ -142,4 +142,4 @@ As habilidades são mais úteis quando o agente precisa de comportamento especia
 
 ## Combine habilidades com RAG e pipelines
 
-Use habilidades junto com [coleções](/docs/pt-br/rag/collections) quando a tarefa precisar de conhecimento pesquisável, e com [pipelines](/docs/pt-br/inference/pipelines) quando precisar de política em tempo de evento ou reescrita de mensagens. Para um contexto mais amplo, consulte o [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building effective agents](https://www.anthropic.com/index/building-effective-agents) e a [Documentação do AI Gateway](/docs/pt-br/inference/ai-gateway).
+Use habilidades junto com [coleções](/docs/pt-br/rag/collections) quando a tarefa precisar de conhecimento pesquisável, e com [pipelines](/docs/pt-br/inference/pipelines) quando precisar de política em tempo de evento ou reescrita de mensagens. Para um contexto mais amplo, consulte o [Guia de Engenharia de Prompt](https://www.promptingguide.ai/), [Construindo agentes eficazes](https://www.anthropic.com/index/building-effective-agents) e a [Documentação do AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md).
