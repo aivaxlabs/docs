@@ -117,7 +117,7 @@ The result can be compared with evidence and an agreed process.
 
 “Return JSON” is weaker than defining the form. A downstream application needs to know whether a missing amount becomes an empty string, an omitted field or a special value such as `null`, which means no value. It also needs to handle a refusal, an interrupted answer or a response that fails validation. Decide those cases before connecting the result to a business action.
 
-Related: on AIVAX, this capability is documented as [Structured responses](../../docs/inference/structured-responses.md). Supported options provide schema-based output handling, with behaviour depending on the chosen mode and model. Valid structure does not establish factual truth: a perfectly formatted object can still contain an incorrect category or an unsupported amount. Check the business meaning as well as the format.
+Related: on AIVAX, this capability is documented as [Structured responses](../../docs/inference/structured-responses/concepts.md). Supported options provide schema-based output handling, with behaviour depending on the chosen mode and model. Valid structure does not establish factual truth: a perfectly formatted object can still contain an incorrect category or an unsupported amount. Check the business meaning as well as the format.
 
 ## Combine only what earns its place
 

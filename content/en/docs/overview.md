@@ -12,8 +12,8 @@ You do not need every product for every application. Start with direct inference
 
 | Goal | Start with | Why |
 | --- | --- | --- |
-| Generate or analyze text in one request | [Inference](inference/inference.md) | Call a hosted or BYOK model through the OpenAI-compatible API without creating reusable assistant configuration. |
-| Reuse instructions, knowledge, tools, and model settings | [AI Gateway](inference/ai-gateway.md) | Give your application one stable assistant runtime that can evolve without rebuilding every request. |
+| Generate or analyze text in one request | [Inference](/docs/inference/chat-completions/concepts.md) | Call a hosted or BYOK model through the OpenAI-compatible API without creating reusable assistant configuration. |
+| Reuse instructions, knowledge, tools, and model settings | [AI Gateway](/docs/inference/ai-gateways/concepts.md) | Give your application one stable assistant runtime that can evolve without rebuilding every request. |
 | Search your own documents or generate grounded answers | [RAG collections](rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
 | Reorder candidates your application already retrieved | [Rerankers](rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
 | Publish an assistant to end users | [Chat clients](inference/chat-clients.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
@@ -140,7 +140,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Replace `<MODEL_OR_GATEWAY_ID>` with a hosted model name from the model listing or with an AI Gateway identifier, then run `python quickstart.py`. A successful request prints one generated sentence. If it fails, see [Troubleshoot requests](inference/inference.md#troubleshoot-requests).
+Replace `<MODEL_OR_GATEWAY_ID>` with a hosted model name from the model listing or with an AI Gateway identifier, then run `python quickstart.py`. A successful request prints one generated sentence. If it fails, see [Troubleshoot requests](/docs/inference/chat-completions/troubleshooting.md).
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -186,7 +186,7 @@ The direct host serves only the endpoints below. Paths, authentication, request 
 
 | Method | Path | Endpoint |
 |---|---|---|
-| `POST` | `/v1/chat/completions` or `/api/v1/chat/completions` | [Chat completions](inference/inference.md) with an integrated model or an AI Gateway |
+| `POST` | `/v1/chat/completions` or `/api/v1/chat/completions` | [Chat completions](/docs/inference/chat-completions/concepts.md) with an integrated model or an AI Gateway |
 | `GET` | `/v1/models` or `/api/v1/models` | [Model listing](#make-your-first-request) |
 | `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Send a prompt to a chat-client session](inference/chat-clients.md#sending-prompts-from-your-application) |
 | `POST` | `/api/v2/query`, `/api/v2/query/similar`, or `/api/v2/query/browse` | [Search](rag/semantic-search.md) |
@@ -211,7 +211,7 @@ The endpoints most likely to need the direct host are non-streaming chat complet
 
 ## Next steps
 
-1. Make your first request with the example above, then read [Inference](inference/inference.md) for the full request contract.
+1. Make your first request with the example above, then read [Inference](/docs/inference/chat-completions/concepts.md) for the full request contract.
 2. Read [Authentication](authentication.md) before choosing private keys, public keys, or chat sessions for an application boundary.
 3. Review [Pricing](pricing.md) and [Plans and limits](limits.md) before increasing traffic or processing large collections, media, tests, or Batch jobs.
-4. Move reusable assistant behavior into an [AI Gateway](inference/ai-gateway.md), then add RAG, skills, tools, and a chat client only when the use case requires them.
+4. Move reusable assistant behavior into an [AI Gateway](/docs/inference/ai-gateways/concepts.md), then add RAG, skills, tools, and a chat client only when the use case requires them.

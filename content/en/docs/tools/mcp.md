@@ -4,7 +4,7 @@
 
 # Support for Model Context Protocol (MCP)
 
-You can bind external MCP protocol tools to your [AI Gateway](/docs/inference/ai-gateway). The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
+You can bind external MCP protocol tools to your [AI Gateway](/docs/inference/ai-gateways/concepts.md). The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
 
 AIVAX acts as an MCP client for gateway inference: it connects to the configured MCP source, lists tools, converts each tool schema into a model-callable function, and calls the remote MCP server when the model selects that tool.
 

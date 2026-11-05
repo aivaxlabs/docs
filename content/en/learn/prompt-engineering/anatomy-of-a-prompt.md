@@ -52,7 +52,7 @@ Explore the messages as a briefing rather than a transcript of only what the cus
 
 The customer might see only their question and the final reply. The application may keep system instructions and technical tool details out of the chat interface. Invisible to the customer does not mean absent from the model's input, nor does it make system instructions a safe place to store secrets. Only include information the model needs for its job.
 
-Related: on AIVAX, the configured runtime that combines instructions, a model and connected capabilities is called an [AI gateway](../../docs/inference/ai-gateway.md). That configuration is distinct from the customer's latest message. Separating the two makes it easier to change the customer's request without weakening the service's operating rules.
+Related: on AIVAX, the configured runtime that combines instructions, a model and connected capabilities is called an [AI gateway](../../docs/inference/ai-gateways/concepts.md). That configuration is distinct from the customer's latest message. Separating the two makes it easier to change the customer's request without weakening the service's operating rules.
 
 ## Rebuild the briefing on every turn
 

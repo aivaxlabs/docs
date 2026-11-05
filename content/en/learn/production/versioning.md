@@ -38,7 +38,7 @@ Record the selected model, relevant settings and routing rules, meaning the rule
 
 A **release** is an approved combination of those artefacts made available to users. Give each release a clear label and keep a short inventory of its parts. This avoids a common mistake: testing one prompt against one knowledge set, then accidentally publishing it with a different tool configuration. The label should travel into operational records so a reported problem can be connected to the right combination.
 
-Related: on AIVAX, the reusable configuration that brings these choices together is called an [AI gateway](../../docs/inference/ai-gateway.md). Keeping a release inventory is an operating practice; do not assume a configuration editor automatically provides your complete approval, versioning or rollback process.
+Related: on AIVAX, the reusable configuration that brings these choices together is called an [AI gateway](../../docs/inference/ai-gateways/concepts.md). Keeping a release inventory is an operating practice; do not assume a configuration editor automatically provides your complete approval, versioning or rollback process.
 
 ## Write a change log for decisions
 

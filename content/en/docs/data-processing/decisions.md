@@ -8,7 +8,7 @@ Semantic decisions evaluate named questions against a shared state and return st
 
 A request supplies the model, the evidence in `state`, and a `questions` object. Each question has an ID you choose; the response uses the same ID in `answers`. You can ask different question types in one request without making separate API calls.
 
-Use [structured responses](../inference/structured-responses.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](classification.md).
+Use [structured responses](/docs/inference/structured-responses/concepts.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](classification.md).
 
 ## Choose a model
 

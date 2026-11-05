@@ -99,7 +99,7 @@ Compare stronger candidates using the same source documents and review process. 
 {{< /tab >}}
 {{< /tabs >}}
 
-On AIVAX, reusable model choices and instructions can be managed through an [AI gateway](../../docs/inference/ai-gateway.md). Related: the [inference guide](../../docs/inference/inference.md) describes direct model requests and supported options. Treat configuration as part of the tested system: changing the model behind a stable assistant name can still change its behaviour.
+On AIVAX, reusable model choices and instructions can be managed through an [AI gateway](../../docs/inference/ai-gateways/concepts.md). Related: the [inference guide](../../docs/inference/chat-completions/concepts.md) describes direct model requests and supported options. Treat configuration as part of the tested system: changing the model behind a stable assistant name can still change its behaviour.
 
 What's next: learn how [parameters](parameters.md) adjust the behaviour of the model you selected.
 

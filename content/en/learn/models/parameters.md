@@ -100,7 +100,7 @@ A **stop sequence** is a configured piece of text that tells generation to stop 
 Not immediately. First check whether the prompt asks for the same point several times or whether duplicated source passages encourage repetition. A penalty can suppress necessary terms without solving the underlying instruction problem. Test the change on cases where a product name or field label must appear again.
 {{< /accordion >}}
 
-On AIVAX, these settings are part of supported [inference parameters](../../docs/inference/inference.md) and reusable [AI gateway configuration](../../docs/inference/ai-gateway.md). Related: check those guides for model-specific restrictions rather than assuming every parameter works for every model.
+On AIVAX, these settings are part of supported [inference parameters](../../docs/inference/chat-completions/concepts.md) and reusable [AI gateway configuration](../../docs/inference/ai-gateways/concepts.md). Related: check those guides for model-specific restrictions rather than assuming every parameter works for every model.
 
 What's next: explore [multimodality](multimodality.md), where the inputs and outputs extend beyond text.
 

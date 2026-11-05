@@ -14,8 +14,8 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 
 ## Build an AI application
 
-- [Inference](docs/inference/inference.md) — generate responses with hosted or BYOK models through an OpenAI-compatible API.
-- [AI Gateways](docs/inference/ai-gateway.md) — reuse a model, instructions, RAG, skills, tools, moderation, and inference settings as one assistant runtime.
+- [Inference](/docs/inference/chat-completions/concepts.md) — generate responses with hosted or BYOK models through an OpenAI-compatible API.
+- [AI Gateways](/docs/inference/ai-gateways/concepts.md) — reuse a model, instructions, RAG, skills, tools, moderation, and inference settings as one assistant runtime.
 - [RAG collections](docs/rag/collections.md) — index your own knowledge for semantic search and grounded answers.
 - [Rerankers](docs/rag/reranking.md) — reorder candidate documents by relevance, with or without a managed collection.
 - [Skills](docs/inference/skills.md) — package reusable instructions and operating knowledge for AI Gateways.
@@ -34,7 +34,7 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 
 - [Batch](docs/inference/batch.md) — run the same AI workflow over many independent items in the background.
 - [Agentic Tests](docs/inference/agentic-tests.md) — evaluate complete, goal-oriented conversations and track repeatable gateway regressions.
-- [Structured responses](docs/inference/structured-responses.md) — validate generated JSON against an application contract.
+- [Structured responses](/docs/inference/structured-responses/concepts.md) — validate generated JSON against an application contract.
 - [MCP utilities](docs/mcp-utilities/account-management-mcp.md) — expose account, collection, documentation, web, and inference capabilities to compatible agents.
 
 For endpoint schemas and generated request details, use the [AIVAX API reference](https://inference.aivax.net/apidocs).

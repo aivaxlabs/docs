@@ -95,7 +95,7 @@ A small but complete assistant needs more than a happy-path demonstration. It sh
 
 Ask what each proposed layer improves and what new responsibility it creates. Tools need permissions and failure handling. Knowledge needs ownership and updates. Memory needs retention rules. Skills need clear activation conditions. The goal is not the largest stack of features; it is enough support for the assistant to do a defined job without pretending to have information or authority it lacks.
 
-**Related:** On AIVAX, an [AI gateway](../../docs/inference/ai-gateway.md) brings model configuration and agent capabilities together. The conceptual layers above help you decide what that configuration actually needs.
+**Related:** On AIVAX, an [AI gateway](../../docs/inference/ai-gateways/concepts.md) brings model configuration and agent capabilities together. The conceptual layers above help you decide what that configuration actually needs.
 
 **What's next:** Look closely at the information supplied for each request in [Adding context](adding-context.md).
 

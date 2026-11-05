@@ -1,15 +1,10 @@
 ---
-{title: Structured Responses,linkTitle: Structured Responses,weight: 30,group: Inference}
+{title: JSON Healing,linkTitle: JSON Healing,weight: 20,group: Structured Responses}
 ---
 
-# Structured Responses
+# JSON Healing
 
-AIVAX can produce structured JSON through two paths:
-
-- `response_schema`: AIVAX validates the final model output against a JSON Schema and retries with validation feedback when the output is invalid. This is the JSON Healing path; [When an LLM returns invalid JSON](https://aivax.net/blog/structured-output-healing-boundary/) explains how truncation, refusals, and repair differ.
-- `response_format`: AIVAX passes a native OpenAI-compatible response format to the provider, or applies healing when `healing_options` is present or automatic JSON Healing is enabled on the account.
-
-Use structured responses when another system will consume the output and free-form text would be fragile.
+JSON Healing is how AIVAX makes any model return JSON that matches a schema, including models without native structured output. It is enabled by `response_schema`, by `healing_options` in `response_format`, or by automatic JSON Healing in the account settings.
 
 ## How JSON Healing works
 
@@ -21,17 +16,7 @@ When `response_schema` is present, AIVAX adds schema instructions to the model r
 
 If the extracted JSON does not validate against the schema, AIVAX adds a feedback message with the validation errors and asks the model to generate the JSON again. This continues until a valid JSON value is generated or the configured attempt limit is reached.
 
-JSON Healing improves reliability, but it is not an absolute guarantee. If the model repeatedly fails the schema, the request can fail after the attempt limit.
-
-## Choosing a mode
-
-Use `response_schema` when AIVAX should own validation and repair. This is the safest mode for models that do not natively support structured output, for responses that use tools before producing JSON, and for systems that cannot tolerate malformed JSON.
-
-Use `response_format` with `type: "json_schema"` when the provider model should handle the structured output natively. AIVAX will still use the schema internally, and healing is applied when `response_format.json_schema.healing_options` is provided or the account has automatic JSON Healing enabled.
-
-Use `json_only: true` when the HTTP response body should contain only the final JSON. This removes the normal chat completion envelope, choices, usage, and generation metadata from the response body.
-
-For a troubleshooting checklist covering refusals, incomplete streams, and native enforcement versus healing, read [How to fix invalid JSON from an LLM API with structured outputs](https://aivax.net/blog/structured-output-healing-boundary/).
+JSON Healing improves reliability, but it is not an absolute guarantee. If the model repeatedly fails the schema, the request can fail after the attempt limit; see [When healing fails](#when-healing-fails).
 
 ## Basic example
 
@@ -163,43 +148,14 @@ You can explicitly enable JSON Healing inside `response_format.json_schema`:
 
 `max_attempts` must be between 1 and 10. Each retry is another model generation attempt and can increase cost and latency.
 
+## When healing fails
+
+When every attempt produces invalid JSON, the request fails with the message `Failed to generate a valid JSON response. Please, try again later.`:
+
+- Without streaming, the response is HTTP `503` with the error code `service_unavailable` and the header `Retry-After: 5`.
+- With streaming, the stream ends with a chunk whose `finish_reason` is `error` and whose `error` object carries the code and message, followed by `[DONE]`. See [Streaming](/docs/inference/chat-completions/streaming.md).
+
 If healing frequently reaches the attempt limit, adjust the instruction and schema before raising the limit. Common causes are overly rigid schemas, missing `required` fields, vague prompts, noisy tool results, or a model that is too small for the task.
-
-## `json_only` mode
-
-Set `json_only: true` when the client should receive only the generated JSON:
-
-```json
-{
-    "model": "@openai/gpt-4o",
-    "messages": [
-        {
-            "role": "user",
-            "content": "List 3 European capitals."
-        }
-    ],
-    "response_schema": {
-        "type": "object",
-        "properties": {
-            "capitals": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "city": { "type": "string" },
-                        "country": { "type": "string" }
-                    },
-                    "required": ["city", "country"]
-                }
-            }
-        },
-        "required": ["capitals"]
-    },
-    "json_only": true
-}
-```
-
-With `stream: false`, the HTTP response body is the final JSON with `Content-Type: application/json`. With `stream: true`, AIVAX sends the complete JSON as one SSE data event and then sends `[DONE]`.
 
 ## Supported schema features
 

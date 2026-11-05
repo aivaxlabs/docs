@@ -68,7 +68,7 @@ That gives the model a clear action, trigger, and limitation. A vague descriptio
 
 ## Defining protocol functions
 
-Protocol functions are defined in the [AI Gateway](/docs/inference/ai-gateway). You can declare them directly in the gateway when the list is stable, or provide a remote source that returns the function list when the catalog is managed by another service.
+Protocol functions are defined in the [AI Gateway](/docs/inference/ai-gateways/concepts.md). You can declare them directly in the gateway when the list is stable, or provide a remote source that returns the function list when the catalog is managed by another service.
 
 The direct form is the simplest option. Use it when the function list changes rarely and belongs to the gateway configuration itself.
 

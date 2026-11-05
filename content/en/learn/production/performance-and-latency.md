@@ -68,7 +68,7 @@ Give the model relevant context and an appropriate answer length. Brevity must s
 {{< /card >}}
 {{< /cards >}}
 
-Related: on AIVAX, reusable choices about a model, knowledge and tools are stored in an [AI gateway](../../docs/inference/ai-gateway.md). Treat any configuration change as something to measure, not as a promise that every conversation becomes faster.
+Related: on AIVAX, reusable choices about a model, knowledge and tools are stored in an [AI gateway](../../docs/inference/ai-gateways/concepts.md). Treat any configuration change as something to measure, not as a promise that every conversation becomes faster.
 
 ## Bound waiting and handle failure honestly
 

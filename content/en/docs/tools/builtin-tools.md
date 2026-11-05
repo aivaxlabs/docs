@@ -28,7 +28,7 @@ Treat generation tools (image, document, and web page) as output actions. They d
 You can enable tools in two places:
 
 - **In the request**, through `builtin_tools`. The calling application chooses the list for each inference. Use this for testing, internal routines, and flows where the application truly needs to choose tools dynamically.
-- **In the [AI Gateway](/docs/inference/ai-gateway)**. The list is centralized and can be combined with skills, workers, MCP, protocol functions, and shell. Prefer the gateway for permanent production policies, because it prevents different clients from enabling different tools without control.
+- **In the [AI Gateway](/docs/inference/ai-gateways/concepts.md)**. The list is centralized and can be combined with skills, workers, MCP, protocol functions, and shell. Prefer the gateway for permanent production policies, because it prevents different clients from enabling different tools without control.
 
 The values in `builtin_tools.tools` are configuration flags such as `WebSearch`, `Code`, and `OpenUrl`. The model sees runtime function names such as `web_search`, `evaluate_code`, and `open_url`. Use runtime function names when configuring skill tool allowlists or shell tool allowlists.
 

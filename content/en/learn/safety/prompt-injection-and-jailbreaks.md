@@ -113,7 +113,7 @@ Measure the whole outcome. A polite refusal does not prove safety if a tool alre
 Clear instructions are useful, but they do not make untrusted text safe. The model may still confuse evidence with authority. Permission enforcement, narrow tool access, reviewable approvals and monitoring limit the consequences when that happens. No single layer eliminates every injection or jailbreak attempt.
 {{< /accordion >}}
 
-Related learning: [Adding guardrails](../agents/adding-guardrails.md) explains checks around an agent, while [Authentication and permissions](../tools-and-integrations/authentication-and-permissions.md) separates identity from allowed actions. On AIVAX, the configured agent runtime is an [AI gateway](../../docs/inference/ai-gateway.md); review its tools and surrounding application controls together.
+Related learning: [Adding guardrails](../agents/adding-guardrails.md) explains checks around an agent, while [Authentication and permissions](../tools-and-integrations/authentication-and-permissions.md) separates identity from allowed actions. On AIVAX, the configured agent runtime is an [AI gateway](../../docs/inference/ai-gateways/concepts.md); review its tools and surrounding application controls together.
 
 What's next: learn how to reduce unnecessary exposure in [Privacy, LGPD/GDPR and sensitive data](privacy-lgpd-gdpr.md).
 

@@ -90,7 +90,7 @@ Model calls process **tokens**, the pieces of text a model reads and writes. Eac
 
 Reduce waste by requesting focused tool results, keeping a concise factual work record and avoiding repeated checks of unchanged information. Summaries should preserve important evidence, uncertainty and approval boundaries; shortening history must not remove the fact that sending is forbidden. Choose a budget appropriate to the value of the decision, then measure completed outcomes rather than rewarding longer plans.
 
-**Related:** On AIVAX, reusable instructions, tools and context settings belong to an [AI gateway](../../docs/inference/ai-gateway.md). Those settings are part of configuring the agent; your application still needs explicit completion criteria and control over the overall task.
+**Related:** On AIVAX, reusable instructions, tools and context settings belong to an [AI gateway](../../docs/inference/ai-gateways/concepts.md). Those settings are part of configuring the agent; your application still needs explicit completion criteria and control over the overall task.
 
 What's next: explore how the same boundaries apply when work is divided in [Multi-agent architectures and orchestration](multi-agent-architectures.md).
 

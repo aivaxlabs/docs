@@ -6,7 +6,7 @@
 
 AI Gateway pipelines are the processing steps AIVAX applies before and during inference. They can add context, rewrite queries, expose tools, moderate input, route models, truncate conversations, and call external workers.
 
-Most pipelines are configured in the [AI Gateway](/docs/inference/ai-gateway) parameters. Request-level options can override some inference parameters on direct [`chat/completions`](/docs/inference/inference) calls.
+Most pipelines are configured in the [AI Gateway](/docs/inference/ai-gateways/concepts.md) parameters. Request-level options can override some inference parameters on direct [`chat/completions`](/docs/inference/chat-completions/concepts.md) calls.
 
 ## RAG
 
@@ -46,7 +46,7 @@ Remote instruction sources are fetched as text, and each response can be at most
 
 If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. Keep these failure rules in mind:
 
-- A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) is cached for the full cache duration, like a successful one.
+- A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) contributes no text and is cached for at most 30 seconds, or for the configured duration when it is shorter.
 - There is no stale-if-error fallback. If a previously good source expires during an outage, the model receives only the `# <name>` title with no body (or nothing, if the source has no name).
 - No error or log entry is shown when this happens.
 
@@ -60,7 +60,7 @@ Read more about [skills](/docs/inference/skills).
 
 ## Multimodal pre-processing
 
-Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](/docs/inference/inference#multimodal-pre-processing) for the accepted engines.
+Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](/docs/inference/chat-completions/multimodal-pre-processing.md) for the accepted engines.
 
 The gateway setting `multimodalResolverParameters` replaces the deprecated `enabledMultimodalFeatures` flags. Gateways that still use the flags keep working with the equivalent engines until `multimodalResolverParameters` is set.
 

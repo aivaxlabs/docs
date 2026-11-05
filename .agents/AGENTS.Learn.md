@@ -41,7 +41,7 @@ Do not add a `# H1` in the body; the layout renders the title. Start with a para
 - Markdown tables are fine for option comparisons (they render well in HTML and Markdown outputs).
 - GitHub-style alerts are available: `> [!NOTE]`, `> [!TIP]`, `> [!IMPORTANT]`, `> [!WARNING]`, `> [!CAUTION]`.
 - Mermaid diagrams are supported with a ```` ```mermaid ```` fence (flowchart, sequence). Keep them small (≤ 10 nodes) and label edges in plain words.
-- Links between units: relative Markdown, e.g. `[Adding tools](adding-tools.md)` or `[What is a RAG](../teaching-agents/what-is-a-rag.md)`. Links to docs: `[AI gateways](../../docs/inference/ai-gateway.md)`. Every link must resolve; the build warns on unresolved links.
+- Links between units: relative Markdown, e.g. `[Adding tools](adding-tools.md)` or `[What is a RAG](../teaching-agents/what-is-a-rag.md)`. Links to docs: `[AI gateways](../../docs/inference/ai-gateways/concepts.md)`. Every link must resolve; the build warns on unresolved links.
 - Do not reference AIVAX internals, class names, or unpublished behaviour. Mentioning "On AIVAX, this is called an AI gateway" with a link is fine.
 
 ## Shortcodes

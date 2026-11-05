@@ -18,7 +18,7 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 | Area | Where to find rates |
 | --- | --- |
-| Inference and moderation | [Inference](inference/inference.md#pricing) |
+| Inference and moderation | [Inference](/docs/inference/chat-completions/concepts.md#pricing) |
 | Agentic Tests | [Agentic Tests](inference/agentic-tests.md#pricing-and-limits) |
 | Voice and Realtime | [Voice and Realtime](inference/voice-session.md#billing-and-limits) |
 | RAG collections, search, and answers | [Collections](rag/collections.md#pricing-and-limits) |

@@ -102,7 +102,7 @@ Model listing calls use the per-account quotas documented in [Plans and limits](
 
 Use the documentation MCP when you want an assistant to answer AIVAX questions from source-backed context instead of memory. This is useful in IDEs, support tools, onboarding agents, internal implementation copilots, and evaluation workflows where the assistant should search the manual before recommending a route, parameter, feature, model, or debugging step.
 
-It is also helpful for agent-building workflows. Before creating or editing an [AI Gateway](/docs/inference/ai-gateway), an assistant can search for the relevant feature, check model capabilities, then explain what configuration should be used and why. For example, it can compare built-in tools, MCP functions, server-side functions, workers, RAG collections, structured responses, and multimodal pre-processing before suggesting a design.
+It is also helpful for agent-building workflows. Before creating or editing an [AI Gateway](/docs/inference/ai-gateways/concepts.md), an assistant can search for the relevant feature, check model capabilities, then explain what configuration should be used and why. For example, it can compare built-in tools, MCP functions, server-side functions, workers, RAG collections, structured responses, and multimodal pre-processing before suggesting a design.
 
 For troubleshooting, the documentation MCP helps the assistant move from an error message to the likely product boundary. It can search for authentication rules, plan limits, multimodal balance requirements, RAG search parameters, gateway behavior, or public-key restrictions, then produce a focused checklist that reflects AIVAX behavior.
 

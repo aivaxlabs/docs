@@ -6,7 +6,7 @@
 
 The Collections MCP exposes one or more AIVAX RAG collections as tools for compatible MCP clients. Use it when an external model, agent, IDE, or desktop assistant should decide when to search an AIVAX knowledge base.
 
-For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](/docs/inference/ai-gateway) and let the gateway RAG pipeline retrieve documents automatically.
+For a typical AIVAX chat client, it is often simpler to attach the collection directly to an [AI Gateway](/docs/inference/ai-gateways/concepts.md) and let the gateway RAG pipeline retrieve documents automatically.
 
 For information about creating collections, preparing documents, and improving retrieval quality, see [Collections](/docs/rag/collections), [Documents](/docs/rag/documents), and [Semantic Search](/docs/rag/semantic-search).
 

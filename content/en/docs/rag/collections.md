@@ -31,7 +31,7 @@ The **collection context** describes the knowledge base to an AI Gateway when th
 After adding and indexing documents, you can:
 
 - Search it directly with [Search](semantic-search.md), optionally narrowed with [advanced filters](document-filters.md) and reordered with a [reranker](reranking.md).
-- Attach it to an [AI Gateway](../inference/ai-gateway.md) so retrieved documents are placed into the model context automatically.
+- Attach it to an [AI Gateway](/docs/inference/ai-gateways/concepts.md) so retrieved documents are placed into the model context automatically.
 - Expose it to MCP clients through the [Collections and RAG MCP](../mcp-utilities/collections-mcp.md).
 - Monitor its retrieval quality and search history in the Console; see [RAG Observability](observability.md).
 

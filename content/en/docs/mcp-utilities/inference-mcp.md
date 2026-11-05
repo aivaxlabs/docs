@@ -6,7 +6,7 @@
 
 The Inference MCP exposes an AIVAX integrated model or AI Gateway as a tool for compatible MCP clients. Use it when another model, agent, IDE, or desktop assistant should call the configured AIVAX model or gateway as a sub-agent.
 
-For information about configuring models, instructions, RAG, tools, and workers on the underlying gateway, see [AI Gateways](/docs/inference/ai-gateway).
+For information about configuring models, instructions, RAG, tools, and workers on the underlying gateway, see [AI Gateways](/docs/inference/ai-gateways/concepts.md).
 
 ## Endpoint
 

@@ -104,7 +104,7 @@ The tabs group terms alphabetically. Each entry gives a short meaning and points
 
 **Retry** — Another attempt after a failed or uncertain operation, subject to limits and duplicate-action checks; see [Errors, retries, and fallbacks](../advanced-agents/errors-retries-and-fallbacks.md).
 
-**Schema** — A description of the required shape and types of data, not proof that the values are factually correct; see [structured responses](../../docs/inference/structured-responses.md).
+**Schema** — A description of the required shape and types of data, not proof that the values are factually correct; see [structured responses](../../docs/inference/structured-responses/concepts.md).
 
 **Semantic search** — Finding content by meaning rather than relying only on exact word matches; see [Embeddings and semantic search](../models/embeddings-and-semantic-search.md).
 
