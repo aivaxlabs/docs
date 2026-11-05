@@ -1,9 +1,15 @@
+{{- /**/ -}}
 # {{ .Title }}
 
 Source: {{ .Permalink }}
-{{ $path := .Path }}
-{{ range partialCached "docs-groups.html" . .Lang }}{{ if or (eq $path "/docs") (eq .section.Path $path) }}
+{{ if eq .Path "/docs" }}{{ range partialCached "docs-groups.html" . .Lang }}
 ## {{ .title }}
 
 {{ range .pages }}- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }})
+{{ end }}{{ end }}{{ else }}{{ range .Pages.ByWeight }}{{ if eq .Kind "section" }}
+## {{ .Title }}
+
+{{ range .RegularPages.ByWeight }}- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }})
+{{ end }}{{ else }}
+- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").Permalink }})
 {{ end }}{{ end }}{{ end }}

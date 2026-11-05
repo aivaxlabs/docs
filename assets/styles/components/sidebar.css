@@ -87,6 +87,30 @@
     opacity: .8;
 }
 
+.nav-subgroup {
+    margin-top: 8px;
+}
+
+.sidebar a.nav-subgroup-title {
+    margin: 0;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    opacity: 1;
+}
+
+.nav-subgroup > ul {
+    margin: 2px 0 4px 10px;
+    padding-left: 8px;
+    border-left: 1px solid var(--border);
+}
+
+.nav-subgroup > ul a[aria-current]::before {
+    left: -9px;
+}
+
 .sidebar-api li.is-open > a {
     color: var(--text);
 }

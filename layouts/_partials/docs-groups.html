@@ -1,8 +1,21 @@
 {{- $groups := slice -}}
 {{- with site.GetPage "/docs" -}}
-    {{- $groups = $groups | append (dict "title" (T "welcome") "section" . "pages" .RegularPages.ByWeight) -}}
+    {{- $items := slice -}}
+    {{- range .RegularPages.ByWeight }}{{ $items = $items | append (dict "page" .) }}{{ end -}}
+    {{- $groups = $groups | append (dict "title" (T "welcome") "section" . "pages" .RegularPages.ByWeight "items" $items) -}}
     {{- range .Sections.ByWeight -}}
-        {{- $groups = $groups | append (dict "title" .Title "section" . "pages" .RegularPages.ByWeight) -}}
+        {{- $pages := slice -}}
+        {{- $items = slice -}}
+        {{- range .Pages.ByWeight -}}
+            {{- if eq .Kind "section" -}}
+                {{- $items = $items | append (dict "title" .Title "section" . "pages" .RegularPages.ByWeight) -}}
+                {{- range .RegularPages.ByWeight }}{{ $pages = $pages | append . }}{{ end -}}
+            {{- else -}}
+                {{- $items = $items | append (dict "page" .) -}}
+                {{- $pages = $pages | append . -}}
+            {{- end -}}
+        {{- end -}}
+        {{- $groups = $groups | append (dict "title" .Title "section" . "pages" $pages "items" $items) -}}
     {{- end -}}
 {{- end -}}
 {{- return $groups -}}

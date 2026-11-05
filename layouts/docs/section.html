@@ -1,14 +1,26 @@
 {{ define "main" }}
-{{ $groups := partialCached "docs-groups.html" . .Lang }}
-{{ if ne .Path "/docs" }}
-    {{ $path := .Path }}
-    {{ $groups = where $groups "section.Path" $path }}
+{{ $groups := slice }}
+{{ if eq .Path "/docs" }}
+    {{ $groups = partialCached "docs-groups.html" . .Lang }}
+{{ else }}
+    {{ $direct := slice }}
+    {{ range .Pages.ByWeight }}
+        {{ if eq .Kind "section" }}
+            {{ $groups = $groups | append (dict "title" .Title "pages" .RegularPages.ByWeight) }}
+        {{ else }}
+            {{ $direct = $direct | append . }}
+        {{ end }}
+    {{ end }}
+    {{ with $direct }}{{ $groups = $groups | append (dict "title" $.Title "pages" .) }}{{ end }}
 {{ end }}
 
 <article class="article">
     <div class="article-header">
         <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore>
             <a href="{{ (site.GetPage "/docs").RelPermalink }}">{{ T "docs" }}</a>
+            {{ with .Parent }}{{ if and (ne .Path "/docs") (ne .Kind "home") }}
+            {{ partial "icon.html" "arrow-right" }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            {{ end }}{{ end }}
         </nav>
         {{ partial "page-actions.html" . }}
     </div>
@@ -21,12 +33,10 @@
             <h2 id="{{ .title | anchorize }}">{{ .title }}</h2>
             <div class="summary-grid">
                 {{ range .pages }}
-                {{ if ne .Kind "section" }}
                 <a class="summary-card" href="{{ .RelPermalink }}">
                     <strong>{{ .Title }}</strong>
                     <span>{{ .Summary | plainify | truncate 140 }}</span>
                 </a>
-                {{ end }}
                 {{ end }}
             </div>
         </section>

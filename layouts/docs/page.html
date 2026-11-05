@@ -1,14 +1,16 @@
 {{ define "main" }}
+{{ $ancestors := slice }}
+{{ range .Ancestors.Reverse }}{{ if and (ne .Kind "home") (ne .Path "/docs") }}{{ $ancestors = $ancestors | append . }}{{ end }}{{ end }}
 {{ $group := T "welcome" }}
-{{ with .Parent }}{{ if ne .Path "/docs" }}{{ $group = .Title }}{{ end }}{{ end }}
+{{ with $ancestors }}{{ $titles := slice }}{{ range . }}{{ $titles = $titles | append .Title }}{{ end }}{{ $group = delimit $titles " / " }}{{ end }}
 <article class="article" data-pagefind-body data-pagefind-meta="section:docs">
     <span hidden data-pagefind-meta="path:{{ T "docs" }} / {{ $group }}"></span>
     <div class="article-header">
         <nav class="breadcrumb" aria-label="Breadcrumb" data-pagefind-ignore>
             <a href="{{ (site.GetPage "/docs").RelPermalink }}">{{ T "docs" }}</a>
-            {{ with .Parent }}{{ if ne .Path "/docs" }}
-            {{ partial "icon.html" "arrow-right" }}<span>{{ .Title }}</span>
-            {{ end }}{{ end }}
+            {{ range $index, $section := $ancestors }}
+            {{ partial "icon.html" "arrow-right" }}{{ if $index }}<a href="{{ $section.RelPermalink }}">{{ $section.Title }}</a>{{ else }}<span>{{ $section.Title }}</span>{{ end }}
+            {{ end }}
         </nav>
         {{ partial "page-actions.html" . }}
     </div>

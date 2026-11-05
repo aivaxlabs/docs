@@ -4,10 +4,23 @@
         <div class="nav-group">
             <p class="nav-group-title">{{ .title }}</p>
             <ul>
-                {{ range .pages }}
+                {{ range .items }}
+                {{ with .page }}
                 <li>
                     <a href="{{ .RelPermalink }}" {{ if eq .RelPermalink $.RelPermalink }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
                 </li>
+                {{ else }}
+                <li class="nav-subgroup">
+                    <a class="nav-subgroup-title" href="{{ .section.RelPermalink }}" {{ if eq .section.RelPermalink $.RelPermalink }}aria-current="page"{{ end }}>{{ .title }}</a>
+                    <ul>
+                        {{ range .pages }}
+                        <li>
+                            <a href="{{ .RelPermalink }}" {{ if eq .RelPermalink $.RelPermalink }}aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </li>
+                {{ end }}
                 {{ end }}
             </ul>
         </div>
