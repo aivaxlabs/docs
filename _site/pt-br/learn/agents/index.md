@@ -7,9 +7,9 @@ Como um modelo de linguagem se torna um agente: contexto, ferramentas, habilidad
 
 ## Agentes
 
-- [Introdução a agentes de IA](https://docs.aivax.net/pt-br/learn/agents/introduction-to-ai-agents.md)
+- [Introdução aos agentes de IA](https://docs.aivax.net/pt-br/learn/agents/introduction-to-ai-agents.md)
 - [O que é um LLM](https://docs.aivax.net/pt-br/learn/agents/what-is-an-llm.md)
-- [De LLMs para agentes](https://docs.aivax.net/pt-br/learn/agents/from-llms-to-agents.md)
+- [De LLMs a agentes](https://docs.aivax.net/pt-br/learn/agents/from-llms-to-agents.md)
 - [Adicionando contexto](https://docs.aivax.net/pt-br/learn/agents/adding-context.md)
 - [Adicionando ferramentas](https://docs.aivax.net/pt-br/learn/agents/adding-tools.md)
 - [Adicionando habilidades](https://docs.aivax.net/pt-br/learn/agents/adding-skills.md)

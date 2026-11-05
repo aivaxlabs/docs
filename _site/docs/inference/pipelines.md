@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/docs/inference/pipelines.html
 
 AI Gateway pipelines are the processing steps AIVAX applies before and during inference. They can add context, rewrite queries, expose tools, moderate input, route models, truncate conversations, and call external workers.
 
-Most pipelines are configured in the [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) parameters. Request-level options can override some inference parameters on direct [`chat/completions`](https://docs.aivax.net/docs/inference/inference.md) calls.
+Most pipelines are configured in the [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) parameters. Request-level options can override some inference parameters on direct [`chat/completions`](https://docs.aivax.net/docs/inference/chat-completions/concepts.md) calls.
 
 ## RAG
 
@@ -44,7 +44,7 @@ Remote instruction sources are fetched as text, and each response can be at most
 
 If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. Keep these failure rules in mind:
 
-- A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) is cached for the full cache duration, like a successful one.
+- A failed fetch (an HTTP error such as 404 or 500, a connection error, a private URL, or a response over the limit) contributes no text and is cached for at most 30 seconds, or for the configured duration when it is shorter.
 - There is no stale-if-error fallback. If a previously good source expires during an outage, the model receives only the `# <name>` title with no body (or nothing, if the source has no name).
 - No error or log entry is shown when this happens.
 
@@ -58,7 +58,7 @@ Read more about [skills](https://docs.aivax.net/docs/inference/skills.md).
 
 ## Multimodal pre-processing
 
-Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](https://docs.aivax.net/docs/inference/inference.md#multimodal-pre-processing) for the accepted engines.
+Multimodal pre-processing converts selected media content into text before the main model call. Each content type (images, audio, video, and files) uses its own engine: a smaller (`InferenceLow`) or larger (`InferenceHigh`) multimodal model, OCR for images and files, or speech-to-text for audio. See [Multimodal pre-processing](https://docs.aivax.net/docs/inference/chat-completions/multimodal-pre-processing.md) for the accepted engines.
 
 The gateway setting `multimodalResolverParameters` replaces the deprecated `enabledMultimodalFeatures` flags. Gateways that still use the flags keep working with the equivalent engines until `multimodalResolverParameters` is set.
 
@@ -162,7 +162,7 @@ Moderation enforces safety policy on user requests before the main model answers
 
 The `moderationParameters.mode` field selects how moderation runs:
 
-- `LayeredGuardrail` (default): An independent safeguard model analyzes the conversation's input text before the main model. Flagged conversations are blocked, and the main model responds with a refusal. Moderation usage is billed as described in [Inference pricing](https://docs.aivax.net/docs/inference/inference.md#pricing).
+- `LayeredGuardrail` (default): An independent safeguard model analyzes the conversation's input text before the main model. Flagged conversations are blocked, and the main model responds with a refusal. Moderation usage is billed as described in [Inference pricing](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#pricing).
 - `SelfAssessment`: No separate safeguard model runs, so there is no moderation analysis charge. The main model receives moderation instructions built from the same category sensitivity levels and additional rules, plus an internal refusal tool. When the model judges that the latest request reaches the boundary of an enabled category, it calls the tool with a reason, the violated categories, and a final message for the user. The inference ends immediately, other tool calls from that turn are skipped, the final message is returned as the assistant reply, and the response is marked as a refusal. The request is rejected when the selected model does not support tool calling.
 
 Because `SelfAssessment` relies on the main model's judgment instead of an independent classifier, it trades lower latency and cost for weaker isolation: it is not an independent layer, and enforcement quality depends on the model.
@@ -245,7 +245,7 @@ Moderation currently applies only to input text:
 - Generated output is not moderated.
 - Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
 - Tool or worker authorization still requires application-level policy; moderation is not an authorization mechanism.
-- In `LayeredGuardrail` mode, moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage (see [Inference pricing](https://docs.aivax.net/docs/inference/inference.md#pricing)). `SelfAssessment` mode adds no separate inference.
+- In `LayeredGuardrail` mode, moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage (see [Inference pricing](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#pricing)). `SelfAssessment` mode adds no separate inference.
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 

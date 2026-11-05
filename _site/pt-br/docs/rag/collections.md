@@ -2,52 +2,52 @@ Source: https://docs.aivax.net/pt-br/docs/rag/collections.html
 
 # Coleções
 
-AIVAX fornece um serviço RAG (Retrieval-Augmented Generation) para armazenar conhecimento e recuperá-lo posteriormente por meio de busca semântica. Uma coleção é uma base de conhecimento de propriedade da conta: ela agrupa os [documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) que pertencem juntos e é a unidade que você pesquisa, anexa a um gateway de IA e mantém.
+A AIVAX oferece um serviço RAG (Geração Aumentada por Recuperação) para armazenar conhecimento e recuperá-lo posteriormente por meio de busca semântica. Uma coleção é uma base de conhecimento de propriedade da conta: ela agrupa os [documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) que pertencem juntos e é a unidade que você pesquisa, anexa a um Gateway de IA e mantém.
 
-Compare o armazenamento vetorial com o pipeline de ingestão e recuperação ao redor em [RAG vs vector database](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
+Compare o armazenamento vetorial com o pipeline de ingestão e recuperação circundante em [RAG vs banco de dados vetorial](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
 ## Quando criar uma coleção
 
-Use coleções para separar conhecimento que pertence a diferentes bases de conhecimento, produtos, locatários, idiomas ou propósitos operacionais. Por exemplo, uma coleção de suporte pode conter respostas do centro de ajuda, uma coleção jurídica pode conter cláusulas de contrato e uma coleção de produto pode conter descrições, políticas e notas de solução de problemas.
+Use coleções para separar conhecimentos que pertencem a diferentes bases de conhecimento, produtos, inquilinos, idiomas ou propósitos operacionais. Por exemplo, uma coleção de suporte pode conter respostas do centro de ajuda, uma coleção jurídica pode conter cláusulas contratuais e uma coleção de produto pode conter descrições, políticas e notas de solução de problemas.
 
-Prefira várias coleções focadas em vez de uma única coleção grande quando o conteúdo for pesquisado por diferentes públicos ou aplicações. Uma pesquisa pode incluir várias coleções ao mesmo tempo, enquanto o limite de uma coleção mantém conteúdo não relacionado fora dos resultados, simplifica a manutenção e mantém os [filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) rápidos.
+Prefira várias coleções focadas a uma única coleção grande quando o conteúdo for pesquisado por diferentes públicos ou aplicativos. Uma pesquisa pode incluir várias coleções simultaneamente, enquanto os limites da coleção mantêm conteúdos não relacionados fora dos resultados, simplificam a manutenção e mantêm os [filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) rápidos.
 
 ## O que uma coleção contém
 
-Cada coleção tem:
+Cada coleção possui:
 
-- Um ID de coleção único.
+- Um ID de coleção exclusivo.
 - Um nome.
 - Contexto opcional e tags contextuais.
 - Um conjunto de documentos e seu estado de indexação.
-- Estatísticas de uso baseadas nas pesquisas realizadas sobre ela.
+- Estatísticas de uso baseadas nas pesquisas realizadas nela.
 
-O **contexto da coleção** descreve a base de conhecimento para um gateway de IA quando a coleção é usada para RAG, por exemplo o público, escopo e como o conteúdo deve ser usado. Mantenha-o durável e abrangente para toda a coleção; orientações de importação específicas da fonte pertencem à própria importação.
+O **contexto da coleção** descreve a base de conhecimento para um Gateway de IA quando a coleção é usada para RAG, por exemplo, o público-alvo, o escopo e como o conteúdo deve ser usado. Mantenha-o durável e amplo para a coleção; as orientações específicas de importação da fonte pertencem à própria importação.
 
 ## Usar uma coleção
 
 Após adicionar e indexar documentos, você pode:
 
-- Pesquise-a diretamente com [Search](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md), opcionalmente restringida com [filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) e reordenada com um [reranker](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
-- Anexe-a a um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md) para que documentos recuperados sejam inseridos automaticamente no contexto do modelo.
-- Exponha-a para clientes MCP através do [Collections and RAG MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md).
-- Monitore a qualidade de recuperação e o histórico de buscas no Console; veja [RAG Observability](https://docs.aivax.net/pt-br/docs/rag/observability.md).
+- Pesquisar diretamente com [Busca](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md), opcionalmente restringida com [filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) e reordenada com um [reranker](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
+- Anexá-la a um [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) para que os documentos recuperados sejam inseridos automaticamente no contexto do modelo.
+- Expor aos clientes MCP por meio do [Collections and RAG MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md).
+- Monitorar a qualidade da recuperação e o histórico de buscas no Console; consulte [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md).
 
 ## Manter uma coleção
 
-Configurações da coleção no Console também fornecem ações de manutenção:
+As configurações da coleção no Console também fornecem ações de manutenção:
 
-- **Atualizar documentos desatualizados** regenera vetores para documentos indexados com um modelo de embedding que difere do modelo atual da coleção. Regenerar vetores gera custos de embedding de documentos.
-- **Redefinir coleção** remove os documentos da coleção mantendo a própria coleção.
+- **Atualizar documentos desatualizados** regenera vetores para documentos indexados com um modelo de incorporação diferente do modelo atual da coleção. A regeneração de vetores incorre em custos de incorporação de documentos.
+- **Redefinir coleção** remove os documentos da coleção, mantendo a própria coleção.
 - **Excluir coleção** remove a coleção e seus documentos.
 
-Redefinir e excluir não podem ser desfeitos. Exporte a coleção como JSONL pela API primeiro quando precisar dos documentos novamente.
+Redefinir e excluir não podem ser desfeitos. Exporte a coleção como JSONL por meio da API primeiro se precisar de seus documentos novamente.
 
 ## Desduplicador
 
-O desduplicador de coleção remove documentos repetidos de uma coleção. Use-o após mesclar várias fontes, reimportar conteúdo com novos nomes de documentos ou gerar documentos com [Media Injector](https://docs.aivax.net/pt-br/docs/rag/documents.md#import-from-files-with-media-injector), quando o mesmo conhecimento pode existir mais de uma vez e sobrecarregar os resultados de busca com correspondências quase idênticas.
+O desduplicador de coleções remove documentos repetidos de uma coleção. Use-o após mesclar várias fontes, reimportar conteúdo sob novos nomes de documento ou gerar documentos com [Injetor de Mídia](https://docs.aivax.net/pt-br/docs/rag/documents.md#import-from-files-with-media-injector), quando o mesmo conhecimento puder existir mais de uma vez e poluir os resultados da busca com correspondências quase idênticas.
 
-Inicie-o nas configurações da coleção no Console, em **Advanced settings > De-duplicate collection**, ou via API. Escolha o quão agressiva a comparação deve ser:
+Inicie-o nas configurações da coleção no Console, em **Configurações avançadas > Desduplicar coleção**, ou por meio da API. Escolha quão agressiva deve ser a comparação:
 
 | Nível | Comportamento |
 | --- | --- |
@@ -55,11 +55,11 @@ Inicie-o nas configurações da coleção no Console, em **Advanced settings > D
 | Médio | Padrão recomendado. Equilibra recall e segurança. |
 | Alto | Correspondência semântica mais agressiva; pode remover documentos que são apenas muito semelhantes. |
 
-O desduplicador executa em duas passagens. Primeiro remove documentos cujo texto é exatamente o mesmo, depois compara documentos indexados com seus vizinhos mais próximos na coleção e remove aqueles acima do nível de similaridade selecionado. Um documento de cada grupo de duplicatas é mantido. Documentos ainda aguardando indexação são comparados apenas na passagem exata, portanto aguarde a conclusão da indexação antes de executá-lo.
+O desduplicador executa duas passagens. Primeiro, remove documentos cujo texto é exatamente igual, depois compara documentos indexados com seus vizinhos mais próximos na coleção e remove aqueles acima do nível de similaridade selecionado. Um documento de cada grupo de duplicatas é mantido. Documentos ainda aguardando indexação são comparados apenas na passagem exata, portanto, aguarde a conclusão da indexação antes de executá-lo.
 
-Antes de iniciar, o Console exibe uma estimativa das unidades de processamento e custo para o número atual de documentos. A tarefa roda em segundo plano, e apenas uma desduplicação pode ser executada por coleção por vez. Quando termina ou falha, a conta recebe uma notificação.
+Antes de iniciar, o Console mostra uma estimativa das unidades de processamento e do custo para o número atual de documentos. A tarefa é executada em segundo plano, e apenas uma desduplicação pode ser executada por coleção por vez. Ao terminar ou falhar, a conta recebe uma notificação.
 
-Documentos removidos são excluídos, não ocultados. Antes de excluí‑los, a AIVAX faz backup deles como arquivos JSONL contendo seu nome, texto, referência e tags, e a notificação de conclusão contém links para esses backups. Metadados não são incluídos no backup, portanto exporte a coleção primeiro quando os metadados dos documentos forem importantes.
+Os documentos removidos são excluídos, não ocultos. Antes de excluí-los, a AIVAX faz backup deles como arquivos JSONL com seu nome, texto, referência e tags, e a notificação de conclusão vincula-se a esses backups. Os metadados não estão incluídos no backup, portanto, exporte a coleção primeiro quando os metadados do documento forem importantes.
 
 O desduplicador é cobrado pelo tempo de processamento: uma unidade de processamento (PU) por segundo de processamento, com um mínimo de uma PU por tarefa. O multiplicador do plano se aplica.
 
@@ -67,30 +67,30 @@ O desduplicador é cobrado pelo tempo de processamento: uma unidade de processam
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Start%20Collection%20De-duplication)
 
-## Gerenciar coleções pela API
+## Gerenciar coleções por meio da API
 
-As coleções podem ser criadas, listadas, inspecionadas, editadas, redefinidas, exportadas e excluídas pela API. Consulte a [API reference](https://inference.aivax.net/apidocs) para os endpoints de Collections.
+As coleções podem ser criadas, listadas, inspecionadas, editadas, redefinidas, exportadas e excluídas por meio da API. Consulte a [referência da API](https://inference.aivax.net/apidocs) para os endpoints de Coleções.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Collection)
 
 ## Preços e limites
 
-Indexação e busca são cobrados por uso de tokens. Respostas RAG geradas são cobradas separadamente do embedding de consulta, e seu preço varia com o modelo de sumarização. O multiplicador do plano se aplica.
+Indexação e busca são cobradas pelo uso de tokens. As respostas RAG geradas são cobradas separadamente da incorporação da consulta, e seu preço varia conforme o modelo de resumo. O multiplicador do plano se aplica.
 
 | Descrição | Preço |
 | --- | ---: |
-| Embedding de texto da coleção | **$0.10/M tokens** |
-| Busca - falha de cache de consulta | **$0.10/M tokens** |
-| Busca - acerto de cache de consulta | Zero |
-| Geração de resposta RAG | **~$0.50/M tokens**, excluindo taxas de consulta |
-| Desduplicação de coleção | **$0.05/1k PUs** |
+| Incorporação de texto da coleção | **US$ 0,10/M de tokens** |
+| Busca - cache miss na consulta | **US$ 0,10/M de tokens** |
+| Busca - cache hit na consulta | Zero |
+| Geração de resposta RAG | **~US$ 0,50/M de tokens**, excluindo taxas de consulta |
+| Desduplicação de coleção | **US$ 0,05/1k PUs** |
 
-Free, Pro e Max incluem uma cota diária de embedding compartilhada entre buscas e inserções de documentos; veja [Included daily subscription allowances](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances). Contas com [Data Sharing](https://docs.aivax.net/pt-br/docs/data-sharing.md) habilitado recebem desconto em embeddings de consulta elegíveis. Reranking e [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md#pricing-and-limits) são cobrados separadamente.
+Gratuito, Pro e Max incluem uma cota diária de incorporação compartilhada por buscas e inserções de documentos; consulte [Cotas diárias de assinatura incluídas](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances). Contas com [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md) habilitado recebem um desconto nas incorporações de consulta elegíveis. Reordenamento e [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md#pricing-and-limits) são cobrados separadamente.
 
 | Limite | Gratuito | Pro | Max |
 | --- | --- | --- | --- |
 | Coleções | 5 | — | — |
-| Buscas | 20/min | 500/min | 3,000/min |
-| Buscas de reranking | 30/min | 1,000/min | — |
+| Buscas | 20/min | 500/min | 3.000/min |
+| Buscas com reordenamento | 30/min | 1.000/min | — |
 
-Um travessão (`—`) indica que o plano não impõe um limite. Solicitações acima de um limite retornam `429 Too Many Requests`. Limites de inserção e importação de documentos estão listados em [Documents](https://docs.aivax.net/pt-br/docs/rag/documents.md#pricing-and-limits).
+Um travessão (`—`) significa que o plano não impõe um limite. Solicitações acima de um limite retornam `429 Too Many Requests`. Os limites de inserção e importação de documentos estão listados em [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md#pricing-and-limits).

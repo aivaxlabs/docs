@@ -8,7 +8,7 @@ The agent loads a skill only when it is relevant to the current task. It does th
 
 ## How do skills work?
 
-Each skill is identified by a slug and a brief description of what it does and when to use it. Your account can have many skills, and each [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) enables only the subset it needs.
+Each skill is identified by a slug and a brief description of what it does and when to use it. Your account can have many skills, and each [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) enables only the subset it needs.
 
 At inference time, the flow is:
 
@@ -140,4 +140,4 @@ Skills are most useful when the agent needs specialized behavior only in some co
 
 ## Combine skills with RAG and pipelines
 
-Use skills together with [collections](https://docs.aivax.net/docs/rag/collections.md) when the task needs searchable knowledge, and with [pipelines](https://docs.aivax.net/docs/inference/pipelines.md) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building effective agents](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](https://docs.aivax.net/docs/inference/ai-gateway.md).
+Use skills together with [collections](https://docs.aivax.net/docs/rag/collections.md) when the task needs searchable knowledge, and with [pipelines](https://docs.aivax.net/docs/inference/pipelines.md) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building effective agents](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).

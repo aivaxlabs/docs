@@ -11,6 +11,6 @@ Construções passo a passo para suporte, vendas e assistentes internos, casos d
 - [Agente de vendas e qualificação](https://docs.aivax.net/pt-br/learn/guides/sales-qualification-agent.md)
 - [Assistente interno de conhecimento](https://docs.aivax.net/pt-br/learn/guides/internal-knowledge-assistant.md)
 - [Casos de uso comuns por setor](https://docs.aivax.net/pt-br/learn/guides/use-cases-by-industry.md)
-- [Glossário e folha de dicas](https://docs.aivax.net/pt-br/learn/guides/glossary-and-cheat-sheet.md)
-- [FAQ e caminhos de aprendizado por perfil](https://docs.aivax.net/pt-br/learn/guides/faq-and-learning-paths.md)
+- [Glossário e guia de consulta](https://docs.aivax.net/pt-br/learn/guides/glossary-and-cheat-sheet.md)
+- [FAQ e trilhas de aprendizado por perfil](https://docs.aivax.net/pt-br/learn/guides/faq-and-learning-paths.md)
 

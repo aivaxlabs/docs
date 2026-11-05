@@ -72,7 +72,7 @@ Some decisions also involve responsibility that cannot sensibly be delegated to 
 
 Before choosing an agent, ask what a wrong answer could change. A weak draft can be edited; an unauthorised payment may be difficult to reverse. Start with assistance that a person can inspect, then expand authority only where evidence, permissions and evaluation justify it. More independence is a design choice, not an automatic measure of progress.
 
-**Related:** On AIVAX, the configured runtime that brings a model, instructions and capabilities together is called an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md).
+**Related:** On AIVAX, the configured runtime that brings a model, instructions and capabilities together is called an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).
 
 **What's next:** Meet the engine at the centre of this system in [What is an LLM](https://docs.aivax.net/learn/agents/what-is-an-llm.md).
 

@@ -60,7 +60,7 @@ Do not parallelise steps that depend on one another. A refund must wait for appr
 
 - **Focused generation** — Give the model relevant context and an appropriate answer length. Brevity must still answer the actual question.
 
-Related: on AIVAX, reusable choices about a model, knowledge and tools are stored in an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). Treat any configuration change as something to measure, not as a promise that every conversation becomes faster.
+Related: on AIVAX, reusable choices about a model, knowledge and tools are stored in an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). Treat any configuration change as something to measure, not as a promise that every conversation becomes faster.
 
 ## Bound waiting and handle failure honestly
 

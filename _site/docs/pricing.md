@@ -16,7 +16,7 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 | Area | Where to find rates |
 | --- | --- |
-| Inference and moderation | [Inference](https://docs.aivax.net/docs/inference/inference.md#pricing) |
+| Inference and moderation | [Inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#pricing) |
 | Agentic Tests | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits) |
 | Voice and Realtime | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md#billing-and-limits) |
 | RAG collections, search, and answers | [Collections](https://docs.aivax.net/docs/rag/collections.md#pricing-and-limits) |

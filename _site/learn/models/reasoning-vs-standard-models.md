@@ -98,7 +98,7 @@ Instead, ask for the information a person can use: the conclusion, relevant sour
 
 Hiding a reasoning display does not necessarily disable reasoning computation or reduce its cost. Showing a longer explanation does not prove that more internal reasoning occurred. Presentation and computation are separate choices. Keep the customer-facing explanation proportionate: someone asking for a delivery date usually needs the date and its source, not a long essay.
 
-Related: [prompting techniques](https://docs.aivax.net/learn/prompt-engineering/prompting-techniques.md) explains how to give a task structure, and [planning and reasoning loops](https://docs.aivax.net/learn/advanced-agents/planning-and-reasoning-loops.md) covers agents that alternate between decisions and actions. On AIVAX, supported reasoning options belong to the [inference configuration](https://docs.aivax.net/docs/inference/inference.md); support depends on the selected model.
+Related: [prompting techniques](https://docs.aivax.net/learn/prompt-engineering/prompting-techniques.md) explains how to give a task structure, and [planning and reasoning loops](https://docs.aivax.net/learn/advanced-agents/planning-and-reasoning-loops.md) covers agents that alternate between decisions and actions. On AIVAX, supported reasoning options belong to the [inference configuration](https://docs.aivax.net/docs/inference/chat-completions/concepts.md); support depends on the selected model.
 
 What's next: learn [function calling](https://docs.aivax.net/learn/tools-and-integrations/function-calling.md), which lets an assistant request real information and actions instead of trying to reason its way around missing access.
 

@@ -35,7 +35,7 @@ On AIVAX, you send the gateway's ID in the `model` field of an OpenAI-compatible
 ## Go deeper
 
 - In Learn: [What is an LLM](https://docs.aivax.net/learn/agents/what-is-an-llm.md), [From LLMs to agents](https://docs.aivax.net/learn/agents/from-llms-to-agents.md) and [Model families and how to choose](https://docs.aivax.net/learn/models/model-families-and-choosing.md).
-- In the Documentation: [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) explains what a gateway stores and a recommended production configuration. The [Overview](https://docs.aivax.net/docs/overview.md) shows when to call a model directly instead.
+- In the Documentation: [AI gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) explains what a gateway stores and a recommended production configuration. The [Overview](https://docs.aivax.net/docs/overview.md) shows when to call a model directly instead.
 
 The next episode opens the first part of the machine: the instructions badge and the shelf of skills.
 

@@ -17,7 +17,7 @@ Choose the more specialized API when the task is limited to a single medium, suc
 There are two ways to extract information from media, and they serve different needs:
 
 - **Describe media, then decide** — use this endpoint when you need a reusable text artifact: a description stored for search, a transcript-like record for audit, or input text for a later workflow stage that runs independently.
-- **Multimodal inference in one request** — send the media straight to a chat model that supports the input type when the model should reason over it immediately and no intermediate artifact is needed. See [Inference](https://docs.aivax.net/docs/inference/inference.md).
+- **Multimodal inference in one request** — send the media straight to a chat model that supports the input type when the model should reason over it immediately and no intermediate artifact is needed. See [Inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md).
 
 Prefer Media Descriptions when the extraction guidance is stable and the result feeds several consumers. Prefer direct multimodal inference when the question about the media changes on every request.
 

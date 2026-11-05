@@ -2,13 +2,13 @@ Source: https://docs.aivax.net/pt-br/docs/inference/pipelines.html
 
 # Pipeline de Processamento
 
-Os pipelines do AI Gateway são as etapas de processamento que a AIVAX aplica antes e durante a inferência. Eles podem adicionar contexto, reescrever consultas, expor ferramentas, moderar entradas, rotear modelos, truncar conversas e chamar trabalhadores externos (workers).
+As pipelines do AI Gateway são as etapas de processamento que a AIVAX aplica antes e durante a inferência. Elas podem adicionar contexto, reescrever consultas, expor ferramentas, moderar entradas, rotear modelos, truncar conversas e chamar trabalhadores externos (workers).
 
-A maioria dos pipelines é configurada nos parâmetros do [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Opções em nível de solicitação podem substituir alguns parâmetros de inferência em chamadas diretas para [`chat/completions`](https://docs.aivax.net/pt-br/docs/inference/inference.md).
+A maioria das pipelines é configurada nos parâmetros do [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md). Opções em nível de solicitação podem substituir alguns parâmetros de inferência em chamadas diretas [`chat/completions`](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md).
 
 ## RAG
 
-O pipeline RAG adiciona conhecimento dos seus documentos ao contexto do modelo. Ele vincula [coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md) a um AI Gateway. O gateway controla:
+A pipeline RAG adiciona conhecimento dos seus documentos ao contexto do modelo. Ela vincula [coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md) a um AI Gateway. O gateway controla:
 
 - Coleções incluídas na recuperação.
 - Número máximo de documentos recuperados.
@@ -27,40 +27,40 @@ Estratégias de consulta:
 - `FullRewrite`: Reescreve as mensagens recentes do usuário e do assistente em uma ou mais consultas de pesquisa usando um modelo resolvedor.
 - `QueryFunction`: Adiciona uma função de consulta ao modelo. O modelo decide quando pesquisar nas coleções vinculadas, e os resultados da pesquisa são retornados como respostas de ferramenta. O modelo pode restringir uma pesquisa com um [filtro de documento](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) opcional.
 
-As estratégias de reescrita adicionam custo do modelo resolvedor (veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)) e latência. Elas são úteis quando os usuários fazem perguntas de acompanhamento, como "e sobre este caso?", porque o resolvedor pode transformar a conversa recente em uma consulta de pesquisa mais clara.
+As estratégias de reescrita adicionam custo (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)) e latência do modelo resolvedor. Elas são úteis quando os usuários fazem perguntas de acompanhamento, como "e quanto a este caso?", porque o resolvedor pode transformar a conversa recente em uma consulta de pesquisa mais clara.
 
-Definir muitos resultados RAG aumenta o uso de tokens de entrada e pode aumentar o custo final de inferência (veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)). Comece com uma pequena contagem de resultados e aumente-a apenas quando o modelo não tiver evidências suficientes.
+Definir muitos resultados RAG aumenta o uso de tokens de entrada e pode aumentar o custo final de inferência (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)). Comece com uma contagem pequena de resultados e aumente-a apenas quando o modelo não tiver evidências suficientes.
 
 ## Instruções
 
 As configurações de instrução moldam o prompt voltado para o provedor:
 
 - **Instruções do sistema**: Adicionadas ao conjunto de instruções do sistema.
-- **Fontes remotas de instrução do sistema**: Buscadas de URLs configurados e adicionadas ao conjunto de instruções do sistema.
+- **Fontes remotas de instrução do sistema**: Buscadas de URLs configuradas e adicionadas ao conjunto de instruções do sistema.
 - **Modelo de prompt do usuário**: Substitui `{prompt}` pelo texto de cada mensagem do usuário antes de enviá-lo ao modelo.
 - **Prefill do assistente**: Adiciona conteúdo inicial do assistente antes da geração quando o modelo suporta prefill.
 
 As fontes de instrução remota são buscadas como texto, e cada resposta pode ter no máximo 5 MB. Sua duração de cache é configurável de 0 (sem cache) a 86.400 segundos; o padrão é 600 segundos.
 
-Se uma fonte não puder ser lida (resposta acima do limite, falha na solicitação ou URL inseguro), ela não contribui com nenhum texto e a própria solicitação não falha. Tenha em mente estas regras de falha:
+Se uma fonte não puder ser lida (resposta acima do limite, falha na solicitação ou URL insegura), ela não contribui com nenhum texto e a própria solicitação não falha. Tenha essas regras de falha em mente:
 
-- Uma busca falha (um erro HTTP como 404 ou 500, um erro de conexão, um URL privado ou uma resposta acima do limite) é armazenada em cache pela duração total do cache, assim como uma bem-sucedida.
-- Não há fallback stale-if-error. Se uma fonte anteriormente boa expirar durante uma interrupção, o modelo receberá apenas o título `# <name>` sem corpo (ou nada, se a fonte não tiver nome).
+- Uma busca com falha (um erro HTTP como 404 ou 500, um erro de conexão, uma URL privada ou uma resposta acima do limite) não contribui com nenhum texto e é armazenada em cache por no máximo 30 segundos, ou pela duração configurada se for menor.
+- Não há fallback stale-if-error. Se uma fonte anteriormente boa expirar durante uma interrupção, o modelo receberá apenas o título `# <nome>` sem corpo (ou nada, se a fonte não tiver nome).
 - Nenhuma mensagem de erro ou registro de log é exibido quando isso acontece.
 
 Alguns modelos não suportam prefill do assistente, temperatura, sequências de parada ou esforço de raciocínio. A validação integrada do modelo rejeita configurações incompatíveis do gateway quando essas limitações são conhecidas.
 
 ## Habilidades (Skills)
 
-Habilidades são pacotes de instrução sob demanda disponíveis para o modelo. Use-as para instruções especializadas que apenas algumas tarefas precisam. Quando um gateway habilita habilidades, a AIVAX carrega as habilidades da conta configuradas no gateway e pode expor funções integradas relacionadas a habilidades.
+Habilidades são pacotes de instrução sob demanda disponíveis para o modelo. Use-as para instruções especializadas que apenas algumas tarefas precisam. Quando um gateway habilita habilidades, a AIVAX carrega as habilidades da conta configuradas no gateway e pode expor funções integradas relacionadas às habilidades.
 
 Leia mais sobre [habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md).
 
 ## Pré-processamento multimodal
 
-O pré-processamento multimodal converte mídia selecionada em texto antes da chamada principal do modelo. Cada tipo de conteúdo (imagens, áudio, vídeo e arquivos) usa seu próprio mecanismo: um modelo multimodal menor (`InferenceLow`) ou maior (`InferenceHigh`), OCR para imagens e arquivos, ou fala para texto para áudio. Veja [Pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/inference.md#multimodal-pre-processing) para os mecanismos aceitos.
+O pré-processamento multimodal converte mídia selecionada em texto antes da chamada principal do modelo. Cada tipo de conteúdo (imagens, áudio, vídeo e arquivos) usa seu próprio mecanismo: um modelo multimodal menor (`InferenceLow`) ou maior (`InferenceHigh`), OCR para imagens e arquivos, ou fala para texto para áudio. Consulte [Pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md) para os mecanismos aceitos.
 
-A configuração do gateway `multimodalResolverParameters` substitui as sinalizações `enabledMultimodalFeatures` obsoletas. Gateways que ainda usam as sinalizações continuam funcionando com os mecanismos equivalentes até que `multimodalResolverParameters` seja definido.
+A configuração do gateway `multimodalResolverParameters` substitui as sinalizações `enabledMultimodalFeatures` descontinuadas. Gateways que ainda usam as sinalizações continuam funcionando com os mecanismos equivalentes até que `multimodalResolverParameters` seja definido.
 
 Use o pré-processamento quando o modelo principal for focado em texto ou quando você quiser que a AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré-processamento para que o modelo possa inspecioná-la diretamente.
 
@@ -68,7 +68,7 @@ Os resultados são armazenados em cache por conteúdo e mecanismo para reutiliza
 
 ## Parametrização
 
-O pipeline de parametrização define opções padrão de solicitação do modelo para o gateway, como:
+A pipeline de parametrização define opções padrão de solicitação do modelo para o gateway, como:
 
 - `temperature`
 - `top_p`
@@ -80,7 +80,7 @@ O pipeline de parametrização define opções padrão de solicitação do model
 - `verbosity`
 - `seed`
 
-Valores em nível de solicitação podem substituir valores do gateway quando o endpoint suporta o parâmetro. `frequency_penalty` é configurado apenas no gateway e não é substituído por solicitação. Alguns modelos integrados rejeitam parâmetros específicos, e provedores BYOK podem ter suas próprias restrições.
+Valores em nível de solicitação podem substituir os valores do gateway quando o endpoint suporta o parâmetro. `frequency_penalty` é configurado apenas no gateway e não é substituído por solicitação. Alguns modelos integrados rejeitam parâmetros específicos, e provedores BYOK podem ter suas próprias restrições.
 
 ## Truncamento de contexto
 
@@ -88,11 +88,11 @@ O truncamento de contexto mantém conversas longas dentro de um tamanho máximo 
 
 - `Throw`: Retorna um erro em vez de chamar o modelo.
 - `Truncate`: Remove as mensagens não-sistema mais antigas até que as mensagens restantes da conversa se encaixem. A solicitação continua mesmo se o prompt, incluindo instruções do sistema e contexto RAG recuperado, ainda exceder o limite.
-- `TruncateHard`: Trunca como acima, mas falha na solicitação com um erro de tamanho de mensagem se o prompt ainda exceder o limite depois disso.
+- `TruncateHard`: Trunca conforme acima, mas falha na solicitação com um erro de tamanho de mensagem se o prompt ainda exceder o limite depois disso.
 
-O truncamento preserva mensagens do sistema e mantém pelo menos uma mensagem do usuário quando possível.
+O truncamento preserva as mensagens do sistema e mantém pelo menos uma mensagem do usuário quando possível.
 
-Em planos inferiores, o contexto de entrada efetivo pode ser limitado mesmo quando um contexto maior está configurado; veja [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#account-limits).
+Em planos inferiores, o contexto de entrada efetivo pode ser limitado mesmo quando um contexto maior está configurado; consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md#account-limits).
 
 ## Truncamento de mensagens de ferramenta
 
@@ -104,7 +104,7 @@ Em planos inferiores, o contexto de entrada efetivo pode ser limitado mesmo quan
 
 Isso pode reduzir o uso de contexto em conversas agênticas longas. Também pode prejudicar cadeias onde um resultado de ferramenta antigo permanece importante, então use-o apenas quando o modelo puder chamar a ferramenta novamente com segurança.
 
-Reescrever mensagens de ferramenta mais antigas também altera o prefixo da solicitação, o que pode diminuir a taxa de acerto do cache de prompts; para verificar isso no seu próprio uso, veja [por que uma taxa de acerto de cache de prompts é baixa](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+Reescrever mensagens de ferramenta mais antigas também altera o prefixo da solicitação, o que pode diminuir a taxa de acerto do cache de prompts; para verificar isso no seu próprio uso, consulte [por que uma taxa de acerto de cache de prompts é baixa](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ## Ferramentas do lado do servidor
 
@@ -127,7 +127,7 @@ Ferramentas integradas podem ser configuradas em um gateway ou fornecidas por so
 - `DateTime` — data e hora atuais através de `get_date_time`, no fuso horário do gateway (`parameters.timeZone`, padrão `America/Sao_Paulo`).
 
 - `WebSearch`
-- `AdvancedWebUsage` (desativado; retorna uma resposta indisponível. Veja [Changelogs](https://docs.aivax.net/pt-br/docs/legal/changelogs.md).)
+- `AdvancedWebUsage` (desativado; retorna uma resposta indisponível. Consulte [Changelogs](https://docs.aivax.net/pt-br/docs/legal/changelogs.md).)
 - `OpenUrl`
 - `Code`
 - `Request`
@@ -137,15 +137,15 @@ Ferramentas integradas podem ser configuradas em um gateway ou fornecidas por so
 - `XPostsSearch`
 - `ImageGeneration`
 
-Veja [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md).
+Consulte [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md).
 
 ## Funções MCP e de protocolo
 
-Ferramentas listadas por uma fonte MCP ficam disponíveis para o modelo com seus esquemas declarados. Os resultados das ferramentas MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportados.
+Ferramentas listadas por uma fonte MCP tornam-se disponíveis para o modelo com seus esquemas declarados. Os resultados de ferramentas MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportados.
 
-Funções de protocolo expõem callbacks HTTP ou URLs de callback da AIVAX como ferramentas chamáveis por modelos. Fontes remotas de funções de protocolo são buscadas e armazenadas em cache antes que suas ferramentas estejam disponíveis para o modelo.
+Funções de protocolo expõem callbacks HTTP ou URLs de callback da AIVAX como ferramentas chamáveis pelo modelo. Fontes remotas de funções de protocolo são buscadas e armazenadas em cache antes que suas ferramentas estejam disponíveis para o modelo.
 
-Veja [Funções de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) e [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md).
+Consulte [Funções de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) e [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md).
 
 ## Interpretador de funções
 
@@ -162,12 +162,12 @@ A moderação aplica políticas de segurança às solicitações do usuário ant
 
 O campo `moderationParameters.mode` seleciona como a moderação é executada:
 
-- `LayeredGuardrail` (padrão): Um modelo de salvaguarda independente analisa o texto de entrada da conversa antes do modelo principal. Conversas sinalizadas são bloqueadas, e o modelo principal responde com uma recusa. O uso de moderação é cobrado conforme descrito em [Preços de inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md#pricing).
-- `SelfAssessment`: Nenhum modelo de salvaguarda separado é executado, portanto, não há cobrança de análise de moderação. O modelo principal recebe instruções de moderação construídas a partir dos mesmos níveis de sensibilidade de categoria e regras adicionais, além de uma ferramenta de recusa interna. Quando o modelo julga que a solicitação mais recente atinge o limite de uma categoria habilitada, ele chama a ferramenta com um motivo, as categorias violadas e uma mensagem final para o usuário. A inferência termina imediatamente, outras chamadas de ferramentas dessa rodada são ignoradas, a mensagem final é retornada como a resposta do assistente, e a resposta é marcada como uma recusa. A solicitação é rejeitada quando o modelo selecionado não suporta chamadas de ferramentas.
+- `LayeredGuardrail` (padrão): Um modelo de salvaguarda independente analisa o texto de entrada da conversa antes do modelo principal. Conversas sinalizadas são bloqueadas, e o modelo principal responde com uma recusa. O uso de moderação é cobrado conforme descrito em [Preços de inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#pricing).
+- `SelfAssessment`: Nenhum modelo de salvaguarda separado é executado, portanto, não há cobrança de análise de moderação. O modelo principal recebe instruções de moderação construídas a partir dos mesmos níveis de sensibilidade de categoria e regras adicionais, além de uma ferramenta de recusa interna. Quando o modelo julga que a última solicitação atinge o limite de uma categoria habilitada, ele chama a ferramenta com um motivo, as categorias violadas e uma mensagem final para o usuário. A inferência termina imediatamente, outras chamadas de ferramentas dessa rodada são ignoradas, a mensagem final é retornada como a resposta do assistente, e a resposta é marcada como uma recusa. A solicitação é rejeitada quando o modelo selecionado não suporta chamadas de ferramentas.
 
 Como `SelfAssessment` depende do julgamento do modelo principal em vez de um classificador independente, ela troca latência e custo menores por isolamento mais fraco: não é uma camada independente, e a qualidade da aplicação depende do modelo.
 
-No modo `LayeredGuardrail`, quando pelo menos uma categoria de moderação está habilitada, a AIVAX envia o texto disponível da conversa para um modelo de salvaguarda. A salvaguarda avalia a solicitação mais recente do usuário no contexto estabelecido pela conversa e retorna uma pontuação de 0 a 10 para cada categoria.
+No modo `LayeredGuardrail`, quando pelo menos uma categoria de moderação está habilitada, a AIVAX envia o texto disponível da conversa para um modelo de salvaguarda. A salvaguarda avalia a última solicitação do usuário no contexto estabelecido pela conversa e retorna uma pontuação de 0 a 10 para cada categoria.
 
 | Categoria | Propriedade do Gateway | O que a salvaguarda avalia |
 | --- | --- | --- |
@@ -183,7 +183,7 @@ O valor configurado no gateway é um **nível de sensibilidade**, não a pontua�
 
 | Nível de sensibilidade | Pontuações da salvaguarda que bloqueiam |
 | ---: | --- |
-| `0` | Categoria desabilitada |
+| `0` | Categoria desativada |
 | `1` | `10` |
 | `3` | `8`–`10` |
 | `5` | `6`–`10` |
@@ -192,11 +192,11 @@ O valor configurado no gateway é um **nível de sensibilidade**, não a pontua�
 
 Para categorias habilitadas, o corte de bloqueio é `11 - nível de sensibilidade`. Uma pontuação de salvaguarda de `0` nunca bloqueia. Configure cada categoria independentemente; a solicitação é bloqueada quando qualquer categoria habilitada atinge seu corte.
 
-No modo `SelfAssessment`, os mesmos níveis de sensibilidade definem o limite que o modelo principal deve aplicar, embora não haja pontuação numérica de salvaguarda.
+No modo `SelfAssessment`, os mesmos níveis de sensibilidade definem o limite que o modelo principal deve aplicar, embora não haja uma pontuação numérica de salvaguarda.
 
 ### Adicione regras específicas do gateway
 
-**Regras adicionais de moderação** permitem que um administrador do gateway descreva políticas que não estão totalmente expressas pelas descrições das categorias integradas. A salvaguarda lê essas regras junto com a política integrada e as usa para calibrar todas as cinco pontuações. No modo `SelfAssessment`, o modelo principal recebe as mesmas regras com suas instruções de moderação.
+**Regras adicionais de moderação** permitem que um administrador do gateway descreva políticas que não estão totalmente expressas pelas descrições de categoria integradas. A salvaguarda lê essas regras junto com a política integrada e as usa para calibrar todas as cinco pontuações. No modo `SelfAssessment`, o modelo principal recebe as mesmas regras com suas instruções de moderação.
 
 Por exemplo:
 
@@ -234,23 +234,23 @@ Quando qualquer categoria habilitada atinge seu corte:
 
 A recusa é gerada pelo modelo; a moderação não retorna um corpo de resposta fixo. No modo `SelfAssessment`, o modelo principal produz a recusa ele mesmo por meio da ferramenta de recusa, conforme descrito acima.
 
-No modo `LayeredGuardrail`, se todos os modelos de moderação falharem em produzir um resultado válido, a solicitação não é rejeitada. O modelo principal recebe em vez disso instruções estritas derivadas das categorias configuradas, níveis de sensibilidade e regras adicionais, e aplica a política ele mesmo. Se seu aplicativo deve falhar fechado quando a moderação estiver indisponível, imponha isso no seu aplicativo ou em um worker.
+No modo `LayeredGuardrail`, se todos os modelos de moderação falharem em produzir um resultado válido, a solicitação não será rejeitada. O modelo principal recebe em vez disso instruções estritas derivadas das categorias configuradas, níveis de sensibilidade e regras adicionais, e aplica a política ele mesmo. Se seu aplicativo deve falhar fechado quando a moderação estiver indisponível, imponha isso em seu aplicativo ou em um worker.
 
 ### Contexto e limitações atuais
 
-No modo `LayeredGuardrail`, a salvaguarda recebe o histórico de conversa disponível, não apenas a mensagem mais recente. Os papéis e o texto das mensagens são preservados como dados de conversa serializados não confiáveis para reduzir a chance de que instruções dentro da conversa substituam a política da salvaguarda. Se a conversa exceder a janela de contexto da salvaguarda, o contexto mais antigo pode ser truncado.
+No modo `LayeredGuardrail`, a salvaguarda recebe o histórico de conversa disponível, não apenas a última mensagem. Os papéis das mensagens e o texto são preservados como dados de conversa serializados não confiáveis para reduzir a chance de instruções dentro da conversa sobrescreverem a política da salvaguarda. Se a conversa exceder a janela de contexto da salvaguarda, o contexto mais antigo pode ser truncado.
 
 A moderação atualmente aplica-se apenas ao texto de entrada:
 
 - A saída gerada não é moderada.
-- Imagens, áudio, vídeo e conteúdos de arquivo não são analisados. A salvaguarda recebe apenas um marcador indicando que havia mídia presente.
+- Imagens, áudio, vídeo e conteúdos de arquivo não são analisados. A salvaguarda recebe apenas um marcador indicando que a mídia estava presente.
 - A autorização de ferramentas ou workers ainda requer política em nível de aplicativo; a moderação não é um mecanismo de autorização.
-- No modo `LayeredGuardrail`, a moderação adiciona uma inferência de salvaguarda antes da inferência principal, o que adiciona latência e uso de moderação faturável (veja [Preços de inferência](https://docs.aivax.net/pt-br/docs/inference/inference.md#pricing)). O modo `SelfAssessment` não adiciona inferência separada.
+- No modo `LayeredGuardrail`, a moderação adiciona uma inferência de salvaguarda antes da inferência principal, o que adiciona latência e uso de moderação faturável (consulte [Preços de inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#pricing)). O modo `SelfAssessment` não adiciona inferência separada.
 
-Use a moderação para políticas amplas de segurança. Use workers quando a decisão depender de identidade externa, estado da conta ou política específica do negócio.
+Use a moderação para políticas de segurança amplas. Use workers quando a decisão depender de identidade externa, estado da conta ou política específica do negócio.
 
-Para um guia de decisão sobre prompts do sistema, uma etapa de moderação separada e autorização, veja [Moderação de entrada LLM: prompt do sistema ou etapa de moderação separada?](https://aivax.net/blog/aivax-gateway-moderation/).
+Para um guia de decisão sobre prompts de sistema, uma etapa de moderação separada e autorização, consulte [Moderação de entrada LLM: prompt de sistema ou etapa de moderação separada?](https://aivax.net/blog/aivax-gateway-moderation/).
 
 ## Workers
 
-Workers chamam seu endpoint externo durante eventos do gateway, para que seu próprio código possa permitir, parar ou alterar a solicitação. Configure eventos de worker e detalhes do endpoint nos parâmetros do gateway e implemente o comportamento do evento no seu endpoint. Veja [AI Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md).
+Workers chamam seu endpoint externo durante eventos do gateway, para que seu próprio código possa permitir, parar ou alterar a solicitação. Configure eventos de worker e detalhes do endpoint nos parâmetros do gateway e implemente o comportamento do evento no seu endpoint. Consulte [AI Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md).

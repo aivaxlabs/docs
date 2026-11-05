@@ -86,7 +86,7 @@ Cost also spreads across the system. Each specialist may read repeated instructi
 
 Finally, appoint one owner for external actions and one owner for the final response. Independent workers should not all send customer messages or modify the same record. The owner verifies the evidence and checks permissions before taking action. This keeps a multi-agent design understandable: many contributors can investigate, but responsibility for a consequential outcome remains explicit.
 
-**Related:** On AIVAX, an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores a reusable agent configuration. Separate configurations can support distinct roles, but creating several gateways does not by itself provide shared state, scheduling or a complete orchestration design.
+**Related:** On AIVAX, an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) stores a reusable agent configuration. Separate configurations can support distinct roles, but creating several gateways does not by itself provide shared state, scheduling or a complete orchestration design.
 
 What's next: decide when that owner should pause for a person in [Human-in-the-loop and approvals](https://docs.aivax.net/learn/advanced-agents/human-in-the-loop.md).
 

@@ -424,4 +424,4 @@ Final outcomes are:
 
 A missing or invalid key returns `401 Unauthorized`; a public API key returns `403 Forbidden`; insufficient balance returns `402 Payment Required`; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return `400 Bad Request`. An inference failure can instead arrive as an SSE event after streaming begins.
 
-To investigate an inference failure, review the [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateway.md) used by the test.
+To investigate an inference failure, review the [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) used by the test.

@@ -125,7 +125,7 @@ Review the evidence with business, technical, and domain owners. Decide what to 
 
 - **Pilot decision record** — State what passed, what remains unresolved, who accepted the remaining risk, and how to pause the service. Do not turn an attractive demonstration into an implied launch approval.
 
-Related: when ready to map these ideas to AIVAX, an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) stores reusable agent configuration. Read the relevant product documentation for exact setup; these learning paths explain design choices rather than replacing implementation instructions.
+Related: when ready to map these ideas to AIVAX, an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) stores reusable agent configuration. Read the relevant product documentation for exact setup; these learning paths explain design choices rather than replacing implementation instructions.
 
 What's next: return to [What is Learn](https://docs.aivax.net/learn/introduction/what-is-learn.md) to choose another module or revisit the path that matches your next responsibility.
 

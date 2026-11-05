@@ -28,7 +28,7 @@ Each layer catches a different problem. **Moderation** stops harmful input befor
 ## Go deeper
 
 - In Learn: [Adding guardrails](https://docs.aivax.net/learn/agents/adding-guardrails.md), [Content moderation and usage policies](https://docs.aivax.net/learn/safety/content-moderation-and-policies.md), [Prompt injection and jailbreaks](https://docs.aivax.net/learn/safety/prompt-injection-and-jailbreaks.md) and [Logs, traces and monitoring](https://docs.aivax.net/learn/quality/logs-traces-and-monitoring.md).
-- In the Documentation: [AI gateways](https://docs.aivax.net/docs/inference/ai-gateway.md) is where moderation is enabled, with a link to what it covers. [AI workers](https://docs.aivax.net/docs/inference/workers.md) let your own service allow, stop or change a request at runtime, a good place for firm business rules. [Agentic tests](https://docs.aivax.net/docs/inference/agentic-tests.md) simulate full conversations to catch problems before customers do.
+- In the Documentation: [AI gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) is where moderation is enabled, with a link to what it covers. [AI workers](https://docs.aivax.net/docs/inference/workers.md) let your own service allow, stop or change a request at runtime, a good place for firm business rules. [Agentic tests](https://docs.aivax.net/docs/inference/agentic-tests.md) simulate full conversations to catch problems before customers do.
 
 The next episode teaches the brain to see and hear.
 

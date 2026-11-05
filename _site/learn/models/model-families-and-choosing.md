@@ -92,7 +92,7 @@ Try a general-purpose candidate with approved product facts and a clear audience
 
 Compare stronger candidates using the same source documents and review process. Require evidence and escalation when the documents do not settle the question.
 
-On AIVAX, reusable model choices and instructions can be managed through an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). Related: the [inference guide](https://docs.aivax.net/docs/inference/inference.md) describes direct model requests and supported options. Treat configuration as part of the tested system: changing the model behind a stable assistant name can still change its behaviour.
+On AIVAX, reusable model choices and instructions can be managed through an [AI gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). Related: the [inference guide](https://docs.aivax.net/docs/inference/chat-completions/concepts.md) describes direct model requests and supported options. Treat configuration as part of the tested system: changing the model behind a stable assistant name can still change its behaviour.
 
 What's next: learn how [parameters](https://docs.aivax.net/learn/models/parameters.md) adjust the behaviour of the model you selected.
 

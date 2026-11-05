@@ -1,104 +1,104 @@
 Source: https://docs.aivax.net/pt-br/learn/production/performance-and-latency.html
 
-Um recepcionista que diz “Estou verificando sua reserva” parece diferente de uma linha telefônica silenciosa. Ambos os chamadores podem esperar o mesmo tempo pela reserva, mas um sabe que a solicitação foi compreendida. Um bom agente precisa de ambos os tipos de desempenho: trabalho que termina rapidamente e uma experiência que torne qualquer espera necessária compreensível.
+Uma recepcionista que diz “Estou verificando sua reserva” tem uma sensação diferente de uma linha telefônica silenciosa. Ambos os chamadores podem esperar o mesmo tempo pela confirmação da reserva, mas um sabe que o pedido foi compreendido. Um bom agente precisa de ambos os tipos de desempenho: trabalho que é concluído prontamente e uma experiência que torna qualquer espera necessária compreensível.
 
-**Latência** é o tempo entre um evento e sua resposta. Para um agente, isso pode significar o tempo desde o envio de uma pergunta até a visualização da primeira palavra, ou o tempo até que uma ação solicitada seja confirmada. Sempre indique qual intervalo você está medindo. Uma saudação rápida não prova que a busca de pedido ou correção de conta terminou rápido.
+**Latência** é o tempo entre um evento e sua resposta. Para um agente, isso pode significar o tempo desde o envio de uma pergunta até ver a primeira palavra, ou o tempo até que uma ação solicitada seja confirmada. Sempre indique qual intervalo você está medindo. Uma saudação rápida não prova que uma consulta de pedido ou correção de conta foi concluída rapidamente.
 
-## Siga a solicitação ao longo da sua jornada
+## Siga o pedido por toda a sua jornada
 
-Considere um cliente perguntando se um item entregue pode ser trocado. A aplicação recebe a mensagem, verifica acesso, procura uma política, consulta o pedido, pede ao modelo que interprete os resultados e envia a resposta. Um fluxo real pode revisitar várias etapas. Se o modelo solicitar outra ferramenta, pode haver outra rodada de leitura e resposta.
+Considere um cliente perguntando se um item entregue pode ser trocado. O aplicativo recebe a mensagem, verifica o acesso, pesquisa uma política, consulta o pedido, pede ao modelo para interpretar os resultados e envia a resposta. Um fluxo de trabalho real pode retornar a várias etapas. Se o modelo solicitar outra ferramenta, pode haver outra rodada de leitura e resposta.
 
-**Recuperação** é encontrar informação relevante em uma fonte de conhecimento. Pode incluir buscar documentos e ordenar os resultados por relevância. O **primeiro token** é o primeiro pequeno pedaço de texto que o modelo emite. Antes que ele apareça, o provedor pode colocar a solicitação em fila e processar sua entrada. **Geração** é a produção subsequente da resposta. **Ferramentas** são capacidades externas, como verificação de estoque ou consulta de pedido, com seus próprios tempos de espera.
+**Recuperação (Retrieval)** é encontrar informações relevantes em uma fonte de conhecimento. Pode incluir pesquisar documentos e classificar os resultados por relevância. O **primeiro token** é a pequena parte inicial de texto emitida pelo modelo. Antes disso aparecer, o provedor pode colocar a solicitação em fila e processar sua entrada. **Geração** é a produção subsequente da resposta. **Ferramentas (Tools)** são capacidades externas, como uma verificação de estoque ou consulta de pedido, com seus próprios tempos de espera.
 
 Receber e verificar acesso → Recuperar política → Consultar pedido → Gerar resposta → Entregar resposta
 
-Esse fluxo mostra uma sequência simples, não uma exigência de que cada etapa seja executada separadamente. Instrumente cada fronteira real: registre quando ela começa, termina ou falha. **Instrumentação** significa adicionar medições à aplicação, como colocar relógios nas estações de uma rota de entrega. Inclua tempo de rede, espera por um trabalhador disponível e preparação da resposta; caso contrário, o tempo ausente pode ser confundido com geração lenta do modelo.
+Este fluxo mostra uma sequência simples, não um requisito de que cada etapa seja executada separadamente. Instrumente cada limite real: registre quando começa, termina ou falha. **Instrumentação** significa adicionar medições ao aplicativo, como colocar relógios em estações ao longo de uma rota de entrega. Inclua a viagem de rede, a espera por um trabalhador disponível e a preparação da resposta; caso contrário, o tempo perdido pode ser confundido com uma geração lenta do modelo.
 
-**Onde uma solicitação gasta tempo (ilustrativo)**
+**Onde uma solicitação gasta seu tempo (ilustrativo)**
 
 | Item | Value |
 | --- | --- |
 | Recuperação | 18% |
-| Aguardando o primeiro token do modelo | 32% |
+| Espera pelo primeiro token do modelo | 32% |
 | Gerando a resposta | 25% |
 | Ferramentas | 20% |
-| Outros trabalhos da aplicação | 5% |
+| Outro trabalho do aplicativo | 5% |
 
-Partes ilustrativas para uma solicitação serial, não um benchmark. Trabalho sobreposto não pode ser simplesmente adicionado como partes de tempo decorrido separadas.
+Partes ilustrativas para uma solicitação serial, não uma referência. O trabalho sobreposto não pode ser simplesmente somado como partes separadas do tempo decorrido.
 
-A maior fatia é um ponto de partida para investigação, não prova da correção certa. Um serviço de pedidos pode ser lento apenas durante um período de pico; a geração pode dominar somente quando o agente escreve respostas desnecessariamente longas. Agrupe medições por tarefa e resultado. Combinar uma resposta curta de política com um relatório detalhado oculta diferenças úteis.
+A fatia maior é um ponto de partida para investigação, não prova da correção correta. Um serviço de pedidos pode estar lento apenas durante um período de pico; a geração pode dominar apenas quando o agente escreve respostas desnecessariamente longas. Agrupe as medições por tarefa e resultado. Combinar uma resposta breve de política com um relatório detalhado esconde diferenças úteis.
 
 ## Mostre texto útil mais cedo com streaming
 
-**Streaming** envia uma resposta em partes à medida que é gerada, em vez de manter a resposta completa até o final. Um leitor pode começar a ler uma explicação enquanto sentenças posteriores ainda chegam. Isso costuma melhorar a percepção de rapidez, mas não necessariamente reduz o tempo necessário para terminar a resposta ou concluir uma ação externa.
+**Streaming** envia uma resposta em pedaços conforme ela é gerada, em vez de reter toda a resposta até o final. Um leitor pode começar a ler uma explicação enquanto frases posteriores ainda estão chegando. Isso muitas vezes melhora a responsividade percebida, mas não necessariamente reduz o tempo necessário para concluir a resposta ou completar uma ação externa.
 
-Meça o **tempo até o primeiro token** desde a solicitação ao modelo até seu primeiro texto emitido, e separadamente meça o tempo desde a submissão do usuário até o primeiro conteúdo visível útil. Eles nem sempre são iguais. A recuperação pode acontecer primeiro, e um aplicativo ou intermediário de rede pode segurar partes antes de exibi‑las. Teste a experiência pelo canal real do cliente, não apenas no console do desenvolvedor.
+Meça o **tempo até o primeiro token** desde a solicitação do modelo até seu primeiro texto emitido e meça separadamente o tempo desde o envio do usuário até o primeiro conteúdo visível útil. Esses valores nem sempre são iguais. A recuperação pode acontecer primeiro, e um aplicativo ou intermediário de rede pode reter pedaços antes de exibi-los. Teste a experiência através do canal real do cliente, não apenas no console de um desenvolvedor.
 
-Streaming não é adequado para toda saída. Um aplicativo que espera um registro estruturado completo pode precisar esperar até que todo o registro seja válido. Conteúdo sensível à segurança pode exigir verificação antes da exibição. Uma frase parcial que parece uma aprovação de reembolso não deve aparecer antes que a autorização seja confirmada. Se houver interrupção, marque claramente a resposta incompleta em vez de apresentá‑la como concluída.
+O streaming não é adequado para todas as saídas. Um aplicativo que espera um registro estruturado completo pode precisar aguardar até que todo o registro seja válido. Conteúdo sensível à segurança pode exigir verificação antes da exibição. Uma frase parcial que soa como uma aprovação de reembolso não deve aparecer antes que a autorização seja confirmada. Se houver interrupção, marque claramente uma resposta incompleta em vez de apresentá-la como concluída.
 
-**Parece rápido mas engana**
+**Parece rápido, mas é enganoso**
 
-“Sua troca foi aprovada” aparece imediatamente enquanto a verificação do pedido ainda está em andamento. Uma recusa posterior contradiz a primeira mensagem e danifica a confiança.
+“Sua troca foi aprovada” aparece imediatamente enquanto a verificação do pedido ainda está sendo executada. Uma recusa posterior contradiz a primeira mensagem e danifica a confiança.
 
 **Responsivo e preciso**
 
 “Estou verificando o pedido e a política de troca” aparece enquanto essas etapas são executadas. A aprovação só aparece após a conclusão das verificações necessárias.
 
-## Reduza o trabalho que deve acontecer
+## Encurte o trabalho que deve acontecer
 
-Um modelo menor ou mais rápido pode lidar com uma etapa simples, como classificar um ticket de entrada, enquanto uma etapa mais exigente recebe um modelo que atenda às suas necessidades de qualidade. Menor não garante rapidez sob toda carga de trabalho: fila, capacidade do provedor, tamanho da entrada e comprimento da saída tudo importa. Compare candidatos nas mesmas tarefas antes de encaminhar usuários reais para eles.
+Um modelo menor ou mais rápido pode lidar com uma etapa direta, como classificar um ticket de entrada, enquanto uma etapa mais exigente recebe um modelo que atende às suas necessidades de qualidade. Menor não garante velocidade sob todas as cargas de trabalho: filas, capacidade do provedor, tamanho da entrada e comprimento da saída são fatores importantes. Compare candidatos nas mesmas tarefas antes de direcionar usuários reais a eles.
 
-Mantenha as solicitações focadas. Enviar documentos irrelevantes aumenta o trabalho de leitura, enquanto pedir um ensaio quando o cliente precisa apenas da data de entrega aumenta o trabalho de geração. Remova buscas repetidas e chamadas de ferramentas desnecessárias. Preserve o contexto necessário para decisões corretas e compare a taxa de perguntas de acompanhamento: uma resposta mais curta não é ganho se todos precisarem perguntar novamente.
+Mantenha as solicitações focadas. Enviar documentos irrelevantes aumenta o trabalho de leitura, enquanto pedir uma redação quando o cliente precisa de uma data de entrega aumenta o trabalho de geração. Remova pesquisas repetidas desnecessárias e chamadas de ferramentas. Preserve o contexto necessário para decisões corretas e compare a taxa de perguntas de acompanhamento: uma resposta mais curta não é um ganho se todos tiverem que perguntar novamente.
 
-**Trabalho paralelo** significa executar operações independentes ao mesmo tempo. Verificar uma política pública de envio e buscar um registro de pedido autorizado pode ser independente após as verificações de acesso necessárias. Quando ambos começam juntos, a espera combinada se aproxima da operação mais lenta do que da soma de ambas. É como pedir a dois colegas que verifiquem pastas diferentes em vez de pedir a um só que faça ambos em sequência.
+**Trabalho paralelo** significa executar operações independentes ao mesmo tempo. Verificar uma política de envio pública e buscar um registro de pedido autorizado pode ser independente após as verificações de acesso necessárias. Quando ambos começam juntos, a espera combinada é mais próxima da operação mais lenta do que da soma de ambas. Isso é como pedir a dois colegas para verificar pastas diferentes em vez de pedir a um colega para fazer ambas as coisas em sequência.
 
-Não paralelize etapas que dependem uma da outra. Um reembolso deve esperar pela aprovação, e a consulta de um pedido pode exigir primeiro a verificação de identidade do cliente. Solicitações simultâneas também podem sobrecarregar um serviço downstream ou aumentar o custo. Defina um limite para trabalho concorrente, ou seja, quantas operações podem rodar ao mesmo tempo, e garanta que cada operação tenha as permissões necessárias.
+Não paralelize etapas que dependem umas das outras. Um reembolso deve aguardar a aprovação, e uma consulta de pedido pode exigir uma verificação de identidade do cliente primeiro. Solicitações simultâneas também podem sobrecarregar um serviço downstream ou aumentar o custo. Defina um limite para o trabalho concorrente, significando quantas operações podem ser executadas ao mesmo tempo, e garanta que cada operação tenha as permissões de que precisa.
 
-- **Consultas independentes** — Considere execução paralela quando ambas as solicitações já têm entradas válidas e nenhuma altera o que a outra deve fazer.
+- **Consultas independentes** — Considere a execução paralela quando ambas as solicitações já têm entradas válidas e nenhuma altera o que a outra deve fazer.
 
-- **Ações dependentes** — Mantenha a ordem necessária: verificar identidade, checar elegibilidade, obter aprovação, então executar a ação autorizada.
+- **Ações dependentes** — Mantenha a ordem necessária: verifique a identidade, verifique a elegibilidade, obtenha a aprovação e, em seguida, execute a ação autorizada.
 
-- **Geração focada** — Forneça ao modelo contexto relevante e um comprimento de resposta adequado. Brevidade ainda deve responder à pergunta real.
+- **Geração focada** — Forneça ao modelo contexto relevante e um comprimento de resposta apropriado. A brevidade ainda deve responder à pergunta real.
 
-Relacionado: no AIVAX, escolhas reutilizáveis sobre modelo, conhecimento e ferramentas são armazenadas em um [AI gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). Trate qualquer mudança de configuração como algo a ser medido, não como promessa de que toda conversa ficará mais rápida.
+Relacionado: sobre o AIVAX, escolhas reutilizáveis sobre um modelo, conhecimento e ferramentas são armazenadas em um [gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md). Trate qualquer alteração de configuração como algo a ser medido, não como uma promessa de que cada conversa se tornará mais rápida.
 
-## Limite a espera e trate falhas com honestidade
+## Limite a espera e lide com falhas honestamente
 
-Um **timeout** é um limite de quanto tempo uma operação pode esperar. Dê limites sensatos aos ferramentas individuais dentro de um prazo geral para a tarefa. Sem um prazo geral, várias tentativas podem atender seus próprios limites enquanto o usuário espera muito tempo. Um **retry** repete uma tentativa falhada; um **fallback** usa uma rota alternativa quando a rota preferida está indisponível.
+Um **timeout (tempo limite)** é um limite para quanto tempo uma operação pode esperar. Dê limites sensíveis a ferramentas individuais dentro de um prazo geral para a tarefa. Sem um prazo geral, vários retries (tentativas) podem atender cada um ao seu próprio limite enquanto o usuário espera muito tempo. Um **retry (tentativa)** repete uma tentativa falhada; um **fallback (plano B)** usa uma rota alternativa quando a rota preferida não está disponível.
 
-Um timeout nem sempre significa que nada aconteceu. Um pagamento ou criação de ticket pode ter sido bem‑sucedido mesmo que sua confirmação tenha se perdido. Verifique seu status antes de tentar a ação novamente, usando controles de prevenção de duplicatas quando disponíveis. Ofereça um próximo passo seguro quando não for possível estabelecer o resultado. [Errors, retries and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md) explica como evitar transformar um atraso em efeitos colaterais repetidos.
+Um timeout nem sempre significa que nada aconteceu. Um pagamento ou criação de ticket pode ter sido bem-sucedido mesmo que sua confirmação tenha sido perdida. Verifique seu status antes de tentar a ação novamente, usando controles de prevenção de duplicidade onde disponíveis. Ofereça um próximo passo seguro quando você não puder estabelecer o resultado. [Erros, tentativas e planos B](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md) explica como evitar transformar um atraso em efeitos colaterais repetidos.
 
-## Meça a experiência ordinária e a lenta
+## Meça a experiência comum e a lenta
 
-Um **percentil** descreve onde um valor se posiciona em um conjunto ordenado de medições. **p50**, a mediana, é o ponto em que metade das solicitações medidas está abaixo. **p95** é o ponto em que 95 % está abaixo; as solicitações restantes são mais lentas. Essas medidas distinguem melhor uma experiência normal de uma lenta do que uma média única.
+Um **percentil** descreve onde um valor cai em um conjunto ordenado de medições. **p50**, a mediana, é o ponto em ou abaixo do qual metade das solicitações medidas cai. **p95** é o ponto em ou abaixo do qual 95% caem; as solicitações restantes são mais lentas. Essas medidas distinguem uma experiência normal de uma lenta melhor do que uma única média pode.
 
-Reporte o período de observação, tamanho da amostra e o que aconteceu com solicitações expiradas ou falhas. Excluir todas as falhas pode fazer a performance parecer mais saudável do que realmente é. Compare cargas de trabalho semelhantes e inspecione o comportamento de primeiro uso separadamente do trabalho repetido que se beneficia de cache. Use [Metrics](https://docs.aivax.net/pt-br/learn/quality/metrics.md) para combinar medições de tempo com sucesso e confiabilidade, em vez de recompensar apenas velocidade.
+Relate o período de observação, o tamanho da amostra e o que aconteceu com as solicitações com timeout ou falhas. Excluir todas as falhas pode fazer com que o desempenho pareça mais saudável do que é. Compare cargas de trabalho semelhantes e inspecione o comportamento de primeiro uso separadamente do trabalho repetido que se beneficia do cache. Use [Métricas](https://docs.aivax.net/pt-br/learn/quality/metrics.md) para combinar medições de tempo com sucesso e confiabilidade, em vez de recompensar apenas a velocidade.
 
-1. **Definir a experiência**
+1. **Defina a experiência**
 
-Escolha um intervalo como conteúdo útil inicial ou conclusão de tarefa confirmada, e concorde o que espera tempo aceitável para essa tarefa.
+Escolha um intervalo, como o primeiro conteúdo útil ou a conclusão confirmada da tarefa, e concorde sobre o que significa uma espera aceitável para essa tarefa.
 
-2. **Medir a rota completa**
+2. **Meça a rota completa**
 
-Capture os tempos das etapas junto com a duração total, falhas e categorias de solicitação. Identifique qual etapa causa os casos lentos.
+Capture os tempos das etapas junto com a duração total, falhas e categorias de solicitação. Encontre qual etapa causa casos lentos.
 
-3. **Testar uma melhoria**
+3. **Teste uma melhoria**
 
-Experimente uma solicitação focada, buscas paralelas elegíveis ou streaming. Verifique a precisão da tarefa e a carga downstream, além da velocidade.
+Tente uma solicitação focada, consultas paralelas elegíveis ou streaming. Verifique a precisão da tarefa e a carga downstream, bem como a velocidade.
 
-4. **Observar o uso real**
+4. **Observe o uso real**
 
-Compare p50 e p95 após um lançamento limitado. Mantenha a configuração anterior disponível se a confiabilidade ou segurança piorar.
+Compare p50 e p95 após uma implantação limitada. Mantenha a configuração anterior disponível se a confiabilidade ou a segurança piorarem.
 
-Um indicador de “digitando…” é um reconhecimento útil, não substituto de progresso. Prefira mensagens verdadeiras como “O serviço de pedidos está demorando mais que o habitual” quando esse estado for conhecido. Não invente um percentual concluído ou um tempo de conclusão. Para trabalhos mais longos, permita cancelamento quando suportado e explique se interromper a espera não puder desfazer uma ação já executada.
+Um indicador de “digitando…” é um reconhecimento útil, não um substituto para o progresso. Prefira mensagens verdadeiras, como “O serviço de pedidos está demorando mais do que o habitual”, quando esse estado for conhecido. Não invente uma porcentagem de conclusão ou um tempo de conclusão. Para trabalhos mais longos, permita o cancelamento onde suportado e explique se parar a espera não pode desfazer uma ação já realizada.
 
-Próximo passo: torne as mudanças de desempenho rastreáveis e reversíveis com [Versioning prompts, agents and knowledge](https://docs.aivax.net/pt-br/learn/production/versioning.md).
+Próximos passos: torne as alterações de desempenho rastreáveis e reversíveis com [Versionamento de prompts, agentes e conhecimento](https://docs.aivax.net/pt-br/learn/production/versioning.md).
 
-**Verifique seu conhecimento.** Qual mudança pode reduzir a espera sem pular verificações necessárias?
+**Verifique seu conhecimento.** Qual mudança pode reduzir a espera sem pular as verificações necessárias?
 
-1. Streamar uma aprovação antes que a verificação de elegibilidade termine
-2. Medir apenas solicitações bem‑sucedidas e ignorar timeouts
+1. Transmitir uma aprovação antes que a verificação de elegibilidade termine
+2. Medir apenas solicitações bem-sucedidas e ignorar timeouts
 3. Executar consultas autorizadas e independentes em paralelo e medir o tempo total de conclusão
 4. Dar a cada ferramenta tempo de espera ilimitado
 
-Answer: option 3. Consultas independentes podem se sobrepor com segurança quando suas entradas e permissões já estão prontas. Medir o tempo de conclusão verifica o benefício; aprovações, ações dependentes e relatórios de falha ainda precisam de suas salvaguardas normais.
+Answer: option 3. Consultas independentes podem se sobrepor com segurança quando suas entradas e permissões estão prontas. Medir o tempo de conclusão verifica o benefício; aprovações, ações dependentes e relatórios de falhas ainda precisam de suas salvaguardas normais.

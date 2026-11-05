@@ -1,10 +1,10 @@
 Source: https://docs.aivax.net/pt-br/docs/tools/mcp.html
 
-# Suporte ao Protocolo de Contexto do Modelo (MCP)
+# Suporte para o Protocolo de Contexto do Modelo (MCP)
 
-Você pode vincular ferramentas externas do protocolo MCP ao seu [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateway.md). O protocolo define ferramentas que são executadas no lado do servidor e permitem que o assistente interaja com serviços em tempo real.
+Você pode vincular ferramentas externas do protocolo MCP ao seu [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md). O protocolo define ferramentas que são executadas no lado do servidor e permitem que o assistente interaja com serviços em tempo real.
 
-O AIVAX atua como um cliente MCP para inferência no gateway: ele se conecta à origem MCP configurada, lista as ferramentas, converte o esquema de cada ferramenta em uma função acionável pelo modelo e chama o servidor MCP remoto quando o modelo seleciona essa ferramenta.
+O AIVAX atua como um cliente MCP para inferência no gateway: ele se conecta à fonte MCP configurada, lista as ferramentas, converte o esquema de cada ferramenta em uma função chamável pelo modelo e chama o servidor MCP remoto quando o modelo seleciona essa ferramenta.
 
 <img src="/assets/diagrams/mcp-1.drawio.svg">
 
@@ -16,7 +16,7 @@ Não use o MCP apenas para substituir uma única chamada HTTP simples. Quando vo
 
 Em produção, trate o servidor MCP como uma API exposta a um agente. As descrições das ferramentas devem ser claras, os esquemas devem ser restritivos e a autenticação deve ser configurada nos cabeçalhos do servidor. O modelo não deve receber ferramentas muito genéricas como `execute`, `request` ou `search` sem descrições fortes e parâmetros controlados. Ferramentas ambíguas aumentam as chamadas incorretas; ferramentas específicas como `lookup_customer_by_email` ou `create_support_ticket` ajudam o modelo a decidir melhor.
 
-Uma longa lista de ferramentas também tem um custo: cada ferramenta oferecida ao modelo adiciona seu nome, descrição e esquema a cada solicitação. Para medir esse overhead e reduzi-lo, consulte [como medir e cortar tokens de definição de ferramentas](https://aivax.net/blog/reduce-mcp-tool-definition-tokens-too-many-tools/).
+Uma lista longa de ferramentas também tem um custo: cada ferramenta oferecida ao modelo adiciona seu nome, descrição e esquema a cada solicitação. Para medir essa sobrecarga e reduzi-la, consulte [como medir e reduzir tokens de definição de ferramentas](https://aivax.net/blog/reduce-mcp-tool-definition-tokens-too-many-tools/).
 
 ### Escolhendo o nome da função
 
@@ -54,18 +54,18 @@ Você pode definir seus servidores MCP no gateway por meio de uma matriz JSON:
 ]
 ```
 
-Seu servidor MCP deve suportar **HTTP Streamable** para funcionar com o AIVAX como fonte de ferramentas do gateway. Você pode definir cabeçalhos personalizados na configuração do seu servidor MCP para configurar autenticação ou outras necessidades. Ferramentas, instruções do servidor e descoberta de habilidades remotas são armazenadas em cache conforme `cacheDuration`; o padrão é 600 segundos.
+Seu servidor MCP deve suportar **HTTP Streamable** para funcionar com o AIVAX como uma fonte de ferramentas do gateway. Você pode definir cabeçalhos personalizados na configuração do seu servidor MCP para configurar autenticação ou outras necessidades. Ferramentas, instruções do servidor e descoberta de habilidades remotas são armazenadas em cache conforme `cacheDuration`; o padrão é 600 segundos.
 
 Cada origem MCP aceita os seguintes campos:
 
 | Campo | Tipo | Padrão | Descrição |
 | --- | --- | --- | --- |
-| `name` | `string` | Obrigatório | Nome de exibição da origem, com pelo menos 3 caracteres. Ele identifica a origem nos nomes das ferramentas (consulte `prefixTools`), instruções do servidor e descrições de habilidades remotas. Alterá-lo cria uma nova entrada de cache de descoberta. |
+| `name` | `string` | Obrigatório | Nome de exibição da origem, com pelo menos 3 caracteres. Ele identifica a origem nos nomes das ferramentas (consulte `prefixTools`), nas instruções do servidor e nas descrições de habilidades remotas. Alterá-lo cria uma nova entrada de cache de descoberta. |
 | `url` | `string` | Obrigatório | URL absoluto HTTP ou HTTPS do ponto de extremidade Streamable HTTP do servidor MCP. |
 | `description` | `string` | `null` | Nota opcional descrevendo o que a origem fornece. É apenas informativo: não é enviado ao modelo nem ao servidor MCP. |
 | `headers` | `object` | `{}` | Mapa de nomes de cabeçalhos HTTP para valores de string enviados em toda conexão com o servidor, tanto durante a descoberta quanto em cada chamada de ferramenta. Use-o para autenticação, como `Authorization`. |
-| `cacheDuration` | `integer` | `600` | Tempo, em segundos, que as ferramentas descobertas, instruções do servidor e habilidades remotas são reutilizadas antes que o AIVAX as liste novamente. Aceita valores de `0` a `86400`. As chamadas de ferramentas nunca são armazenadas em cache. |
-| `prefixTools` | `boolean` | `true` | Quando `true`, cada ferramenta é exposta ao modelo como `mcp_<origem>_<ferramenta>`, onde `<origem>` é o `name` em minúsculas, com espaços substituídos por hífens e outros caracteres não alfanuméricos removidos. Por exemplo, a ferramenta `get_weather` de `Meu servidor MCP` torna-se `mcp_meu-servidor-mcp_get_weather`. Quando `false`, o nome original da ferramenta do servidor é usado; certifique-se de que não haja colisão com ferramentas de outras origens ou funções no mesmo gateway. O servidor sempre recebe seu nome original de ferramenta. |
+| `cacheDuration` | `integer` | `600` | Tempo, em segundos, que as ferramentas descobertas, as instruções do servidor e as habilidades remotas são reutilizadas antes que o AIVAX as liste novamente. Aceita valores de `0` a `86400`. As chamadas de ferramenta nunca são armazenadas em cache. |
+| `prefixTools` | `boolean` | `true` | Quando `true`, cada ferramenta é exposta ao modelo como `mcp_<origem>_<ferramenta>`, onde `<origem>` é o `name` em letras minúsculas, com espaços substituídos por hífens e outros caracteres não alfanuméricos removidos. Por exemplo, a ferramenta `get_weather` de `Meu servidor MCP` torna-se `mcp_meu-servidor-mcp_get_weather`. Quando `false`, o nome original da ferramenta do servidor é usado; certifique-se de que não haja colisão com ferramentas de outras origens ou funções no mesmo gateway. O servidor sempre recebe seu nome original de ferramenta. |
 | `allowClientInstructions` | `boolean` | `true` | Adiciona as instruções de uso anunciadas pelo servidor ao contexto do gateway. Consulte [instruções do servidor e habilidades remotas](#instruções-do-servidor-e-habilidades-remotas). |
 | `allowRemoteSkills` | `boolean` | `true` | Importa habilidades remotas verificadas de servidores que anunciam a extensão de habilidades. Consulte [instruções do servidor e habilidades remotas](#instruções-do-servidor-e-habilidades-remotas). |
 
@@ -77,13 +77,13 @@ Cada origem MCP aceita `allowClientInstructions` e `allowRemoteSkills`, ambos ha
 
 O AIVAX solicita ferramentas apenas quando o servidor anuncia ferramentas. A descoberta de habilidades também requer a capacidade `resources` e a extensão `io.modelcontextprotocol/skills` nas capacidades do servidor retornadas durante a inicialização. O AIVAX segue a paginação de `skills/list` e lê cada `SKILL.md` listado do mesmo servidor. Habilidades remotas recebem identificadores qualificados por origem para não substituir habilidades de conta ou habilidades de mesmo nome de outra origem.
 
-Esta é uma integração de compatibilidade limitada, não suporte completo ao protocolo base `2026-07-28` da extensão. O servidor deve aceitar o fluxo de inicialização Streamable HTTP existente e anunciar a extensão lá; servidores que exigem `server/discover` não são suportados por esta integração.
+Esta é uma integração de compatibilidade limitada, não suporte completo para o protocolo base `2026-07-28` da extensão. O servidor deve aceitar o fluxo de inicialização Streamable HTTP existente e anunciar a extensão lá; servidores que exigem `server/discover` não são suportados por esta integração.
 
-Apenas o `SKILL.md` raiz é importado. Seu comprimento em bytes, digest SHA-256 e frontmatter YAML devem corresponder à entrada anunciada; uma falha na correspondência falha na descoberta em vez de carregar conteúdo não verificado. Os manifestos são limitados a 512 recursos e 16 MiB de conteúdo total declarado por habilidade. Habilidades que anunciam `resources: "dynamic"` são ignoradas. Arquivos de suporte, navegação em diretórios, lookup direto `skills/get` e scripts não são importados. O frontmatter não concede permissões de ferramenta nem preenche as listas de ferramentas permitidas do gateway; as políticas de ferramenta existentes ainda se aplicam. Esta integração não adiciona um sistema de aprovação por habilidade nem uma nova sandbox de execução. Desative as habilidades remotas quando sua política exigir esses controles.
+Apenas o `SKILL.md` raiz é importado. Seu comprimento em bytes, digest SHA-256 e frontmatter YAML devem corresponder à entrada anunciada; uma falha na correspondência falha na descoberta em vez de carregar conteúdo não verificado. Os manifestos são limitados a 512 recursos e 16 MiB de conteúdo total declarado por habilidade. Habilidades que anunciam `resources: "dynamic"` são ignoradas. Arquivos de suporte, navegação em diretórios, consulta direta `skills/get` e scripts não são importados. O frontmatter não concede permissões de ferramenta nem preenche as listas de ferramentas permitidas do gateway; as políticas de ferramenta existentes ainda se aplicam. Esta integração não adiciona um sistema de aprovação por habilidade nem uma nova sandbox de execução. Desative as habilidades remotas quando sua política exigir esses controles.
 
 Antes de conectar um servidor de terceiros, revise a [lista de verificação de conexão MCP de terceiros](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/).
 
-As mesmas opções se aplicam às origens MCP adicionadas por trabalhadores do gateway. As habilidades de conta existentes permanecem disponíveis. Novas conexões buscam o conteúdo da habilidade durante a descoberta, enquanto `read_skill` controla quando esse conteúdo entra no contexto ativo de habilidades do modelo.
+As mesmas opções se aplicam às origens MCP adicionadas por trabalhadores do gateway. As habilidades de conta existentes permanecem disponíveis. Novas conexões buscam conteúdo de habilidade durante a descoberta, enquanto `read_skill` controla quando esse conteúdo entra no contexto de habilidade ativo do modelo.
 
 ## Metadados enviados com chamadas de ferramentas
 
@@ -120,11 +120,11 @@ Todos os caminhos abaixo são relativos a `params._meta`. Nomes começando com `
 
 | Campo | Tipo JSON | Significado e disponibilidade |
 | --- | --- | --- |
-| `_aiv_nonce` | `string` ou `null` | Hash BCrypt derivado da chave hook da conta que está fazendo a chamada. Sem uma chave hook configurada, seu valor é `null`. Verifique a chave hook de texto plano configurada contra este hash, conforme descrito em [autenticação hook](https://docs.aivax.net/pt-br/docs/authentication.md#hook-authentication); não compare strings de hash ou espere a própria chave hook. |
-| `_aiv_external_user_id` | `string` ou `null` | Identificador de usuário externo carregado pelo contexto de inferência. Para clientes de chat, vem da sessão; para conclusões de chat, vem do campo `user` da solicitação. Pode ser `null` quando nenhum usuário foi identificado. Use-o para procurar o usuário em seu aplicativo, não como ID de conta AIVAX ou prova de autorização. |
-| `_aiv_call_source` | `string` | Origem da inferência, não do transporte de ferramenta de saída. Uma ferramenta MCP chamada durante a inferência de bate-papo web ainda recebe `WebChatClient`, não `McpClient`. Consulte os valores abaixo. |
-| `_aiv_conversation_token` | `string` ou `null` | Token de correlação de conversa carregado pela sessão ou solicitação de inferência. Para conclusões de chat, é o `conversation_token` da solicitação, ou o token gerado pelo AIVAX quando nenhum foi enviado. Pode ser `null`; não é uma credencial de autenticação nem um ID exclusivo de chamada de ferramenta. Múltiplas chamadas na mesma conversa podem compartilhá-lo. |
-| `_aiv_moment` | `string` | Carimbo de data/hora criado quando o AIVAX prepara esta chamada de ferramenta, no formato ISO 8601 round-trip com frações de segundo e deslocamento UTC. Usa o relógio local do servidor AIVAX, não o fuso horário do usuário ou o início da conversa. Analise o deslocamento e converta para o fuso horário do seu aplicativo quando necessário. |
+| `_aiv_nonce` | `string` ou `null` | Hash BCrypt derivado da chave de hook da conta de chamada. Sem uma chave de hook configurada, seu valor é `null`. Verifique a chave de hook de texto plano configurada contra este hash, conforme descrito em [autenticação de hook](https://docs.aivax.net/pt-br/docs/authentication.md#hook-authentication); não compare strings de hash ou espere a própria chave de hook. |
+| `_aiv_external_user_id` | `string` ou `null` | Identificador de usuário externo transportado pelo contexto de inferência. Para clientes de chat, vem da sessão; para conclusões de chat, vem do campo `user` da solicitação. Pode ser `null` quando nenhum usuário foi identificado. Use-o para procurar o usuário em seu aplicativo, não como um ID de conta AIVAX ou prova de autorização. |
+| `_aiv_call_source` | `string` | Origem da inferência, não o transporte de ferramenta de saída. Uma ferramenta MCP chamada durante a inferência de bate-papo web ainda recebe `WebChatClient`, não `McpClient`. Consulte os valores abaixo. |
+| `_aiv_conversation_token` | `string` ou `null` | Token de correlação de conversa transportado pela sessão ou solicitação de inferência. Para conclusões de chat, é o `conversation_token` da solicitação, ou o token gerado pelo AIVAX quando nenhum foi enviado. Pode ser `null`; não é uma credencial de autenticação nem um ID exclusivo de chamada de ferramenta. Múltiplas chamadas na mesma conversa podem compartilhá-lo. |
+| `_aiv_moment` | `string` | Carimbo de data/hora criado quando o AIVAX prepara esta chamada de ferramenta, no formato de viagem de ida e volta ISO 8601 com segundos fracionários e deslocamento UTC. Usa o relógio local do servidor AIVAX, não o fuso horário do usuário ou o início da conversa. Analise o deslocamento e converta para o fuso horário do seu aplicativo quando necessário. |
 
 ### Valores de origem de chamada
 
@@ -140,7 +140,7 @@ Os mesmos valores de string são usados por funções de protocolo em `context.c
 | `McpClient` | Inferência iniciada por meio de um cliente MCP. |
 | `ValidationApi` | Validação de teste agêntico. |
 
-Trate a origem como contexto de roteamento e diagnóstico, não como papel de autorização. Os consumidores devem tolerar valores futuros de origem.
+Trate a origem como contexto de roteamento e diagnóstico, não como uma função de autorização. Os consumidores devem tolerar valores de origem futuros.
 
 ### Metadados personalizados e segurança
 
@@ -148,17 +148,17 @@ Os metadados de inferência personalizados são um mapa de chaves de string para
 
 Não envie segredos nos metadados personalizados: esses valores são encaminhados para o servidor de ferramenta remoto. Valide o acesso do tenant e do usuário contra seus próprios registros confiáveis antes de usar metadados para selecionar dados ou realizar gravações. Nem um ID de usuário externo, um token de conversa nem um rótulo de origem de chamada concedem permissão por si só.
 
-O nonce autentica a chave hook da conta configurada; não é uma assinatura dos argumentos, um ID de solicitação único ou um mecanismo de prevenção de replay. Mantenha o HTTPS e os cabeçalhos de autenticação configurados do servidor MCP, e aplique seus próprios controles de autorização e de operações duplicadas. Se o seu servidor exigir autenticação nonce, rejeite um nonce ausente ou inválido.
+O nonce autentica a chave de hook da conta configurada; não é uma assinatura dos argumentos, um ID de solicitação único ou um mecanismo de prevenção de replay. Mantenha o HTTPS e os cabeçalhos de autenticação configurados do servidor MCP e aplique seus próprios controles de autorização e operação duplicada. Se o seu servidor exigir autenticação nonce, rejeite um nonce ausente ou inválido.
 
 Para o envelope de callback HTTP equivalente, consulte [contexto de função de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md#context-fields).
 
 ## Resultados de ferramentas
 
-Os resultados das ferramentas podem incluir blocos de conteúdo de texto, imagem e áudio. O texto é adicionado diretamente ao resultado da ferramenta. Blocos de imagem e áudio são anexados de volta à conversa como conteúdo multimodal com IDs gerados. Tipos de bloco de conteúdo não suportados são relatados como texto não suportado.
+Os resultados das ferramentas podem incluir blocos de conteúdo de texto, imagem e áudio. O texto é adicionado diretamente ao resultado da ferramenta. Blocos de imagem e áudio são anexados de volta à conversa como conteúdo multimodal com IDs gerados. Tipos de blocos de conteúdo não suportados são relatados como texto não suportado.
 
 Se algo der errado, verifique o sintoma:
 
-- **A ferramenta não aparece para o modelo:** verifique se o servidor remoto é alcançável, suporta Streamable HTTP, possui os cabeçalhos de autenticação corretos e está configurado como uma origem MCP no gateway.
+- **A ferramenta não aparece para o modelo:** verifique se o servidor remoto está acessível, suporta Streamable HTTP, possui os cabeçalhos de autenticação corretos e está configurado como uma origem MCP no gateway.
 - **A ferramenta aparece, mas não é chamada:** revise o nome, a descrição e o esquema.
-- **A ferramenta é chamada com argumentos incorretos:** restrinja o JSON Schema e inclua descrições de propriedades.
-- **A chamada falha:** faça o servidor MCP retornar erros legíveis para que o modelo possa decidir se tenta outro argumento, pede informações ao usuário ou interrompe a ação.
+- **A ferramenta é chamada com argumentos ruins:** restrinja o JSON Schema e inclua descrições de propriedades.
+- **A chamada falha:** faça com que o servidor MCP retorne erros legíveis para que o modelo possa decidir se tenta outro argumento, pergunta ao usuário por informações ou interrompe a ação.

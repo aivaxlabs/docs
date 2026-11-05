@@ -63,7 +63,7 @@ The account management MCP is useful when the assistant needs to reason about th
 
 ### Create and maintain agents
 
-An internal development agent can use the MCP to help create, review, and adjust [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateway.md). Before changing a gateway, the agent can search the AIVAX manual for the relevant feature, list available models for the current account, compare model capabilities and plan availability, then invoke the appropriate account API route.
+An internal development agent can use the MCP to help create, review, and adjust [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). Before changing a gateway, the agent can search the AIVAX manual for the relevant feature, list available models for the current account, compare model capabilities and plan availability, then invoke the appropriate account API route.
 
 This is useful when teams frequently create assistants for different departments, tenants, or products. The MCP lets the operator ask for an agent in product terms, such as "create a support assistant for refund policies with the CRM MCP enabled", while the implementation assistant checks which models, tools, RAG collections, and gateway options are available in the account.
 

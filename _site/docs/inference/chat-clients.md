@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/docs/inference/chat-clients.html
 
 # Chat Clients
 
-A chat client gives end users an interface to converse with an assistant powered by an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md). It runs on the gateway's inference and supports deep thinking, search, text conversation, and image sending. Audio features depend on the integration and client configuration.
+A chat client gives end users an interface to converse with an assistant powered by an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). It runs on the gateway's inference and supports deep thinking, search, text conversation, and image sending. Audio features depend on the integration and client configuration.
 
 You can customize the chat client interface with CSS, custom JavaScript, colors, labels, suggestion buttons, frame origins, input modes, and the language used by the chat resources.
 
@@ -86,4 +86,4 @@ Before opening a channel to the public, review the chat client configuration and
 
 Treat persistent memory separately from session history. See [the memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) for reviewing stored context and testing its influence across conversations.
 
-For the next steps, review [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateway.md) and [Authentication](https://docs.aivax.net/docs/authentication.md), especially the boundary between public chat access and API credentials.
+For the next steps, review [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and [Authentication](https://docs.aivax.net/docs/authentication.md), especially the boundary between public chat access and API credentials.

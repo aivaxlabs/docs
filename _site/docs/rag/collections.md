@@ -29,7 +29,7 @@ The **collection context** describes the knowledge base to an AI Gateway when th
 After adding and indexing documents, you can:
 
 - Search it directly with [Search](https://docs.aivax.net/docs/rag/semantic-search.md), optionally narrowed with [advanced filters](https://docs.aivax.net/docs/rag/document-filters.md) and reordered with a [reranker](https://docs.aivax.net/docs/rag/reranking.md).
-- Attach it to an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) so retrieved documents are placed into the model context automatically.
+- Attach it to an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) so retrieved documents are placed into the model context automatically.
 - Expose it to MCP clients through the [Collections and RAG MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md).
 - Monitor its retrieval quality and search history in the Console; see [RAG Observability](https://docs.aivax.net/docs/rag/observability.md).
 

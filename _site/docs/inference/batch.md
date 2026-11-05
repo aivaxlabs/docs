@@ -32,7 +32,7 @@ Batch is a good choice when:
 - you want to use built-in tools, such as web search, for each item;
 - you need to measure confidence and success rate per run.
 
-Do **not** use Batch for real‐time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](https://docs.aivax.net/docs/rag/collections.md). For a single immediate response to a user, use [inference](https://docs.aivax.net/docs/inference/inference.md).
+Do **not** use Batch for real‐time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](https://docs.aivax.net/docs/rag/collections.md). For a single immediate response to a user, use [inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md).
 
 ## Concepts
 
@@ -54,9 +54,9 @@ Changing a workflow affects subsequent jobs and items processed with that config
 
 A workflow processes its items with an integrated model or with an AI Gateway. Both are chosen in the **Model** setting of the workflow and referenced by `modelName` in the API.
 
-Batch optimizes for cost when the workflow does not use an AI Gateway: items are always routed with the `Cheapest` [provider routing preference](https://docs.aivax.net/docs/inference/inference.md#provider-routing), which selects the available provider with the lowest input and output token price for that model. The `Balanced` default is not applied in this case, so provider selection can differ from other features that request the same model. When only one provider is available or compatible with the request, routing does not change the result.
+Batch optimizes for cost when the workflow does not use an AI Gateway: items are always routed with the `Cheapest` [provider routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md), which selects the available provider with the lowest input and output token price for that model. The `Balanced` default is not applied in this case, so provider selection can differ from other features that request the same model. When only one provider is available or compatible with the request, routing does not change the result.
 
-Create an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateway.md) and select it in the workflow to use the `Balanced`, `Fastest`, or `Quality` preference, to restrict which providers are attempted, or to apply fixed instructions, tools, and RAG configuration to every item.
+Create an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and select it in the workflow to use the `Balanced`, `Fastest`, or `Quality` preference, to restrict which providers are attempted, or to apply fixed instructions, tools, and RAG configuration to every item.
 
 ### Job
 
@@ -160,7 +160,7 @@ Use the API when you want to integrate Batch into your internal system, data pip
 
 The API flow is the same as the console flow, only expressed as separate operations. First create the workflow, which is the reusable recipe. Then create a job, import the items, and start the job when the workload is ready. After processing begins, use the listing, retry, cleanup, and export endpoints to operate the job without losing track of individual records.
 
-If you are still deciding whether Batch is the right feature, compare it with [RAG collections](https://docs.aivax.net/docs/rag/collections.md) and [direct inference](https://docs.aivax.net/docs/inference/inference.md). Batch is for repeated reasoning over independent items. RAG collections are for searchable knowledge that should be retrieved later. Direct inference is for one immediate answer.
+If you are still deciding whether Batch is the right feature, compare it with [RAG collections](https://docs.aivax.net/docs/rag/collections.md) and [direct inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md). Batch is for repeated reasoning over independent items. RAG collections are for searchable knowledge that should be retrieved later. Direct inference is for one immediate answer.
 
 ### Create workflow
 

@@ -1,151 +1,153 @@
 Source: https://docs.aivax.net/pt-br/learn/guides/glossary-and-cheat-sheet.html
 
-Você não precisa memorizar todos os termos técnicos antes de construir um assistente útil. Você precisa de um vocabulário compartilhado ao discutir o que ele pode saber, o que pode fazer e quem verifica seu trabalho. Use esta página como um cartão de referência de oficina: encontre a palavra desconhecida e então siga seu link quando a distinção afetar seu design.
+Você não precisa memorizar todos os termos técnicos antes de construir um assistente útil. Você precisa de um vocabulário compartilhado ao discutir o que ele pode saber, o que pode fazer e quem verifica seu trabalho. Use esta página como um cartão de referência de oficina: encontre a palavra desconhecida e siga seu link quando a distinção afetar seu design.
 
-Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto específico. “Estruturado” não significa “verdadeiro”, “autenticado” não significa “autorizado a fazer tudo”, e “automatizado” não significa “sem responsabilidade”. Essas distinções importam mais do que lembrar as siglas.
+Os termos abaixo descrevem conceitos gerais, não garantias sobre um produto específico. “Estruturado” não significa “verdadeiro”, “autenticado” não significa “permitido fazer tudo” e “automatizado” não significa “sem responsabilidades”. Essas distinções são mais importantes do que lembrar as abreviações.
 
-## Glossary
+## Glossário
+
+As guias agrupam os termos em ordem alfabética. Cada entrada fornece um significado curto e aponta para uma lição que explica seu uso prático.
 
 **A–C**
 
-**A/B test** — Uma comparação que atribui usuários ou casos comparáveis a versões diferentes para que seus resultados possam ser avaliados de forma justa; veja [A/B testing](https://docs.aivax.net/pt-br/learn/quality/ab-testing.md).
+**Teste A/B** — Uma comparação que atribui usuários ou casos comparáveis a diferentes versões para que seus resultados possam ser avaliados com justiça; veja [Testes A/B](https://docs.aivax.net/pt-br/learn/quality/ab-testing.md).
 
-**Agent** — Software que combina um modelo com instruções, contexto e ferramentas permitidas para executar uma tarefa limitada; veja [Introduction to AI agents](https://docs.aivax.net/pt-br/learn/agents/introduction-to-ai-agents.md).
+**Agente** — Software que combina um modelo com instruções, contexto e ferramentas permitidas para realizar uma tarefa delimitada; veja [Introdução aos agentes de IA](https://docs.aivax.net/pt-br/learn/agents/introduction-to-ai-agents.md).
 
-**API** — Uma interface de programação de aplicações é uma forma definida para um programa solicitar informações ou ações de outro; veja [Connecting to existing systems](https://docs.aivax.net/pt-br/learn/agents/connecting-to-existing-systems.md).
+**API** — Uma interface de programação de aplicativos é uma maneira definida pela qual um programa solicita informações ou ações a outro; veja [Conectando-se a sistemas existentes](https://docs.aivax.net/pt-br/learn/agents/connecting-to-existing-systems.md).
 
-**Authentication** — Um processo que verifica quem é um usuário ou sistema, em vez de decidir cada ação que ele pode realizar; veja [Authentication and permissions](https://docs.aivax.net/pt-br/learn/tools-and-integrations/authentication-and-permissions.md).
+**Autenticação** — Um processo que verifica a identidade de um usuário ou sistema, em vez de decidir todas as ações que ele pode executar; veja [Autenticação e permissões](https://docs.aivax.net/pt-br/learn/tools-and-integrations/authentication-and-permissions.md).
 
-**Authorisation** — A decisão sobre quais informações ou ações um usuário identificado pode acessar em uma situação particular; veja [Authentication and permissions](https://docs.aivax.net/pt-br/learn/tools-and-integrations/authentication-and-permissions.md).
+**Autorização** — A decisão sobre quais informações ou ações um usuário identificado pode acessar em uma situação específica; veja [Autenticação e permissões](https://docs.aivax.net/pt-br/learn/tools-and-integrations/authentication-and-permissions.md).
 
-**Bias** — Uma tendência sistemática que pode produzir resultados injustos ou não representativos em vez de erros aleatórios; veja [Bias, fairness, and responsible AI](https://docs.aivax.net/pt-br/learn/safety/bias-fairness-responsible-ai.md).
+**Viés** — Uma tendência sistemática que pode produzir resultados injustos ou não representativos, em vez de erros aleatórios; veja [Viés, justiça e IA responsável](https://docs.aivax.net/pt-br/learn/safety/bias-fairness-responsible-ai.md).
 
-**Cache** — Informação armazenada ou um resultado anterior reutilizado para evitar trabalho repetido, sujeito a restrições de frescor e acesso; veja [Cost optimisation and caching](https://docs.aivax.net/pt-br/learn/production/cost-optimization-and-caching.md).
+**Cache** — Informações armazenadas ou um resultado anterior reutilizado para evitar trabalho repetido, sujeito a frescor e restrições de acesso; veja [Otimização de custos e cache](https://docs.aivax.net/pt-br/learn/production/cost-optimization-and-caching.md).
 
-**Channel** — O local onde as pessoas interagem com um assistente, como um chat em site ou serviço de mensagens; veja [Integrating channels](https://docs.aivax.net/pt-br/learn/tools-and-integrations/integrating-channels.md).
+**Canal** — O local onde as pessoas interagem com um assistente, como um chat em um site ou serviço de mensagens; veja [Integração de canais](https://docs.aivax.net/pt-br/learn/tools-and-integrations/integrating-channels.md).
 
-**Chunk** — Uma passagem menor feita a partir de um documento maior para que informações relevantes possam ser recuperadas sem enviar tudo; veja [Preparing documents for knowledge](https://docs.aivax.net/pt-br/learn/teaching-agents/preparing-documents-for-knowledge.md).
+**Chunk (Fragmento)** — Um trecho menor extraído de um documento maior para que informações relevantes possam ser recuperadas sem enviar tudo; veja [Preparando documentos para conhecimento](https://docs.aivax.net/pt-br/learn/teaching-agents/preparing-documents-for-knowledge.md).
 
-**Citation** — Uma referência que permite ao leitor inspecionar a fonte que sustenta uma afirmação específica da resposta; veja [Writing good documents](https://docs.aivax.net/pt-br/learn/teaching-agents/writing-good-documents.md).
+**Citação** — Uma referência que permite ao leitor inspecionar a fonte que sustenta uma afirmação específica da resposta; veja [Escrevendo bons documentos](https://docs.aivax.net/pt-br/learn/teaching-agents/writing-good-documents.md).
 
-**Context** — As instruções, mensagens, fatos e resultados de ferramentas fornecidos ao modelo para sua resposta atual; veja [Adding context](https://docs.aivax.net/pt-br/learn/agents/adding-context.md).
+**Contexto** — As instruções, mensagens, fatos e resultados de ferramentas fornecidos ao modelo para sua resposta atual; veja [Adicionando contexto](https://docs.aivax.net/pt-br/learn/agents/adding-context.md).
 
-**Context window** — A capacidade do modelo para os tokens considerados dentro de uma requisição, com detalhes de contagem dependendo do modelo; veja [Context window, tokens, and cost](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md).
+**Janela de contexto** — A capacidade do modelo de considerar os tokens dentro de uma solicitação, com detalhes de contabilidade dependendo do modelo; veja [Janela de contexto, tokens e custo](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md).
 
 **D–H**
 
-**Deflection** — Um problema elegível resolvido sem intervenção humana, que não deve ser confundido com uma conversa abandonada ou bloqueada; veja [Metrics](https://docs.aivax.net/pt-br/learn/quality/metrics.md).
+**Deflexão** — Um problema elegível resolvido sem intervenção humana, que não deve ser confundido com uma conversa abandonada ou bloqueada; veja [Métricas](https://docs.aivax.net/pt-br/learn/quality/metrics.md).
 
-**Deployment** — Tornar uma versão testada disponível para seus usuários pretendidos com monitoramento, propriedade e plano de recuperação; veja [Deployment checklist](https://docs.aivax.net/pt-br/learn/production/deployment-checklist.md).
+**Implantação** — Tornar uma versão testada disponível para seus usuários pretendidos, com monitoramento, propriedade e um plano de recuperação; veja [Lista de verificação de implantação](https://docs.aivax.net/pt-br/learn/production/deployment-checklist.md).
 
-**Embedding** — Uma representação numérica usada para comparar o significado ou características de texto e outros conteúdos; veja [Embeddings and semantic search](https://docs.aivax.net/pt-br/learn/models/embeddings-and-semantic-search.md).
+**Embedding (Vetorização)** — Uma representação numérica usada para comparar o significado ou características de texto e outros conteúdos; veja [Embeddings e busca semântica](https://docs.aivax.net/pt-br/learn/models/embeddings-and-semantic-search.md).
 
-**Escalation** — Transferir um problema para uma pessoa ou processo com a autoridade necessária para tratá‑lo; veja [Transparency and human escalation](https://docs.aivax.net/pt-br/learn/safety/transparency-and-human-escalation.md).
+**Escalonamento** — Transferir um problema para uma pessoa ou processo com a autoridade necessária para lidar com ele; veja [Transparência e escalonamento humano](https://docs.aivax.net/pt-br/learn/safety/transparency-and-human-escalation.md).
 
-**Evaluation** — Uma avaliação planejada contra exemplos e critérios definidos, em vez de julgar um agente por uma única resposta impressionante; veja [Testing and evaluating agents](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md).
+**Avaliação** — Uma avaliação planejada contra exemplos e critérios definidos, em vez de julgar um agente por uma única resposta impressionante; veja [Testando e avaliando agentes](https://docs.aivax.net/pt-br/learn/quality/testing-and-evaluating-agents.md).
 
-**Fallback** — Uma alternativa definida usada quando a operação preferida não pode ser concluída, sem enfraquecer silenciosamente a segurança ou permissões; veja [Errors, retries, and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
+**Fallback (Plano B)** — Uma alternativa definida usada quando a operação preferencial não pode ser concluída, sem enfraquecer silenciosamente a segurança ou as permissões; veja [Erros, retentativas e fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
 
-**Function calling** — Uma requisição estruturada do modelo para que o software execute uma operação nomeada com entradas especificadas; veja [Function calling](https://docs.aivax.net/pt-br/learn/tools-and-integrations/function-calling.md).
+**Chamada de função** — Uma solicitação estruturada do modelo para que o software execute uma operação nomeada com entradas especificadas; veja [Chamada de função](https://docs.aivax.net/pt-br/learn/tools-and-integrations/function-calling.md).
 
-**Grounding** — Conectar uma resposta a evidências fornecidas em vez de depender apenas de padrões aprendidos durante o treinamento; veja [What is a RAG](https://docs.aivax.net/pt-br/learn/teaching-agents/what-is-a-rag.md).
+**Fundamentação (Grounding)** — Conectar uma resposta às evidências fornecidas, em vez de depender apenas de padrões aprendidos durante o treinamento; veja [O que é um RAG](https://docs.aivax.net/pt-br/learn/teaching-agents/what-is-a-rag.md).
 
-**Guardrail** — Uma fronteira comportamental ou de software destinada a manter um agente dentro de seu escopo e ações permitidas; veja [Adding guardrails](https://docs.aivax.net/pt-br/learn/agents/adding-guardrails.md).
+**Guarda-chuva (Guardrail)** — Um limite comportamental ou de software destinado a manter um agente dentro de seu escopo e ações permitidos; veja [Adicionando guardrails](https://docs.aivax.net/pt-br/learn/agents/adding-guardrails.md).
 
-**Hallucination** — Uma afirmação gerada pelo modelo sem suporte ou incorreta que pode soar fluente e confiante apesar da falta de evidência; veja [Measuring adherence and hallucination](https://docs.aivax.net/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.md).
+**Alucinação** — Uma afirmação gerada pelo modelo, sem suporte ou incorreta, que pode soar fluida e confiante apesar de carecer de evidências; veja [Medindo aderência e alucinação](https://docs.aivax.net/pt-br/learn/teaching-agents/measuring-adherence-and-hallucination.md).
 
-**Human in the loop** — Uma pessoa deliberadamente envolvida em um ponto de decisão ou aprovação definido, em vez de apenas observar depois; veja [Human in the loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md).
+**Humano no loop** — Uma pessoa envolvida deliberadamente em um ponto definido de decisão ou aprovação, em vez de meramente observar posteriormente; veja [Humano no loop](https://docs.aivax.net/pt-br/learn/advanced-agents/human-in-the-loop.md).
 
 **I–P**
 
-**Idempotency** — Uma propriedade que permite que requisições repetidas para a mesma operação evitem criar efeitos indesejados adicionais; veja [Errors, retries, and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
+**Idempotência** — Uma propriedade que permite que solicitações repetidas para a mesma operação evitem criar efeitos indesejados adicionais; veja [Erros, retentativas e fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
 
-**Inference** — Executar um modelo treinado em nova entrada para obter uma saída, em vez de mudar o modelo através de treinamento; veja [What is an LLM](https://docs.aivax.net/pt-br/learn/agents/what-is-an-llm.md).
+**Inferência** — Executar um modelo treinado em uma nova entrada para obter uma saída, em vez de alterar o modelo por meio do treinamento; veja [O que é um LLM](https://docs.aivax.net/pt-br/learn/agents/what-is-an-llm.md).
 
-**Instruction** — Uma declaração que diz ao assistente como se comportar, que ainda precisa de aplicação de software para permissões consequentes; veja [Writing good prompts and instructions](https://docs.aivax.net/pt-br/learn/agents/writing-good-prompts-and-instructions.md).
+**Instrução** — Uma declaração que diz a um assistente como se comportar, que ainda precisa de aplicação por software para permissões consequentes; veja [Escrevendo prompts e instruções bons](https://docs.aivax.net/pt-br/learn/agents/writing-good-prompts-and-instructions.md).
 
-**Latency** — O tempo entre uma requisição e uma resposta útil, incluindo busca, ferramentas e processamento do modelo; veja [Performance and latency](https://docs.aivax.net/pt-br/learn/production/performance-and-latency.md).
+**Latência** — O tempo entre uma solicitação e uma resposta útil, incluindo pesquisa, ferramentas e processamento do modelo; veja [Desempenho e latência](https://docs.aivax.net/pt-br/learn/production/performance-and-latency.md).
 
-**LLM** — Um grande modelo de linguagem é um sistema treinado que gera linguagem prevendo trechos sucessivos de texto; veja [What is an LLM](https://docs.aivax.net/pt-br/learn/agents/what-is-an-llm.md).
+**LLM** — Um grande modelo de linguagem é um sistema treinado que gera linguagem prevendo peças sucessivas de texto; veja [O que é um LLM](https://docs.aivax.net/pt-br/learn/agents/what-is-an-llm.md).
 
-**Log** — Um evento registrado que ajuda operadores a entender o que aconteceu sem precisar reproduzir cada interação do usuário; veja [Logs, traces, and monitoring](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md).
+**Log** — Um evento registrado que ajuda os operadores a entender o que aconteceu sem precisar reproduzir cada interação do usuário; veja [Logs, rastros e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md).
 
-**MCP** — Model Context Protocol é um protocolo compartilhado para expor ferramentas e recursos a aplicações compatíveis; veja [Model Context Protocol](https://docs.aivax.net/pt-br/learn/tools-and-integrations/model-context-protocol.md).
+**MCP** — O Protocolo de Contexto do Modelo é um protocolo compartilhado para expor ferramentas e recursos a aplicativos compatíveis; veja [Protocolo de Contexto do Modelo](https://docs.aivax.net/pt-br/learn/tools-and-integrations/model-context-protocol.md).
 
-**Memory** — Informação intencionalmente retida e posteriormente fornecida a um assistente, não lembrança automática similar à humana pelo modelo; veja [Memory](https://docs.aivax.net/pt-br/learn/prompt-engineering/memory.md).
+**Memória** — Informação intencionalmente retida e posteriormente fornecida a um assistente, não uma recordação automática semelhante à humana pelo modelo; veja [Memória](https://docs.aivax.net/pt-br/learn/prompt-engineering/memory.md).
 
-**Metadata** — Informação descritiva sobre um documento, como seu proprietário, público ou data efetiva; veja [Finding and preparing knowledge](https://docs.aivax.net/pt-br/learn/teaching-agents/finding-and-preparing-knowledge.md).
+**Metadados** — Informações descritivas sobre um documento, como seu proprietário, público-alvo ou data de vigência; veja [Encontrando e preparando conhecimento](https://docs.aivax.net/pt-br/learn/teaching-agents/finding-and-preparing-knowledge.md).
 
-**Multimodality** — A capacidade de lidar com mais de um tipo de informação, como texto, imagens ou áudio; veja [Multimodality](https://docs.aivax.net/pt-br/learn/models/multimodality.md).
+**Multimodalidade** — A capacidade de lidar com mais de uma forma de informação, como texto, imagens ou áudio; veja [Multimodalidade](https://docs.aivax.net/pt-br/learn/models/multimodality.md).
 
-**Prompt** — A entrada que pede ao modelo que faça algo e fornece orientações ou material relevante; veja [Anatomy of a prompt](https://docs.aivax.net/pt-br/learn/prompt-engineering/anatomy-of-a-prompt.md).
+**Prompt** — A entrada que pede ao modelo para fazer algo e fornece orientação ou material relevante; veja [Anatomia de um prompt](https://docs.aivax.net/pt-br/learn/prompt-engineering/anatomy-of-a-prompt.md).
 
-**Prompt injection** — Uma tentativa de fazer um assistente tratar conteúdo não confiável como instruções que sobrescrevem sua tarefa ou limites pretendidos; veja [Prompt injection and jailbreaks](https://docs.aivax.net/pt-br/learn/safety/prompt-injection-and-jailbreaks.md).
+**Injeção de prompt** — Uma tentativa de fazer com que um assistente trate conteúdo não confiável como instruções que substituem sua tarefa ou limites pretendidos; veja [Injeção de prompt e jailbreaks](https://docs.aivax.net/pt-br/learn/safety/prompt-injection-and-jailbreaks.md).
 
 **R–W**
 
-**RAG** — Retrieval-augmented generation recupera evidências relevantes e as inclui ao solicitar ao modelo que produza uma resposta; veja [What is a RAG](https://docs.aivax.net/pt-br/learn/teaching-agents/what-is-a-rag.md).
+**RAG** — A geração aumentada por recuperação recupera evidências relevantes e as inclui ao pedir ao modelo para produzir uma resposta; veja [O que é um RAG](https://docs.aivax.net/pt-br/learn/teaching-agents/what-is-a-rag.md).
 
-**Rate limit** — Uma restrição sobre a frequência com que requisições podem ser feitas, que as aplicações devem respeitar em vez de contornar; veja [Errors, retries, and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
+**Limite de taxa** — Uma restrição sobre com frequência as solicitações podem ser feitas, que os aplicativos devem respeitar, em vez de contornar; veja [Erros, retentativas e fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
 
-**Reranking** — Reordenar candidatos recuperados usando outra avaliação de relevância antes de escolher quais passagens usar; veja [Retrieval strategies](https://docs.aivax.net/pt-br/learn/teaching-agents/retrieval-strategies.md).
+**Reclassificação** — Reordenar candidatos recuperados usando outra avaliação de relevância antes de escolher quais trechos usar; veja [Estratégias de recuperação](https://docs.aivax.net/pt-br/learn/teaching-agents/retrieval-strategies.md).
 
-**Retrieval** — Encontrar informações candidatas relevantes a uma pergunta dentro das fontes que o usuário atual pode acessar; veja [Retrieval strategies](https://docs.aivax.net/pt-br/learn/teaching-agents/retrieval-strategies.md).
+**Recuperação** — Encontrar informações candidatas relevantes para uma pergunta dentro das fontes que o usuário atual pode acessar; veja [Estratégias de recuperação](https://docs.aivax.net/pt-br/learn/teaching-agents/retrieval-strategies.md).
 
-**Retry** — Outra tentativa após uma operação falhada ou incerta, sujeita a limites e verificações de ação duplicada; veja [Errors, retries, and fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
+**Retentativa** — Outra tentativa após uma operação falha ou incerta, sujeita a limites e verificações de ação duplicada; veja [Erros, retentativas e fallbacks](https://docs.aivax.net/pt-br/learn/advanced-agents/errors-retries-and-fallbacks.md).
 
-**Schema** — Uma descrição da forma e tipos de dados exigidos, não prova de que os valores são factualmente corretos; veja [structured responses](https://docs.aivax.net/pt-br/docs/inference/structured-responses.md).
+**Schema (Esquema)** — Uma descrição da forma e dos tipos de dados necessários, não prova de que os valores estão factualmente corretos; veja [respostas estruturadas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/concepts.md).
 
-**Semantic search** — Encontrar conteúdo pelo significado em vez de depender apenas de correspondências exatas de palavras; veja [Embeddings and semantic search](https://docs.aivax.net/pt-br/learn/models/embeddings-and-semantic-search.md).
+**Busca semântica** — Encontrar conteúdo por significado, em vez de depender apenas de correspondências exatas de palavras; veja [Embeddings e busca semântica](https://docs.aivax.net/pt-br/learn/models/embeddings-and-semantic-search.md).
 
-**Skill** — Um conjunto de instruções reutilizáveis para uma tarefa ou método, distinto de uma ferramenta executável; veja [Adding skills](https://docs.aivax.net/pt-br/learn/agents/adding-skills.md).
+**Habilidade (Skill)** — Um pacote de instruções reutilizável para uma tarefa ou método, distinto de uma ferramenta executável; veja [Adicionando habilidades](https://docs.aivax.net/pt-br/learn/agents/adding-skills.md).
 
-**Temperature** — Uma configuração que afeta como as saídas do modelo são amostradas, não um dial que garante precisão factual; veja [Parameters](https://docs.aivax.net/pt-br/learn/models/parameters.md).
+**Temperatura** — Uma configuração que afeta como as saídas do modelo são amostradas, não um botão que garante precisão factual; veja [Parâmetros](https://docs.aivax.net/pt-br/learn/models/parameters.md).
 
-**Token** — Uma pequena unidade de texto processada por um modelo, que pode ser uma palavra, parte de uma palavra ou pontuação; veja [Context window, tokens, and cost](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md).
+**Token** — Uma pequena unidade de texto processada por um modelo, que pode ser uma palavra, parte de uma palavra ou pontuação; veja [Janela de contexto, tokens e custo](https://docs.aivax.net/pt-br/learn/prompt-engineering/context-window-tokens-and-cost.md).
 
-**Tool** — Uma operação de software definida que um agente pode solicitar, como buscar em um banco de dados ou criar um ticket; veja [Adding tools](https://docs.aivax.net/pt-br/learn/agents/adding-tools.md).
+**Ferramenta (Tool)** — Uma operação de software definida que um agente pode solicitar, como pesquisar um banco de dados ou criar um chamado; veja [Adicionando ferramentas](https://docs.aivax.net/pt-br/learn/agents/adding-tools.md).
 
-**Trace** — Um registro conectado dos passos dentro de uma operação que ajuda a localizar falhas ou atrasos; veja [Logs, traces, and monitoring](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md).
+**Rastro (Trace)** — Um registro conectado das etapas dentro de uma operação que ajuda a localizar falhas ou atrasos; veja [Logs, rastros e monitoramento](https://docs.aivax.net/pt-br/learn/quality/logs-traces-and-monitoring.md).
 
-**Webhook** — Uma notificação enviada a outro sistema quando um evento definido ocorre, frequentemente para iniciar trabalho de acompanhamento; veja [Webhooks, events, and automations](https://docs.aivax.net/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.md).
+**Webhook** — Uma notificação enviada a outro sistema quando um evento definido ocorre, muitas vezes para iniciar trabalho de acompanhamento; veja [Webhooks, eventos e automações](https://docs.aivax.net/pt-br/learn/tools-and-integrations/webhooks-events-and-automations.md).
 
-**Workflow** — Uma sequência organizada de tarefas e decisões que define como o trabalho avança e onde ele para; veja [Workflows as skills](https://docs.aivax.net/pt-br/learn/agents/workflows-as-skills.md).
+**Fluxo de trabalho (Workflow)** — Uma sequência organizada de tarefas e decisões que define como o trabalho prossegue e onde ele termina; veja [Fluxos de trabalho como habilidades](https://docs.aivax.net/pt-br/learn/agents/workflows-as-skills.md).
 
-## The working cheat sheet
+## O guia rápido de trabalho
 
-Essas regras cabem em uma agenda de revisão de projeto. São perguntas para verificar, não frases mágicas para colar em cada prompt. Aplique-as às fontes, sistemas e pessoas reais envolvidos.
+Estas regras cabem em uma agenda de revisão de projeto. São perguntas para verificar, não frases mágicas para colar em todo prompt. Aplique-as às fontes, sistemas e pessoas envolvidos reais.
 
-- **Prompts: specify the job** — Declare o objetivo, contexto relevante, formato de saída e limites. Inclua um exemplo quando o formato for difícil de descrever. Remova regras contraditórias. Diga ao assistente o que fazer quando informações estiverem faltando.
+- **Prompts: especifique o trabalho** — Declare o objetivo, o contexto relevante, o formato de saída e os limites. Inclua um exemplo quando o formato for difícil de descrever. Remova regras contraditórias. Diga ao assistente o que fazer quando houver falta de informações.
 
-- **Knowledge: maintain the evidence** — Use documentos aprovados e atuais com proprietários e escopo claro. Mantenha exceções próximas às suas regras. Teste se a passagem relevante está realmente sendo recuperada antes de mudar a redação da resposta do modelo.
+- **Conhecimento: mantenha as evidências** — Use documentos aprovados e atuais com proprietários e escopo claro. Mantenha exceções próximas às suas regras. Teste se o trecho relevante é realmente recuperado antes de alterar a redação da resposta do modelo.
 
-- **Tools: keep permissions narrow** — Dê a cada operação um propósito claro e valide entradas fora do modelo. Distinga leitura de escrita. Confirme mudanças consequentes, evite ações duplicadas e verifique o resultado antes de declarar sucesso.
+- **Ferramentas: mantenha as permissões restritas** — Dê a cada operação um propósito claro e valide entradas fora do modelo. Distinga leitura de escrita. Confirme mudanças consequentes, previna ações duplicadas e verifique o resultado antes de afirmar o sucesso.
 
-- **Safety: provide a real exit** — Colete apenas os dados necessários, imponha acesso antes da recuperação e trate conteúdo externo como não confiável. Explique que o assistente é automatizado. Torne o caminho para uma pessoa visível e operacional.
+- **Segurança: forneça uma saída real** — Colete apenas dados necessários, aplique o acesso antes da recuperação e trate conteúdo externo como não confiável. Explique que o assistente é automatizado. Torne a rota até uma pessoa visível e operacional.
 
-- **Cost: measure useful outcomes** — Acompanhe toda a tarefa, incluindo busca, ferramentas, tentativas, revisão e retrabalho. Reduza contexto desnecessário antes de sacrificar evidências. Compare o custo por problema resolvido com sucesso em vez de custo por mensagem isolada.
+- **Custo: meça resultados úteis** — Acompanhe a tarefa inteira, incluindo pesquisa, ferramentas, retentativas, revisão e retrabalho. Reduza o contexto desnecessário antes de sacrificar evidências. Compare o custo por problema resolvido com sucesso, em vez do custo por mensagem isolada.
 
-## Resolve common confusions
+## Resolvendo confusões comuns
 
-**Does adding knowledge train the model?**
+**Adicionar conhecimento treina o modelo?**
 
-Normalmente não. A recuperação coloca documentos selecionados na requisição atual, muito parecido com colocar páginas de referência sobre uma mesa. Treinar muda o próprio modelo. Atualizar um documento pesquisável e treinar um modelo são operações diferentes, com custos e controles distintos.
+Normalmente não. A recuperação coloca documentos selecionados na solicitação atual, assim como colocar páginas de referência em uma mesa. O treinamento altera o próprio modelo. Atualizar um documento pesquisável e retreinar um modelo são operações diferentes com custos e controles diferentes.
 
-**Does a tool call mean the task succeeded?**
+**Uma chamada de ferramenta significa que a tarefa foi bem-sucedida?**
 
-Não. O modelo pode solicitar uma operação, mas o software deve validar e executá‑la. A operação pode falhar ou ter um resultado incerto. O sucesso deve ser relatado somente depois que o sistema confirmar o resultado esperado.
+Não. O modelo pode solicitar uma operação, mas o software deve validá-la e executá-la. A operação pode falhar ou ter um resultado incerto. O sucesso só deve ser relatado depois que o sistema confirmar o resultado pretendido.
 
-**Does a citation make an answer correct?**
+**Uma citação torna uma resposta correta?**
 
-Não. A fonte pode estar desatualizada, fora do escopo do usuário ou não estar relacionada à afirmação. Verifique tanto a autoridade da fonte quanto se seu texto realmente sustenta a resposta. Um link que parece credível não é evidência por si só.
+Não. A fonte pode estar desatualizada, fora do escopo do usuário ou não relacionada à afirmação. Verifique tanto a autoridade da fonte quanto se seu texto real sustenta a resposta. Um link com aparência credível não é evidência por si só.
 
-What’s next: choose a route through the material with [FAQ and learning paths by profile](https://docs.aivax.net/pt-br/learn/guides/faq-and-learning-paths.md).
+Próximos passos: escolha uma rota pelo material com [FAQ e caminhos de aprendizado por perfil](https://docs.aivax.net/pt-br/learn/guides/faq-and-learning-paths.md).
 
-**Verifique seu conhecimento.** Which term describes deciding whether an identified employee may access a restricted policy?
+**Verifique seu conhecimento.** Qual termo descreve decidir se um funcionário identificado pode acessar uma política restrita?
 
-1. Authorisation
-2. Temperature
-3. Tokenisation
+1. Autorização
+2. Temperatura
+3. Tokenização
 
-Answer: option 1. Authorisation determines what an identified user may access or do; authentication only establishes who they are.
+Answer: option 1. A Autorização determina o que um usuário identificado pode acessar ou fazer; a autenticação apenas estabelece quem ele é.
