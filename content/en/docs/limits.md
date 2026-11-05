@@ -20,7 +20,7 @@ An em dash (`—`) means the plan does not impose a limit. Model, gateway, provi
 | Integrated model requests | 20/min and 500/day | 200/min | — |
 | Integrated model input tokens | 1,000,000/min | 20,000,000/min | — |
 | BYOK requests | 30/min | 200/min | — |
-| Maximum context | 65,536 input tokens | — | — |
+| Maximum context | 64,000 input tokens | — | — |
 | LLM subscription coverage | Currently disabled | Currently disabled | Currently disabled |
 | **Account and support** |  |  |  |
 | Storage quota | 30 MB | 2 GB | 20 GB |
