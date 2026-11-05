@@ -4,6 +4,24 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
+This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Wednesday, November 4th, 2026
+
+Breaking changes:
+
+- **Inference — Chat completion IDs use the `aivx_` format.** In `/v1/chat/completions`, the response `id` and the `id` of every streamed chunk, including tool and error chunks, are now the assistant message ID in the `aivx_` format, instead of a UUID or a `chatcmpl-` value. Every chunk of a response shares the same ID. Tool call IDs are also longer. Update clients that validate the `chatcmpl-` prefix or expect a different ID per chunk.
+
+Fixes:
+
+- **Conversations — Conversation tokens are scoped to the account.** Two accounts that sent the same `idempotency_key` or `conversation_token` could update the same stored conversation record. Each account now keeps its own record for the same token. No action is required.
+
+Changes:
+
+- **Inference — Session reuse with `conversation_token`.** `/v1/chat/completions` accepts `conversation_token`. When the same token is sent in every request of a conversation, AIVAX restores the calls and results of server-side tools from earlier turns before the model runs, including turns that ended with a text-only answer. Responses return `conversation_token` at the root (in the last chunk when streaming) and the assistant message ID in `id` and `choices[].message.id` (in every chunk `id` when streaming). When no token is sent, AIVAX generates and returns one. `idempotency_key` remains a deprecated alias; sending both with different values returns `400 Bad Request`. See [Session reuse](https://docs.aivax.net/docs/inference/inference.md#session-reuse).
+- **Dashboard — Usage per model and per provider in Analytics.** On the **Analytics** page, the **Usage per model** table now shows one row per model with **Input tokens**, **Cached tokens**, **Output tokens** and **Total usage**, instead of one row per SKU. A new **Usage per provider** tab shows each provider with its top model by cost, token volume and total usage.
+- **Generations — Inline reference images.** `POST /api/v1/generations/images` accepts `data:` URIs in `referenceImages` — `image/png`, `image/jpeg`, `image/webp` or `image/gif` with base64 data, up to 8 MB each — alongside HTTP(S) URLs. Invalid data URIs return `400 Bad Request`. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+
 ## Tuesday, November 3rd, 2026
 
 Breaking changes:
@@ -26,6 +44,7 @@ Changes:
 - **Models — GLM-5.3-FlashX-Legal and Particle 1.** Adds `@z-ai/glm-5.3-flashx-legal` and `@particle-ai/particle-1` as selectable text models, billed per provider at published token rates. Existing account and plan adjustments still apply. Existing model identifiers remain unchanged.
 - **RAG — Document text counts as UTF-8 bytes.** Text stored in a collection now counts toward the storage quota as UTF-8 bytes. Text that uses only basic Latin characters is unchanged. Text with accents or other non-Latin characters can use more of the quota than it did before. Other stored data is counted as before. See [Account limits](https://docs.aivax.net/docs/limits.md#account-limits).
 - **Analytics — Printable monthly usage statement.** The **Monthly Reports** tab now produces a compact black-and-white document designed for printing and PDF export, showing the account name. Totals appear as a statement with a short description of each charge: **Inference**, **RAG** and **Services**, adding up to **Total billed**. The **Models used** table now lists input tokens, cached tokens, the cached share of the input, and output tokens for each model. Select **Include BRL values** to add a Brazilian real column beside each US dollar amount, converted at the exchange rate when the report is generated. Amounts in the report are shown with two decimal places. Through the API, `GET /api/v1/information/usage/monthly-report` returns the new `accountName` and `usdBrlRate` fields and per-model `inputTokens`, `cachedTokens` and `outputTokens`, and accepts `includeBrl=true`.
+- **Dashboard — Simpler OAuth authorization page.** When an application requests access to your account, the console now shows a single centered card with the application name, the reason, the list of what it will be able to do, the access duration, and the **Authorize** and **Deny** buttons. The signed-in account is shown below the card, with a **Switch account** link that returns to the same request after signing in. See [OAuth](https://docs.aivax.net/docs/oauth.md).
 - **Account — Step-by-step authenticator setup.** Adding an authenticator in the **Security** tab's two-factor authentication dialog now goes through separate steps. The first step shows the QR code and the secret in **QR code** and **Secret** tabs, with the reminder to save the secret. **Continue** opens the name and six-digit code fields. When the account already has an authenticator, a following step asks for a code from a current one. A confirmation step ends the setup. Invalid codes are shown inside the dialog, and **Back** returns to the previous step without clearing what was typed.
 
 ## Monday, November 2nd, 2026
