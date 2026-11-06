@@ -1,39 +1,35 @@
 Source: https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.html
 
-# Reconhecimento de fala (STT)
+# Fala para Texto (STT)
 
-Use as Transcrições de Áudio para converter fala gravada em texto para busca, revisão, legendas ou automação subsequente. Os usos típicos incluem transcrever reuniões e entrevistas, legendar vídeos gravados, tornar notas de voz pesquisáveis e alimentar a fala em pipelines de classificação ou RAG.
+Use Transcrições de Áudio para converter fala gravada em texto, visando busca, revisão, legendas ou automação posterior. Os usos típicos incluem transcrever reuniões e entrevistas, legendar vídeos gravados, tornar notas de voz pesquisáveis e alimentar entradas faladas em pipelines de classificação ou RAG.
 
-Autentique solicitações com uma chave de API AIVAX. Consulte [Authentication](https://docs.aivax.net/pt-br/docs/authentication.md) para orientações de autorização.
+Autentique as solicitações com uma chave de API da AIVAX. Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md) para orientações sobre autorização.
 
 ## Escolha um modelo de transcrição
 
-Consulte os modelos de transcrição disponíveis para a conta autenticada antes de selecionar um. A disponibilidade pode variar conforme a configuração da conta, portanto não codifique um catálogo fixo em sua aplicação.
+Consulte os modelos de transcrição disponíveis para a conta autenticada antes de selecionar um. A disponibilidade pode variar conforme a configuração da conta; portanto, não codifique fixamente um catálogo em seu aplicativo.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Get%20Audio%20Transcription%20Models)
 
-## Transcrever áudio
+## Transcreva áudio
 
-Envie o áudio em base64 com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho em [Pricing, limits, and errors](#pricing-limits-and-errors). A cobrança segue a duração medida da mídia, e arquivos sem duração mensurável são rejeitados.
+Envie o áudio como base64 junto com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho definido em [Preços, limites e erros](#precos-limites-e-erros). A cobrança segue a duração medida da mídia, e arquivos sem duração mensurável são rejeitados.
 
-Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela orienta o reconhecimento para esse idioma e ajuda com fala acentuada e vocabulário específico; omita‑a quando o idioma realmente varia dentro de um único arquivo e deixe a detecção tratá‑lo.
+Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário específico do domínio; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe que a detecção automática faça o trabalho.
 
-Revise o texto retornado antes de usá‑lo em ações visíveis ao usuário ou irreversíveis: gravações ruidosas, múltiplos falantes, vocabulário especializado e baixa qualidade do microfone podem afetar a qualidade da transcrição. O endpoint devolve apenas o texto da transcrição, não rótulos de falante, portanto planeje uma etapa de diarização ou revisão subsequente para arquivos onde a atribuição de falante seja importante.
+Revise o texto retornado antes de usá-lo em ações visíveis ao usuário ou irreversíveis: gravações ruidosas, múltiplos falantes, vocabulário especializado e má qualidade de microfone podem afetar a qualidade da transcrição. O endpoint retorna apenas o texto da transcrição, sem rótulos de orador, portanto, planeje um passo de diarização ou revisão posterior para arquivos onde a atribuição de fala é importante.
 
-A referência incorporada é a fonte de verdade para os formulários de solicitação aceitos, opções e campos de resposta.
+A referência embutida é a fonte da verdade para formas aceitas de solicitação, opções e campos de resposta.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Transcribe%20audio)
 
 ## Após a transcrição
 
-Uma transcrição geralmente é o início de um pipeline, não o fim. Indexe‑a em uma [RAG collection](https://docs.aivax.net/pt-br/docs/rag/collections.md) para tornar as gravações pesquisáveis, execute‑a via [Batch](https://docs.aivax.net/pt-br/docs/inference/batch.md) quando houver muitos arquivos, ou alimente‑a na [Text classification](https://docs.aivax.net/pt-br/docs/data-processing/classification.md) para rotular conversas em escala. Para conversas ao vivo em vez de áudio gravado, use [Voice Sessions](https://docs.aivax.net/pt-br/docs/inference/voice-session.md).
+Uma transcrição geralmente é o início de um pipeline, não o fim. Indexe-a em uma [coleção RAG](https://docs.aivax.net/pt-br/docs/rag/collections.md) para tornar as gravações pesquisáveis, execute-a pelo [Batch](https://docs.aivax.net/pt-br/docs/inference/batch.md) quando houver muitos arquivos ou alimente-a no [Classificação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/classification.md) para rotular conversas em escala. Para conversas ao vivo em vez de áudio gravado, use [Sessões de Voz](https://docs.aivax.net/pt-br/docs/inference/voice-session.md).
 
 ## Preços, limites e erros
 
 O preço da transcrição varia conforme o modelo; as tarifas atuais estão listadas no catálogo de Modelos.
 
-| Limite | Gratuito | Pro | Máx |
-| --- | --- | --- | --- |
-| Solicitações de transcrição de áudio autônomas | 3/min e 40/hora | 30/min | 300/min |
-
-Solicitações de transcrição têm uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado está limitado a 75 MB por solicitação. Corrija áudio inválido ou inacessível antes de tentar novamente uma solicitação que falhou.
+As solicitações independentes de transcrição de áudio têm limites por minuto e, na versão Free, por hora; consulte [Limites de fala](https://docs.aivax.net/pt-br/docs/limits.md#speech). As solicitações de transcrição possuem uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado tem limite de 75 MB por solicitação. Corrija áudios inválidos ou inacessíveis antes de tentar novamente uma solicitação falha.

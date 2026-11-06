@@ -71,7 +71,7 @@ AIVAX does not require special categories of sensitive personal data. If the Acc
 | Technical Metadata | Security, abuse prevention, debugging, reliability, rate limiting, cost accounting | Legitimate interest / contract execution | Inference and access logs and metadata, including IP addresses and user-agent strings, are retained for up to 1 year |
 | Inference Data | Execution of requested inference and configured integrations | Contract execution | Processed for the request and may be stored inside Conversations when conversation logging is enabled |
 | Semantic Training Data | Develop, train, fine-tune, evaluate, test, and improve models and semantic retrieval or ranking systems | Consent | Retained in anonymized form while reasonably necessary for these purposes, legal obligations, security, and audits; then deleted |
-| Conversations | Monitoring, support, export, debugging, usage review, and user-facing history | Legitimate interest / contract execution | Visible/exportable according to plan retention: Free up to 2 hours, Pro up to 2 days, Max up to 30 days |
+| Conversations | Monitoring, support, export, debugging, usage review, and user-facing history | Legitimate interest / contract execution | Visible/exportable according to plan retention: Free up to 2 hours, Pro up to 2 days, Max up to 14 days, Ultimate up to 30 days |
 | Support | Resolve questions, incidents, and compliance requests | Contract execution / legitimate interest | Retained as needed to resolve the request and maintain business records |
 | Aggregated or Anonymized Data | Capacity planning, reliability, abuse prevention, service improvement | Outside LGPD scope when irreversibly anonymized | Indeterminate while anonymized |
 
@@ -101,7 +101,7 @@ Current storage accounting includes:
 - Web chat session messages, extra context, and metadata.
 - Account shell files.
 
-Storage quotas are plan-based. Current included storage is 30 MB for Free, 2 GB for Pro, and 20 GB for Max.
+Storage quotas are plan-based. Current included storage is 30 MB for Free, 2 GB for Pro, 10 GB for Max, and 20 GB for Ultimate.
 
 ---
 

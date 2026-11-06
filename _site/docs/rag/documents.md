@@ -196,11 +196,4 @@ Document indexing is billed as collection text embedding; see [Collections](http
 | Audio - above 256K input tokens | Input/media **$1.20/M tokens**; cache **$0.24/M tokens**; output **$6.00/M tokens** |
 | Video | Input/media **$0.45/M tokens**; cache **$0.045/M tokens**; output **$3.75/M tokens** |
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Document insertions | 500/day | 10,000/day | — |
-| Documents per multipart JSONL import | 1,000 | 10,000 | 1,000,000 |
-| Documents per WebSocket JSONL import | 10,000 | 100,000 | 10,000,000 |
-| Media Injector | 2 files/day | 30 files/day | 1,000 files/day |
-
-An em dash (`—`) means the plan does not impose a limit. If an import exceeds the per-import limit, split it into multiple imports. If the account reaches the daily insertion limit, wait for the window to reset or upgrade the plan.
+Daily document insertions, documents per JSONL import, and daily Media Injector files depend on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections). If an import exceeds the per-import limit, split it into multiple imports. If the account reaches the daily insertion limit, wait for the window to reset or upgrade the plan.

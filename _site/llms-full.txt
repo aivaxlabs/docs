@@ -628,7 +628,7 @@ See [subscription pricing](https://aivax.net/pricing) for monthly plan prices an
 
 ## Plan list prices
 
-Use the pricing page when you are choosing a plan in a browser. To read the same public list prices from an application, call `GET /api/v1/information/plans.json`. No API key is required. The response lists Free, Pro, and Max. Each entry has `plan` and `monthlyPrice` in USD. Free is `0` because that plan has no subscription fee. A negotiated Custom price, or the price currently applied to an account, is not included. Use the Subscriptions API when you need the authenticated account's price.
+Use the pricing page when you are choosing a plan in a browser. To read the same public list prices from an application, call `GET /api/v1/information/plans.json`. No API key is required. The response lists Free, Pro, Max, and Ultimate. Each entry has `plan` and `monthlyPrice` in USD. Free is `0` because that plan has no subscription fee. A negotiated Custom price, or the price currently applied to an account, is not included. Use the Subscriptions API when you need the authenticated account's price.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Get%20Plans)
 
@@ -653,17 +653,18 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 ## Included daily allowances
 
-Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Storage
 
-Each plan includes storage. Pro and Max overages are billed hourly at the monthly rates below; Free storage cannot be expanded. Document text stored in a collection counts as UTF-8 bytes. Text with accents or non-Latin characters can use more of the included quota than basic Latin text of the same length.
+Each plan includes storage. Pro, Max, and Ultimate overages are billed hourly at the monthly rates below; Free storage cannot be expanded. Document text stored in a collection counts as UTF-8 bytes. Text with accents or non-Latin characters can use more of the included quota than basic Latin text of the same length.
 
 | Description | Pricing |
 | --- | ---: |
 | Free storage | **30 MB included**; no expansion |
 | Pro storage | **2 GB included**; excess **$0.50/GB/month** |
-| Max storage | **20 GB included**; excess **$0.20/GB/month** |
+| Max storage | **10 GB included**; excess **$0.30/GB/month** |
+| Ultimate storage | **20 GB included**; excess **$0.20/GB/month** |
 
 ## Request cost header
 
@@ -689,7 +690,8 @@ Usage rates are subject to the plan's inference tax:
 | --- | ---: |
 | Free | +25% |
 | Pro | +5% |
-| Max | 0% |
+| Max | +2% |
+| Ultimate | 0% |
 
 BYOK usage is not affected by inference taxes. Product pages state when a rate is exempt from the plan multiplier, as with image generation.
 
@@ -699,31 +701,32 @@ Source: https://docs.aivax.net/docs/limits.html
 
 # Plans and Limits
 
-AIVAX has three account plans: **Free**, **Pro**, and **Max**. The current plan controls model access, account-level rate limits, storage quota, conversation retention, and included daily service allowances.
+AIVAX has four account plans: **Free**, **Pro**, **Max**, and **Ultimate**. The current plan controls model access, account and product rate limits, storage quota, retention periods, and included daily service allowances. Every plan limit is listed on this page; product pages link here instead of repeating the values.
 
-For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). The same public list prices are available from [Plan list prices](https://docs.aivax.net/docs/pricing.md#plan-list-prices). This page documents account-level limits only. Limits that belong to a specific product, such as RAG searches, web search, Agentic Tests, or Batch, are documented in that product's page.
+For commercial subscription prices and plan packaging, use the [AIVAX pricing page](https://aivax.net/pricing). The same public list prices are available from [Plan list prices](https://docs.aivax.net/docs/pricing.md#plan-list-prices).
+
+An em dash (`—`) means the plan does not impose a limit, and `Not available` means the feature is unavailable on the plan. Model, gateway, provider, or product-specific limits may still apply. Limits that are the same on every plan, such as file sizes or results per request, are documented on each product page.
 
 ## Account limits
 
-An em dash (`—`) means the plan does not impose a limit. Model, gateway, provider, or product-specific limits may still apply.
+| Limit | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| **Inference** |  |  |  |  |
+| Model access | Low-price models | All models | All models | All models |
+| Inference commission multiplier | 1.25x | 1.05x | 1.02x | 1.00x |
+| Integrated model requests | 20/min and 500/day | 150/min | 1,000/min | — |
+| Integrated model input tokens | 1,000,000/min | 15,000,000/min | 60,000,000/min | — |
+| BYOK requests | 30/min | 150/min | 1,000/min | — |
+| Maximum context | 64,000 input tokens | — | — | — |
+| LLM subscription coverage | Currently disabled | Currently disabled | Currently disabled | Currently disabled |
+| **Account and support** |  |  |  |  |
+| Storage quota | 30 MB | 2 GB | 10 GB | 20 GB |
+| Cost per excess GB | Not available | $0.50/GB/month | $0.30/GB/month | $0.20/GB/month |
+| Conversation retention | 2 hours | 2 days | 14 days | 30 days |
+| RAG search history retention | 2 hours | 3 days | 14 days | 30 days |
+| Support level | Email | Priority | Priority | Dedicated |
 
-| Feature | Free | Pro | Max |
-| --- | --- | --- | --- |
-| **Inference** |  |  |  |
-| Model access | Low-price models | All models | All models |
-| Inference commission multiplier | 1.25x | 1.05x | 1.00x |
-| Integrated model requests | 20/min and 500/day | 200/min | — |
-| Integrated model input tokens | 1,000,000/min | 20,000,000/min | — |
-| BYOK requests | 30/min | 200/min | — |
-| Maximum context | 64,000 input tokens | — | — |
-| LLM subscription coverage | Currently disabled | Currently disabled | Currently disabled |
-| **Account and support** |  |  |  |
-| Storage quota | 30 MB | 2 GB | 20 GB |
-| Cost per excess GB | — | $0.50/GB/month | $0.20/GB/month |
-| Conversation retention | 2 hours | 2 days | 30 days |
-| Support level | Email | Priority | Dedicated |
-
-Document text stored in a collection counts toward the storage quota as UTF-8 bytes. Text with accents or non-Latin characters can use more of that quota than basic Latin text of the same length.
+Document text stored in a collection counts toward the storage quota as UTF-8 bytes. Text with accents or non-Latin characters can use more of that quota than basic Latin text of the same length. RAG search history is the list of searches shown in [RAG Observability](https://docs.aivax.net/docs/rag/observability.md#search-history).
 
 Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:
 
@@ -734,30 +737,122 @@ Integrated model requests are limited by both request count and input tokens. Mo
 | Low | 0.3x |
 | Free | 0.1x |
 
-For example, a Pro account normally has 200 integrated-model requests per minute. With a `Discounted` model group, the adjusted threshold is 100 requests per minute.
+For example, a Pro account normally has 150 integrated-model requests per minute. With a `Discounted` model group, the adjusted threshold is 75 requests per minute.
 
 BYOK uses a provider key configured on the gateway instead of an integrated AIVAX model, but requests still pass through AIVAX infrastructure and use the plan's BYOK limit.
 
 Rate limits are shared across all API keys of the same account. A request that would exceed an active window returns `429 Too Many Requests`; pace requests and use bounded retries with backoff.
 
-Custom accounts use the Pro plan limits multiplied by a factor agreed for the account, or have no plan rate limits when no factor is set.
+Custom accounts use the Pro plan rate limits multiplied by a factor agreed for the account, or have no plan rate limits when no factor is set. Custom accounts support 8 concurrent Agentic Test runs.
+
+## Product limits
+
+Product limits use the same rules as account limits: they are shared across the account's API keys, and a request above an active window returns `429 Too Many Requests`. Where a limit counts items instead of HTTP requests, the note below its table says so.
+
+### RAG and collections
+
+| Limit | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| Collections | 5 | 100 | 1,000 | — |
+| Searches | 20/min | 300/min | 1,500/min | 3,000/min |
+| Reranking requests | 30/min | 500/min | 3,000/min | — |
+| Reflex processing time | 30 minutes/day | 3 hours/day | 12 hours/day | — |
+| Document insertions | 500/day | 5,000/day | 50,000/day | — |
+| Documents per multipart JSONL import | 1,000 | 5,000 | 100,000 | 1,000,000 |
+| Documents per WebSocket JSONL import | 10,000 | 50,000 | 1,000,000 | 10,000,000 |
+| Media Injector files | 2/day | 20/day | 250/day | 1,000/day |
+
+The reranking request limit applies to the [reranking endpoint](https://docs.aivax.net/docs/rag/reflex.md) and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. The Reflex processing-time limit counts the time spent processing Reflex requests on both paths; cached input does not consume it separately. If an import exceeds the per-import limit, split it into multiple imports. See [Collections](https://docs.aivax.net/docs/rag/collections.md), [Documents](https://docs.aivax.net/docs/rag/documents.md), and [Reflex](https://docs.aivax.net/docs/rag/reflex.md).
+
+### Data processing
+
+| Limit | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| Text-classification documents | 30/min and 300/day | 500/min | 2,500/min | 10,000/min |
+| Extraction and summarization documents | 10/min and 300/day | 100/min | 1,000/min | 2,500/min |
+| Text-segmentation documents | 10/min and 100/day | 300/min | 1,000/min | 2,500/min |
+| Translation requests | 30/min and 300/day | 100/min | 1,000/min | 2,500/min |
+| Media description requests | 10/min and 30/hour | 40/min | 100/min | 200/min |
+| Semantic decision requests | 10/min | 30/min | 200/min | — |
+
+Classification, extraction, summarization, and segmentation limits count every item in the request's `documents` array, not each HTTP request; extraction and summarization share one quota. Translation, media description, and semantic decision limits count HTTP requests. A semantic decision request consumes one unit regardless of how many questions it contains or which decision model it selects, and included decision usage still consumes request units. See [Classification](https://docs.aivax.net/docs/data-processing/classification.md), [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md), [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md), [Text segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md), [Translations](https://docs.aivax.net/docs/data-processing/translations.md), [Media descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md), and [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md).
+
+### Speech
+
+| Limit | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| Standalone text-to-speech requests | 3/min and 40/hour | 20/min | 100/min | 300/min |
+| Standalone audio-transcription requests | 3/min and 40/hour | 20/min | 100/min | 300/min |
+
+Text-to-speech and transcription have separate quotas with the same values. [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) are not subject to these standalone quotas. See [Text-to-speech](https://docs.aivax.net/docs/generations/speech.md) and [Speech-to-text](https://docs.aivax.net/docs/generations/audio-transcriptions.md).
+
+### Built-in tools and web search
+
+| Limit | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| Web search | 15/day | 500/day | 4,000/day | 10,000/day |
+| X/Twitter search | Not available | 200/day | 3,000/day | 10,000/day |
+| Document and web page generation | 5/day | 500/day | 15,000/day | 50,000/day |
+| Image generation and editing | 5/day | 150/day | 1,500/day | 5,000/day |
+| General service actions | 30/day | 2,500/day | 30,000/day | 100,000/day |
+| Bash commands | 300/hour | 30,000/hour | 100,000/hour | — |
+
+General service actions share one daily quota. The image generation limit applies to the built-in tool, not to the [image generation API](https://docs.aivax.net/docs/generations/images.md). See [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md), [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md), and [Shell](https://docs.aivax.net/docs/tools/shell.md).
+
+### Batch and Agentic Tests
+
+| Limit | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| Batch workflow items processed | 500/day | 25,000/day | 250,000/day | — |
+| New Agentic Test runs | 5/min | 20/min | 100/min | — |
+| Concurrent Agentic Test runs | 1 | 4 | 6 | 8 |
+
+If batch processing is paused because of quota, it resumes after the window resets. Manual runs, scheduled runs, and direct evaluations share one new-run quota. See [Batch](https://docs.aivax.net/docs/inference/batch.md#limits) and [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits).
 
 ## Included daily subscription allowances
 
-Free, Pro, and Max include separate daily allowances for the services below. Each comparison refers to the same service on the named plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Custom accounts do not receive subscription allowances.
+Every plan includes separate daily allowances for the services below. Each comparison refers to the same service on the Free plan, not to a shared credit balance or a guaranteed number of requests. Unused allowance from one service cannot cover another. Custom accounts do not receive subscription allowances.
 
-| Included service | Free | Pro | Max |
-| --- | --- | --- | --- |
-| RAG search and insertion embeddings | Base allowance | 25× Free | 4× Pro |
-| Reranking with Reflex | Base allowance | 5× Free | 10× Pro |
-| Semantic decisions with eligible models | Base allowance | 2.5× Free | 2× Pro |
-| Fetch and OCR extraction | Base allowance | 10× Free | 5× Pro |
+| Included service | Free | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| RAG search and insertion embeddings | Base allowance | 15× Free | 50× Free | 100× Free |
+| Reranking with Reflex | Base allowance | 4× Free | 20× Free | 50× Free |
+| Semantic decisions with eligible models | Base allowance | 2× Free | 3× Free | 5× Free |
+| Fetch and OCR extraction | Base allowance | 8× Free | 25× Free | 50× Free |
 
 RAG searches and document insertions share the embedding allowance. It does not cover answer generation, media processing, document extraction or summarization, text classification, or segmentation. A query embedding served from cache does not consume it. Reflex uses a separate reranking allowance that includes both cached and uncached input. The semantic decision allowance covers only eligible decision models; see [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md#usage-and-cost). Optional Fetch JSON conversion is separate from the extraction allowance.
 
 Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.
 
 Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements or rate limits. See [Pricing](https://docs.aivax.net/docs/pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+
+## Estimating PUs and tokens
+
+Usage is metered in processing units (PUs) or tokens, depending on the service. The examples below help you estimate the size of a workload. They are approximations (`≈`), not guaranteed values: the exact amount is reported in each response's usage fields.
+
+**Fetch and OCR processing units**
+
+| Content | Approximate PUs |
+| --- | --- |
+| Plain text or Markdown file | 0 |
+| Native-text PDF or DOCX, 10 pages | ≈ 1 (minimum of 1 PU per item) |
+| Web page that renders in 1 to 3 seconds | ≈ 10–30 (10 PUs per second of rendering) |
+| Photo or screenshot with text | ≈ 40–50 |
+| Scanned PDF, 10 pages | ≈ 400–500 |
+
+Native pages are converted from their text layer and cost almost nothing; scanned pages, images, and images embedded in a page go through OCR and drive the total. A PDF that mixes both is billed for the pages that actually need OCR.
+
+**Tokens**
+
+| Content | Approximate tokens |
+| --- | --- |
+| RAG search query, such as "how do I reset my password if I lost access to my email?" | ≈ 10–30 |
+| One page of English text, about 500 words | ≈ 650–750 |
+| RAG document chunk of 1,500 characters | ≈ 350–400 |
+| Reflex reranking of 50 candidates with about 300 tokens each | ≈ 15,000–16,000, since the query is scored with every candidate |
+| A 300-page book, about 300 words per page | ≈ 110,000–130,000 |
+
+Token estimates assume English text, where one token is about four characters or three quarters of a word. Portuguese, Spanish, and other accented languages usually need 20–50% more tokens for the same content; code, JSON, and non-Latin scripts can need more. A query embedding served from cache is not billed, and in chat completions the conversation history and system instructions are sent again on every turn.
 
 ## Public API keys
 
@@ -927,15 +1022,9 @@ Indexing and search are billed by token usage. Generated RAG answers are charged
 | RAG answer generation | **~$0.50/M tokens**, excluding query rates |
 | Collection de-duplication | **$0.05/1k PUs** |
 
-Free, Pro, and Max include a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) are billed separately.
+Every plan includes a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) are billed separately.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Collections | 5 | — | — |
-| Searches | 20/min | 500/min | 3,000/min |
-| Reranking searches | 30/min | 1,000/min | — |
-
-An em dash (`—`) means the plan does not impose a limit. Requests above a limit return `429 Too Many Requests`. Document insertion and import limits are listed in [Documents](https://docs.aivax.net/docs/rag/documents.md#pricing-and-limits).
+The number of collections, searches, reranking requests, and document insertions depends on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections). Requests above a limit return `429 Too Many Requests`.
 
 ---
 
@@ -1137,14 +1226,7 @@ Document indexing is billed as collection text embedding; see [Collections](http
 | Audio - above 256K input tokens | Input/media **$1.20/M tokens**; cache **$0.24/M tokens**; output **$6.00/M tokens** |
 | Video | Input/media **$0.45/M tokens**; cache **$0.045/M tokens**; output **$3.75/M tokens** |
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Document insertions | 500/day | 10,000/day | — |
-| Documents per multipart JSONL import | 1,000 | 10,000 | 1,000,000 |
-| Documents per WebSocket JSONL import | 10,000 | 100,000 | 10,000,000 |
-| Media Injector | 2 files/day | 30 files/day | 1,000 files/day |
-
-An em dash (`—`) means the plan does not impose a limit. If an import exceeds the per-import limit, split it into multiple imports. If the account reaches the daily insertion limit, wait for the window to reset or upgrade the plan.
+Daily document insertions, documents per JSONL import, and daily Media Injector files depend on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections). If an import exceeds the per-import limit, split it into multiple imports. If the account reaches the daily insertion limit, wait for the window to reset or upgrade the plan.
 
 ---
 
@@ -1680,7 +1762,7 @@ The document list below the cards shows each document's state, tags, reference, 
 
 ## Search history
 
-The **Transactions** tab lists the searches performed on the collection, including searches made by AI Gateways, MCP clients, and your applications. Searches are kept for 2 hours on Free, 7 days on Pro, and 30 days on Max.
+The **Transactions** tab lists the searches performed on the collection, including searches made by AI Gateways, MCP clients, and your applications. How long searches are kept depends on the plan; see [RAG search history retention](https://docs.aivax.net/docs/limits.md#account-limits).
 
 Use the **View** selector to choose what to review:
 
@@ -1802,7 +1884,7 @@ For the supported request, response, authentication, and error contract, use the
 
 Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. In this flow, it can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.
 
-Free, Pro, and Max include a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances).
+Every plan includes a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances).
 
 ## Pricing and limits
 
@@ -1813,14 +1895,9 @@ Reflex is billed by input tokens. Input served from the account-scoped cache is 
 | Reflex - cache miss | **$0.015/M tokens** |
 | Reflex - cache hit | **$0.003/M tokens** |
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Reflex processing time | 30 minutes/day | 6 hours/day | — |
-| Reranking requests | 30/min | 1,000/min | — |
-| Candidate documents per request | 10,000 | 10,000 | 10,000 |
-| Ranked results returned | 200 | 200 | 200 |
+Each request accepts up to 10,000 candidate documents and returns up to 200 ranked results on every plan. Reflex processing time per day and reranking requests per minute depend on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections).
 
-The processing-time limit counts the time spent processing Reflex requests, both on the reranking endpoint and in RAG searches that use Reflex; cached input does not consume it separately. The reranking request limit applies to the reranking endpoint and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. An em dash (`—`) means the plan does not impose a limit. Requests above a limit return `429 Too Many Requests`.
+The processing-time limit counts the time spent processing Reflex requests, both on the reranking endpoint and in RAG searches that use Reflex; cached input does not consume it separately. The reranking request limit applies to the reranking endpoint and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. Requests above a limit return `429 Too Many Requests`.
 
 ---
 
@@ -4138,16 +4215,9 @@ Each test includes the selected model or AI Gateway's inference charges, plus si
 | High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
 | High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
 
-An em dash (`—`) means the plan does not impose a limit. Custom accounts support 8 concurrent runs per account.
+New runs per minute and concurrent runs per account depend on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing. Manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| New runs per account | 5/min | 30/min | — |
-| Concurrent runs per account | 1 | 4 | 8 |
-
-These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing. Manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits.
-
-Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit on new runs, but other applicable limits remain in effect.
+Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Ultimate has no plan-imposed limit on new runs, but other applicable limits remain in effect.
 
 Each test accepts up to 16 `resources` and 16 `hooks`.
 
@@ -5488,14 +5558,13 @@ Review [Pricing](https://docs.aivax.net/docs/pricing.md) and the [limits](#limit
 
 ## Limits
 
-An em dash (`—`) means the plan does not impose a limit.
+The number of workflow items processed per day depends on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). These import limits apply to every plan:
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Workflow items processed | 500/day | 100,000/day | — |
-| Files per import request | 1,000 | 1,000 | 1,000 |
-| Total import size | 100 MiB/request | 100 MiB/request | 100 MiB/request |
-| Single imported file size | 10 MiB | 10 MiB | 10 MiB |
+| Limit | Value |
+| --- | --- |
+| Files per import request | 1,000 |
+| Total import size | 100 MiB/request |
+| Single imported file size | 10 MiB |
 
 Batch processing is asynchronous. If processing is paused or fails because of quota, retry after the quota window resets or upgrade the account. For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
@@ -5649,10 +5718,7 @@ Web Search is billed per search. Calls through [Web utilities MCP](https://docs.
 
 Direct API requests return 1–25 results per request (`topn`).
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Built-in web search | 15/day | 1,000/day | 10,000/day |
-| Built-in X/Twitter search | Not available | 1,000/day | 10,000/day |
+Built-in web search and X/Twitter search have daily plan limits, and X/Twitter search is not available on Free; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search).
 
 ---
 
@@ -5762,8 +5828,9 @@ Fetch and OCR extraction is metered in `processingUnits`. Each extraction is eit
 | Description | Pricing |
 | --- | ---: |
 | Fetch and OCR extraction - Free | Base daily allowance; uncovered items **$0.15/1k PUs** |
-| Fetch and OCR extraction - Pro | **10× Free** daily allowance; uncovered items **$0.05/1k PUs** |
-| Fetch and OCR extraction - Max | **5× Pro** daily allowance; uncovered items **$0.02/1k PUs** |
+| Fetch and OCR extraction - Pro | **8× Free** daily allowance; uncovered items **$0.05/1k PUs** |
+| Fetch and OCR extraction - Max | **25× Free** daily allowance; uncovered items **$0.03/1k PUs** |
+| Fetch and OCR extraction - Ultimate | **50× Free** daily allowance; uncovered items **$0.02/1k PUs** |
 | Fetch JSON conversion (`responseSchema`) | Variable inference-based price per PU; charged separately, with no daily extraction allowance |
 
 Optional JSON conversion is metered separately in `jsonProcessingUnits`. Its PUs account for input, cached input, and output tokens at the processing model and provider's rates, so they are not priced at the OCR rate. The plan's inference multiplier applies to JSON conversion. Omitting `responseSchema` or setting it to `null` disables conversion, reports `jsonProcessingUnits: 0`, and incurs no JSON conversion charge. Do not add both counts and apply the OCR rate to the total. Estimate cost from the reported PUs, not from extracted text length.
@@ -5772,7 +5839,7 @@ Examples, assuming items not covered by the daily allowance:
 
 - Plain text and Markdown consume no PUs.
 - An HTML page that takes 2.3 seconds to render consumes 23 PUs: $0.00115 on Pro.
-- A scanned PDF reporting `processingUnits: 400` costs $0.06 on Free, $0.02 on Pro, and $0.008 on Max. OCR PUs vary with each document.
+- A scanned PDF reporting `processingUnits: 400` costs $0.06 on Free, $0.02 on Pro, $0.012 on Max, and $0.008 on Ultimate. OCR PUs vary with each document.
 - A JSON conversion using 4,000 input and 300 output tokens, on a model priced at $0.10/M input and $0.40/M output tokens, reports `jsonProcessingUnits: 1300` (4,000 × 0.25 + 300), about $0.00052 before the plan multiplier.
 
 [Web utilities MCP](https://docs.aivax.net/docs/mcp-utilities/web-utilities-mcp.md) uses the same pricing as the corresponding built-in tool. Model inference, when used to analyze the extracted content, is billed separately. The Fetch API requires a positive account balance.
@@ -5823,11 +5890,7 @@ To let an MCP-compatible agent or IDE generate images without calling this endpo
 
 Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Each output is priced at the selected model's fixed output tariff, plus that model's per-reference tariff for every reference image sent with it. Prompt processing is included. For token- and megapixel-priced providers, the charge uses rounded-up estimates rather than exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
 
-The built-in image generation and editing tool has these daily plan limits:
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Built-in image generation and editing | 5/day | 500/day | 5,000/day |
+The built-in image generation and editing tool has a daily limit that depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search).
 
 If a request fails, revise the reported validation issue before retrying.
 
@@ -5870,11 +5933,7 @@ Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions]
 
 Speech generation price varies by model; current tariffs are listed in the Models catalog.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Standalone text-to-speech requests | 3/min and 40/hour | 30/min | 300/min |
-
-Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.
+Standalone text-to-speech requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/limits.md#speech). Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.
 
 ---
 
@@ -5912,11 +5971,7 @@ A transcript is usually the start of a pipeline, not the end. Index it into a [R
 
 Transcription price varies by model; current tariffs are listed in the Models catalog.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Standalone audio-transcription requests | 3/min and 40/hour | 30/min | 300/min |
-
-Transcription requests have a quota separate from speech generation, with the same values. Decoded audio is limited to 75 MB per request. Correct invalid or inaccessible audio before retrying a failed request.
+Standalone audio-transcription requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/limits.md#speech). Transcription requests have a quota separate from speech generation, with the same values. Decoded audio is limited to 75 MB per request. Correct invalid or inaccessible audio before retrying a failed request.
 
 ---
 
@@ -5963,7 +6018,7 @@ The embedded reference is the source of truth for accepted media forms, request 
 
 The price is approximate and depends on the available processing model.
 
-Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 Correct inaccessible media or invalid content before retrying.
 
@@ -6188,13 +6243,9 @@ Other models may omit optional fields such as `probabilities`, `legend`, or `con
 
 ## Account rate limits
 
-Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request consumes one unit, regardless of how many questions it contains or which decision model it selects. An em dash (`—`) means the plan does not impose a limit.
+Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request consumes one unit, regardless of how many questions it contains or which decision model it selects. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Semantic decision requests | 10/min | 50/min | — |
-
-This quota is independent of the daily subscription allowance and of billing: included usage still consumes request units. Max has no plan-imposed limit for this quota, but other applicable limits remain in effect.
+This quota is independent of the daily subscription allowance and of billing: included usage still consumes request units. Ultimate has no plan-imposed limit for this quota, but other applicable limits remain in effect.
 
 Requests above the limit return `429 Too Many Requests` before evaluation. An immediate retry still encounters the active rate-limit window, and changing API keys within the same account does not provide a separate quota. Pace calls across the account and retry with backoff after the window clears.
 
@@ -6282,7 +6333,7 @@ The decision-model rates below are base USD prices per million input tokens, bef
 
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question, so input usage grows with the number of questions even when they share one state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
-Julia-1 is currently eligible for the daily semantic decision allowance on Free, Pro, and Max. Other decision models are billed normally. The allowance is shared across all eligible decision calls of the account, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
+Julia-1 is currently eligible for the daily semantic decision allowance on every plan. Other decision models are billed normally. The allowance is shared across all eligible decision calls of the account, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
 
 When not covered, Julia-1 input is billed at the [listed rate](#usage-and-cost), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 
@@ -6386,13 +6437,7 @@ Text classification uses the default embedding model and is billed for the embed
 | --- | ---: |
 | Text classification | **$0.10/M tokens** |
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Text-classification documents | 30/min and 300/day | 1,000/min | 10,000/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of classified documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 
@@ -6438,13 +6483,7 @@ For the supported request, response, authentication, and error contract, use the
 | --- | ---: |
 | Text segmentation | **$0.10/M tokens** |
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Text-segmentation documents | 10/min and 100/day | 300/min | 2,500/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of segmented documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 ---
 
@@ -6568,13 +6607,9 @@ Extraction is billed for the input tokens of each document. Output tokens are no
 | --- | ---: |
 | Extraction input | **$0.04/M tokens** |
 
-Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. An em dash (`—`) means the plan does not impose a limit.
+Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Processed documents | 10/min and 300/day | 200/min | 2,500/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 
@@ -6646,13 +6681,9 @@ Summarization is billed for the input tokens of each document. Output tokens are
 | --- | ---: |
 | Summarization input | **$0.04/M tokens** |
 
-Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. Remote files are downloaded up to 5 MB each. An em dash (`—`) means the plan does not impose a limit.
+Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Processed documents | 10/min and 300/day | 200/min | 2,500/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 
@@ -6726,13 +6757,7 @@ Translations are model-generated. Review them before publishing legal, medical, 
 
 Translations are billed in processing units (PUs), covering input and output usage. Usage is recorded for each document. The PU price varies with the processing model selected for the content type, and the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies.
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Translation requests | 30/min and 300/day | 200/min | 2,500/min |
-
-The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+The number of translation requests per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing). The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 
@@ -7094,18 +7119,7 @@ Web and X searches are billed per search. The [plan multiplier](https://docs.aiv
 | Document generation | No separate charge |
 | Web page generation | No separate charge |
 
-An em dash (`—`) means the plan does not impose a limit, and `Not available` means the tool is unavailable on the plan.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Web search | 15/day | 1,000/day | 10,000/day |
-| X/Twitter search | Not available | 1,000/day | 10,000/day |
-| Document and web page generation | 5/day | 1,000/day | 50,000/day |
-| Image generation and editing | 5/day | 500/day | 5,000/day |
-| General service actions | 30/day | 5,000/day | 100,000/day |
-| [Bash commands](https://docs.aivax.net/docs/tools/shell.md#pricing-and-limits) | 300/hour | 30,000/hour | — |
-
-General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
+Web search, X/Twitter search, document and web page generation, image generation and editing, general service actions, and [Bash commands](https://docs.aivax.net/docs/tools/shell.md#pricing-and-limits) have plan limits; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search). X/Twitter search is not available on Free. General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
 
 ## Tool Diagnosis
 
@@ -7676,13 +7690,7 @@ Enable persistence only for data the user expects to survive — working documen
 
 ## Pricing and limits
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Bash commands | 300/hour | 30,000/hour | — |
-
-These limits apply to every plan:
+The number of Bash commands per hour depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search). These limits apply to every plan:
 
 | Limit | Value |
 | --- | --- |
@@ -8538,7 +8546,7 @@ AIVAX does not require special categories of sensitive personal data. If the Acc
 | Technical Metadata | Security, abuse prevention, debugging, reliability, rate limiting, cost accounting | Legitimate interest / contract execution | Inference and access logs and metadata, including IP addresses and user-agent strings, are retained for up to 1 year |
 | Inference Data | Execution of requested inference and configured integrations | Contract execution | Processed for the request and may be stored inside Conversations when conversation logging is enabled |
 | Semantic Training Data | Develop, train, fine-tune, evaluate, test, and improve models and semantic retrieval or ranking systems | Consent | Retained in anonymized form while reasonably necessary for these purposes, legal obligations, security, and audits; then deleted |
-| Conversations | Monitoring, support, export, debugging, usage review, and user-facing history | Legitimate interest / contract execution | Visible/exportable according to plan retention: Free up to 2 hours, Pro up to 2 days, Max up to 30 days |
+| Conversations | Monitoring, support, export, debugging, usage review, and user-facing history | Legitimate interest / contract execution | Visible/exportable according to plan retention: Free up to 2 hours, Pro up to 2 days, Max up to 14 days, Ultimate up to 30 days |
 | Support | Resolve questions, incidents, and compliance requests | Contract execution / legitimate interest | Retained as needed to resolve the request and maintain business records |
 | Aggregated or Anonymized Data | Capacity planning, reliability, abuse prevention, service improvement | Outside LGPD scope when irreversibly anonymized | Indeterminate while anonymized |
 
@@ -8568,7 +8576,7 @@ Current storage accounting includes:
 - Web chat session messages, extra context, and metadata.
 - Account shell files.
 
-Storage quotas are plan-based. Current included storage is 30 MB for Free, 2 GB for Pro, and 20 GB for Max.
+Storage quotas are plan-based. Current included storage is 30 MB for Free, 2 GB for Pro, 10 GB for Max, and 20 GB for Ultimate.
 
 ---
 
@@ -8810,7 +8818,7 @@ If you use the Services on behalf of another person, organization, or company, y
 
 Most AIVAX services require prepaid balance ("credits"). Cost-incurring operations may be blocked when the account balance is zero or negative, when the account lacks the minimum required balance for a feature, or when storage usage exceeds the plan quota.
 
-The current platform applies plan-based storage quotas to stored resources such as RAG documents and embeddings, user memories, media descriptions, web chat session data, and shell files. Current included storage is 30 MB for Free, 2 GB for Pro, and 20 GB for Max.
+The current platform applies plan-based storage quotas to stored resources such as RAG documents and embeddings, user memories, media descriptions, web chat session data, and shell files. Current included storage is 30 MB for Free, 2 GB for Pro, 10 GB for Max, and 20 GB for Ultimate.
 
 Payment providers may collect and process billing and payment information required to add credits. AIVAX uses Mixtic to create payment links, store saved payment methods, charge credit purchases and subscriptions, and confirm payments.
 
@@ -9097,6 +9105,20 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Friday, November 6th, 2026
+
+Breaking changes:
+
+- **Account — Lower Pro and Max limits.** Pro and Max now have lower rate limits, storage, retention, and daily allowances. Max has fixed limits where it previously had none, a 10 GB storage quota with excess at $0.30/GB/month, 14-day conversation retention, and a 1.02x inference commission multiplier. Pro integrated model requests are 150/min and Pro search history is kept for 3 days. Review the new values in [Plans and limits](https://docs.aivax.net/docs/limits.md) and pace requests that could now return `429 Too Many Requests`.
+
+Changes:
+
+- **Account — Ultimate plan.** A new Ultimate plan is available at $199 per month. It keeps the limits previously offered by Max: no plan limit on integrated model requests, BYOK requests, or new Agentic Test runs, 20 GB of storage, 30-day retention, a 1.00x inference commission multiplier, and dedicated support. `GET /api/v1/information/plans.json` now also returns Ultimate. See [Plans and limits](https://docs.aivax.net/docs/limits.md) and [subscription pricing](https://aivax.net/pricing).
+- **Docs — Plan limits on one page.** Every per-plan limit, including RAG, data processing, speech, built-in tools, Batch, and Agentic Tests, is now listed in [Plans and limits](https://docs.aivax.net/docs/limits.md#product-limits). Product pages link to it instead of repeating the values. The page also gives approximate PU and token sizes for common content, such as scanned PDFs, web pages, and RAG queries; see [Estimating PUs and tokens](https://docs.aivax.net/docs/limits.md#estimating-pus-and-tokens).
+- **Dashboard — Plan comparison with Ultimate.** The **Plan** page in **My account** compares Free, Pro, Max, and Ultimate side by side, with list prices loaded from the public plan list.
+- **Dashboard — Faster switching between saved accounts.** Switching to a saved account reuses its active console session when it is still valid, so the console no longer signs in again or asks for a two-factor code in that case. When the session has expired, the regular sign-in runs.
+- **Dashboard — Clearer two-factor code fields.** The six code fields in the two-factor dialog are larger, show a placeholder dot in each empty field, highlight filled fields, and are centered in the dialog.
 
 ## Wednesday, November 4th, 2026
 

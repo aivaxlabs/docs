@@ -6,6 +6,20 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Friday, November 6th, 2026
+
+Breaking changes:
+
+- **Account — Lower Pro and Max limits.** Pro and Max now have lower rate limits, storage, retention, and daily allowances. Max has fixed limits where it previously had none, a 10 GB storage quota with excess at $0.30/GB/month, 14-day conversation retention, and a 1.02x inference commission multiplier. Pro integrated model requests are 150/min and Pro search history is kept for 3 days. Review the new values in [Plans and limits](https://docs.aivax.net/docs/limits.md) and pace requests that could now return `429 Too Many Requests`.
+
+Changes:
+
+- **Account — Ultimate plan.** A new Ultimate plan is available at $199 per month. It keeps the limits previously offered by Max: no plan limit on integrated model requests, BYOK requests, or new Agentic Test runs, 20 GB of storage, 30-day retention, a 1.00x inference commission multiplier, and dedicated support. `GET /api/v1/information/plans.json` now also returns Ultimate. See [Plans and limits](https://docs.aivax.net/docs/limits.md) and [subscription pricing](https://aivax.net/pricing).
+- **Docs — Plan limits on one page.** Every per-plan limit, including RAG, data processing, speech, built-in tools, Batch, and Agentic Tests, is now listed in [Plans and limits](https://docs.aivax.net/docs/limits.md#product-limits). Product pages link to it instead of repeating the values. The page also gives approximate PU and token sizes for common content, such as scanned PDFs, web pages, and RAG queries; see [Estimating PUs and tokens](https://docs.aivax.net/docs/limits.md#estimating-pus-and-tokens).
+- **Dashboard — Plan comparison with Ultimate.** The **Plan** page in **My account** compares Free, Pro, Max, and Ultimate side by side, with list prices loaded from the public plan list.
+- **Dashboard — Faster switching between saved accounts.** Switching to a saved account reuses its active console session when it is still valid, so the console no longer signs in again or asks for a two-factor code in that case. When the session has expired, the regular sign-in runs.
+- **Dashboard — Clearer two-factor code fields.** The six code fields in the two-factor dialog are larger, show a placeholder dot in each empty field, highlight filled fields, and are centered in the dialog.
+
 ## Wednesday, November 4th, 2026
 
 Breaking changes:

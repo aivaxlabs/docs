@@ -222,16 +222,9 @@ Each test includes the selected model or AI Gateway's inference charges, plus si
 | High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
 | High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
 
-An em dash (`—`) means the plan does not impose a limit. Custom accounts support 8 concurrent runs per account.
+New runs per minute and concurrent runs per account depend on the plan; see [Batch and Agentic Tests limits](/docs/limits.md#batch-and-agentic-tests). These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing. Manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| New runs per account | 5/min | 30/min | — |
-| Concurrent runs per account | 1 | 4 | 8 |
-
-These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing. Manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits.
-
-Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Max has no plan-imposed limit on new runs, but other applicable limits remain in effect.
+Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Ultimate has no plan-imposed limit on new runs, but other applicable limits remain in effect.
 
 Each test accepts up to 16 `resources` and 16 `hooks`.
 

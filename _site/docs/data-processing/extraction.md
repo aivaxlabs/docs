@@ -118,13 +118,9 @@ Extraction is billed for the input tokens of each document. Output tokens are no
 | --- | ---: |
 | Extraction input | **$0.04/M tokens** |
 
-Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. An em dash (`—`) means the plan does not impose a limit.
+Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Processed documents | 10/min and 300/day | 200/min | 2,500/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

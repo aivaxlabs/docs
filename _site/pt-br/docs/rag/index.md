@@ -10,9 +10,9 @@ Source: https://docs.aivax.net/pt-br/docs/rag/index.html
 
 - [Filtros Avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md)
 
-- [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
+- [Observabilidade do RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
 
 - [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
 
-- [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
+- [Reflexo](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
 

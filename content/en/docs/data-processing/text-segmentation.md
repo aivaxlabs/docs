@@ -38,10 +38,4 @@ For the supported request, response, authentication, and error contract, use the
 | --- | ---: |
 | Text segmentation | **$0.10/M tokens** |
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Text-segmentation documents | 10/min and 100/day | 300/min | 2,500/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of segmented documents per minute and per day depends on the plan; see [Data processing limits](../limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.

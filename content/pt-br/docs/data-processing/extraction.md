@@ -1,10 +1,10 @@
 ---
-{title: Extração,linkTitle: Extração,weight: 50,group: Data processing,sourceHash: 3e8bd8efc52e85e3,aliases: [/docs/pt-br/data-processing/extraction.html]}
+{title: Extração,linkTitle: Extração,weight: 50,group: Data processing,sourceHash: 1766a0d3601f9190,aliases: [/docs/pt-br/data-processing/extraction.html]}
 ---
 
 # Extração
 
-Use a Extração para transformar texto, imagens e PDFs em JSON moldado por um esquema que você define. Ela se adapta a faturas, recibos, formulários, contratos e outros documentos onde seu aplicativo precisa dos mesmos campos de cada documento, como um número, o nome de uma empresa, um total ou uma lista de itens.
+Use a Extração para transformar texto, imagens e PDFs em JSON moldado por um esquema que você define. Ela se adapta a faturas, recibos, formulários, contratos e outros documentos onde seu aplicativo precisa dos mesmos campos em cada documento, como um número, o nome de uma empresa, um total ou uma lista de itens.
 
 Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e certifique-se de que a conta tenha um saldo positivo.
 
@@ -33,16 +33,16 @@ Escolha a Extração quando você já sabe quais campos precisa e deseja que sej
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
 | `responseSchema` | Objeto JSON Schema | Sim | Esquema de objeto cujas `properties` descrevem os campos a extrair. Deve ter pelo menos uma propriedade. |
-| `documents` | Matriz de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
+| `documents` | Array de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
 | `instructions` | String | Não | Orientações que se aplicam a todos os documentos, como qual parte conta como fornecedor. |
 
-Cada propriedade em `responseSchema` é um campo a ser encontrado. Sua `description` é o critério de busca, portanto, escreva-a como uma definição curta e específica, como "valor total devido" em vez de "total". Objetos aninhados e matrizes de objetos são suportados. `$ref` e `$defs` não são; incorpore todas as definições inline.
+Cada propriedade em `responseSchema` é um campo a ser encontrado. Sua `description` é o critério de busca, então escreva-a como uma definição curta e específica, como "valor total devido" em vez de "total". Objetos aninhados e arrays de objetos são suportados. `$ref` e `$defs` não são; incorpore todas as definições inline.
 
 Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos:
 
-- Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas.
+- Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de múltiplas páginas.
 - A AIVAX baixa URLs remotos antes do processamento, dentro do limite de tamanho de arquivo em [Preços e limites](#precos-e-limites). O recurso deve ser acessível sem login.
-- Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, portanto, verifique o tipo de conteúdo de cada documento na solicitação.
+- Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, então verifique o tipo de conteúdo de cada documento na solicitação.
 
 A seguinte solicitação extrai campos de fatura de um documento de texto e um PDF:
 
@@ -61,7 +61,7 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
           "type": "object",
           "properties": {
             "product": { "type": "string", "description": "nome do produto" },
-            "quantity": { "type": "integer", "description": "número de unidades" }
+            "quantity": { "type": "integer", "description": "quantidade de unidades" }
           }
         }
       }
@@ -75,8 +75,8 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
     {
       "type": "file",
       "file": {
-        "filename": "invoice.pdf",
-        "file_data": "https://example.com/invoice.pdf"
+        "filename": "fatura.pdf",
+        "file_data": "https://example.com/fatura.pdf"
       }
     }
   ]
@@ -85,7 +85,7 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
 
 ## Ler a resposta
 
-`data` contém um objeto por documento, na mesma ordem que `documents`. Cada objeto usa os nomes de propriedade do seu esquema. Os valores são convertidos para o tipo `number`, `integer` ou `boolean` declarado no esquema, quando possível. Um campo que não é encontrado é `null`, e uma matriz sem correspondências está vazia.
+`data` contém um objeto por documento, na mesma ordem que `documents`. Cada objeto usa os nomes de propriedade do seu esquema. Os valores são convertidos para o tipo `number`, `integer` ou `boolean` declarado no esquema, quando possível. Um campo que não é encontrado é `null`, e um array sem correspondências está vazio.
 
 ```json
 {
@@ -103,9 +103,9 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
 }
 ```
 
-Os documentos são processados independentemente e em paralelo. Se qualquer documento falhar, toda a solicitação retorna um erro em vez de resultados parciais. Corrija ou remova esse documento e tente novamente. Documentos que foram concluídos antes da falha ainda são cobrados e contam para sua cota, portanto, tente novamente apenas após corrigir o documento com falha.
+Os documentos são processados independentemente e em paralelo. Se qualquer documento falhar, toda a solicitação retorna um erro em vez de resultados parciais. Corrija ou remova esse documento e tente novamente. Documentos que foram concluídos antes da falha ainda são cobrados e contam para sua cota, então tente novamente apenas após corrigir o documento com falha.
 
-Os valores extraídos são gerados pelo modelo. Eles podem estar ausentes, incompletos ou errados, especialmente em digitalizações de baixa qualidade ou layouts complexos. Valide a estrutura e verifique valores consequentes, como montantes e identificadores, contra o documento original.
+Os valores extraídos são gerados pelo modelo. Eles podem estar ausentes, incompletos ou errados, especialmente em digitalizações de baixa qualidade ou layouts complexos. Valide a estrutura e verifique valores críticos, como montantes e identificadores, contra o documento original.
 
 ## Preços e limites
 
@@ -115,14 +115,10 @@ A Extração é cobrada pelos tokens de entrada de cada documento. Tokens de sa�
 | --- | ---: |
 | Entrada de Extração | **$0,04/M tokens** |
 
-A Extração e o [Resumo](summarization.md) compartilham os mesmos limites de documentos. Arquivos remotos são baixados até 5 MB cada. Um travessão (`—`) significa que o plano não impõe um limite.
+A Extração e o [Resumo](summarization.md) compartilham os mesmos limites de documentos. Arquivos remotos são baixados até 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](/docs/pt-br/limits.md#data-processing).
 
-| Limite | Grátis | Pro | Max |
-| --- | --- | --- | --- |
-| Documentos processados | 10/min e 300/dia | 200/min | 2.500/min |
+A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
-A cota conta cada item na matriz `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`. Para limites em nível de conta, consulte [Planos e Limites](/docs/pt-br/limits).
-
-A referência de API embutida contém os detalhes mantidos pelo servidor sobre solicitações, respostas, autenticação e erros:
+A referência de API embutida contém os detalhes mantidos pelo servidor para solicitações, respostas, autenticação e erros:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Extract%20data%20from%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>

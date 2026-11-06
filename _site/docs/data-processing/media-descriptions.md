@@ -41,6 +41,6 @@ The embedded reference is the source of truth for accepted media forms, request 
 
 The price is approximate and depends on the available processing model.
 
-Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 Correct inaccessible media or invalid content before retrying.

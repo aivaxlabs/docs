@@ -69,7 +69,7 @@ If you use the Services on behalf of another person, organization, or company, y
 
 Most AIVAX services require prepaid balance ("credits"). Cost-incurring operations may be blocked when the account balance is zero or negative, when the account lacks the minimum required balance for a feature, or when storage usage exceeds the plan quota.
 
-The current platform applies plan-based storage quotas to stored resources such as RAG documents and embeddings, user memories, media descriptions, web chat session data, and shell files. Current included storage is 30 MB for Free, 2 GB for Pro, and 20 GB for Max.
+The current platform applies plan-based storage quotas to stored resources such as RAG documents and embeddings, user memories, media descriptions, web chat session data, and shell files. Current included storage is 30 MB for Free, 2 GB for Pro, 10 GB for Max, and 20 GB for Ultimate.
 
 Payment providers may collect and process billing and payment information required to add credits. AIVAX uses Mixtic to create payment links, store saved payment methods, charge credit purchases and subscriptions, and confirm payments.
 

@@ -18,9 +18,9 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md)
 - [Busca](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 - [Filtros Avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md)
-- [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
+- [Observabilidade do RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
 - [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
-- [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
+- [Reflexo](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
 
 ## Inferência
 
@@ -71,8 +71,8 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Geração de mídia
 
 - [Geração de Imagens](https://docs.aivax.net/pt-br/docs/generations/images.md)
-- [Texto para fala (TTS)](https://docs.aivax.net/pt-br/docs/generations/speech.md)
-- [Reconhecimento de fala (STT)](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
+- [Texto para Fala (TTS)](https://docs.aivax.net/pt-br/docs/generations/speech.md)
+- [Fala para Texto (STT)](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md)
 
 ## Processamento de Dados
 
@@ -86,7 +86,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 ## Ferramentas
 
-- [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
+- [Ferramentas Integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
 - [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 - [Funções de Protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md)
 - [Sandboxing de Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md)

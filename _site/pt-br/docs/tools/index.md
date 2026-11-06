@@ -2,7 +2,7 @@
 
 Source: https://docs.aivax.net/pt-br/docs/tools/index.html
 
-- [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
+- [Ferramentas Integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
 
 - [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 

@@ -84,13 +84,7 @@ Text classification uses the default embedding model and is billed for the embed
 | --- | ---: |
 | Text classification | **$0.10/M tokens** |
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Text-classification documents | 30/min and 300/day | 1,000/min | 10,000/min |
-
-The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of classified documents per minute and per day depends on the plan; see [Data processing limits](../limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

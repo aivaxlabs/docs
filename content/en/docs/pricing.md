@@ -10,7 +10,7 @@ See [subscription pricing](https://aivax.net/pricing) for monthly plan prices an
 
 ## Plan list prices
 
-Use the pricing page when you are choosing a plan in a browser. To read the same public list prices from an application, call `GET /api/v1/information/plans.json`. No API key is required. The response lists Free, Pro, and Max. Each entry has `plan` and `monthlyPrice` in USD. Free is `0` because that plan has no subscription fee. A negotiated Custom price, or the price currently applied to an account, is not included. Use the Subscriptions API when you need the authenticated account's price.
+Use the pricing page when you are choosing a plan in a browser. To read the same public list prices from an application, call `GET /api/v1/information/plans.json`. No API key is required. The response lists Free, Pro, Max, and Ultimate. Each entry has `plan` and `monthlyPrice` in USD. Free is `0` because that plan has no subscription fee. A negotiated Custom price, or the price currently applied to an account, is not included. Use the Subscriptions API when you need the authenticated account's price.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Get%20Plans&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -35,17 +35,18 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 ## Included daily allowances
 
-Free, Pro, and Max include separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Storage
 
-Each plan includes storage. Pro and Max overages are billed hourly at the monthly rates below; Free storage cannot be expanded. Document text stored in a collection counts as UTF-8 bytes. Text with accents or non-Latin characters can use more of the included quota than basic Latin text of the same length.
+Each plan includes storage. Pro, Max, and Ultimate overages are billed hourly at the monthly rates below; Free storage cannot be expanded. Document text stored in a collection counts as UTF-8 bytes. Text with accents or non-Latin characters can use more of the included quota than basic Latin text of the same length.
 
 | Description | Pricing |
 | --- | ---: |
 | Free storage | **30 MB included**; no expansion |
 | Pro storage | **2 GB included**; excess **$0.50/GB/month** |
-| Max storage | **20 GB included**; excess **$0.20/GB/month** |
+| Max storage | **10 GB included**; excess **$0.30/GB/month** |
+| Ultimate storage | **20 GB included**; excess **$0.20/GB/month** |
 
 ## Request cost header
 
@@ -71,6 +72,7 @@ Usage rates are subject to the plan's inference tax:
 | --- | ---: |
 | Free | +25% |
 | Pro | +5% |
-| Max | 0% |
+| Max | +2% |
+| Ultimate | 0% |
 
 BYOK usage is not affected by inference taxes. Product pages state when a rate is exempt from the plan multiplier, as with image generation.

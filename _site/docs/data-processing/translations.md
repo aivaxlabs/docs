@@ -64,13 +64,7 @@ Translations are model-generated. Review them before publishing legal, medical, 
 
 Translations are billed in processing units (PUs), covering input and output usage. Usage is recorded for each document. The PU price varies with the processing model selected for the content type, and the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies.
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Translation requests | 30/min and 300/day | 200/min | 2,500/min |
-
-The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`. For account-level limits, see [Plans and Limits](https://docs.aivax.net/docs/limits.md).
+The number of translation requests per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing). The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

@@ -35,7 +35,7 @@ The document list below the cards shows each document's state, tags, reference, 
 
 ## Search history
 
-The **Transactions** tab lists the searches performed on the collection, including searches made by AI Gateways, MCP clients, and your applications. Searches are kept for 2 hours on Free, 7 days on Pro, and 30 days on Max.
+The **Transactions** tab lists the searches performed on the collection, including searches made by AI Gateways, MCP clients, and your applications. How long searches are kept depends on the plan; see [RAG search history retention](../limits.md#account-limits).
 
 Use the **View** selector to choose what to review:
 

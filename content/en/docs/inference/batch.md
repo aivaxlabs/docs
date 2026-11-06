@@ -240,14 +240,13 @@ Review [Pricing](/docs/pricing) and the [limits](#limits) below before processin
 
 ## Limits
 
-An em dash (`—`) means the plan does not impose a limit.
+The number of workflow items processed per day depends on the plan; see [Batch and Agentic Tests limits](/docs/limits.md#batch-and-agentic-tests). These import limits apply to every plan:
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Workflow items processed | 500/day | 100,000/day | — |
-| Files per import request | 1,000 | 1,000 | 1,000 |
-| Total import size | 100 MiB/request | 100 MiB/request | 100 MiB/request |
-| Single imported file size | 10 MiB | 10 MiB | 10 MiB |
+| Limit | Value |
+| --- | --- |
+| Files per import request | 1,000 |
+| Total import size | 100 MiB/request |
+| Single imported file size | 10 MiB |
 
 Batch processing is asynchronous. If processing is paused or fails because of quota, retry after the quota window resets or upgrade the account. For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 

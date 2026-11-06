@@ -85,12 +85,6 @@ Indexing and search are billed by token usage. Generated RAG answers are charged
 | RAG answer generation | **~$0.50/M tokens**, excluding query rates |
 | Collection de-duplication | **$0.05/1k PUs** |
 
-Free, Pro, and Max include a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) are billed separately.
+Every plan includes a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) are billed separately.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Collections | 5 | — | — |
-| Searches | 20/min | 500/min | 3,000/min |
-| Reranking searches | 30/min | 1,000/min | — |
-
-An em dash (`—`) means the plan does not impose a limit. Requests above a limit return `429 Too Many Requests`. Document insertion and import limits are listed in [Documents](https://docs.aivax.net/docs/rag/documents.md#pricing-and-limits).
+The number of collections, searches, reranking requests, and document insertions depends on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections). Requests above a limit return `429 Too Many Requests`.

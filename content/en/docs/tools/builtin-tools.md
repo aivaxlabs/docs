@@ -354,18 +354,7 @@ Web and X searches are billed per search. The [plan multiplier](../pricing.md#pl
 | Document generation | No separate charge |
 | Web page generation | No separate charge |
 
-An em dash (`—`) means the plan does not impose a limit, and `Not available` means the tool is unavailable on the plan.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Web search | 15/day | 1,000/day | 10,000/day |
-| X/Twitter search | Not available | 1,000/day | 10,000/day |
-| Document and web page generation | 5/day | 1,000/day | 50,000/day |
-| Image generation and editing | 5/day | 500/day | 5,000/day |
-| General service actions | 30/day | 5,000/day | 100,000/day |
-| [Bash commands](shell.md#pricing-and-limits) | 300/hour | 30,000/hour | — |
-
-General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
+Web search, X/Twitter search, document and web page generation, image generation and editing, general service actions, and [Bash commands](shell.md#pricing-and-limits) have plan limits; see [Built-in tools and web search limits](../limits.md#built-in-tools-and-web-search). X/Twitter search is not available on Free. General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
 
 ## Tool Diagnosis
 

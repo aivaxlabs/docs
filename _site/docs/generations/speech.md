@@ -35,8 +35,4 @@ Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions]
 
 Speech generation price varies by model; current tariffs are listed in the Models catalog.
 
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Standalone text-to-speech requests | 3/min and 40/hour | 30/min | 300/min |
-
-Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.
+Standalone text-to-speech requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/limits.md#speech). Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.

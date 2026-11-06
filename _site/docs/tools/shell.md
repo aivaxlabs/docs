@@ -43,13 +43,7 @@ Enable persistence only for data the user expects to survive — working documen
 
 ## Pricing and limits
 
-An em dash (`—`) means the plan does not impose a limit.
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Bash commands | 300/hour | 30,000/hour | — |
-
-These limits apply to every plan:
+The number of Bash commands per hour depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search). These limits apply to every plan:
 
 | Limit | Value |
 | --- | --- |

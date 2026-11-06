@@ -1,58 +1,53 @@
 ---
-{title: Reflex,linkTitle: Reflex,weight: 70,group: RAG and collections,sourceHash: 29489e9f5afc71c2,aliases: [/docs/pt-br/rag/reflex.html]}
+{title: Reflexo,linkTitle: Reflexo,weight: 70,group: RAG and collections,sourceHash: 841313c0dbe10159,aliases: [/docs/pt-br/rag/reflex.html]}
 ---
 
 # Reflex
 
-Reflex é a pesquisa sem coleção da AIVAX para RAG. Envie uma consulta junto com strings de documentos candidatos e receba os itens mais relevantes em ordem classificada—sem indexação, armazenamento ou manutenção prévia de uma coleção RAG.
+Reflex é a coleção sem busca do AIVAX para RAG. Envie uma consulta junto com strings de documentos candidatos e receba os itens mais relevantes em ordem classificada — sem indexar, armazenar ou manter uma coleção RAG primeiro.
 
-Reflex é o ranker padrão do [endpoint de reranking autônomo](reranking.md): chamar esse endpoint sem um `model` seleciona o Reflex. Esta página explica quando escolher o Reflex; a página de reranking cobre a preparação de candidatos e a comparação de rankers em profundidade.
+O Reflex é o classificador padrão do endpoint de reclassificação autônomo [reranking endpoint](reranking.md): chamar esse endpoint sem um `model` seleciona o Reflex. Esta página explica quando escolher o Reflex; a página de reclassificação aborda a preparação de candidatos e a comparação de classificadores em profundidade.
 
-Use o Reflex quando sua aplicação já possui os documentos candidatos, o conjunto de candidatos muda com frequência ou você deseja uma etapa de recuperação sem indexação e armazenamento de coleção. Use a [Pesquisa Semântica](semantic-search.md) quando a AIVAX deve armazenar, indexar e pesquisar uma base de conhecimento persistente ou restringir um corpus que é grande demais para ser enviado como candidatos em cada requisição.
+Use o Reflex quando seu aplicativo já possui os documentos candidatos, o conjunto de candidatos muda frequentemente ou você deseja uma etapa de recuperação sem indexação e armazenamento de coleções. Use [Semantic Search](semantic-search.md) quando o AIVAX deve armazenar, indexar e buscar em uma base de conhecimento persistente ou reduzir um corpus que seja grande demais para ser submetido como candidatos em cada solicitação.
 
-## Reflex ou Pesquisa Semântica?
+## Reflex ou Semantic Search?
 
-| Escolha o Reflex quando… | Escolha a Pesquisa Semântica quando… |
+| Escolha o Reflex quando... | Escolha o Semantic Search quando... |
 | --- | --- |
-| Sua aplicação já possui as strings dos documentos candidatos. | Os documentos devem residir em coleções gerenciadas da AIVAX. |
+| Seu aplicativo já possui as strings dos documentos candidatos. | Os documentos devem viver em coleções gerenciadas pelo AIVAX. |
 | Você precisa de recuperação imediatamente, sem uma etapa de indexação. | A base de conhecimento é persistente e pesquisada repetidamente. |
-| O conjunto de candidatos é dinâmico ou específico por requisição. | O corpus é grande demais para ser enviado como candidatos em cada requisição. |
-| Você quer classificação sem coleção. | Você quer filtragem de coleção, metadados armazenados, referências de documentos e recuperação gerenciada. |
+| O conjunto de candidatos é dinâmico ou específico da solicitação. | O corpus é grande demais para ser submetido como candidatos em cada solicitação. |
+| Você deseja classificação sem coleções. | Você deseja filtragem por coleção, metadados armazenados, referências de documentos e recuperação gerenciada. |
 
-Reflex devolve candidatos de texto classificados; ele não gera uma resposta. Passe os documentos selecionados para seu modelo de linguagem ou gateway de IA como contexto RAG. Para decidir entre o Reflex e um ranker cross‑encoder, veja [reranking RAG results without a cross-encoder](https://aivax.net/blog/reflex-retrieval-built-for-recurring-documents/).
+O Reflex retorna candidatos de texto classificados; ele não gera uma resposta. Passe os documentos selecionados para seu modelo de linguagem ou AI Gateway como contexto RAG. Para decidir entre o Reflex e um reranker cross-encoder, consulte [reranking RAG results without a cross-encoder](https://aivax.net/blog/reflex-retrieval-built-for-recurring-documents/).
 
-## Use o Reflex
+## Usar o Reflex
 
-Chame a API de reranking com uma consulta e os documentos candidatos que sua aplicação deseja comparar. Os resultados são retornados em ordem de relevância. Cada resultado mantém sua posição de entrada, permitindo que você o mapeie de volta aos dados da sua aplicação.
+Chame a API de reclassificação com uma consulta e os documentos candidatos que seu aplicativo deseja comparar. Os resultados são retornados em ordem de relevância. Cada resultado mantém sua posição de entrada, permitindo que você a mapeie de volta aos dados do seu aplicativo.
 
-Use documentos candidatos concisos e focados. O reranking pode melhorar a ordem deles, mas não pode recuperar informações que não foram incluídas nos candidatos. Se o documento esperado estiver consistentemente ausente, melhore a seleção de candidatos, o chunking ou a formulação da consulta antes de ajustar o ranker.
+Use documentos candidatos concisos e focados. A reclassificação pode melhorar sua ordem, mas não pode recuperar informações que não foram incluídas nos candidatos. Se o documento esperado estiver consistentemente ausente, melhore a seleção de candidatos, o particionamento (chunking) ou a formulação da consulta antes de ajustar o classificador.
 
-O Reflex limita o número de documentos candidatos por requisição e o número de resultados classificados retornados; veja [Pricing and limits](#pricing-and-limits). Se seu pool de candidatos exceder o limite, reduza‑o primeiro — com pré‑filtragem lexical, um rank de primeira passagem barato ou recuperação de coleção — e deixe o Reflex ordenar a lista curta.
+O Reflex limita o número de documentos candidatos por solicitação e o número de resultados classificados retornados; consulte [Preços e limites](#precos-e-limites). Se seu pool de candidatos exceder o limite de candidatos, reduza-o primeiro — com pré-filtragem léxica, um primeiro passo de classificação barato ou recuperação por coleção — e deixe o Reflex ordenar a lista curta.
 
-Para o contrato de requisição, resposta, autenticação e erros suportados, use a Referência da API:
+Para a solicitação suportada, contrato de resposta, autenticação e erros, use a Referência da API:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Rerank%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-## Use o Reflex com RAG
+## Usar o Reflex com RAG
 
-O Reflex também é o ranker padrão após a AIVAX recuperar candidatos de coleções RAG. Nesse fluxo, ele pode melhorar a ordem dos candidatos recuperados, mas não pode recuperar um documento que a etapa de recuperação não selecionou. Se documentos relevantes estiverem consistentemente ausentes, ajuste a recuperação, o chunking, a formulação da consulta ou a contagem de candidatos antes de afinar o reranking.
+O Reflex também é o reranker padrão após o AIVAX recuperar candidatos das coleções RAG. Neste fluxo, ele pode melhorar a ordem dos candidatos recuperados, mas não pode recuperar um documento que a etapa de recuperação não selecionou. Se documentos relevantes estiverem consistentemente ausentes, ajuste a recuperação, o particionamento (chunking), a formulação da consulta ou a contagem de candidatos antes de ajustar a reclassificação.
 
-Free, Pro e Max incluem uma cota diária de reranking para o Reflex, compartilhada entre chamadas autônomas e reranking RAG. Entradas em cache e fora de cache consomem essa cota. Ela é separada da cota de embeddings RAG e do limite de tempo de processamento; outros rankers são cobrados normalmente. Para capacidade relativa do plano e regras de cobertura, veja [Plans and Limits](../limits.md#included-daily-subscription-allowances).
+Todos os planos incluem uma cota diária de reclassificação para o Reflex, compartilhada entre chamadas autônomas e reclassificação RAG. Entradas em cache e fora do cache consomem essa cota. É separado da cota de incorporação RAG e do limite de tempo de processamento; outros rerankers são cobrados normalmente. Para capacidade relativa do plano e regras de cobertura, consulte [Plans and Limits](../limits.md#included-daily-subscription-allowances).
 
 ## Preços e limites
 
-O Reflex é cobrado por tokens de entrada. Entradas servidas a partir do cache escopo da conta são cobradas a uma taxa menor. Contas com [Data Sharing](../data-sharing.md) habilitado recebem desconto em operações de reranking elegíveis.
+O Reflex é cobrado por tokens de entrada. A entrada servida a partir do cache escopo da conta é cobrada a uma taxa menor. Contas com [Data Sharing](../data-sharing.md) habilitado recebem um desconto em operações de reclassificação elegíveis.
 
 | Descrição | Preço |
-| --- | --- |
-| Reflex - falha de cache | **$0.015/M tokens** |
-| Reflex - acerto de cache | **$0.003/M tokens** |
+| --- | ---: |
+| Reflex - cache miss | **$0,015/M tokens** |
+| Reflex - cache hit | **$0,003/M tokens** |
 
-| Limite | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Tempo de processamento do Reflex | 30 minutos/dia | 6 horas/dia | — |
-| Solicitações de reranking | 30/min | 1.000/min | — |
-| Documentos candidatos por requisição | 10.000 | 10.000 | 10.000 |
-| Resultados classificados retornados | 200 | 200 | 200 |
+Cada solicitação aceita até 10.000 documentos candidatos e retorna até 200 resultados classificados em todos os planos. O tempo de processamento do Reflex por dia e as solicitações de reclassificação por minuto dependem do plano; consulte [RAG and collections limits](../limits.md#rag-and-collections).
 
-O limite de tempo de processamento conta o tempo gasto processando requisições do Reflex, tanto no endpoint de reranking quanto nas buscas RAG que utilizam o Reflex; entradas em cache não o consomem separadamente. O limite de solicitações de reranking aplica‑se ao endpoint de reranking e às buscas RAG que utilizam um ranker, incluindo buscas através de gateways de IA e ferramentas MCP. Um travessão (`—`) indica que o plano não impõe limite. Requisições acima do limite retornam `429 Too Many Requests`.
+O limite de tempo de processamento conta o tempo gasto processando solicitações do Reflex, tanto no endpoint de reclassificação quanto nas pesquisas RAG que usam o Reflex; a entrada em cache não consome isso separadamente. O limite de solicitações de reclassificação se aplica ao endpoint de reclassificação e às pesquisas RAG que usam um reranker, incluindo pesquisas através de AI Gateways e ferramentas MCP. Solicitações acima de um limite retornam `429 Too Many Requests`.

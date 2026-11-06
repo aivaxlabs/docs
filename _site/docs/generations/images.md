@@ -42,10 +42,6 @@ To let an MCP-compatible agent or IDE generate images without calling this endpo
 
 Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Each output is priced at the selected model's fixed output tariff, plus that model's per-reference tariff for every reference image sent with it. Prompt processing is included. For token- and megapixel-priced providers, the charge uses rounded-up estimates rather than exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
 
-The built-in image generation and editing tool has these daily plan limits:
-
-| Limit | Free | Pro | Max |
-| --- | --- | --- | --- |
-| Built-in image generation and editing | 5/day | 500/day | 5,000/day |
+The built-in image generation and editing tool has a daily limit that depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search).
 
 If a request fails, revise the reported validation issue before retrying.
