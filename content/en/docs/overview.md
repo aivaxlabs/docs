@@ -4,11 +4,29 @@
 
 # Welcome
 
-AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications through one account, API surface, and billing wallet. It combines hosted and bring-your-own-key (BYOK) models with reusable assistant configuration, knowledge retrieval, tools, text and media processing, user-facing channels, background jobs, and conversational evaluation.
+AIVAX is an AI orchestration platform for building, operating, and evaluating AI applications. It gives you one account, one API surface, and one billing wallet.
 
-You do not need every product for every application. Start with direct inference when you only need a response. Add other products when you need to reuse assistant settings, search your documents, connect tools or channels, process many records, or evaluate behavior.
+It combines:
+
+- Hosted and bring-your-own-key (BYOK) models.
+- Reusable assistant configuration.
+- Knowledge retrieval and tools.
+- Text and media processing.
+- User-facing channels.
+- Background jobs.
+- Conversational evaluation.
+
+You do not need every product for every application. Start with direct inference when you only need a response. Add other products when you need to:
+
+- Reuse assistant settings.
+- Search your documents.
+- Connect tools or channels.
+- Process many records.
+- Evaluate behavior.
 
 ## Choose the right starting point
+
+Use this table when you know the job and need the first product to open. Each row is a starting point, not a complete architecture.
 
 | Goal | Start with | Why |
 | --- | --- | --- |
@@ -23,11 +41,16 @@ You do not need every product for every application. Start with direct inference
 
 ## Build the assistant runtime
 
+This is the core path for an assistant that answers users. Start here when the application needs a model call, reusable settings, knowledge, or tools.
+
 ### Inference and AI Gateways
 
-AIVAX exposes OpenAI-compatible model listing and chat completion endpoints. Use a **direct model call** for exploration, one-off generation, or configuration that does not need to be reused. Use an **AI Gateway** when the same model, instructions, RAG collections, skills, tools, moderation, or output behavior should serve multiple calls or users.
+AIVAX exposes OpenAI-compatible model listing and chat completion endpoints. Use this layer when the application needs a generated response.
 
-Most production assistants use a gateway because the application can keep calling one identifier while the assistant configuration changes independently. Gateways can use integrated AIVAX models or external OpenAI-compatible providers.
+- Use a **direct model call** for exploration, one-off generation, or configuration that does not need to be reused.
+- Use an **AI Gateway** when the same model, instructions, RAG collections, skills, tools, moderation, or output behavior should serve multiple calls or users.
+
+Most production assistants use a gateway. The application can keep calling one identifier while the assistant configuration changes independently. Gateways can use integrated AIVAX models or external OpenAI-compatible providers.
 
 Production API base URL:
 
@@ -47,15 +70,28 @@ Reference:
 
 ### Knowledge, retrieval, and reranking
 
-A [RAG collection](rag/collections.md) is a semantic knowledge library. Add documents, test them with [Semantic Search](rag/semantic-search.md), and then attach the collection to an AI Gateway when the assistant should answer from that knowledge. AIVAX can also generate grounded answers directly from collections and expose collection search through [Collections MCP](mcp-utilities/collections-mcp.md).
+A [RAG collection](rag/collections.md) is a semantic knowledge library. Use it when answers should come from your own documents.
 
-Reranking is a separate step: it receives a query and candidate documents, then returns the candidates in a more relevant order. Use a collection for managed storage and retrieval; use the standalone [reranking](rag/reranking.md) generation when your application already owns the candidates.
+1. Add documents.
+2. Test them with [Semantic Search](rag/semantic-search.md).
+3. Attach the collection to an AI Gateway when the assistant should answer from that knowledge.
+
+AIVAX can also generate grounded answers directly from collections and expose collection search through [Collections MCP](mcp-utilities/collections-mcp.md).
+
+Reranking is a separate step. It receives a query and candidate documents, then returns the candidates in a more relevant order.
+
+- Use a collection for managed storage and retrieval.
+- Use the standalone [reranking](rag/reranking.md) generation when your application already owns the candidates.
 
 ### Skills and tools
 
-[Skills](inference/skills.md) package reusable instructions and operating knowledge. Use a skill when the assistant needs to know **how** to perform a task. Use RAG when it needs to retrieve **facts or source material** that may grow or change independently.
+[Skills](inference/skills.md) package reusable instructions and operating knowledge. Use them when the same procedure should apply across requests.
 
-Tools let the assistant take action or retrieve live information. Choose among:
+- Use a skill when the assistant needs to know **how** to perform a task.
+- Use RAG when it needs to retrieve **facts or source material** that may grow or change independently.
+- Use a tool when the assistant must take action or retrieve live information.
+
+Choose among:
 
 - [Built-in tools](tools/builtin-tools.md) for capabilities provided by AIVAX.
 - [MCP](tools/mcp.md) for Model Context Protocol servers and reusable tool ecosystems.
@@ -66,7 +102,7 @@ Keep the tool surface as small as the assistant's job allows. Each additional to
 
 ## Process text, documents, and media
 
-AIVAX includes focused generation products for work that does not need a full chat conversation:
+Use these products when the job is a focused transformation and does not need a full chat conversation:
 
 - [Text classification](data-processing/classification.md) assigns labels to one or more documents.
 - [Text segmentation](data-processing/text-segmentation.md) splits long content into useful chunks for indexing or downstream processing.
@@ -75,33 +111,67 @@ AIVAX includes focused generation products for work that does not need a full ch
 - [Speech generation](generations/speech.md) turns text into audio.
 - [Audio transcription](generations/audio-transcriptions.md) turns audio into text.
 
-Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request. Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage. For large independent input sets, run the appropriate operation through [Batch](inference/batch.md).
+Choose the path by what you need back:
+
+- Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request.
+- Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage.
+- For large independent input sets, run the appropriate operation through [Batch](inference/batch.md).
 
 For interactive two-way audio, use [Voice Sessions](inference/voice-session.md) instead of manually chaining transcription, text inference, and speech generation.
 
 ## Deliver, scale, and evaluate
 
+Use these products after the assistant runtime works. They publish it to users, run it across many records, or check whether it behaves as intended.
+
 ### Chat clients
 
-A [chat client](inference/chat-clients.md) connects an AI Gateway to an end-user channel. It owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
+A [chat client](inference/chat-clients.md) connects an AI Gateway to an end-user channel. Use it for a browser widget or a supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
 
-Use a chat client for a browser widget or supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
+A chat client owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
 
 ### Batch
 
-[Batch](inference/batch.md) applies one workflow to dozens or thousands of independent records. A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job imports items, processes them in the background, exposes per-item progress and cost, and exports results.
+[Batch](inference/batch.md) applies one workflow to dozens or thousands of independent records. Use it when each record is independent and the caller does not need an immediate answer.
+
+A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job then:
+
+1. Imports items.
+2. Processes them in the background.
+3. Exposes per-item progress and cost.
+4. Exports results.
 
 Do not use Batch when one item depends on another or when a user needs an immediate answer. Use direct inference for one synchronous result and RAG for searchable knowledge.
 
 ### Agentic Tests
 
-[Agentic Tests](inference/agentic-tests.md) evaluate the configured behavior of an AI Gateway across a bounded conversation. A simulated user pursues a goal while an independent judge evaluates progress. Use persisted tests for reusable, scheduled regression coverage or an ephemeral evaluation for one immediate run.
+[Agentic Tests](inference/agentic-tests.md) evaluate the configured behavior of an AI Gateway across a bounded conversation. A simulated user pursues a goal while an independent judge evaluates progress.
 
-A completed test run is not automatically a successful behavior result. Review the run outcome, judge result, retained conversation, usage, and cost together.
+- Use persisted tests for reusable, scheduled regression coverage.
+- Use an ephemeral evaluation for one immediate run.
+
+A completed test run is not automatically a successful behavior result. Review these together:
+
+- Run outcome.
+- Judge result.
+- Retained conversation.
+- Usage.
+- Cost.
 
 ## Operate and connect AIVAX
 
-AIVAX records conversations and usage so you can trace behavior, attribute cost, and diagnose failures. The dashboard and account APIs expose account balance, usage, conversations, gateway resources, collection transactions, Batch items, and Agentic Test runs. Start with [Pricing](pricing.md) and [Plans and limits](limits.md) before enabling a high-volume or media-heavy workflow.
+Use this section to trace cost, connect a compatible agent, or operate the account from scripts.
+
+AIVAX records conversations and usage so you can trace behavior, attribute cost, and diagnose failures. The dashboard and account APIs expose:
+
+- Account balance.
+- Usage.
+- Conversations.
+- Gateway resources.
+- Collection transactions.
+- Batch items.
+- Agentic Test runs.
+
+Start with [Pricing](pricing.md) and [Plans and limits](limits.md) before enabling a high-volume or media-heavy workflow.
 
 AIVAX also provides MCP utilities for compatible agents:
 
@@ -112,13 +182,18 @@ AIVAX also provides MCP utilities for compatible agents:
 - [Media generation MCP](mcp-utilities/media-generation-mcp.md)
 - [Inference MCP](mcp-utilities/inference-mcp.md)
 
-These utilities expose existing AIVAX capabilities through MCP; they do not replace the underlying account, collection, or inference products.
+These utilities expose existing AIVAX capabilities through MCP. They do not replace the underlying account, collection, or inference products.
 
 To operate an account from the terminal or from scripts, install the [AIVAX CLI](cli.md) with `npm install -g @aivax/cli`.
 
 ## Make your first request
 
-Create a **private** key in the API Keys area of the AIVAX dashboard and store it as a secret, for example in an environment variable named `AIVAX_API_KEY`. Then install the OpenAI SDK with `python -m pip install openai` and create `quickstart.py`:
+Use this path for the first successful chat completion. It calls a hosted model or an AI Gateway through the OpenAI-compatible API.
+
+1. Create a **private** key in the API Keys area of the AIVAX dashboard.
+2. Store it as a secret, for example in an environment variable named `AIVAX_API_KEY`.
+3. Install the OpenAI SDK with `python -m pip install openai`.
+4. Create `quickstart.py`:
 
 ```python
 import os
@@ -140,21 +215,26 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Replace `<MODEL_OR_GATEWAY_ID>` with a hosted model name from the model listing or with an AI Gateway identifier, then run `python quickstart.py`. A successful request prints one generated sentence. If it fails, see [Troubleshoot requests](/docs/inference/chat-completions/troubleshooting.md).
+Replace `<MODEL_OR_GATEWAY_ID>` with a hosted model name from the model listing or with an AI Gateway identifier. Then run `python quickstart.py`.
+
+A successful request prints one generated sentence. If it fails, see [Troubleshoot requests](/docs/inference/chat-completions/troubleshooting.md).
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Long-running inference
 
-If a request ends with HTTP `524` or a proxy timeout while AIVAX is still processing it, use the direct inference host:
+Use the direct inference host when a request ends with HTTP `524` or a proxy timeout while AIVAX is still processing it:
 
 ```text
 https://direct.inference.aivax.net/v1
 ```
 
-The request remains synchronous, not a background job: keep the client connection open until the completion finishes, and configure a client timeout that covers the expected processing time.
+The request remains synchronous, not a background job.
 
-Use the same private API key, model or AI Gateway identifier, messages, and request parameters. Change the SDK base URL and timeout:
+1. Keep the client connection open until the completion finishes.
+2. Configure a client timeout that covers the expected processing time.
+3. Use the same private API key, model or AI Gateway identifier, messages, and request parameters.
+4. Change the SDK base URL and timeout:
 
 ```python
 import os
@@ -182,7 +262,7 @@ print(response.choices[0].message.content)
 
 ### Endpoints available on the direct host
 
-The direct host serves only the endpoints below. Paths, authentication, request bodies, and responses are the same as on `https://inference.aivax.net`; only the host changes.
+Use this list to confirm that the direct host serves the call you need. It serves only the endpoints below. Paths, authentication, request bodies, and responses are the same as on `https://inference.aivax.net`; only the host changes.
 
 | Method | Path | Endpoint |
 |---|---|---|
@@ -207,9 +287,19 @@ Compatibility aliases of these generation endpoints, such as `/api/v1/generation
 
 Any other path returns `404 Not Found` on the direct host. Account management, AI Gateway, collection, document, batch, and other administrative APIs, including web search, remain available only on `https://inference.aivax.net`.
 
-The endpoints most likely to need the direct host are non-streaming chat completions with long reasoning or many tool calls, image generation on slower models, media descriptions and transcriptions of large files, teach skill, and chat-client prompts that run long tool chains. Streaming chat completions send data continuously and rarely need it.
+The endpoints most likely to need the direct host are:
+
+- Non-streaming chat completions with long reasoning or many tool calls.
+- Image generation on slower models.
+- Media descriptions and transcriptions of large files.
+- Teach skill.
+- Chat-client prompts that run long tool chains.
+
+Streaming chat completions send data continuously and rarely need it.
 
 ## Next steps
+
+After the first request succeeds, continue in this order:
 
 1. Make your first request with the example above, then read [Inference](/docs/inference/chat-completions/concepts.md) for the full request contract.
 2. Read [Authentication](authentication.md) before choosing private keys, public keys, or chat sessions for an application boundary.

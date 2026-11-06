@@ -4,17 +4,25 @@
 
 # Media generation MCP
 
-The media generation MCP exposes AIVAX image generation and speech generation (text-to-speech) to any MCP-compatible client. Use it when an agent, IDE, desktop assistant, or automation environment needs to create images or spoken audio without calling the generation APIs directly or running an AIVAX model inference.
+The media generation MCP gives an MCP client hosted image generation and speech generation (text-to-speech). Use it when an agent, IDE, desktop assistant, or automation environment needs to create images or spoken audio without calling the generation APIs directly or running an AIVAX model inference.
 
 AIVAX hosts this MCP server and performs the generations for the authenticated account. The tools use the same models, billing, and applicable limits as [Image Generation](/docs/generations/images) and [Speech Generation](/docs/generations/speech).
 
+With the tools enabled, a client can:
+
+- list available image or speech models;
+- generate one to four images from a prompt;
+- synthesize speech and receive an MP3 URL.
+
 ## Endpoint
+
+This is the Streamable HTTP address for the media generation MCP. Point a trusted MCP client here when it should create images or speech for an AIVAX account.
 
 ```text
 https://inference.aivax.net/v1/mcp/media-generation
 ```
 
-The server uses Streamable HTTP. Authenticate requests with an account API key:
+Authenticate requests with an account API key:
 
 ```text
 Authorization: Bearer <AIVAX_API_KEY>
@@ -24,7 +32,7 @@ For key types and authentication options, see [Authentication](/docs/authenticat
 
 ## Configuration example
 
-The exact configuration shape depends on the MCP client. The following example enables all tools:
+Client configuration tells the MCP client where to connect and which tools to enable. The exact shape depends on the client. Use the following example when the client should see every tool:
 
 ```json
 {
@@ -45,7 +53,9 @@ After the client connects, it can discover and call the enabled tools through th
 
 ## Select which tools are exposed
 
-Use the optional `X-Mcp-Enabled-Tools` request header to control which tools the server exposes to that client. Provide a comma-separated allowlist containing any of `list_models`, `generate_image`, and `generate_speech`.
+`X-Mcp-Enabled-Tools` is an optional request header. Use it when a client should see only image generation, only speech generation, or a smaller set of tools.
+
+Provide a comma-separated allowlist containing any of `list_models`, `generate_image`, and `generate_speech`.
 
 Expose only image generation:
 
@@ -59,19 +69,25 @@ Expose only speech generation:
 X-Mcp-Enabled-Tools: list_models, generate_speech
 ```
 
-Tool names are case-insensitive, and spaces around comma-separated values are ignored.
+The server reads the header as follows:
 
+- Tool names are case-insensitive.
+- Spaces around comma-separated values are ignored.
 - If the header is omitted, all tools are exposed.
 - If the header lists recognized tools, only those tools are exposed.
 - If the header is empty or contains no recognized tool names, no tools are exposed.
 
-Keep `list_models` enabled alongside a generation tool so the agent can discover valid model names instead of guessing them. Because tool discovery may be cached by the MCP client, reconnect or refresh the server after changing this header.
+Keep `list_models` enabled alongside a generation tool. The agent can then discover valid model names instead of guessing them. MCP clients may cache tool discovery, so reconnect or refresh the server after changing this header.
 
 ## Tools
 
+These are the operations the server can expose. Call one when the client needs a model list, an image, or spoken audio.
+
 ### `list_models`
 
-Lists the models available for image generation or speech generation, including each model's description and pricing. Image models also indicate whether they accept reference images. Deprecated image models are not listed.
+`list_models` lists the models available for image generation or speech generation. Use it before a generation call when the agent needs a valid model name, a description, or pricing.
+
+Each result includes the model's description and pricing. Image models also indicate whether they accept reference images. Deprecated image models are not listed.
 
 Input:
 
@@ -91,7 +107,7 @@ The tool returns the model list as MCP text. Use the returned model name as the 
 
 ### `generate_image`
 
-Generates one to four images from a prompt and returns their URLs.
+`generate_image` creates one to four images from a prompt and returns their URLs. Use it when the client needs images and already has an image model name from `list_models`.
 
 Input:
 
@@ -115,13 +131,19 @@ Example arguments:
 }
 ```
 
-The tool returns MCP text with the URL and cost of each generated image, the error of each failed image, and the total cost. Failed images are not charged. The URLs are publicly accessible, so anyone with a URL can open the image. Download and store the images if your workflow needs to keep them under its own access control.
+The tool returns MCP text with:
+
+- the URL and cost of each generated image;
+- the error of each failed image;
+- the total cost.
+
+Failed images are not charged. The URLs are publicly accessible, so anyone with a URL can open the image. Download and store the images if your workflow needs to keep them under its own access control.
 
 For prompt guidance and reference-image behavior, see [Image Generation](/docs/generations/images).
 
 ### `generate_speech`
 
-Synthesizes speech from text and returns the URL of the generated MP3 audio.
+`generate_speech` synthesizes speech from text and returns the URL of the generated MP3 audio. Use it when the client needs spoken audio and already has a speech model name from `list_models`.
 
 Input:
 
@@ -142,18 +164,32 @@ Example arguments:
 }
 ```
 
-The tool returns the URL of the MP3 audio as MCP text. The URL is publicly accessible, so anyone with it can play the audio. Unlike the Speech Generation API, this tool does not return the audio inline and does not offer other output formats; convert the downloaded file if your workflow needs WAV or OGG.
+The tool returns the URL of the MP3 audio as MCP text. The URL is publicly accessible, so anyone with it can play the audio.
+
+Unlike the Speech Generation API:
+
+- It does not return the audio inline.
+- It does not offer other output formats.
+- Convert the downloaded file if your workflow needs WAV or OGG.
 
 Voices differ per speech model. For voice selection and text preparation guidance, see [Speech Generation](/docs/generations/speech).
 
 ## Pricing and limits
 
-Generation calls use the same pricing and quotas as [Image Generation](/docs/generations/images#pricing-limits-and-errors) and [Speech Generation](/docs/generations/speech#pricing-limits-and-errors) and are charged to the authenticated account. For general billing rules, see [Pricing](/docs/pricing).
+Generation calls use the same pricing and quotas as the generation APIs, and AIVAX charges the authenticated account. Use the product pages below for those rates and quotas:
+
+- [Image Generation](/docs/generations/images#pricing-limits-and-errors) for `generate_image`.
+- [Speech Generation](/docs/generations/speech#pricing-limits-and-errors) for `generate_speech`.
+- [Pricing](/docs/pricing) for general billing rules.
 
 A positive account balance is required to use these tools.
 
 ## Security guidance
 
-Use the MCP only from trusted clients and keep the API key in the client's secure secret storage. Do not place the key in source control, browser-side code, shared prompts, or logs.
+Use this guidance before you connect a client or publish a generated file. The MCP runs with your API key, and the media URLs it returns are public.
+
+- Use the MCP only from trusted clients.
+- Keep the API key in the client's secure secret storage.
+- Do not place the key in source control, browser-side code, shared prompts, or logs.
 
 Generated media URLs are public. Do not generate images or audio containing personal, confidential, or otherwise sensitive information unless the workflow accounts for that exposure. Review generated assets for accuracy and suitability before publishing them.
