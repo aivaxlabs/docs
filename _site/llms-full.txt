@@ -9929,6 +9929,12 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Saturday, November 7th, 2026
+
+Changes:
+
+- **Language models — Higher prices on Grand Anak routes.** Requests served by the `grand-anak-<route>` special providers now cost twice the previous token rates for input, cached input, and output. Other providers are not affected. Check current rates in `GET /api/v1/information/models.json`, and remove these tags from `allowed_providers` or use the `Balanced` preference to keep requests off special providers. See [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md).
+
 ## Friday, November 6th, 2026
 
 Breaking changes:
@@ -10099,24 +10105,6 @@ Changes:
 
 - **RAG — New search endpoints.** Added `POST /api/v2/query` (Query collections), `POST /api/v2/query/similar` (Find similar documents), and `POST /api/v2/query/browse` (Browse documents). Queries now return paginated results with a reusable candidate pool, separate similarity, rerank, and final scores, sorting by score, creation, update, or indexing date, or name, and filters per collection. Later pages of a query are not charged again; a Query collections cursor stays valid for 10 minutes after its last use, and an expired cursor returns `410 Gone`, so repeat the request without a cursor. Find similar documents searches by the stored vector of an indexed document, and Browse documents lists indexed documents by creation date, oldest first by default, optionally filtered; neither has embedding or reranking cost. Sending a `reranker` together with a sort other than score is rejected; without a `reranker`, the default reranker is skipped for those sorts. All three endpoints are also available on the direct host. See [Search](https://docs.aivax.net/docs/rag/semantic-search.md).
 - **RAG — Previous search endpoint deprecated.** `POST /api/v1/query` keeps working for existing integrations but is deprecated. To migrate, send `terms` to `POST /api/v2/query`, replace `top` with `limit` (if you omit it, `limit` defaults to 10, while `top` defaulted to 5, and the reranker scores `limit` × 3 candidates, so set `limit` explicitly to keep the same cost per query) and `includeReferences` with `"include": ["content", "metadata", "references"]`, and read results from `data.results[].document` and `data.results[].scores`. Requests without search terms move to `POST /api/v2/query/browse`, which, unlike the previous endpoint that returned the newest documents first, returns the oldest documents first unless `sort` is set. `POST /api/v1/answer` is not deprecated.
-
-## Friday, October 23rd, 2026
-
-Breaking changes:
-
-- **Language models — Router aliases now select newer models.** `@model-router/kimi:latest` now selects `@moonshotai/kimi-k3.1-pro` instead of `@moonshotai/kimi-k3`. The new model accepts text, images, and video. Its price in the AIVAX catalog is $2 per million input tokens and $10 per million output tokens, lower than Kimi K3 ($3 and $15). `@model-router/mercury:latest` now selects `@inception/mercury-3` instead of `@inception/mercury-2.5`. `@model-router/pareto:latest` now selects `@unbiased/pareto-26.10` instead of `@unbiased/pareto-26.9`. Pareto 26.10 does not accept structured output; keep calling `@unbiased/pareto-26.9` when a request needs `response_format`. The previous models remain available under their own identifiers.
-- **Image generation — Amazon Nova Canvas removed.** `nova-canvas` is no longer in the image catalog. An image API request that names it is rejected, and saving a gateway that still stores that name fails validation. If a gateway already stores it, the chat image tool falls back to the default image model, FLUX Schnell (`flux-schnell`). Choose another listed image model if that fallback is not suitable.
-
-Fixes:
-
-- **Language models — Retired Xiaomi endpoints are no longer selected.** The deprecated models `@xiaomi/mimo-v2.5` and `@xiaomi/mimo-v2.5-pro` no longer route to Xiaomi's direct API, which shut down on October 21, 2026. Requests use the remaining providers. Both models stay deprecated.
-
-Changes:
-
-- **Language models — New models and video input.** Added `@moonshotai/kimi-k3.1-pro`, `@minimax/m3.1-flash`, `@inception/mercury-3`, and `@unbiased/pareto-26.10`. `@moonshotai/kimi-k3` now accepts video as well as text and images.
-- **Language models — Groq cached input price.** Cached input tokens for `@openai/gpt-oss-20b` on Groq are now billed at $0.037 per million tokens. Before this change, they were billed at the regular input price of $0.075 per million.
-- **Image generation — FLUX.3 Image Klein.** Added `flux-3-image-klein`, including reference images, at an estimated $0.019 per output image for the provider's default size.
-- **Decisions — New text decision models.** Added `@perplexity/pplx-decider-v1.2` ($0.02 per million input tokens), `@perplexity/pplx-decider-flash-v1.2` ($0.01), `@nace-ai/drex-max` ($0.06), `@respan/span-02` ($0.01), and `@liquid/d1-ultra` ($0.042). `@typesafe/jev` now resolves to JEV 1.14 instead of 1.13 at the same price, and new aliases were added for the Perplexity, Nace, Respan, and Liquid decision models.
 
 
 ---

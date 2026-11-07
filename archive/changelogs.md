@@ -2,6 +2,24 @@
 
 Changelog entries older than the ones shown at https://docs.aivax.net/docs/legal/changelogs.html, newest first.
 
+## Friday, October 23rd, 2026
+
+Breaking changes:
+
+- **Language models — Router aliases now select newer models.** `@model-router/kimi:latest` now selects `@moonshotai/kimi-k3.1-pro` instead of `@moonshotai/kimi-k3`. The new model accepts text, images, and video. Its price in the AIVAX catalog is $2 per million input tokens and $10 per million output tokens, lower than Kimi K3 ($3 and $15). `@model-router/mercury:latest` now selects `@inception/mercury-3` instead of `@inception/mercury-2.5`. `@model-router/pareto:latest` now selects `@unbiased/pareto-26.10` instead of `@unbiased/pareto-26.9`. Pareto 26.10 does not accept structured output; keep calling `@unbiased/pareto-26.9` when a request needs `response_format`. The previous models remain available under their own identifiers.
+- **Image generation — Amazon Nova Canvas removed.** `nova-canvas` is no longer in the image catalog. An image API request that names it is rejected, and saving a gateway that still stores that name fails validation. If a gateway already stores it, the chat image tool falls back to the default image model, FLUX Schnell (`flux-schnell`). Choose another listed image model if that fallback is not suitable.
+
+Fixes:
+
+- **Language models — Retired Xiaomi endpoints are no longer selected.** The deprecated models `@xiaomi/mimo-v2.5` and `@xiaomi/mimo-v2.5-pro` no longer route to Xiaomi's direct API, which shut down on October 21, 2026. Requests use the remaining providers. Both models stay deprecated.
+
+Changes:
+
+- **Language models — New models and video input.** Added `@moonshotai/kimi-k3.1-pro`, `@minimax/m3.1-flash`, `@inception/mercury-3`, and `@unbiased/pareto-26.10`. `@moonshotai/kimi-k3` now accepts video as well as text and images.
+- **Language models — Groq cached input price.** Cached input tokens for `@openai/gpt-oss-20b` on Groq are now billed at $0.037 per million tokens. Before this change, they were billed at the regular input price of $0.075 per million.
+- **Image generation — FLUX.3 Image Klein.** Added `flux-3-image-klein`, including reference images, at an estimated $0.019 per output image for the provider's default size.
+- **Decisions — New text decision models.** Added `@perplexity/pplx-decider-v1.2` ($0.02 per million input tokens), `@perplexity/pplx-decider-flash-v1.2` ($0.01), `@nace-ai/drex-max` ($0.06), `@respan/span-02` ($0.01), and `@liquid/d1-ultra` ($0.042). `@typesafe/jev` now resolves to JEV 1.14 instead of 1.13 at the same price, and new aliases were added for the Perplexity, Nace, Respan, and Liquid decision models.
+
 ## Monday, October 19th, 2026
 
 Breaking changes:
