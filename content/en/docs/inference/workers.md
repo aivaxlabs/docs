@@ -361,4 +361,4 @@ This pattern keeps the internal API off the model context. The worker remains re
 3. Calling the internal system.
 4. Deciding how much data can return to the model context.
 
-For how workers fit into gateway execution, see [Pipelines](/docs/inference/pipelines).
+For how workers fit into gateway execution, see [Pipelines](/docs/inference/chat-completions/processing-pipeline.md).

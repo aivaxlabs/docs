@@ -2,15 +2,32 @@ Source: https://docs.aivax.net/docs/inference/workers.html
 
 # Gateway Workers
 
-AI Gateway workers are HTTP hooks that let an external service control gateway execution at runtime. A worker can allow an event, stop it, rewrite context, add instructions or tools, or replace a server-side tool result.
+Gateway Workers are HTTP hooks that let your service control an AI Gateway while a request is running. Use one when a rule has to be decided outside the prompt.
 
-Use workers when a rule must be decided outside the prompt. Common cases include subscription checks, CRM enrichment, tenant-specific policy, audit logging, dynamic tool blocking, and replacing a model-visible tool result with data from an internal system.
+A worker can:
 
-Workers run in the inference critical path. Every worker event adds an HTTP request before the gateway can continue, so keep the endpoint fast and predictable.
+- allow an event;
+- stop an event;
+- rewrite context;
+- add instructions or tools;
+- replace a server-side tool result.
+
+Use a worker when the decision depends on your own systems. Typical cases:
+
+- subscription checks;
+- CRM enrichment;
+- tenant-specific policy;
+- audit logging;
+- dynamic tool blocking;
+- replacing a model-visible tool result with data from an internal system.
+
+Workers run on the path of every inference they handle. Each event adds an HTTP request before the gateway can continue, so keep the endpoint fast and predictable.
 
 ## Request format
 
-When a configured worker event fires, AIVAX sends a `POST` request to the gateway's worker URL.
+The request is the event AIVAX posts to your worker. It arrives when a configured worker event fires, before the gateway continues.
+
+AIVAX sends this `POST` to the gateway's worker URL:
 
 ```json
 {
@@ -33,17 +50,32 @@ When a configured worker event fires, AIVAX sends a `POST` request to the gatewa
 }
 ```
 
-The exact `event.data` shape depends on the event. Always validate `gatewayId` when one endpoint serves more than one gateway.
+Read the body before you act:
+
+1. Validate `gatewayId` when one endpoint serves more than one gateway.
+2. Branch on `event.name`.
+3. Read `event.data`. The exact shape depends on the event.
+
+Treat the JSON above as the envelope. Do not assume every event carries the same `data` fields.
 
 ## Authentication
 
-When the account has a hook key, AIVAX sends the `X-Request-Nonce` header. The nonce is a BCrypt hash derived from the account hook key. Validate this header before trusting the body, especially when the worker releases private data, changes context, or authorizes tool usage.
+Use the nonce to confirm that AIVAX sent the request. Validate it before you trust the body, especially when the worker releases private data, changes context, or authorizes tool use.
 
-Treat `externalUserId`, `metadata`, messages, and tool arguments as untrusted input.
+When the account has a hook key, AIVAX sends `X-Request-Nonce`. The nonce is a BCrypt hash derived from the account hook key.
+
+Treat these fields as untrusted input:
+
+- `externalUserId`
+- `metadata`
+- messages
+- tool arguments
 
 ## Response behavior
 
-After sending the request, AIVAX handles the worker response as follows:
+The response tells AIVAX whether to continue, stop, or apply an action. Choose it on purpose: optional enrichment can fail open, and an authorization or compliance check should fail closed.
+
+After AIVAX sends the request, it handles your response as follows:
 
 | Response | Behavior |
 |---|---|
@@ -53,14 +85,17 @@ After sending the request, AIVAX handles the worker response as follows:
 
 If the worker request fails with an HTTP request exception, AIVAX logs the failure and stops the event.
 
-Choose fail-open or fail-closed behavior intentionally:
+### When to continue or stop
 
-- Return `2xx` when the worker only adds optional enrichment, so the conversation continues even if your logic has nothing to add.
-- Return a non-OK response when authorization, compliance, or business policy cannot fail open.
+Use the status that matches the risk:
+
+1. Return `Content-Type: application/json+worker-action` when AIVAX should apply the JSON action.
+2. Return `2xx` without that content type when the worker only adds optional enrichment, or when your logic has nothing to add. The conversation continues.
+3. Return a non-OK response without that content type when authorization, compliance, or business policy cannot fail open. AIVAX stops the event.
 
 ## `message.received`
 
-The `message.received` event fires after the gateway prepares the incoming message context and before the model call.
+`message.received` is the hook for the prepared prompt. Use it to inspect, rewrite, or stop the context before the model runs. It fires after the gateway prepares the incoming message context and before the model call.
 
 ```json
 {
@@ -74,7 +109,7 @@ The `message.received` event fires after the gateway prepares the incoming messa
 }
 ```
 
-To modify the context, return `Content-Type: application/json+worker-action` with `type: "message.received.response"`:
+To change the context, return `Content-Type: application/json+worker-action` with `type: "message.received.response"`. Return `2xx` with no action when the message can continue unchanged. This example adds one system instruction:
 
 ```json
 {
@@ -90,7 +125,7 @@ To modify the context, return `Content-Type: application/json+worker-action` wit
 }
 ```
 
-Available rewrite actions:
+Use a rewrite when the prepared context is not what the model should see. Available actions:
 
 | Action | Description | Parameters |
 |---|---|---|
@@ -104,7 +139,7 @@ Available rewrite actions:
 
 ### Replace the user context
 
-This example runs `clear` and then adds a replacement message, so the model answers the policy message instead of the original user input:
+Use this pattern when policy should replace the original user input. The example runs `clear`, then adds a replacement message, so the model answers the policy message instead of the original input:
 
 ```json
 {
@@ -128,7 +163,7 @@ This example runs `clear` and then adds a replacement message, so the model answ
 
 ### Remove a message
 
-This example removes the first message from the context, using its zero-based index:
+Use `remove-message` when one message should leave the context and the rest should stay. This example removes the first message, using its zero-based index:
 
 ```json
 {
@@ -146,7 +181,7 @@ This example removes the first message from the context, using its zero-based in
 
 ### Add a temporary MCP source
 
-This example exposes the tools of an internal MCP server for the current inference only:
+Use `add-mcp-source` when the tool list must depend on this message, user, channel, or an external policy, and only for the current inference. This example exposes the tools of an internal MCP server:
 
 ```json
 {
@@ -169,11 +204,17 @@ This example exposes the tools of an internal MCP server for the current inferen
 }
 ```
 
-Use `add-mcp-source` when the tool list needs to depend on the message, user, channel, or an external policy. AIVAX lists the tools from the MCP server, converts each schema into a model-callable function, and makes those tools available only for that inference. For permanent sources, configure MCP directly in the AI Gateway.
+For this inference only, AIVAX:
+
+1. Lists the tools from the MCP server.
+2. Converts each schema into a model-callable function.
+3. Makes those tools available only for that inference.
+
+For a source that should stay on the gateway, configure MCP directly in the AI Gateway.
 
 ## `tool.called`
 
-The `tool.called` event fires before AIVAX executes an internal server-side tool.
+`tool.called` is the hook for an internal server-side tool. Use it to allow the call, block it, or replace the result the model will see. The event fires before AIVAX executes that tool.
 
 ```json
 {
@@ -190,9 +231,11 @@ The `tool.called` event fires before AIVAX executes an internal server-side tool
 }
 ```
 
-Return a non-OK response to block the tool call. Return `2xx` to let AIVAX execute the tool normally.
+Choose one outcome:
 
-To replace the tool result, return `Content-Type: application/json+worker-action` with `type: "tool.called.response"`:
+1. Return a non-OK response to block the tool call.
+2. Return `2xx` to let AIVAX execute the tool normally.
+3. Return `Content-Type: application/json+worker-action` with `type: "tool.called.response"` to replace the tool result:
 
 ```json
 {
@@ -204,18 +247,26 @@ To replace the tool result, return `Content-Type: application/json+worker-action
 }
 ```
 
-Fields of `data`:
+`result` is the text injected as the tool result. `messages` is optional and attaches extra OpenAI-format messages to the conversation context. Fields of `data`:
 
 | Field | Description |
 |---|---|
 | `result` | Textual content injected as the tool result. |
 | `messages` | Optional additional OpenAI-format messages attached to the conversation context. |
 
-When `tool.called.response` is returned, AIVAX uses the worker-provided result instead of executing the default tool handler.
+When you return `tool.called.response`, AIVAX uses the worker-provided result instead of executing the default tool handler.
 
 ## Example: blocking unauthorized users
 
-The example below shows a Cloudflare Worker that blocks a gateway call when the external user is not allowed. Requests for other gateways or events receive an empty `2xx` response and continue normally; a `403` response stops the `message.received` event for users outside the allow list.
+Use this pattern when only an allow list of external users may reach one gateway. The example is a Cloudflare Worker. It stops `message.received` for everyone else and lets other gateways and events continue.
+
+The worker decides in this order:
+
+1. Reject methods other than `POST`.
+2. Return an empty `2xx` for any other gateway, so that call continues.
+3. Return an empty `2xx` for any other event.
+4. Return `403` when `externalUserId` is outside the allow list. That stops `message.received`.
+5. Return an empty `2xx` for an allowed user, so the gateway continues.
 
 ```js
 export default {
@@ -248,7 +299,7 @@ export default {
 
 ## Example: replacing a tool with an internal system
 
-Use `tool.called` when the model should see a tool result, but the actual data should come from your system.
+Use this pattern when the model should see a tool result, but the data should come from your system instead of the default tool handler. The example replaces `check_order` and lets every other event continue.
 
 ```js
 export default {
@@ -301,6 +352,11 @@ export default {
 };
 ```
 
-This pattern prevents exposing the internal API directly to the model. The worker remains responsible for authenticating the request, validating the user, calling the internal system, and deciding how much data can return to the model context.
+This pattern keeps the internal API off the model context. The worker remains responsible for:
 
-For how workers fit into gateway execution, see [Pipelines](https://docs.aivax.net/docs/inference/pipelines.md).
+1. Authenticating the request.
+2. Validating the user.
+3. Calling the internal system.
+4. Deciding how much data can return to the model context.
+
+For how workers fit into gateway execution, see [Pipelines](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md).

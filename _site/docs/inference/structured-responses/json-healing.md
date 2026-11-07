@@ -2,23 +2,33 @@ Source: https://docs.aivax.net/docs/inference/structured-responses/json-healing.
 
 # JSON Healing
 
-JSON Healing is how AIVAX makes any model return JSON that matches a schema, including models without native structured output. It is enabled by `response_schema`, by `healing_options` in `response_format`, or by automatic JSON Healing in the account settings.
+JSON Healing is how AIVAX makes any model return JSON that matches a schema, including models without native structured output. Use it when the application must parse a predictable JSON value instead of free text.
+
+Turn it on in one of these ways:
+
+- Send `response_schema`.
+- Send `healing_options` in `response_format`.
+- Turn on automatic JSON Healing in the account settings.
+
+Use `response_format` when you want the provider's native JSON Schema support. Add `healing_options` inside `response_format.json_schema` when that request should also use JSON Healing.
 
 ## How JSON Healing works
 
-When `response_schema` is present, AIVAX adds schema instructions to the model request. After the model generates an answer, AIVAX tries to extract JSON from:
+When `response_schema` is present, AIVAX follows this loop.
 
-- The complete generated text.
-- Common repaired variants, such as missing opening or closing braces.
-- JSON code blocks found in the generated text.
-
-If the extracted JSON does not validate against the schema, AIVAX adds a feedback message with the validation errors and asks the model to generate the JSON again. This continues until a valid JSON value is generated or the configured attempt limit is reached.
+1. AIVAX adds schema instructions to the model request.
+2. After the model generates an answer, AIVAX tries to extract JSON from:
+   - The complete generated text.
+   - Common repaired variants, such as missing opening or closing braces.
+   - JSON code blocks found in the generated text.
+3. If the extracted JSON does not validate against the schema, AIVAX adds a feedback message with the validation errors and asks the model to generate the JSON again.
+4. This continues until a valid JSON value is generated or the configured attempt limit is reached.
 
 JSON Healing improves reliability, but it is not an absolute guarantee. If the model repeatedly fails the schema, the request can fail after the attempt limit; see [When healing fails](#when-healing-fails).
 
 ## Basic example
 
-The request below lets the model search the web and then return the results as JSON validated against `response_schema`.
+Use `response_schema` when you want JSON Healing on a chat completion, including after tools run. The request below lets the model search the web and then return the results as JSON validated against `response_schema`.
 
 Reference:
 
@@ -74,7 +84,7 @@ Reference:
 
 ## Native structured output
 
-Use `response_format` when you want to use the provider's native JSON Schema support:
+Use `response_format` when you want the provider's native JSON Schema support. If the selected integrated model has strict JSON support, AIVAX can forward the schema using the provider's JSON Schema response format.
 
 ```json
 {
@@ -110,11 +120,9 @@ Use `response_format` when you want to use the provider's native JSON Schema sup
 }
 ```
 
-If the selected integrated model has strict JSON support, AIVAX can forward the schema using the provider's JSON Schema response format.
-
 ## Enabling healing in `response_format`
 
-You can explicitly enable JSON Healing inside `response_format.json_schema`:
+Use `healing_options` when the request already uses `response_format` and you also want JSON Healing. Place the options inside `response_format.json_schema`:
 
 ```json
 {
@@ -148,16 +156,24 @@ You can explicitly enable JSON Healing inside `response_format.json_schema`:
 
 ## When healing fails
 
-When every attempt produces invalid JSON, the request fails with the message `Failed to generate a valid JSON response. Please, try again later.`:
+Healing fails when every attempt produces invalid JSON. The request then fails with the message `Failed to generate a valid JSON response. Please, try again later.`
+
+What the client receives:
 
 - Without streaming, the response is HTTP `503` with the error code `service_unavailable` and the header `Retry-After: 5`.
 - With streaming, the stream ends with a chunk whose `finish_reason` is `error` and whose `error` object carries the code and message, followed by `[DONE]`. See [Streaming](https://docs.aivax.net/docs/inference/chat-completions/streaming.md).
 
-If healing frequently reaches the attempt limit, adjust the instruction and schema before raising the limit. Common causes are overly rigid schemas, missing `required` fields, vague prompts, noisy tool results, or a model that is too small for the task.
+If healing frequently reaches the attempt limit, adjust the instruction and schema before raising the limit. Common causes:
+
+- Overly rigid schemas.
+- Missing `required` fields.
+- Vague prompts.
+- Noisy tool results.
+- A model that is too small for the task.
 
 ## Supported schema features
 
-AIVAX validates the generated JSON with JSON Schema. The documented supported features are:
+AIVAX validates the generated JSON with JSON Schema. Use these features when you need to constrain a value. The documented supported features are:
 
 - `string`: `minLength`, `maxLength`, `pattern`, `format`, and `enum`.
 - `number` and `integer`: `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`, and `multipleOf`.
@@ -167,14 +183,28 @@ AIVAX validates the generated JSON with JSON Schema. The documented supported fe
 - `null`.
 - Multiple types, for example `"type": ["string", "number"]`.
 
-Use `required` for fields your application must receive. Use explicit `items` for arrays. Use `enum`, `format`, and length or pattern restrictions when the accepted values are known.
+Apply restrictions this way:
+
+- Use `required` for fields your application must receive.
+- Use explicit `items` for arrays.
+- Use `enum`, `format`, and length or pattern restrictions when the accepted values are known.
 
 ## Practical patterns
 
-For extraction, tell the model which fields must be inferred, which fields should be `null` when missing, and which fields must not be invented.
+Use these patterns when you design the schema, not only when you turn healing on.
 
-For classification, use `enum` for the final label and add a short `reason` field when humans need to audit the decision.
+### Extraction
 
-For tool-backed JSON, allow the model to use tools before producing the JSON and include source fields when the application needs provenance.
+Tell the model which fields must be inferred, which fields should be `null` when missing, and which fields must not be invented.
+
+### Classification
+
+Use `enum` for the final label. Add a short `reason` field when humans need to audit the decision.
+
+### Tool-backed JSON
+
+Allow the model to use tools before producing the JSON. Include source fields when the application needs provenance.
+
+### Writes to other systems
 
 For database writes or external API calls, validate the JSON again in your application. AIVAX validates the JSON shape, but your application remains responsible for business rules such as permissions, valid IDs, date ranges, and account-specific constraints.

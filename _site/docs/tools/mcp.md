@@ -2,45 +2,75 @@ Source: https://docs.aivax.net/docs/tools/mcp.html
 
 # Support for Model Context Protocol (MCP)
 
-You can bind external MCP protocol tools to your [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
+MCP binds external tools to an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). Use it when the assistant must call live services through a standard tool protocol.
 
-AIVAX acts as an MCP client for gateway inference: it connects to the configured MCP source, lists tools, converts each tool schema into a model-callable function, and calls the remote MCP server when the model selects that tool.
+The protocol defines tools that run on the server side and enable the assistant to interact with real-time services.
+
+AIVAX acts as an MCP client for gateway inference. For each configured source, it:
+
+1. Connects to the MCP server.
+2. Lists tools.
+3. Converts each tool schema into a model-callable function.
+4. Calls the remote MCP server when the model selects that tool.
 
 <img src="/assets/diagrams/mcp-1.drawio.svg">
 
 ## When to use MCP
 
-Use MCP when you already have external tools that need to be discovered and called by models in a standardized way. An MCP server is suitable for tool catalogs, integrations with internal systems, stateful operations, tools shared among multiple agents, and environments where you want to keep logic outside of AIVAX.
+Use MCP when you already have external tools that need to be discovered and called by models in a standardized way. An MCP server fits:
 
-Do not use MCP only to replace a single simple HTTP call. When you need to expose an isolated function with a specific callback and nonce authentication, [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) are usually simpler. When the capability already exists in AIVAX, such as web search, URL opening, code execution, or image generation, [built‐in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) are usually the most direct path. MCP is better when there is a set of tools with their own schema, when another system already speaks MCP, or when you want the same server to be used by different clients.
+- Tool catalogs.
+- Integrations with internal systems.
+- Stateful operations.
+- Tools shared among multiple agents.
+- Environments where you want to keep logic outside of AIVAX.
 
-In production, treat the MCP server as an API exposed to an agent. Tool descriptions should be clear, schemas should be restrictive, and authentication should be configured in the server headers. The model should not receive overly generic tools such as `execute`, `request`, or `search` without strong descriptions and controlled parameters. Ambiguous tools increase wrong calls; specific tools like `lookup_customer_by_email` or `create_support_ticket` help the model decide better.
+Do not use MCP only to replace a single simple HTTP call.
+
+- Use [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) when you need one isolated function with a specific callback and nonce authentication. They are usually simpler.
+- Use [built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) when the capability already exists in AIVAX, such as web search, URL opening, code execution, or image generation. They are usually the most direct path.
+- Use MCP when there is a set of tools with their own schema, when another system already speaks MCP, or when you want the same server to be used by different clients.
+
+In production, treat the MCP server as an API exposed to an agent:
+
+- Write clear tool descriptions.
+- Keep schemas restrictive.
+- Configure authentication in the server headers.
+- Do not offer overly generic tools such as `execute`, `request`, or `search` without strong descriptions and controlled parameters.
+
+Ambiguous tools increase wrong calls. Specific tools like `lookup_customer_by_email` or `create_support_ticket` help the model decide better.
 
 A long tool list also has a cost: every tool offered to the model adds its name, description, and schema to each request. To measure that overhead and reduce it, see [how to measure and cut tool-definition tokens](https://aivax.net/blog/reduce-mcp-tool-definition-tokens-too-many-tools/).
 
 ### Choosing the function name
 
-The function name should be simple and deterministic about what the function does. Avoid names that are hard to guess or that do not hint at the function’s role, as the assistant may get confused and not call the function when appropriate.
+Use a name that states the action. Keep it simple and deterministic. Avoid names that are hard to guess or that do not hint at the function's role. Otherwise the assistant may not call the function when it should.
 
-As an example, let’s think of a function that queries a user in an external database. The following names are good examples to consider for the call:
+For a function that queries a user in an external database, prefer:
 
 - `search_user`
 - `query_user`
 
-Bad names include:
+Avoid:
 
 - `search` (implicit, possibly ambiguous)
 - `search user` (name with improper characters)
 
-Having the function name, we can think about the function description.
+After the name is settled, write the description.
 
 ### Choosing the function description
 
-The function description should conceptually explain two situations: what it does and when the assistant should call it. This description should include the scenarios the assistant should consider calling it and when it should not be called, providing a few one‐shot call examples and/or making the function rules explicit.
+Use the description to tell the assistant what the function does and when to call it.
+
+Include:
+
+- Scenarios where the assistant should call it.
+- Scenarios where it should not be called.
+- A few one-shot call examples, or explicit function rules.
 
 ### Defining MCP servers
 
-You can define your MCP servers in the gateway through a JSON array:
+Define MCP servers on the gateway when the assistant should discover and call that server's tools. Send a JSON array:
 
 ```json
 [
@@ -56,7 +86,7 @@ You can define your MCP servers in the gateway through a JSON array:
 
 Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`; the default is 600 seconds.
 
-Each MCP source accepts the following fields:
+Each MCP source accepts the following fields. Use them to name the source, authenticate the connection, and control what the model sees:
 
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -73,13 +103,34 @@ If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off M
 
 ## Server instructions and remote skills
 
-Each MCP source accepts `allowClientInstructions` and `allowRemoteSkills`, both enabled by default. Set either option to `false` to exclude that content. Only connect servers whose content you trust: server instructions are added to the gateway context, and remote skills become available through `read_skill` alongside your account skills.
+Use these options when a trusted MCP server should add instructions or skills to the gateway. Each MCP source accepts `allowClientInstructions` and `allowRemoteSkills`. Both are enabled by default. Set either option to `false` to exclude that content.
 
-AIVAX requests tools only when the server advertises tools. Skill discovery additionally requires the `resources` capability and the `io.modelcontextprotocol/skills` extension in the server capabilities returned during initialization. AIVAX follows `skills/list` pagination and reads each listed `SKILL.md` from the same server. Remote skills receive origin-qualified identifiers so they do not replace account skills or same-named skills from another source.
+Only connect servers whose content you trust:
 
-This is a limited compatibility integration, not full support for the extension's `2026-07-28` base protocol. The server must accept the existing Streamable HTTP initialization flow and advertise the extension there; servers requiring `server/discover` are not supported by this integration.
+- Server instructions are added to the gateway context.
+- Remote skills become available through `read_skill` alongside your account skills.
 
-Only the root `SKILL.md` is imported. Its byte length, SHA-256 digest, and YAML frontmatter must match the advertised entry; a mismatch fails discovery instead of loading unverified content. Manifests are limited to 512 resources and 16 MiB of total declared content per skill. Skills advertising `resources: "dynamic"` are skipped. Supporting files, directory browsing, direct `skills/get` lookup, and scripts are not imported. Frontmatter does not grant tool permissions or populate the gateway's allowed-tool lists; existing tool policies still apply. This integration does not add a per-skill approval system or a new execution sandbox. Disable remote skills when your policy requires those controls.
+How discovery works:
+
+1. AIVAX requests tools only when the server advertises tools.
+2. Skill discovery also requires the `resources` capability and the `io.modelcontextprotocol/skills` extension in the server capabilities returned during initialization.
+3. AIVAX follows `skills/list` pagination and reads each listed `SKILL.md` from the same server.
+4. Remote skills receive origin-qualified identifiers so they do not replace account skills or same-named skills from another source.
+
+This is a limited compatibility integration, not full support for the extension's `2026-07-28` base protocol.
+
+- The server must accept the existing Streamable HTTP initialization flow and advertise the extension there.
+- Servers requiring `server/discover` are not supported by this integration.
+
+Only the root `SKILL.md` is imported. Its byte length, SHA-256 digest, and YAML frontmatter must match the advertised entry. A mismatch fails discovery instead of loading unverified content.
+
+Import limits and exclusions:
+
+- Manifests are limited to 512 resources and 16 MiB of total declared content per skill.
+- Skills advertising `resources: "dynamic"` are skipped.
+- Supporting files, directory browsing, direct `skills/get` lookup, and scripts are not imported.
+- Frontmatter does not grant tool permissions or populate the gateway's allowed-tool lists. Existing tool policies still apply.
+- This integration does not add a per-skill approval system or a new execution sandbox. Disable remote skills when your policy requires those controls.
 
 Before connecting a third-party server, review the [third-party MCP connection checklist](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/).
 
@@ -87,7 +138,13 @@ The same options apply to MCP sources added by gateway workers. Existing account
 
 ## Metadata sent with tool calls
 
-For each `tools/call` request, AIVAX adds execution context in `params._meta`, alongside `params.arguments`. Arguments contain the tool input; metadata identifies the calling context and carries application-supplied values. These fields describe tool execution requests, not tool discovery (`tools/list`).
+Use this section when your MCP server must identify the calling context or receive application values with the call.
+
+For each `tools/call` request, AIVAX adds execution context in `params._meta`, alongside `params.arguments`.
+
+- Arguments contain the tool input.
+- Metadata identifies the calling context and carries application-supplied values.
+- These fields describe tool execution requests, not tool discovery (`tools/list`).
 
 The following example illustrates a call with an identified user, a conversation token, and custom metadata:
 
@@ -116,7 +173,7 @@ The following example illustrates a call with an identified user, a conversation
 
 ### AIVAX fields
 
-All paths below are relative to `params._meta`. Names beginning with `_aiv` are reserved; do not use them for custom metadata.
+These fields identify the calling context. All paths below are relative to `params._meta`. Names beginning with `_aiv` are reserved; do not use them for custom metadata.
 
 | Field | JSON type | Meaning and availability |
 | --- | --- | --- |
@@ -128,7 +185,7 @@ All paths below are relative to `params._meta`. Names beginning with `_aiv` are 
 
 ### Call source values
 
-The same string values are used by protocol functions in `context.callSource`:
+Use the source to route and diagnose the call, not to authorize it. The same string values are used by protocol functions in `context.callSource`:
 
 | Value | Inference origin |
 | --- | --- |
@@ -140,21 +197,33 @@ The same string values are used by protocol functions in `context.callSource`:
 | `McpClient` | Inference initiated through an MCP client. |
 | `ValidationApi` | Agentic test validation. |
 
-Treat the source as routing and diagnostic context, not as an authorization role. Consumers should tolerate future source values.
+Consumers should tolerate future source values.
 
 ### Custom metadata and security
 
-Custom inference metadata is a map of string keys to string values. It comes from request `metadata` for chat completions or session metadata for chat clients. AIVAX copies these entries directly into `params._meta`: in the example, `tenant_id` and `request_id` are application-defined, not built-in AIVAX fields. There is no nested `metadata` object in the MCP envelope. With no custom metadata, only the AIVAX fields remain.
+Custom inference metadata is a map of string keys to string values. It comes from request `metadata` for chat completions or session metadata for chat clients.
 
-Do not send secrets in custom metadata: these values are forwarded to the remote tool server. Validate tenant and user access against your own trusted records before using metadata to select data or perform writes. Neither an external user ID, a conversation token, nor a call-source label grants permission by itself.
+AIVAX copies these entries directly into `params._meta`. In the example, `tenant_id` and `request_id` are application-defined, not built-in AIVAX fields. There is no nested `metadata` object in the MCP envelope. With no custom metadata, only the AIVAX fields remain.
 
-The nonce authenticates the configured account hook key; it is not a signature of the arguments, a unique request ID, or a replay-prevention mechanism. Keep HTTPS and the MCP server's configured authentication headers, and apply your own authorization and duplicate-operation controls. If your server requires nonce authentication, reject a missing or invalid nonce.
+Before you rely on metadata:
+
+- Do not send secrets in custom metadata. These values are forwarded to the remote tool server.
+- Validate tenant and user access against your own trusted records before using metadata to select data or perform writes.
+- Do not treat an external user ID, a conversation token, or a call-source label as permission by itself.
+- Treat the nonce as proof of the configured account hook key only. It is not a signature of the arguments, a unique request ID, or a replay-prevention mechanism.
+- Keep HTTPS and the MCP server's configured authentication headers.
+- Apply your own authorization and duplicate-operation controls.
+- If your server requires nonce authentication, reject a missing or invalid nonce.
 
 For the equivalent HTTP callback envelope, see [protocol function context](https://docs.aivax.net/docs/tools/protocol-functions.md#context-fields).
 
 ## Tool results
 
-Tool results can include text, image, and audio content blocks. Text is added directly to the tool result. Image and audio blocks are attached back into the conversation as multimodal content with generated IDs. Unsupported content block types are reported as unsupported text.
+A tool result is what the MCP server returns after a call. AIVAX adds supported blocks back into the conversation so the model can continue.
+
+- Text is added directly to the tool result.
+- Image and audio blocks are attached back into the conversation as multimodal content with generated IDs.
+- Unsupported content block types are reported as unsupported text.
 
 If something goes wrong, check the symptom:
 

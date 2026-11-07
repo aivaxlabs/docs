@@ -2,7 +2,9 @@ Source: https://docs.aivax.net/docs/rag/semantic-search.html
 
 # Search
 
-AIVAX searches the indexed documents of one or more collections through three endpoints:
+Search returns indexed documents from one or more collections. Use managed search when AIVAX should store and search a persistent corpus, or when the corpus is too large to submit as candidates with every request.
+
+AIVAX searches through three endpoints:
 
 | Endpoint | Path | Use it to | Cost |
 | --- | --- | --- | --- |
@@ -12,11 +14,17 @@ AIVAX searches the indexed documents of one or more collections through three en
 
 RAG answer generation and collections attached to an AI Gateway use the same retrieval engine.
 
-If your application already owns the candidate document strings, consider [Reflex](https://docs.aivax.net/docs/rag/reflex.md): a collection-less search that ranks supplied documents without indexing or storage. Use managed search when AIVAX should store and search a persistent corpus or when the corpus is too large to submit as candidates with every request.
+If your application already owns the candidate document strings, consider [Reflex](https://docs.aivax.net/docs/rag/reflex.md). Reflex is a collection-less search that ranks supplied documents without indexing or storage.
 
-Before searching, add [documents](https://docs.aivax.net/docs/rag/documents.md) to a [collection](https://docs.aivax.net/docs/rag/collections.md) and wait for indexing. Only indexed documents are returned. Compare [vector search with the complete RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) before deciding what to build.
+Before searching:
+
+1. Add [documents](https://docs.aivax.net/docs/rag/documents.md) to a [collection](https://docs.aivax.net/docs/rag/collections.md).
+2. Wait for indexing. Only indexed documents are returned.
+3. Compare [vector search with the complete RAG pipeline](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) before deciding what to build.
 
 ## Query collections
+
+Use this endpoint to find the documents that best answer a question.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Query%20collections)
 
@@ -35,6 +43,8 @@ A query runs in this order:
 }
 ```
 
+Use these options to narrow the corpus, size the pool, and page the results.
+
 | Option | Default | Description |
 | --- | --- | --- |
 | `collections` | Required | Collection IDs owned by the account. An item can also be `{ "id": "<collection-id>", "filter": "..." }` to filter only that collection. |
@@ -50,7 +60,7 @@ A query runs in this order:
 
 ### Sorting and reranking
 
-A reranker orders by relevance, so it only applies when results are sorted by score:
+Use this table when you need to know whether a reranker runs. A reranker orders by relevance, so it only applies when results are sorted by score:
 
 | Request | Behavior |
 | --- | --- |
@@ -75,7 +85,7 @@ Each reranker has a maximum number of documents it accepts; a `candidates` value
 
 ### Results
 
-Each result has a `rank`, a `document`, and `scores`:
+Each result tells you which document matched and how it scored. It has a `rank`, a `document`, and `scores`:
 
 - `document` contains `id`, `collectionId`, `name`, `reference`, `tags`, `createdAt`, `updatedAt`, `indexedAt`, and the fields requested in `include`.
 - `scores.similarity` is the vector similarity, `scores.rerank` is the reranker score (or `null`), and `scores.final` is the rerank score when a reranker ran, otherwise the similarity.
@@ -84,15 +94,21 @@ The response also contains `page.cursor`, `page.hasMore`, `page.candidates` (the
 
 ### Pages
 
-The first request computes the candidate pool and returns its first page. To read the next page, send the same request body with `cursor` set to the previous `page.cursor`. Later pages are read from the stored pool, so they are not charged again and keep the same order.
+Use a cursor when the first page is not enough and you want the next slice of the same pool.
 
-A cursor expires after 10 minutes without use and then returns `410 Gone`; repeat the request without `cursor` to run the query again. A cursor sent with a different request body is rejected with `400 Bad Request`. The pool never grows: to see more than `candidates` results, raise `candidates`.
+1. The first request computes the candidate pool and returns its first page.
+2. To read the next page, send the same request body with `cursor` set to the previous `page.cursor`.
+3. Later pages are read from the stored pool, so they are not charged again and keep the same order.
+
+A cursor expires after 10 minutes without use and then returns `410 Gone`. Repeat the request without `cursor` to run the query again. A cursor sent with a different request body is rejected with `400 Bad Request`. The pool never grows. To see more than `candidates` results, raise `candidates`.
 
 ## Find similar documents
 
+Use this endpoint for a "more like this" feature. It searches with the stored vector of an indexed document you already have.
+
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Find%20similar%20documents)
 
-Find similar documents uses the stored vector of an indexed document as the query, as in a "more like this" feature. The source document is never returned. It accepts `documentId` and the same `collections`, `filter`, `minScore`, `candidates`, `sort`, `limit`, `cursor`, and `include` options as a query; without `collections`, it searches the collection of the source document.
+The source document is never returned. The request accepts `documentId` and the same `collections`, `filter`, `minScore`, `candidates`, `sort`, `limit`, `cursor`, and `include` options as a query. Without `collections`, it searches the collection of the source document.
 
 ```json
 {
@@ -101,13 +117,19 @@ Find similar documents uses the stored vector of an indexed document as the quer
 }
 ```
 
-Nothing is embedded or reranked, so `scores.rerank` is always `null`. The source document must be indexed; a document still waiting for indexing is rejected with `400 Bad Request`.
+Nothing is embedded or reranked.
+
+- `scores.rerank` is always `null`.
+- The source document must be indexed.
+- A document still waiting for indexing is rejected with `400 Bad Request`.
 
 ## Browse documents
 
+Use this endpoint to list indexed documents in a fixed order, without ranking by meaning.
+
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Browse%20documents)
 
-Browse documents lists indexed documents without semantic search. By default, documents are returned in insertion order, oldest first. Without a filter, every indexed document of the collections is listed.
+By default, documents are returned in insertion order, oldest first. Without a filter, every indexed document of the collections is listed.
 
 ```json
 {
@@ -118,7 +140,11 @@ Browse documents lists indexed documents without semantic search. By default, do
 }
 ```
 
-It accepts `collections`, `filter`, `sort`, `limit`, `cursor`, and `include`. `sort.by` can be `createdAt`, `updatedAt`, `indexedAt`, or `name`; sorting by score is rejected. Results contain only `document`, without `rank` or `scores`.
+It accepts `collections`, `filter`, `sort`, `limit`, `cursor`, and `include`.
+
+- `sort.by` can be `createdAt`, `updatedAt`, `indexedAt`, or `name`.
+- Sorting by score is rejected.
+- Results contain only `document`, without `rank` or `scores`.
 
 Browse cursors point to the last returned document instead of a stored pool, so they do not expire. Documents added or changed between requests appear in later pages according to the sort order.
 
@@ -134,23 +160,28 @@ Filters narrow the documents a search can return, using exact conditions on docu
 | Contents | `content contains "refund"` | Required words or identifiers in the text. |
 | Dates | `updatedAt >= now-30d` | Recently created or updated documents. |
 
-Combine conditions with `and`, `or`, `not`, and parentheses, for example `tags has "finance" and createdAt >= now-30d`. When `filter` is a list, every expression must match. A filter set on a collection item is combined with the top-level `filter` for that collection.
+How filters combine:
 
-Filters are evaluated before the search terms are embedded. Only matching documents are ranked, so results never include documents outside the filter. When no document matches, a query returns an empty result without generating embeddings or charging for the query.
+- Combine conditions with `and`, `or`, `not`, and parentheses, for example `tags has "finance" and createdAt >= now-30d`.
+- When `filter` is a list, every expression must match.
+- A filter set on a collection item is combined with the top-level `filter` for that collection.
+- Filters run before the search terms are embedded.
+- Only matching documents are ranked, so results never include documents outside the filter.
+- When no document matches, a query returns an empty result without generating embeddings or charging for the query.
 
-Filters do not replace good document text: the meaning a user searches for must appear in the contents. See [Advanced filters](https://docs.aivax.net/docs/rag/document-filters.md) for the complete syntax, operators, limits, and errors, or [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for a worked guide.
+Filters do not replace good document text. The meaning a user searches for must appear in the contents. See [Advanced filters](https://docs.aivax.net/docs/rag/document-filters.md) for the complete syntax, operators, limits, and errors, or [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for a worked guide.
 
 ## Multiple terms
 
-Multiple terms cover alternative retrieval paths rather than requiring every term to match the same document. Each document is scored by its best match among the terms. Use them for synonyms, alternative phrasings, or several acceptable ways to find an answer.
+Use multiple terms for synonyms, alternative phrasings, or several acceptable ways to find an answer. They cover alternative retrieval paths. They do not require every term to match the same document. Each document is scored by its best match among the terms.
 
-If the user's question combines several related conditions, keep them together in one search term. For example, prefer:
+If the user's question combines several related conditions, keep them together in one search term. Prefer:
 
 ```text
 How do I cancel an annual subscription without a penalty?
 ```
 
-Over disconnected keywords:
+Do not split that question into disconnected keywords:
 
 ```text
 cancellation
@@ -162,9 +193,11 @@ A complete query usually performs better than a list of disconnected keywords be
 
 ## Reranking
 
-A reranker adjusts the order of the candidate pool returned by vector search. It does not search additional documents or recover text that the retrieval stage did not select; raise `candidates` to give it more documents. See [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) for selection guidance.
+Use a reranker when vector search already returned a candidate pool and you want a more relevant order. It adjusts that order. It does not search additional documents or recover text that the retrieval stage did not select. Raise `candidates` to give it more documents. See [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) for selection guidance.
 
 ## Errors
+
+Use this table to match a failed search to the next action.
 
 | Status | Cause |
 | --- | --- |
@@ -174,7 +207,7 @@ A reranker adjusts the order of the candidate pool returned by vector search. It
 
 ## Search quality
 
-If search returns poor results:
+Use this checklist when search returns poor results:
 
 1. Confirm that the documents are indexed.
 2. Query the collection directly before testing through an AI Gateway.

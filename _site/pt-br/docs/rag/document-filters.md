@@ -2,9 +2,9 @@ Source: https://docs.aivax.net/pt-br/docs/rag/document-filters.html
 
 # Filtros Avançados
 
-Um filtro avançado, também chamado de filtro de documento, restringe uma busca RAG aos documentos que atendem a uma condição, como uma tag, um valor de metadado ou um intervalo de datas. Apenas os documentos que passam pelo filtro são classificados por similaridade semântica, portanto, os resultados nunca incluem documentos fora do filtro. Para um tutorial orientado a tarefas, consulte [Como filtrar resultados RAG por metadados, tags e data](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
+Um filtro avançado, também chamado de filtro de documento, restringe uma busca RAG aos documentos que atendem a uma condição, como uma tag, um valor de metadado ou um intervalo de datas. Apenas os documentos que passam pelo filtro são classificados por similaridade semântica, portanto, os resultados nunca incluem documentos fora do filtro. Para um guia passo a passo orientado a tarefas, consulte [Como filtrar resultados RAG por metadados, tags e data](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
 
-Os filtros são avaliados **antes** que os termos da busca sejam incorporados (embedded). Quando nenhum documento nas coleções solicitadas corresponde ao filtro, a solicitação retorna um resultado vazio sem gerar incorporações ou cobrar pela busca.
+Os filtros são avaliados **antes** que os termos de busca sejam incorporados (embedded). Quando nenhum documento nas coleções solicitadas corresponde ao filtro, a solicitação retorna um resultado vazio sem gerar embeddings ou cobrar pela busca.
 
 Alguns exemplos de filtros:
 
@@ -16,7 +16,7 @@ metadata.department = "finance" and createdAt >= now-30d
 
 ## Anatomia de um Filtro
 
-Um filtro consiste em uma ou mais **condições** unidas por `and`, `or` e `not`. Cada condição tem três partes:
+Um filtro é uma ou mais **condições** unidas por `and`, `or` e `not`. Cada condição tem três partes:
 
 ```text
 metadata.pages   >   10
@@ -24,7 +24,7 @@ metadata.pages   >   10
 ```
 
 - **Campo** — o que observar: `name`, `content`, `reference`, `tags`, `createdAt`, `updatedAt` ou `metadata.<key>`. Consulte [Campos](#campos).
-- **Operador** — como comparar: `=`, `>`, `contains`, `in`, `has`, `exists` e outros. Consulte [Operadores](#operadores).
+- **Operador** — como comparar: `=`, `>`, `contains`, `in`, `has`, `exists`, entre outros. Consulte [Operadores](#operadores).
 - **Valor** — um literal para comparação: uma string entre aspas, um número, `true`, `false`, `null`, uma data ou uma lista entre parênteses. Consulte [Valores](#valores).
 
 O valor deve ser sempre um literal. Funções, aritmética, conversões de tipo e comparações entre dois campos não são suportadas. Palavras-chave, operadores e nomes de campos não diferenciam maiúsculas de minúsculas: `AND`, `And` e `and` são equivalentes.
@@ -54,7 +54,7 @@ Cada operador funciona apenas com campos e tipos de valores específicos. Qualqu
 | `=` | Igual a | `name`, `content`, `reference`, `createdAt`, `updatedAt`, `metadata.<key>` | `name = "refund-policy"` |
 | `!=` | Diferente de; exatamente `not field = value` | Igual ao `=` | `metadata.lang != "en"` |
 
-Para `metadata.<key>`, o valor pode ser texto, um número, `true`, `false` ou `null`. A comparação de texto ignora maiúsculas/minúsculas e acentos; consulte [Strings](#strings).
+Para `metadata.<key>`, o valor pode ser texto, número, `true`, `false` ou `null`. A comparação de texto ignora maiúsculas/minúsculas e acentos; consulte [Strings](#strings).
 
 ### Ordenação
 
@@ -72,7 +72,7 @@ A ordenação funciona com datas para `createdAt` e `updatedAt`, e apenas com **
 | `startswith` | Começa com o texto | Mesmo | `name startswith "contract-"` |
 | `endswith` | Termina com o texto | Mesmo | `name endswith ".pdf"` |
 
-Esses operadores correspondem literalmente, sem curingas: `%` e `_` correspondem apenas a si mesmos. Eles não dividem palavras nem correspondem a sinônimos. Use os termos da busca para significado e o filtro para restrições exatas.
+Esses operadores correspondem literalmente, sem curingas: `%` e `_` correspondem apenas a si mesmos. Eles não dividem palavras nem correspondem a sinônimos. Use os termos de busca para significado e o filtro para restrições exatas.
 
 ### Listas
 
@@ -168,7 +168,7 @@ metadata."file-path" startswith "/contracts/2026/"
 metadata."a.b" = 1
 ```
 
-O último exemplo lê uma chave chamada `a.b`, não um caminho aninhado. Índices de array não são suportados; use `has` para verificar se um array contém um valor.
+O último exemplo lê uma única chave chamada `a.b`, não um caminho aninhado. Índices de array não são suportados; use `has` para verificar se um array contém um valor.
 
 **Tipos nunca são convertidos.** O tipo do literal seleciona quais valores armazenados podem corresponder:
 
@@ -218,7 +218,7 @@ Armazene metadados com tipos consistentes por chave e prefira chaves compostas p
 | `tags = "x"` | `tags has "x"` |
 | `metadata.price > "100"` | `metadata.price > 100`, com o preço armazenado como número |
 | `createdAt >= "15/06/2025"` | `createdAt >= "2025-06-15"` |
-| `metadata.date >= "2025-06-15"` | `createdAt >= "2025-06-15"`, ou um valor de metadado numérico |
+| `metadata.date >= "2025-06-15"` | `createdAt >= "2025-06-15"`, ou um valor numérico de metadado |
 | `content contains "ai"` | Um termo com pelo menos 3 caracteres |
 | `"filters": [ ... ]` | `"filter": [ ... ]` |
 
@@ -227,7 +227,7 @@ Armazene metadados com tipos consistentes por chave e prefira chaves compostas p
 Envie o filtro no campo `filter` destes endpoints:
 
 - [Consultar coleções](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md#query-collections), [Encontrar documentos semelhantes](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md#find-similar-documents) e [Navegar por documentos](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md#browse-documents)
-- Geração de respostas (consulte a referência do endpoint abaixo)
+- Geração de respostas (consulte a referência de endpoint abaixo)
 
 O campo aceita uma string ou um array de strings. Os itens do array são combinados com `and`:
 
@@ -257,12 +257,12 @@ Os endpoints de busca também aceitam um filtro para uma única coleção, combi
 
 Um campo ausente ou `null` significa sem filtro. O nome do campo é `filter`; outros nomes, como `filters`, são ignorados e a busca é executada sem filtro.
 
-Modelos também podem enviar uma string de filtro no argumento `filter` opcional destas ferramentas:
+Modelos também podem enviar uma string de filtro no argumento opcional `filter` destas ferramentas:
 
 - A ferramenta de busca do [Collections MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md#generated-tools).
-- A ferramenta `query` de gateways de IA que usam a estratégia de consulta `QueryFunction` [query strategy](https://docs.aivax.net/pt-br/docs/inference/pipelines.md).
+- A ferramenta `query` de gateways de IA que usam a estratégia de consulta `QueryFunction` [pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#rag).
 
-A [`memory_search tool`](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#search-memories) também aceita uma string de filtro, mas exige exatamente um de `query` ou `filter`, não ambos. Seu modo apenas com filtro retorna até 10 memórias correspondentes para o usuário atual, mais recentes primeiro, sem incorporações de consulta.
+A [`memory_search` tool](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#search-memories) também aceita uma string de filtro, mas requer exatamente um de `query` ou `filter`, não ambos. Seu modo apenas com filtro retorna até 10 memórias correspondentes para o usuário atual, mais recentes primeiro, sem embeddings de consulta.
 
 A busca RAG automática do gateway, que pesquisa antes da chamada do modelo, não aplica filtros. Um filtro inválido em uma chamada de ferramenta é retornado ao modelo como um erro de ferramenta com a mesma mensagem da API.
 
@@ -272,7 +272,7 @@ A busca RAG automática do gateway, que pesquisa antes da chamada do modelo, nã
 
 ## Limites
 
-Estes limites se aplicam a cada filtro, incluindo filtros usados pela busca de memória e pelo Collections MCP.
+Estes limites aplicam-se a cada filtro, incluindo filtros usados pela busca de memória e pelo Collections MCP.
 
 | Limite | Valor |
 | --- | --- |
@@ -285,7 +285,7 @@ Estes limites se aplicam a cada filtro, incluindo filtros usados pela busca de m
 | Comprimento mínimo de `contains` | 3 caracteres |
 | Tempo de execução | 10 segundos |
 
-Condições em `content`, `endswith` e tags examinam todos os documentos nas coleções solicitadas, portanto, levam mais tempo em grandes coleções. Condições de metadados usam um índice de valores de metadado e permanecem rápidas em grandes coleções. Se um filtro exceder o limite de tempo, a solicitação falhará e solicitará condições mais seletivas. Para manter os filtros rápidos:
+Condições em `content`, `endswith` e tags examinam todos os documentos nas coleções solicitadas, portanto, levam mais tempo em grandes coleções. Condições de metadado usam um índice de valores de metadado e permanecem rápidas em grandes coleções. Se um filtro exceder o limite de tempo, a solicitação falhará e pedirá condições mais seletivas. Para manter os filtros rápidos:
 
 - Prefira condições em `name` (`=`, `in`, `startswith`).
 - Divida corpora muito grandes em coleções menores.

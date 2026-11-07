@@ -10,9 +10,17 @@ It is designed for applications that need AI resources but should not own them: 
 
 Use OAuth when the person who owns the AIVAX account is not the developer of the application. They should never have to copy an API key into a third-party product, and the application should only receive the permissions it needs.
 
+Use OAuth when:
+
+- the account holder is not the developer of the application;
+- the person should not copy an API key into your product;
+- the application needs only the permissions it will use.
+
 Use a [private or public API key](https://docs.aivax.net/docs/authentication.md#api-key-types) when the application and the AIVAX account belong to you. For example, a backend that serves your own users with your own AIVAX account should use a private key.
 
 ## How it works
+
+Authorization is a browser handoff. Your application creates a request, the person reviews it in the console, and AIVAX returns the result to your callback.
 
 1. Your application creates an authorization request with its name, the reason it needs access, the permissions it wants and the address that receives the result.
 2. Your application sends the person to the authorization address returned by AIVAX.
@@ -24,9 +32,11 @@ No refresh token is issued. When the token expires or is revoked, start a new au
 
 ## Create an authorization request
 
-This endpoint does not require authentication and is rate limited per remote address.
+Use this call when your application is ready to send a person to the AIVAX console. This endpoint does not require authentication and is rate limited per remote address.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20OAuth%20Authorization%20Request)
+
+### Request body
 
 The request body has:
 
@@ -35,17 +45,41 @@ The request body has:
 - `permissions`: the [permissions](#permissions) your application needs.
 - `returnUrl`: the address that receives the result.
 
-The `returnUrl` must be an absolute `http` or `https` address without credentials or fragment. It cannot point to the AIVAX console, repeat query parameters, or already contain `access_token`, `expires_in` or `error` in its query.
+### Return URL
 
-The response has `authorizationUrl`, the console address where the person approves the request, and `expiresIn`, in seconds. The request expires after one hour and can be approved or denied once.
+The `returnUrl` must:
+
+- be an absolute `http` or `https` address;
+- contain no credentials;
+- contain no fragment;
+- not point to the AIVAX console;
+- not repeat query parameters;
+- not already contain `access_token`, `expires_in` or `error` in its query.
+
+### Response
+
+The response has:
+
+- `authorizationUrl`: the console address where the person approves the request.
+- `expiresIn`: seconds until the request expires.
+
+The request expires after one hour and can be approved or denied once.
 
 ## Send the person to the console
 
-Open `authorizationUrl` in the person's browser. The console asks them to sign in when they are not signed in, and returns to the request afterwards.
+Open the returned address in the person's browser. Do this before the request expires.
 
-The console shows your application name, the reason, the requested permissions and the full return address. The **Authorize** button stays disabled for five seconds so the request can be read, and authorizing requires a browser check.
+1. Open `authorizationUrl` in the person's browser.
+2. The console asks them to sign in when they are not signed in, and returns to the request afterwards.
+3. The console shows your application name, the reason, the requested permissions and the full return address.
+4. The **Authorize** button stays disabled for five seconds so the request can be read.
+5. Authorizing requires a browser check.
 
 ## Receive the token
+
+Your `returnUrl` receives the decision as query parameters. Handle that callback on your server, then store the token as a secret.
+
+### Query parameters
 
 After approval, AIVAX redirects the person to `returnUrl` with these query parameters:
 
@@ -54,9 +88,24 @@ After approval, AIVAX redirects the person to `returnUrl` with these query param
 
 If the person denies access, the query has `error=access_denied` instead.
 
-Query parameters already present in `returnUrl` are kept. Add your own random `state` value when you create the request, store it in the person's session and compare it in the callback, so your application only accepts results of requests it started.
+Query parameters already present in `returnUrl` are kept.
 
-The token arrives in a URL. Read it on your server, store it as a secret, and redirect the browser to an address without it. Do not log callback URLs or send the token to the browser.
+### Check state
+
+Add your own random `state` value when you create the request. This check confirms that the callback belongs to a request your application started.
+
+1. Store `state` in the person's session.
+2. Compare it in the callback.
+3. Accept the result only when the values match.
+
+### Store the token on the server
+
+The token arrives in a URL. Treat the callback as sensitive:
+
+1. Read the token on your server.
+2. Store it as a secret.
+3. Redirect the browser to an address without it.
+4. Do not log callback URLs or send the token to the browser.
 
 ```javascript
 app.get("/oauth/callback", async (req, res) => {
@@ -117,4 +166,13 @@ Request only what your application uses. The console shows each permission to th
 
 ## Revoke access
 
-The account holder can see every authorized application, its permissions, expiration and last use in **My account**, **Authorized applications**, and revoke it there. Revoking invalidates the token immediately.
+The account holder revokes an application from the console. Use this section to tell them where to review or remove access.
+
+In **My account**, **Authorized applications**, the account holder can see:
+
+- every authorized application;
+- its permissions;
+- its expiration;
+- its last use.
+
+Revoking an application invalidates the token immediately.

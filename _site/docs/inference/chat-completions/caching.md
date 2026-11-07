@@ -50,7 +50,7 @@ AIVAX caches resources that a gateway fetches from your servers:
 
 | Resource | Default cache | Configurable |
 | --- | --- | --- |
-| [Remote instruction sources](https://docs.aivax.net/docs/inference/pipelines.md#instructions) | 600 seconds | 0 to 86,400 seconds per source |
+| [Remote instruction sources](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md#instructions) | 600 seconds | 0 to 86,400 seconds per source |
 | [MCP](https://docs.aivax.net/docs/tools/mcp.md) tool lists, server instructions, and remote skills | 600 seconds | `cacheDuration`, 0 to 86,400 seconds |
 | [Protocol function sources](https://docs.aivax.net/docs/tools/protocol-functions.md) | 10 minutes | No |
 

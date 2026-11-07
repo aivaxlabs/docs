@@ -10,6 +10,8 @@ Source: https://docs.aivax.net/docs/inference/chat-completions/index.html
 
 - [Inference with AI Gateways](https://docs.aivax.net/docs/inference/chat-completions/ai-gateways.md)
 
+- [Processing Pipeline](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md)
+
 - [Input and Multimodality](https://docs.aivax.net/docs/inference/chat-completions/input-and-multimodality.md)
 
 - [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md)
@@ -27,6 +29,12 @@ Source: https://docs.aivax.net/docs/inference/chat-completions/index.html
 - [Custom Provider Request Body](https://docs.aivax.net/docs/inference/chat-completions/custom-json.md)
 
 - [Multimodal Pre-processing](https://docs.aivax.net/docs/inference/chat-completions/multimodal-pre-processing.md)
+
+- [Context Truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md)
+
+- [Moderation](https://docs.aivax.net/docs/inference/chat-completions/moderation.md)
+
+- [Function Interpreter (Deprecated)](https://docs.aivax.net/docs/inference/chat-completions/function-interpreter.md)
 
 - [Inference Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md)
 

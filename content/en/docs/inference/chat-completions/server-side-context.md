@@ -13,7 +13,7 @@ Before each generation, AIVAX can add context that your request did not contain:
 | Context | Source | Returned to you |
 | --- | --- | --- |
 | System instructions and remote instruction sources | [AI Gateway](/docs/inference/ai-gateways/concepts.md#instructions) | No |
-| Retrieved documents | Gateway [RAG](/docs/inference/pipelines.md#rag) collections | No, unless the model quotes them |
+| Retrieved documents | Gateway [RAG](/docs/inference/chat-completions/processing-pipeline.md#rag) collections | No, unless the model quotes them |
 | Skill instructions | [Skills](/docs/inference/skills.md) the model loads | No |
 | Tool definitions | Gateway tools, MCP sources, protocol functions, `builtin_tools` | No |
 | Descriptions of media | [Multimodal pre-processing](multimodal-pre-processing.md) | No |

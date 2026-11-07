@@ -10,9 +10,11 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/index.html
 
 - [Inferência com Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/chat-completions/ai-gateways.md)
 
+- [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md)
+
 - [Entrada e Multimodalidade](https://docs.aivax.net/pt-br/docs/inference/chat-completions/input-and-multimodality.md)
 
-- [Armazenamento em cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
+- [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
 
 - [Ferramentas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/tools.md)
 
@@ -27,6 +29,12 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/index.html
 - [Corpo da Solicitação do Provedor Personalizado](https://docs.aivax.net/pt-br/docs/inference/chat-completions/custom-json.md)
 
 - [Pré-processamento Multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md)
+
+- [Truncamento de Contexto](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md)
+
+- [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md)
+
+- [Interpretador de Funções (Descontinuado)](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md)
 
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
 

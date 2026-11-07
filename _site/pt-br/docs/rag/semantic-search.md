@@ -1,98 +1,114 @@
 Source: https://docs.aivax.net/pt-br/docs/rag/semantic-search.html
 
-# Busca
+# Pesquisa
 
-AIVAX procura nos documentos indexados de uma ou mais coleções através de três pontos de extremidade:
+A pesquisa retorna documentos indexados de uma ou mais coleções. Utilize a pesquisa gerenciada quando o AIVAX deve armazenar e pesquisar em um corpus persistente, ou quando o corpus é grande demais para ser enviado como candidatos em cada solicitação.
 
-| Endpoint | Path | Use it to | Cost |
+O AIVAX realiza pesquisas através de três endpoints:
+
+| Endpoint | Caminho | Use-o para | Custo |
 | --- | --- | --- | --- |
-| Query collections | `POST /api/v2/query` | Find the documents that best answer a question. | Query embedding and, when used, reranking. |
-| Find similar documents | `POST /api/v2/query/similar` | Find documents close in meaning to a document you already have. | No embedding or reranking cost. |
-| Browse documents | `POST /api/v2/query/browse` | List documents in a fixed order, optionally filtered, without relevance. | No embedding or reranking cost. |
+| Consultar coleções | `POST /api/v2/query` | Encontrar os documentos que melhor respondem a uma pergunta. | Embedding da consulta e, quando utilizado, reranking. |
+| Encontrar documentos semelhantes | `POST /api/v2/query/similar` | Encontrar documentos com significado próximo ao de um documento que você já possui. | Sem custo de embedding ou reranking. |
+| Navegar por documentos | `POST /api/v2/query/browse` | Listar documentos em uma ordem fixa, opcionalmente filtrados, sem relevância. | Sem custo de embedding ou reranking. |
 
-A geração de respostas RAG e coleções anexadas a um gateway de IA usam o mesmo mecanismo de recuperação.
+A geração de respostas RAG e as coleções anexadas a um AI Gateway utilizam o mesmo mecanismo de recuperação.
 
-Se sua aplicação já possui as strings dos documentos candidatos, considere o [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md): uma busca sem coleção que classifica documentos fornecidos sem indexação ou armazenamento. Use busca gerenciada quando a AIVAX deve armazenar e buscar um corpus persistente ou quando o corpus é grande demais para ser enviado como candidatos a cada requisição.
+Se sua aplicação já possui as strings dos documentos candidatos, considere o [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md). O Reflex é uma pesquisa sem coleções que classifica documentos fornecidos sem indexação ou armazenamento.
 
-Antes de buscar, adicione [documents](https://docs.aivax.net/pt-br/docs/rag/documents.md) a uma [collection](https://docs.aivax.net/pt-br/docs/rag/collections.md) e aguarde a indexação. Apenas documentos indexados são retornados. Compare a [busca vetorial com o pipeline completo RAG](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) antes de decidir o que construir.
+Antes de pesquisar:
+
+1. Adicione [documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) a uma [coleção](https://docs.aivax.net/pt-br/docs/rag/collections.md).
+2. Aguarde a indexação. Apenas documentos indexados são retornados.
+3. Compare [pesquisa vetorial com o pipeline RAG completo](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/) antes de decidir o que construir.
 
 ## Consultar coleções
 
+Utilize este endpoint para encontrar os documentos que melhor respondem a uma pergunta.
+
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Query%20collections)
 
-Uma consulta executa na seguinte ordem:
+Uma consulta é executada nesta ordem:
 
-1. Se um filtro for definido, a AIVAX restringe cada coleção aos documentos que o correspondem.
-2. Cada termo de busca é embutido e comparado com os documentos restantes.
+1. Se um filtro estiver definido, o AIVAX restringe cada coleção aos documentos que correspondem a ele.
+2. Cada termo de busca é embutido (embedded) e comparado com os documentos restantes.
 3. Documentos abaixo de `minScore` são descartados, e os `candidates` documentos mais próximos formam o pool de candidatos.
-4. O reranker reordena o pool, a menos que o reranking esteja desativado.
+4. O reranker reordena o pool, a menos que o reranking esteja desabilitado.
 5. O pool é ordenado e retornado em páginas de `limit` resultados.
 
 ```json
 {
   "collections": [ "<collection-id>" ],
-  "terms": "How do I request a refund?"
+  "terms": "Como solicito um reembolso?"
 }
 ```
 
+Utilize estas opções para restringir o corpus, dimensionar o pool e paginar os resultados.
+
 | Opção | Padrão | Descrição |
 | --- | --- | --- |
-| `collections` | Required | IDs das coleções pertencentes à conta. Um item também pode ser `{ "id": "<collection-id>", "filter": "..." }` para filtrar apenas essa coleção. |
-| `terms` | Required | Um texto de busca ou uma lista de textos alternativos. |
-| `filter` | — | Uma expressão de [filtro avançado](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) ou uma lista de expressões que devem todas corresponder. |
-| `minScore` | 0.2 | Similaridade vetorial mínima, de 0 a 0.99, para que um documento entre no pool de candidatos. Aumente para descartar correspondências fracas; diminua quando documentos relevantes estiverem faltando. |
-| `candidates` | `limit` × 3 | Tamanho do pool de candidatos, de `limit` até 1000. Um pool maior oferece ao reranker e às páginas subsequentes mais documentos para trabalhar. |
-| `reranker` | `smart` (Reflex) | Reranker que ordena o pool: `smart`, `lexical`, `rrf`, `none`, ou o nome completo de um reranker. Veja [Rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md). |
-| `sort` | Score, descending | `{ "by": "score" \| "createdAt" \| "updatedAt" \| "indexedAt" \| "name", "dir": "asc" \| "desc" }`. Sem `dir`, score ordena decrescente e os outros campos ascendente. |
+| `collections` | Obrigatório | IDs de coleções pertencentes à conta. Um item também pode ser `{ "id": "<collection-id>", "filter": "..." }` para filtrar apenas essa coleção. |
+| `terms` | Obrigatório | Um texto de busca ou uma lista de textos alternativos. |
+| `filter` | — | Uma expressão de [filtro avançado](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) ou uma lista de expressões que devem ser todas atendidas. |
+| `minScore` | 0.2 | Similaridade vetorial mínima, de 0 a 0.99, para que um documento entre no pool de candidatos. Aumente para eliminar correspondências fracas; diminua quando documentos relevantes estiverem faltando. |
+| `candidates` | `limit` × 3 | Tamanho do pool de candidatos, de `limit` a 1000. Um pool maior oferece mais documentos para o reranker e para páginas subsequentes trabalharem. |
+| `reranker` | `smart` (Reflex) | Reranker que ordena o pool: `smart`, `lexical`, `rrf`, `none` ou um nome completo de reranker. Consulte [Rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md). |
+| `sort` | Score, descendente | `{ "by": "score" \| "createdAt" \| "updatedAt" \| "indexedAt" \| "name", "dir": "asc" \| "desc" }`. Sem `dir`, score ordena descendente e os outros campos ascendente. |
 | `limit` | 10 | Resultados por página, de 1 a 128. |
 | `cursor` | — | `page.cursor` da resposta anterior, para ler a próxima página. |
-| `include` | `content`, `metadata` | Campos de documento opcionais: `content`, `metadata` e `references`. `references` anexa os outros documentos que compartilham a referência de cada resultado. |
+| `include` | `content`, `metadata` | Campos opcionais do documento: `content`, `metadata` e `references`. `references` anexa os outros documentos que compartilham a referência de cada resultado. |
 
-### Ordenação e reranqueamento
+### Ordenação e reranking
 
-Um reranker ordena por relevância, portanto só se aplica quando os resultados são ordenados por score:
+Utilize esta tabela quando precisar saber se um reranker será executado. Um reranker ordena por relevância, portanto, aplica-se apenas quando os resultados são ordenados por score:
 
-| Request | Behavior |
+| Solicitação | Comportamento |
 | --- | --- |
-| No `sort` and no `reranker` | Reflex rerankeia o pool; os resultados são ordenados por score. |
-| `reranker` without `sort` | Esse reranker rerankeia o pool; os resultados são ordenados por score. |
-| `sort` other than score, without `reranker` | Reranking está desativado. O pool é selecionado por similaridade e então ordenado pelo campo solicitado. |
-| `sort` other than score with `reranker: "none"` | Mesmo que acima. |
-| `sort` other than score with any other `reranker` | Rejeitado com `400 Bad Request`. |
+| Sem `sort` e sem `reranker` | O Reflex reranca o pool; os resultados são ordenados por score. |
+| `reranker` sem `sort` | Esse reranker reranca o pool; os resultados são ordenados por score. |
+| `sort` diferente de score, sem `reranker` | O reranking é desabilitado. O pool é selecionado por similaridade e depois ordenado pelo campo solicitado. |
+| `sort` diferente de score com `reranker: "none"` | Igual ao acima. |
+| `sort` diferente de score com qualquer outro `reranker` | Rejeitado com `400 Bad Request`. |
 
 Para obter os documentos relevantes mais recentes, selecione um pool por significado e ordene-o por data:
 
 ```json
 {
   "collections": [ "<collection-id>" ],
-  "terms": "pricing change",
+  "terms": "mudança de preço",
   "candidates": 100,
   "sort": { "by": "createdAt", "dir": "desc" }
 }
 ```
 
-Cada reranker tem um número máximo de documentos que aceita; um valor de `candidates` acima desse limite é rejeitado.
+Cada reranker tem um número máximo de documentos que aceita; um valor de `candidates` acima disso é rejeitado.
 
 ### Resultados
 
-Cada resultado tem um `rank`, um `document` e `scores`:
+Cada resultado informa qual documento correspondeu e como foi pontuado. Ele possui um `rank`, um `document` e `scores`:
 
 - `document` contém `id`, `collectionId`, `name`, `reference`, `tags`, `createdAt`, `updatedAt`, `indexedAt` e os campos solicitados em `include`.
-- `scores.similarity` é a similaridade vetorial, `scores.rerank` é a pontuação do reranker (ou `null`), e `scores.final` é a pontuação final quando um reranker foi executado, caso contrário a similaridade.
+- `scores.similarity` é a similaridade vetorial, `scores.rerank` é o score do reranker (ou `null`) e `scores.final` é o score do rerank quando um reranker foi executado, caso contrário, é a similaridade.
 
 A resposta também contém `page.cursor`, `page.hasMore`, `page.candidates` (o tamanho do pool) e o `reranker` que foi executado.
 
 ### Páginas
 
-A primeira requisição calcula o pool de candidatos e retorna sua primeira página. Para ler a próxima página, envie o mesmo corpo de requisição com `cursor` definido para o `page.cursor` anterior. Páginas subsequentes são lidas do pool armazenado, portanto não são cobradas novamente e mantêm a mesma ordem.
+Utilize um cursor quando a primeira página não for suficiente e você quiser a próxima fatia do mesmo pool.
 
-Um cursor expira após 10 minutos sem uso e então retorna `410 Gone`; repita a requisição sem `cursor` para executar a consulta novamente. Um cursor enviado com um corpo de requisição diferente é rejeitado com `400 Bad Request`. O pool nunca cresce: para ver mais de `candidates` resultados, aumente `candidates`.
+1. A primeira solicitação computa o pool de candidatos e retorna sua primeira página.
+2. Para ler a próxima página, envie o mesmo corpo da solicitação com `cursor` definido como o `page.cursor` anterior.
+3. Páginas posteriores são lidas a partir do pool armazenado, portanto, não são cobradas novamente e mantêm a mesma ordem.
+
+Um cursor expira após 10 minutos sem uso e então retorna `410 Gone`. Repita a solicitação sem `cursor` para executar a consulta novamente. Um cursor enviado com um corpo de solicitação diferente é rejeitado com `400 Bad Request`. O pool nunca cresce. Para ver mais de `candidates` resultados, aumente `candidates`.
 
 ## Encontrar documentos semelhantes
 
+Utilize este endpoint para um recurso "mais parecido com isto". Ele pesquisa com o vetor armazenado de um documento indexado que você já possui.
+
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Find%20similar%20documents)
 
-Encontrar documentos semelhantes usa o vetor armazenado de um documento indexado como consulta, como em um recurso "mais como este". O documento fonte nunca é retornado. Aceita `documentId` e as mesmas opções `collections`, `filter`, `minScore`, `candidates`, `sort`, `limit`, `cursor` e `include` de uma consulta; sem `collections`, busca na coleção do documento fonte.
+O documento fonte nunca é retornado. A solicitação aceita `documentId` e as mesmas opções `collections`, `filter`, `minScore`, `candidates`, `sort`, `limit`, `cursor` e `include` de uma consulta. Sem `collections`, ela pesquisa na coleção do documento fonte.
 
 ```json
 {
@@ -101,13 +117,19 @@ Encontrar documentos semelhantes usa o vetor armazenado de um documento indexado
 }
 ```
 
-Nada é embutido ou rerankeado, portanto `scores.rerank` é sempre `null`. O documento fonte deve estar indexado; um documento ainda aguardando indexação é rejeitado com `400 Bad Request`.
+Nada é embutido (embedded) ou rerancado.
 
-## Navegar documentos
+- `scores.rerank` é sempre `null`.
+- O documento fonte deve estar indexado.
+- Um documento ainda aguardando indexação é rejeitado com `400 Bad Request`.
+
+## Navegar por documentos
+
+Utilize este endpoint para listar documentos indexados em uma ordem fixa, sem classificação por significado.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Browse%20documents)
 
-Navegar documentos lista documentos indexados sem busca semântica. Por padrão, os documentos são retornados na ordem de inserção, os mais antigos primeiro. Sem filtro, todo documento indexado das coleções é listado.
+Por padrão, os documentos são retornados na ordem de inserção, do mais antigo para o mais recente. Sem um filtro, todos os documentos indexados das coleções são listados.
 
 ```json
 {
@@ -118,70 +140,81 @@ Navegar documentos lista documentos indexados sem busca semântica. Por padrão,
 }
 ```
 
-Aceita `collections`, `filter`, `sort`, `limit`, `cursor` e `include`. `sort.by` pode ser `createdAt`, `updatedAt`, `indexedAt` ou `name`; ordenação por score é rejeitada. Os resultados contêm apenas `document`, sem `rank` ou `scores`.
+Ele aceita `collections`, `filter`, `sort`, `limit`, `cursor` e `include`.
 
-Os cursores de navegação apontam para o último documento retornado em vez de um pool armazenado, portanto não expiram. Documentos adicionados ou alterados entre requisições aparecem em páginas posteriores de acordo com a ordem de classificação.
+- `sort.by` pode ser `createdAt`, `updatedAt`, `indexedAt` ou `name`.
+- A ordenação por score é rejeitada.
+- Os resultados contêm apenas `document`, sem `rank` ou `scores`.
+
+Os cursores de navegação apontam para o último documento retornado em vez de um pool armazenado, portanto, não expiram. Documentos adicionados ou alterados entre as solicitações aparecem nas páginas seguintes de acordo com a ordem de classificação.
 
 ## Filtrar resultados
 
-Filtros restringem os documentos que uma busca pode retornar, usando condições exatas nos campos dos documentos em vez de similaridade semântica. Use-os quando a resposta deve vir de um subconjunto conhecido, como um produto, locatário, idioma, tipo de documento ou período.
+Os filtros restringem os documentos que uma pesquisa pode retornar, utilizando condições exatas nos campos dos documentos em vez de similaridade semântica. Utilize-os quando a resposta deve vir de um subconjunto conhecido, como um produto, inquilino, idioma, tipo de documento ou período.
 
-| Filtrar em | Exemplo | Uso para |
+| Filtre em | Exemplo | Use para |
 | --- | --- | --- |
-| Name | `name startswith "policy-"` | Famílias de documentos que seguem uma convenção de nomenclatura. |
+| Nome | `name startswith "policy-"` | Famílias de documentos que seguem uma convenção de nomenclatura. |
 | Tags | `tags has "finance"` | Rótulos operacionais atribuídos na importação. |
-| Metadata | `metadata.region = "br"` | Valores estruturados armazenados com cada documento, como região, versão ou autor. |
-| Contents | `content contains "refund"` | Palavras ou identificadores obrigatórios no texto. |
-| Dates | `updatedAt >= now-30d` | Documentos criados ou atualizados recentemente. |
+| Metadados | `metadata.region = "br"` | Valores estruturados armazenados com cada documento, como região, versão ou autor. |
+| Conteúdos | `content contains "refund"` | Palavras ou identificadores obrigatórios no texto. |
+| Datas | `updatedAt >= now-30d` | Documentos criados ou atualizados recentemente. |
 
-Combine condições com `and`, `or`, `not` e parênteses, por exemplo `tags has "finance" and createdAt >= now-30d`. Quando `filter` é uma lista, toda expressão deve corresponder. Um filtro definido em um item de coleção é combinado com o `filter` de nível superior para aquela coleção.
+Como os filtros se combinam:
 
-Filtros são avaliados antes que os termos de busca sejam embutidos. Apenas documentos correspondentes são classificados, portanto os resultados nunca incluem documentos fora do filtro. Quando nenhum documento corresponde, a consulta retorna um resultado vazio sem gerar embeddings nem cobrar pela consulta.
+- Combine condições com `and`, `or`, `not` e parênteses, por exemplo `tags has "finance" and createdAt >= now-30d`.
+- Quando `filter` é uma lista, todas as expressões devem corresponder.
+- Um filtro definido em um item de coleção é combinado com o `filter` de nível superior para essa coleção.
+- Os filtros são executados antes que os termos de busca sejam embutidos.
+- Apenas documentos correspondentes são classificados, portanto, os resultados nunca incluem documentos fora do filtro.
+- Quando nenhum documento corresponde, uma consulta retorna um resultado vazio sem gerar embeddings ou cobrar pela consulta.
 
-Filtros não substituem um bom texto de documento: o significado que o usuário procura deve aparecer no conteúdo. Veja [Advanced filters](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) para a sintaxe completa, operadores, limites e erros, ou [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) para um guia prático.
+Os filtros não substituem um bom texto de documento. O significado que o usuário procura deve aparecer nos conteúdos. Consulte [Filtros avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) para a sintaxe completa, operadores, limites e erros, ou [Como filtrar resultados RAG por metadados, tags e data](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) para um guia prático.
 
 ## Múltiplos termos
 
-Múltiplos termos cobrem caminhos alternativos de recuperação em vez de exigir que cada termo corresponda ao mesmo documento. Cada documento recebe pontuação pela melhor correspondência entre os termos. Use-os para sinônimos, reformulações alternativas ou várias formas aceitáveis de encontrar uma resposta.
+Utilize múltiplos termos para sinônimos, formulações alternativas ou várias maneiras aceitáveis de encontrar uma resposta. Eles cobrem caminhos de recuperação alternativos. Não exigem que cada termo corresponda ao mesmo documento. Cada documento é pontuado por sua melhor correspondência entre os termos.
 
-Se a pergunta do usuário combina várias condições relacionadas, mantenha-as juntas em um único termo de busca. Por exemplo, prefira:
-
-```text
-How do I cancel an annual subscription without a penalty?
-```
-
-Em vez de palavras‑chave desconexas:
+Se a pergunta do usuário combina várias condições relacionadas, mantenha-as juntas em um único termo de busca. Prefira:
 
 ```text
-cancellation
-annual subscription
-penalty
+Como cancelo uma assinatura anual sem penalidade?
 ```
 
-Uma consulta completa costuma ter melhor desempenho do que uma lista de palavras‑chave desconexas porque preserva a relação entre os conceitos. Se os usuários buscam por códigos de produto, IDs de política, nomes de plano ou nomes de procedimento, inclua esses identificadores no texto do documento.
+Não divida essa pergunta em palavras-chave desconectadas:
+
+```text
+cancelamento
+assinatura anual
+penalidade
+```
+
+Uma consulta completa geralmente performa melhor do que uma lista de palavras-chave desconectadas porque preserva a relação entre conceitos. Se os usuários pesquisarem por códigos de produto, IDs de política, nomes de plano ou nomes de procedimento, inclua esses identificadores no texto do documento.
 
 ## Reranking
 
-Um reranker ajusta a ordem do pool de candidatos retornado pela busca vetorial. Ele não busca documentos adicionais nem recupera texto que a fase de recuperação não selecionou; aumente `candidates` para fornecer mais documentos. Veja [Rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md) para orientações de seleção.
+Utilize um reranker quando a pesquisa vetorial já retornou um pool de candidatos e você deseja uma ordem mais relevante. Ele ajusta essa ordem. Ele não pesquisa documentos adicionais nem recupera texto que a etapa de recuperação não selecionou. Aumente `candidates` para oferecer mais documentos a ele. Consulte [Rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md) para orientação de seleção.
 
 ## Erros
 
-| Status | Cause |
+Utilize esta tabela para associar uma pesquisa falhada à próxima ação.
+
+| Status | Causa |
 | --- | --- |
-| `400 Bad Request` | Campo inválido, coleção ou documento desconhecido, [filtro inválido](https://docs.aivax.net/pt-br/docs/rag/document-filters.md#errors), um reranker combinado com um sort diferente de score, ou um cursor enviado com um corpo de requisição diferente. |
-| `410 Gone` | O cursor da consulta expirou. Repita a requisição sem `cursor`. |
-| `429 Too Many Requests` | O limite de taxa de busca ou reranking do plano foi excedido. |
+| `400 Bad Request` | Campo inválido, coleção ou documento desconhecido, [filtro inválido](https://docs.aivax.net/pt-br/docs/rag/document-filters.md#errors), um reranker combinado com uma ordenação diferente de score ou um cursor enviado com um corpo de solicitação diferente. |
+| `410 Gone` | O cursor da consulta expirou. Repita a solicitação sem `cursor`. |
+| `429 Too Many Requests` | O limite de taxa de pesquisa ou reranking do plano foi excedido. |
 
-## Qualidade da busca
+## Qualidade da pesquisa
 
-Se a busca retornar resultados ruins:
+Utilize esta lista de verificação quando a pesquisa retornar resultados ruins:
 
 1. Confirme que os documentos estão indexados.
-2. Consulte a coleção diretamente antes de testar através de um gateway de IA.
-3. Compare perguntas completas com reformulações alternativas.
-4. Verifique se o documento relevante é muito curto, muito longo ou não autônomo; veja [Write good documents](https://docs.aivax.net/pt-br/docs/rag/documents.md#write-good-documents).
+2. Consulte a coleção diretamente antes de testar através de um AI Gateway.
+3. Compare perguntas completas com formulações alternativas.
+4. Verifique se o documento relevante é muito curto, muito longo ou não autocontido; consulte [Escreva bons documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md#write-good-documents).
 5. Verifique se o idioma da consulta corresponde ao idioma do documento.
-6. Se o gateway reescreve perguntas antes de buscar, teste com o caminho de consulta simples para isolar problemas de reescrita.
-7. Revise buscas com baixa pontuação e cobertura de consultas em [RAG Observability](https://docs.aivax.net/pt-br/docs/rag/observability.md).
+6. Se o gateway reescreve perguntas antes de pesquisar, teste com o caminho de consulta simples para isolar problemas de reescrita.
+7. Revise pesquisas de baixo score e cobertura de consulta em [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md).
 
-Para expor coleções como ferramentas para um cliente MCP externo, veja [Collections and RAG MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md). Para preços e limites de taxa de busca, veja [Collections](https://docs.aivax.net/pt-br/docs/rag/collections.md#pricing-and-limits).
+Para expor coleções como ferramentas para um cliente MCP externo, consulte [Coleções e RAG MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md). Para preços e limites de taxa de pesquisa, consulte [Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md#pricing-and-limits).

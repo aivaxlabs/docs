@@ -2,15 +2,24 @@ Source: https://docs.aivax.net/docs/inference/batch.html
 
 # Batch Processing
 
-Batch is AIVAX's feature for running the same AI workflow over many independent items. It turns a list of inputs into a background-processed queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
+Batch runs the same AI workflow over many independent items. It turns a list of inputs into a background queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
 
-Use Batch when you have dozens, hundreds, or thousands of records that need to undergo the same reasoning: classifying leads, extracting fields from text, enriching records, summarizing short documents, evaluating responses, moderating content, generating structured data, or invoking built-in tools for each line of a list.
+Use Batch when dozens, hundreds, or thousands of records need the same reasoning, and each record can be handled on its own. Typical jobs:
+
+- Classify leads.
+- Extract fields from text.
+- Enrich records.
+- Summarize short documents.
+- Evaluate responses.
+- Moderate content.
+- Generate structured data.
+- Call built-in tools for each line of a list.
 
 ## What Batch solves
 
-Processing many items with AI usually requires a queue, error handling, retries, JSON validation, and result export. Batch consolidates these parts in AIVAX.
+Use Batch when you would otherwise build the queue yourself. Processing many items usually needs error handling, retries, JSON validation, and result export. Batch keeps those parts in AIVAX, so you operate the workload instead of assembling the pipeline.
 
-In practice, it mainly solves:
+In practice, it gives you:
 
 - **Repeatable processing:** the same instruction, model, and schema are applied to all items.
 - **Asynchronous execution:** the work continues in the background, without keeping a request open.
@@ -21,7 +30,16 @@ In practice, it mainly solves:
 
 ## When to use
 
-Use Batch when items can be processed independently and do not need to share memory. Good examples are one line per client, URL, product, ticket, message, short document, contract snippet, or raw record.
+Use Batch when each item can be processed on its own and does not need to share memory with the others. A typical item is one line for:
+
+- a client;
+- a URL;
+- a product;
+- a ticket;
+- a message;
+- a short document;
+- a contract snippet;
+- a raw record.
 
 Batch is a good choice when:
 
@@ -32,13 +50,22 @@ Batch is a good choice when:
 - you want to use built-in tools, such as web search, for each item;
 - you need to measure confidence and success rate per run.
 
-Do **not** use Batch for real‐time conversations, flows where one item depends on the previous item's response, document indexing for RAG, or purely deterministic tasks that do not require an AI model. To index searchable knowledge, use [RAG collections](https://docs.aivax.net/docs/rag/collections.md). For a single immediate response to a user, use [inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md).
+Do **not** use Batch when:
+
+- the conversation must be real-time;
+- one item depends on the previous item's response;
+- you are indexing documents for RAG;
+- the task is purely deterministic and does not require an AI model.
+
+To index searchable knowledge, use [RAG collections](https://docs.aivax.net/docs/rag/collections.md). For a single immediate response to a user, use [inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md).
 
 ## Concepts
 
+Batch is built from a workflow, a job, and items. Save the workflow once, create a job for each workload, and treat every imported row as its own item.
+
 ### Workflow
 
-The workflow is the processing recipe. It defines how future items will be handled:
+The workflow is the processing recipe. Create it when many jobs should follow the same rule. It defines how future items will be handled:
 
 - title;
 - processing instructions;
@@ -52,31 +79,40 @@ Changing a workflow affects subsequent jobs and items processed with that config
 
 ### Model and routing
 
-A workflow processes its items with an integrated model or with an AI Gateway. Both are chosen in the **Model** setting of the workflow and referenced by `modelName` in the API.
+Each item is processed by the integrated model or AI Gateway you choose. Set that choice in the workflow **Model** setting. The API uses the same choice as `modelName`.
 
-Batch optimizes for cost when the workflow does not use an AI Gateway: items are always routed with the `Cheapest` [provider routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md), which selects the available provider with the lowest input and output token price for that model. The `Balanced` default is not applied in this case, so provider selection can differ from other features that request the same model. When only one provider is available or compatible with the request, routing does not change the result.
+When the workflow does not use an AI Gateway, Batch optimizes for cost:
 
-Create an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and select it in the workflow to use the `Balanced`, `Fastest`, or `Quality` preference, to restrict which providers are attempted, or to apply fixed instructions, tools, and RAG configuration to every item.
+- Items are always routed with the `Cheapest` [provider routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
+- That preference selects the available provider with the lowest input and output token price for that model.
+- The `Balanced` default is not applied, so provider selection can differ from other features that request the same model.
+- When only one provider is available or compatible with the request, routing does not change the result.
+
+Create an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and select it in the workflow when you need a different route or shared gateway setup. A gateway lets you:
+
+- use the `Balanced`, `Fastest`, or `Quality` preference;
+- restrict which providers are attempted;
+- apply fixed instructions, tools, and RAG configuration to every item.
 
 ### Job
 
-A job is a concrete execution created from a workflow. It groups the items of a workload and keeps the workload's state, events, and metrics.
+A job is one workload created from a workflow. Use it to group the items you want to process together. It keeps that workload's state, events, and metrics while the job is prepared, processed, paused, or completed.
 
-A job represents the workload while it is prepared, processed, paused, or completed. See the embedded API Reference for supported job states.
+See the embedded API Reference for supported job states.
 
 ### Item
 
-An item is a row from the imported list. Each row becomes an independent input sent to the model with the workflow's instructions.
+An item is one row from the imported list. Each row becomes an independent input sent to the model with the workflow's instructions.
 
 Each item records its processing outcome, output, confidence, and validation details. See the embedded API Reference for supported item states.
 
 ## How to use in the console
 
-In the AIVAX console, go to **Batch**.
+Use the console when you want to design the workflow, inspect items, and operate the job by hand. In the AIVAX console, go to **Batch**.
 
 ### Create a workflow
 
-In **Workflows**, create a workflow and configure:
+A workflow is the rule later jobs reuse. In **Workflows**, create one and configure:
 
 1. **Basic:** set a title, the processing instruction, and the JSON Schema of the result.
 2. **Behavior:** choose the supported assistant capabilities for the workflow.
@@ -111,9 +147,9 @@ Schema example:
 
 ### Create and run a job
 
-After creating the workflow, create a job for the load you want to process. New jobs are created in `Paused` state so you can import and inspect the workload before starting processing.
+A job is the workload for one run. Create it after the workflow exists. New jobs are created in `Paused` state so you can import and inspect the workload before starting processing.
 
-You can import items in four modes:
+Choose the import mode that matches the source:
 
 - `lines`: reads one uploaded text file and imports each non-empty line as one item.
 - `files`: imports each uploaded plain-text file as one item.
@@ -130,7 +166,7 @@ Example:
 {"name":"Company C","description":"Regional pharmacy chain"}
 ```
 
-With the items imported, start the job. The job screen lets you monitor:
+Start the job when the imported list looks right. The job screen lets you monitor:
 
 - overall progress;
 - pending, completed, and failed items;
@@ -141,44 +177,68 @@ With the items imported, start the job. The job screen lets you monitor:
 
 ### Operate on failed items
 
-Use the list filters to find items with execution error, validation error, refusal, or low confidence. Then you can:
+Use this step when the job has errors, refusals, or results you do not trust yet. Filter the list by execution error, validation error, refusal, or low confidence. Then you can:
 
 - retry all errors;
 - retry only execution errors;
 - retry only validation errors;
 - retry completed items with low confidence;
-- remove pending, completed, error, or all non‐running items;
+- remove pending, completed, error, or all non-running items;
 - open an individual item to review input, output, state, and confidence.
 
 ### Export results
 
-When the job finishes, export the results in JSONL. Each exported line contains metadata, the original input, and the output. Use this export to import into a spreadsheet, database, data pipeline, or manual review step.
+Export when the job finishes and you need the rows outside AIVAX. The file is JSONL. Each line contains metadata, the original input, and the output. Import it into a spreadsheet, database, data pipeline, or manual review step.
 
 ## How to use via the API
 
-Use the API when you want to integrate Batch into your internal system, data pipeline, or automation. Authentication follows the same pattern as the AIVAX API.
+Use the API when Batch should run inside your own system, data pipeline, or automation. Authentication follows the same pattern as the AIVAX API.
 
-The API flow is the same as the console flow, only expressed as separate operations. First create the workflow, which is the reusable recipe. Then create a job, import the items, and start the job when the workload is ready. After processing begins, use the listing, retry, cleanup, and export endpoints to operate the job without losing track of individual records.
+The API flow matches the console. Each step is a separate operation:
 
-If you are still deciding whether Batch is the right feature, compare it with [RAG collections](https://docs.aivax.net/docs/rag/collections.md) and [direct inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md). Batch is for repeated reasoning over independent items. RAG collections are for searchable knowledge that should be retrieved later. Direct inference is for one immediate answer.
+1. Create the workflow, the reusable recipe.
+2. Create a job from that workflow.
+3. Import the items.
+4. Start the job when the workload looks right.
+5. List, retry, clean up, and export items without losing track of individual records.
+
+If you are still deciding whether Batch is the right feature:
+
+- Use Batch for repeated reasoning over independent items.
+- Use [RAG collections](https://docs.aivax.net/docs/rag/collections.md) for searchable knowledge that should be retrieved later.
+- Use [direct inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md) for one immediate answer.
 
 ### Create workflow
 
-Create a workflow when you want to save the processing rule that future jobs will reuse. This is where you define the instruction, model, output schema, validation behavior, retries, and enabled tools. A good workflow reads like a policy for every item, not like a one-time prompt for a single record.
+A workflow is the saved processing rule. Create one when future jobs should reuse the same policy, not a one-time prompt for a single record.
+
+Define:
+
+- the instruction;
+- the model;
+- the output schema;
+- validation behavior;
+- retries;
+- enabled tools.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Batch%20Workflow)
 
 ### Create job
 
-Create a job when you have a concrete workload to run through an existing workflow. Jobs are created paused so you can import and inspect items before processing.
+A job is one concrete workload. Create it when an existing workflow should process a specific list. Jobs are created paused so you can import and inspect items before processing.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Batch%20Job)
 
-Next, import the items. The job stays paused until you start it.
+Import the items next. Leave the job paused until the list looks right.
 
 ### Import items
 
-Import items after the job exists. Each imported item becomes one independent unit of work, so choose the mode that best matches your source data: one line per record, one file per record, one ZIP entry per record, or one submitted text as a single record.
+Import is how a source file becomes independent units of work. Do it after the job exists, and choose the mode that matches the source:
+
+- one line per record;
+- one file per record;
+- one ZIP entry per record;
+- one submitted text as a single record.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Import%20Batch%20Job%20Items)
 
@@ -186,7 +246,11 @@ See the embedded API Reference for supported import modes, fields, and current c
 
 ### Start, pause, or finish
 
-Start the job only after the item list looks correct. Pause it to investigate errors or adjust the workflow, and finish it when the job should be terminated rather than resumed.
+These actions change whether the job keeps running. Use them only after the item list is the workload you intend to process.
+
+- **Start** when the item list looks correct.
+- **Pause** to investigate errors or adjust the workflow.
+- **Finish** when the job should be terminated rather than resumed.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Edit%20Batch%20Job)
 
@@ -194,11 +258,11 @@ See the embedded API Reference for the supported job states.
 
 ### Monitor
 
-Monitoring is how you decide whether the workflow is healthy. The job view gives the overall state; the item list tells you where the work is getting stuck, which items failed validation, and which low-confidence results deserve human review.
+Monitoring tells you whether the workflow is healthy enough to leave running. Use the job view for overall state. Use the item list when you need to see where work is stuck, which items failed validation, and which low-confidence results deserve human review.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=View%20Batch%20Job)
 
-To see individual items and where the work is getting stuck, list the job's items:
+List the job's items when you need the row-level view:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=List%20Batch%20Job%20Items)
 
@@ -206,19 +270,19 @@ Use the list endpoint to filter items by state, confidence, or input text. See t
 
 ### Retry and clean
 
-Retries are best used after you understand the failure shape:
+Retry and cleanup are for items you have already inspected. Retry after you understand the failure shape:
 
 - Retry **execution errors** when the provider or request failed.
 - Retry **validation errors** when the response can likely be regenerated into the expected shape.
 - Retry **low-confidence results** when the item succeeded but deserves another model attempt.
 
-Cleanup endpoints are for removing non-running items from a job when they are no longer useful.
+Use a cleanup endpoint when non-running items are no longer useful and should leave the job.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Retry%20Batch%20Job%20Items)
 
 Use the retry endpoint after reviewing the failure pattern. See the embedded API Reference for supported retry options and resulting job behavior. For the export filter that matches each retry mode, and how provider batch APIs handle expiry, see [expired batch jobs: partial results and retrying only what failed](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
 
-To remove non‐running items from the job:
+To remove non-running items from the job:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Remove%20Batch%20Job%20Items)
 
@@ -226,19 +290,23 @@ Use the removal endpoint only for items that are no longer useful. See the embed
 
 ### Export
 
-Export is the handoff point from AIVAX back into your own workflow. Use it after the job finishes, or export only a subset when a review process needs finished items first and errors later. The JSONL format is convenient for spreadsheets, databases, queues, and manual audit tools because each line remains tied to the original input and its generated output.
+Export is the handoff from AIVAX back into your workflow. Use it after the job finishes, or export a subset when review needs finished items first and errors later.
+
+JSONL fits spreadsheets, databases, queues, and manual audit tools. Each line stays tied to the original input and its generated output.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Export%20Batch%20Job)
 
-Use the export endpoint to select the completed results that your review or downstream process needs. See the embedded API Reference for supported export filters.
+Use the export endpoint when your review or downstream process needs a selected set of completed results. See the embedded API Reference for supported export filters.
 
 ## Availability
 
-Review [Pricing](https://docs.aivax.net/docs/pricing.md) and the [limits](#limits) below before processing a large workload.
+Review billing and capacity before you process a large workload. Start with [Pricing](https://docs.aivax.net/docs/pricing.md) and the [limits](#limits) below.
 
 ## Limits
 
-The number of workflow items processed per day depends on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). These import limits apply to every plan:
+Limits are the capacity check for a large workload. The number of workflow items processed per day depends on the plan. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests).
+
+These import limits apply to every plan:
 
 | Limit | Value |
 | --- | --- |
@@ -246,9 +314,16 @@ The number of workflow items processed per day depends on the plan; see [Batch a
 | Total import size | 100 MiB/request |
 | Single imported file size | 10 MiB |
 
-Batch processing is asynchronous. If processing is paused or fails because of quota, retry after the quota window resets or upgrade the account. For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+Batch processing is asynchronous. If quota pauses or fails the job:
+
+1. Wait until the quota window resets, then retry.
+2. Or upgrade the account.
+
+For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Best practices
+
+Use these checks before a large run, while you repair failures, and before you hand results to review.
 
 - Test the workflow with a few items before importing a large list.
 - Use restrictive schemas with `required` and `additionalProperties: false` when the output will be consumed by a system.
@@ -257,6 +332,6 @@ Batch processing is asynchronous. If processing is paused or fails because of qu
 - Keep validation enabled for sensitive tasks such as legal, financial extraction, or data that feeds automations.
 - Use `maxRetries` to fix occasional failures, but investigate repeated errors in the prompt or schema.
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
-- Retry low‐confidence items separately; low confidence does not mean error, but indicates the response deserves review.
+- Retry low-confidence items separately. Low confidence does not mean error, but it indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.
 - For an operational walkthrough of rate limits, retries, and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).

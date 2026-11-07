@@ -16,7 +16,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 - [Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md)
 - [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md)
-- [Busca](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
+- [Pesquisar](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 - [Filtros Avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md)
 - [Observabilidade do RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
 - [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
@@ -33,8 +33,9 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md)
 - [Reutilização de Sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md)
 - [Inferência com Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/chat-completions/ai-gateways.md)
+- [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md)
 - [Entrada e Multimodalidade](https://docs.aivax.net/pt-br/docs/inference/chat-completions/input-and-multimodality.md)
-- [Armazenamento em cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
+- [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
 - [Ferramentas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/tools.md)
 - [Funções do MCP e Protocolos na Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/mcp-and-protocol-functions.md)
 - [Saída Estruturada](https://docs.aivax.net/pt-br/docs/inference/chat-completions/structured-output.md)
@@ -42,6 +43,9 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Streaming](https://docs.aivax.net/pt-br/docs/inference/chat-completions/streaming.md)
 - [Corpo da Solicitação do Provedor Personalizado](https://docs.aivax.net/pt-br/docs/inference/chat-completions/custom-json.md)
 - [Pré-processamento Multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md)
+- [Truncamento de Contexto](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md)
+- [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md)
+- [Interpretador de Funções (Descontinuado)](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md)
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
 - [Solução de Problemas de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
 - [Configuração do roteamento do provedor](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md)
@@ -58,7 +62,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 - [Voz e Tempo Real](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
 - [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/pipelines.md)
-- [Workers de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
+- [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
 - [Processamento em Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
 - [Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients.md)
@@ -87,7 +91,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Ferramentas
 
 - [Ferramentas Integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
-- [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
+- [Suporte para o Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 - [Funções de Protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md)
 - [Sandboxing de Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md)
 
@@ -96,7 +100,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Coleções e RAG MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.md)
 - [Documentação MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/documentation-mcp.md)
 - [Gerenciamento de conta MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/account-management-mcp.md)
-- [MCP de Fundação Web](https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.md)
+- [Fundação Web MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.md)
 - [Geração de mídia MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md)
 - [Inferência MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/inference-mcp.md)
 

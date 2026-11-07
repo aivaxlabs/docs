@@ -1,20 +1,37 @@
 Source: https://docs.aivax.net/pt-br/docs/inference/workers.html
 
-# Workers de Gateway
+# Gateway Workers
 
-Workers de gateway de IA são hooks HTTP que permitem que um serviço externo controle a execução do gateway em tempo de execução. Um worker pode permitir um evento, interrompê-lo, reescrever o contexto, adicionar instruções ou ferramentas, ou substituir o resultado de uma ferramenta do lado do servidor.
+Os Gateway Workers são hooks HTTP que permitem que seu serviço controle um AI Gateway enquanto uma solicitação está em execução. Use um quando uma regra precisar ser decidida fora do prompt.
 
-Use workers quando uma regra precisar ser decidida fora do prompt. Casos comuns incluem verificações de assinatura, enriquecimento de CRM, política específica de tenant, registro de auditoria, bloqueio dinâmico de ferramentas e substituição de um resultado de ferramenta visível ao modelo por dados de um sistema interno.
+Um worker pode:
 
-Workers rodam no caminho crítico da inferência. Cada evento de worker adiciona uma requisição HTTP antes que o gateway possa continuar, portanto mantenha o endpoint rápido e previsível.
+- permitir um evento;
+- interromper um evento;
+- reescrever o contexto;
+- adicionar instruções ou ferramentas;
+- substituir o resultado de uma ferramenta do lado do servidor.
+
+Use um worker quando a decisão depender dos seus próprios sistemas. Casos típicos:
+
+- verificações de assinatura;
+- enriquecimento de CRM;
+- política específica para inquilino (tenant);
+- registro de auditoria;
+- bloqueio dinâmico de ferramentas;
+- substituição do resultado de uma ferramenta visível pelo modelo por dados de um sistema interno.
+
+Os workers são executados no caminho de toda inferência que eles manipulam. Cada evento adiciona uma solicitação HTTP antes que o gateway possa continuar, portanto, mantenha o endpoint rápido e previsível.
 
 ## Formato da solicitação
 
-Quando um evento de worker configurado dispara, o AIVAX envia uma requisição `POST` para a URL do worker do gateway.
+A solicitação é o evento que o AIVAX envia ao seu worker. Ela chega quando um evento de worker configurado é acionado, antes que o gateway continue.
+
+O AIVAX envia este `POST` para a URL do worker do gateway:
 
 ```json
 {
-    "gatewayId": "your-gateway-id",
+    "gatewayId": "seu-id-do-gateway",
     "moment": "2025-12-29T17:04:39",
     "event": {
         "name": "message.received",
@@ -26,41 +43,59 @@ Quando um evento de worker configurado dispara, o AIVAX envia uma requisição `
                 }
             ],
             "origin": "ChatCompletionsApi",
-            "externalUserId": "customer-123",
+            "externalUserId": "cliente-123",
             "metadata": {}
         }
     }
 }
 ```
 
-A forma exata de `event.data` depende do evento. Sempre valide `gatewayId` quando um endpoint atende a mais de um gateway.
+Leia o corpo antes de agir:
+
+1. Valide `gatewayId` quando um endpoint servir mais de um gateway.
+2. Ramifique com base em `event.name`.
+3. Leia `event.data`. O formato exato depende do evento.
+
+Trate o JSON acima como o envelope. Não assuma que todos os eventos possuem os mesmos campos em `data`.
 
 ## Autenticação
 
-Quando a conta possui uma chave de hook, o AIVAX envia o cabeçalho `X-Request-Nonce`. O nonce é um hash BCrypt derivado da chave de hook da conta. Valide esse cabeçalho antes de confiar no corpo, especialmente quando o worker libera dados privados, altera o contexto ou autoriza o uso de ferramentas.
+Use o nonce para confirmar que o AIVAX enviou a solicitação. Valide-o antes de confiar no corpo, especialmente quando o worker libera dados privados, altera o contexto ou autoriza o uso de ferramentas.
 
-Trate `externalUserId`, `metadata`, mensagens e argumentos de ferramentas como entrada não confiável.
+Quando a conta possui uma chave de hook, o AIVAX envia `X-Request-Nonce`. O nonce é um hash BCrypt derivado da chave de hook da conta.
+
+Trate estes campos como entrada não confiável:
+
+- `externalUserId`
+- `metadata`
+- mensagens
+- argumentos de ferramentas
 
 ## Comportamento da resposta
 
-Após enviar a requisição, o AIVAX trata a resposta do worker da seguinte forma:
+A resposta informa ao AIVAX se deve continuar, parar ou aplicar uma ação. Escolha-a com propósito: o enriquecimento opcional pode falhar abrindo (fail open), e uma verificação de autorização ou conformidade deve falhar fechando (fail closed).
+
+Após o AIVAX enviar a solicitação, ele processa sua resposta da seguinte forma:
 
 | Resposta | Comportamento |
 |---|---|
 | `Content-Type: application/json+worker-action` | Executa a ação descrita no corpo JSON. |
 | `2xx` sem `application/json+worker-action` | Continua normalmente. |
-| Resposta não‑OK sem `application/json+worker-action` | Interrompe o evento. |
+| Resposta não OK sem `application/json+worker-action` | Interrompe o evento. |
 
-Se a requisição ao worker falhar com uma exceção de requisição HTTP, o AIVAX registra a falha e interrompe o evento.
+Se a solicitação do worker falhar com uma exceção de solicitação HTTP, o AIVAX registra a falha e interrompe o evento.
 
-Escolha intencionalmente o comportamento fail‑open ou fail‑closed:
+### Quando continuar ou parar
 
-- Retorne `2xx` quando o worker apenas adiciona enriquecimento opcional, para que a conversa continue mesmo que sua lógica não tenha nada a acrescentar.  
-- Retorne uma resposta não‑OK quando autorização, conformidade ou política de negócio não puder falhar aberto.
+Use o status que corresponde ao risco:
+
+1. Retorne `Content-Type: application/json+worker-action` quando o AIVAX deve aplicar a ação JSON.
+2. Retorne `2xx` sem esse tipo de conteúdo quando o worker apenas adiciona enriquecimento opcional ou quando sua lógica não tem nada a adicionar. A conversa continua.
+3. Retorne uma resposta não OK sem esse tipo de conteúdo quando a autorização, conformidade ou política de negócios não puderem falhar abrindo. O AIVAX interrompe o evento.
 
 ## `message.received`
 
-O evento `message.received` dispara após o gateway preparar o contexto da mensagem de entrada e antes da chamada ao modelo.
+`message.received` é o hook para o prompt preparado. Use-o para inspecionar, reescrever ou interromper o contexto antes que o modelo seja executado. Ele é acionado após o gateway preparar o contexto da mensagem recebida e antes da chamada ao modelo.
 
 ```json
 {
@@ -68,13 +103,13 @@ O evento `message.received` dispara após o gateway preparar o contexto da mensa
     "data": {
         "messages": [],
         "origin": "ChatCompletionsApi",
-        "externalUserId": "customer-123",
+        "externalUserId": "cliente-123",
         "metadata": {}
     }
 }
 ```
 
-Para modificar o contexto, retorne `Content-Type: application/json+worker-action` com `type: "message.received.response"`:
+Para alterar o contexto, retorne `Content-Type: application/json+worker-action` com `type: "message.received.response"`. Retorne `2xx` sem ação quando a mensagem puder continuar inalterada. Este exemplo adiciona uma instrução de sistema:
 
 ```json
 {
@@ -90,21 +125,21 @@ Para modificar o contexto, retorne `Content-Type: application/json+worker-action
 }
 ```
 
-Ações de reescrita disponíveis:
+Use uma reescrita quando o contexto preparado não for o que o modelo deve ver. Ações disponíveis:
 
 | Ação | Descrição | Parâmetros |
 |---|---|---|
 | `clear` | Remove elementos do contexto. | `argument`: `messages`, `meta`, `system`, `tools`, `skills`, `all` ou omitido. |
 | `add-message` | Adiciona uma mensagem à conversa. | `message`: objeto de mensagem compatível com OpenAI. |
-| `remove-message` | Remove uma mensagem por índice. | `index`: índice da mensagem (base zero). |
+| `remove-message` | Remove uma mensagem por índice. | `index`: índice baseado em zero da mensagem. |
 | `add-system` | Adiciona uma instrução de sistema. | `message`: texto da instrução. |
 | `add-tool` | Adiciona uma definição de ferramenta compatível com OpenAI. | `tool`: objeto JSON da ferramenta. |
 | `add-protocol-tool` | Adiciona uma [função de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md). | `tool`: definição da função de protocolo. |
-| `add-mcp-source` | Adiciona as ferramentas descobertas de uma fonte [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ao contexto. | `source`: objeto de fonte MCP com `url`, `headers`, `name` e/ou `cacheDuration`. |
+| `add-mcp-source` | Adiciona as ferramentas descobertas de uma fonte [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) ao contexto. | `source`: objeto de origem MCP com `url`, `headers`, `name` e/ou `cacheDuration`. |
 
 ### Substituir o contexto do usuário
 
-Este exemplo executa `clear` e depois adiciona uma mensagem de substituição, fazendo com que o modelo responda à mensagem de política em vez da entrada original do usuário:
+Use este padrão quando a política deve substituir a entrada original do usuário. O exemplo executa `clear` e depois adiciona uma mensagem de substituição, para que o modelo responda à mensagem de política em vez da entrada original:
 
 ```json
 {
@@ -128,7 +163,7 @@ Este exemplo executa `clear` e depois adiciona uma mensagem de substituição, f
 
 ### Remover uma mensagem
 
-Este exemplo remove a primeira mensagem do contexto, usando seu índice base zero:
+Use `remove-message` quando uma mensagem deve sair do contexto e o restante deve permanecer. Este exemplo remove a primeira mensagem, usando seu índice baseado em zero:
 
 ```json
 {
@@ -146,7 +181,7 @@ Este exemplo remove a primeira mensagem do contexto, usando seu índice base zer
 
 ### Adicionar uma fonte MCP temporária
 
-Este exemplo expõe as ferramentas de um servidor MCP interno apenas para a inferência atual:
+Use `add-mcp-source` quando a lista de ferramentas depender desta mensagem, usuário, canal ou política externa, e apenas para a inferência atual. Este exemplo expõe as ferramentas de um servidor MCP interno:
 
 ```json
 {
@@ -169,11 +204,17 @@ Este exemplo expõe as ferramentas de um servidor MCP interno apenas para a infe
 }
 ```
 
-Use `add-mcp-source` quando a lista de ferramentas precisar depender da mensagem, usuário, canal ou de uma política externa. O AIVAX lista as ferramentas do servidor MCP, converte cada esquema em uma função chamável pelo modelo e disponibiliza essas ferramentas apenas para aquela inferência. Para fontes permanentes, configure o MCP diretamente no gateway de IA.
+Apenas para esta inferência, o AIVAX:
+
+1. Lista as ferramentas do servidor MCP.
+2. Converte cada esquema em uma função chamável pelo modelo.
+3. Torna essas ferramentas disponíveis apenas para essa inferência.
+
+Para uma fonte que deve permanecer no gateway, configure o MCP diretamente no AI Gateway.
 
 ## `tool.called`
 
-O evento `tool.called` dispara antes que o AIVAX execute uma ferramenta interna do lado do servidor.
+`tool.called` é o hook para uma ferramenta interna do lado do servidor. Use-o para permitir a chamada, bloqueá-la ou substituir o resultado que o modelo verá. O evento é acionado antes que o AIVAX execute essa ferramenta.
 
 ```json
 {
@@ -184,15 +225,17 @@ O evento `tool.called` dispara antes que o AIVAX execute uma ferramenta interna 
             "order_id": "A123"
         },
         "origin": "ChatCompletionsApi",
-        "externalUserId": "customer-123",
+        "externalUserId": "cliente-123",
         "metadata": {}
     }
 }
 ```
 
-Retorne uma resposta não‑OK para bloquear a chamada da ferramenta. Retorne `2xx` para que o AIVAX execute a ferramenta normalmente.
+Escolha um dos resultados:
 
-Para substituir o resultado da ferramenta, retorne `Content-Type: application/json+worker-action` com `type: "tool.called.response"`:
+1. Retorne uma resposta não OK para bloquear a chamada da ferramenta.
+2. Retorne `2xx` para permitir que o AIVAX execute a ferramenta normalmente.
+3. Retorne `Content-Type: application/json+worker-action` com `type: "tool.called.response"` para substituir o resultado da ferramenta:
 
 ```json
 {
@@ -204,24 +247,32 @@ Para substituir o resultado da ferramenta, retorne `Content-Type: application/js
 }
 ```
 
-Campos de `data`:
+`result` é o texto injetado como resultado da ferramenta. `messages` é opcional e anexa mensagens extras no formato OpenAI ao contexto da conversa. Campos de `data`:
 
 | Campo | Descrição |
 |---|---|
 | `result` | Conteúdo textual injetado como resultado da ferramenta. |
 | `messages` | Mensagens adicionais opcionais no formato OpenAI anexadas ao contexto da conversa. |
 
-Quando `tool.called.response` é retornado, o AIVAX usa o resultado fornecido pelo worker em vez de executar o manipulador padrão da ferramenta.
+Quando você retorna `tool.called.response`, o AIVAX usa o resultado fornecido pelo worker em vez de executar o manipulador de ferramenta padrão.
 
 ## Exemplo: bloqueando usuários não autorizados
 
-O exemplo abaixo mostra um Cloudflare Worker que bloqueia uma chamada ao gateway quando o usuário externo não é permitido. Requisições para outros gateways ou eventos recebem uma resposta vazia `2xx` e continuam normalmente; uma resposta `403` interrompe o evento `message.received` para usuários fora da lista de permissões.
+Use este padrão quando apenas uma lista de permissão de usuários externos puder acessar um gateway. O exemplo é um Cloudflare Worker. Ele interrompe `message.received` para todos os outros e permite que outros gateways e eventos continuem.
+
+O worker decide nesta ordem:
+
+1. Rejeita métodos diferentes de `POST`.
+2. Retorna um `2xx` vazio para qualquer outro gateway, para que a chamada continue.
+3. Retorna um `2xx` vazio para qualquer outro evento.
+4. Retorna `403` quando `externalUserId` está fora da lista de permissão. Isso interrompe `message.received`.
+5. Retorna um `2xx` vazio para um usuário permitido, para que o gateway continue.
 
 ```js
 export default {
   async fetch(request, env) {
     if (request.method !== "POST") {
-      return new Response("Method not allowed", { status: 405 });
+      return new Response("Método não permitido", { status: 405 });
     }
 
     const body = await request.json();
@@ -238,7 +289,7 @@ export default {
     const allowedUsers = new Set((env.ALLOWED_USERS || "").split(","));
 
     if (!allowedUsers.has(externalUserId)) {
-      return new Response("User is not authorized", { status: 403 });
+      return new Response("Usuário não autorizado", { status: 403 });
     }
 
     return new Response();
@@ -248,7 +299,7 @@ export default {
 
 ## Exemplo: substituindo uma ferramenta por um sistema interno
 
-Use `tool.called` quando o modelo deve ver um resultado de ferramenta, mas os dados reais devem vir do seu sistema.
+Use este padrão quando o modelo deve ver o resultado de uma ferramenta, mas os dados devem vir do seu sistema em vez do manipulador de ferramenta padrão. O exemplo substitui `check_order` e permite que todos os outros eventos continuem.
 
 ```js
 export default {
@@ -276,7 +327,7 @@ export default {
       return new Response(JSON.stringify({
         type: "tool.called.response",
         data: {
-          result: `The order ${orderId} could not be retrieved for user ${externalUserId}. Ask the user to confirm the order number.`
+          result: `O pedido ${orderId} não pôde ser recuperado para o usuário ${externalUserId}. Peça ao usuário para confirmar o número do pedido.`
         }
       }), {
         headers: {
@@ -290,7 +341,7 @@ export default {
     return new Response(JSON.stringify({
       type: "tool.called.response",
       data: {
-        result: `Order ${order.id}: status ${order.status}, estimated delivery ${order.eta}.`
+        result: `Pedido ${order.id}: status ${order.status}, entrega estimada ${order.eta}.`
       }
     }), {
       headers: {
@@ -301,6 +352,11 @@ export default {
 };
 ```
 
-Esse padrão impede a exposição direta da API interna ao modelo. O worker continua responsável por autenticar a requisição, validar o usuário, chamar o sistema interno e decidir quanto de dados podem ser retornados ao contexto do modelo.
+Este padrão mantém a API interna fora do contexto do modelo. O worker permanece responsável por:
 
-Para saber como os workers se encaixam na execução do gateway, veja [Pipelines](https://docs.aivax.net/pt-br/docs/inference/pipelines.md).
+1. Autenticar a solicitação.
+2. Validar o usuário.
+3. Chamar o sistema interno.
+4. Decidir quanto de dados pode retornar ao contexto do modelo.
+
+Para saber como os workers se encaixam na execução do gateway, consulte [Pipelines](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md).

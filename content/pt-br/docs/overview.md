@@ -1,33 +1,56 @@
 ---
-{title: Bem-vindo,linkTitle: Bem-vindo,weight: 10,group: Introduction,aliases: [/docs/pt-br/getting-started.html,/docs/pt-br/platform/basics.html,/docs/pt-br/platform/models.html,/docs/pt-br/overview.html],sourceHash: d41b51ad8f5bfbbd}
+{title: Bem-vindo,linkTitle: Bem-vindo,weight: 10,group: Introduction,aliases: [/docs/pt-br/getting-started.html,/docs/pt-br/platform/basics.html,/docs/pt-br/platform/models.html,/docs/pt-br/overview.html],sourceHash: a2dc364bc84e8d25}
 ---
 
 # Bem-vindo
 
-A AIVAX é uma plataforma de orquestração de IA para criar, operar e avaliar aplicativos de IA por meio de uma única conta, superfície de API e carteira de cobrança. Ela combina modelos hospedados e bring-your-own-key (BYOK) com configuração reutilizável de assistentes, recuperação de conhecimento, ferramentas, processamento de texto e mídia, canais voltados ao usuário, trabalhos em segundo plano e avaliação conversacional.
+A AIVAX é uma plataforma de orquestração de IA para criar, operar e avaliar aplicativos de IA. Ela oferece uma conta, uma superfície de API única e uma carteira de cobrança única.
 
-Você não precisa de todos os produtos para cada aplicativo. Comece com inferência direta quando precisar apenas de uma resposta. Adicione outros produtos quando precisar reutilizar configurações de assistente, pesquisar seus documentos, conectar ferramentas ou canais, processar muitos registros ou avaliar o comportamento.
+Ela combina:
+
+- Modelos hospedados e com chave própria (BYOK).
+- Configuração de assistente reutilizável.
+- Recuperação de conhecimento e ferramentas.
+- Processamento de texto e mídia.
+- Canais voltados ao usuário.
+- Trabalhos em segundo plano.
+- Avaliação conversacional.
+
+Você não precisa de todos os produtos para cada aplicativo. Comece com inferência direta quando precisar apenas de uma resposta. Adicione outros produtos quando precisar:
+
+- Reutilizar configurações do assistente.
+- Pesquisar seus documentos.
+- Conectar ferramentas ou canais.
+- Processar muitos registros.
+- Avaliar o comportamento.
 
 ## Escolha o ponto de partida certo
 
+Use esta tabela quando souber a tarefa e precisar do primeiro produto para começar. Cada linha é um ponto de partida, não uma arquitetura completa.
+
 | Objetivo | Comece com | Por quê |
 | --- | --- | --- |
-| Gerar ou analisar texto em uma única solicitação | [Inferência](/docs/pt-br/inference/chat-completions/concepts.md) | Chame um modelo hospedado ou BYOK por meio da API compatível com OpenAI sem criar configuração reutilizável de assistente. |
-| Reutilizar instruções, conhecimento, ferramentas e configurações de modelo | [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md) | Forneça ao seu aplicativo um único tempo de execução de assistente estável que possa evoluir sem reconstruir cada solicitação. |
+| Gerar ou analisar texto em uma solicitação | [Inferência](/docs/pt-br/inference/chat-completions/concepts.md) | Chame um modelo hospedado ou BYOK por meio da API compatível com OpenAI sem criar configuração de assistente reutilizável. |
+| Reutilizar instruções, conhecimento, ferramentas e configurações de modelo | [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md) | Forneça ao seu aplicativo um runtime de assistente estável que possa evoluir sem reconstruir cada solicitação. |
 | Pesquisar seus próprios documentos ou gerar respostas fundamentadas | [Coleções RAG](rag/collections.md) | Armazene e indexe conhecimento para recuperação semântica, citações e contexto do gateway. |
 | Reordenar candidatos que seu aplicativo já recuperou | [Rerankers](rag/reranking.md) | Melhore a relevância sem exigir uma coleção gerenciada da AIVAX. |
 | Publicar um assistente para usuários finais | [Clientes de chat](inference/chat-clients.md) | Conecte um gateway ao chat web ou integrações de mensagens suportadas com controles de sessão e canal. |
 | Processar muitos registros independentes | [Batch](inference/batch.md) | Execute um fluxo de trabalho repetível de forma assíncrona com estado por item, validação, tentativas, custo e exportação. |
-| Testar uma conversa completa de assistente | [Testes Agênticos](inference/agentic-tests.md) | Simule um usuário orientado a objetivos e julgue o gateway em várias rodadas. |
+| Testar uma conversa completa de assistente | [Testes Agênticos](inference/agentic-tests.md) | Simule um usuário orientado a objetivos e julgue o gateway em múltiplas rodadas. |
 | Criar uma experiência de voz bidirecional de baixa latência | [Sessões de Voz](inference/voice-session.md) | Transmita áudio do usuário e do assistente em uma sessão interativa em vez de combinar trabalhos de áudio separados. |
 
-## Construa o tempo de execução do assistente
+## Construa o runtime do assistente
+
+Este é o caminho principal para um assistente que responde aos usuários. Comece aqui quando o aplicativo precisar de uma chamada de modelo, configurações reutilizáveis, conhecimento ou ferramentas.
 
 ### Inferência e AI Gateways
 
-A AIVAX expõe endpoints de listagem de modelos e conclusão de chat compatíveis com OpenAI. Use uma **chamada direta ao modelo** para exploração, geração única ou configuração que não precise ser reutilizada. Use um **AI Gateway** quando o mesmo modelo, instruções, coleções RAG, habilidades, ferramentas, moderação ou comportamento de saída devem atender a múltiplas chamadas ou usuários.
+A AIVAX expõe endpoints de listagem de modelos e conclusão de chat compatíveis com OpenAI. Use esta camada quando o aplicativo precisar de uma resposta gerada.
 
-A maioria dos assistentes de produção usa um gateway porque o aplicativo pode continuar chamando um único identificador enquanto a configuração do assistente muda independentemente. Os gateways podem usar modelos integrados da AIVAX ou provedores externos compatíveis com OpenAI.
+- Use uma **chamada de modelo direta** para exploração, geração única ou configuração que não precise ser reutilizada.
+- Use um **AI Gateway** quando o mesmo modelo, instruções, coleções RAG, habilidades, ferramentas, moderação ou comportamento de saída devem atender a várias chamadas ou usuários.
+
+A maioria dos assistentes de produção usa um gateway. O aplicativo pode continuar chamando um identificador enquanto a configuração do assistente muda independentemente. Os gateways podem usar modelos integrados da AIVAX ou provedores externos compatíveis com OpenAI.
 
 URL base da API de produção:
 
@@ -47,18 +70,31 @@ Referência:
 
 ### Conhecimento, recuperação e reranking
 
-Uma [coleção RAG](rag/collections.md) é uma biblioteca de conhecimento semântico. Adicione documentos, teste-os com [Pesquisa Semântica](rag/semantic-search.md) e, em seguida, anexe a coleção a um AI Gateway quando o assistente deve responder com base nesse conhecimento. A AIVAX também pode gerar respostas fundamentadas diretamente das coleções e expor a pesquisa de coleções por meio do [Collections MCP](mcp-utilities/collections-mcp.md).
+Uma [coleção RAG](rag/collections.md) é uma biblioteca de conhecimento semântico. Use-a quando as respostas devem vir de seus próprios documentos.
 
-O reranking é uma etapa separada: ele recebe uma consulta e documentos candidatos e retorna os candidatos em uma ordem mais relevante. Use uma coleção para armazenamento e recuperação gerenciados; use a geração de [reranking](rag/reranking.md) independente quando seu aplicativo já possui os candidatos.
+1. Adicione documentos.
+2. Teste-os com [Pesquisa Semântica](rag/semantic-search.md).
+3. Anexe a coleção a um AI Gateway quando o assistente deve responder com base nesse conhecimento.
+
+A AIVAX também pode gerar respostas fundamentadas diretamente das coleções e expor a pesquisa de coleções por meio do [Collections MCP](mcp-utilities/collections-mcp.md).
+
+O reranking é uma etapa separada. Ele recebe uma consulta e documentos candidatos e retorna os candidatos em uma ordem mais relevante.
+
+- Use uma coleção para armazenamento e recuperação gerenciados.
+- Use a geração de [reranking](rag/reranking.md) independente quando seu aplicativo já possui os candidatos.
 
 ### Habilidades e ferramentas
 
-[Habilidades](inference/skills.md) empacotam instruções reutilizáveis e conhecimento operacional. Use uma habilidade quando o assistente precisar saber **como** realizar uma tarefa. Use RAG quando ele precisar recuperar **fatos ou material de origem** que possam crescer ou mudar independentemente.
+As [Habilidades](inference/skills.md) empacotam instruções reutilizáveis e conhecimento operacional. Use-as quando o mesmo procedimento se aplicar a várias solicitações.
 
-As ferramentas permitem que o assistente tome ações ou recupere informações em tempo real. Escolha entre:
+- Use uma habilidade quando o assistente precisar saber **como** realizar uma tarefa.
+- Use RAG quando ele precisar recuperar **fatos ou material de origem** que possam crescer ou mudar independentemente.
+- Use uma ferramenta quando o assistente precisar tomar ação ou recuperar informações em tempo real.
+
+Escolha entre:
 
 - [Ferramentas integradas](tools/builtin-tools.md) para capacidades fornecidas pela AIVAX.
-- [MCP](tools/mcp.md) para servidores Model Context Protocol e ecossistemas de ferramentas reutilizáveis.
+- [MCP](tools/mcp.md) para servidores do Protocolo de Contexto do Modelo e ecossistemas de ferramentas reutilizáveis.
 - [Funções de protocolo](tools/protocol-functions.md) para funções HTTP definidas pelo seu aplicativo.
 - [Shell](tools/shell.md) para execução controlada de comandos quando o caso de uso exigir.
 
@@ -66,7 +102,7 @@ Mantenha a superfície de ferramentas tão pequena quanto o trabalho do assisten
 
 ## Processe texto, documentos e mídia
 
-A AIVAX inclui produtos de geração focados para trabalhos que não precisam de uma conversa completa de chat:
+Use estes produtos quando a tarefa for uma transformação focada e não precisar de uma conversa de chat completa:
 
 - [Classificação de texto](data-processing/classification.md) atribui rótulos a um ou mais documentos.
 - [Segmentação de texto](data-processing/text-segmentation.md) divide conteúdo longo em pedaços úteis para indexação ou processamento posterior.
@@ -75,50 +111,89 @@ A AIVAX inclui produtos de geração focados para trabalhos que não precisam de
 - [Geração de fala](generations/speech.md) transforma texto em áudio.
 - [Transcrição de áudio](generations/audio-transcriptions.md) transforma áudio em texto.
 
-Use inferência multimodal direta quando o modelo de chat selecionado suportar a entrada e dever raciocinar sobre ela na mesma solicitação. Use um endpoint de geração focada quando você precisar de um artefato reutilizável, uma transcrição, uma descrição ou uma etapa de pré-processamento. Para conjuntos grandes de entradas independentes, execute a operação apropriada por meio do [Batch](inference/batch.md).
+Escolha o caminho pelo que você precisa receber de volta:
+
+- Use inferência multimodal direta quando o modelo de chat selecionado suportar a entrada e deve raciocinar sobre ela na mesma solicitação.
+- Use um endpoint de geração focado quando precisar de um artefato reutilizável, uma transcrição, uma descrição ou uma etapa de pré-processamento.
+- Para conjuntos grandes de entradas independentes, execute a operação apropriada por meio do [Batch](inference/batch.md).
 
 Para áudio bidirecional interativo, use [Sessões de Voz](inference/voice-session.md) em vez de encadear manualmente transcrição, inferência de texto e geração de fala.
 
 ## Entregue, escale e avalie
 
+Use estes produtos depois que o runtime do assistente funcionar. Eles o publicam para usuários, o executam em muitos registros ou verificam se ele se comporta conforme o pretendido.
+
 ### Clientes de chat
 
-Um [cliente de chat](inference/chat-clients.md) conecta um AI Gateway a um canal de usuário final. Ele é responsável pela apresentação, comportamento da sessão, origens permitidas, uploads, respostas de áudio, integrações de canal e limites voltados ao usuário. O gateway continua sendo responsável pelo comportamento do assistente, como o modelo, instruções, RAG e ferramentas.
+Um [cliente de chat](inference/chat-clients.md) conecta um AI Gateway a um canal de usuário final. Use-o para um widget de navegador ou uma integração de mensagens suportada. Use a API de inferência diretamente quando seu próprio backend ou interface já gerenciar usuários, estado de conversa e entrega.
 
-Use um cliente de chat para um widget de navegador ou integração de mensagens suportada. Use a API de inferência diretamente quando seu próprio backend ou interface já gerenciar usuários, estado de conversa e entrega.
+Um cliente de chat possui apresentação, comportamento de sessão, origens permitidas, uploads, respostas de áudio, integrações de canal e limites voltados ao usuário. O gateway continua possuindo o comportamento do assistente, como o modelo, instruções, RAG e ferramentas.
 
 ### Batch
 
-[Batch](inference/batch.md) aplica um único fluxo de trabalho a dezenas ou milhares de registros independentes. Um fluxo de trabalho define a instrução, o modelo ou gateway, saída estruturada, validação, ferramentas e política de tentativa. Um job importa itens, processa-os em segundo plano, expõe progresso e custo por item e exporta resultados.
+O [Batch](inference/batch.md) aplica um fluxo de trabalho a dezenas ou milhares de registros independentes. Use-o quando cada registro for independente e o chamador não precisar de uma resposta imediata.
 
-Não use Batch quando um item depender de outro ou quando um usuário precisar de uma resposta imediata. Use inferência direta para um resultado síncrono único e RAG para conhecimento pesquisável.
+Um fluxo de trabalho define a instrução, o modelo ou gateway, saída estruturada, validação, ferramentas e política de tentativa. Um trabalho então:
+
+1. Importa itens.
+2. Os processa em segundo plano.
+3. Expõe progresso e custo por item.
+4. Exporta resultados.
+
+Não use o Batch quando um item depender de outro ou quando um usuário precisar de uma resposta imediata. Use inferência direta para um resultado síncrono único e RAG para conhecimento pesquisável.
 
 ### Testes Agênticos
 
-[Testes Agênticos](inference/agentic-tests.md) avaliam o comportamento configurado de um AI Gateway ao longo de uma conversa delimitada. Um usuário simulado persegue um objetivo enquanto um juiz independente avalia o progresso. Use testes persistidos para cobertura de regressão reutilizável e agendada ou uma avaliação efêmera para uma execução imediata única.
+Os [Testes Agênticos](inference/agentic-tests.md) avaliam o comportamento configurado de um AI Gateway ao longo de uma conversa delimitada. Um usuário simulado persegue um objetivo enquanto um juiz independente avalia o progresso.
 
-Uma execução de teste concluída não é automaticamente um resultado de comportamento bem-sucedido. Revise o resultado da execução, o resultado do juiz, a conversa retida, o uso e o custo juntos.
+- Use testes persistidos para cobertura de regressão reutilizável e agendada.
+- Use uma avaliação efêmera para uma execução imediata única.
 
-## Operar e conectar AIVAX
+Uma execução de teste concluída não é automaticamente um resultado de comportamento bem-sucedido. Revise-os juntos:
 
-A AIVAX registra conversas e uso para que você possa rastrear o comportamento, atribuir custos e diagnosticar falhas. O painel e as APIs de conta expõem saldo da conta, uso, conversas, recursos do gateway, transações de coleção, itens do Batch e execuções de Testes Agênticos. Comece com [Preços](pricing.md) e [Planos e limites](limits.md) antes de habilitar um fluxo de trabalho de alto volume ou pesado em mídia.
+- Resultado da execução.
+- Resultado do juiz.
+- Conversa retida.
+- Uso.
+- Custo.
+
+## Operar e conectar a AIVAX
+
+Use esta seção para rastrear custos, conectar um agente compatível ou operar a conta por meio de scripts.
+
+A AIVAX registra conversas e uso para que você possa rastrear o comportamento, atribuir custos e diagnosticar falhas. O painel e as APIs da conta expõem:
+
+- Saldo da conta.
+- Uso.
+- Conversas.
+- Recursos do Gateway.
+- Transações de coleção.
+- Itens do Batch.
+- Execuções de Testes Agênticos.
+
+Comece com [Preços](pricing.md) e [Planos e limites](limits.md) antes de habilitar um fluxo de trabalho de alto volume ou pesado em mídia.
 
 A AIVAX também fornece utilitários MCP para agentes compatíveis:
 
-- [Utilitário MCP de gerenciamento de conta](mcp-utilities/account-management-mcp.md)
-- [Utilitário MCP de coleções](mcp-utilities/collections-mcp.md)
-- [Utilitário MCP de documentação](mcp-utilities/documentation-mcp.md)
-- [Utilitário MCP de utilitários web](mcp-utilities/web-utilities-mcp.md)
-- [Utilitário MCP de geração de mídia](mcp-utilities/media-generation-mcp.md)
-- [Utilitário MCP de inferência](mcp-utilities/inference-mcp.md)
+- [MCP de gerenciamento de conta](mcp-utilities/account-management-mcp.md)
+- [MCP de coleções](mcp-utilities/collections-mcp.md)
+- [MCP de documentação](mcp-utilities/documentation-mcp.md)
+- [MCP de utilitários da web](mcp-utilities/web-utilities-mcp.md)
+- [MCP de geração de mídia](mcp-utilities/media-generation-mcp.md)
+- [MCP de inferência](mcp-utilities/inference-mcp.md)
 
-Esses utilitários expõem as capacidades existentes da AIVAX por meio do MCP; eles não substituem os produtos subjacentes de conta, coleção ou inferência.
+Esses utilitários expõem as capacidades existentes da AIVAX por meio do MCP. Eles não substituem os produtos subjacentes de conta, coleção ou inferência.
 
 Para operar uma conta a partir do terminal ou de scripts, instale o [CLI da AIVAX](cli.md) com `npm install -g @aivax/cli`.
 
 ## Faça sua primeira solicitação
 
-Crie uma chave **privada** na área de Chaves de API do painel da AIVAX e armazene-a como um segredo, por exemplo, em uma variável de ambiente chamada `AIVAX_API_KEY`. Em seguida, instale o SDK OpenAI com `python -m pip install openai` e crie `quickstart.py`:
+Use este caminho para a primeira conclusão de chat bem-sucedida. Ela chama um modelo hospedado ou um AI Gateway por meio da API compatível com OpenAI.
+
+1. Crie uma chave **privada** na área de Chaves de API do painel da AIVAX.
+2. Armazene-a como um segredo, por exemplo, em uma variável de ambiente chamada `AIVAX_API_KEY`.
+3. Instale o SDK do OpenAI com `python -m pip install openai`.
+4. Crie `quickstart.py`:
 
 ```python
 import os
@@ -140,21 +215,26 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Substitua `<MODEL_OR_GATEWAY_ID>` por um nome de modelo hospedado da listagem de modelos ou por um identificador de AI Gateway, em seguida, execute `python quickstart.py`. Uma solicitação bem-sucedida imprime uma frase gerada. Se falhar, consulte [Solucionar problemas de solicitações](/docs/pt-br/inference/chat-completions/troubleshooting.md).
+Substitua `<MODEL_OR_GATEWAY_ID>` por um nome de modelo hospedado da listagem de modelos ou por um identificador de AI Gateway. Em seguida, execute `python quickstart.py`.
+
+Uma solicitação bem-sucedida imprime uma frase gerada. Se falhar, consulte [Solucionar problemas de solicitações](/docs/pt-br/inference/chat-completions/troubleshooting.md).
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Inferência de longa duração
 
-Se uma solicitação terminar com HTTP `524` ou um timeout de proxy enquanto a AIVAX ainda estiver processando-a, use o host de inferência direta:
+Use o host de inferência direta quando uma solicitação terminar com HTTP `524` ou um timeout de proxy enquanto a AIVAX ainda estiver processando:
 
 ```text
 https://direct.inference.aivax.net/v1
 ```
 
-A solicitação permanece síncrona, não é um trabalho em segundo plano: mantenha a conexão do cliente aberta até que a conclusão termine e configure um timeout do cliente que cubra o tempo de processamento esperado.
+A solicitação permanece síncrona, não é um trabalho em segundo plano.
 
-Use a mesma chave de API privada, identificador de modelo ou AI Gateway, mensagens e parâmetros de solicitação. Altere o URL base do SDK e o timeout:
+1. Mantenha a conexão do cliente aberta até que a conclusão termine.
+2. Configure um timeout do cliente que cubra o tempo de processamento esperado.
+3. Use a mesma chave de API privada, identificador de modelo ou AI Gateway, mensagens e parâmetros de solicitação.
+4. Altere o URL base do SDK e o timeout:
 
 ```python
 import os
@@ -182,15 +262,15 @@ print(response.choices[0].message.content)
 
 ### Endpoints disponíveis no host direto
 
-O host direto serve apenas os endpoints abaixo. Caminhos, autenticação, corpos de solicitação e respostas são os mesmos que em `https://inference.aivax.net`; apenas o host muda.
+Use esta lista para confirmar que o host direto atende à chamada que você precisa. Ele serve apenas os endpoints abaixo. Caminhos, autenticação, corpos de solicitação e respostas são os mesmos que em `https://inference.aivax.net`; apenas o host muda.
 
 | Método | Caminho | Endpoint |
 |---|---|---|
 | `POST` | `/v1/chat/completions` ou `/api/v1/chat/completions` | [Completions de chat](/docs/pt-br/inference/chat-completions/concepts.md) com um modelo integrado ou um AI Gateway |
 | `GET` | `/v1/models` ou `/api/v1/models` | [Listagem de modelos](#faça-sua-primeira-solicitação) |
-| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Enviar uma prompt para uma sessão de chat-client](inference/chat-clients.md#enviando-prompts-de-seu-aplicativo) |
+| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Enviar um prompt para uma sessão de chat-client](inference/chat-clients.md#enviando-prompts-de-seu-aplicativo) |
 | `POST` | `/api/v2/query`, `/api/v2/query/similar` ou `/api/v2/query/browse` | [Pesquisa](rag/semantic-search.md) |
-| `POST` | `/api/v1/answer` | [Geração de resposta RAG](rag/document-filters.md#onde-filtros-sao-suportados) |
+| `POST` | `/api/v1/answer` | [Geração de resposta RAG](rag/document-filters.md#onde-os-filtros-são-suportados) |
 | `POST` | `/api/v1/generations/images` | [Geração de imagens](generations/images.md) |
 | `POST` | `/api/v1/generations/speech` | [Síntese de fala](generations/speech.md) |
 | `POST` | `/api/v1/generations/audio/transcriptions` | [Transcrição de áudio](generations/audio-transcriptions.md) |
@@ -201,17 +281,27 @@ O host direto serve apenas os endpoints abaixo. Caminhos, autenticação, corpos
 | `POST` | `/api/v1/generations/rerank` | [Reranking](rag/reranking.md) |
 | `POST` | `/api/v1/generations/agentic-tests` | [Avaliação de teste agêntrico efêmero](inference/agentic-tests.md) |
 | `POST` | `/api/v1/generations/teach-skill` | Ensine habilidade a partir de um vídeo tutorial |
-| `POST` | `/api/v1/web/fetch` | [Busca web e OCR](web-foundation/fetch-and-ocr.md) |
+| `POST` | `/api/v1/web/fetch` | [Busca na web e OCR](web-foundation/fetch-and-ocr.md) |
 
 Aliases de compatibilidade desses endpoints de geração, como `/api/v1/generations/validations` e `/api/v1/generations/reflex/rerank`, também são servidos.
 
 Qualquer outro caminho retorna `404 Not Found` no host direto. Gerenciamento de conta, AI Gateway, coleção, documento, batch e outras APIs administrativas, incluindo busca na web, permanecem disponíveis apenas em `https://inference.aivax.net`.
 
-Os endpoints mais propensos a precisar do host direto são completions de chat sem streaming com raciocínio longo ou muitas chamadas de ferramentas, geração de imagens em modelos mais lentos, descrições de mídia e transcrições de arquivos grandes, teach skill e prompts de chat-client que executam longas cadeias de ferramentas. Completions de chat com streaming enviam dados continuamente e raramente precisam dele.
+Os endpoints mais prováveis de precisar do host direto são:
+
+- Completions de chat sem streaming com raciocínio longo ou muitas chamadas de ferramenta.
+- Geração de imagem em modelos mais lentos.
+- Descrições de mídia e transcrições de arquivos grandes.
+- Ensinar habilidade.
+- Prompts de chat-client que executam cadeias longas de ferramentas.
+
+Completions de chat com streaming enviam dados continuamente e raramente precisam dele.
 
 ## Próximos passos
 
-1. Faça sua primeira solicitação com o exemplo acima, em seguida, leia [Inferência](/docs/pt-br/inference/chat-completions/concepts.md) para o contrato completo de solicitação.
+Após o sucesso da primeira solicitação, continue nesta ordem:
+
+1. Faça sua primeira solicitação com o exemplo acima, depois leia [Inferência](/docs/pt-br/inference/chat-completions/concepts.md) para o contrato completo de solicitação.
 2. Leia [Autenticação](authentication.md) antes de escolher chaves privadas, chaves públicas ou sessões de chat para um limite de aplicativo.
-3. Revise [Preços](pricing.md) e [Planos e limites](limits.md) antes de aumentar o tráfego ou processar grandes coleções, mídia, testes ou jobs do Batch.
-4. Mova o comportamento reutilizável do assistente para um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md), em seguida, adicione RAG, habilidades, ferramentas e um cliente de chat apenas quando o caso de uso exigir.
+3. Revise [Preços](pricing.md) e [Planos e limites](limits.md) antes de aumentar o tráfego ou processar grandes coleções, mídia, testes ou trabalhos de Batch.
+4. Mova o comportamento reutilizável do assistente para um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md), depois adicione RAG, habilidades, ferramentas e um cliente de chat apenas quando o caso de uso exigir.

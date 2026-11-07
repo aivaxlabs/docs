@@ -10,7 +10,7 @@ Requests count toward the account's plan limits for integrated models or BYOK, a
 
 ## Context window
 
-The context window is the model's maximum input size. A gateway can set a lower limit with `contextMaximumSize` and choose what happens when a conversation exceeds it; see [Context window and truncation](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md#context-window-and-truncation).
+The context window is the model's maximum input size. A gateway can set a lower limit with `contextMaximumSize` and choose what happens when a conversation exceeds it; see [Context truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md).
 
 On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more. Token counts for this check are approximate and include system instructions and tool definitions.
 

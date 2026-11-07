@@ -19,7 +19,7 @@ A gateway separates two roles:
 
 This boundary lets you change a model, a prompt, or a tool list in one place while every client keeps calling the same identifier. Each resource below is optional. Start with a model and system instructions, and add other resources only when the use case requires them: every tool, skill, or collection adds input tokens, cost, and one more path the model can choose wrongly.
 
-The sections below describe what each resource does and when to use it. [Processing pipeline](/docs/inference/pipelines.md) documents the detailed behavior of each step.
+The sections below describe what each resource does and when to use it. [Processing pipeline](/docs/inference/chat-completions/processing-pipeline.md) documents the detailed behavior of each step.
 
 ## Model and provider
 
@@ -49,11 +49,11 @@ Instruction settings shape the prompt the model receives:
 | User prompt template | Replaces `{prompt}` with the text of each user message. | Every user message must be wrapped in the same frame, such as a fixed task description. |
 | Assistant prefill | Initial assistant text placed before generation. | The answer must start with a fixed format. Some models do not support prefill. |
 
-Write instructions about behavior, not about settings the gateway already controls, such as truncation limits or the tool list. See [Instructions](/docs/inference/pipelines.md#instructions) for the remote source size limit and failure rules.
+Write instructions about behavior, not about settings the gateway already controls, such as truncation limits or the tool list. See [Instructions](/docs/inference/chat-completions/processing-pipeline.md#instructions) for the remote source size limit and failure rules.
 
 ## Model parameters
 
-The gateway can set default values for `temperature`, `top_p`, `presence_penalty`, `frequency_penalty`, `stop`, `max_completion_tokens`, `reasoning_effort`, `verbosity`, and `seed`. Requests sent with a private key can override most of them; see [Override gateway values](using-an-ai-gateway.md#override-gateway-values).
+The gateway can set default values for `temperature`, `top_p`, `presence_penalty`, `frequency_penalty`, `stop`, `max_completion_tokens`, `reasoning_effort`, and `verbosity`. `seed` is accepted only per request. Requests sent with a private key can override most of them; see [Override gateway values](using-an-ai-gateway.md#override-gateway-values).
 
 Set parameters on the gateway when the behavior must be the same for every client, for example a low temperature for an extraction assistant. Some integrated models reject parameters such as temperature, stop sequences, or reasoning effort; AIVAX rejects the gateway configuration when the limitation is known.
 
@@ -65,7 +65,7 @@ Set parameters on the gateway when the behavior must be the same for every clien
 - `Truncate` removes the oldest non-system messages until the conversation fits, then continues.
 - `TruncateHard` truncates like `Truncate`, but fails the request if the prompt still does not fit.
 
-Use truncation for long-lived chats in which old turns lose relevance, such as support conversations. Keep `Throw` when every message matters, such as a document review, so the application decides what to remove. On the Free plan, the input context is capped regardless of this setting; see [Limits](/docs/inference/chat-completions/limits.md).
+Use truncation for long-lived chats in which old turns lose relevance, such as support conversations. Keep `Throw` when every message matters, such as a document review, so the application decides what to remove. On the Free plan, the input context is capped regardless of this setting; see [Limits](/docs/inference/chat-completions/limits.md). See [Context truncation](/docs/inference/chat-completions/context-truncation.md) for how messages are removed and when the check runs.
 
 ## Tool message truncation
 
@@ -104,7 +104,7 @@ A gateway can link [collections](/docs/rag/collections.md) so the model answers 
 - `UserRewrite` and `FullRewrite` rewrite recent messages into search queries with a resolver model. Use them when follow-up questions depend on earlier turns, at the cost of an extra inference.
 - `QueryFunction` gives the model a search tool so it decides when to search. Use it when many messages do not need retrieval. It requires a model with tool calling.
 
-See [RAG](/docs/inference/pipelines.md#rag) for the full behavior.
+See [RAG](/docs/inference/chat-completions/processing-pipeline.md#rag) for the full behavior.
 
 ## Tools
 
@@ -126,9 +126,9 @@ Built-in tools, MCP tools, protocol functions, and the shell are server-side too
 
 ## Tool handler
 
-The tool handler adds tool calling for models that do not produce reliable native tool calls. `native` or no value uses the model's native tool calling; `react.v1.selfcall` uses a ReAct-style handler.
+The tool handler, or function interpreter, is deprecated. It adds tool calling for models that do not produce reliable native tool calls: `native` or no value uses the model's native tool calling; `react.v1.selfcall` uses a ReAct-style handler.
 
-Use the handler only when a model you must use fails to call tools natively. Models with native tool calling are more reliable without it.
+Do not use it in new gateways; choose a model with native tool calling instead. See [Function interpreter (deprecated)](/docs/inference/chat-completions/function-interpreter.md).
 
 ## Tool explanations
 
@@ -136,7 +136,7 @@ Use the handler only when a model you must use fails to call tools natively. Mod
 
 ## Moderation
 
-Input moderation evaluates the textual conversation before the main model runs and makes the model refuse requests that reach the configured sensitivity in a category. Use it for broad safety policy in user-facing assistants. It does not moderate output or media, and it is not an authorization mechanism. See [Moderation](/docs/inference/pipelines.md#moderation).
+Input moderation evaluates the textual conversation before the main model runs and makes the model refuse requests that reach the configured sensitivity in a category. Use it for broad safety policy in user-facing assistants. It does not moderate output or media, and it is not an authorization mechanism. See [Moderation](/docs/inference/chat-completions/moderation.md).
 
 ## Workers
 

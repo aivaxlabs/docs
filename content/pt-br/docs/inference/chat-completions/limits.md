@@ -1,10 +1,10 @@
 ---
-{title: Limites de Inferência,linkTitle: Limites,weight: 140,group: Inference,sourceHash: 02cb8c1957ccecf4,aliases: [/docs/pt-br/inference/chat-completions/limits.html]}
+{title: Limites de Inferência,linkTitle: Limites,weight: 140,group: Inference,sourceHash: c357f6ac6756b45c,aliases: [/docs/pt-br/inference/chat-completions/limits.html]}
 ---
 
 # Limites de inferência
 
-Esta página lista os limites aplicáveis às solicitações `chat/completions`. As taxas de solicitação e os limites do plano, por conta, estão documentados em [Planos e limites](/docs/pt-br/limits.md).
+Esta página lista os limites que se aplicam às solicitações `chat/completions`. As taxas de solicitação e os limites do plano, em nível de conta, estão documentados em [Planos e limites](/docs/pt-br/limits.md).
 
 ## Limites de taxa
 
@@ -12,7 +12,7 @@ As solicitações contam para os limites do plano da conta para modelos integrad
 
 ## Janela de contexto
 
-A janela de contexto é o tamanho máximo de entrada do modelo. Um gateway pode definir um limite inferior com `contextMaximumSize` e escolher o que acontece quando uma conversa excede esse limite; consulte [Janela de contexto e truncamento](/docs/pt-br/inference/ai-gateways/concepts.md#context-window-and-truncation).
+A janela de contexto é o tamanho máximo de entrada do modelo. Um gateway pode definir um limite inferior com `contextMaximumSize` e escolher o que acontece quando uma conversa excede esse limite; consulte [Truncamento de contexto](context-truncation.md).
 
 No plano Gratuito, o contexto de entrada é limitado a 64.000 tokens, mesmo quando o modelo ou o gateway permite mais. As contagens de tokens para essa verificação são aproximadas e incluem instruções do sistema e definições de ferramentas.
 
@@ -42,11 +42,11 @@ Consulte [Entrada e multimodalidade](input-and-multimodality.md#media-requiremen
 
 ## Duração da solicitação
 
-Uma solicitação pode executar várias gerações e chamadas de ferramenta. Em `https://inference.aivax.net`, uma solicitação não streaming que excede o tempo limite do proxy retorna `524`. Use streaming ou envie solicitações longas para o host de inferência direto; consulte [Inferência de longa duração](concepts.md#long-running-inference).
+Uma solicitação pode executar várias gerações e chamadas de ferramentas. Em `https://inference.aivax.net`, uma solicitação não streaming que excede o tempo limite do proxy retorna `524`. Use streaming ou envie solicitações longas para o host de inferência direto; consulte [Inferência de longa duração](concepts.md#long-running-inference).
 
 ## Chaves de API públicas
 
-Chaves públicas são projetadas para código executado em um navegador. Com uma chave pública, `chat/completions`:
+Chaves públicas são projetadas para código que executa em um navegador. Com uma chave pública, `chat/completions`:
 
 - aceita apenas o ID completo de um gateway em `model`, não slugs ou nomes de modelos integrados;
 - aceita apenas estes campos de solicitação: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `stream`, `conversation_token` e `idempotency_key`. Qualquer outro campo retorna `400 Bad Request`;

@@ -6,7 +6,7 @@ Source: https://docs.aivax.net/pt-br/docs/rag/index.html
 
 - [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md)
 
-- [Busca](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
+- [Pesquisar](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 
 - [Filtros Avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md)
 

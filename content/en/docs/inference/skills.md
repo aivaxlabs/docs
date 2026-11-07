@@ -22,7 +22,7 @@ The model can activate more than one skill when a task spans multiple domains. W
 
 For this to work, the chosen base model must support **function calls** and **system instructions**.
 
-- If your model does not support function calls, consider using a [tool handler](/docs/inference/pipelines#function-interpreter) to handle function calls.
+- If your model does not support function calls, choose a model with native tool calling. The [function interpreter](/docs/inference/chat-completions/function-interpreter.md) is deprecated.
 - If your model does not support system instructions, consider using the `No system instructions` flag, which provides system instructions as a user message.
 
 Larger models tend to follow instructions and function calls very strictly. Run tests to confirm that your model loads the right skills and switches them when the task changes.
@@ -142,4 +142,4 @@ Skills are most useful when the agent needs specialized behavior only in some co
 
 ## Combine skills with RAG and pipelines
 
-Use skills together with [collections](/docs/rag/collections) when the task needs searchable knowledge, and with [pipelines](/docs/inference/pipelines) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building effective agents](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](/docs/inference/ai-gateways/concepts.md).
+Use skills together with [collections](/docs/rag/collections) when the task needs searchable knowledge, and with [pipelines](/docs/inference/chat-completions/processing-pipeline.md) when it needs event-time policy or message rewriting. For broader background, see the [Prompt Engineering Guide](https://www.promptingguide.ai/), [Building effective agents](https://www.anthropic.com/index/building-effective-agents), and the [AI Gateway Documentation](/docs/inference/ai-gateways/concepts.md).

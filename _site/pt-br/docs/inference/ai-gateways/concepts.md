@@ -4,33 +4,33 @@ Source: https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.html
 
 Um Gateway de IA armazena uma configuração de inferência reutilizável. Passe o ID ou slug do gateway no campo `model` da solicitação, e a AIVAX aplica suas configurações de modelo, instruções, coleções RAG, ferramentas, habilidades, workers, moderação e controles de contexto antes de chamar o modelo.
 
-Use um gateway quando o mesmo comportamento precisar ser reutilizado por vários clientes ou alterado sem a necessidade de reimplementar o aplicativo que faz a chamada. Use uma [chamada de inferência direta](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md) quando o aplicativo controlar o modelo, prompt, ferramentas e contexto de cada solicitação.
+Use um gateway quando o mesmo comportamento precisar ser reutilizado por vários clientes ou alterado sem a necessidade de reimplantar o aplicativo que faz a chamada. Use uma [chamada de inferência direta](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md) quando o aplicativo controlar o modelo, o prompt, as ferramentas e o contexto de cada solicitação.
 
 Trate a configuração do gateway como sensível: `GET /api/v1/ai-gateways/<id>` retorna os parâmetros completos para a conta proprietária, incluindo `apiKey` em texto puro quando o gateway usa uma chave de provedor externa.
 
-## Limite de responsabilidade
+## Fronteira de responsabilidade
 
 Um gateway separa dois papéis:
 
 - **O aplicativo cliente** envia mensagens e, com uma chave privada, substituições opcionais de solicitação.
-- **O administrador do gateway** controla a política operacional: qual modelo é executado, o que ele recebe, o que ele pode ler, quais ferramentas ele pode chamar e quais limites se aplicam.
+- **O administrador do gateway** controla a política operacional: qual modelo é executado, o que ele recebe como instrução, o que ele pode ler, quais ferramentas ele pode chamar e quais limites se aplicam.
 
-Esse limite permite alterar um modelo, um prompt ou uma lista de ferramentas em um único local, enquanto todos os clientes continuam chamando o mesmo identificador. Cada recurso abaixo é opcional. Comece com um modelo e instruções do sistema, e adicione outros recursos apenas quando o caso de uso exigir: cada ferramenta, habilidade ou coleção adiciona tokens de entrada, custo e mais um caminho pelo qual o modelo pode escolher incorretamente.
+Essa fronteira permite alterar um modelo, um prompt ou uma lista de ferramentas em um único local, enquanto todos os clientes continuam chamando o mesmo identificador. Cada recurso abaixo é opcional. Comece com um modelo e instruções do sistema, e adicione outros recursos apenas quando o caso de uso exigir: cada ferramenta, habilidade ou coleção adiciona tokens de entrada, custo e mais um caminho pelo qual o modelo pode escolher incorretamente.
 
-As seções abaixo descrevem o que cada recurso faz e quando usá-lo. O documento [Pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/pipelines.md) detalha o comportamento de cada etapa.
+As seções abaixo descrevem o que cada recurso faz e quando usá-lo. O documento [Pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md) detalha o comportamento específico de cada etapa.
 
 ## Modelo e provedor
 
-O modelo do gateway é ou um modelo integrado da AIVAX ou um modelo servido pela sua própria chave de provedor (BYOK).
+O modelo do gateway é either um modelo integrado da AIVAX ou um modelo servido pela sua própria chave de provedor (BYOK).
 
-- **Modelos integrados** usam `baseAddress: "@integrated"` e um nome de modelo como `@openai/gpt-5-mini`. A AIVAX seleciona o provedor, cobra a conta e aplica o [roteamento de provedores](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
-- **Modelos BYOK** usam o endereço base de um ponto de extremidade de provedor compatível com OpenAI, sua `apiKey` de provedor e o nome do modelo do provedor. A AIVAX ainda executa o pipeline do gateway, mas o provedor fatura você diretamente e o roteamento de provedores não se aplica. Solicitações BYOK usam o limite de taxa BYOK do plano; consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
+- **Modelos integrados** usam `baseAddress: "@integrated"` e um nome de modelo como `@openai/gpt-5-mini`. A AIVAX seleciona o provedor, fatura a conta e aplica o [roteamento de provedores](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
+- **Modelos BYOK** usam o endereço base de um endpoint de provedor compatível com OpenAI, sua `apiKey` de provedor e o nome do modelo do provedor. A AIVAX ainda executa o pipeline do gateway, mas o provedor fatura você diretamente e o roteamento de provedores não se aplica. Solicitações BYOK usam o limite de taxa BYOK do plano; consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
 Use um modelo integrado, a menos que você precise de um modelo, contrato ou região que apenas sua conta de provedor ofereça. Consulte [Modelos e nomes de gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md) para saber como o modelo é identificado.
 
 ## Roteamento de modelos
 
-O roteamento de modelos seleciona um modelo diferente para cada solicitação. O roteador de complexidade classifica a última solicitação do usuário como baixa, média ou alta complexidade e executa o modelo configurado para esse nível, com um esforço de raciocínio opcional por nível. A resposta contém o cabeçalho `X-Model-Routed-Complexity` quando um nível foi selecionado.
+O roteamento de modelos seleciona um modelo diferente para cada solicitação. O roteador de complexidade classifica a última solicitação do usuário como baixa, média ou alta complexidade e executa o modelo configurado para esse nível, com um esforço de raciocínio opcional por nível. A resposta inclui o cabeçalho `X-Model-Routed-Complexity` quando um nível foi selecionado.
 
 Use-o quando a maioria das solicitações for simples, mas algumas precisarem de um modelo mais forte, para que você não pague o preço do modelo mais forte em todas as solicitações. Não o use quando todas as respostas devem vir do mesmo modelo para consistência ou conformidade.
 
@@ -38,20 +38,20 @@ O roteamento de modelos difere do [roteamento de provedores](https://docs.aivax.
 
 ## Instruções
 
-As configurações de instrução moldam o prompt que o modelo recebe:
+As configurações de instrução moldam o prompt recebido pelo modelo:
 
 | Recurso | O que faz | Quando usar |
 | --- | --- | --- |
 | Instruções do sistema | Texto adicionado às instruções do sistema de cada solicitação. | Sempre. Descreva o papel, o público-alvo, as fontes de verdade e os limites. |
 | Fontes remotas de instrução | URLs buscadas como texto e anexadas às instruções do sistema, com cache configurável. | Instruções mantidas em outro sistema, como um CMS ou repositório, que precisam mudar sem editar o gateway. |
-| Modelo de prompt do usuário | Substitui `{prompt}` pelo texto de cada mensagem do usuário. | Cada mensagem do usuário deve ser envolvida na mesma estrutura, como uma descrição fixa de tarefa. |
+| Modelo de prompt do usuário | Substitui `{prompt}` pelo texto de cada mensagem do usuário. | Cada mensagem do usuário deve ser envolvida na mesma estrutura, como uma descrição fixa da tarefa. |
 | Pré-preenchimento do assistente | Texto inicial do assistente colocado antes da geração. | A resposta deve começar com um formato fixo. Alguns modelos não suportam pré-preenchimento. |
 
-Escreva instruções sobre comportamento, não sobre configurações que o gateway já controla, como limites de truncamento ou a lista de ferramentas. Consulte [Instruções](https://docs.aivax.net/pt-br/docs/inference/pipelines.md#instructions) para o limite de tamanho da fonte remota e regras de falha.
+Escreva instruções sobre comportamento, não sobre configurações que o gateway já controla, como limites de truncamento ou a lista de ferramentas. Consulte [Instruções](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#instructions) para o limite de tamanho da fonte remota e as regras de falha.
 
 ## Parâmetros do modelo
 
-O gateway pode definir valores padrão para `temperature`, `top_p`, `presence_penalty`, `frequency_penalty`, `stop`, `max_completion_tokens`, `reasoning_effort`, `verbosity` e `seed`. Solicitações enviadas com uma chave privada podem substituir a maioria deles; consulte [Substituir valores do gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md#override-gateway-values).
+O gateway pode definir valores padrão para `temperature`, `top_p`, `presence_penalty`, `frequency_penalty`, `stop`, `max_completion_tokens`, `reasoning_effort` e `verbosity`. `seed` é aceito apenas por solicitação. Solicitações enviadas com uma chave privada podem substituir a maioria desses valores; consulte [Substituir valores do gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md#override-gateway-values).
 
 Defina parâmetros no gateway quando o comportamento deve ser igual para todos os clientes, por exemplo, uma temperatura baixa para um assistente de extração. Alguns modelos integrados rejeitam parâmetros como temperatura, sequências de parada ou esforço de raciocínio; a AIVAX rejeita a configuração do gateway quando a limitação é conhecida.
 
@@ -60,16 +60,16 @@ Defina parâmetros no gateway quando o comportamento deve ser igual para todos o
 `contextMaximumSize` limita o número aproximado de tokens de entrada enviados ao modelo, e `contextOverflowAction` decide o que acontece quando uma conversa excede esse limite:
 
 - `Throw` retorna um erro em vez de chamar o modelo. Este é o padrão.
-- `Truncate` remove as mensagens não-sistema mais antigas até que a conversa se encaixe, depois continua.
-- `TruncateHard` truncar como `Truncate`, mas falhará na solicitação se o prompt ainda não se encaixar.
+- `Truncate` remove as mensagens mais antigas que não são do sistema até que a conversa caiba, e então continua.
+- `TruncateHard` truncar como `Truncate`, mas falha na solicitação se o prompt ainda não couber.
 
-Use o truncamento para chats de longa duração nos quais as rodadas antigas perdem relevância, como conversas de suporte. Mantenha `Throw` quando cada mensagem for importante, como em uma revisão de documentos, para que o aplicativo decida o que remover. No plano Gratuito, o contexto de entrada é limitado independentemente desta configuração; consulte [Limites](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md).
+Use o truncamento para chats de longa duração nos quais as rodadas anteriores perdem relevância, como conversas de suporte. Mantenha `Throw` quando cada mensagem for importante, como em uma revisão de documentos, para que o aplicativo decida o que remover. No plano Free, o contexto de entrada é limitado independentemente desta configuração; consulte [Limites](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md). Consulte [Truncamento de contexto](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md) para saber como as mensagens são removidas e quando a verificação é executada.
 
 ## Truncamento de mensagens de ferramentas
 
-`toolContextCount` mantém apenas os resultados de ferramentas mais recentes intactos. Mensagens de ferramentas mais antigas permanecem na conversa, mas seu conteúdo é substituído por uma nota curta pedindo ao modelo que chame a ferramenta novamente.
+`toolContextCount` mantém apenas os resultados de ferramentas mais recentes intactos. Mensagens de ferramentas mais antigas permanecem na conversa, mas seu conteúdo é substituído por uma nota curta solicitando ao modelo que chame a ferramenta novamente.
 
-Use-o em conversas agênticas longas cujas ferramentas retornam grandes payloads que são relevantes apenas uma vez, como resultados de pesquisa. Evite-o quando um resultado de ferramenta inicial permanecer importante posteriormente. Reescrever mensagens antigas também altera o prefixo do prompt, o que pode reduzir o [cache de prompts](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md).
+Use-o em conversas agênticas longas cujas ferramentas retornam payloads grandes que são relevantes apenas uma vez, como resultados de pesquisa. Evite-o quando um resultado de ferramenta inicial permanecer importante posteriormente. Reescrever mensagens antigas também altera o prefixo do prompt, o que pode reduzir o [cache de prompts](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md).
 
 ## Flags
 
@@ -81,8 +81,8 @@ Flags alteram como a AIVAX prepara a solicitação do provedor para modelos com 
 | `ThinkingProcess` | Declara que o modelo raciocina internamente sem retornar seus tokens de raciocínio. | Um modelo que raciocina, mas oculta seu raciocínio. |
 | `DiffusingStream` | Declara que o modelo é um modelo de difusão cuja saída é refinada como um todo, em vez de produzida token por token. | Apenas modelos de difusão. |
 | `PreserveThinkingTokens` | Mantém os blocos `<think>` das mensagens anteriores do assistente na conversa enviada ao modelo. | Modelos que precisam de seu raciocínio anterior para continuar uma tarefa de múltiplas etapas. |
-| `RewriteToolCallsAsUserMessages` | Reescreve chamadas de ferramentas e resultados de ferramentas como mensagens de conversa plain. | Modelos ou provedores que rejeitam o formato nativo de mensagem de ferramenta. |
-| `StrictUserAssistantTurns` | Aplica alternância estrita entre mensagens de usuário e assistente. Isso desativa mensagens de ferramentas. | Modelos que falham quando duas mensagens com o mesmo papel estão adjacentes. |
+| `RewriteToolCallsAsUserMessages` | Reescreve chamadas de ferramentas e resultados de ferramentas como mensagens de conversa simples. | Modelos ou provedores que rejeitam o formato nativo de mensagens de ferramentas. |
+| `StrictUserAssistantTurns` | Impõe alternância estrita entre mensagens de usuário e assistente. Isso desativa mensagens de ferramentas. | Modelos que falham quando duas mensagens com o mesmo papel estão adjacentes. |
 | `DisableReasoningSummary` | Interrompe o streaming de conteúdo de raciocínio para o cliente. | Clientes que nunca devem receber raciocínio. |
 
 Flags compensam limitações de modelos. Deixe-os não definidos, a menos que você observe o problema que uma flag resolve.
@@ -100,9 +100,9 @@ Um gateway pode vincular [coleções](https://docs.aivax.net/pt-br/docs/rag/coll
 - `Plain` pesquisa com a última mensagem do usuário. Use-o para perguntas isoladas.
 - `Concatenate` junta mensagens recentes do usuário. Use-o quando os usuários dividem uma pergunta em várias mensagens.
 - `UserRewrite` e `FullRewrite` reescrevem mensagens recentes em consultas de pesquisa com um modelo resolvedor. Use-os quando perguntas de acompanhamento dependem de rodadas anteriores, ao custo de uma inferência extra.
-- `QueryFunction` dá ao modelo uma ferramenta de pesquisa para que ele decida quando pesquisar. Use-o quando muitas mensagens não precisarem de recuperação. Requer um modelo com chamada de ferramentas.
+- `QueryFunction` fornece ao modelo uma ferramenta de pesquisa para que ele decida quando pesquisar. Use-o quando muitas mensagens não precisarem de recuperação. Requer um modelo com chamada de ferramentas.
 
-Consulte [RAG](https://docs.aivax.net/pt-br/docs/inference/pipelines.md#rag) para o comportamento completo.
+Consulte [RAG](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#rag) para o comportamento completo.
 
 ## Ferramentas
 
@@ -113,7 +113,7 @@ Ferramentas permitem que o modelo aja e leia dados em tempo real. Um gateway pod
 | [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md) | AIVAX | Capacidades comuns: data e hora, pesquisa na web, abertura de URLs, código, memória e geração de imagem, documento ou página. |
 | [Fontes MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md) | Seu servidor MCP, chamado pela AIVAX | Você já tem um servidor MCP ou um catálogo de ferramentas de negócios compartilhadas por vários agentes. |
 | [Funções de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) | Seu callback HTTP, chamado pela AIVAX | Uma ou poucas ações específicas, sem executar um servidor MCP completo. |
-| [Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md) | Sandbox da AIVAX | Tarefas mais fáceis de expressar como comandos, ou muitas ferramentas movidas atrás de uma linha de comando. |
+| [Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md) | Sandbox da AIVAX | Tarefas mais fáceis de expressar como comandos, ou muitas ferramentas movidas para trás de uma linha de comando. |
 | `tools` brutos | Seu aplicativo cliente | O cliente deve executar a ação si mesmo; consulte [Ferramentas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/tools.md). |
 
 Ferramentas integradas, ferramentas MCP, funções de protocolo e o shell são ferramentas do lado do servidor: a AIVAX as executa durante a solicitação e retorna apenas a resposta final. Habilite apenas ferramentas com um papel claro e dê a elas nomes específicos e esquemas restritivos.
@@ -124,25 +124,25 @@ Ferramentas integradas, ferramentas MCP, funções de protocolo e o shell são f
 
 ## Manipulador de ferramentas
 
-O manipulador de ferramentas adiciona chamada de ferramentas para modelos que não produzem chamadas de ferramentas nativas confiáveis. `native` ou nenhum valor usa a chamada de ferramentas nativa do modelo; `react.v1.selfcall` usa um manipulador estilo ReAct.
+O manipulador de ferramentas, ou interpretador de funções, está obsoleto. Ele adiciona chamada de ferramentas para modelos que não produzem chamadas de ferramentas nativas confiáveis: `native` ou nenhum valor usa a chamada de ferramentas nativa do modelo; `react.v1.selfcall` usa um manipulador estilo ReAct.
 
-Use o manipulador apenas quando um modelo que você deve usar falhar em chamar ferramentas nativamente. Modelos com chamada de ferramentas nativa são mais confiáveis sem ele.
+Não o use em novos gateways; escolha um modelo com chamada de ferramentas nativa. Consulte [Interpretador de funções (obsoleto)](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md).
 
 ## Explicações de ferramentas
 
-`toolInvocationExplanations` pede ao modelo que explique cada chamada de ferramenta do lado do servidor com um motivo curto e objetivo, que a AIVAX retorna junto com o evento da ferramenta. Use-o quando o cliente mostrar a atividade da ferramenta aos usuários finais. Consulte [Explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
+`toolInvocationExplanations` solicita ao modelo que explique cada chamada de ferramenta do lado do servidor com um motivo curto e objetivo, que a AIVAX retorna junto com o evento da ferramenta. Use-o quando o cliente mostrar a atividade da ferramenta aos usuários finais. Consulte [Explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
 
 ## Moderação
 
-A moderação de entrada avalia a conversa textual antes que o modelo principal seja executado e faz o modelo recusar solicitações que alcancem a sensibilidade configurada em uma categoria. Use-a para políticas de segurança amplas em assistentes voltados para o usuário. Ela não modera a saída ou mídia, e não é um mecanismo de autorização. Consulte [Moderação](https://docs.aivax.net/pt-br/docs/inference/pipelines.md#moderation).
+A moderação de entrada avalia a conversa textual antes que o modelo principal seja executado e faz o modelo recusar solicitações que alcancem a sensibilidade configurada em uma categoria. Use-a para políticas amplas de segurança em assistentes voltados para o usuário. Ela não modera a saída ou a mídia, e não é um mecanismo de autorização. Consulte [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md).
 
 ## Workers
 
-[Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) chamam seu endpoint durante eventos do gateway, para que seu código possa bloquear uma mensagem, reescrever o contexto, adicionar ferramentas ou substituir um resultado de ferramenta. Use-os quando uma decisão depender de dados que apenas seu sistema possui, como o estado da conta do usuário. O worker executa no caminho crítico, então mantenha-o rápido e determinístico.
+[Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) chamam seu endpoint durante eventos do gateway, para que seu código possa bloquear uma mensagem, reescrever o contexto, adicionar ferramentas ou substituir um resultado de ferramenta. Use-os quando uma decisão depender de dados que apenas seu sistema possui, como o estado da conta do usuário. O worker executa no caminho crítico, portanto, mantenha-o rápido e determinístico.
 
 ## Fuso horário
 
-`timeZone` define o fuso horário IANA que o modelo usa para ler e escrever datas. Ele se aplica a `get_date_time`, ferramentas de agendamento e o shell, e o padrão é `America/Sao_Paulo`. Defina-o para o fuso horário dos seus usuários; uma solicitação pode substituí-lo com `time_zone`.
+`timeZone` define o fuso horário IANA que o modelo usa para ler e escrever datas. Aplica-se a `get_date_time`, ferramentas de agendamento e ao shell, e o padrão é `America/Sao_Paulo`. Defina-o para o fuso horário dos seus usuários; uma solicitação pode substituí-lo com `time_zone`.
 
 ## Preços
 

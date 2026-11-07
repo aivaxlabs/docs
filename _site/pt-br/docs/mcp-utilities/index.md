@@ -8,7 +8,7 @@ Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/index.html
 
 - [Gerenciamento de conta MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/account-management-mcp.md)
 
-- [MCP de Fundação Web](https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.md)
+- [Fundação Web MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/web-utilities-mcp.md)
 
 - [Geração de mídia MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md)
 

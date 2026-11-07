@@ -262,7 +262,7 @@ A missing or `null` field means no filter. The field name is `filter`; other nam
 Models can also send a filter string in the optional `filter` argument of these tools:
 
 - The search tool of the [Collections MCP](../mcp-utilities/collections-mcp.md#generated-tools).
-- The `query` tool of AI gateways that use the `QueryFunction` [query strategy](../inference/pipelines.md).
+- The `query` tool of AI gateways that use the `QueryFunction` [query strategy](../inference/chat-completions/processing-pipeline.md#rag).
 
 The [`memory_search` tool](../tools/builtin-tools.md#search-memories) also accepts a filter string, but requires exactly one of `query` or `filter`, not both. Its filter-only mode returns up to 10 matching memories for the current user, newest first, without query embeddings.
 
