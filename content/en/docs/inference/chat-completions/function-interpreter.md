@@ -32,7 +32,7 @@ See [Processing pipeline](processing-pipeline.md) for where this step runs.
 - **One tool per step.** The interpreter selects at most one tool per generation, so parallel tool calls are not possible.
 - **More cost and latency.** Every generation with tools adds an extra model call, billed like any other inference.
 - **Weaker reliability.** Tool names and arguments are parsed from text. The model can produce invalid JSON or call a tool that does not exist, and the arguments are not constrained by the provider.
-- **Tool calling becomes available to any model.** A gateway with an interpreter accepts tools and features that require tool calling, such as `QueryFunction` RAG or `SelfAssessment` [moderation](moderation.md), even when the model has no native support. Their quality depends on how well the model follows the interpreter format.
+- **Tool calling becomes available to any model.** A gateway with an interpreter accepts tools and features that require tool calling, such as `QueryFunction` RAG, even when the model has no native support. Their quality depends on how well the model follows the interpreter format.
 
 ## Migrate away from the interpreter
 

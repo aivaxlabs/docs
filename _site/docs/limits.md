@@ -70,13 +70,13 @@ The reranking request limit applies to the [reranking endpoint](https://docs.aiv
 | Limit | Free | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
 | Text-classification documents | 30/min and 300/day | 500/min | 2,500/min | 10,000/min |
-| Extraction and summarization documents | 10/min and 300/day | 100/min | 1,000/min | 2,500/min |
+| Extraction, summarization, and instruction refinement documents | 10/min and 300/day | 100/min | 1,000/min | 2,500/min |
 | Text-segmentation documents | 10/min and 100/day | 300/min | 1,000/min | 2,500/min |
 | Translation requests | 30/min and 300/day | 100/min | 1,000/min | 2,500/min |
 | Media description requests | 10/min and 30/hour | 40/min | 100/min | 200/min |
 | Semantic decision requests | 10/min | 30/min | 200/min | — |
 
-Classification, extraction, summarization, and segmentation limits count every item in the request's `documents` array, not each HTTP request; extraction and summarization share one quota. Translation, media description, and semantic decision limits count HTTP requests. A semantic decision request consumes one unit regardless of how many questions it contains or which decision model it selects, and included decision usage still consumes request units. See [Classification](https://docs.aivax.net/docs/data-processing/classification.md), [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md), [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md), [Text segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md), [Translations](https://docs.aivax.net/docs/data-processing/translations.md), [Media descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md), and [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md).
+Classification, extraction, summarization, and segmentation limits count every item in the request's `documents` array, not each HTTP request; extraction and summarization share one quota. Instruction refinement shares that quota and counts every item in its `context` array. Translation, media description, and semantic decision limits count HTTP requests. A semantic decision request consumes one unit regardless of how many questions it contains or which decision model it selects, and included decision usage still consumes request units. See [Classification](https://docs.aivax.net/docs/data-processing/classification.md), [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md), [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md), [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md), [Text segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md), [Translations](https://docs.aivax.net/docs/data-processing/translations.md), [Media descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md), and [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md).
 
 ### Speech
 

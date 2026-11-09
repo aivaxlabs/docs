@@ -86,6 +86,7 @@ Source: https://docs.aivax.net/docs/index.html
 - [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md)
 - [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md)
 - [Translations](https://docs.aivax.net/docs/data-processing/translations.md)
+- [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md)
 
 ## Tools
 

@@ -12,6 +12,10 @@ Fixes:
 
 - **Language models — Failing providers are retried and avoided.** When a provider fails before it sends the first response token, including errors reported inside a streaming response, the request is now retried on another eligible provider instead of returning `Provider returned error`. Providers that keep failing are ranked lower by every routing preference and are temporarily removed from routing when they fail repeatedly. Requests limited by `allowed_providers` to a single unavailable provider can still fail; add `"*"` as the last item to allow a fallback. See [Routing setup](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
 
+Changes:
+
+- **Data processing — Instruction refinement.** The new `POST /api/v1/generations/instruction-refinement` endpoint reviews system instructions, prompts, skills, tool descriptions and knowledge against prompt engineering guidelines from model vendors' documentation. The `micro` view reviews the wording of each item, and the `macro` view reviews how the items work together as one agent: purpose, limits of authority, where each rule lives, skill selection and configured capabilities. It returns an overall score, a summary, prioritized findings with the line and column range of the affected text and the guideline sources behind them, and suggested fixes. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md). Requests are billed in processing units, and each context item counts as one document toward the document-processing rate limit.
+
 ## Sunday, November 8th, 2026
 
 Changes:

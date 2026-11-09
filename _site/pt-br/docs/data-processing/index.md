@@ -16,3 +16,5 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/index.html
 
 - [Traduções](https://docs.aivax.net/pt-br/docs/data-processing/translations.md)
 
+- [Refinamento de Instruções](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md)
+
