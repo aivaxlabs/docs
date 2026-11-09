@@ -6,6 +6,19 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Monday, November 9th, 2026
+
+Fixes:
+
+- **Language models — Failing providers are retried and avoided.** When a provider fails before it sends the first response token, including errors reported inside a streaming response, the request is now retried on another eligible provider instead of returning `Provider returned error`. Providers that keep failing are ranked lower by every routing preference and are temporarily removed from routing when they fail repeatedly. Requests limited by `allowed_providers` to a single unavailable provider can still fail; add `"*"` as the last item to allow a fallback. See [Routing setup](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
+
+## Sunday, November 8th, 2026
+
+Changes:
+
+- **Dashboard — Cached input share on Conversations.** The **Conversations** list has a new **Cached %** column showing how much of each conversation's input was served from the prompt cache. For conversations with more than 1K input tokens, the value is green above 95%, yellow above 90%, and shows a warning below that. A dash means no cached input was reported, which usually means the model or provider doesn't support prompt caching. `GET /api/v1/conversations` now also returns `cachedInputTokenCount`.
+- **Dashboard — BYOK usage in Analytics.** **Usage per model** in **Analytics** now includes models used through AI gateways with your own provider key (BYOK). BYOK cost is an estimate based on the catalog price of the matching AIVAX model and is never charged; BYOK models with no catalog match show their tokens with no cost. The new **Effective usage** column shows the amount actually charged, and models used both ways show the AIVAX share of their tokens on hover. Past BYOK usage is estimated from stored conversations, so it only covers conversations that were kept. Balance, period spend, invoices, and monthly reports are unchanged.
+
 ## Saturday, November 7th, 2026
 
 Changes:
@@ -171,14 +184,3 @@ Changes:
 - **Data processing — New Translations endpoint.** `POST /api/v1/generations/translate` translates text, the visible text in images, and the speech in audio into any `toLanguage`, and returns one translated string per document, in input order. `fromLanguage` is optional and is detected from the content when omitted. Usage is billed in processing units. Limits are 30 requests per minute and 300 per day on Free, 200 per minute on Pro, and 2,500 per minute on Max. You can also run it from the Translation tab on the dashboard Generations page. See [Translations](https://docs.aivax.net/docs/data-processing/translations.md).
 - **Data processing — Clearer guidance between Extraction, Fetch, and Media Descriptions.** The Media Descriptions and Fetch and OCR pages now explain when to use each service. See [Extraction, Fetch, or Media Descriptions](https://docs.aivax.net/docs/data-processing/extraction.md#extraction-fetch-or-media-descriptions).
 - **Account — Console two-factor authentication and login recovery.** The console **My account** page has a **Security** tab. Account holders can add one or more authenticator apps; the QR code and secret are shown only until the six-digit code is confirmed, and sign-in asks for a code only after at least one authenticator is confirmed. Switching to a saved account asks for the same code when that account has two-factor authentication. `POST /api/v1/auth/login` accepts `totpCode` and returns `requiresTwoFactor` instead of a session when the code is still required. Accounts without an authenticator are unchanged, and API keys are not affected. The sign-in page links to account support, where **Recover login key** e-mails a one-hour one-time sign-in link and a login-key reset link after asking for the registration e-mail. The confirmation is the same whether or not that e-mail belongs to an account. The reset link, and **Reset login key** in **Security**, create a new login key, e-mail it, and sign the account out of every console session. They do not revoke API keys or disable two-factor authentication. Disabling two-factor authentication without a current authenticator code is handled by [AIVAX support](https://aivax.net/contact/). See [Console sign-in](https://docs.aivax.net/docs/authentication.md#console-sign-in).
-
-## Sunday, October 25th, 2026
-
-Breaking changes:
-
-- **Language models — MiniMax router alias now selects M3.1 Flash.** `@model-router/minimax:latest` now selects `@minimax/m3.1-flash` instead of `@minimax/m3`. The new model accepts text, images, and video, improves agentic, coding, and cybersecurity results over M3, and costs less than M3. See the dashboard Models page for current pricing. Call `@minimax/m3` directly to keep using the previous model.
-
-Changes:
-
-- **RAG — New search endpoints.** Added `POST /api/v2/query` (Query collections), `POST /api/v2/query/similar` (Find similar documents), and `POST /api/v2/query/browse` (Browse documents). Queries now return paginated results with a reusable candidate pool, separate similarity, rerank, and final scores, sorting by score, creation, update, or indexing date, or name, and filters per collection. Later pages of a query are not charged again; a Query collections cursor stays valid for 10 minutes after its last use, and an expired cursor returns `410 Gone`, so repeat the request without a cursor. Find similar documents searches by the stored vector of an indexed document, and Browse documents lists indexed documents by creation date, oldest first by default, optionally filtered; neither has embedding or reranking cost. Sending a `reranker` together with a sort other than score is rejected; without a `reranker`, the default reranker is skipped for those sorts. All three endpoints are also available on the direct host. See [Search](https://docs.aivax.net/docs/rag/semantic-search.md).
-- **RAG — Previous search endpoint deprecated.** `POST /api/v1/query` keeps working for existing integrations but is deprecated. To migrate, send `terms` to `POST /api/v2/query`, replace `top` with `limit` (if you omit it, `limit` defaults to 10, while `top` defaulted to 5, and the reranker scores `limit` × 3 candidates, so set `limit` explicitly to keep the same cost per query) and `includeReferences` with `"include": ["content", "metadata", "references"]`, and read results from `data.results[].document` and `data.results[].scores`. Requests without search terms move to `POST /api/v2/query/browse`, which, unlike the previous endpoint that returned the newest documents first, returns the oldest documents first unless `sort` is set. `POST /api/v1/answer` is not deprecated.

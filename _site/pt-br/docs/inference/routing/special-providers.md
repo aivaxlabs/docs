@@ -7,7 +7,7 @@ Alguns modelos integrados também são oferecidos por provedores especiais, que 
 | Preferência de roteamento | Provedores especiais |
 |---|---|
 | `Balanced` (Equilibrado) | Nunca utilizados. |
-| `Cheapest` (Mais barato), `Fastest` (Mais rápido), `Quality` (Qualidade) | Considerados apenas quando **Permitir provedores especiais** estiver habilitado nas configurações de privacidade da conta no painel. Essa opção está desativada por padrão. |
-| `Special` (Especial) | Sempre considerados e priorizados, independentemente da configuração da conta. |
+| `Cheapest`, `Fastest`, `Quality` (Mais barato, Mais rápido, Qualidade) | Considerados apenas quando **Permitir provedores especiais** está habilitado nas configurações de privacidade da conta no painel. Essa opção vem desativada por padrão. |
+| `Special` (Especial) | Sempre considerados, independentemente da configuração da conta. Seleciona o menor preço combinado de tokens de entrada e saída aplicável entre os provedores regulares e especiais elegíveis, quebrando empates pelo tempo de atividade relatado e, em seguida, por falhas recentes. |
 
-Quando um modelo está atualmente disponível apenas por meio de provedores especiais, as solicitações que não os permitem falham. Use a preferência `Special`, ou habilite **Permitir provedores especiais** e use uma preferência diferente de `Balanced`. [Provedores apenas de retenção zero de dados](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md) e `allowed_providers` ainda se aplicam aos provedores especiais.
+Quando um modelo está atualmente disponível apenas por meio de provedores especiais, as solicitações que não os permitem falham. Use a preferência `Special` ou habilite **Permitir provedores especiais** e use uma preferência diferente de `Balanced`. [Provedores apenas de retenção zero de dados](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md) e `allowed_providers` ainda se aplicam aos provedores especiais.

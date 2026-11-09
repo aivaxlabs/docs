@@ -2,7 +2,7 @@
 
 Source: https://docs.aivax.net/pt-br/docs/inference/routing/index.html
 
-- [Configuração do roteamento do provedor](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md)
+- [Configuração de Roteamento do Provedor](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md)
 
 - [Roteamento Inline](https://docs.aivax.net/pt-br/docs/inference/routing/inline-routing.md)
 

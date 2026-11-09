@@ -48,7 +48,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Interpretador de Funções (Descontinuado)](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md)
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
 - [Solução de Problemas de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
-- [Configuração do roteamento do provedor](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md)
+- [Configuração de Roteamento do Provedor](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md)
 - [Roteamento Inline](https://docs.aivax.net/pt-br/docs/inference/routing/inline-routing.md)
 - [Provedores de Retenção Zero de Dados](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md)
 - [Provedores Especiais](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md)

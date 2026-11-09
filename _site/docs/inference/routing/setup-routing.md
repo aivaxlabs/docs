@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/docs/inference/routing/setup-routing.html
 
 Some integrated models are available through more than one provider. Provider routing lets AIVAX choose among those providers without changing the model requested by your application. This differs from [model routing](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md#model-routing), which can select a different model based on request complexity.
 
-AIVAX considers providers that are currently available and compatible with the request. If only one provider is eligible, the routing preference does not change the result. Provider routing applies only to integrated AIVAX models; a bring-your-own-key gateway uses the provider endpoint configured in that gateway.
+AIVAX considers providers that are currently available and compatible with the request. If only one provider is eligible, the routing preference does not change the result. When the selected provider fails before it starts answering, AIVAX retries the request on another eligible provider. Providers with recent failures are ranked lower, and providers that fail repeatedly are temporarily left out of routing. Provider routing applies only to integrated AIVAX models; a bring-your-own-key gateway uses the provider endpoint configured in that gateway.
 
 You can set routing in three places, from the most general to the most specific: the [AI Gateway](#configure-routing-in-an-ai-gateway), a suffix in the [model name](https://docs.aivax.net/docs/inference/routing/inline-routing.md), and the [request](#override-routing-per-request). Account privacy settings can further restrict the eligible providers; see [ZDR](https://docs.aivax.net/docs/inference/routing/zdr.md) and [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md).
 
@@ -16,7 +16,7 @@ Available routing preferences are:
 | `Cheapest` | Selects the provider with the lowest applicable input and output token price. |
 | `Fastest` | Prioritizes the provider with the highest available throughput. |
 | `Quality` | Selects the provider that AIVAX ranks highest for quality, without optimizing for price or speed. |
-| `Special` | Works like `Balanced`, but also includes [special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md) and gives them priority. |
+| `Special` | Includes [special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md) and selects the lowest applicable combined input and output token price, breaking ties by reported uptime and then by recent failures. |
 
 ## Configure routing in an AI Gateway
 

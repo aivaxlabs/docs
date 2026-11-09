@@ -2,6 +2,17 @@
 
 Changelog entries older than the ones shown at https://docs.aivax.net/docs/legal/changelogs.html, newest first.
 
+## Sunday, October 25th, 2026
+
+Breaking changes:
+
+- **Language models — MiniMax router alias now selects M3.1 Flash.** `@model-router/minimax:latest` now selects `@minimax/m3.1-flash` instead of `@minimax/m3`. The new model accepts text, images, and video, improves agentic, coding, and cybersecurity results over M3, and costs less than M3. See the dashboard Models page for current pricing. Call `@minimax/m3` directly to keep using the previous model.
+
+Changes:
+
+- **RAG — New search endpoints.** Added `POST /api/v2/query` (Query collections), `POST /api/v2/query/similar` (Find similar documents), and `POST /api/v2/query/browse` (Browse documents). Queries now return paginated results with a reusable candidate pool, separate similarity, rerank, and final scores, sorting by score, creation, update, or indexing date, or name, and filters per collection. Later pages of a query are not charged again; a Query collections cursor stays valid for 10 minutes after its last use, and an expired cursor returns `410 Gone`, so repeat the request without a cursor. Find similar documents searches by the stored vector of an indexed document, and Browse documents lists indexed documents by creation date, oldest first by default, optionally filtered; neither has embedding or reranking cost. Sending a `reranker` together with a sort other than score is rejected; without a `reranker`, the default reranker is skipped for those sorts. All three endpoints are also available on the direct host. See [Search](/docs/rag/semantic-search.md).
+- **RAG — Previous search endpoint deprecated.** `POST /api/v1/query` keeps working for existing integrations but is deprecated. To migrate, send `terms` to `POST /api/v2/query`, replace `top` with `limit` (if you omit it, `limit` defaults to 10, while `top` defaulted to 5, and the reranker scores `limit` × 3 candidates, so set `limit` explicitly to keep the same cost per query) and `includeReferences` with `"include": ["content", "metadata", "references"]`, and read results from `data.results[].document` and `data.results[].scores`. Requests without search terms move to `POST /api/v2/query/browse`, which, unlike the previous endpoint that returned the newest documents first, returns the oldest documents first unless `sort` is set. `POST /api/v1/answer` is not deprecated.
+
 ## Friday, October 23rd, 2026
 
 Breaking changes:
