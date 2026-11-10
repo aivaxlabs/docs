@@ -82,7 +82,7 @@ Text classification uses the default embedding model and is billed for the embed
 
 | Description | Pricing |
 | --- | ---: |
-| Text classification | **$0.10/M tokens** |
+| Text classification | **$0.015/M tokens** |
 
 The number of classified documents per minute and per day depends on the plan; see [Data processing limits](../limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
