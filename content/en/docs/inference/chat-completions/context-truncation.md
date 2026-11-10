@@ -21,7 +21,7 @@ The size is an estimate, not the provider's token count. It includes:
 
 Because the estimate can differ from the provider's tokenizer, set `contextMaximumSize` below the model's real context window to leave a margin, especially for media-heavy conversations.
 
-On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more. See [Limits](limits.md#context-window).
+On the Free plan, the input context is capped, even when the model or the gateway allows more. See [Limits](limits.md#context-window) for the value.
 
 ## Overflow actions
 

@@ -16,6 +16,10 @@ The context window is the model's maximum input size. A gateway can set a lower 
 
 On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more. Token counts for this check are approximate and include system instructions and tool definitions.
 
+## Remote instruction sources
+
+Each remote instruction source response can be at most 5 MB. See [Processing pipeline](processing-pipeline.md#instructions).
+
 ## Output length
 
 `max_completion_tokens` limits the generated output. `max_tokens` is accepted as an alias. When omitted, the model's default applies.
