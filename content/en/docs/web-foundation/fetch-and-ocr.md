@@ -53,7 +53,7 @@ Neither guarantees perfect results. Fetch can lose text or structure because of 
 | [Web utilities MCP](/docs/mcp-utilities/web-utilities-mcp) | An MCP-compatible client needs to read public URLs through `fetch_url`. This tool accepts one to five URLs per call. |
 | [Built-in tools](/docs/tools/builtin-tools) | An AIVAX model needs to read a URL during inference. Enable `OpenUrl` and follow the URL Context configuration guide. |
 
-The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs.
+The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs. For a backend pipeline that chains search and fetch and keeps an evidence record, see [web search API for LLM agents](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
 
 ## Fetch content with the API
 

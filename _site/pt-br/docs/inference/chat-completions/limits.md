@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.html
 
 # Limites de inferência
 
-Esta página lista os limites que se aplicam às solicitações `chat/completions`. As taxas de solicitação e os limites do plano, em nível de conta, estão documentados em [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
+Esta página lista os limites aplicáveis às solicitações `chat/completions`. As taxas de solicitação e os limites do plano, em nível de conta, estão documentados em [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
 ## Limites de taxa
 
@@ -14,6 +14,10 @@ A janela de contexto é o tamanho máximo de entrada do modelo. Um gateway pode 
 
 No plano Gratuito, o contexto de entrada é limitado a 64.000 tokens, mesmo quando o modelo ou o gateway permite mais. As contagens de tokens para essa verificação são aproximadas e incluem instruções do sistema e definições de ferramentas.
 
+## Fontes de instrução remotas
+
+Cada resposta de fonte de instrução remota pode ter no máximo 5 MB. Consulte [Pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#instructions).
+
 ## Comprimento da saída
 
 `max_completion_tokens` limita a saída gerada. `max_tokens` é aceito como um alias. Quando omitido, aplica-se o padrão do modelo.
@@ -22,7 +26,7 @@ No plano Gratuito, o contexto de entrada é limitado a 64.000 tokens, mesmo quan
 
 - `conversation_token` aceita qualquer string não vazia com 128 caracteres ou menos.
 - O estado das ferramentas no lado do servidor é mantido por uma hora após seu último uso.
-- `idempotency_key` é um alias obsoleto; quando ambos são enviados, eles devem ter o mesmo valor.
+- `idempotency_key` é um alias obsoleto; quando ambos são enviados, devem ter o mesmo valor.
 
 Consulte [Reutilização de sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md).
 
@@ -40,11 +44,11 @@ Consulte [Entrada e multimodalidade](https://docs.aivax.net/pt-br/docs/inference
 
 ## Duração da solicitação
 
-Uma solicitação pode executar várias gerações e chamadas de ferramentas. Em `https://inference.aivax.net`, uma solicitação não streaming que excede o tempo limite do proxy retorna `524`. Use streaming ou envie solicitações longas para o host de inferência direto; consulte [Inferência de longa duração](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#long-running-inference).
+Uma solicitação pode executar várias gerações e chamadas de ferramenta. Em `https://inference.aivax.net`, uma solicitação não streaming que excede o tempo limite do proxy retorna `524`. Use streaming ou envie solicitações longas para o host de inferência direto; consulte [Inferência de longa duração](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#long-running-inference).
 
 ## Chaves de API públicas
 
-Chaves públicas são projetadas para código que executa em um navegador. Com uma chave pública, `chat/completions`:
+Chaves públicas são projetadas para código executado em um navegador. Com uma chave pública, `chat/completions`:
 
 - aceita apenas o ID completo de um gateway em `model`, não slugs ou nomes de modelos integrados;
 - aceita apenas estes campos de solicitação: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `stream`, `conversation_token` e `idempotency_key`. Qualquer outro campo retorna `400 Bad Request`;

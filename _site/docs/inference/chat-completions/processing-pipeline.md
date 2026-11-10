@@ -89,7 +89,7 @@ Instruction settings shape the provider-facing prompt:
 - **User prompt template**: Replaces `{prompt}` with each user message's text before sending it to the model. The templated message is sent as text only, so media attached to user messages is not sent to the model when a template is set.
 - **Assistant prefill**: Adds initial assistant content before generation when the model supports prefill.
 
-Remote instruction sources are fetched as text, and each response can be at most 5 MB. Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
+Remote instruction sources are fetched as text, and each response has a size limit; see [Inference limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md#remote-instruction-sources). Their cache duration is configurable from 0 (no caching) to 86,400 seconds; the default is 600 seconds.
 
 If a source cannot be read (response over the limit, failed request, or unsafe URL), it contributes no text and the request itself does not fail. Keep these failure rules in mind:
 

@@ -19,7 +19,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Pesquisar](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 - [Filtros Avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md)
 - [Observabilidade de RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
-- [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
+- [Rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
 - [Reflexo](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
 
 ## Inferência
@@ -110,5 +110,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

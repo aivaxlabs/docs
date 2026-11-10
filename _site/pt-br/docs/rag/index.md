@@ -12,7 +12,7 @@ Source: https://docs.aivax.net/pt-br/docs/rag/index.html
 
 - [Observabilidade de RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
 
-- [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
+- [Rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
 
 - [Reflexo](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
 

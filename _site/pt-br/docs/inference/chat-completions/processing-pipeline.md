@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-
 
 # Pipeline de processamento
 
-Quando uma solicitação utiliza um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md), o AIVAX executa uma sequência fixa de etapas antes, durante e após a geração de cada modelo. Cada etapa pode adicionar contexto, alterar a conversa, expor ferramentas ou interromper a solicitação. Conhecer a ordem ajuda a prever o que cada etapa pode ver: por exemplo, a moderação vê os documentos recuperados pelo RAG, mas não as descrições produzidas pelo pré-processamento multimodal.
+Quando uma solicitação utiliza um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md), o AIVAX executa uma sequência fixa de etapas antes, durante e após cada geração do modelo. Cada etapa pode adicionar contexto, alterar a conversa, expor ferramentas ou interromper a solicitação. Conhecer a ordem ajuda você a prever o que cada etapa pode ver: por exemplo, a moderação vê os documentos recuperados pelo RAG, mas não as descrições produzidas pelo pré-processamento multimodal.
 
 A maioria das etapas é configurada nos parâmetros do gateway. Solicitações enviadas com uma chave privada podem substituir algumas delas; consulte [Inferência com AI Gateways](https://docs.aivax.net/pt-br/docs/inference/chat-completions/ai-gateways.md).
 
@@ -10,11 +10,11 @@ A maioria das etapas é configurada nos parâmetros do gateway. Solicitações e
 
 ```mermaid
 flowchart TD
-    A[Solicitação recebida] --> B[Preparar: habilidades e recuperação de RAG]
+    A[Solicitação recebida] --> B[Preparação: habilidades e recuperação RAG]
     B --> C[Resolver modelo, provedor, ferramentas e instruções]
     C --> D[Aplicar substituições da solicitação]
     D --> E[Worker: message.received]
-    E --> F[Restaurar contexto do lado do servidor]
+    E --> F[Restaurar contexto no lado do servidor]
     F --> G[Moderação]
     G --> H[Construir instruções do sistema]
     H --> I[Verificação da janela de contexto e truncamento]
@@ -22,42 +22,42 @@ flowchart TD
     J --> K[Truncamento de mensagens de ferramenta, modelo de prompt, preenchimento inicial]
     K --> L[Montar ferramentas]
     L --> M[Geração do modelo]
-    M -->|chamadas de ferramentas do lado do servidor| N[Worker: tool.called, depois executar ferramentas]
+    M -->|chamadas de ferramentas no lado do servidor| N[Worker: tool.called, depois executar ferramentas]
     N --> H
     M -->|resposta final ou chamadas de ferramentas do cliente| O[Saída estruturada, uso e registro da conversa]
 ```
 
-As etapas 1 a 6 são executadas uma vez por solicitação. As etapas 7 a 12 formam o loop agêntico e são executadas novamente sempre que o modelo chama uma ferramenta do lado do servidor.
+As etapas 1 a 6 são executadas uma vez por solicitação. As etapas 7 a 12 formam o loop agêntico e são executadas novamente sempre que o modelo chama uma ferramenta no lado do servidor.
 
-| # | Etapa | Executa | O que faz |
+| # | Etapa | Execução | O que faz |
 | --- | --- | --- | --- |
 | 1 | [Preparar](#rag) | Uma vez | Carrega as habilidades do gateway. Para estratégias de injeção de consulta, pesquisa nas coleções vinculadas e insere os resultados na última mensagem do usuário. Os contextos das coleções são adicionados às instruções do sistema. |
-| 2 | Resolver | Uma vez | Resolve o modelo e o provedor através do [roteamento](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md), busca [fontes de instrução remotas](#instructions), carrega funções de protocolo, fontes de funções de protocolo, ferramentas MCP e ferramentas integradas do gateway, e aplica os [parâmetros](#parameterization) do gateway. |
+| 2 | Resolver | Uma vez | Resolve o modelo e o provedor por meio do [roteamento](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md), busca [fontes de instrução remotas](#instructions), carrega funções de protocolo, fontes de funções de protocolo, ferramentas MCP e ferramentas integradas do gateway, e aplica os [parâmetros](#parameterization) do gateway. |
 | 3 | Substituições da solicitação | Uma vez | Aplica campos da solicitação como `temperature`, `tools`, `builtin_tools`, `multimodal_resolver` e `response_format`. |
 | 4 | [Worker `message.received`](https://docs.aivax.net/pt-br/docs/inference/workers.md#messagereceived) | Uma vez | Chama seu worker, que pode interromper a solicitação ou alterar mensagens, instruções, ferramentas e fontes MCP. |
-| 5 | Contexto do lado do servidor | Uma vez | Restaura o [contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md) das rodadas anteriores quando a [reutilização de sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md) se aplica e remove mensagens de ferramentas órfãs. |
-| 6 | [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md) | Uma vez | Avalia o texto da conversa e a bloqueia, ou adiciona instruções de autoavaliação e a ferramenta de recusa. |
-| 7 | Instruções do sistema | Cada iteração | Junta instruções do gateway, fontes remotas, contextos de coleção, mensagens `system` da solicitação, lista de habilidades e diretrizes de explicação de ferramentas. |
+| 5 | Contexto no lado do servidor | Uma vez | Restaura o [contexto no lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md) das rodadas anteriores quando a [reutilização de sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md) se aplica e remove mensagens de ferramentas órfãs. |
+| 6 | [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md) | Uma vez | Avalia o texto da conversa e o bloqueia, ou adiciona instruções de autoavaliação e a ferramenta de recusa. |
+| 7 | Instruções do sistema | Cada iteração | Junta instruções do gateway, fontes remotas, contextos de coleção, mensagens `system` da solicitação, lista de habilidades e orientações de explicação de ferramentas. |
 | 8 | [Truncamento de contexto](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md) | Cada iteração | Compara o tamanho aproximado de entrada com `contextMaximumSize` e aplica `contextOverflowAction`. |
 | 9 | [Pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md) | Cada iteração | Substitui mídia por descrições textuais usando os mecanismos configurados. Os resultados são armazenados em cache, então a mídia é descrita apenas uma vez. |
 | 10 | Reescrita de mensagens | Cada iteração | Aplica [truncamento de mensagens de ferramenta](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md#tool-message-truncation), o [modelo de prompt do usuário](#instructions) e, apenas na primeira iteração, o [preenchimento inicial do assistente](#instructions). |
-| 11 | Montagem de ferramentas | Cada iteração | Junta ferramentas da solicitação e ferramentas do lado do servidor, remove duplicatas idênticas e rejeita a solicitação quando duas ferramentas diferentes compartilham o mesmo nome. Com um [interpretador de função](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md), a seleção de ferramentas ocorre aqui em vez de na chamada do provedor. |
-| 12 | Geração e ferramentas | Cada iteração | Chama o provedor. Chamadas de ferramentas do lado do servidor passam pelo [evento `tool.called` do worker](https://docs.aivax.net/pt-br/docs/inference/workers.md#toolcalled), são executadas dentro do AIVAX e retornam à etapa 7 com seus resultados. |
+| 11 | Montagem de ferramentas | Cada iteração | Junta ferramentas da solicitação e ferramentas no lado do servidor, remove duplicatas idênticas e rejeita a solicitação quando duas ferramentas diferentes compartilham um nome. Com um [interpretador de função](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md), a seleção de ferramentas ocorre aqui em vez de na chamada do provedor. |
+| 12 | Geração e ferramentas | Cada iteração | Chama o provedor. Chamadas de ferramentas no lado do servidor passam pelo [evento `tool.called` do worker](https://docs.aivax.net/pt-br/docs/inference/workers.md#toolcalled), são executadas dentro do AIVAX e retornam à etapa 7 com seus resultados. |
 | 13 | Finalização | Uma vez | Valida ou corrige [saída estruturada](https://docs.aivax.net/pt-br/docs/inference/chat-completions/structured-output.md), registra uso e custo, e armazena a conversa quando o log está habilitado. |
 
 ### O que a ordem significa na prática
 
-- **Workers são executados antes da moderação.** Um worker pode bloquear uma solicitação sem gastar recursos de moderação, e a moderação avalia a conversa após o worker alterá-la.
+- **Workers são executados antes da moderação.** Um worker pode bloquear uma solicitação sem gastar recursos de moderação, e a moderação avalia a conversa após o worker tê-la alterado.
 - **A moderação vê documentos recuperados.** Os resultados do RAG são inseridos na última mensagem do usuário antes que a moderação seja executada, para que a salvaguarda os avalie junto com o texto do usuário.
 - **A moderação não vê mídia.** O pré-processamento multimodal é executado após a moderação, portanto, as descrições de mídia não são moderadas.
 - **A moderação é executada uma vez por solicitação.** Resultados de ferramentas produzidos durante o loop agêntico não são moderados.
-- **O truncamento pode acontecer no meio de uma solicitação.** A verificação de contexto é executada em cada iteração, então grandes resultados de ferramentas podem causar a remoção de mensagens mais antigas ou um erro `Throw`, após algumas ferramentas já terem sido executadas.
+- **O truncamento pode ocorrer no meio de uma solicitação.** A verificação de contexto é executada em cada iteração, então grandes resultados de ferramentas podem causar a remoção de mensagens mais antigas ou um erro `Throw`, após algumas ferramentas já terem sido executadas.
 - **O tamanho do contexto é medido antes do pré-processamento.** A mídia é contada por sua estimativa de tamanho original, não pelo tamanho de sua descrição textual.
 - **O modelo de prompt se aplica a cada mensagem do usuário,** incluindo mensagens que carregam documentos RAG recuperados.
 
 ## RAG
 
-A etapa de RAG adiciona conhecimento dos seus documentos ao contexto do modelo. Ela vincula [coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md) a um AI Gateway. O gateway controla:
+A etapa RAG adiciona conhecimento dos seus documentos ao contexto do modelo. Ela vincula [coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md) a um AI Gateway. O gateway controla:
 
 - Coleções incluídas na recuperação.
 - Número máximo de documentos recuperados.
@@ -78,23 +78,23 @@ Estratégias de consulta:
 
 Estratégias de reescrita adicionam custo (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)) e latência do modelo de resolução. Elas são úteis quando perguntas de acompanhamento dependem de rodadas anteriores.
 
-Definir muitos resultados de RAG aumenta o uso de tokens de entrada e pode aumentar o custo final de inferência (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)). Comece com uma pequena contagem de resultados e aumente-a apenas quando o modelo não tiver evidências suficientes.
+Definir muitos resultados RAG aumenta o uso de tokens de entrada e pode aumentar o custo final de inferência (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)). Comece com uma pequena contagem de resultados e aumente-a apenas quando o modelo não tiver evidências suficientes.
 
 ## Instruções
 
-As configurações de instrução moldam o prompt voltado para o provedor:
+As configurações de instrução moldam o prompt voltado ao provedor:
 
 - **Instruções do sistema**: Adicionadas ao conjunto de instruções do sistema.
 - **Fontes de instrução do sistema remotas**: Buscadas de URLs configuradas e adicionadas ao conjunto de instruções do sistema.
 - **Modelo de prompt do usuário**: Substitui `{prompt}` pelo texto de cada mensagem do usuário antes de enviá-lo ao modelo. A mensagem modelada é enviada apenas como texto, então a mídia anexada às mensagens do usuário não é enviada ao modelo quando um modelo está definido.
 - **Preenchimento inicial do assistente**: Adiciona conteúdo inicial do assistente antes da geração quando o modelo suporta preenchimento inicial.
 
-Fontes de instrução remotas são buscadas como texto, e cada resposta pode ter no máximo 5 MB. Sua duração de cache é configurável de 0 (sem cache) a 86.400 segundos; o padrão é 600 segundos.
+Fontes de instrução remotas são buscadas como texto, e cada resposta tem um limite de tamanho; consulte [Limites de inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md#remote-instruction-sources). Sua duração de cache é configurável de 0 (sem cache) a 86.400 segundos; o padrão é 600 segundos.
 
 Se uma fonte não puder ser lida (resposta acima do limite, falha na solicitação ou URL insegura), ela não contribui com texto e a própria solicitação não falha. Tenha essas regras de falha em mente:
 
-- Uma falha na busca (um erro HTTP como 404 ou 500, um erro de conexão, uma URL privada ou uma resposta acima do limite) não contribui com texto e é armazenada em cache por no máximo 30 segundos, ou pela duração configurada quando esta for menor.
-- Não há fallback stale-if-error. Se uma fonte anteriormente boa expirar durante uma interrupção, o modelo receberá apenas o título `# <nome>` sem corpo (ou nada, se a fonte não tiver nome).
+- Uma busca com falha (um erro HTTP como 404 ou 500, um erro de conexão, uma URL privada ou uma resposta acima do limite) não contribui com texto e é armazenada em cache por no máximo 30 segundos, ou pela duração configurada quando esta for menor.
+- Não há fallback stale-if-error. Se uma fonte anteriormente boa expirar durante uma interrupção, o modelo recebe apenas o título `# <nome>` sem corpo (ou nada, se a fonte não tiver nome).
 - Nenhuma mensagem de erro ou entrada de log é exibida quando isso acontece.
 
 Alguns modelos não suportam preenchimento inicial do assistente, temperatura, sequências de parada ou esforço de raciocínio. A validação integrada do modelo rejeita configurações incompatíveis do gateway quando essas limitações são conhecidas.
@@ -138,19 +138,19 @@ Valores em nível de solicitação podem substituir valores do gateway quando o 
 
 A moderação de entrada bloqueia solicitações inseguras ou fora da política antes que o modelo principal as responda. Consulte [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md).
 
-## Ferramentas do lado do servidor
+## Ferramentas no lado do servidor
 
-Ferramentas do lado do servidor são funções internas executadas pelo AIVAX durante a inferência. Elas podem vir de:
+Ferramentas no lado do servidor são funções internas executadas pelo AIVAX durante a inferência. Elas podem vir de:
 
 - Ferramentas integradas.
 - Funções de protocolo.
-- Fontes remotas de funções de protocolo.
+- Fontes de funções de protocolo remotas.
 - Fontes MCP.
 - RAG QueryFunction.
 - Habilidades.
 - Ambiente bash opcional.
 
-Eventos de ferramentas do lado do servidor podem ser transmitidos para clientes como atualizações `servertool`.
+Eventos de ferramentas no lado do servidor podem ser transmitidos para clientes como atualizações `servertool`.
 
 ## Ferramentas integradas
 
@@ -158,7 +158,7 @@ Ferramentas integradas podem ser configuradas em um gateway ou fornecidas por so
 
 - `DateTime` — data e hora atuais através de `get_date_time`, no fuso horário do gateway (`parameters.timeZone`, padrão `America/Sao_Paulo`).
 - `WebSearch`
-- `AdvancedWebUsage` (desabilitado; retorna uma resposta indisponível. Consulte [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md).)
+- `AdvancedWebUsage` (desabilitado; retorna uma resposta indisponível. Consulte [Changelogs](https://docs.aivax.net/pt-br/docs/legal/changelogs.md).)
 - `OpenUrl`
 - `Code`
 - `Request`

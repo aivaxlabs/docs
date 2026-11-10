@@ -6,6 +6,26 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Tuesday, November 10th, 2026
+
+Breaking changes:
+
+- **Chat clients — New webhook URLs for messaging integrations.** Telegram, Z-API, Evolution API, and Kapso integrations now have a webhook URL that contains a key generated for each integration. Copy the new URL from the integration settings in the dashboard and update it in the provider, or use **Update hooks** for Telegram. Current URLs keep working until December 1st, 2026 and are rejected after that date. You can rotate the key at any time with **Rotate webhook key** or `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; the previous URL stops working immediately. Telegram webhooks registered with the new URL also require the secret token that **Update hooks** configures. See [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md#webhook-urls).
+- **Chat clients — Changing context goes back into the system instructions.** The November 9th change is reverted: the content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are again appended to the system instructions, after the session `extraContext`, instead of being sent as a user message after the last user message. `instructions` again accepts only a string or an array of strings, joined with blank lines; content parts such as images and files are no longer accepted. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients.md#choose-where-to-put-context).
+- **Chat clients — Kapso webhook signatures are verified.** When **Webhook secret key** is set on a Kapso integration, requests whose `X-Webhook-Signature` doesn't match are rejected. Leave it empty if you haven't configured a secret in Kapso. Media attachments are now downloaded only from the Kapso API.
+
+Fixes:
+
+- **Chat clients — Scheduled messages keep running when an account is unavailable.** Scheduled messages for other chat clients are no longer held back by a chat client whose account is disabled.
+- **Chat clients — Schedule details require ownership of the chat client.** Viewing or cancelling a scheduled message or recurring task now returns an error unless the chat client belongs to your account.
+- **Language models — Invalid routing presets are rejected.** Numeric values in `routing_preset` or `routing_options.preset` that don't match a routing option now return a validation error instead of a server error. A numeric model `#` suffix that doesn't match a routing option is now read as a provider tag.
+- **Language models — Providers that can't fit the input are skipped.** Routing no longer picks a provider whose context window is known to be smaller than the request input.
+
+Changes:
+
+- **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
+- **Language models — Provider names in the model catalog.** The model catalog and the models endpoint now show each provider's public name only, without internal suffixes. Provider tags are unchanged.
+
 ## Monday, November 9th, 2026
 
 Breaking changes:
@@ -183,14 +203,3 @@ Changes:
 - **RAG — New rerankers.** Added `@jina/reranker-v3.5` and `@nvidia/nemotron-3.5-rerank-8b` ($0.05 per million input tokens) to the reranker catalog.
 - **Decisions — New decision model.** Added `@liquid/d1.1` ($0.02 per million input tokens, no output charge), accepting text with a 64K context.
 - **Language models — Providers grouped by routing tier.** The model details dialog on the dashboard Models page groups providers into Default, Flex, Priority, and Special sections when a model offers more than one tier.
-
-## Monday, October 26th, 2026
-
-Changes:
-
-- **Language models — More models list their reasoning efforts.** `modelInformation.reasoningEfforts` in `GET /api/v1/information/models.json`, and the model details dialog on the dashboard Models page, now list the accepted levels for `@qwen/qwen3.8-max`, `@qwen/qwen3.8-flash`, `@qwen/qwen3.8-omni-flash`, `@anthropic/claude-4.5-opus`, `@openai/o3`, `@openai/o3-mini`, `@openai/o4-mini`, `@google/gemini-2.5-pro`, `@google/gemini-2.5-flash`, `@google/gemini-2.5-flash-lite`, `@bytedance/seed-2.1-turbo`, and `@nvidia/nemotron-3.5-super-vl`. Requests and gateways are unchanged.
-- **Data processing — New Extraction endpoint.** `POST /api/v1/generations/extract` reads text, JPEG, PNG, TIFF, and PDF documents and returns one JSON object per document, shaped by the required `responseSchema`, in input order. Each schema property is one field to find, and its description is the search criterion; `$ref` and `$defs` are not supported. Images and files accept base64 data URLs or public URLs. Public URLs are downloaded up to 5 MB, base64 data URLs are limited only by the request size, and other content types are rejected. Only input tokens are billed, at $0.04 per million. You can also run it from the Extraction tab on the dashboard Generations page. See [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md).
-- **Data processing — New Summarization endpoint.** `POST /api/v1/generations/summarize` accepts the same document types and returns one summary string per document, optionally guided by `instructions`. Only input tokens are billed, at $0.04 per million. Extraction and Summarization share a per-document limit of 10 per minute and 300 per day on Free, 200 per minute on Pro, and 2,500 per minute on Max. You can also run it from the Summarization tab on the dashboard Generations page. See [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md).
-- **Data processing — New Translations endpoint.** `POST /api/v1/generations/translate` translates text, the visible text in images, and the speech in audio into any `toLanguage`, and returns one translated string per document, in input order. `fromLanguage` is optional and is detected from the content when omitted. Usage is billed in processing units. Limits are 30 requests per minute and 300 per day on Free, 200 per minute on Pro, and 2,500 per minute on Max. You can also run it from the Translation tab on the dashboard Generations page. See [Translations](https://docs.aivax.net/docs/data-processing/translations.md).
-- **Data processing — Clearer guidance between Extraction, Fetch, and Media Descriptions.** The Media Descriptions and Fetch and OCR pages now explain when to use each service. See [Extraction, Fetch, or Media Descriptions](https://docs.aivax.net/docs/data-processing/extraction.md#extraction-fetch-or-media-descriptions).
-- **Account — Console two-factor authentication and login recovery.** The console **My account** page has a **Security** tab. Account holders can add one or more authenticator apps; the QR code and secret are shown only until the six-digit code is confirmed, and sign-in asks for a code only after at least one authenticator is confirmed. Switching to a saved account asks for the same code when that account has two-factor authentication. `POST /api/v1/auth/login` accepts `totpCode` and returns `requiresTwoFactor` instead of a session when the code is still required. Accounts without an authenticator are unchanged, and API keys are not affected. The sign-in page links to account support, where **Recover login key** e-mails a one-hour one-time sign-in link and a login-key reset link after asking for the registration e-mail. The confirmation is the same whether or not that e-mail belongs to an account. The reset link, and **Reset login key** in **Security**, create a new login key, e-mail it, and sign the account out of every console session. They do not revoke API keys or disable two-factor authentication. Disabling two-factor authentication without a current authenticator code is handled by [AIVAX support](https://aivax.net/contact/). See [Console sign-in](https://docs.aivax.net/docs/authentication.md#console-sign-in).

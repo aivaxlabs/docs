@@ -26,15 +26,15 @@ Reference:
 
 ### Choose where to put context
 
-AIVAX accepts context in three places. Each one reaches the model in a different position, and that position decides what it costs and how long it lasts:
+AIVAX accepts context in three places. All of them are added to the system instructions of the inference, in this order:
 
-| Field | Where it goes | Use it for |
+| Field | When it applies | Use it for |
 |---|---|---|
-| `extraContext` (session) | Added to the system instructions of every inference in the session. | Context that ideally doesn't change during the conversation: the channel, the user's name, plan, preferred language, or the product the conversation is about. |
-| `contextLocation` (session) | AIVAX fetches the URL before each inference and sends its content right after the last user message. | External context that can change while the conversation goes on, such as the cart, an order status, or the record open in your application. |
-| `instructions` ([Send Prompt](#add-context-for-one-inference)) | Sent right after the last user message, after the `contextLocation` content, for that request only. | Context for that moment that won't be reused in the rest of the conversation, such as a temporary answer format or the item the user just selected. |
+| `extraContext` (session) | Every inference in the session. | Context for the whole conversation: the channel, the user's name, plan, preferred language, or the product the conversation is about. |
+| `contextLocation` (session) | AIVAX fetches the URL before each inference and appends its content after `extraContext`. | Server-controlled context that can change while the conversation goes on, such as the cart, an order status, or the record open in your application. |
+| `instructions` ([Send Prompt](#add-context-for-one-inference)) | That request only, appended after the `contextLocation` content. | Context for that moment, such as a temporary answer format or the item the user just selected. |
 
-Keep `extraContext` stable. The system instructions are the start of every request, so changing them invalidates the prompt cache for the whole history. Content sent after the last user message doesn't affect the cache of earlier messages, which makes `contextLocation` and `instructions` the right place for anything that varies. Neither is saved to the session history: the model sees the latest version on each request and older versions are not repeated.
+None of them is saved to the session history: the model sees the latest version on each request. Because they are part of the system instructions, which start every request, changing them invalidates the prompt cache for the whole history.
 
 The same rule applies to the channel integrations: Telegram and WhatsApp put their fixed channel context, such as formatting rules and the user's display name, in the session `extraContext`.
 
@@ -66,16 +66,16 @@ This is not a dry run: inference is still billed and tools can still act. Uncomm
 
 ### Add context for one inference
 
-Use `instructions` for context that applies only to the current request and won't be reused in the rest of the conversation, such as a temporary answer format or the item currently selected in your application. It accepts text, one OpenAI-compatible content part, or an array of them, so you can also send an image or a file for that request only.
+Use `instructions` for context that should apply only to the current request, such as a temporary answer format or the item currently selected in your application. It accepts a string or an array of strings; array entries are joined with blank lines. This context is appended to the system instructions after the session's `extraContext` and any context loaded from `contextLocation`.
 
-AIVAX sends this content as a user message right after the last user message, after any content loaded from `contextLocation`. It is not saved to the session history, even when `commit` is `true`, and it is not returned in `createdMessages`. Because it comes after the history, changing it on every request doesn't invalidate the prompt cache of earlier messages. For context that should last the whole conversation, use the session `extraContext` instead; see [Choose where to put context](#choose-where-to-put-context).
+Unlike session `extraContext`, `instructions` is not saved as session context, even when `commit` is `true`. It is still sent to the model and can influence responses and tools; do not include secrets or data the model should not see. For context that should last the whole conversation, use the session `extraContext` instead; see [Choose where to put context](#choose-where-to-put-context).
 
 ```json
 {
     "prompt": "Is this item still available?",
     "instructions": [
         "The user is viewing product SKU 4471.",
-        { "type": "image_url", "image_url": { "url": "https://example.com/sku-4471.png" } }
+        "Answer in one sentence."
     ]
 }
 ```
@@ -156,6 +156,18 @@ These sessions obey the original chat client rules. Additionally, chat sessions 
 - `/usage`: when `debug` is active in the chat client, displays the current chat usage in tokens.
 
 Integrations treat the channel as the source of messages, but inference continues to be performed by the AI Gateway associated with the chat client. In Telegram, the conversation receives additional instructions about formatting and expected channel behavior. In WhatsApp, each provider has its own webhook details, media download, and response sending; Z-Api, Evolution API, and Kapso are different paths to the same operational goal. In all cases, user messages enter the session, are materialized as inference‐compatible messages, and the assistant’s response is sent back via the integration’s messenger.
+
+### Webhook URLs
+
+Each integration has its own webhook URL, which you copy from the integration settings in the dashboard. The URL contains a webhook key generated for that integration, so treat it as a secret. Use **Rotate webhook key** to replace the key: the previous URL stops working immediately, so update the URL in the provider right after rotating. For Telegram, rotating the key also updates the bot hooks.
+
+Some providers can also prove that a request came from them:
+
+- **Telegram:** **Update hooks** registers the webhook with a secret token, and messages without it are rejected.
+- **Kapso:** set **Webhook secret key** to the secret of your Kapso webhook. Requests whose signature doesn't match are rejected.
+- **Z-API** and **Evolution API:** these providers don't sign webhook requests, so the webhook key in the URL is what authorizes them.
+
+Webhook URLs without a webhook key keep working until December 1st, 2026. After that date they are rejected. Copy the current URL from the dashboard and update it in the provider, or use **Update hooks** for Telegram, before that date.
 
 Use Telegram when you need a simple bot with users identifiable by chat and easy‐to‐test commands. Use WhatsApp when the user’s primary support channel is already the phone and the conversation needs to happen in a daily app. Use the web widget when you want to embed the assistant in a website, product, support center, or dashboard. The channel choice should not change the gateway’s essential content, but may require adjustments to tone, response size, formatting, and attachment tolerance.
 

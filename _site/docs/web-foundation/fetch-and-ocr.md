@@ -39,7 +39,7 @@ Use the **Fetch API to extract existing text**. Use [Media Descriptions](https:/
 
 For a PDF report, choose Fetch when you need its text for indexing or later analysis. Choose Media Descriptions when you need an explanation of its charts or a guided interpretation of the content. For a receipt image, Fetch reads the printed text; Media Descriptions can interpret the receipt according to your extraction guidance.
 
-When you need specific fields as JSON from text, images, or PDFs, rather than the document's full text, use [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md). It reads the fields directly from each document and bills only input tokens, while Fetch converts to JSON from the extracted text as a separate, inference-priced step. Fetch remains the choice for web pages, other document formats, files larger than 5 MB, and workflows that also need the full text.
+When you need specific fields as JSON from text, images, or PDFs, rather than the document's full text, use [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md). It reads the fields directly from each document and bills only input tokens, while Fetch converts to JSON from the extracted text as a separate, inference-priced step. Fetch remains the choice for web pages, other document formats, larger files, and workflows that also need the full text.
 
 Neither guarantees perfect results. Fetch can lose text or structure because of OCR and layout limitations. Media Descriptions can omit details or introduce incorrect interpretations because its output is model-generated. Verify consequential details against the original source and compare the billing paths in the pricing section below.
 
@@ -51,7 +51,7 @@ Neither guarantees perfect results. Fetch can lose text or structure because of 
 | [Web utilities MCP](https://docs.aivax.net/docs/mcp-utilities/web-utilities-mcp.md) | An MCP-compatible client needs to read public URLs through `fetch_url`. This tool accepts one to five URLs per call. |
 | [Built-in tools](https://docs.aivax.net/docs/tools/builtin-tools.md) | An AIVAX model needs to read a URL during inference. Enable `OpenUrl` and follow the URL Context configuration guide. |
 
-The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs.
+The integrations have different input contracts. In particular, the MCP tool accepts public URLs; use the Fetch API for inline base64 data URIs. For a backend pipeline that chains search and fetch and keeps an evidence record, see [web search API for LLM agents](https://aivax.net/blog/research-is-a-pipeline-search-discovers-fetch-reads/).
 
 ## Fetch content with the API
 

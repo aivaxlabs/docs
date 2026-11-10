@@ -35,7 +35,7 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 ## Included daily allowances
 
-Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Storage
 

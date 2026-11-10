@@ -118,16 +118,16 @@ Every plan includes separate daily allowances for the services below. Each compa
 
 | Included service | Free | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| RAG search and insertion embeddings | Base allowance | 15× Free | 50× Free | 100× Free |
-| Reranking with Reflex | Base allowance | 4× Free | 20× Free | 50× Free |
-| Semantic decisions with eligible models | Base allowance | 2× Free | 3× Free | 5× Free |
-| Fetch and OCR extraction | Base allowance | 8× Free | 25× Free | 50× Free |
+| RAG search and insertion embeddings | 10,000 tokens | 15× Free | 50× Free | 100× Free |
+| Reranking with Reflex | 2,000 input tokens | 4× Free | 20× Free | 50× Free |
+| Semantic decisions with eligible models | 20,000 input tokens | 2× Free | 3× Free | 5× Free |
+| Fetch and OCR extraction | 1,000 PUs | 8× Free | 25× Free | 50× Free |
 
 RAG searches and document insertions share the embedding allowance. It does not cover answer generation, media processing, document extraction or summarization, text classification, or segmentation. A query embedding served from cache does not consume it. Reflex uses a separate reranking allowance that includes both cached and uncached input. The semantic decision allowance covers only eligible decision models; see [Semantic Decisions](data-processing/decisions.md#usage-and-cost). Optional Fetch JSON conversion is separate from the extraction allowance.
 
 Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.
 
-Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements or rate limits. See [Pricing](pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API: embeddings, reranking and OCR limits](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements or rate limits. See [Pricing](pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Estimating PUs and tokens
 
