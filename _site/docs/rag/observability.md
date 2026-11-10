@@ -58,6 +58,8 @@ Open **Details** on a search to see its processing time, cost, scores, and the d
 3. If the original score is good but the final score drops, compare rerankers; see [Rerankers](https://docs.aivax.net/docs/rag/reranking.md).
 4. If no document covers the question, add the missing knowledge to the collection.
 
+For the pipeline stages that usually cause a low-quality result before the search runs, see [RAG vs vector database](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
+
 ## Test searches in the playground
 
 Select **Playground** on a collection to run a search without writing code. Set the search text, minimum score, maximum results, reranker, reference expansion, and [advanced filters](https://docs.aivax.net/docs/rag/document-filters.md), then select **Run query**. The **Visual** tab shows the ranked documents with their scores, contents, and metadata, and the generated answer when you use answer generation; the **JSON** tab shows the raw result.

@@ -100,7 +100,7 @@ Text-to-speech and transcription have separate quotas with the same values. [Voi
 | General service actions | 30/day | 2,500/day | 30,000/day | 100,000/day |
 | Bash commands | 300/hour | 30,000/hour | 100,000/hour | — |
 
-General service actions share one daily quota. The image generation limit applies to the built-in tool, not to the [image generation API](generations/images.md). See [Built-in tools](tools/builtin-tools.md), [Web Search](web-foundation/web-search.md), and [Shell](tools/shell.md).
+General service actions share one daily quota. The image generation limit is one daily quota shared by the built-in tool, the [image generation API](generations/images.md), and the [Media generation MCP](mcp-utilities/media-generation-mcp.md); each request counts once, whatever the number of images it asks for. See [Built-in tools](tools/builtin-tools.md), [Web Search](web-foundation/web-search.md), and [Shell](tools/shell.md).
 
 ### Batch and Agentic Tests
 

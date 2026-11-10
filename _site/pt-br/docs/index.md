@@ -18,7 +18,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md)
 - [Pesquisar](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md)
 - [Filtros Avançados](https://docs.aivax.net/pt-br/docs/rag/document-filters.md)
-- [Observabilidade do RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
+- [Observabilidade de RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md)
 - [Reclassificadores](https://docs.aivax.net/pt-br/docs/rag/reranking.md)
 - [Reflexo](https://docs.aivax.net/pt-br/docs/rag/reflex.md)
 

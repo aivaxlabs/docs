@@ -32,7 +32,7 @@ For key types and authentication options, see [Authentication](/docs/authenticat
 
 ## Configuration example
 
-Client configuration tells the MCP client where to connect and which tools to enable. The exact shape depends on the client. Use the following example when the client should see every tool:
+Client configuration tells the MCP client where to connect and which tools to enable. The exact shape depends on the client; for Claude Code, see [how to generate images in Claude Code with this MCP](https://aivax.net/blog/generate-images-and-speech-from-claude-code-with-mcp/). Use the following example when the client should see every tool:
 
 ```json
 {

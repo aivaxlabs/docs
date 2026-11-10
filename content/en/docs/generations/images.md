@@ -38,7 +38,7 @@ The embedded reference is the source of truth for the request shape, supported o
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20images&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-To let an MCP-compatible agent or IDE generate images without calling this endpoint directly, use the [Media generation MCP](/docs/mcp-utilities/media-generation-mcp).
+To let an MCP-compatible agent or IDE generate images without calling this endpoint directly, use the [Media generation MCP](/docs/mcp-utilities/media-generation-mcp). For a Claude Code setup, see [generate images in Claude Code with an MCP server](https://aivax.net/blog/generate-images-and-speech-from-claude-code-with-mcp/).
 
 ## Pricing, limits, and errors
 
