@@ -6,6 +6,22 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Wednesday, November 11th, 2026
+
+Fixes:
+
+- **Account — Credit top-ups add the chosen amount to the balance.** A new top-up now adds exactly the amount you choose to your balance. The payment processor fee and the service fee are charged with the payment and are not added to the balance. Credits already added are unchanged. See [Credit top-ups](https://docs.aivax.net/docs/pricing.md#credit-top-ups).
+
+Changes:
+
+- **Dashboard — Redesigned home page.** The dashboard home now shows your credit balance with a reminder to add credits when it runs out, usage for the last 24 hours, 7, 30, or 90 days with token and request trends, and shortcuts to AI Gateways, RAG Collections, Chat clients, and Voice. **Get started**, **Copy Prompt**, and the yearly daily token usage chart remain available. Token totals now count only token-based usage, and request totals count each request once. The code sample panel was removed; see the [Overview](https://docs.aivax.net/docs/overview.md) for examples.
+- **Dashboard — More consistent page layout.** Section titles on the Usage page now include a short description, and section spacing on Analytics and Batch is aligned with other pages. On the Generations page, the text tools and the image and reranking tools are grouped under their own labels in the tab list.
+- **AI Gateways — New `tool.fetched` and `message.completed` worker events.** Gateway workers now receive `tool.fetched` after a server-side tool returns its result, and can keep, block, or replace that result with a `tool.fetched.response` action. Workers also receive `message.completed` after each inference finishes, with the messages, errors, whether the failure was fatal, and usage; this event is a notification and its response is ignored. Workers that return `2xx` for unknown events need no change. See [Gateway Workers](https://docs.aivax.net/docs/inference/workers.md).
+- **Account — No service fee on credit top-ups for Pro, Max, and Ultimate.** Adding credits on Pro, Max, and Ultimate no longer includes the AIVAX service fee. The payment processor fee still applies, and Free keeps the service fee. The dashboard shows each fee before you confirm. See [Credit top-ups](https://docs.aivax.net/docs/pricing.md#credit-top-ups).
+- **Account — Daily ceiling on the inference commission.** The plan's inference commission on integrated-model inference is now limited to $1.50 per day on Free, $1.20 on Pro, and $1.00 on Max. After the ceiling is reached, model inference is charged at the model's rates until midnight in the America/Sao_Paulo time zone. Other services that include the plan multiplier in their rates are not covered by the ceiling. See [Plan multipliers](https://docs.aivax.net/docs/pricing.md#plan-multipliers).
+- **Account — Inference commission as a separate usage entry.** For integrated-model inference, the plan's commission is now recorded as its own usage entry, `inference.commission`, under the same model as the request. Token entries now show the model's rates without the commission; the total charged for a request is unchanged while the daily ceiling has not been reached. If you calculate unit prices from usage entries, add the `inference.commission` entries to get the full cost.
+- **Account — Model names on moderation and Agentic Tests usage.** Input moderation usage is now recorded under `@aivax/layered-moderation` and attributed to the same resources as the request, such as the API key and AI gateway. Simulated-user and judge usage of Agentic Tests is recorded under `@aivax/agentic-tests:user-<profile>` and `@aivax/agentic-tests:judge-<profile>`, such as `@aivax/agentic-tests:judge-medium`, instead of the underlying model. Remote resources fetched by a test are attributed to its run. Prices are unchanged.
+
 ## Tuesday, November 10th, 2026
 
 Breaking changes:
@@ -23,8 +39,10 @@ Fixes:
 
 Changes:
 
+- **Data processing — Patches in instruction refinement.** Each item of `suggestedFixes` returned by `POST /api/v1/generations/instruction-refinement` now has a `patches` array with the fix as unified diffs against the context items sent in the request, one per changed item, so you can preview and apply a fix without rewriting it by hand. `patches` is empty when a fix needs content or facts that aren't in the request. Existing response fields are unchanged. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md).
 - **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
 - **Language models — Provider names in the model catalog.** The model catalog and the models endpoint now show each provider's public name only, without internal suffixes. Provider tags are unchanged.
+- **Conversations — Moderation refusals are identified in the conversation list.** Conversations refused by AI gateway moderation now show a **Moderated** label with the violated categories in the dashboard conversation list, instead of **Error**. `GET /api/v1/conversations` returns these categories in the new `moderationCategories` field, which is `null` for conversations that moderation didn't refuse.
 
 ## Monday, November 9th, 2026
 
@@ -182,24 +200,3 @@ Changes:
 
 - **Account — Allow special providers.** The account privacy settings include **Allow special providers**, disabled by default. When enabled, the `Cheapest`, `Fastest`, and `Quality` routing preferences also consider special providers, which serve models at discounted prices under conditions that may be less transparent. `Balanced` never uses them.
 - **Language models — `Special` routing preference.** AI Gateways (`parameters.routingOption`) and `routing_options.preset` accept `Special`, which works like `Balanced` but also includes special providers and gives them priority, regardless of the account setting.
-
-## Tuesday, October 27th, 2026
-
-Breaking changes:
-
-- **Language models — Models removed and router alias updated.** `@arcee-ai/trinity-large-thinking` is no longer in the model catalog; requests that name it are rejected. `@poolside/laguna-xs-2.1` and `@poolside/laguna-s-2.1` are removed; both were already deprecated and their provider endpoints expire on October 31, 2026. `@model-router/openai:mid` now selects `@openai/gpt-6.1-terra` instead of `@openai/gpt-6.1-sol`.
-- **Decisions — Decider V1.1 removed and aliases retargeted.** `@perplexity/pplx-decider-v1.1-27b` is no longer in the decisions catalog; requests that name it are rejected. `@perplexity/pplx-decider` now resolves to `@perplexity/pplx-decider-v1.2` instead of Decider V1.1, and `@liquid/d` now resolves to `@liquid/d1.1` instead of `@liquid/d1`. The replacements keep the same $0.02 per million input tokens price.
-
-Changes:
-
-- **RAG — Filter documents by reference.** Document filters accept the `reference` field with `=`, `!=`, `in`, `contains`, `startswith`, and `endswith`, for example `reference = "manual-v2"` to select every chunk of one source. Documents without a reference never match a positive condition on it, and match `reference != "..."`. Previously, `reference` was rejected as an unknown field. This applies wherever filters are accepted, including search, browse, and the Collections MCP tools. See [Document filters](https://docs.aivax.net/docs/rag/document-filters.md#fields).
-- **MCP — Collections MCP browse and get document tools.** The Collections MCP now exposes two tools besides semantic search. The browse tool (`{collection_name}_browse_documents`, or `{collection_name}_list` with the `agent` naming convention) lists indexed documents with an optional document filter, sorting by creation, update, or indexing date, or name, and cursor pagination, and returns names, tags, and dates, with content only when requested. The get document tool (`{collection_name}_get_document`, or `{collection_name}_get`) reads one document by its exact name, optionally by line range, including documents still waiting to be indexed. Neither has search cost; both count toward the search rate limit. Clients that connect to the Collections MCP see two more tools; use `X-Mcp-Enabled-Tools` to hide them. See [Collections and RAG MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md#generated-tools).
-- **MCP — Choose which Collections MCP tools are exposed.** The Collections MCP accepts the optional `X-Mcp-Enabled-Tools` header with a comma-separated list of `search`, `browse`, `get`, `write`, and `delete`, so a client can, for example, add and search documents without being able to delete them. `write` and `delete` still require `X-Mcp-Allow-Write: yes`. Without the header, every tool allowed by the other headers is exposed. See [Collections and RAG MCP](https://docs.aivax.net/docs/mcp-utilities/collections-mcp.md#select-which-tools-are-exposed).
-- **Language models — New models.** Added `@openai/gpt-6.1-terra`, the mid-tier GPT-6.1 model ($1.10 per million input tokens, $5.50 per million output tokens, 1.05M-token context), and `@reflection/beam-1.0-501b-a23b`, Reflection's open-weight reasoning model ($0.40 per million input tokens, $1.20 per million output tokens, 1M-token context).
-- **Language models — GLM reasoning efforts.** `@z-ai/glm-5.2`, `@z-ai/glm-5.1`, and `@z-ai/glm-5` now accept the `max` and `high` reasoning effort levels, matching the provider's documentation.
-- **Image generation — Qwen Image 2.1 Pro.** Added `qwen-image-2.1-pro`, including reference images, at an estimated $0.04 per output image.
-- **Speech to text — New transcription models.** Added Mistral's Voxtral Small Transcribe 3 ($0.004 per minute) and Voxtral Mini Transcribe 3 ($0.0035 per minute) to the transcription catalog.
-- **Text to speech — New synthesis models.** Added ElevenLabs V4 ($0.08 per 1,000 characters) and V4 Turbo ($0.04), Mistral Voxtral Mini TTS 3 ($0.013), HeyGen Voice 1 Turbo ($0.004) and Voice 1 ($0.015), and Fish Audio S2.1 Pro ($0.015) as audio synthesis sources in AI gateways and chat clients.
-- **RAG — New rerankers.** Added `@jina/reranker-v3.5` and `@nvidia/nemotron-3.5-rerank-8b` ($0.05 per million input tokens) to the reranker catalog.
-- **Decisions — New decision model.** Added `@liquid/d1.1` ($0.02 per million input tokens, no output charge), accepting text with a 64K context.
-- **Language models — Providers grouped by routing tier.** The model details dialog on the dashboard Models page groups providers into Default, Flex, Priority, and Special sections when a model offers more than one tier.

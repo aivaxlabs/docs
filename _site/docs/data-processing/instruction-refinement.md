@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/docs/data-processing/instruction-refinement.html
 
 # Instruction Refinement
 
-Use Instruction Refinement to review system instructions, prompts, and skills before you ship them to a model. The service checks them against a catalog of prompt engineering guidelines compiled from model vendors' documentation, then returns a score, prioritized problems located in your text, the guidelines behind each problem, and suggested fixes.
+Use Instruction Refinement to review system instructions, prompts, and skills before you ship them to a model. The service checks them against a catalog of prompt engineering guidelines compiled from model vendors' documentation, then returns a score, prioritized problems located in your text, the guidelines behind each problem, and suggested fixes with patches you can preview and apply.
 
 It fits prompt reviews in pull requests, audits of AI gateway instructions and skills, and editors that highlight problems as you write. It reports guideline issues; it does not run your prompt or measure how a model performs with it. To test behavior against real conversations, use [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md).
 
@@ -95,7 +95,7 @@ Each finding has these properties:
 
 Each source has an `id` that identifies the guideline in its catalog, a `number` within its type, a `type`, and `references` with the vendor documentation URLs behind it. `type` reflects the guideline's weight: a `rule` prevents predictable failures, a `practice` reliably improves results, a `tip` is optional and situational, and a `dont` is an anti-pattern to avoid. Some macro guidelines cover agent design rather than vendor guidance and have an empty `references` array.
 
-Each suggested fix has a `refFinding` array with the finding ids it resolves, a `description` of exactly what to change and in which item, and a `type`:
+Each suggested fix has a `refFinding` array with the finding ids it resolves, a `description` of exactly what to change and in which item, a `patches` array described below, and a `type`:
 
 | Type | Meaning |
 | --- | --- |
@@ -103,6 +103,12 @@ Each suggested fix has a `refFinding` array with the finding ids it resolves, a 
 | `remove` | Delete redundant, conflicting, or harmful text. |
 | `transfer` | Move the text to another item or type, such as from the instructions into a skill. The description names the destination. |
 | `add` | Write content that is missing. The description names the item that should hold it. |
+
+`patches` holds the fix as text changes. Each patch has the `contextIndex` of the item it changes and a `diff` in unified diff format, with three lines of context, against the `content` you sent for that item. The file names in the `---` and `+++` headers are the item's `title` prefixed with `a/` and `b/`, or `context-<index>` when the item has no title. Header lines end with a line feed, and content lines keep the line endings of your `content`. A fix that changes several items, such as a `transfer`, has one patch per item; apply them together.
+
+`patches` is empty when the fix can't be written as a change to the items you sent: it needs content that isn't there, such as a new skill or a tool, it needs facts only you have, such as a limit or a contact, or the text to change couldn't be located unambiguously. Use the `description` in those cases.
+
+Every patch is computed against the original `content`, independently of the other fixes, so two fixes can change the same lines. Apply patches one fix at a time; when a patch no longer applies because an earlier one changed the same text, skip it or request a new review.
 
 `title`, `description`, `summary`, and fix descriptions are written in the language used by most of the analyzed content.
 
@@ -144,14 +150,20 @@ Each suggested fix has a `refFinding` array with the finding ids it resolves, a 
       {
         "refFinding": [ 1 ],
         "type": "modify",
-        "description": "In the refunds skill, replace the promise with: \"Explain that the finance team reviews refunds and transfer the request to them.\""
+        "description": "In the refunds skill, replace the promise with: \"Explain that the finance team reviews refunds and transfer the request to them.\"",
+        "patches": [
+          {
+            "contextIndex": 1,
+            "diff": "--- a/refunds\n+++ b/refunds\n@@ -1,1 +1,1 @@\n-Promise a refund when the customer asks for one.\n\\ No newline at end of file\n+Explain that the finance team reviews refunds and transfer the request to them.\n\\ No newline at end of file\n"
+          }
+        ]
       }
     ]
   }
 }
 ```
 
-Reviews are model-generated. The score and findings can vary between requests for the same content, and a finding can be wrong or miss context that only you have. A suggested removal can still drop a business rule the review didn't recognize as critical, so check removals against your requirements, apply fixes deliberately, and confirm that the changed agent still behaves as expected.
+Reviews are model-generated. The score and findings can vary between requests for the same content, and a finding can be wrong or miss context that only you have. A suggested removal can still drop a business rule the review didn't recognize as critical, so check removals against your requirements, read each patch before applying it, and confirm that the changed agent still behaves as expected.
 
 ## Pricing and limits
 

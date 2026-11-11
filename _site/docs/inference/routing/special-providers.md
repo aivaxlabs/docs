@@ -11,3 +11,5 @@ Some integrated models are also offered by special providers, which serve them a
 | `Special` | Always considered, regardless of the account setting. Selects the lowest applicable combined input and output token price among eligible regular and special providers, breaking ties by reported uptime and then by recent failures. |
 
 When a model is currently available only through special providers, requests that do not allow them fail. Use the `Special` preference, or enable **Allow special providers** and use a preference other than `Balanced`. [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) and `allowed_providers` still apply to special providers.
+
+Listing a special provider's tag in `allowed_providers`, or as a `#tag` suffix on the model name, routes to it under any preference, including `Balanced`.

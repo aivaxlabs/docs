@@ -43,7 +43,7 @@ A solicitação a seguir classifica três documentos, sendo um deles em alemão,
 
 ## Leia a resposta
 
-`results` contém um item para cada documento de entrada. Cada array `scores` contém todos os rótulos fornecidos, ordenados por similaridade cosseno decrescente. Rótulos com pontuações iguais preservam sua ordem original. O exemplo abaixo é abreviado para o primeiro documento:
+`results` contém um item para cada documento de entrada. Cada array `scores` contém todos os rótulos fornecidos, ordenados por similaridade cosseno decrescente. Rótulos com pontuações iguais preservam sua ordem original. O exemplo abaixo está abreviado para o primeiro documento:
 
 ```json
 {
@@ -72,7 +72,7 @@ A solicitação a seguir classifica três documentos, sendo um deles em alemão,
 
 Uma pontuação mede a similaridade vetorial, não uma probabilidade calibrada. Compare as pontuações dentro da mesma solicitação e modelo de incorporação, em vez de interpretar um valor como uma porcentagem de confiança. Pontuações negativas são válidas e permanecem na resposta porque o endpoint não filtra rótulos.
 
-O uso de incorporação é cobrado pelo texto que requer inferência e está associado à chave de API autenticada. Textos repetidos podem ser servidos a partir de um cache interno, reduzindo a latência e os custos. Como o endpoint retorna todos os pares documento-rótulo, o tamanho da resposta e o trabalho de comparação crescem com `documents × labels`.
+O uso de incorporação é cobrado pelo texto que requer inferência e está associado à chave de API autenticada. Texto repetido pode ser servido a partir de um cache interno, reduzindo latência e custos. Como o endpoint retorna todos os pares documento-rótulo, o tamanho da resposta e o trabalho de comparação crescem com `documents × labels`.
 
 ## Preços e limites
 
@@ -80,7 +80,7 @@ A classificação de texto usa o modelo de incorporação padrão e é cobrada p
 
 | Descrição | Preço |
 | --- | ---: |
-| Classificação de texto | **$0,10/M tokens** |
+| Classificação de texto | **$0,015/M tokens** |
 
 O número de documentos classificados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing). A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retornará `429 Too Many Requests`.
 

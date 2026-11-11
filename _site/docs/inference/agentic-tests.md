@@ -208,7 +208,7 @@ Tuning guidance:
 
 ## Pricing and limits
 
-Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies.
+Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies. In usage records, these charges appear under `@aivax/agentic-tests:user-<profile>` and `@aivax/agentic-tests:judge-<profile>`, for example `@aivax/agentic-tests:judge-medium`.
 
 | Description | Pricing |
 | --- | ---: |

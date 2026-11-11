@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/docs/pricing.html
 
 # Pricing
 
-AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product: subscription allowances, storage, the request cost header, the data sharing discount, and plan multipliers.
+AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product: subscription allowances, storage, the request cost header, the data sharing discount, plan multipliers, and credit top-up fees.
 
 See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](https://docs.aivax.net/docs/limits.md) for account-level quotas. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
 
@@ -66,11 +66,19 @@ Accounts that enable [Data Sharing](https://docs.aivax.net/docs/data-sharing.md)
 
 Usage rates are subject to the plan's inference tax:
 
-| Plan | Inference tax |
-| --- | ---: |
-| Free | +25% |
-| Pro | +5% |
-| Max | +2% |
-| Ultimate | 0% |
+| Plan | Inference tax | Daily ceiling on model inference |
+| --- | ---: | ---: |
+| Free | +25% | $1.50 |
+| Pro | +5% | $1.20 |
+| Max | +2% | $1.00 |
+| Ultimate | 0% | Not applicable |
+
+For integrated-model inference, the tax is recorded as its own usage entry, `inference.commission`, under the model that served the request, so token entries show the model's rates. Once the day's `inference.commission` entries reach the ceiling, further model inference is charged at the model's rates only. The day runs from midnight to midnight in the America/Sao_Paulo time zone, and the count starts again at midnight.
+
+Other services subject to the plan multiplier include it in their own rates, and those charges don't count toward the ceiling.
 
 BYOK usage is not affected by inference taxes. Product pages state when a rate is exempt from the plan multiplier, as with image generation.
+
+## Credit top-ups
+
+Adding credits charges the amount you choose plus the payment processor fee. Only the amount you choose is added to your balance; fees are not. On Free, an AIVAX service fee of 5% of the amount, with a $0.20 minimum, is also added. Pro, Max, and Ultimate pay no AIVAX service fee. The dashboard shows each fee and the total before you confirm the payment.

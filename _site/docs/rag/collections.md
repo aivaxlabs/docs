@@ -79,8 +79,8 @@ Indexing and search are billed by token usage. Generated RAG answers are charged
 
 | Description | Pricing |
 | --- | ---: |
-| Collection text embedding | **$0.10/M tokens** |
-| Search - query cache miss | **$0.10/M tokens** |
+| Collection text embedding | **$0.015/M tokens** |
+| Search - query cache miss | **$0.015/M tokens** |
 | Search - query cache hit | Zero |
 | RAG answer generation | **~$0.50/M tokens**, excluding query rates |
 | Collection de-duplication | **$0.05/1k PUs** |

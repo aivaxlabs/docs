@@ -15,6 +15,7 @@ An em dash (`—`) means the plan does not impose a limit, and `Not available` m
 | **Inference** |  |  |  |  |
 | Model access | Low-price models | All models | All models | All models |
 | Inference commission multiplier | 1.25x | 1.05x | 1.02x | 1.00x |
+| Daily inference commission ceiling | $1.50 | $1.20 | $1.00 | No commission |
 | Integrated model requests | 20/min and 500/day | 150/min | 1,000/min | — |
 | Integrated model input tokens | 1,000,000/min | 15,000,000/min | 60,000,000/min | — |
 | BYOK requests | 30/min | 150/min | 1,000/min | — |
@@ -25,6 +26,7 @@ An em dash (`—`) means the plan does not impose a limit, and `Not available` m
 | Cost per excess GB | Not available | $0.50/GB/month | $0.30/GB/month | $0.20/GB/month |
 | Conversation retention | 2 hours | 2 days | 14 days | 30 days |
 | RAG search history retention | 2 hours | 3 days | 14 days | 30 days |
+| Service fee on credit top-ups | 5% (minimum $0.20) | None | None | None |
 | Support level | Email | Priority | Priority | Dedicated |
 
 Document text stored in a collection counts toward the storage quota as UTF-8 bytes. Text with accents or non-Latin characters can use more of that quota than basic Latin text of the same length. RAG search history is the list of searches shown in [RAG Observability](https://docs.aivax.net/docs/rag/observability.md#search-history).
