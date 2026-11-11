@@ -88,7 +88,7 @@ Use `conversation_token` and `metadata` to correlate these records with your own
 
 ## Pricing
 
-Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used. The [plan multiplier](/docs/pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it.
+Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used. The [plan multiplier](/docs/pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it. In usage records, moderation charges appear under the model `@aivax/layered-moderation`.
 
 | Description | Pricing |
 | --- | ---: |
