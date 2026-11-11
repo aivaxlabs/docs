@@ -8,6 +8,22 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Wednesday, November 11th, 2026
+
+Fixes:
+
+- **Account — Credit top-ups add the chosen amount to the balance.** A new top-up now adds exactly the amount you choose to your balance. The payment processor fee and the service fee are charged with the payment and are not added to the balance. Credits already added are unchanged. See [Credit top-ups](/docs/pricing.md#credit-top-ups).
+
+Changes:
+
+- **Dashboard — Redesigned home page.** The dashboard home now shows your credit balance with a reminder to add credits when it runs out, usage for the last 24 hours, 7, 30, or 90 days with token and request trends, and shortcuts to AI Gateways, RAG Collections, Chat clients, and Voice. **Get started**, **Copy Prompt**, and the yearly daily token usage chart remain available. Token totals now count only token-based usage, and request totals count each request once. The code sample panel was removed; see the [Overview](/docs/overview.md) for examples.
+- **Dashboard — More consistent page layout.** Section titles on the Usage page now include a short description, and section spacing on Analytics and Batch is aligned with other pages. On the Generations page, the text tools and the image and reranking tools are grouped under their own labels in the tab list.
+- **AI Gateways — New `tool.fetched` and `message.completed` worker events.** Gateway workers now receive `tool.fetched` after a server-side tool returns its result, and can keep, block, or replace that result with a `tool.fetched.response` action. Workers also receive `message.completed` after each inference finishes, with the messages, errors, whether the failure was fatal, and usage; this event is a notification and its response is ignored. Workers that return `2xx` for unknown events need no change. See [Gateway Workers](/docs/inference/workers.md).
+- **Account — No service fee on credit top-ups for Pro, Max, and Ultimate.** Adding credits on Pro, Max, and Ultimate no longer includes the AIVAX service fee. The payment processor fee still applies, and Free keeps the service fee. The dashboard shows each fee before you confirm. See [Credit top-ups](/docs/pricing.md#credit-top-ups).
+- **Account — Daily ceiling on the inference commission.** The plan's inference commission on integrated-model inference is now limited to $1.50 per day on Free, $1.20 on Pro, and $1.00 on Max. After the ceiling is reached, model inference is charged at the model's rates until midnight in the America/Sao_Paulo time zone. Other services that include the plan multiplier in their rates are not covered by the ceiling. See [Plan multipliers](/docs/pricing.md#plan-multipliers).
+- **Account — Inference commission as a separate usage entry.** For integrated-model inference, the plan's commission is now recorded as its own usage entry, `inference.commission`, under the same model as the request. Token entries now show the model's rates without the commission; the total charged for a request is unchanged while the daily ceiling has not been reached. If you calculate unit prices from usage entries, add the `inference.commission` entries to get the full cost.
+- **Account — Model names on moderation and Agentic Tests usage.** Input moderation usage is now recorded under `@aivax/layered-moderation` and attributed to the same resources as the request, such as the API key and AI gateway. Simulated-user and judge usage of Agentic Tests is recorded under `@aivax/agentic-tests:user-<profile>` and `@aivax/agentic-tests:judge-<profile>`, such as `@aivax/agentic-tests:judge-medium`, instead of the underlying model. Remote resources fetched by a test are attributed to its run. Prices are unchanged.
+
 ## Tuesday, November 10th, 2026
 
 Breaking changes:
@@ -25,8 +41,10 @@ Fixes:
 
 Changes:
 
+- **Data processing — Patches in instruction refinement.** Each item of `suggestedFixes` returned by `POST /api/v1/generations/instruction-refinement` now has a `patches` array with the fix as unified diffs against the context items sent in the request, one per changed item, so you can preview and apply a fix without rewriting it by hand. `patches` is empty when a fix needs content or facts that aren't in the request. Existing response fields are unchanged. See [Instruction Refinement](/docs/data-processing/instruction-refinement.md).
 - **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
 - **Language models — Provider names in the model catalog.** The model catalog and the models endpoint now show each provider's public name only, without internal suffixes. Provider tags are unchanged.
+- **Conversations — Moderation refusals are identified in the conversation list.** Conversations refused by AI gateway moderation now show a **Moderated** label with the violated categories in the dashboard conversation list, instead of **Error**. `GET /api/v1/conversations` returns these categories in the new `moderationCategories` field, which is `null` for conversations that moderation didn't refuse.
 
 ## Monday, November 9th, 2026
 
