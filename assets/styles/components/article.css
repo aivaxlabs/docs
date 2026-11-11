@@ -157,11 +157,18 @@
     border-top: 1px solid var(--border);
 }
 
-.prose table {
-    display: block;
-    width: 100%;
-    margin: 1.5em 0;
+.table-scroll {
+    --table-width: min(100cqi, 100% + 240px);
+    width: var(--table-width);
+    margin: 1.5em 0 1.5em calc((100% - var(--table-width)) / 2);
+    padding: 4px 18px;
     overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.prose table {
+    width: 100%;
     border-collapse: collapse;
     font-size: 14px;
 }
@@ -172,6 +179,20 @@
     border-bottom: 1px solid var(--border);
     text-align: left;
     vertical-align: top;
+}
+
+.prose th:last-child,
+.prose td:last-child {
+    padding-right: 0;
+}
+
+.prose tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.prose td code {
+    overflow-wrap: normal;
+    white-space: nowrap;
 }
 
 .prose th {
