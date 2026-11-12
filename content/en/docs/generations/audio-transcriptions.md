@@ -32,6 +32,6 @@ A transcript is usually the start of a pipeline, not the end. Index it into a [R
 
 ## Pricing, limits, and errors
 
-Transcription price varies by model; current tariffs are listed in the Models catalog.
+Transcription price varies by model; current tariffs are listed in the [Models catalog](https://aivax.net/models#speech-to-text).
 
 Standalone audio-transcription requests are limited per minute, and per hour on Free; see [Speech limits](/docs/limits.md#speech). Transcription requests have a quota separate from speech generation, with the same values. Decoded audio is limited to 75 MB per request. Correct invalid or inaccessible audio before retrying a failed request.

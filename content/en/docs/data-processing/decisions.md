@@ -12,48 +12,9 @@ Use [structured responses](/docs/inference/structured-responses/concepts.md) ins
 
 ## Choose a model
 
-All models below support `choice`, `noul`, and `score`. See [Usage and cost](#usage-and-cost) for model rates and [Model-specific limits](#model-specific-limits) for model limits.
+The available decision models, with their aliases, supported question types, context, and prices, are listed in the [Models catalog](https://aivax.net/models#decisions).
 
-| Model |
-| --- |
-| `@supersonic-labs/julia-1` |
-| `@typesafe/jev-1.13` |
-| `@typesafe/jev-1.14` |
-| `@respan/span-02` |
-| `@respan/span-01` |
-| `@respan/span-01-lite` |
-| `@jaredpalmer/kev-4b` |
-| `@upstage/solar-decide` |
-| `@cloudflare/clef` |
-| `@cloudflare/clef-flash` |
-| `@liquid/d1-ultra` |
-| `@liquid/d1` |
-| `@liquid/d1.1` |
-| `@perplexity/pplx-decider-v1.2` |
-| `@perplexity/pplx-decider-flash-v1.2` |
-| `@openai/gpt-6-luna-decisions` |
-| `@microsoft/microsoft-decision-1` |
-| `@nace-ai/drex-v1.5` |
-| `@nace-ai/drex-v2.0` |
-| `@nace-ai/drex-max` |
-| `@cloudflare/clef-omni` |
-| `@upstage/solar-decide-flash` |
-| `@scaledown/classify-1` |
-| `@inception/mercury-decide` |
-
-Each response returns the canonical model name in `model`. You can also send one of the short aliases below. Each alias currently resolves to the canonical model shown, but it can move to a newer version when one is released. Pin the canonical name when you need a stable version.
-
-| Alias | Resolves to |
-| --- | --- |
-| `@supersonic-labs/julia:latest` | `@supersonic-labs/julia-1` |
-| `@typesafe/jev:latest` | `@typesafe/jev-1.14` |
-| `@respan/span:latest` | `@respan/span-01` |
-| `@respan/span-lite:latest` | `@respan/span-01-lite` |
-| `@jaredpalmer/kev:latest` | `@jaredpalmer/kev-4b` |
-| `@liquid/d:latest` | `@liquid/d1.1` |
-| `@perplexity/pplx-decider:latest` | `@perplexity/pplx-decider-v1.2` |
-| `@perplexity/pplx-decider-flash:latest` | `@perplexity/pplx-decider-flash-v1.2` |
-| `@nace-ai/drex:latest` | `@nace-ai/drex-v1.5` |
+Each response returns the canonical model name in `model`. You can also send a model alias, such as `@supersonic-labs/julia:latest`. An alias can move to a newer version when one is released, so pin the canonical name when you need a stable version.
 
 An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
@@ -136,7 +97,7 @@ For a walkthrough with routing code and model prices, see [Decisions API example
 
 ### Send images
 
-`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni`, and `@openai/gpt-6-luna-decisions` accept images. Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
+Some decision models accept images; check `maxImages` in the [model listing](#discover-models-programmatically). Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
 
 ```json
 {
@@ -227,36 +188,9 @@ Requests above the limit return `429 Too Many Requests` before evaluation. An im
 
 ## Model-specific limits
 
-These model-specific limits apply in addition to the account-level request quota above. An unspecified context limit does not imply unlimited input.
+These model-specific limits apply in addition to the account-level request quota above. Each model's context is listed in the [Models catalog](https://aivax.net/models#decisions); an unspecified context limit does not imply unlimited input.
 
-| Model | Context |
-| --- | --- |
-| `@supersonic-labs/julia-1` | 1,024 tokens per question |
-| `@typesafe/jev-1.13` | 262,144 tokens |
-| `@typesafe/jev-1.14` | 262,144 tokens |
-| `@respan/span-02` | 131,072 tokens |
-| `@respan/span-01` | Not specified in the current catalog |
-| `@respan/span-01-lite` | Not specified in the current catalog |
-| `@jaredpalmer/kev-4b` | 8,192 tokens |
-| `@upstage/solar-decide` | 524,288 tokens |
-| `@cloudflare/clef` | 65,536 tokens |
-| `@cloudflare/clef-flash` | 24,576 tokens |
-| `@liquid/d1-ultra` | 32,768 tokens |
-| `@liquid/d1` | 65,536 tokens |
-| `@liquid/d1.1` | 65,536 tokens |
-| `@perplexity/pplx-decider-v1.2` | 262,144 tokens |
-| `@perplexity/pplx-decider-flash-v1.2` | 262,144 tokens |
-| `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
-| `@microsoft/microsoft-decision-1` | 32,768 tokens |
-| `@nace-ai/drex-v1.5` | 131,072 tokens |
-| `@cloudflare/clef-omni` | 65,536 tokens |
-| `@nace-ai/drex-v2.0` | 131,072 tokens |
-| `@nace-ai/drex-max` | 262,144 tokens |
-| `@upstage/solar-decide-flash` | 524,288 tokens |
-| `@scaledown/classify-1` | 1,000,000 tokens |
-| `@inception/mercury-decide` | 65,536 tokens |
-
-Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@inception/mercury-decide` accepts up to 16; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only. The `maxImages` field of the model listing is the authoritative value.
+Most decision models are text-only. The `maxImages` field of the [model listing](#discover-models-programmatically) is the authoritative number of images a model accepts per request.
 
 `@cloudflare/clef` and `@cloudflare/clef-flash` reject requests that exceed their processing window, so keep each image under about 300 KB before encoding. They also read roughly the first 2,000 tokens of text in `state`; images are counted separately.
 
@@ -278,40 +212,13 @@ Inputs exceeding the context or question/options budget are rejected, not silent
 
 ## Usage and cost
 
-The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments (see the [plan multiplier](../pricing.md#plan-multipliers)). Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described after the table.
-
-| Model | Input price / million tokens |
-| --- | ---: |
-| `@supersonic-labs/julia-1` | **$0.008** |
-| `@typesafe/jev-1.13` | **$0.042** |
-| `@typesafe/jev-1.14` | **$0.042** |
-| `@respan/span-02` | **$0.010** |
-| `@respan/span-01` | **$0.020** |
-| `@respan/span-01-lite` | **$0.000** |
-| `@jaredpalmer/kev-4b` | **$0.042** |
-| `@upstage/solar-decide` | **$0.100** |
-| `@cloudflare/clef` | **$0.240** |
-| `@cloudflare/clef-flash` | **$0.038** |
-| `@liquid/d1-ultra` | **$0.042** |
-| `@liquid/d1` | **$0.020** |
-| `@liquid/d1.1` | **$0.020** |
-| `@perplexity/pplx-decider-v1.2` | **$0.020** |
-| `@perplexity/pplx-decider-flash-v1.2` | **$0.010** |
-| `@openai/gpt-6-luna-decisions` | **$0.100** |
-| `@microsoft/microsoft-decision-1` | **$0.042** |
-| `@nace-ai/drex-v1.5` | **$0.040** |
-| `@cloudflare/clef-omni` | **$0.150** |
-| `@nace-ai/drex-v2.0` | **$0.060** |
-| `@nace-ai/drex-max` | **$0.060** |
-| `@upstage/solar-decide-flash` | **$0.100** |
-| `@scaledown/classify-1` | **$0.050** |
-| `@inception/mercury-decide` | **$0.040** |
+Decision models are billed per input token at the base USD rates listed in the [Models catalog](https://aivax.net/models#decisions), before account and plan adjustments (see the [plan multiplier](../pricing.md#plan-multipliers)).
 
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question, so input usage grows with the number of questions even when they share one state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
 Julia-1 is currently eligible for the daily semantic decision allowance on every plan. Other decision models are billed normally. The allowance is shared across all eligible decision calls of the account, not reserved for each question or API key. See [Plans and Limits](../limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
 
-When not covered, Julia-1 input is billed at the [listed rate](#usage-and-cost), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
+When not covered, Julia-1 input is billed at its [listed rate](https://aivax.net/models#decisions), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 
 ## Errors and reliable use
 
