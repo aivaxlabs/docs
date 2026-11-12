@@ -8,5 +8,5 @@ Source: https://docs.aivax.net/pt-br/docs/legal/index.html
 
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
 
-- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

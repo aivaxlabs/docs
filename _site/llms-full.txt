@@ -6384,6 +6384,8 @@ AIVAX accepts context in three places. All of them are added to the system instr
 
 None of them is saved to the session history: the model sees the latest version on each request. Because they are part of the system instructions, which start every request, changing them invalidates the prompt cache for the whole history.
 
+Keep `extraContext` stable during the conversation. Each change to it, or to the content returned by `contextLocation`, invalidates the prompt cache for the whole history, which increases latency and input cost on the next request. For information that changes on every request, or that is not text, use the Send Prompt `context` field instead: it goes into the last user message rather than the system instructions, so the cached history before that message is kept. See [Add disposable context to the last user message](#add-disposable-context-to-the-last-user-message).
+
 The same rule applies to the channel integrations: Telegram and WhatsApp put their fixed channel context, such as formatting rules and the user's display name, in the session `extraContext`.
 
 Do not put secrets, internal tokens, or data the model should not see in any of these fields. They are sent to the model and can influence responses, tools, and workers. Make sure the `contextLocation` URL is reachable by AIVAX; when it can't be loaded, the inference continues without it and a warning is added to the account logs.
@@ -6424,6 +6426,35 @@ Unlike session `extraContext`, `instructions` is not saved as session context, e
     "instructions": [
         "The user is viewing product SKU 4471.",
         "Answer in one sentence."
+    ]
+}
+```
+
+### Add disposable context to the last user message
+
+Use `context` to give the model material that belongs to the current turn only, such as a screenshot of what the user is looking at, a document they selected, a short audio clip, or text extracted from your application. It accepts:
+
+- a string, which becomes a text part;
+- one OpenAI-compatible content part: `text`, `image_url`, `input_audio`, `video_url`, or `file`;
+- an array mixing strings and content parts.
+
+The parts are inserted at the beginning of the last user message of the conversation, before the user's own content. When a tool returned media in a previous step, the context still goes into the message written by the user, not the tool output.
+
+The context is disposable: it is never saved to the session history or to the stored conversation, even when `commit` is `true`, and it is not returned in `createdMessages`. Send it again on each request that needs it. Media parts follow the same rules as attachments in `prompt`: they are forwarded as multimodal content or converted to text according to the model and the gateway's multimodal settings, and that processing is billed as usual.
+
+`context` is the cache-friendly way to send changing information. Unlike `extraContext` and `instructions`, it does not change the system instructions, so the cached part of the conversation is kept up to the last user message. Like every other context field, it is sent to the model: do not include secrets or data the model should not see.
+
+Use `context` for information, not for instructions. Because it is part of the user's message, the model treats it as user input: directives such as "ignore previous rules" or "always answer in JSON" may be ignored, or interpreted as a jailbreak attempt and refused. Put behavior rules, answer formats, and other directives in `instructions` or in the session `extraContext`, which are added to the system instructions.
+
+```json
+{
+    "prompt": "Is this item still available?",
+    "context": [
+        "The user is viewing product SKU <sku>.",
+        {
+            "type": "image_url",
+            "image_url": { "url": "https://example.com/product.png" }
+        }
     ]
 }
 ```
@@ -6783,7 +6814,7 @@ Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions]
 
 ## Pricing, limits, and errors
 
-Speech generation price varies by model; current tariffs are listed in the Models catalog.
+Speech generation price varies by model; current tariffs are listed in the [Models catalog](https://aivax.net/models#text-to-speech).
 
 Standalone text-to-speech requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/limits.md#speech). Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.
 
@@ -6821,7 +6852,7 @@ A transcript is usually the start of a pipeline, not the end. Index it into a [R
 
 ## Pricing, limits, and errors
 
-Transcription price varies by model; current tariffs are listed in the Models catalog.
+Transcription price varies by model; current tariffs are listed in the [Models catalog](https://aivax.net/models#speech-to-text).
 
 Standalone audio-transcription requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/limits.md#speech). Transcription requests have a quota separate from speech generation, with the same values. Decoded audio is limited to 75 MB per request. Correct invalid or inaccessible audio before retrying a failed request.
 
@@ -6888,48 +6919,9 @@ Use [structured responses](https://docs.aivax.net/docs/inference/structured-resp
 
 ## Choose a model
 
-All models below support `choice`, `noul`, and `score`. See [Usage and cost](#usage-and-cost) for model rates and [Model-specific limits](#model-specific-limits) for model limits.
+The available decision models, with their aliases, supported question types, context, and prices, are listed in the [Models catalog](https://aivax.net/models#decisions).
 
-| Model |
-| --- |
-| `@supersonic-labs/julia-1` |
-| `@typesafe/jev-1.13` |
-| `@typesafe/jev-1.14` |
-| `@respan/span-02` |
-| `@respan/span-01` |
-| `@respan/span-01-lite` |
-| `@jaredpalmer/kev-4b` |
-| `@upstage/solar-decide` |
-| `@cloudflare/clef` |
-| `@cloudflare/clef-flash` |
-| `@liquid/d1-ultra` |
-| `@liquid/d1` |
-| `@liquid/d1.1` |
-| `@perplexity/pplx-decider-v1.2` |
-| `@perplexity/pplx-decider-flash-v1.2` |
-| `@openai/gpt-6-luna-decisions` |
-| `@microsoft/microsoft-decision-1` |
-| `@nace-ai/drex-v1.5` |
-| `@nace-ai/drex-v2.0` |
-| `@nace-ai/drex-max` |
-| `@cloudflare/clef-omni` |
-| `@upstage/solar-decide-flash` |
-| `@scaledown/classify-1` |
-| `@inception/mercury-decide` |
-
-Each response returns the canonical model name in `model`. You can also send one of the short aliases below. Each alias currently resolves to the canonical model shown, but it can move to a newer version when one is released. Pin the canonical name when you need a stable version.
-
-| Alias | Resolves to |
-| --- | --- |
-| `@supersonic-labs/julia:latest` | `@supersonic-labs/julia-1` |
-| `@typesafe/jev:latest` | `@typesafe/jev-1.14` |
-| `@respan/span:latest` | `@respan/span-01` |
-| `@respan/span-lite:latest` | `@respan/span-01-lite` |
-| `@jaredpalmer/kev:latest` | `@jaredpalmer/kev-4b` |
-| `@liquid/d:latest` | `@liquid/d1.1` |
-| `@perplexity/pplx-decider:latest` | `@perplexity/pplx-decider-v1.2` |
-| `@perplexity/pplx-decider-flash:latest` | `@perplexity/pplx-decider-flash-v1.2` |
-| `@nace-ai/drex:latest` | `@nace-ai/drex-v1.5` |
+Each response returns the canonical model name in `model`. You can also send a model alias, such as `@supersonic-labs/julia:latest`. An alias can move to a newer version when one is released, so pin the canonical name when you need a stable version.
 
 An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
 
@@ -7012,7 +7004,7 @@ For a walkthrough with routing code and model prices, see [Decisions API example
 
 ### Send images
 
-`@cloudflare/clef`, `@cloudflare/clef-flash`, `@cloudflare/clef-omni`, and `@openai/gpt-6-luna-decisions` accept images. Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
+Some decision models accept images; check `maxImages` in the [model listing](#discover-models-programmatically). Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
 
 ```json
 {
@@ -7103,36 +7095,9 @@ Requests above the limit return `429 Too Many Requests` before evaluation. An im
 
 ## Model-specific limits
 
-These model-specific limits apply in addition to the account-level request quota above. An unspecified context limit does not imply unlimited input.
+These model-specific limits apply in addition to the account-level request quota above. Each model's context is listed in the [Models catalog](https://aivax.net/models#decisions); an unspecified context limit does not imply unlimited input.
 
-| Model | Context |
-| --- | --- |
-| `@supersonic-labs/julia-1` | 1,024 tokens per question |
-| `@typesafe/jev-1.13` | 262,144 tokens |
-| `@typesafe/jev-1.14` | 262,144 tokens |
-| `@respan/span-02` | 131,072 tokens |
-| `@respan/span-01` | Not specified in the current catalog |
-| `@respan/span-01-lite` | Not specified in the current catalog |
-| `@jaredpalmer/kev-4b` | 8,192 tokens |
-| `@upstage/solar-decide` | 524,288 tokens |
-| `@cloudflare/clef` | 65,536 tokens |
-| `@cloudflare/clef-flash` | 24,576 tokens |
-| `@liquid/d1-ultra` | 32,768 tokens |
-| `@liquid/d1` | 65,536 tokens |
-| `@liquid/d1.1` | 65,536 tokens |
-| `@perplexity/pplx-decider-v1.2` | 262,144 tokens |
-| `@perplexity/pplx-decider-flash-v1.2` | 262,144 tokens |
-| `@openai/gpt-6-luna-decisions` | 1,050,000 tokens |
-| `@microsoft/microsoft-decision-1` | 32,768 tokens |
-| `@nace-ai/drex-v1.5` | 131,072 tokens |
-| `@cloudflare/clef-omni` | 65,536 tokens |
-| `@nace-ai/drex-v2.0` | 131,072 tokens |
-| `@nace-ai/drex-max` | 262,144 tokens |
-| `@upstage/solar-decide-flash` | 524,288 tokens |
-| `@scaledown/classify-1` | 1,000,000 tokens |
-| `@inception/mercury-decide` | 65,536 tokens |
-
-Image input per request: `@cloudflare/clef`, `@cloudflare/clef-flash`, and `@cloudflare/clef-omni` accept up to 4 images; `@inception/mercury-decide` accepts up to 16; `@openai/gpt-6-luna-decisions` accepts up to 128. Other decision models are text-only. The `maxImages` field of the model listing is the authoritative value.
+Most decision models are text-only. The `maxImages` field of the [model listing](#discover-models-programmatically) is the authoritative number of images a model accepts per request.
 
 `@cloudflare/clef` and `@cloudflare/clef-flash` reject requests that exceed their processing window, so keep each image under about 300 KB before encoding. They also read roughly the first 2,000 tokens of text in `state`; images are counted separately.
 
@@ -7154,40 +7119,13 @@ Inputs exceeding the context or question/options budget are rejected, not silent
 
 ## Usage and cost
 
-The decision-model rates below are base USD prices per million input tokens, before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers)). Output tokens have no charge in the current decision-model catalog. Julia-1 is eligible for the daily allowance described after the table.
-
-| Model | Input price / million tokens |
-| --- | ---: |
-| `@supersonic-labs/julia-1` | **$0.008** |
-| `@typesafe/jev-1.13` | **$0.042** |
-| `@typesafe/jev-1.14` | **$0.042** |
-| `@respan/span-02` | **$0.010** |
-| `@respan/span-01` | **$0.020** |
-| `@respan/span-01-lite` | **$0.000** |
-| `@jaredpalmer/kev-4b` | **$0.042** |
-| `@upstage/solar-decide` | **$0.100** |
-| `@cloudflare/clef` | **$0.240** |
-| `@cloudflare/clef-flash` | **$0.038** |
-| `@liquid/d1-ultra` | **$0.042** |
-| `@liquid/d1` | **$0.020** |
-| `@liquid/d1.1` | **$0.020** |
-| `@perplexity/pplx-decider-v1.2` | **$0.020** |
-| `@perplexity/pplx-decider-flash-v1.2` | **$0.010** |
-| `@openai/gpt-6-luna-decisions` | **$0.100** |
-| `@microsoft/microsoft-decision-1` | **$0.042** |
-| `@nace-ai/drex-v1.5` | **$0.040** |
-| `@cloudflare/clef-omni` | **$0.150** |
-| `@nace-ai/drex-v2.0` | **$0.060** |
-| `@nace-ai/drex-max` | **$0.060** |
-| `@upstage/solar-decide-flash` | **$0.100** |
-| `@scaledown/classify-1` | **$0.050** |
-| `@inception/mercury-decide` | **$0.040** |
+Decision models are billed per input token at the base USD rates listed in the [Models catalog](https://aivax.net/models#decisions), before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers)).
 
 For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question, so input usage grows with the number of questions even when they share one state. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
 Julia-1 is currently eligible for the daily semantic decision allowance on every plan. Other decision models are billed normally. The allowance is shared across all eligible decision calls of the account, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
 
-When not covered, Julia-1 input is billed at the [listed rate](#usage-and-cost), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
+When not covered, Julia-1 input is billed at its [listed rate](https://aivax.net/models#decisions), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
 
 ## Errors and reliable use
 
@@ -10301,6 +10239,19 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Thursday, November 12th, 2026
+
+Breaking changes:
+
+- **Image generation — DreamShaper 8 LCM removed.** `@lykon/dreamshaper-8-lcm` is no longer available, and requests that name it are rejected. Choose another text-to-image model, such as `@black-forest-labs/flux-schnell`. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+
+Changes:
+
+- **Chat clients — Disposable context in Send Prompt.** Send Prompt accepts a new `context` field with text or OpenAI-compatible content parts, including images, audio, video, and files. The parts are added to the beginning of the last user message for that request only and are never saved to the session history or the stored conversation. See [Add disposable context to the last user message](https://docs.aivax.net/docs/inference/chat-clients.md#add-disposable-context-to-the-last-user-message).
+- **Image generation — GPT Image 2.6 Flare and Sunburst.** Adds `@openai/gpt-image-2.6-flare`, for fast generation, and `@openai/gpt-image-2.6-sunburst`, for detailed compositions. Both support reference-image editing and are priced at $0.025 per output image plus $0.025 per reference image per output.
+- **Image generation — Older models deprecated.** `@openai/gpt-image-2.5-flare`, `@openai/gpt-image-2.5-sunburst` and `@openai/gpt-image-1-mini` are now marked as deprecated. They keep working for now; move to `@openai/gpt-image-2.6-flare`, `@openai/gpt-image-2.6-sunburst` or `@openai/gpt-image-2`.
+- **Image generation — Lower prices.** `@bytedance/seedream-5-pro` now costs $0.035 per output image, down from $0.09, and `@recraft/recraft-v4.1-flash` costs $0.007, down from $0.008.
 
 ## Wednesday, November 11th, 2026
 

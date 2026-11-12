@@ -6,6 +6,19 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Thursday, November 12th, 2026
+
+Breaking changes:
+
+- **Image generation — DreamShaper 8 LCM removed.** `@lykon/dreamshaper-8-lcm` is no longer available, and requests that name it are rejected. Choose another text-to-image model, such as `@black-forest-labs/flux-schnell`. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+
+Changes:
+
+- **Chat clients — Disposable context in Send Prompt.** Send Prompt accepts a new `context` field with text or OpenAI-compatible content parts, including images, audio, video, and files. The parts are added to the beginning of the last user message for that request only and are never saved to the session history or the stored conversation. See [Add disposable context to the last user message](https://docs.aivax.net/docs/inference/chat-clients.md#add-disposable-context-to-the-last-user-message).
+- **Image generation — GPT Image 2.6 Flare and Sunburst.** Adds `@openai/gpt-image-2.6-flare`, for fast generation, and `@openai/gpt-image-2.6-sunburst`, for detailed compositions. Both support reference-image editing and are priced at $0.025 per output image plus $0.025 per reference image per output.
+- **Image generation — Older models deprecated.** `@openai/gpt-image-2.5-flare`, `@openai/gpt-image-2.5-sunburst` and `@openai/gpt-image-1-mini` are now marked as deprecated. They keep working for now; move to `@openai/gpt-image-2.6-flare`, `@openai/gpt-image-2.6-sunburst` or `@openai/gpt-image-2`.
+- **Image generation — Lower prices.** `@bytedance/seedream-5-pro` now costs $0.035 per output image, down from $0.09, and `@recraft/recraft-v4.1-flash` costs $0.007, down from $0.008.
+
 ## Wednesday, November 11th, 2026
 
 Fixes:

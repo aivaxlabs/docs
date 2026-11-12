@@ -61,7 +61,6 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Explicações das Ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md)
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 - [Voz e Tempo Real](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
-- [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/pipelines.md)
 - [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
 - [Processamento em Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
@@ -110,5 +109,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

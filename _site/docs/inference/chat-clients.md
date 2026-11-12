@@ -36,6 +36,8 @@ AIVAX accepts context in three places. All of them are added to the system instr
 
 None of them is saved to the session history: the model sees the latest version on each request. Because they are part of the system instructions, which start every request, changing them invalidates the prompt cache for the whole history.
 
+Keep `extraContext` stable during the conversation. Each change to it, or to the content returned by `contextLocation`, invalidates the prompt cache for the whole history, which increases latency and input cost on the next request. For information that changes on every request, or that is not text, use the Send Prompt `context` field instead: it goes into the last user message rather than the system instructions, so the cached history before that message is kept. See [Add disposable context to the last user message](#add-disposable-context-to-the-last-user-message).
+
 The same rule applies to the channel integrations: Telegram and WhatsApp put their fixed channel context, such as formatting rules and the user's display name, in the session `extraContext`.
 
 Do not put secrets, internal tokens, or data the model should not see in any of these fields. They are sent to the model and can influence responses, tools, and workers. Make sure the `contextLocation` URL is reachable by AIVAX; when it can't be loaded, the inference continues without it and a warning is added to the account logs.
@@ -76,6 +78,35 @@ Unlike session `extraContext`, `instructions` is not saved as session context, e
     "instructions": [
         "The user is viewing product SKU 4471.",
         "Answer in one sentence."
+    ]
+}
+```
+
+### Add disposable context to the last user message
+
+Use `context` to give the model material that belongs to the current turn only, such as a screenshot of what the user is looking at, a document they selected, a short audio clip, or text extracted from your application. It accepts:
+
+- a string, which becomes a text part;
+- one OpenAI-compatible content part: `text`, `image_url`, `input_audio`, `video_url`, or `file`;
+- an array mixing strings and content parts.
+
+The parts are inserted at the beginning of the last user message of the conversation, before the user's own content. When a tool returned media in a previous step, the context still goes into the message written by the user, not the tool output.
+
+The context is disposable: it is never saved to the session history or to the stored conversation, even when `commit` is `true`, and it is not returned in `createdMessages`. Send it again on each request that needs it. Media parts follow the same rules as attachments in `prompt`: they are forwarded as multimodal content or converted to text according to the model and the gateway's multimodal settings, and that processing is billed as usual.
+
+`context` is the cache-friendly way to send changing information. Unlike `extraContext` and `instructions`, it does not change the system instructions, so the cached part of the conversation is kept up to the last user message. Like every other context field, it is sent to the model: do not include secrets or data the model should not see.
+
+Use `context` for information, not for instructions. Because it is part of the user's message, the model treats it as user input: directives such as "ignore previous rules" or "always answer in JSON" may be ignored, or interpreted as a jailbreak attempt and refused. Put behavior rules, answer formats, and other directives in `instructions` or in the session `extraContext`, which are added to the system instructions.
+
+```json
+{
+    "prompt": "Is this item still available?",
+    "context": [
+        "The user is viewing product SKU <sku>.",
+        {
+            "type": "image_url",
+            "image_url": { "url": "https://example.com/product.png" }
+        }
     ]
 }
 ```

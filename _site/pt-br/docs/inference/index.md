@@ -56,8 +56,6 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 
 - [Voz e Tempo Real](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
 
-- [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/pipelines.md)
-
 - [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
 
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
