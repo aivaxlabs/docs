@@ -91,7 +91,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Ferramentas
 
 - [Ferramentas Integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
-- [Suporte para o Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
+- [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 - [Funções de Protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md)
 - [Sandboxing de Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md)
 
@@ -109,5 +109,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

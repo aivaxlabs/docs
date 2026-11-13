@@ -91,7 +91,7 @@ Tips for reliable answers:
 - Write instructions that explain the decision, not ones that ask for a chain of reasoning or additional text.
 - Avoid overlapping choice descriptions unless that ambiguity is intentional.
 
-For a walkthrough with routing code and model prices, see [Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
+For one triage request run unchanged on Jev, GPT-6 Luna Decisions and Gemini Decision 1, with routing code and measured cost, see [Jev and OpenAI Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
 
 ### Send images
 

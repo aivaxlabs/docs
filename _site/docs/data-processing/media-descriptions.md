@@ -25,7 +25,39 @@ Prefer Media Descriptions when the extraction guidance is stable and the result 
 
 Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. The optional `extractionGuidance` instruction narrows the output — "identify the main subject and visible text" for an image, "summarize the sequence of events" for a video — so write it as the question your workflow needs answered.
 
-Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Under the `auto` preset, remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)). Switch to `high` when the service should receive the remote URL directly.
+Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)).
+
+## Choose the engines
+
+The optional `options` object selects the engine that resolves each content type. Omitted engines use `InferenceLow`.
+
+```json
+{
+    "options": {
+        "imageEngine": "InferenceHigh",
+        "audioEngine": "Stt",
+        "videoEngine": "InferenceLow",
+        "fileEngine": "Ocr"
+    },
+    "input": [ ... ]
+}
+```
+
+| Field | Accepted values |
+| --- | --- |
+| `imageEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
+| `audioEngine` | `InferenceLow`, `InferenceHigh`, `Stt` |
+| `videoEngine` | `InferenceLow`, `InferenceHigh` |
+| `fileEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
+
+- `InferenceLow` describes the content with a smaller, faster, and cheaper multimodal model.
+- `InferenceHigh` uses a larger multimodal model that is more accurate and costs more. Use it when small details matter.
+- `Ocr` extracts the text of images and files. With `fileEngine: "Ocr"`, any supported document is converted, not only PDFs.
+- `Stt` transcribes the speech in audio with a speech-to-text model.
+
+Inference engines return a structured description whose shape depends on the content type. `Ocr` and `Stt` return `{ "textContent": "..." }` and ignore `extractionGuidance`. The engines match those of [Multimodal pre-processing](https://docs.aivax.net/docs/inference/chat-completions/multimodal-pre-processing.md).
+
+The `preset` property is deprecated. It cannot be combined with `options`; a request that sends both is rejected with `400`.
 
 For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.
 
@@ -39,8 +71,8 @@ The embedded reference is the source of truth for accepted media forms, request 
 | --- | ---: |
 | Media descriptions | **~$1.50/M tokens** |
 
-The price is approximate and depends on the available processing model.
+The price is approximate and depends on the selected engine. `InferenceHigh` costs more than `InferenceLow`; `Ocr` and `Stt` are billed as OCR and speech-to-text usage.
 
-Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 Correct inaccessible media or invalid content before retrying.

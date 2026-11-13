@@ -2210,7 +2210,7 @@ Use an integrated model unless you need a model, contract, or region that only y
 
 Model routing selects a different model for each request. The complexity router classifies the latest user request as low, medium, or high complexity and runs the model configured for that level, with an optional reasoning effort per level. The response carries the `X-Model-Routed-Complexity` header when a level was selected.
 
-Use it when most requests are simple but some need a stronger model, so you do not pay the stronger model's price on every request. Do not use it when every answer must come from the same model for consistency or compliance.
+Use it when most requests are simple but some need a stronger model, so you do not pay the stronger model's price on every request. Do not use it when every answer must come from the same model for consistency or compliance. To measure what the classifier adds to each request before you adopt it, see [what a complexity router costs](https://aivax.net/blog/route-by-complexity-price-by-task/).
 
 Model routing differs from [provider routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md), which keeps the model and chooses which provider serves it.
 
@@ -6327,7 +6327,7 @@ Batch processing is asynchronous. If quota pauses or fails the job:
 1. Wait until the quota window resets, then retry.
 2. Or upgrade the account.
 
-For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+For how provider batch APIs such as OpenAI's limit and fail a batch, and how an AIVAX job pauses on a 429 and resumes, see [OpenAI Batch API rate limits and how a managed job handles 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Best practices
 
@@ -6342,7 +6342,7 @@ Use these checks before a large run, while you repair failures, and before you h
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
 - Retry low-confidence items separately. Low confidence does not mean error, but it indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.
-- For an operational walkthrough of rate limits, retries, and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+- For an operational walkthrough of rate limits, retries, and partial results, see [OpenAI Batch API rate limits and how a managed job handles 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ---
 
@@ -6611,7 +6611,7 @@ Source: https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.html
 
 Fetch and OCR extracts readable text from web pages and supported documents so applications and agents can use their content for summaries, analysis, or knowledge workflows. The Fetch API can also convert the extracted text into structured JSON using a schema you provide. Use [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) first if you need to discover sources rather than read a known URL.
 
-Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result. For an end-to-end walkthrough with a code example, see [how to extract text from a URL, scanned PDF or image for an LLM pipeline](https://aivax.net/blog/fetch-messy-web-to-text/).
+Web pages are processed to remove markup and non-content elements. Document extraction and optical character recognition (OCR) make supported non-text content available as text. Review extracted content before relying on it: scan quality, complex layouts, and tables can affect the result. For measured output, processing-unit costs and per-item errors on real pages, PDFs and receipts, see [URL to Markdown API for LLMs, plus scanned PDFs and images](https://aivax.net/blog/fetch-messy-web-to-text/).
 
 ## What you can extract
 
@@ -6885,7 +6885,39 @@ Prefer Media Descriptions when the extraction guidance is stable and the result 
 
 Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. The optional `extractionGuidance` instruction narrows the output — "identify the main subject and visible text" for an image, "summarize the sequence of events" for a video — so write it as the question your workflow needs answered.
 
-Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Under the `auto` preset, remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)). Switch to `high` when the service should receive the remote URL directly.
+Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)).
+
+## Choose the engines
+
+The optional `options` object selects the engine that resolves each content type. Omitted engines use `InferenceLow`.
+
+```json
+{
+    "options": {
+        "imageEngine": "InferenceHigh",
+        "audioEngine": "Stt",
+        "videoEngine": "InferenceLow",
+        "fileEngine": "Ocr"
+    },
+    "input": [ ... ]
+}
+```
+
+| Field | Accepted values |
+| --- | --- |
+| `imageEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
+| `audioEngine` | `InferenceLow`, `InferenceHigh`, `Stt` |
+| `videoEngine` | `InferenceLow`, `InferenceHigh` |
+| `fileEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
+
+- `InferenceLow` describes the content with a smaller, faster, and cheaper multimodal model.
+- `InferenceHigh` uses a larger multimodal model that is more accurate and costs more. Use it when small details matter.
+- `Ocr` extracts the text of images and files. With `fileEngine: "Ocr"`, any supported document is converted, not only PDFs.
+- `Stt` transcribes the speech in audio with a speech-to-text model.
+
+Inference engines return a structured description whose shape depends on the content type. `Ocr` and `Stt` return `{ "textContent": "..." }` and ignore `extractionGuidance`. The engines match those of [Multimodal pre-processing](https://docs.aivax.net/docs/inference/chat-completions/multimodal-pre-processing.md).
+
+The `preset` property is deprecated. It cannot be combined with `options`; a request that sends both is rejected with `400`.
 
 For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.
 
@@ -6899,9 +6931,9 @@ The embedded reference is the source of truth for accepted media forms, request 
 | --- | ---: |
 | Media descriptions | **~$1.50/M tokens** |
 
-The price is approximate and depends on the available processing model.
+The price is approximate and depends on the selected engine. `InferenceHigh` costs more than `InferenceLow`; `Ocr` and `Stt` are billed as OCR and speech-to-text usage.
 
-Under the `auto` preset, remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 Correct inaccessible media or invalid content before retrying.
 
@@ -7000,7 +7032,7 @@ Tips for reliable answers:
 - Write instructions that explain the decision, not ones that ask for a chain of reasoning or additional text.
 - Avoid overlapping choice descriptions unless that ambiguity is intentional.
 
-For a walkthrough with routing code and model prices, see [Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
+For one triage request run unchanged on Jev, GPT-6 Luna Decisions and Gemini Decision 1, with routing code and measured cost, see [Jev and OpenAI Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
 
 ### Send images
 
@@ -8232,6 +8264,8 @@ How discovery works:
 
 This is a limited compatibility integration, not full support for the extension's `2026-07-28` base protocol.
 
+For how SEP-2640 splits discovery, verification and activation between server and host, and which clients support it, see [MCP skills vs tools](https://aivax.net/blog/mcp-skills-extension-workflows/).
+
 - The server must accept the existing Streamable HTTP initialization flow and advertise the extension there.
 - Servers requiring `server/discover` are not supported by this integration.
 
@@ -8873,6 +8907,8 @@ It returns the name, tags, reference, metadata, dates, whether the document is a
 When `X-Mcp-Allow-Write` is disabled, only the search, browse, and get document tools are exposed. This is the recommended mode for assistants that only need to read a knowledge base.
 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
+
+For a coding-agent setup with a read-only runbook collection and a write-enabled notes collection, see [Claude Code memory MCP](https://aivax.net/blog/upgrade-your-harness-with-aivax-mcps/).
 
 ## Select which tools are exposed
 
@@ -10430,22 +10466,5 @@ Changes:
 - **CLI — Log in with an API key.** `aivax auth login --api-key <API_KEY>` links an account profile using an existing API key, without the account login key or authenticator code. See [CLI tool](https://docs.aivax.net/docs/cli.md#install).
 - **Accounts — Get the authenticated account.** The new `GET /api/v1/accounts` endpoint returns the identifier, display name and e-mail of the account that owns the API key.
 - **Conversations — Follow conversations in progress.** The new `GET /api/v1/conversations/management/live` Server-Sent Events stream sends the status of conversations being generated in the account: origin, model, elapsed time, partial token usage, and input and output previews. A finished conversation stays in the stream for 10 seconds with status `completed` and the stored `conversationId`, which is `null` when the conversation was not stored. `GET /api/v1/conversations/<id>` also accepts the live identifier and returns the current messages, and `GET /api/v1/conversations/<id>/sse` streams them until the conversation finishes. Only conversations that would be stored are tracked, so requests with conversation logging disabled do not appear. Server-side tool calls are only shown after the conversation is stored. On the **Conversations** page, conversations in progress appear above the stored list and the list refreshes when they finish; opening one follows it live and switches to the stored conversation when it is saved.
-
-## Thursday, October 29th, 2026
-
-Fixes:
-
-- **Account — Adding the first authenticator.** Confirming the first authenticator no longer fails with a required-property error. The current authenticator code is only needed when the account already has one.
-
-## Wednesday, October 28th, 2026
-
-Breaking changes:
-
-- **Language models — Special providers require opt-in.** Integrated text models no longer route to special discounted providers by default. Requests for a model that is currently available only through special providers fail unless they use the new `Special` routing preference, or the account enables **Allow special providers** and uses a preference other than `Balanced`. See [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md).
-
-Changes:
-
-- **Account — Allow special providers.** The account privacy settings include **Allow special providers**, disabled by default. When enabled, the `Cheapest`, `Fastest`, and `Quality` routing preferences also consider special providers, which serve models at discounted prices under conditions that may be less transparent. `Balanced` never uses them.
-- **Language models — `Special` routing preference.** AI Gateways (`parameters.routingOption`) and `routing_options.preset` accept `Special`, which works like `Balanced` but also includes special providers and gives them priority, regardless of the account setting.
 
 
