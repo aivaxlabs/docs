@@ -8,6 +8,12 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Friday, November 13th, 2026
+
+Fixes:
+
+- **Batch — Jobs resume after the daily item limit.** A job paused because the plan's daily limit of processed items was reached now resumes automatically after the limit window resets, as described in [Batch and Agentic Tests limits](/docs/limits.md#batch-and-agentic-tests). Previously, these jobs could stay paused until they were resumed manually. Jobs that are already stuck can be resumed by setting their state to active. Temporary model provider failures still pause the job after repeated errors and still require a manual resume.
+
 ## Thursday, November 12th, 2026
 
 Breaking changes:
