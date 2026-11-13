@@ -2,6 +2,23 @@
 
 Changelog entries older than the ones shown at https://docs.aivax.net/docs/legal/changelogs.html, newest first.
 
+## Thursday, October 29th, 2026
+
+Fixes:
+
+- **Account — Adding the first authenticator.** Confirming the first authenticator no longer fails with a required-property error. The current authenticator code is only needed when the account already has one.
+
+## Wednesday, October 28th, 2026
+
+Breaking changes:
+
+- **Language models — Special providers require opt-in.** Integrated text models no longer route to special discounted providers by default. Requests for a model that is currently available only through special providers fail unless they use the new `Special` routing preference, or the account enables **Allow special providers** and uses a preference other than `Balanced`. See [Special providers](/docs/inference/routing/special-providers.md).
+
+Changes:
+
+- **Account — Allow special providers.** The account privacy settings include **Allow special providers**, disabled by default. When enabled, the `Cheapest`, `Fastest`, and `Quality` routing preferences also consider special providers, which serve models at discounted prices under conditions that may be less transparent. `Balanced` never uses them.
+- **Language models — `Special` routing preference.** AI Gateways (`parameters.routingOption`) and `routing_options.preset` accept `Special`, which works like `Balanced` but also includes special providers and gives them priority, regardless of the account setting.
+
 ## Tuesday, October 27th, 2026
 
 Breaking changes:
