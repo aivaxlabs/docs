@@ -119,6 +119,8 @@ When `X-Mcp-Allow-Write` is disabled, only the search, browse, and get document 
 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
 
+For a coding-agent setup with a read-only runbook collection and a write-enabled notes collection, see [Claude Code memory MCP](https://aivax.net/blog/upgrade-your-harness-with-aivax-mcps/).
+
 ## Select which tools are exposed
 
 Use the optional `X-Mcp-Enabled-Tools` header to expose only some of the generated tools. Provide a comma-separated allowlist of tool types, not generated tool names, so the same value works with any collection name and naming convention:

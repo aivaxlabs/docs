@@ -321,7 +321,7 @@ Batch processing is asynchronous. If quota pauses or fails the job:
 1. Wait until the quota window resets, then retry.
 2. Or upgrade the account.
 
-For how batch admission handles quota pauses and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+For how provider batch APIs such as OpenAI's limit and fail a batch, and how an AIVAX job pauses on a 429 and resumes, see [OpenAI Batch API rate limits and how a managed job handles 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Best practices
 
@@ -336,4 +336,4 @@ Use these checks before a large run, while you repair failures, and before you h
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
 - Retry low-confidence items separately. Low confidence does not mean error, but it indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.
-- For an operational walkthrough of rate limits, retries, and partial results, see [running thousands of LLM requests in batch](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+- For an operational walkthrough of rate limits, retries, and partial results, see [OpenAI Batch API rate limits and how a managed job handles 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).

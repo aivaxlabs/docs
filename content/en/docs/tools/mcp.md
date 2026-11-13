@@ -121,6 +121,8 @@ How discovery works:
 
 This is a limited compatibility integration, not full support for the extension's `2026-07-28` base protocol.
 
+For how SEP-2640 splits discovery, verification and activation between server and host, and which clients support it, see [MCP skills vs tools](https://aivax.net/blog/mcp-skills-extension-workflows/).
+
 - The server must accept the existing Streamable HTTP initialization flow and advertise the extension there.
 - Servers requiring `server/discover` are not supported by this integration.
 

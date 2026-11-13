@@ -34,7 +34,7 @@ Use an integrated model unless you need a model, contract, or region that only y
 
 Model routing selects a different model for each request. The complexity router classifies the latest user request as low, medium, or high complexity and runs the model configured for that level, with an optional reasoning effort per level. The response carries the `X-Model-Routed-Complexity` header when a level was selected.
 
-Use it when most requests are simple but some need a stronger model, so you do not pay the stronger model's price on every request. Do not use it when every answer must come from the same model for consistency or compliance.
+Use it when most requests are simple but some need a stronger model, so you do not pay the stronger model's price on every request. Do not use it when every answer must come from the same model for consistency or compliance. To measure what the classifier adds to each request before you adopt it, see [what a complexity router costs](https://aivax.net/blog/route-by-complexity-price-by-task/).
 
 Model routing differs from [provider routing](/docs/inference/routing/setup-routing.md), which keeps the model and chooses which provider serves it.
 
