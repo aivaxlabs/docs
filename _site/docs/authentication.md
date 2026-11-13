@@ -60,7 +60,7 @@ When a public key calls chat completions:
 - Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `conversation_token`, `idempotency_key`, and `stream`.
 - Request and token rate limits are applied both globally per key and per remote address. See [Public API keys](https://docs.aivax.net/docs/limits.md#public-api-keys) for the current values.
 
-If you are exposing a browser or widget experience to end users, review [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients.md) before deciding whether a public key is the right boundary.
+If you are exposing a browser or widget experience to end users, review [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) before deciding whether a public key is the right boundary.
 
 ### Application keys
 

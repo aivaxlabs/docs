@@ -28,7 +28,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Modelos e Nomes de Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
 - [Usando Gateways de IA por meio de SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
-- [Levando um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
+- [Levar um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
 - [Conceitos de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md)
 - [Contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md)
 - [Reutilização de Sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md)
@@ -59,12 +59,15 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Orientações para Apresentação de Chat](https://docs.aivax.net/pt-br/docs/inference/response-rendering/chat-presentation-guidance.md)
 - [Exemplo de múltiplas rodadas bruto](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
 - [Explicações das Ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md)
+- [Visão Geral dos Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/overview.md)
+- [Gerenciando Sessões do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md)
+- [Cliente de Chat Web](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md)
+- [Integrações do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md)
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 - [Voz e Tempo Real](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
 - [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
 - [Processamento em Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
-- [Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients.md)
 
 ## Fundação Web
 
@@ -90,7 +93,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 
 ## Ferramentas
 
-- [Ferramentas Integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
+- [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
 - [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 - [Funções de Protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md)
 - [Sandboxing de Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md)
@@ -109,5 +112,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

@@ -22,7 +22,7 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 - [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) — reorder candidate documents by relevance, with or without a managed collection.
 - [Skills](https://docs.aivax.net/docs/inference/skills.md) — package reusable instructions and operating knowledge for AI Gateways.
 - [Tools](https://docs.aivax.net/docs/tools/builtin-tools.md) and [MCP](https://docs.aivax.net/docs/tools/mcp.md) — connect assistants to AIVAX capabilities and external systems.
-- [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md) — publish a gateway through web chat or supported messaging integrations.
+- [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) — publish a gateway through web chat or supported messaging integrations.
 
 ## Process text and media
 
@@ -77,7 +77,7 @@ Use this table when you know the job and need the first product to open. Each ro
 | Reuse instructions, knowledge, tools, and model settings | [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) | Give your application one stable assistant runtime that can evolve without rebuilding every request. |
 | Search your own documents or generate grounded answers | [RAG collections](https://docs.aivax.net/docs/rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
 | Reorder candidates your application already retrieved | [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
-| Publish an assistant to end users | [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
+| Publish an assistant to end users | [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
 | Process many independent records | [Batch](https://docs.aivax.net/docs/inference/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
 | Test a complete assistant conversation | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | Simulate a goal-oriented user and judge the gateway across multiple turns. |
 | Build a low-latency two-way voice experience | [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) | Stream user and assistant audio in an interactive session instead of combining separate audio jobs. |
@@ -168,7 +168,7 @@ Use these products after the assistant runtime works. They publish it to users, 
 
 ### Chat clients
 
-A [chat client](https://docs.aivax.net/docs/inference/chat-clients.md) connects an AI Gateway to an end-user channel. Use it for a browser widget or a supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
+A [chat client](https://docs.aivax.net/docs/inference/chat-clients/overview.md) connects an AI Gateway to an end-user channel. Use it for a browser widget or a supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
 
 A chat client owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
 
@@ -311,7 +311,7 @@ Use this list to confirm that the direct host serves the call you need. It serve
 |---|---|---|
 | `POST` | `/v1/chat/completions` or `/api/v1/chat/completions` | [Chat completions](https://docs.aivax.net/docs/inference/chat-completions/concepts.md) with an integrated model or an AI Gateway |
 | `GET` | `/v1/models` or `/api/v1/models` | [Model listing](#make-your-first-request) |
-| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Send a prompt to a chat-client session](https://docs.aivax.net/docs/inference/chat-clients.md#sending-prompts-from-your-application) |
+| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Send a prompt to a chat-client session](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application) |
 | `POST` | `/api/v2/query`, `/api/v2/query/similar`, or `/api/v2/query/browse` | [Search](https://docs.aivax.net/docs/rag/semantic-search.md) |
 | `POST` | `/api/v1/answer` | [RAG answer generation](https://docs.aivax.net/docs/rag/document-filters.md#where-filters-are-supported) |
 | `POST` | `/api/v1/generations/images` | [Image generation](https://docs.aivax.net/docs/generations/images.md) |
@@ -413,7 +413,7 @@ When a public key calls chat completions:
 - Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `conversation_token`, `idempotency_key`, and `stream`.
 - Request and token rate limits are applied both globally per key and per remote address. See [Public API keys](https://docs.aivax.net/docs/limits.md#public-api-keys) for the current values.
 
-If you are exposing a browser or widget experience to end users, review [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients.md) before deciding whether a public key is the right boundary.
+If you are exposing a browser or widget experience to end users, review [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) before deciding whether a public key is the right boundary.
 
 ### Application keys
 
@@ -2537,7 +2537,7 @@ When you enable moderation, see [LLM input moderation: system prompt or separate
 
 ## Client integration
 
-- Keep private keys on the server. Use a public key or a [chat client](https://docs.aivax.net/docs/inference/chat-clients.md) for code that runs in a browser.
+- Keep private keys on the server. Use a public key or a [chat client](https://docs.aivax.net/docs/inference/chat-clients/overview.md) for code that runs in a browser.
 - Send one [`conversation_token`](https://docs.aivax.net/docs/inference/chat-completions/session-reuse.md) per conversation and store the message IDs AIVAX returns.
 - Configure retries for `429` and `503` responses; see [Troubleshooting](https://docs.aivax.net/docs/inference/chat-completions/troubleshooting.md).
 - Use [streaming](https://docs.aivax.net/docs/inference/chat-completions/streaming.md) for user-facing chats, or the direct inference host for long non-streaming requests.
@@ -2686,7 +2686,7 @@ Client-side tools are different: their calls are returned to you, and your appli
 
 ## What is not kept
 
-- **The message history.** Your application stores it and sends it on every request. If AIVAX should store it, use a [chat client session](https://docs.aivax.net/docs/inference/chat-clients.md).
+- **The message history.** Your application stores it and sends it on every request. If AIVAX should store it, use a [chat client session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md).
 - **Reasoning.** Session reuse restores tool calls and results, not reasoning. Send back the final assistant answer, not the reasoning transcript; see [Raw multi-turn example](https://docs.aivax.net/docs/inference/response-rendering/raw-multi-turn-example.md).
 - **Long-term memory.** Facts the assistant should remember across conversations require the [memory tool](https://docs.aivax.net/docs/tools/builtin-tools.md#memory).
 
@@ -2706,7 +2706,7 @@ Session reuse lets a stateless `chat/completions` client keep the server-side co
 
 AIVAX has two features with "session" in the name. They solve different problems:
 
-| | Session reuse (`conversation_token`) | [Chat client session](https://docs.aivax.net/docs/inference/chat-clients.md) |
+| | Session reuse (`conversation_token`) | [Chat client session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md) |
 | --- | --- | --- |
 | Who stores the message history | Your application. It sends the full history on every request. | AIVAX. The client sends only the new message. |
 | What AIVAX keeps | Server-side tool calls and results of recent turns, for one hour after last use. | The whole conversation, context, metadata, and limits, until the session expires. |
@@ -3327,7 +3327,7 @@ Return clear error text from your tool when an action cannot be completed, so th
 
 ## Public keys
 
-Requests authenticated with a public API key do not use the gateway's MCP sources or protocol functions. Call a gateway with these tools from your server with a private key, or through a [chat client](https://docs.aivax.net/docs/inference/chat-clients.md).
+Requests authenticated with a public API key do not use the gateway's MCP sources or protocol functions. Call a gateway with these tools from your server with a private key, or through a [chat client](https://docs.aivax.net/docs/inference/chat-clients/overview.md).
 
 ---
 
@@ -4734,6 +4734,505 @@ Example stream event:
 `state` is `Created` when the tool call starts, then `Completed` or `Failed` when it ends. All events of one call share the same `id`, so render them as a single status row that changes state. `explanation` is `null` when the model did not supply both fields; fall back to the tool name in that case.
 
 Show `reason` as the status label, such as "Searching for today's weather forecast online". `goal` is useful in an expanded or audit view. Do not show `contents` to end users unless the surface is built for technical inspection, because it contains the raw tool arguments.
+
+---
+
+Source: https://docs.aivax.net/docs/inference/chat-clients/overview.html
+
+# Chat Clients Overview
+
+A chat client publishes an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) to end users. It gives them a place to talk to the assistant—a hosted web chat, your own application, Telegram, or WhatsApp—while the gateway keeps answering with its model, instructions, tools, and knowledge. Chat clients support text conversation, deep thinking, search, and image sending. Audio features depend on the channel and the client configuration.
+
+## How a chat client works
+
+A chat client is a session layer on top of an AI Gateway. The two have separate jobs:
+
+- **The AI Gateway** defines what the assistant does: model, instructions, tools, RAG, and skills.
+- **The chat client** defines how end users reach it: how a conversation is identified, how long it lasts, which limits apply, what the interface looks like, and how messages enter and leave each channel.
+
+Because of this split, one gateway can serve an internal API, a web widget, Telegram, and WhatsApp at the same time. Each channel keeps its own rules for identity, attachments, formatting, commands, and message delivery.
+
+Every conversation is a [session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md). A session stores the message history, the conversation context, and metadata, and it expires after a configured time.
+
+## Choose a channel
+
+| Channel | Use it when | Guide |
+|---|---|---|
+| Web client | You want to embed the assistant in a website, product, support center, or dashboard, or call it from your own application. | [Web client](https://docs.aivax.net/docs/inference/chat-clients/web-client.md) |
+| Telegram | You need a simple bot with users identified by chat and commands that are easy to test. | [Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md) |
+| WhatsApp | Your users' main support channel is already the phone, through Z-API, Evolution API, or Kapso. | [Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md) |
+
+The channel should not change what the gateway knows or does. It may still call for adjustments to tone, response length, formatting, and the attachments you accept.
+
+## Create a chat client
+
+Create the chat client, link it to an AI Gateway, then configure its limits, interface, and integrations. You can do this in the dashboard or through the API:
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Web%20Chat%20Client)
+
+To change an existing client, use **Edit Web Chat Client** in the API reference. Send only the fields you want to update; omitted fields keep their current values.
+
+Options that are durations, such as `messageDebounceInterval`, `maxScheduledIgnoredZone`, and the integrations' `sessionDuration`, are numbers of seconds.
+
+## Limits
+
+Two limits apply to every session of the chat client, on all channels:
+
+| Limit | Default | What happens when it is reached |
+|---|---|---|
+| `messagesPerHour` | 20 | New messages from that session are rejected until the hour window allows them again. |
+| `maxMessages` | 500 | The session can't receive more messages, and the user must start a new conversation. |
+
+In the web client, a rejected message returns an error. In integrations, the user receives a system message in the chat explaining the limit.
+
+Set both deliberately. Values that are too permissive increase cost and exposure to abuse; values that are too strict hurt the user experience.
+
+## Before you go public
+
+- Review the gateway and chat client configuration, and test the channel with a simple message first.
+- Keep API keys on your server. End users only receive the session access key or link, never your account credentials. See [Authentication](https://docs.aivax.net/docs/authentication.md) for the boundary between public chat access and API credentials.
+- If the gateway uses persistent memory, explain to users what it stores. Memory is separate from session history: it outlives the session and is tied to the session `tag`. See [the memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) for reviewing stored context and testing its influence across conversations.
+- When a channel does not respond as expected, check the linked gateway and the integration configuration, then retry with a simple message before investigating optional features.
+
+## Next steps
+
+- [Managing sessions](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md): create sessions, identify users, and choose where to put context.
+- [Web client](https://docs.aivax.net/docs/inference/chat-clients/web-client.md): customize and embed the hosted chat, or send prompts from your application.
+- [Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md): connect Telegram and WhatsApp.
+
+---
+
+Source: https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.html
+
+# Managing Chat Client Sessions
+
+A session is one conversation between a chat client and an end user. It stores the message history, the conversation context, metadata, an access key, and an optional `tag` that identifies the user or conversation. Sessions expire after a configured time.
+
+The web client and your application create sessions explicitly through the API. [Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md) create them automatically, one per conversation in the messaging app.
+
+## Create a session
+
+Create a session from your server, with a private API key, when a user starts a conversation. You can give it context for the whole conversation, such as the user's name or location.
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Web%20Chat%20Session)
+
+The response contains:
+
+- `sessionId`: the session identifier, used to manage it with your API key.
+- `accessKey`: the key that authorizes [Send Prompt](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application) and the other public session routes.
+- `talkUrl`: the link to the [hosted web chat](https://docs.aivax.net/docs/inference/chat-clients/web-client.md) for this session.
+
+Anyone with the access key or the link can use the session. Give them only to the user who owns the conversation, and keep them out of logs.
+
+`expires` sets the session lifetime in seconds, counted from creation or refresh. It accepts 600 seconds (10 minutes) through 7,776,000 seconds (90 days) and defaults to 3,600 seconds (one hour).
+
+## Identify users with a tag
+
+Without a `tag`, every session is an independent conversation, reachable only through its access key.
+
+With a `tag`, AIVAX reuses the active session for that tag instead of creating a new one. Creating a session again with the same tag returns the same session and keeps its message history, but replaces its context, expiration, and metadata with the new values. This lets a user come back to the widget, or send another message through the same channel, without losing the conversation.
+
+The `tag` also connects the session to other features:
+
+- [Memory](https://docs.aivax.net/docs/tools/builtin-tools.md) needs a stable identifier to know who a saved preference belongs to.
+- [Gateway workers](https://docs.aivax.net/docs/inference/workers.md) and [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) receive it as `externalUserId`, to apply rules per user, channel, or external account.
+- Integrations use the chat ID or phone number as the tag, to find the right session for each conversation.
+
+Choose a tag that is stable, unique per user or conversation, and not sensitive, such as an internal user ID instead of an email address.
+
+## Conversation token
+
+Each session has a conversation token that groups its exchanges into one stored [conversation](https://docs.aivax.net/docs/inference/chat-completions/concepts.md). AIVAX creates and manages it; you never send it, unlike `conversation_token` in [session reuse](https://docs.aivax.net/docs/inference/chat-completions/session-reuse.md).
+
+The token is renewed when the conversation is cleared, by the web chat reset or by the `/reset` command in [integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md#commands). The following messages are then recorded as a new conversation, even though the session and its `tag` stay the same.
+
+You can read the token in the session transcript, and [protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) and [MCP tools](https://docs.aivax.net/docs/tools/mcp.md) receive it in their call context. Use it to correlate calls from the same conversation, not as proof of identity or permission.
+
+## Choose where to put context
+
+AIVAX accepts context in three places. All of them are added to the system instructions of the inference, in this order:
+
+| Field | When it applies | Use it for |
+|---|---|---|
+| `extraContext` (session) | Every inference in the session. | Context for the whole conversation: the channel, the user's name, plan, preferred language, or the product the conversation is about. |
+| `contextLocation` (session) | AIVAX fetches the URL before each inference and appends its content after `extraContext`. | Server-controlled context that can change while the conversation goes on, such as the cart, an order status, or the record open in your application. |
+| `instructions` ([Send Prompt](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#add-context-for-one-inference)) | That request only, appended after the `contextLocation` content. | Context for that moment, such as a temporary answer format or the item the user just selected. |
+
+None of them is saved to the session history: the model sees the latest version on each request. Because they are part of the system instructions, which start every request, changing them invalidates the prompt cache for the whole history.
+
+Keep `extraContext` stable during the conversation. Each change to it, or to the content returned by `contextLocation`, invalidates the prompt cache for the whole history, which increases latency and input cost on the next request. For information that changes on every request, or that is not text, use the Send Prompt `context` field instead: it goes into the last user message rather than the system instructions, so the cached history before that message is kept. See [Add disposable context to the last user message](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#add-disposable-context-to-the-last-user-message).
+
+The same rule applies to the channel integrations: Telegram and WhatsApp put their fixed channel context, such as formatting rules and the user's display name, in the session `extraContext`.
+
+Do not put secrets, internal tokens, or data the model should not see in any of these fields. They are sent to the model and can influence responses, tools, and workers. Make sure the `contextLocation` URL is reachable by AIVAX; when it can't be loaded, the inference continues without it and a warning is added to the account logs.
+
+## List and end sessions
+
+To review the sessions of a chat client, with their tags, timestamps, and message and token counts, use **List Web Chat Sessions** in the API reference.
+
+To end a session before it expires, use **Delete Web Chat Session**. Its access key and link stop working immediately.
+
+---
+
+Source: https://docs.aivax.net/docs/inference/chat-clients/web-client.html
+
+# Web Chat Client
+
+The web client is the browser-facing side of a chat client. You can use it in two ways:
+
+- **Hosted web chat:** send the user to the session `talkUrl`, or embed it in an iframe. AIVAX serves the interface, and you customize how it looks and what it accepts.
+- **Your own interface:** keep your application's UI and send each message to the session with [Send Prompt](#sending-prompts-from-your-application).
+
+Both start with a [session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md) created by your server.
+
+## Publish the hosted chat
+
+The access key and the link of a session are its credentials, so create sessions on your server and only hand the result to the user's browser:
+
+1. **Create the chat client** once, linked to your AI Gateway. See [Create a chat client](https://docs.aivax.net/docs/inference/chat-clients/overview.md#create-a-chat-client).
+2. **Create a session** from your server when a user opens the chat, with your private API key. Send a stable `tag` to continue the user's previous conversation. See [Create a session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#create-a-session).
+3. **Return the `talkUrl`** from the response to the page that shows the chat. Do not return your API key.
+4. **Open or embed the link.** Send the user to it, or load it in an iframe:
+
+```html
+<iframe
+    src="<talk-url>"
+    title="Support chat"
+    allow="microphone; clipboard-write"
+    style="width: 100%; height: 640px; border: 0;">
+</iframe>
+```
+
+The `microphone` permission is only needed when `Audio` is in `inputModes`. When the session expires, the link stops working: create or refresh the session again with the same `tag` to get a working link that keeps the conversation.
+
+## Customize the hosted chat
+
+Set these options in the chat client configuration:
+
+| Option | What it controls |
+|---|---|
+| `pageTitle`, `primaryColor`, `logoImageUrl` | Page title, main color, and logo. |
+| `helloLabel`, `helloSubLabel`, `textAreaPlaceholder` | Greeting shown before the first message, and the placeholder of the message box. |
+| `suggestionButtons` | Buttons with ready-made prompts, each with a `label` and the `prompt` it sends. |
+| `languageCode` | Language of the chat interface. |
+| `customStyles`, `customScripts` | Your own CSS and JavaScript, added to the hosted page. |
+| `showToolCalls` | Shows tool activity in the conversation. On by default. |
+| `debug` | Shows diagnostic information for troubleshooting, and enables `/usage` in integrations. Off by default; turn it off again after use. |
+
+## Attachments and audio
+
+`inputModes` selects what users can attach: `Image`, `Document`, and `Audio`. Enable `uploadUnsupportedFiles` to also accept file types that AIVAX cannot read, sent as generic files.
+
+Attached images, files, videos, and audio are processed before inference. They are forwarded as multimodal content when the gateway's model and configuration support them. When a channel cannot pass an attachment on, AIVAX replaces it with a text notice, so the assistant can still reply clearly.
+
+To reply with audio, set `audioSynthesisSource` to the `name` of a text-to-speech model, as listed by **Get Speech Models** in the API reference. The default, `None`, turns audio replies off. Optionally, set `audioSynthesisVoice` and `audioSynthesisInstruction` to choose the voice and how it speaks. Enable `summarizeTextBeforeAudioSynthesis` to read a summary of long answers instead of the full text. Audio replies are available in the hosted web chat only, not in integrations. See [Speech](https://docs.aivax.net/docs/generations/speech.md) for voices and pricing.
+
+## Sending prompts from your application
+
+Use **Send Prompt** when your application needs a response using an existing chat-client session. The session access key authorizes the request; keep it private. The request uses the session history and the associated AI Gateway configuration.
+
+For long-running inference, send `POST /api/v1/public/chat-clients/<access-key>/prompt` to `https://direct.inference.aivax.net` to bypass the Cloudflare Tunnel path. Configure your HTTP client's timeout for the expected generation duration. The direct domain exposes selected routes, not the entire chat-client API; see [endpoints available on the direct host](https://docs.aivax.net/docs/overview.md#endpoints-available-on-the-direct-host).
+
+[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Send%20Prompt)
+
+### Choose the input format
+
+The required `prompt` accepts plain text, one OpenAI-compatible message object, or an ordered array of message objects. Plain text becomes a user message. Use message objects for multimodal content or tool results, and an array when several messages must be supplied together. At least one message must contain content or tool calls.
+
+The response contains `completionText`, `reasoning` when available, `toolCalls` for your application to execute, `usage`, and `createdMessages`. The last field contains only the messages generated during this request, in generation order—not the submitted messages or the previous session history. Its messages use the OpenAI-compatible format and may include tool calls, tool results, reasoning and per-message metadata.
+
+`completionText` is the text of the last assistant message in `createdMessages`, not a concatenation of the turn: after a tool call, it holds only the final answer. It falls back to the accumulated inference text when the last assistant message is missing or empty, so a tool-call-only turn may return an empty `completionText` — check `toolCalls` to decide whether to continue.
+
+### Decide whether to save the turn
+
+`commit` defaults to `true`: submitted messages and generated messages are saved to the session. Use `commit: false` for a one-off inference against the current history without saving that turn. You still receive the completion and `createdMessages`.
+
+This is not a dry run: inference is still billed and tools can still act. Uncommitted messages stay out of later session history — to continue that branch, resubmit them in an ordered `prompt` array.
+
+### Add context for one inference
+
+Use `instructions` for context that should apply only to the current request, such as a temporary answer format or the item currently selected in your application. It accepts a string or an array of strings; array entries are joined with blank lines. This context is appended to the system instructions after the session's `extraContext` and any context loaded from `contextLocation`.
+
+Unlike session `extraContext`, `instructions` is not saved as session context, even when `commit` is `true`. It is still sent to the model and can influence responses and tools; do not include secrets or data the model should not see. For context that should last the whole conversation, use the session `extraContext` instead; see [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
+
+```json
+{
+    "prompt": "Is this item still available?",
+    "instructions": [
+        "The user is viewing product SKU 4471.",
+        "Answer in one sentence."
+    ]
+}
+```
+
+### Add disposable context to the last user message
+
+Use `context` to give the model material that belongs to the current turn only, such as a screenshot of what the user is looking at, a document they selected, a short audio clip, or text extracted from your application. It accepts:
+
+- a string, which becomes a text part;
+- one OpenAI-compatible content part: `text`, `image_url`, `input_audio`, `video_url`, or `file`;
+- an array mixing strings and content parts.
+
+The parts are inserted at the beginning of the last user message of the conversation, before the user's own content. When a tool returned media in a previous step, the context still goes into the message written by the user, not the tool output.
+
+The context is disposable: it is never saved to the session history or to the stored conversation, even when `commit` is `true`, and it is not returned in `createdMessages`. Send it again on each request that needs it. Media parts follow the same rules as attachments in `prompt`: they are forwarded as multimodal content or converted to text according to the model and the gateway's multimodal settings, and that processing is billed as usual.
+
+`context` is the cache-friendly way to send changing information. Unlike `extraContext` and `instructions`, it does not change the system instructions, so the cached part of the conversation is kept up to the last user message. Like every other context field, it is sent to the model: do not include secrets or data the model should not see.
+
+Use `context` for information, not for instructions. Because it is part of the user's message, the model treats it as user input: directives such as "ignore previous rules" or "always answer in JSON" may be ignored, or interpreted as a jailbreak attempt and refused. Put behavior rules, answer formats, and other directives in `instructions` or in the session `extraContext`, which are added to the system instructions.
+
+```json
+{
+    "prompt": "Is this item still available?",
+    "context": [
+        "The user is viewing product SKU <sku>.",
+        {
+            "type": "image_url",
+            "image_url": { "url": "https://example.com/product.png" }
+        }
+    ]
+}
+```
+
+### Stream the response
+
+Set `stream: true` to receive the response as server-sent events instead of one JSON body. Each `data` line is a JSON object with `type` and `data`:
+
+- `text`: a completion text delta in `content`. When `replace` is `true`, replace the text received so far instead of appending.
+- `reasoning`: a reasoning delta in `content`, when the model exposes reasoning.
+- `tool`: a server-side tool update with `toolName`, `toolId`, `toolArguments`, and `update` (such as `Created` or `Finished`).
+- `result`: the final body, with the same fields as the non-streamed response. It is the last event of a successful request.
+- `error`: an error that happened after the stream started, with a `message`. It replaces `result`.
+
+Errors detected before the stream starts, such as insufficient balance or an exceeded message limit, are still returned as regular HTTP errors. `commit` works the same way in both modes: the turn is saved before the `result` event is sent.
+
+### Adjust the inference
+
+Use `inferenceOptions` to override some AI Gateway settings for one request. Omitted fields keep the gateway configuration.
+
+- `reasoningEffort`: the reasoning effort, such as `none`, `low`, `medium`, or `high`, when the model supports it.
+- `renderingMode`: `default` or `textual_blocks`. With `textual_blocks`, reasoning and server-side tool activity are placed as textual blocks inside the completion text; see [Chat presentation guidance](https://docs.aivax.net/docs/inference/response-rendering/chat-presentation-guidance.md#response-rendering-mode).
+- `toolInvocationExplanations`: whether the model must explain why it calls each server-side tool; see [Tool explanations](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md).
+
+```json
+{
+    "prompt": "Find the latest release notes.",
+    "stream": true,
+    "inferenceOptions": {
+        "reasoningEffort": "low",
+        "toolInvocationExplanations": true
+    }
+}
+```
+
+When the model provider fails temporarily before sending any output, AIVAX retries the request automatically, up to three times.
+
+### Complete client-side tool calls
+
+1. Configure the desired client-side tool in the AI Gateway, or send it in the request `tools` field, and send a prompt.
+2. When `toolCalls` is nonempty, execute the requested function in your application. Each entry exposes `id`, `functionName`, `contents` (JSON-encoded arguments), and `isProtocolFunction`. Validate the arguments and enforce your application's permissions before execution.
+3. Send a new prompt with a `role: "tool"` message. Set `tool_call_id` to the returned call's `id`, `name` to its `functionName`, and `content` to the tool result as text. For multiple calls, submit an array of matching result messages.
+4. Read the next completion, or repeat if it requests more tools.
+
+With the default `commit: true`, the assistant's tool-call message is already in the session: submit only the tool results, without duplicating that assistant message. If the preceding request used `commit: false`, include the unsaved conversation messages—including the assistant message containing `tool_calls`—before the results. The top-level `toolCalls` entries are not message objects; use the OpenAI-compatible messages in `createdMessages` when reconstructing that exchange.
+
+Use the request `tools` field for client-side tools that apply only to that inference, such as an action available on the screen the user is on. It takes OpenAI-compatible function tools, added to the AI Gateway tools for that request only; they are not saved to the session. They stay visible even when the gateway hides tools without a skill, and their names must not repeat a gateway tool name. Send the same `tools` again in the request that submits the results, so the model can call them again in the next step.
+
+```json
+{
+    "prompt": "Add this item to my cart.",
+    "tools": [
+        {
+            "type": "function",
+            "function": {
+                "name": "add_to_cart",
+                "description": "Adds the product the user is viewing to the cart.",
+                "parameters": {
+                    "type": "object",
+                    "properties": { "quantity": { "type": "integer" } },
+                    "required": [ "quantity" ]
+                }
+            }
+        }
+    ]
+}
+```
+
+For server-side tools, AIVAX executes the tools and continues generation within the same request. `createdMessages` can therefore contain an assistant tool call, its tool result, and the final assistant reply, while top-level `toolCalls` is empty. Do not execute those server-side calls again. The API reference above includes examples for simple completions, client-side calls, submitted client-side results, and multiple messages from server-side calling.
+
+## Other session routes
+
+With the session access key, your application can also use these routes, described in the API reference:
+
+- **Get Session Info** returns the messages and the client configuration, to render the conversation in your own interface.
+- **Retry Last Message** removes everything after the last user message, so the user can try again from there.
+- **Download Session Transcript** exports the messages, context, metadata, and conversation token as JSON.
+
+---
+
+Source: https://docs.aivax.net/docs/inference/chat-clients/integrations.html
+
+# Chat Client Integrations
+
+Integrations connect a chat client to messaging apps, so users can talk to the assistant where they already are. AIVAX supports:
+
+- **Telegram**, through a bot created with BotFather.
+- **WhatsApp**, through [Z-API](https://www.z-api.io/), [Evolution API](https://doc.evolution-api.com/), or [Kapso](https://kapso.ai/).
+
+The channel only carries the messages. Inference is still performed by the AI Gateway linked to the chat client, under the same [limits](https://docs.aivax.net/docs/inference/chat-clients/overview.md#limits) as any other session.
+
+## How messages flow
+
+1. The provider sends each new message to the integration's [webhook URL](#webhook-urls).
+2. AIVAX finds the session for that conversation, or creates one, and adds the message to its history. Media is downloaded and handled like [web client attachments](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#attachments-and-audio).
+3. The gateway generates the reply, which AIVAX sends back through the provider.
+
+Each conversation in the app is its own [session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md), identified by the chat or the user's phone number, depending on the provider. Integration sessions last three hours by default. Change `sessionDuration`, in seconds, in the integration settings to keep them longer or shorter. A session that is still in use is extended automatically, so an active conversation does not expire in the middle of an exchange.
+
+Each channel adds its own context to the session. On Telegram, the assistant receives instructions about formatting and expected channel behavior. On WhatsApp, the assistant is told to write with WhatsApp formatting, such as `*bold*` and `_italic_`, because Markdown is not converted.
+
+Integrations reply with text and images. Audio replies are available only in the [hosted web chat](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#attachments-and-audio).
+
+## Configure an integration
+
+Set up the integration in the chat client settings in the dashboard, or with **Edit Web Chat Client Integrations** in the API reference. Each update changes one integration, and only the fields you send are replaced. To disconnect a channel, remove its integration with **Delete Web Chat Client Integration**.
+
+The webhook URL appears after the integration is saved for the first time. Then finish the setup on the provider's side, as described below.
+
+### Telegram
+
+1. In Telegram, open [@BotFather](https://t.me/BotFather) and send `/newbot` to create the bot. BotFather replies with the bot token. To get a new token later, use `/token`.
+2. In the chat client, open the Telegram integration and paste the token into **Bot token**.
+3. Save, then select **Update hooks**. AIVAX registers the webhook with Telegram for you, including a secret token that proves each request came from Telegram. Messages that were waiting before the registration are discarded.
+
+| Field | Required | Description |
+|---|---|---|
+| `botToken` | Yes | The token returned by BotFather. |
+| `sessionDuration` | No | Session lifetime, in seconds. Three hours by default. |
+
+The bot receives text, photos, voice messages and audio, videos, and PDF documents, including captions. Other document types get a reply saying the format is not supported; stickers and other message types are ignored.
+
+Replies use Telegram's rich formatting, so Markdown, tables, and formulas render in the app. In private chats, the reply appears while it is being written. Each user has their own session, including in group chats. In groups, Telegram's privacy mode decides which messages the bot receives; see `/setprivacy` in BotFather.
+
+### Z-API
+
+1. In the [Z-API](https://www.z-api.io/) panel, open **Instances**, connect your WhatsApp number to an instance, and copy its **Instance ID** and **Instance token**.
+2. If you enabled the account security token in Z-API's **Security** tab, copy it too.
+3. In the chat client, open the Z-API integration, fill in the fields, and save.
+4. In the instance webhooks, paste the AIVAX webhook URL into **On receive**. Leave **Notify those sent by me too** unchecked.
+
+| Field | Required | Description |
+|---|---|---|
+| `instanceId` | Yes | The ID of the Z-API instance connected to WhatsApp. |
+| `instanceToken` | Yes | The token of that instance. |
+| `clientToken` | No | The account security token, required only if you enabled it in Z-API. |
+| `sessionDuration` | No | Session lifetime, in seconds. Three hours by default. |
+
+The assistant receives text, images with their captions, and audio. Other message types, such as documents, videos, stickers, and locations, are ignored without a reply. Messages sent by the connected number itself are ignored, as are webhooks for another instance.
+
+### Evolution API
+
+1. On your [Evolution API](https://doc.evolution-api.com/) server, create an instance and connect your WhatsApp number to it.
+2. In the chat client, open the Evolution API integration and fill in the server URL, the instance name, and the API key. Save.
+3. In the instance webhook settings, set the AIVAX webhook URL, enable the `MESSAGES_UPSERT` event, and leave **Webhook by Events** and **Webhook Base64** disabled.
+
+| Field | Required | Description |
+|---|---|---|
+| `endpointUrl` | Yes | The base URL of your Evolution API server. |
+| `instanceName` | Yes | The name of the instance connected to WhatsApp. |
+| `apiKey` | Yes | The API key that AIVAX uses to call your server, sent in the `apikey` header. |
+| `sessionDuration` | No | Session lifetime, in seconds. Three hours by default. |
+
+Evolution API has the widest support for incoming messages: text, images, audio, videos, PDF documents, and stickers. Other document types get a reply asking the user to resend the content as text, an image, audio, or a PDF. Messages sent by the connected number itself are ignored.
+
+### Kapso
+
+1. In [Kapso](https://kapso.ai/), connect your WhatsApp Business number and copy its **phone number ID**, the ID of the number in the WhatsApp Cloud API, not the phone number itself. Create a project API key.
+2. In the chat client, open the Kapso integration, fill in the fields, and save.
+3. In Kapso, create a webhook for the phone number with the AIVAX webhook URL and subscribe it to `whatsapp.message.received`. Set a secret key on the webhook and enter the same value in **Webhook secret key**.
+
+| Field | Required | Description |
+|---|---|---|
+| `apiKey` | Yes | The Kapso project API key. |
+| `phoneNumberId` | Yes | The WhatsApp phone number ID of the connected number. |
+| `webhookSecretKey` | No | The secret of the Kapso webhook. When set, requests with an invalid signature are rejected. Recommended. |
+| `continuedMessagesTemplateId` | No | The name of the WhatsApp template used for [scheduled messages](#scheduled-messages-on-whatsapp-business). |
+| `sessionDuration` | No | Session lifetime, in seconds. Three hours by default. |
+
+The assistant receives text, images and stickers, audio, videos, PDF documents, and replies to interactive buttons and lists. For audio without a file, the Kapso transcription is used. Other document types are sent to the model as a link when `uploadUnsupportedFiles` is enabled in the chat client; otherwise the assistant tells the user the format is not supported. Locations, reactions, and contacts are ignored. Messages from users who have no phone number in the webhook are ignored.
+
+## Webhook URLs
+
+Each integration has its own webhook URL, which you copy from the integration settings in the dashboard. The URL contains a webhook key generated for that integration, so treat it as a secret.
+
+Use **Rotate webhook key** to replace the key. The previous URL stops working immediately, so update the URL in the provider right after rotating. For Telegram, rotating the key also updates the bot hooks.
+
+Some providers can also prove that a request came from them:
+
+- **Telegram:** **Update hooks** registers the webhook with a secret token, and messages without it are rejected.
+- **Kapso:** set **Webhook secret key** to the secret of your Kapso webhook. Requests whose signature doesn't match are rejected.
+- **Z-API** and **Evolution API:** these providers don't sign webhook requests, so the webhook key in the URL is what authorizes them.
+
+Webhook URLs without a webhook key keep working until December 1st, 2026. After that date they are rejected. Copy the current URL from the dashboard and update it in the provider, or use **Update hooks** for Telegram, before that date.
+
+## Commands
+
+Users can send two commands in any integration:
+
+- `/reset`: clears the conversation history and starts a new [conversation](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#conversation-token) in the same session.
+- `/usage`: when `debug` is active in the chat client, shows the current chat usage in tokens.
+
+## Message behavior
+
+These chat client options adjust how the assistant behaves in messaging apps:
+
+| Option | Default | What it does |
+|---|---|---|
+| `messageDebounceInterval` | 5 seconds | How long AIVAX waits after a message before replying, so several quick messages are answered together. |
+| `splitAnswerIntoMessageChunks` | Off | Sends a reply as several shorter messages, split by topic, with a short pause between them, instead of one block of text. Replies are not streamed while it is on. |
+| `showToolCalls` | On | Sends a short progress message while the assistant uses tools. |
+
+When a user sends a message while a reply is still being generated, AIVAX passes it to the running inference, so the assistant can take it into account without waiting for a new turn. `/reset` and `/usage` are always handled on their own.
+
+## Scheduled messages
+
+Scheduled messages let the assistant write to the user first, at a set time: a reminder the user asked for, a follow-up on an open order, or a daily check-in. They are available only in integrations, not in the web client.
+
+Enable `allowScheduledContinuations` in the chat client. The assistant then gets tools to schedule a single message for a date and time, create a recurring task with a cron expression, list what is scheduled for the current user, and cancel it. The assistant decides when to use them, based on the conversation and the gateway instructions. Describe in your instructions when scheduling is appropriate, such as only when the user asks for a reminder, to avoid unwanted messages.
+
+Times are interpreted in the gateway time zone, set in `parameters.timeZone`, unless the assistant includes an explicit UTC offset. Recurring tasks also follow that time zone. See [Current date and time](https://docs.aivax.net/docs/tools/builtin-tools.md#current-date-and-time) for how the time zone is configured.
+
+### What happens at the scheduled time
+
+When a message is due, AIVAX runs a new inference with the same AI Gateway and the user's conversation history, together with the reason and context the assistant saved when scheduling. The assistant then writes the message and sends it through the same channel.
+
+- **The assistant can decide not to send it.** If, given the conversation, the message is no longer needed, the assistant can skip it and nothing reaches the user.
+- **Timing is approximate.** Messages are sent within a few minutes of the scheduled time. A message that cannot be sent long after its time is marked as failed.
+- **The session can be new.** If the user's session expired, the scheduled message starts a new session without the previous history.
+- **It is billed as a normal inference** on the account that owns the chat client. If the account has no available balance at that time, the message is not sent.
+- **Long replies are sent as one message.** `splitAnswerIntoMessageChunks` does not apply to scheduled messages.
+
+### Inactive users
+
+`maxScheduledIgnoredZone` stops the assistant from writing to users who stopped talking to it. When a scheduled message is due, AIVAX checks when the user last sent a message. If it was longer ago than this interval, the message is skipped. The default is 3 days; `0` turns the check off.
+
+For example, with the default, if the user last wrote on Monday at 10:00, a message scheduled for Thursday at 09:00 is sent, but one scheduled for Thursday at 11:00 is skipped. A recurring task keeps its schedule, and its messages are sent again once the user writes back.
+
+### Scheduled messages on WhatsApp Business
+
+WhatsApp only accepts free-form messages from a business within 24 hours of the user's last message. After that, the business must use an approved message template. Z-API and Evolution API do not use templates, so a scheduled message sent outside that window may not be delivered, depending on the number and the provider.
+
+With Kapso, set `continuedMessagesTemplateId` to the name of an approved template. When it is set, scheduled messages are sent through that template:
+
+- The template must be in Portuguese (Brazil), `pt_BR`, and have one body variable named `text`, which receives the message written by the assistant.
+- Line breaks and long spaces in the message are replaced by single spaces, because WhatsApp doesn't accept them in template variables. Keep scheduled messages short.
+- Images in the reply are still sent as regular images.
+
+Without a template, Kapso sends scheduled messages as plain text, which only works inside the 24-hour window.
+
+### Review and cancel scheduled messages
+
+Users can ask the assistant to list or cancel their scheduled messages. You can also review them per chat client in the API reference: **List Hook Schedules** shows pending messages, recurring tasks, and users who stopped replying to scheduled messages. **Get Schedule** shows the outcome of a message, including when it was skipped, and **Cancel Schedule** and **Cancel Recurring Task** remove it. Scheduled messages and recurring tasks are deleted together with their chat client.
 
 ---
 
@@ -6346,218 +6845,6 @@ Use these checks before a large run, while you repair failures, and before you h
 
 ---
 
-Source: https://docs.aivax.net/docs/inference/chat-clients.html
-
-# Chat Clients
-
-A chat client gives end users an interface to converse with an assistant powered by an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md). It runs on the gateway's inference and supports deep thinking, search, text conversation, and image sending. Audio features depend on the integration and client configuration.
-
-You can customize the chat client interface with CSS, custom JavaScript, colors, labels, suggestion buttons, frame origins, input modes, and the language used by the chat resources.
-
-## How the chat client works
-
-A chat client is a session layer on top of an AI Gateway. The gateway defines the assistant’s behavior; the chat client defines how an end user converses with it, how the session is identified, how long it lasts, what limits are applied, which visual resources appear, and how messages enter and exit through external channels. This separation is important: you can use the same gateway in an internal API, a web widget, Telegram, and WhatsApp, but each channel will have its own rules for identity, attachments, formatting, commands, and message delivery.
-
-Each session maintains a message history, additional context, metadata, conversation token, and an optional external identifier. When you create a session with a `tag`, AIVAX tries to reuse the active session for that tag instead of creating a new conversation. This allows a user to return to the widget or send another message through the same channel without immediately losing context. When the session has no `tag`, it functions as an independent conversation controlled by the access token generated at creation.
-
-The `tag` also serves as the connection point between the chat client, memory, workers, and integrations. Tools like memory need a stable identifier to know who a preference or persistent information belongs to. Workers receive `externalUserId` to apply rules per user, per channel, or per external account. WhatsApp and Telegram integrations use the conversation ID, phone number, or user to retrieve the correct session. Therefore, choose a stable, non‐sensitive, unique `tag` per user or conversation.
-
-## Creating a chat session
-
-A chat session represents one conversation between your chat client and an end user. When you create it, you can provide additional context for the conversation, such as the user’s name or location.
-
-A session can be identified with a stable, non-sensitive tag so the client can continue the appropriate conversation. See the embedded API Reference for supported session behavior and configuration.
-
-Reference:
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Web%20Chat%20Session)
-
-### Choose where to put context
-
-AIVAX accepts context in three places. All of them are added to the system instructions of the inference, in this order:
-
-| Field | When it applies | Use it for |
-|---|---|---|
-| `extraContext` (session) | Every inference in the session. | Context for the whole conversation: the channel, the user's name, plan, preferred language, or the product the conversation is about. |
-| `contextLocation` (session) | AIVAX fetches the URL before each inference and appends its content after `extraContext`. | Server-controlled context that can change while the conversation goes on, such as the cart, an order status, or the record open in your application. |
-| `instructions` ([Send Prompt](#add-context-for-one-inference)) | That request only, appended after the `contextLocation` content. | Context for that moment, such as a temporary answer format or the item the user just selected. |
-
-None of them is saved to the session history: the model sees the latest version on each request. Because they are part of the system instructions, which start every request, changing them invalidates the prompt cache for the whole history.
-
-Keep `extraContext` stable during the conversation. Each change to it, or to the content returned by `contextLocation`, invalidates the prompt cache for the whole history, which increases latency and input cost on the next request. For information that changes on every request, or that is not text, use the Send Prompt `context` field instead: it goes into the last user message rather than the system instructions, so the cached history before that message is kept. See [Add disposable context to the last user message](#add-disposable-context-to-the-last-user-message).
-
-The same rule applies to the channel integrations: Telegram and WhatsApp put their fixed channel context, such as formatting rules and the user's display name, in the session `extraContext`.
-
-Do not put secrets, internal tokens, or data the model should not see in any of these fields. They are sent to the model and can influence responses, tools, and workers. Make sure the `contextLocation` URL is reachable by AIVAX; when it can't be loaded, the inference continues without it and a warning is added to the account logs.
-
-The web chat accepts text messages and attachments. Images, files, videos, and audio are materialized before inference; supported image, file, video, and audio types can be forwarded as multimodal content when the selected model and gateway configuration support them. Audio can also be synthesized as a response when the chat client’s audio synthesis setting is active. When a channel cannot embed an attachment, AIVAX turns unsupported content into a textual attachment notice so that the assistant can reply clearly.
-
-## Sending prompts from your application
-
-Use **Send Prompt** when your application needs a response using an existing chat-client session. The session access key authorizes the request; keep it private. The request uses the session history and the associated AI Gateway configuration.
-
-For long-running inference, send `POST /api/v1/public/chat-clients/<access-key>/prompt` to `https://direct.inference.aivax.net` to bypass the Cloudflare Tunnel path. Configure your HTTP client's timeout for the expected generation duration. The direct domain exposes selected routes, not the entire chat-client API; see [endpoints available on the direct host](https://docs.aivax.net/docs/overview.md#endpoints-available-on-the-direct-host).
-
-[API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Send%20Prompt)
-
-### Choose the input format
-
-The required `prompt` accepts plain text, one OpenAI-compatible message object, or an ordered array of message objects. Plain text becomes a user message. Use message objects for multimodal content or tool results, and an array when several messages must be supplied together. At least one message must contain content or tool calls.
-
-The response contains `completionText`, `reasoning` when available, `toolCalls` for your application to execute, `usage`, and `createdMessages`. The last field contains only the messages generated during this request, in generation order—not the submitted messages or the previous session history. Its messages use the OpenAI-compatible format and may include tool calls, tool results, reasoning and per-message metadata.
-
-`completionText` is the text of the last assistant message in `createdMessages`, not a concatenation of the turn: after a tool call, it holds only the final answer. It falls back to the accumulated inference text when the last assistant message is missing or empty, so a tool-call-only turn may return an empty `completionText` — check `toolCalls` to decide whether to continue.
-
-### Decide whether to save the turn
-
-`commit` defaults to `true`: submitted messages and generated messages are saved to the session. Use `commit: false` for a one-off inference against the current history without saving that turn. You still receive the completion and `createdMessages`.
-
-This is not a dry run: inference is still billed and tools can still act. Uncommitted messages stay out of later session history — to continue that branch, resubmit them in an ordered `prompt` array.
-
-### Add context for one inference
-
-Use `instructions` for context that should apply only to the current request, such as a temporary answer format or the item currently selected in your application. It accepts a string or an array of strings; array entries are joined with blank lines. This context is appended to the system instructions after the session's `extraContext` and any context loaded from `contextLocation`.
-
-Unlike session `extraContext`, `instructions` is not saved as session context, even when `commit` is `true`. It is still sent to the model and can influence responses and tools; do not include secrets or data the model should not see. For context that should last the whole conversation, use the session `extraContext` instead; see [Choose where to put context](#choose-where-to-put-context).
-
-```json
-{
-    "prompt": "Is this item still available?",
-    "instructions": [
-        "The user is viewing product SKU 4471.",
-        "Answer in one sentence."
-    ]
-}
-```
-
-### Add disposable context to the last user message
-
-Use `context` to give the model material that belongs to the current turn only, such as a screenshot of what the user is looking at, a document they selected, a short audio clip, or text extracted from your application. It accepts:
-
-- a string, which becomes a text part;
-- one OpenAI-compatible content part: `text`, `image_url`, `input_audio`, `video_url`, or `file`;
-- an array mixing strings and content parts.
-
-The parts are inserted at the beginning of the last user message of the conversation, before the user's own content. When a tool returned media in a previous step, the context still goes into the message written by the user, not the tool output.
-
-The context is disposable: it is never saved to the session history or to the stored conversation, even when `commit` is `true`, and it is not returned in `createdMessages`. Send it again on each request that needs it. Media parts follow the same rules as attachments in `prompt`: they are forwarded as multimodal content or converted to text according to the model and the gateway's multimodal settings, and that processing is billed as usual.
-
-`context` is the cache-friendly way to send changing information. Unlike `extraContext` and `instructions`, it does not change the system instructions, so the cached part of the conversation is kept up to the last user message. Like every other context field, it is sent to the model: do not include secrets or data the model should not see.
-
-Use `context` for information, not for instructions. Because it is part of the user's message, the model treats it as user input: directives such as "ignore previous rules" or "always answer in JSON" may be ignored, or interpreted as a jailbreak attempt and refused. Put behavior rules, answer formats, and other directives in `instructions` or in the session `extraContext`, which are added to the system instructions.
-
-```json
-{
-    "prompt": "Is this item still available?",
-    "context": [
-        "The user is viewing product SKU <sku>.",
-        {
-            "type": "image_url",
-            "image_url": { "url": "https://example.com/product.png" }
-        }
-    ]
-}
-```
-
-### Stream the response
-
-Set `stream: true` to receive the response as server-sent events instead of one JSON body. Each `data` line is a JSON object with `type` and `data`:
-
-- `text`: a completion text delta in `content`. When `replace` is `true`, replace the text received so far instead of appending.
-- `reasoning`: a reasoning delta in `content`, when the model exposes reasoning.
-- `tool`: a server-side tool update with `toolName`, `toolId`, `toolArguments`, and `update` (such as `Created` or `Finished`).
-- `result`: the final body, with the same fields as the non-streamed response. It is the last event of a successful request.
-- `error`: an error that happened after the stream started, with a `message`. It replaces `result`.
-
-Errors detected before the stream starts, such as insufficient balance or an exceeded message limit, are still returned as regular HTTP errors. `commit` works the same way in both modes: the turn is saved before the `result` event is sent.
-
-### Adjust the inference
-
-Use `inferenceOptions` to override some AI Gateway settings for one request. Omitted fields keep the gateway configuration.
-
-- `reasoningEffort`: the reasoning effort, such as `none`, `low`, `medium`, or `high`, when the model supports it.
-- `renderingMode`: `default` or `textual_blocks`. With `textual_blocks`, reasoning and server-side tool activity are placed as textual blocks inside the completion text; see [Chat presentation guidance](https://docs.aivax.net/docs/inference/response-rendering/chat-presentation-guidance.md#response-rendering-mode).
-- `toolInvocationExplanations`: whether the model must explain why it calls each server-side tool; see [Tool explanations](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md).
-
-```json
-{
-    "prompt": "Find the latest release notes.",
-    "stream": true,
-    "inferenceOptions": {
-        "reasoningEffort": "low",
-        "toolInvocationExplanations": true
-    }
-}
-```
-
-When the model provider fails temporarily before sending any output, AIVAX retries the request automatically, up to three times.
-
-### Complete client-side tool calls
-
-1. Configure the desired client-side tool in the AI Gateway, or send it in the request `tools` field, and send a prompt.
-2. When `toolCalls` is nonempty, execute the requested function in your application. Each entry exposes `id`, `functionName`, `contents` (JSON-encoded arguments), and `isProtocolFunction`. Validate the arguments and enforce your application's permissions before execution.
-3. Send a new prompt with a `role: "tool"` message. Set `tool_call_id` to the returned call's `id`, `name` to its `functionName`, and `content` to the tool result as text. For multiple calls, submit an array of matching result messages.
-4. Read the next completion, or repeat if it requests more tools.
-
-With the default `commit: true`, the assistant's tool-call message is already in the session: submit only the tool results, without duplicating that assistant message. If the preceding request used `commit: false`, include the unsaved conversation messages—including the assistant message containing `tool_calls`—before the results. The top-level `toolCalls` entries are not message objects; use the OpenAI-compatible messages in `createdMessages` when reconstructing that exchange.
-
-Use the request `tools` field for client-side tools that apply only to that inference, such as an action available on the screen the user is on. It takes OpenAI-compatible function tools, added to the AI Gateway tools for that request only; they are not saved to the session. They stay visible even when the gateway hides tools without a skill, and their names must not repeat a gateway tool name. Send the same `tools` again in the request that submits the results, so the model can call them again in the next step.
-
-```json
-{
-    "prompt": "Add this item to my cart.",
-    "tools": [
-        {
-            "type": "function",
-            "function": {
-                "name": "add_to_cart",
-                "description": "Adds the product the user is viewing to the cart.",
-                "parameters": {
-                    "type": "object",
-                    "properties": { "quantity": { "type": "integer" } },
-                    "required": [ "quantity" ]
-                }
-            }
-        }
-    ]
-}
-```
-
-For server-side tools, AIVAX executes the tools and continues generation within the same request. `createdMessages` can therefore contain an assistant tool call, its tool result, and the final assistant reply, while top-level `toolCalls` is empty. Do not execute those server-side calls again. The API reference above includes examples for simple completions, client-side calls, submitted client-side results, and multiple messages from server-side calling.
-
-## Integration sessions
-
-AIVAX provides integrations for chat clients via Telegram and WhatsApp, including [Z-Api](https://www.z-api.io/), Evolution API, and Kapso. Each conversation in an app is an individual session, identified by the conversation ID, chat ID, or the user’s phone number, depending on the provider. Integration sessions default to a three-hour duration unless the integration parameters specify another value.
-
-These sessions obey the original chat client rules. Additionally, chat sessions in these integrations have two special commands:
-
-- `/reset`: clears the current session context.
-- `/usage`: when `debug` is active in the chat client, displays the current chat usage in tokens.
-
-Integrations treat the channel as the source of messages, but inference continues to be performed by the AI Gateway associated with the chat client. In Telegram, the conversation receives additional instructions about formatting and expected channel behavior. In WhatsApp, each provider has its own webhook details, media download, and response sending; Z-Api, Evolution API, and Kapso are different paths to the same operational goal. In all cases, user messages enter the session, are materialized as inference‐compatible messages, and the assistant’s response is sent back via the integration’s messenger.
-
-### Webhook URLs
-
-Each integration has its own webhook URL, which you copy from the integration settings in the dashboard. The URL contains a webhook key generated for that integration, so treat it as a secret. Use **Rotate webhook key** to replace the key: the previous URL stops working immediately, so update the URL in the provider right after rotating. For Telegram, rotating the key also updates the bot hooks.
-
-Some providers can also prove that a request came from them:
-
-- **Telegram:** **Update hooks** registers the webhook with a secret token, and messages without it are rejected.
-- **Kapso:** set **Webhook secret key** to the secret of your Kapso webhook. Requests whose signature doesn't match are rejected.
-- **Z-API** and **Evolution API:** these providers don't sign webhook requests, so the webhook key in the URL is what authorizes them.
-
-Webhook URLs without a webhook key keep working until December 1st, 2026. After that date they are rejected. Copy the current URL from the dashboard and update it in the provider, or use **Update hooks** for Telegram, before that date.
-
-Use Telegram when you need a simple bot with users identifiable by chat and easy‐to‐test commands. Use WhatsApp when the user’s primary support channel is already the phone and the conversation needs to happen in a daily app. Use the web widget when you want to embed the assistant in a website, product, support center, or dashboard. The channel choice should not change the gateway’s essential content, but may require adjustments to tone, response size, formatting, and attachment tolerance.
-
-Before opening a channel to the public, review the chat client configuration and explain memory behavior to users when applicable. When an integration does not respond as expected, first verify the associated gateway and integration configuration, then retry with a simple message before investigating optional capabilities.
-
-Treat persistent memory separately from session history. See [the memory-poisoning guide](https://aivax.net/blog/persistent-memory-is-a-write-path/) for reviewing stored context and testing its influence across conversations.
-
-For the next steps, review [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and [Authentication](https://docs.aivax.net/docs/authentication.md), especially the boundary between public chat access and API credentials.
-
----
-
 Source: https://docs.aivax.net/docs/web-foundation/web-search.html
 
 # Web Search
@@ -7912,7 +8199,7 @@ Activation via `builtin_tools`:
 
 Enable `Remember` when the assistant needs to save information across conversations and retrieve it when relevant. It exposes exactly two tools: `memory_save` and `memory_search`.
 
-Both tools require an identified user: set a stable `tag` in a [chat client](https://docs.aivax.net/docs/inference/chat-clients.md), or `$.user` in a chat/completions request. Without that identifier, the tools return an error. Memory searches are automatically restricted to the current user. Each memory records the gateway that saved it, and `parameters.builtinFunctionsOptions.allowSharedMemory` controls visibility:
+Both tools require an identified user: set a stable `tag` in a [chat client](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#identify-users-with-a-tag), or `$.user` in a chat/completions request. Without that identifier, the tools return an error. Memory searches are automatically restricted to the current user. Each memory records the gateway that saved it, and `parameters.builtinFunctionsOptions.allowSharedMemory` controls visibility:
 
 | `allowSharedMemory` | Behavior |
 | --- | --- |
@@ -8607,7 +8894,7 @@ AIVAX builds `context` separately from the model-generated arguments in `functio
 
 | Field | JSON type | Meaning and availability |
 | --- | --- | --- |
-| `context.externalUserId` | `string` or `null` | External user identifier from the inference context. For a [chat session](https://docs.aivax.net/docs/inference/chat-clients.md), this is the session's external user ID; for chat completions, it comes from the request's `user` field. It can be `null` when no user was identified. It is not an AIVAX account ID or an authentication credential. |
+| `context.externalUserId` | `string` or `null` | External user identifier from the inference context. For a [chat session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#identify-users-with-a-tag), this is the session's external user ID; for chat completions, it comes from the request's `user` field. It can be `null` when no user was identified. It is not an AIVAX account ID or an authentication credential. |
 | `context.metadata` | `object` | Application-supplied string key/value pairs from the inference request or chat session. For chat completions, these are the request's `metadata` entries. The object is empty (`{}`) when none are supplied. The example's `tenant_id` and `request_id` are custom fields, not names generated by AIVAX. |
 | `context.callSource` | `string` | Origin of the inference, such as `WebChatClient`, `ChatCompletionsApi`, or `IntegrationBot`. It does not describe the callback transport: calling a protocol function does not automatically make the value `FunctionsApi`. See the shared [call source values](https://docs.aivax.net/docs/tools/mcp.md#call-source-values) for all current values. |
 | `context.conversationToken` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it is the request's `conversation_token`, or the token AIVAX generated when none was sent. It can be `null`, and multiple function calls may share it. Do not treat it as a unique callback ID, a credential, or a guarantee that an operation has not already run. |
@@ -10215,7 +10502,7 @@ When a setting changes the level, the Collection Policy column lists each condit
 | [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and [skill](https://docs.aivax.net/docs/inference/skills.md) configuration | 🔴 Full | Instructions, skills, tools, and integration settings are stored until deleted. |
 | Multimodal preprocessing | 🔴 Full | When attachments are converted to text through description, OCR, or transcription during inference, the resulting text is cached per account to avoid reprocessing the same content. Original files are not stored. |
 | Provider error diagnostics | 🔴 Full | When a model provider returns an error, the request sent to the provider and its response may be stored for diagnosis, regardless of conversation logging. |
-| [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients.md) | 🔴 Full | Sessions store message history, extra context, and metadata until the session expires. Media sent as data URLs is uploaded to object storage and referenced by a public URL. Generated audio is cached when audio synthesis is enabled. Inference also follows the conversation logging condition. |
+| [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | 🔴 Full | Sessions store message history, extra context, and metadata until the session expires. Media sent as data URLs is uploaded to object storage and referenced by a public URL. Generated audio is cached when audio synthesis is enabled. Inference also follows the conversation logging condition. |
 | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | Follows the account's **Conversations logging** setting. It cannot be disabled per session. |
 | [Batch processing](https://docs.aivax.net/docs/inference/batch.md) | 🔴 Full | Workflows, jobs, and item inputs and outputs are stored until you delete them or clean the job items. |
 | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | 🔴 Full | Test definitions, runs, simulated conversations, and judge results are stored. |
@@ -10276,6 +10563,21 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Friday, November 13th, 2026
+
+Breaking changes:
+
+- **Chat clients — `allowedFrameOrigins` removed.** The deprecated `allowedFrameOrigins` chat client option is no longer returned when you read a chat client. Requests that still send it keep working, and the value is ignored. Embedding the hosted chat in an iframe is not affected; see [Publish the hosted chat](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat).
+
+Fixes:
+
+- **Batch — Jobs resume after the daily item limit.** A job paused because the plan's daily limit of processed items was reached now resumes automatically after the limit window resets, as described in [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). Previously, these jobs could stay paused until they were resumed manually. Jobs that are already stuck can be resumed by setting their state to active. Temporary model provider failures still pause the job after repeated errors and still require a manual resume.
+- **Chat clients — Session token count after Send Prompt.** Sessions that receive messages through Send Prompt now report their token count in the session listing. Previously, these sessions always showed 0 tokens. Counts are updated on the next prompt of each session.
+
+Changes:
+
+- **Chat clients — Insert messages into a session.** The new `POST /api/v1/web-chat-client/<chat-client-id>/sessions/insert-message` endpoint appends user, assistant, or tool messages to an active session, identified by `sessionId` or `tag`, without running inference and without consuming balance. The inserted messages are used as context by the next prompt. The request fails with 409 while an inference is running for the session.
+
 ## Thursday, November 12th, 2026
 
 Breaking changes:
@@ -10284,7 +10586,7 @@ Breaking changes:
 
 Changes:
 
-- **Chat clients — Disposable context in Send Prompt.** Send Prompt accepts a new `context` field with text or OpenAI-compatible content parts, including images, audio, video, and files. The parts are added to the beginning of the last user message for that request only and are never saved to the session history or the stored conversation. See [Add disposable context to the last user message](https://docs.aivax.net/docs/inference/chat-clients.md#add-disposable-context-to-the-last-user-message).
+- **Chat clients — Disposable context in Send Prompt.** Send Prompt accepts a new `context` field with text or OpenAI-compatible content parts, including images, audio, video, and files. The parts are added to the beginning of the last user message for that request only and are never saved to the session history or the stored conversation. See [Add disposable context to the last user message](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#add-disposable-context-to-the-last-user-message).
 - **Image generation — GPT Image 2.6 Flare and Sunburst.** Adds `@openai/gpt-image-2.6-flare`, for fast generation, and `@openai/gpt-image-2.6-sunburst`, for detailed compositions. Both support reference-image editing and are priced at $0.025 per output image plus $0.025 per reference image per output.
 - **Image generation — Older models deprecated.** `@openai/gpt-image-2.5-flare`, `@openai/gpt-image-2.5-sunburst` and `@openai/gpt-image-1-mini` are now marked as deprecated. They keep working for now; move to `@openai/gpt-image-2.6-flare`, `@openai/gpt-image-2.6-sunburst` or `@openai/gpt-image-2`.
 - **Image generation — Lower prices.** `@bytedance/seedream-5-pro` now costs $0.035 per output image, down from $0.09, and `@recraft/recraft-v4.1-flash` costs $0.007, down from $0.008.
@@ -10309,8 +10611,8 @@ Changes:
 
 Breaking changes:
 
-- **Chat clients — New webhook URLs for messaging integrations.** Telegram, Z-API, Evolution API, and Kapso integrations now have a webhook URL that contains a key generated for each integration. Copy the new URL from the integration settings in the dashboard and update it in the provider, or use **Update hooks** for Telegram. Current URLs keep working until December 1st, 2026 and are rejected after that date. You can rotate the key at any time with **Rotate webhook key** or `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; the previous URL stops working immediately. Telegram webhooks registered with the new URL also require the secret token that **Update hooks** configures. See [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md#webhook-urls).
-- **Chat clients — Changing context goes back into the system instructions.** The November 9th change is reverted: the content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are again appended to the system instructions, after the session `extraContext`, instead of being sent as a user message after the last user message. `instructions` again accepts only a string or an array of strings, joined with blank lines; content parts such as images and files are no longer accepted. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients.md#choose-where-to-put-context).
+- **Chat clients — New webhook URLs for messaging integrations.** Telegram, Z-API, Evolution API, and Kapso integrations now have a webhook URL that contains a key generated for each integration. Copy the new URL from the integration settings in the dashboard and update it in the provider, or use **Update hooks** for Telegram. Current URLs keep working until December 1st, 2026 and are rejected after that date. You can rotate the key at any time with **Rotate webhook key** or `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; the previous URL stops working immediately. Telegram webhooks registered with the new URL also require the secret token that **Update hooks** configures. See [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/integrations.md#webhook-urls).
+- **Chat clients — Changing context goes back into the system instructions.** The November 9th change is reverted: the content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are again appended to the system instructions, after the session `extraContext`, instead of being sent as a user message after the last user message. `instructions` again accepts only a string or an array of strings, joined with blank lines; content parts such as images and files are no longer accepted. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
 - **Chat clients — Kapso webhook signatures are verified.** When **Webhook secret key** is set on a Kapso integration, requests whose `X-Webhook-Signature` doesn't match are rejected. Leave it empty if you haven't configured a secret in Kapso. Media attachments are now downloaded only from the Kapso API.
 
 Fixes:
@@ -10331,7 +10633,7 @@ Changes:
 
 Breaking changes:
 
-- **Chat clients — Changing context no longer goes into the system instructions.** The content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are now sent as a user message right after the last user message, instead of being appended to the system instructions. Neither is saved to the session history or returned in `createdMessages`, and changing them on each request no longer invalidates the prompt cache of the conversation. Models usually give user messages less weight than system instructions: if you used `instructions` or `contextLocation` for rules the assistant must always follow, move those rules to the session `extraContext` or the AI gateway instructions. `extraContext` is unchanged and stays in the system instructions. `instructions` now also accepts one OpenAI-compatible content part or an array of them, including images and files; strings and arrays of strings keep working, but array items are now sent as separate text parts instead of being joined with blank lines. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients.md#choose-where-to-put-context).
+- **Chat clients — Changing context no longer goes into the system instructions.** The content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are now sent as a user message right after the last user message, instead of being appended to the system instructions. Neither is saved to the session history or returned in `createdMessages`, and changing them on each request no longer invalidates the prompt cache of the conversation. Models usually give user messages less weight than system instructions: if you used `instructions` or `contextLocation` for rules the assistant must always follow, move those rules to the session `extraContext` or the AI gateway instructions. `extraContext` is unchanged and stays in the system instructions. `instructions` now also accepts one OpenAI-compatible content part or an array of them, including images and files; strings and arrays of strings keep working, but array items are now sent as separate text parts instead of being joined with blank lines. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
 
 Fixes:
 
@@ -10340,7 +10642,7 @@ Fixes:
 
 Changes:
 
-- **Chat clients — Streaming and inference options in Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` accepts `stream: true` to return server-sent events with text, reasoning and tool updates, followed by a `result` event with the usual response body. The new `inferenceOptions` object overrides `reasoningEffort`, `renderingMode` (`default` or `textual_blocks`) and `toolInvocationExplanations` for one request, and the new `tools` field adds OpenAI-compatible client-side tools that are available only for that request. Temporary provider failures that happen before any output are now retried automatically. See [Sending prompts from your application](https://docs.aivax.net/docs/inference/chat-clients.md#sending-prompts-from-your-application).
+- **Chat clients — Streaming and inference options in Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` accepts `stream: true` to return server-sent events with text, reasoning and tool updates, followed by a `result` event with the usual response body. The new `inferenceOptions` object overrides `reasoningEffort`, `renderingMode` (`default` or `textual_blocks`) and `toolInvocationExplanations` for one request, and the new `tools` field adds OpenAI-compatible client-side tools that are available only for that request. Temporary provider failures that happen before any output are now retried automatically. See [Sending prompts from your application](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application).
 - **Data processing — Instruction refinement.** The new `POST /api/v1/generations/instruction-refinement` endpoint reviews system instructions, prompts, skills, tool descriptions and knowledge against prompt engineering guidelines from model vendors' documentation. The `micro` view reviews the wording of each item, and the `macro` view reviews how the items work together as one agent: purpose, limits of authority, where each rule lives, skill selection and configured capabilities. It returns an overall score, a summary, prioritized findings with the line and column range of the affected text and the guideline sources behind them, and suggested fixes. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md). Requests are billed in processing units, and each context item counts as one document toward the document-processing rate limit.
 
 ## Sunday, November 8th, 2026

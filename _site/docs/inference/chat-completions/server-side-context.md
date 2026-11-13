@@ -35,7 +35,7 @@ Client-side tools are different: their calls are returned to you, and your appli
 
 ## What is not kept
 
-- **The message history.** Your application stores it and sends it on every request. If AIVAX should store it, use a [chat client session](https://docs.aivax.net/docs/inference/chat-clients.md).
+- **The message history.** Your application stores it and sends it on every request. If AIVAX should store it, use a [chat client session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md).
 - **Reasoning.** Session reuse restores tool calls and results, not reasoning. Send back the final assistant answer, not the reasoning transcript; see [Raw multi-turn example](https://docs.aivax.net/docs/inference/response-rendering/raw-multi-turn-example.md).
 - **Long-term memory.** Facts the assistant should remember across conversations require the [memory tool](https://docs.aivax.net/docs/tools/builtin-tools.md#memory).
 

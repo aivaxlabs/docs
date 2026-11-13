@@ -18,7 +18,7 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 - [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) — reorder candidate documents by relevance, with or without a managed collection.
 - [Skills](https://docs.aivax.net/docs/inference/skills.md) — package reusable instructions and operating knowledge for AI Gateways.
 - [Tools](https://docs.aivax.net/docs/tools/builtin-tools.md) and [MCP](https://docs.aivax.net/docs/tools/mcp.md) — connect assistants to AIVAX capabilities and external systems.
-- [Chat clients](https://docs.aivax.net/docs/inference/chat-clients.md) — publish a gateway through web chat or supported messaging integrations.
+- [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) — publish a gateway through web chat or supported messaging integrations.
 
 ## Process text and media
 

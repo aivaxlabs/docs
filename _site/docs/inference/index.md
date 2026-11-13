@@ -52,6 +52,13 @@ Source: https://docs.aivax.net/docs/inference/index.html
 - [Raw Multi-turn Example](https://docs.aivax.net/docs/inference/response-rendering/raw-multi-turn-example.md)
 - [Tool Explanations](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md)
 
+## Chat Clients
+
+- [Chat Clients Overview](https://docs.aivax.net/docs/inference/chat-clients/overview.md)
+- [Managing Chat Client Sessions](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md)
+- [Web Chat Client](https://docs.aivax.net/docs/inference/chat-clients/web-client.md)
+- [Chat Client Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md)
+
 - [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md)
 
 - [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md)
@@ -61,6 +68,4 @@ Source: https://docs.aivax.net/docs/inference/index.html
 - [Skills](https://docs.aivax.net/docs/inference/skills.md)
 
 - [Batch Processing](https://docs.aivax.net/docs/inference/batch.md)
-
-- [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients.md)
 
