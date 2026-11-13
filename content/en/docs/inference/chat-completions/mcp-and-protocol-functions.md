@@ -32,4 +32,4 @@ Return clear error text from your tool when an action cannot be completed, so th
 
 ## Public keys
 
-Requests authenticated with a public API key do not use the gateway's MCP sources or protocol functions. Call a gateway with these tools from your server with a private key, or through a [chat client](/docs/inference/chat-clients.md).
+Requests authenticated with a public API key do not use the gateway's MCP sources or protocol functions. Call a gateway with these tools from your server with a private key, or through a [chat client](/docs/inference/chat-clients/overview.md).

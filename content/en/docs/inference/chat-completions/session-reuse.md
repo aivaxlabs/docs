@@ -10,7 +10,7 @@ Session reuse lets a stateless `chat/completions` client keep the server-side co
 
 AIVAX has two features with "session" in the name. They solve different problems:
 
-| | Session reuse (`conversation_token`) | [Chat client session](/docs/inference/chat-clients.md) |
+| | Session reuse (`conversation_token`) | [Chat client session](/docs/inference/chat-clients/managing-sessions.md) |
 | --- | --- | --- |
 | Who stores the message history | Your application. It sends the full history on every request. | AIVAX. The client sends only the new message. |
 | What AIVAX keeps | Server-side tool calls and results of recent turns, for one hour after last use. | The whole conversation, context, metadata, and limits, until the session expires. |

@@ -34,7 +34,7 @@ When you enable moderation, see [LLM input moderation: system prompt or separate
 
 ## Client integration
 
-- Keep private keys on the server. Use a public key or a [chat client](/docs/inference/chat-clients.md) for code that runs in a browser.
+- Keep private keys on the server. Use a public key or a [chat client](/docs/inference/chat-clients/overview.md) for code that runs in a browser.
 - Send one [`conversation_token`](/docs/inference/chat-completions/session-reuse.md) per conversation and store the message IDs AIVAX returns.
 - Configure retries for `429` and `503` responses; see [Troubleshooting](/docs/inference/chat-completions/troubleshooting.md).
 - Use [streaming](/docs/inference/chat-completions/streaming.md) for user-facing chats, or the direct inference host for long non-streaming requests.

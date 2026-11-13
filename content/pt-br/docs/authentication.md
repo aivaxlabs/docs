@@ -1,5 +1,5 @@
 ---
-{title: Autenticação,linkTitle: Autenticação,weight: 20,group: Introduction,sourceHash: 08e1a748439a7891,aliases: [/docs/pt-br/authentication.html]}
+{title: Autenticação,linkTitle: Autenticação,weight: 20,group: Introduction,sourceHash: e6209f7000998cfb,aliases: [/docs/pt-br/authentication.html]}
 ---
 
 # Autenticação
@@ -16,13 +16,13 @@ Escolha como enviar a chave:
 
 - Prefira `Authorization: Bearer <API_KEY>` para chamadas de servidor para servidor.
 - `Authorization: Basic <BASE64_USERNAME_COLON_API_KEY>` também é aceito.
-- Use `?api-key=<API_KEY>` apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento.
+- Use `?api-key=<API_KEY>` apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registrados por proxies, navegadores e ferramentas de monitoramento.
 
 ## Tipos de chave de API
 
-O tipo de chave determina quais rotas o solicitante pode usar. Escolha-o com base em onde o código é executado e quem é o proprietário da conta.
+O tipo de chave determina quais rotas o solicitante pode usar. Escolha-a conforme onde o código é executado e quem é o titular da conta.
 
-A AIVAX possui duas famílias de chaves porque os casos de uso voltados para o navegador e para o lado do servidor têm perfis de risco diferentes. Se o seu código for executado no seu servidor, use uma chave privada e mantenha-a fora dos pacotes do cliente, logs e repositórios públicos. Se o seu código for executado em um navegador ou em outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e mantenha o fluxo limitado às rotas projetadas para acesso público. As chaves de aplicativo são um terceiro tipo: o titular da conta as aprova para um aplicativo de terceiros por meio do [OAuth](oauth.md).
+A AIVAX possui duas famílias de chaves porque os casos de uso voltados para o navegador e para o lado do servidor têm perfis de risco diferentes. Se o seu código for executado no seu servidor, use uma chave privada e mantenha-a fora dos pacotes do cliente, registros (logs) e repositórios públicos. Se o seu código for executado em um navegador ou em outro ambiente onde a chave pode ser inspecionada pelo usuário final, use uma chave pública e mantenha o fluxo limitado às rotas projetadas para acesso público. As chaves de aplicativo são um terceiro tipo: o titular da conta as aprova para um aplicativo de terceiros por meio do [OAuth](oauth.md).
 
 | Tipo | Prefixo | Uso pretendido | Acesso |
 | --- | --- | --- | --- |
@@ -30,7 +30,7 @@ A AIVAX possui duas famílias de chaves porque os casos de uso voltados para o n
 | Chave pública | `pk-aiv-` | Chamadas restritas do lado do cliente. | Inferência de texto, gerações e recuperação RAG. |
 | Chave de aplicativo | `sk-aiv-apk` | Aplicativos de terceiros autorizados pelo titular da conta. | As permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. |
 
-Cada tipo de chave concede um conjunto fixo de permissões, e cada rota exige algumas delas. Uma solicitação cuja chave não possui uma permissão exigida pela rota retorna `403 Forbidden`, e a mensagem de erro nomeia as permissões ausentes.
+Cada tipo de chave concede um conjunto fixo de permissões, e cada rota exige algumas delas. Uma solicitação cuja chave não possui uma permissão exigida pela rota retorna `403 Forbidden`, e a mensagem de erro indica as permissões ausentes.
 
 ### Chaves privadas
 
@@ -53,20 +53,20 @@ Uma chave pública não pode:
 
 - ler ou alterar recursos da conta;
 - abrir sessões de voz;
-- usar os endpoints de busca na web e fetch.
+- usar os endpoints de pesquisa na web e busca.
 
 Quando uma chave pública chama conclusões de chat:
 
-- O `model` deve ser um UUID completo do AI Gateway; chamadas diretas de modelo integrado e pesquisa de slug do gateway estão desativadas.
+- O `model` deve ser um UUID completo do AI Gateway; chamadas diretas de modelo integrado e a consulta por slug do gateway estão desativadas.
 - Fontes MCP, funções de protocolo, ferramentas integradas, Bash, habilidades e opções sentinel são removidas da solicitação.
 - Apenas estes parâmetros de solicitação são aceitos: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `conversation_token`, `idempotency_key` e `stream`.
 - Limites de taxa de solicitação e token são aplicados globalmente por chave e por endereço remoto. Consulte [Chaves de API públicas](limits.md#public-api-keys) para os valores atuais.
 
-Se você estiver expondo uma experiência de navegador ou widget aos usuários finais, revise [Clientes de Chat](/docs/pt-br/inference/chat-clients) antes de decidir se uma chave pública é o limite adequado.
+Se você estiver expondo uma experiência de navegador ou widget aos usuários finais, revise [Clientes de Chat](/docs/pt-br/inference/chat-clients/overview.md) antes de decidir se uma chave pública é o limite adequado.
 
 ### Chaves de aplicativo
 
-Use uma chave de aplicativo quando um aplicativo de terceiros deve chamar a AIVAX com a permissão do titular da conta. A chave recebe as permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. Consulte [Autorização OAuth](#oauth-authorization) para a versão curta e [OAuth](oauth.md) para o fluxo completo.
+Use uma chave de aplicativo quando um aplicativo de terceiros deve chamar a AIVAX com a permissão do titular da conta. A chave recebe as permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. Consulte [Autorização OAuth](#oauth-authorization) para a versão resumida e [OAuth](oauth.md) para o fluxo completo.
 
 ## Gerenciar chaves
 
@@ -80,7 +80,7 @@ Crie chaves separadas para aplicativos separados. Isso torna a rotação mais se
 
 O OAuth permite que um aplicativo de terceiros solicite ao titular de uma conta AIVAX uma chave de aplicativo em vez de pedir que ele copie uma chave de API. Use-o quando a pessoa que possui a conta não for o desenvolvedor do aplicativo.
 
-O titular da conta revisa a solicitação no console, escolhe quanto tempo o acesso durará e pode revogá-la a qualquer momento. Consulte [OAuth](oauth.md) para o fluxo completo, permissões e tratamento de callback.
+O titular da conta revisa a solicitação no console, escolhe por quanto tempo o acesso durará e pode revogá-la a qualquer momento. Consulte [OAuth](oauth.md) para o fluxo completo, permissões e tratamento de callback.
 
 ## Enviar uma chave com autenticação Bearer
 
@@ -97,15 +97,15 @@ client = OpenAI(
 
 ## Autenticação de Hook
 
-A autenticação de hook permite que seu serviço verifique solicitações de saída da AIVAX. Use-o para trabalhadores do AI Gateway e funções de protocolo do lado do servidor.
+A autenticação de hook permite que seu serviço verifique solicitações de saída da AIVAX. Use-a para trabalhadores do AI Gateway e funções de protocolo do lado do servidor.
 
 Esta é a direção reversa da autenticação normal de API:
 
-1. Em uma chamada de API normal, seu aplicativo prova que tem permissão para chamar a AIVAX enviando uma chave de API.
+1. Em uma chamada de API normal, seu aplicativo prova que está autorizado a chamar a AIVAX enviando uma chave de API.
 2. Em um callback de trabalhador ou função de protocolo, a AIVAX chama seu serviço.
 3. Seu serviço precisa de uma maneira de verificar se a solicitação realmente veio da configuração da conta que você controla.
 
-É isso que `X-Request-Nonce` faz.
+É para isso que serve o `X-Request-Nonce`.
 
 Se sua conta tiver uma chave de hook, a AIVAX envia:
 
@@ -172,9 +172,9 @@ if (!(await bcrypt.compare(hookKey, nonce))) {
 
 ## Login no console
 
-O console em `console.aivax.net` faz login com a chave de login enviada por e-mail quando a conta foi criada. Use esta seção quando precisar abrir o console, adicionar um autenticador ou recuperar uma chave de login.
+O console em `console.aivax.net` faz login com a chave de login enviada por e-mail quando a conta é criada. Use esta seção quando precisar abrir o console, adicionar um autenticador ou recuperar uma chave de login.
 
-Uma chave de login não é uma chave de API. Ela apenas abre uma sessão de console. As chaves de API continuam chamando a API sem uma chave de login ou código de autenticador.
+Uma chave de login não é uma chave de API. Ela apenas abre uma sessão de console. As chaves de API continuam a chamar a API sem uma chave de login ou código de autenticador.
 
 ### Autenticação de dois fatores
 
@@ -219,7 +219,7 @@ Ambos os links expiram em uma hora.
 
 **Desabilitar autenticação de dois fatores** abre o [Suporte AIVAX](https://aivax.net/contact/).
 
-#### E-mail de registro indisponível
+#### E-mail de registro não disponível mais
 
 Se o e-mail de registro não estiver mais disponível, use a mesma [página de suporte](https://aivax.net/contact/).
 

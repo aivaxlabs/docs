@@ -146,7 +146,7 @@ Activation via `builtin_tools`:
 
 Enable `Remember` when the assistant needs to save information across conversations and retrieve it when relevant. It exposes exactly two tools: `memory_save` and `memory_search`.
 
-Both tools require an identified user: set a stable `tag` in a [chat client](/docs/inference/chat-clients), or `$.user` in a chat/completions request. Without that identifier, the tools return an error. Memory searches are automatically restricted to the current user. Each memory records the gateway that saved it, and `parameters.builtinFunctionsOptions.allowSharedMemory` controls visibility:
+Both tools require an identified user: set a stable `tag` in a [chat client](/docs/inference/chat-clients/managing-sessions.md#identify-users-with-a-tag), or `$.user` in a chat/completions request. Without that identifier, the tools return an error. Memory searches are automatically restricted to the current user. Each memory records the gateway that saved it, and `parameters.builtinFunctionsOptions.allowSharedMemory` controls visibility:
 
 | `allowSharedMemory` | Behavior |
 | --- | --- |

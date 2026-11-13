@@ -34,7 +34,7 @@ Use this table when you know the job and need the first product to open. Each ro
 | Reuse instructions, knowledge, tools, and model settings | [AI Gateway](/docs/inference/ai-gateways/concepts.md) | Give your application one stable assistant runtime that can evolve without rebuilding every request. |
 | Search your own documents or generate grounded answers | [RAG collections](rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
 | Reorder candidates your application already retrieved | [Rerankers](rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
-| Publish an assistant to end users | [Chat clients](inference/chat-clients.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
+| Publish an assistant to end users | [Chat clients](inference/chat-clients/overview.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
 | Process many independent records | [Batch](inference/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
 | Test a complete assistant conversation | [Agentic Tests](inference/agentic-tests.md) | Simulate a goal-oriented user and judge the gateway across multiple turns. |
 | Build a low-latency two-way voice experience | [Voice Sessions](inference/voice-session.md) | Stream user and assistant audio in an interactive session instead of combining separate audio jobs. |
@@ -125,7 +125,7 @@ Use these products after the assistant runtime works. They publish it to users, 
 
 ### Chat clients
 
-A [chat client](inference/chat-clients.md) connects an AI Gateway to an end-user channel. Use it for a browser widget or a supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
+A [chat client](inference/chat-clients/overview.md) connects an AI Gateway to an end-user channel. Use it for a browser widget or a supported messaging integration. Use the inference API directly when your own backend or interface already manages users, conversation state, and delivery.
 
 A chat client owns presentation, session behavior, allowed origins, uploads, audio replies, channel integrations, and user-facing limits. The gateway continues to own assistant behavior such as the model, instructions, RAG, and tools.
 
@@ -268,7 +268,7 @@ Use this list to confirm that the direct host serves the call you need. It serve
 |---|---|---|
 | `POST` | `/v1/chat/completions` or `/api/v1/chat/completions` | [Chat completions](/docs/inference/chat-completions/concepts.md) with an integrated model or an AI Gateway |
 | `GET` | `/v1/models` or `/api/v1/models` | [Model listing](#make-your-first-request) |
-| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Send a prompt to a chat-client session](inference/chat-clients.md#sending-prompts-from-your-application) |
+| `POST` | `/api/v1/public/chat-clients/<access-key>/prompt` | [Send a prompt to a chat-client session](inference/chat-clients/web-client.md#sending-prompts-from-your-application) |
 | `POST` | `/api/v2/query`, `/api/v2/query/similar`, or `/api/v2/query/browse` | [Search](rag/semantic-search.md) |
 | `POST` | `/api/v1/answer` | [RAG answer generation](rag/document-filters.md#where-filters-are-supported) |
 | `POST` | `/api/v1/generations/images` | [Image generation](generations/images.md) |
