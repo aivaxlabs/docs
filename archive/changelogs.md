@@ -2,6 +2,34 @@
 
 Changelog entries older than the ones shown at https://docs.aivax.net/docs/legal/changelogs.html, newest first.
 
+## Sunday, November 1st, 2026
+
+Breaking changes:
+
+- **Models — Previous model names stop working on December 1st, 2026.** The previous model names listed under Changes and decision aliases without `:latest` are accepted only until December 1st, 2026. After that date, requests that use them are rejected, and saved AI gateways that still store a previous language model name fail until they are updated. A gateway that still stores a previous image model name can no longer be saved, and its chat image tool falls back to the default image model, `@black-forest-labs/flux-schnell`. Speech synthesis source names such as `Gpt4oTts` stop being accepted by the speech generation endpoint; AI gateway and web chat audio settings are not affected. Replace previous names with the names returned by the model catalogs before that date.
+- **Models — Provider model identifiers removed from catalogs.** `GET /api/v1/information/models.json` no longer returns `providers[].modelName`, `GET /v1/models` no longer returns `_details.provider_model.providers[].model_name`, and `GET /api/v1/information/speech-models.json` no longer returns `providerModel`. Use the model `name` and the provider `tag` to select models and providers. The model listing tools of the documentation and account management MCP servers no longer show provider model identifiers, endpoints or transports. Some image, transcription and speech models now return `sourceUrl` as `null`.
+
+Changes:
+
+- **Models — Consistent `@provider/model` names.** Every model type now uses `@provider/model-name` names, with the same provider prefix across text, image, speech and other models. The model catalogs and API responses return the new names. Previous names are still accepted until December 1st, 2026, so existing requests and saved AI gateways keep working until then.
+  - Image generation: provider prefixes were added, such as `@black-forest-labs/flux-schnell`, `@openai/gpt-image-2.5-flare`, `@google/nanobanana-2.1`, `@bytedance/seedream-5-flash`, `@x-ai/grok-imagine` and `@alibaba/wan-image-2.7-pro`.
+  - Transcription: `x-ai/grok-stt-1.0` is now `@x-ai/grok-stt-1.0`, and `mistralai/voxtral-*` models are now `@mistral/voxtral-*`.
+  - Speech synthesis: models have names such as `@openai/gpt-4o-mini-tts`, `@elevenlabs/eleven-v4`, `@x-ai/grok-voice-tts-1.0` and `@fish-audio/drama-3`. The speech generation endpoint still accepts source names such as `Gpt4oTts` and `GrokVoice`, and AI gateway and web chat audio settings keep using them.
+  - Realtime voice sessions: `gpt-realtime-2.1` and `gpt-realtime-2.1-mini` are now `@openai/gpt-realtime-2.1` and `@openai/gpt-realtime-2.1-mini`.
+  - Language models: `@metaai/llama-3.3-70b` and `@metaai/llama-3.1-8b` are now `@meta/llama-3.3-70b` and `@meta/llama-3.1-8b`.
+- **Inference — Inline provider routing in the model name.** An integrated model name accepts a `#` suffix with a routing preference, such as `@openai/gpt-6-luna#cheapest`, or a provider tag, such as `@openai/gpt-6-luna#azure-us`. It works in `chat/completions` requests, saved AI gateways and complexity router model names, and overrides the gateway's saved routing. `routing_options` still takes precedence over it. See [Inline routing in the model name](/docs/inference/routing/inline-routing.md).
+- **Decisions — Aliases use `:latest`.** Decision model aliases now end in `:latest`, for example `@typesafe/jev:latest` and `@perplexity/pplx-decider:latest`, and the decisions catalog lists them that way. Aliases without the suffix are still accepted until December 1st, 2026. See [Decisions](/docs/data-processing/decisions.md).
+
+## Friday, October 30th, 2026
+
+Changes:
+
+- **AI Gateways — Moderation mode.** AI gateway parameters accept `moderationParameters.mode`, with `LayeredGuardrail` (the default and previous behavior) and `SelfAssessment`. `LayeredGuardrail` analyzes the conversation's input text with an independent safeguard model before the main model and blocks flagged conversations. `SelfAssessment` runs no separate moderation call, so there is no moderation analysis charge: the main model receives moderation instructions built from the same category sensitivity levels and additional rules, plus an internal refusal tool, and ends the inference with a refusal when the latest request reaches an enabled category's boundary. It requires a model that supports tool calling and trades lower latency and cost for judgment that is not independent from the main model. The AI gateway editor's Content Moderation section includes a **Moderation mode** selector, and the gateway pipeline summary shows the active mode when moderation is enabled. See [Moderation](/docs/inference/chat-completions/moderation.md).
+- **Dashboard — Agent setup prompt options.** The home page **Copy Prompt** button opens a menu with two setup prompts for coding agents: **Agent MCP + Skills**, which configures the account management MCP and the AIVAX agent skills, and **Agent CLI**, which installs the [AIVAX CLI](/docs/cli.md) and links the account as a CLI profile. The `GET /api/v1/accounts/agent-setup-prompt` endpoint accepts an optional `type` query parameter (`mcp`, the default, or `cli`).
+- **CLI — Log in with an API key.** `aivax auth login --api-key <API_KEY>` links an account profile using an existing API key, without the account login key or authenticator code. See [CLI tool](/docs/cli.md#install).
+- **Accounts — Get the authenticated account.** The new `GET /api/v1/accounts` endpoint returns the identifier, display name and e-mail of the account that owns the API key.
+- **Conversations — Follow conversations in progress.** The new `GET /api/v1/conversations/management/live` Server-Sent Events stream sends the status of conversations being generated in the account: origin, model, elapsed time, partial token usage, and input and output previews. A finished conversation stays in the stream for 10 seconds with status `completed` and the stored `conversationId`, which is `null` when the conversation was not stored. `GET /api/v1/conversations/<id>` also accepts the live identifier and returns the current messages, and `GET /api/v1/conversations/<id>/sse` streams them until the conversation finishes. Only conversations that would be stored are tracked, so requests with conversation logging disabled do not appear. Server-side tool calls are only shown after the conversation is stored. On the **Conversations** page, conversations in progress appear above the stored list and the list refreshes when they finish; opening one follows it live and switches to the stored conversation when it is saved.
+
 ## Thursday, October 29th, 2026
 
 Fixes:
