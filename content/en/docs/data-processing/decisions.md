@@ -8,6 +8,8 @@ Semantic decisions evaluate named questions against a shared state and return st
 
 A request supplies the model, the evidence in `state`, and a `questions` object. Each question has an ID you choose; the response uses the same ID in `answers`. You can ask different question types in one request without making separate API calls.
 
+To evaluate a chat conversation, send it in `input` as an array of OpenAI-style messages instead of `state`. Use one of the two fields, never both.
+
 Use [structured responses](/docs/inference/structured-responses/concepts.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](classification.md).
 
 ## Choose a model
@@ -29,7 +31,7 @@ An authenticated API key and a positive account balance are required, including 
 - `contextLength`: the advertised context in tokens, or `null` when unspecified.
 - `maxImages`: the number of images accepted per request, or `0` for text-only models.
 - `releaseDate`: the catalog release date in `yyyy-MM-dd` format.
-- `capabilities`: supported question types (`noul`, `choice`, and/or `score`).
+- `capabilities`: question types the model answers (`noul`, `choice`, `score`) and media it accepts (`imageinput`, `audioinput`, `videoinput`, `fileinput`).
 - `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base token prices before account and plan adjustments; see [Usage and cost](#usage-and-cost).
 
 Use this listing to populate model selectors rather than maintaining a separate hardcoded catalog. It describes configured models, not a real-time provider health check. Model-specific option and question limits are not included in this listing.
@@ -95,9 +97,11 @@ Tips for reliable answers:
 
 For one triage request run unchanged on Jev, GPT-6 Luna Decisions and Gemini Decision 1, with routing code and measured cost, see [Jev and OpenAI Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
 
-### Send images
+### Send media
 
-Some decision models accept images; check `maxImages` in the [model listing](#discover-models-programmatically). Put each image directly in a top-level `state` array as an `image_url` part, next to text items written as plain strings:
+Some decision models accept media; check `capabilities` and `maxImages` in the [model listing](#discover-models-programmatically). Put each part directly in a top-level `state` array, next to text items written as plain strings.
+
+Images use an `image_url` part:
 
 ```json
 {
@@ -119,6 +123,7 @@ Some decision models accept images; check `maxImages` in the [model listing](#di
 - `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are not fetched and are rejected.
 - Images nested inside objects in `state` are not read as images. A top-level `images` field, `input_image` parts, and base64 without the `data:image/...;base64,` prefix are not supported.
 - Only some models accept images, each up to a per-request maximum. Sending images to any other model, or more than the model accepts, returns `400`. See [Model-specific limits](#model-specific-limits).
+- Models that list `audioinput`, `videoinput`, or `fileinput` also accept those parts in the same top-level `state` array. Audio uses `{ "type": "input_audio", "input_audio": { "data": "<RAW_BASE64>", "format": "wav" } }`: `data` is raw base64, without a `data:` prefix, and `format` is one of `wav`, `mp3`, `mpeg`, `m4a`, `mp4`, `aac`, `aiff`, `aif`, `flac`, `ogg`, `opus`, or `webm`. Video uses a `video_url` part whose `url` is a `data:video/...;base64,` URL; remote video URLs are not fetched. Documents use `{ "type": "file", "file": { "file_data": "<DATA_URL_OR_HTTPS_URL>" } }`, where `file_data` is a base64 data URL or a public `https://` URL. Sending any of these to a model that does not list the capability returns `400`.
 - Clef and Clef Flash also bound the image size and the amount of text they read from `state`; see the same limits section. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
 
 ### Read the response

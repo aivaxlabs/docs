@@ -1,5 +1,5 @@
 ---
-{title: Decisões Semânticas,linkTitle: Decisões Semânticas,weight: 20,group: Data processing,aliases: [/docs/pt-br/generations/decisions.html,/docs/pt-br/data-processing/decisions.html],sourceHash: 27f7da87854c81a5}
+{title: Decisões Semânticas,linkTitle: Decisões Semânticas,weight: 20,group: Data processing,aliases: [/docs/pt-br/generations/decisions.html,/docs/pt-br/data-processing/decisions.html],sourceHash: 0db2d3d0ac27deae}
 ---
 
 # Decisões Semânticas
@@ -7,6 +7,8 @@
 Decisões semânticas avaliam perguntas nomeadas contra um estado compartilhado e retornam respostas estruturadas em vez de uma explicação gerada. Use-as para rotear solicitações de suporte, selecionar uma categoria, verificar uma condição ou atribuir uma pontuação ordenada.
 
 Uma solicitação fornece o modelo, as evidências no `state` e um objeto `questions`. Cada pergunta tem um ID que você escolhe; a resposta usa o mesmo ID em `answers`. Você pode fazer diferentes tipos de perguntas em uma única solicitação sem fazer chamadas separadas à API.
+
+Para avaliar uma conversa de chat, envie-a em `input` como uma matriz de mensagens no estilo OpenAI em vez de `state`. Use um dos dois campos, nunca ambos.
 
 Use [respostas estruturadas](/docs/pt-br/inference/structured-responses/concepts.md) quando precisar de um objeto gerado maior ou uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, consulte [Classificação de texto](classification.md).
 
@@ -29,7 +31,7 @@ Uma chave de API autenticada e um saldo positivo na conta são necessários, inc
 - `contextLength`: o contexto anunciado em tokens, ou `null` quando não especificado.
 - `maxImages`: o número de imagens aceitas por solicitação, ou `0` para modelos apenas de texto.
 - `releaseDate`: a data de lançamento do catálogo no formato `yyyy-MM-dd`.
-- `capabilities`: tipos de perguntas suportados (`noul`, `choice` e/ou `score`).
+- `capabilities`: tipos de perguntas que o modelo responde (`noul`, `choice`, `score`) e mídia que aceita (`imageinput`, `audioinput`, `videoinput`, `fileinput`).
 - `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; veja [Uso e custo](#usage-and-cost).
 
 Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve os modelos configurados, não uma verificação de saúde do provedor em tempo real. Limites específicos de opções e perguntas por modelo não estão incluídos nesta listagem.
@@ -95,9 +97,11 @@ Dicas para respostas confiáveis:
 
 Para uma solicitação de triage executada inalterada no Jev, GPT-6 Luna Decisions e Gemini Decision 1, com código de roteamento e custo medido, consulte [Exemplo da API de Decisões Jev e OpenAI: triagem de ticket de suporte](https://aivax.net/blog/support-triage-typed-decisions/).
 
-### Envie imagens
+### Envie mídia
 
-Alguns modelos de decisão aceitam imagens; verifique `maxImages` na [listagem de modelos](#discover-models-programmatically). Coloque cada imagem diretamente em um array `state` de nível superior como parte `image_url`, ao lado de itens de texto escritos como strings simples:
+Alguns modelos de decisão aceitam mídia; verifique `capabilities` e `maxImages` na [listagem de modelos](#discover-models-programmatically). Coloque cada parte diretamente em um array `state` de nível superior, ao lado de itens de texto escritos como strings simples.
+
+Imagens usam uma parte `image_url`:
 
 ```json
 {
@@ -119,6 +123,7 @@ Alguns modelos de decisão aceitam imagens; verifique `maxImages` na [listagem d
 - `url` deve ser uma URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotos `http(s)` não são buscados e são rejeitados.
 - Imagens aninhadas dentro de objetos em `state` não são lidas como imagens. Um campo `images` de nível superior, partes `input_image` e base64 sem o prefixo `data:image/...;base64,` não são suportados.
 - Apenas alguns modelos aceitam imagens, cada um até um máximo por solicitação. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`. Veja [Limites específicos do modelo](#model-specific-limits).
+- Modelos que listam `audioinput`, `videoinput` ou `fileinput` também aceitam essas partes no mesmo array `state` de nível superior. Áudio usa `{ "type": "input_audio", "input_audio": { "data": "<RAW_BASE64>", "format": "wav" } }`: `data` é base64 bruto, sem prefixo `data:`, e `format` é um dos `wav`, `mp3`, `mpeg`, `m4a`, `mp4`, `aac`, `aiff`, `aif`, `flac`, `ogg`, `opus` ou `webm`. Vídeo usa uma parte `video_url` cuja `url` é uma URL `data:video/...;base64,`; URLs de vídeo remotos não são buscados. Documentos usam `{ "type": "file", "file": { "file_data": "<DATA_URL_OR_HTTPS_URL>" } }`, onde `file_data` é uma URL de dados base64 ou um URL público `https://`. Enviar qualquer um desses para um modelo que não lista a capacidade retorna `400`.
 - Clef e Clef Flash também limitam o tamanho da imagem e a quantidade de texto que leem de `state`; veja a mesma seção de limites. A cobrança usa os tokens de entrada processados pelo modelo, conforme relatado em `usage.input_tokens`.
 
 ### Leia a resposta
