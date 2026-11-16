@@ -4,7 +4,7 @@
 
 # Pricing
 
-AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product: subscription allowances, storage, the request cost header, the data sharing discount, plan multipliers, and credit top-up fees.
+AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product: subscription allowances, storage, the request cost header, the data sharing discount, plan multipliers, credit top-up fees, and taxes on payments.
 
 See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](limits.md) for account-level quotas. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
 
@@ -83,4 +83,10 @@ BYOK usage is not affected by inference taxes. Product pages state when a rate i
 
 ## Credit top-ups
 
-Adding credits charges the amount you choose plus the payment processor fee. Only the amount you choose is added to your balance; fees are not. On Free, an AIVAX service fee of 5% of the amount, with a $0.20 minimum, is also added. Pro, Max, and Ultimate pay no AIVAX service fee. The dashboard shows each fee and the total before you confirm the payment.
+Adding credits charges the amount you choose plus the payment processor fee and the [taxes on payments](#taxes-on-payments). Only the amount you choose is added to your balance; fees and taxes are not. On Free, an AIVAX service fee of 5% of the amount, with a $0.20 minimum, is also added. Pro, Max, and Ultimate pay no AIVAX service fee. The dashboard shows each fee, the taxes, and the total before you confirm the payment.
+
+## Taxes on payments
+
+Every payment includes Brazilian taxes: credit top-ups, subscription payments and renewals, and bills issued by the AIVAX team. The taxes are added on top of the amount due, so the charged total is the amount divided by (1 - 0.1333). They correspond to approximately 11.33% of the total in service taxes and 2% in IOF.
+
+For example, a $19.00 subscription payment charges $21.92, and adding $10.00 in credits on a plan with no service fee charges $11.54 before the payment processor fee. Taxes are not added to your balance, and listed plan prices do not include them. The receipt of each payment lists the amount and each tax.

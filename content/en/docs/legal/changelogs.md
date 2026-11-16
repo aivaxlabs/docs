@@ -8,6 +8,18 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Monday, November 16th, 2026
+
+Fixes:
+
+- **Account — Top-ups paid with a saved payment method.** Adding credits no longer opens an empty browser tab when a saved payment method settles the payment immediately. The dashboard confirms the payment instead.
+
+Changes:
+
+- **Account — Brazilian taxes on payments.** New payments now include Brazilian taxes, added on top of the amount due: credit top-ups, subscription payments and renewals, and bills issued by the AIVAX team. The charged total is the amount divided by (1 - 0.1333), which corresponds to approximately 11.33% of the total in service taxes and 2% in IOF. For example, a $19.00 subscription payment charges $21.92. Taxes are not added to the balance, and listed plan prices do not include them. Before you confirm a top-up, the dashboard now lists the credits, the service fee, the taxes, and the total charged. The amount due shown for a plan change already includes taxes, and receipts list each tax. Invoices created before this change keep their amount. See [Taxes on payments](/docs/pricing.md#taxes-on-payments).
+- **Account — Service invoices.** When AIVAX issues a service invoice (nota fiscal de serviços) for a payment, you receive a dashboard notification and an e-mail, and the invoice gets a **Service invoice** download link in the Invoices tab of Analytics. Usage data returns the link in `serviceInvoiceLocation`, which is `null` until the service invoice is issued.
+- **Analytics — Cost origin and payment totals in the monthly report.** The monthly report now splits the billed amount into provider costs, passed through from third-party providers, and service costs, charged directly by AIVAX. It also totals the payments confirmed in the month, with their taxes and, when available, the payment method and its fees. Get Monthly Usage Report returns these totals in `providerCost`, `directServiceCost`, and `payments`.
+
 ## Friday, November 13th, 2026
 
 Breaking changes:
