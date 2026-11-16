@@ -168,6 +168,23 @@ Example:
 {"name":"Company C","description":"Regional pharmacy chain"}
 ```
 
+#### Chat conversation items
+
+An item can also be a whole conversation instead of plain text. Start the item with the `~[chatconversation,` prefix, followed by a JSON array of messages in the [chat completions](/docs/inference/chat-completions/concepts.md) format:
+
+```text
+~[chatconversation,[{"role":"user","content":"My order arrived damaged."},{"role":"assistant","content":"Sorry about that. Can you send a photo?"},{"role":"user","content":"Sent. I want a replacement, not a refund."}]
+```
+
+The prefix is case-sensitive and has no closing bracket of its own: everything after the comma must be exactly one JSON array. With a chat conversation item:
+
+- Each message has a `role` (`system`, `user`, `assistant`, or `tool`) and a `content`, which is a string or an array of content parts (`text`, `image_url`, `input_audio`, `video_url`, or `file`). Media parts only work with a model or AI Gateway that accepts that media type.
+- The messages are sent to the model as a real conversation, not as text inside a single message. The workflow instruction is added after the last message, so write it as a rule to apply to the conversation above, such as "Classify the customer's main request in this conversation."
+- Validation, when enabled, receives the same conversation together with the generated result.
+- If the text after the prefix is not a JSON array, the item is not processed as plain text. It ends as an execution error once its retries are exhausted, with a message that explains the expected format. Fix the input and import it again; retrying the same item does not help.
+
+In the `lines` mode, each line is one item, so write each conversation as compact JSON on a single line. One conversation per file works with the `files`, `zip`, and `text` modes, where line breaks inside the JSON are allowed. Items with and without the prefix can be mixed in the same job.
+
 Start the job when the imported list looks right. The job screen lets you monitor:
 
 - overall progress;

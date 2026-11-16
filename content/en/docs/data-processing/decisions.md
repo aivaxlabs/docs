@@ -8,7 +8,7 @@ Semantic decisions evaluate named questions against a shared state and return st
 
 A request supplies the model, the evidence in `state`, and a `questions` object. Each question has an ID you choose; the response uses the same ID in `answers`. You can ask different question types in one request without making separate API calls.
 
-To evaluate a chat conversation, send it in `input` as an array of OpenAI-style messages instead of `state`. Use one of the two fields, never both.
+To evaluate a chat conversation, send it in `input` as an array of OpenAI-style messages instead of `state`. Use one of the two fields, never both. See [Evaluate a conversation](#evaluate-a-conversation).
 
 Use [structured responses](/docs/inference/structured-responses/concepts.md) instead when you need a larger generated object or a written explanation. For embedding-based similarity between documents and labels, see [Text classification](classification.md).
 
@@ -97,9 +97,46 @@ Tips for reliable answers:
 
 For one triage request run unchanged on Jev, GPT-6 Luna Decisions and Gemini Decision 1, with routing code and measured cost, see [Jev and OpenAI Decisions API example: triage a support ticket](https://aivax.net/blog/support-triage-typed-decisions/).
 
+### Evaluate a conversation
+
+Use `input` when the evidence is a chat between a customer and an agent, a bot transcript, or any conversation you already store in the [chat completions](/docs/inference/chat-completions/concepts.md) message format. Send `input` instead of `state`; a request with both returns `400`.
+
+```json
+{
+  "model": "@supersonic-labs/julia-1",
+  "input": [
+    { "role": "user", "content": "My order arrived damaged." },
+    { "role": "assistant", "content": "Sorry about that. Do you want a refund or a replacement?" },
+    { "role": "user", "content": "A replacement, please. I need it before Friday." }
+  ],
+  "questions": {
+    "refund_requested": {
+      "type": "noul",
+      "instructions": "Does the customer ask for money back?",
+      "criteria": {
+        "false": "The customer does not ask for money to be returned",
+        "true": "The customer asks for a refund or return of a payment"
+      }
+    }
+  }
+}
+```
+
+- `input` must be a non-empty array. Each message has a `role` (`system`, `user`, `assistant`, or `tool`; `user` when omitted) and a `content` that is a string or an array of content parts.
+- The conversation is converted to text, with each message preceded by its role, and becomes the first `state` item. Every image, audio, video, and file part in the messages is appended as its own media item after that text, in message order.
+- Media parts inside messages follow the same formats, capability checks, and image limits as [media sent in `state`](#send-media). A conversation with an image sent to a text-only model returns `400`.
+- Usage is counted on the converted state, so long conversations consume input tokens like an equivalent text state, and the model context and Julia-1 limits still apply. Trim messages that do not affect the decision.
+
 ### Send media
 
-Some decision models accept media; check `capabilities` and `maxImages` in the [model listing](#discover-models-programmatically). Put each part directly in a top-level `state` array, next to text items written as plain strings.
+Some decision models accept media; check `capabilities` and `maxImages` in the [model listing](#discover-models-programmatically). Put each part directly in a top-level `state` array, next to text items written as plain strings. In a conversation, put the same parts in a message's `content` array instead.
+
+| Media | Part | Required capability | Accepted data |
+| --- | --- | --- | --- |
+| Image | `image_url` | `imageinput` and `maxImages` above zero | Base64 data URL of type `image/png`, `image/jpeg`, or `image/webp` |
+| Audio | `input_audio` | `audioinput` | Raw base64 in `data` and a supported `format` |
+| Video | `video_url` | `videoinput` | Base64 data URL of type `video/*` |
+| Document | `file` | `fileinput` | Base64 data URL or public `https://` URL in `file_data` |
 
 Images use an `image_url` part:
 
@@ -123,8 +160,35 @@ Images use an `image_url` part:
 - `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are not fetched and are rejected.
 - Images nested inside objects in `state` are not read as images. A top-level `images` field, `input_image` parts, and base64 without the `data:image/...;base64,` prefix are not supported.
 - Only some models accept images, each up to a per-request maximum. Sending images to any other model, or more than the model accepts, returns `400`. See [Model-specific limits](#model-specific-limits).
-- Models that list `audioinput`, `videoinput`, or `fileinput` also accept those parts in the same top-level `state` array. Audio uses `{ "type": "input_audio", "input_audio": { "data": "<RAW_BASE64>", "format": "wav" } }`: `data` is raw base64, without a `data:` prefix, and `format` is one of `wav`, `mp3`, `mpeg`, `m4a`, `mp4`, `aac`, `aiff`, `aif`, `flac`, `ogg`, `opus`, or `webm`. Video uses a `video_url` part whose `url` is a `data:video/...;base64,` URL; remote video URLs are not fetched. Documents use `{ "type": "file", "file": { "file_data": "<DATA_URL_OR_HTTPS_URL>" } }`, where `file_data` is a base64 data URL or a public `https://` URL. Sending any of these to a model that does not list the capability returns `400`.
 - Clef and Clef Flash also bound the image size and the amount of text they read from `state`; see the same limits section. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
+
+#### Audio, video, and documents
+
+Models that list `audioinput`, `videoinput`, or `fileinput`, such as `@google/gemini-decision-1`, accept those parts in the same top-level `state` array. Each part can be combined with text and other media in one request:
+
+```json
+{
+  "model": "@google/gemini-decision-1",
+  "state": [
+    "Support call recording and the invoice the customer mentioned.",
+    { "type": "input_audio", "input_audio": { "data": "<RAW_BASE64_AUDIO>", "format": "mp3" } },
+    { "type": "video_url", "video_url": { "url": "data:video/mp4;base64,<BASE64_VIDEO>" } },
+    { "type": "file", "file": { "file_data": "data:application/pdf;base64,<BASE64_PDF>", "filename": "invoice.pdf" } }
+  ],
+  "questions": {
+    "charge_disputed": {
+      "type": "noul",
+      "instructions": "Does the customer dispute a charge that appears on the invoice?",
+      "criteria": { "true": "The customer disputes an invoiced charge", "false": "No invoiced charge is disputed" }
+    }
+  }
+}
+```
+
+- **Audio:** `data` is raw base64, without a `data:` prefix. `format` is one of `wav`, `mp3`, `mpeg`, `m4a`, `mp4`, `aac`, `aiff`, `aif`, `flac`, `ogg`, `opus`, or `webm`.
+- **Video:** `url` must be a `data:video/...;base64,` URL. Remote video URLs are not fetched and are rejected.
+- **Documents:** `file_data` is a base64 data URL, such as `data:application/pdf;base64,...`, or a public `https://` URL. `filename` is optional. Plain `http://` URLs and raw base64 without the `data:` prefix are rejected.
+- Sending a part to a model that does not list the matching capability returns `400`. Media nested inside objects in `state` is ignored, as with images.
 
 ### Read the response
 
