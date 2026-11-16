@@ -2336,7 +2336,7 @@ Um gateway não tem taxa separada. As solicitações são cobradas pelo modelo e
 
 Source: https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.html
 
-# Modelos e nomes de gateways
+# Nomes de modelos e gateways
 
 O campo `model` de `/v1/chat/completions` seleciona o que executa a solicitação. Ele aceita três tipos de valor:
 
@@ -2359,14 +2359,14 @@ Um nome de modelo integrado pode conter um sufixo de roteamento de provedor, com
 Valide três pontos antes de colocar um modelo em produção:
 
 - O modelo oferece suporte às modalidades de entrada que você pretende enviar, como imagem, áudio, vídeo ou arquivo. Caso contrário, ative o [pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md).
-- O modelo oferece suporte à chamada de funções se o gateway usar ferramentas, RAG `QueryFunction`, MCP, funções de protocolo, habilidades ou ferramentas integradas.
+- O modelo oferece suporte à chamada de funções se o gateway usar ferramentas, RAG `QueryFunction`, MCP, funções de protocolo, habilidades ou ferramentas embutidas.
 - O modelo aceita os parâmetros que você configura. Alguns modelos integrados rejeitam preenchimento prévio do assistente, temperatura, sequências de parada ou esforço de raciocínio.
 
 ## Substituir um modelo
 
 Um gateway permite alterar o modelo por trás de um nome estável, para que as aplicações cliente não precisem ser alteradas quando um modelo for descontinuado. Você ainda precisa qualificar a substituição com seus próprios prompts e ferramentas antes de fazer a troca. Para distinguir um modelo atual de um antigo, consulte [Modelos descontinuados](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md#deprecated-models).
 
-Consulte [fixar um ID de modelo versus usar um alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) para uma lista de verificação de substituição. Para o encerramento do GPT-4o e GPT-4.1 em 14 de janeiro de 2027, consulte [como migrar para gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/). Para o encerramento do GPT-5 e o3 em 11 de dezembro de 2026, consulte [como migrar para GPT-5.6 Sol, Terra e Luna](https://aivax.net/blog/migrate-gpt-5-and-o3-to-gpt-5-6-before-december-11/).
+Consulte [fixar um ID de modelo versus usar um alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) para uma lista de verificação de substituição. Para o encerramento do GPT-4o e GPT-4.1 em 14 de janeiro de 2027, consulte [como migrar para gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/). Para o encerramento do GPT-5 e o3 em 11 de dezembro de 2026, consulte [como migrar para GPT-6.1 Sol, Terra e GPT-6 Luna](https://aivax.net/blog/migrate-gpt-5-and-o3-to-gpt-5-6-before-december-11/).
 
 ---
 
@@ -4165,6 +4165,8 @@ Source: https://docs.aivax.net/pt-br/docs/inference/routing/zdr.html
 Ative a opção **Apenas provedores com retenção zero de dados** nas configurações da conta no painel para direcionar apenas as inferências de texto com modelos integrados para provedores que não retêm prompts. Os provedores que não possuem retenção zero de dados são excluídos antes que `allowed_providers` e `preset` sejam aplicados. Quando não há nenhum provedor com retenção zero de dados disponível para o modelo, a solicitação falha em vez de fazer fallback para outro provedor; escolha um modelo com um provedor de retenção zero de dados ou desative essa opção.
 
 Essa opção aplica-se apenas à inferência de texto. Ela não altera o registro das conversas; use `allow_logging` ou a configuração de registro de conversas da conta para isso.
+
+As etapas da plataforma executadas antes ou durante uma solicitação sempre utilizam um provedor com retenção zero de dados, independentemente de a opção da conta estar ativada: reescrita de prompts, roteamento por complexidade, moderação de conteúdo e processamento de documentos. Desativar a opção não move essas etapas para outro provedor. Quando não há nenhum provedor com retenção zero de dados disponível para uma dessas etapas, a solicitação falha e deve ser tentada novamente mais tarde.
 
 ---
 
@@ -6516,7 +6518,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/batch.html
 
 # Processamento em Lote (Batch)
 
-O Batch executa o mesmo fluxo de trabalho de IA sobre muitos itens independentes. Ele transforma uma lista de entradas em uma fila de segundo plano com instruções fixas, saída estruturada, validação opcional, rastreamento de progresso, tentativas de repetição e exportação de resultados.
+O Batch executa o mesmo fluxo de trabalho de IA sobre muitos itens independentes. Ele transforma uma lista de entradas em uma fila em segundo plano com instruções fixas, saída estruturada, validação opcional, rastreamento de progresso, tentativas de repetição e exportação de resultados.
 
 Use o Batch quando dezenas, centenas ou milhares de registros precisarem do mesmo raciocínio e cada registro puder ser tratado isoladamente. Tarefas típicas:
 
@@ -6533,9 +6535,9 @@ Use o Batch quando dezenas, centenas ou milhares de registros precisarem do mesm
 
 Use o Batch quando você construiria a fila manualmente. Processar muitos itens geralmente exige tratamento de erros, tentativas de repetição, validação JSON e exportação de resultados. O Batch mantém essas partes no AIVAX, permitindo que você opere a carga de trabalho em vez de montar o pipeline.
 
-Na prática, ele oferece:
+Na prática, isso oferece:
 
-- **Processamento repetível:** as mesmas instruções, modelo e esquema são aplicados a todos os itens.
+- **Processamento repetível:** a mesma instrução, modelo e esquema são aplicados a todos os itens.
 - **Execução assíncrona:** o trabalho continua em segundo plano, sem manter uma solicitação aberta.
 - **Saída estruturada:** cada item pode ser obrigado a retornar um objeto compatível com um JSON Schema.
 - **Correção e validação:** o AIVAX tenta reprocessar respostas inválidas e pode executar uma segunda etapa de validação.
@@ -6544,12 +6546,12 @@ Na prática, ele oferece:
 
 ## Quando usar
 
-Use o Batch quando cada item puder ser processado isoladamente e não precisar compartilhar memória com os outros. Um item típico é uma linha para:
+Use o Batch quando cada item puder ser processado isoladamente e não precisar compartilhar memória com os outros. Um item típico é uma única linha para:
 
 - um cliente;
 - uma URL;
 - um produto;
-- um ticket;
+- um chamado (ticket);
 - uma mensagem;
 - um documento curto;
 - um trecho de contrato;
@@ -6557,7 +6559,7 @@ Use o Batch quando cada item puder ser processado isoladamente e não precisar c
 
 O Batch é uma boa escolha quando:
 
-- a mesma prompt se aplica a todos os itens;
+- a mesma instrução se aplica a todos os itens;
 - você precisa de resultados tabulares ou JSON para consumo posterior;
 - o tempo de resposta pode ser assíncrono;
 - você deseja rastrear erros e repetir apenas os itens problemáticos;
@@ -6575,7 +6577,7 @@ Para indexar conhecimento pesquisável, use [coleções RAG](https://docs.aivax.
 
 ## Conceitos
 
-O Batch é construído a partir de um fluxo de trabalho, um trabalho e itens. Salve o fluxo de trabalho uma vez, crie um trabalho para cada carga de trabalho e trate cada linha importada como seu próprio item.
+O Batch é construído a partir de um fluxo de trabalho (workflow), um trabalho (job) e itens. Salve o fluxo de trabalho uma vez, crie um trabalho para cada carga de trabalho e trate cada linha importada como seu próprio item.
 
 ### Fluxo de Trabalho (Workflow)
 
@@ -6589,40 +6591,40 @@ O fluxo de trabalho é a receita de processamento. Crie-o quando vários trabalh
 - instruções de validação; e
 - comportamento de tentativas de repetição e tratamento de erros.
 
-Alterar um fluxo de trabalho afeta os trabalhos subsequentes e os itens processados com essa configuração. Use fluxos de trabalho separados quando as instruções, esquemas, modelos ou regras de validação mudarem de forma significativa.
+Alterar um fluxo de trabalho afeta os trabalhos subsequentes e os itens processados com essa configuração. Use fluxos de trabalho separados quando a instrução, o esquema, o modelo ou as regras de validação mudarem de forma significativa.
 
 ### Modelo e roteamento
 
 Cada item é processado pelo modelo integrado ou Gateway de IA que você escolher. Defina essa escolha na configuração **Modelo** do fluxo de trabalho. A API usa a mesma escolha que `modelName`.
 
-Quando o fluxo de trabalho não usa um Gateway de IA, o Batch otimiza para custo:
+Quando o fluxo de trabalho não usa um Gateway de IA, o Batch otimiza o custo:
 
-- Os itens são sempre roteados com a preferência de roteamento de provedor `Cheapest` [preferência de roteamento de provedor](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
+- Os itens são sempre roteados com a preferência de roteamento de provedor `Cheapest` (Mais Barato) [configuração de roteamento](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
 - Essa preferência seleciona o provedor disponível com o menor preço de tokens de entrada e saída para esse modelo.
-- A padrão `Balanced` não é aplicada, portanto, a seleção do provedor pode diferir de outros recursos que solicitam o mesmo modelo.
+- A configuração padrão `Balanced` não é aplicada, portanto, a seleção do provedor pode diferir de outros recursos que solicitam o mesmo modelo.
 - Quando apenas um provedor está disponível ou é compatível com a solicitação, o roteamento não altera o resultado.
 
-Crie um [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e selecione-o no fluxo de trabalho quando precisar de uma rota diferente ou configuração de gateway compartilhado. Um gateway permite:
+Crie um [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e selecione-o no fluxo de trabalho quando precisar de uma rota diferente ou de uma configuração de gateway compartilhado. Um gateway permite:
 
-- usar a preferência `Balanced`, `Fastest` ou `Quality`;
+- usar as preferências `Balanced`, `Fastest` ou `Quality`;
 - restringir quais provedores são tentados;
-- aplicar instruções fixas, ferramentas e configuração RAG a cada item.
+- aplicar instruções fixas, ferramentas e configuração de RAG a cada item.
 
 ### Trabalho (Job)
 
 Um trabalho é uma carga de trabalho criada a partir de um fluxo de trabalho. Use-o para agrupar os itens que deseja processar juntos. Ele mantém o estado, os eventos e as métricas dessa carga de trabalho enquanto o trabalho é preparado, processado, pausado ou concluído.
 
-Consulte a Referência da API embutida para os estados de trabalho suportados.
+Consulte a Referência da API embutida para ver os estados de trabalho suportados.
 
 ### Item
 
 Um item é uma linha da lista importada. Cada linha torna-se uma entrada independente enviada ao modelo com as instruções do fluxo de trabalho.
 
-Cada item registra seu resultado do processamento, saída, confiança e detalhes de validação. Consulte a Referência da API embutida para os estados de item suportados.
+Cada item registra seu resultado de processamento, saída, confiança e detalhes de validação. Consulte a Referência da API embutida para ver os estados de item suportados.
 
 ## Como usar no console
 
-Use o console quando quiser projetar o fluxo de trabalho, inspecionar itens e operar o trabalho manualmente. No console do AIVAX, vá para **Batch**.
+Use o console quando quiser projetar o fluxo de trabalho, inspecionar os itens e operar o trabalho manualmente. No console do AIVAX, vá para **Batch**.
 
 ### Criar um fluxo de trabalho
 
@@ -6638,7 +6640,7 @@ Escreva a instrução como uma regra geral, não como uma única pergunta. O ite
 Exemplo de instrução:
 
 ```text
-Classifique a empresa fornecida na entrada. Retorne o setor provável, uma justificativa curta e os sinais encontrados no texto. Se a entrada não contiver informações suficientes, use o setor "Undefined".
+Classify the company provided in the input. Return the likely sector, a short justification, and signals found in the text. If the input does not contain enough information, use sector "Undefined".
 ```
 
 Exemplo de esquema:
@@ -6665,9 +6667,9 @@ Um trabalho é a carga de trabalho para uma execução. Crie-o após o fluxo de 
 
 Escolha o modo de importação que corresponde à origem:
 
-- `lines`: lê um arquivo de texto carregado e importa cada linha não vazia como um item.
-- `files`: importa cada arquivo de texto simples carregado como um item.
-- `zip`: importa cada entrada de texto simples em um arquivo ZIP carregado como um item.
+- `lines`: lê um único arquivo de texto enviado e importa cada linha não vazia como um item.
+- `files`: importa cada arquivo de texto simples enviado como um item.
+- `zip`: importa cada entrada de texto simples em um arquivo ZIP enviado como um item.
 - `text`: importa o campo de texto submetido como um único item.
 
 As linhas podem ser texto simples, CSV delimitado, URLs, IDs, JSON compacto ou qualquer formato que a instrução saiba interpretar. Para entradas baseadas em linhas estruturadas, prefira JSONL: um objeto JSON por linha.
@@ -6680,10 +6682,27 @@ Exemplo:
 {"name":"Company C","description":"Regional pharmacy chain"}
 ```
 
+#### Itens de conversa de chat
+
+Um item também pode ser toda uma conversa em vez de texto simples. Inicie o item com o prefixo `~[chatconversation,`, seguido por uma matriz JSON de mensagens no formato de [completions de chat](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md):
+
+```text
+~[chatconversation,[{"role":"user","content":"My order arrived damaged."},{"role":"assistant","content":"Sorry about that. Can you send a photo?"},{"role":"user","content":"Sent. I want a replacement, not a refund."}]
+```
+
+O prefixo diferencia maiúsculas de minúsculas e não tem colchete de fechamento próprio: tudo após a vírgula deve ser exatamente uma matriz JSON. Com um item de conversa de chat:
+
+- Cada mensagem tem um `role` (`system`, `user`, `assistant` ou `tool`) e um `content`, que é uma string ou uma matriz de partes de conteúdo (`text`, `image_url`, `input_audio`, `video_url` ou `file`). As partes de mídia só funcionam com um modelo ou Gateway de IA que aceite esse tipo de mídia.
+- As mensagens são enviadas ao modelo como uma conversa real, não como texto dentro de uma única mensagem. A instrução do fluxo de trabalho é adicionada após a última mensagem, portanto, escreva-a como uma regra para aplicar à conversa acima, como "Classify the customer's main request in this conversation."
+- A validação, quando habilitada, recebe a mesma conversa junto com o resultado gerado.
+- Se o texto após o prefixo não for uma matriz JSON, o item não será processado como texto simples. Ele terminará como um erro de execução após esgotar suas tentativas de repetição, com uma mensagem que explica o formato esperado. Corrija a entrada e importe-a novamente; tentar novamente o mesmo item não ajuda.
+
+No modo `lines`, cada linha é um item, portanto, escreva cada conversa como JSON compacto em uma única linha. Uma conversa por arquivo funciona nos modos `files`, `zip` e `text`, onde as quebras de linha dentro do JSON são permitidas. Itens com e sem o prefixo podem ser misturados no mesmo trabalho.
+
 Inicie o trabalho quando a lista importada parecer correta. A tela do trabalho permite monitorar:
 
 - progresso geral;
-- itens pendentes, concluídos e com erro;
+- itens pendentes, concluídos e com falha;
 - confiança média;
 - eventos do trabalho;
 - itens processados mais recentes;
@@ -6691,7 +6710,7 @@ Inicie o trabalho quando a lista importada parecer correta. A tela do trabalho p
 
 ### Operar em itens com falha
 
-Use esta etapa quando o trabalho tiver erros, recusas ou resultados nos quais você ainda não confia. Filtre a lista por erro de execução, erro de validação, recusa ou baixa confiança. Então você pode:
+Use esta etapa quando o trabalho tiver erros, recusas ou resultados que você ainda não confia. Filtre a lista por erro de execução, erro de validação, recusa ou baixa confiança. Então você pode:
 
 - repetir todos os erros;
 - repetir apenas erros de execução;
@@ -6718,13 +6737,13 @@ O fluxo da API corresponde ao do console. Cada etapa é uma operação separada:
 
 Se você ainda está decidindo se o Batch é o recurso certo:
 
-- Use o Batch para raciocínio repetido sobre itens independentes.
+- Use o Batch para raciocínios repetidos sobre itens independentes.
 - Use [coleções RAG](https://docs.aivax.net/pt-br/docs/rag/collections.md) para conhecimento pesquisável que deve ser recuperado posteriormente.
 - Use [inferência direta](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md) para uma resposta imediata única.
 
 ### Criar fluxo de trabalho
 
-Um fluxo de trabalho é a regra de processamento salva. Crie-o quando trabalhos futuros devem reutilizar a mesma política, não uma prompt única para um único registro.
+Um fluxo de trabalho é a regra de processamento salva. Crie um quando os trabalhos futuros devem reutilizar a mesma política, não uma instrução única para um único registro.
 
 Defina:
 
@@ -6739,7 +6758,7 @@ Defina:
 
 ### Criar trabalho
 
-Um trabalho é uma carga de trabalho concreta. Crie-o quando um fluxo de trabalho existente deve processar uma lista específica. Os trabalhos são criados pausados para que você possa importar e inspecionar itens antes do processamento.
+Um trabalho é uma carga de trabalho concreta. Crie-o quando um fluxo de trabalho existente deve processar uma lista específica. Os trabalhos são criados pausados para que você possa importar e inspecionar os itens antes do processamento.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20Batch%20Job)
 
@@ -6747,7 +6766,7 @@ Importe os itens em seguida. Deixe o trabalho pausado até que a lista pareça c
 
 ### Importar itens
 
-A importação é como um arquivo de origem se torna unidades independentes de trabalho. Faça isso após o trabalho existir e escolha o modo que corresponde à origem:
+A importação é como um arquivo de origem se torna unidades independentes de trabalho. Faça isso após a existência do trabalho e escolha o modo que corresponde à origem:
 
 - uma linha por registro;
 - um arquivo por registro;
@@ -6756,7 +6775,7 @@ A importação é como um arquivo de origem se torna unidades independentes de t
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Import%20Batch%20Job%20Items)
 
-Consulte a Referência da API embutida para modos de importação suportados, campos e restrições atuais.
+Consulte a Referência da API embutida para ver os modos de importação suportados, campos e restrições atuais.
 
 ### Iniciar, pausar ou finalizar
 
@@ -6772,7 +6791,7 @@ Consulte a Referência da API embutida para os estados de trabalho suportados.
 
 ### Monitorar
 
-O monitoramento diz se o fluxo de trabalho é saudável o suficiente para continuar em execução. Use a visualização do trabalho para o estado geral. Use a lista de itens quando precisar ver onde o trabalho está travado, quais itens falharam na validação e quais resultados de baixa confiança merecem revisão humana.
+O monitoramento diz se o fluxo de trabalho é saudável o suficiente para deixar em execução. Use a visualização do trabalho para o estado geral. Use a lista de itens quando precisar ver onde o trabalho está travado, quais itens falharam na validação e quais resultados de baixa confiança merecem revisão humana.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=View%20Batch%20Job)
 
@@ -6780,37 +6799,37 @@ Liste os itens do trabalho quando precisar da visão nível de linha:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=List%20Batch%20Job%20Items)
 
-Use o endpoint de lista para filtrar itens por estado, confiança ou texto de entrada. Consulte a Referência da API embutida para filtros suportados.
+Use o endpoint de lista para filtrar itens por estado, confiança ou texto de entrada. Consulte a Referência da API embutida para ver os filtros suportados.
 
 ### Repetir e limpar
 
-Repetir e limpar são para itens que você já inspecionou. Repita após entender a forma da falha:
+Repetição e limpeza são para itens que você já inspecionou. Repita após entender a forma da falha:
 
 - Repita **erros de execução** quando o provedor ou a solicitação falhou.
 - Repita **erros de validação** quando a resposta provavelmente pode ser regenerada na forma esperada.
 - Repita **resultados de baixa confiança** quando o item foi bem-sucedido, mas merece outra tentativa do modelo.
 
-Use um endpoint de limpeza quando itens que não estão em execução não forem mais úteis e devem sair do trabalho.
+Use um endpoint de limpeza quando os itens que não estão em execução não forem mais úteis e devem sair do trabalho.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Retry%20Batch%20Job%20Items)
 
-Use o endpoint de repetição após revisar o padrão de falha. Consulte a Referência da API embutida para opções de repetição suportadas e o comportamento resultante do trabalho. Para o filtro de exportação que corresponde a cada modo de repetição e como as APIs de lote do provedor lidam com expiração, consulte [trabalhos em lote expirados: resultados parciais e repetição apenas do que falhou](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
+Use o endpoint de repetição após revisar o padrão de falha. Consulte a Referência da API embutida para ver as opções de repetição suportadas e o comportamento resultante do trabalho. Para o filtro de exportação que corresponde a cada modo de repetição e como as APIs de lote do provedor lidam com expiração, consulte [trabalhos de lote expirados: resultados parciais e repetição apenas do que falhou](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
 
 Para remover itens que não estão em execução do trabalho:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Remove%20Batch%20Job%20Items)
 
-Use o endpoint de remoção apenas para itens que não são mais úteis. Consulte a Referência da API embutida para opções de remoção suportadas.
+Use o endpoint de remoção apenas para itens que não são mais úteis. Consulte a Referência da API embutida para ver as opções de remoção suportadas.
 
 ### Exportar
 
-A exportação é a transferência do AIVAX de volta para o seu fluxo de trabalho. Use-a após o trabalho terminar, ou exporte um subconjunto quando a revisão precisar de itens concluídos primeiro e erros depois.
+A exportação é a transferência do AIVAX de volta para o seu fluxo de trabalho. Use-a após o trabalho terminar, ou exporte um subconjunto quando a revisão precisar primeiro dos itens concluídos e depois dos erros.
 
 JSONL se adapta a planilhas, bancos de dados, filas e ferramentas de auditoria manual. Cada linha permanece vinculada à entrada original e à sua saída gerada.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Export%20Batch%20Job)
 
-Use o endpoint de exportação quando sua revisão ou processo downstream precisar de um conjunto selecionado de resultados concluídos. Consulte a Referência da API embutida para filtros de exportação suportados.
+Use o endpoint de exportação quando sua revisão ou processo downstream precisar de um conjunto selecionado de resultados concluídos. Consulte a Referência da API embutida para ver os filtros de exportação suportados.
 
 ## Disponibilidade
 
@@ -6818,7 +6837,7 @@ Revise a faturamento e a capacidade antes de processar uma grande carga de traba
 
 ## Limites
 
-Os limites são a verificação de capacidade para uma grande carga de trabalho. O número de itens de fluxo de trabalho processados por dia depende do plano. Consulte [Limites de Batch e Testes Agentic](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests).
+Os limites são a verificação de capacidade para uma grande carga de trabalho. O número de itens de fluxo de trabalho processados por dia depende do plano. Consulte [Limites de Batch e Agentic Tests](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests).
 
 Estes limites de importação se aplicam a todos os planos:
 
@@ -6828,12 +6847,12 @@ Estes limites de importação se aplicam a todos os planos:
 | Tamanho total da importação | 100 MiB/solicitação |
 | Tamanho de arquivo importado único | 10 MiB |
 
-O processamento em lote é assíncrono. Se a cota pausar ou falhar o trabalho:
+O processamento em lote é assíncrono. Se a cota pausar ou falhar no trabalho:
 
-1. Aguarde até que a janela da cota seja reiniciada e tente novamente.
+1. Aguarde até que a janela da cota seja redefinida e tente novamente.
 2. Ou atualize a conta.
 
-Para saber como as APIs de lote do provedor, como a da OpenAI, limitam e falham em um lote, e como um trabalho do AIVAX pausa em um 429 e retoma, consulte [Limites de taxa da API Batch da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+Para saber como as APIs de lote do provedor, como a da OpenAI, limitam e falham em um lote, e como um trabalho do AIVAX pausa em um 429 e retoma, consulte [Limites de taxa da API de Lote da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Melhores práticas
 
@@ -6844,11 +6863,11 @@ Use estas verificações antes de uma grande execução, enquanto corrige falhas
 - Inclua exemplos de entrada e saída na instrução quando o formato for ambíguo.
 - Prefira uma linha por item; se você precisar enviar objetos complexos, use JSONL.
 - Mantenha a validação habilitada para tarefas sensíveis, como extração legal, financeira ou dados que alimentam automações.
-- Use `maxRetries` para corrigir falhas ocasionais, mas investigue erros repetidos na prompt ou no esquema.
+- Use `maxRetries` para corrigir falhas ocasionais, mas investigue erros repetidos na instrução ou no esquema.
 - Defina um `errorStopThreshold` baixo em novos fluxos de trabalho para evitar gastos em um lote com configuração incorreta.
 - Repita itens de baixa confiança separadamente. Baixa confiança não significa erro, mas indica que a resposta merece revisão.
-- Exporte resultados por estado quando a revisão manual for necessária, por exemplo, primeiro `finished`, depois `errors`.
-- Para um guia operacional de limites de taxa, tentativas de repetição e resultados parciais, consulte [Limites de taxa da API Batch da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+- Exporte resultados por estado quando a revisão manual for necessária, ex., primeiro `finished`, depois `errors`.
+- Para um guia operacional de limites de taxa, tentativas de repetição e resultados parciais, consulte [Limites de taxa da API de Lote da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ---
 
@@ -7241,47 +7260,49 @@ Decisões semânticas avaliam perguntas nomeadas contra um estado compartilhado 
 
 Uma solicitação fornece o modelo, as evidências no `state` e um objeto `questions`. Cada pergunta tem um ID que você escolhe; a resposta usa o mesmo ID em `answers`. Você pode fazer diferentes tipos de perguntas em uma única solicitação sem fazer chamadas separadas à API.
 
-Use [respostas estruturadas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/concepts.md) quando precisar de um objeto gerado maior ou uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, consulte [Classificação de texto](https://docs.aivax.net/pt-br/docs/data-processing/classification.md).
+Para avaliar uma conversa de chat, envie-a em `input` como uma matriz de mensagens no estilo OpenAI em vez de `state`. Use um dos dois campos, nunca ambos. Veja [Avaliar uma conversa](#evaluate-a-conversation).
+
+Use [respostas estruturadas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/concepts.md) quando precisar de um objeto gerado maior ou de uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, consulte [Classificação de texto](https://docs.aivax.net/pt-br/docs/data-processing/classification.md).
 
 ## Escolha um modelo
 
 Os modelos de decisão disponíveis, com seus aliases (apelidos), tipos de perguntas suportados, contexto e preços, estão listados no [Catálogo de Modelos](https://aivax.net/models#decisions).
 
-Cada resposta retorna o nome canônico do modelo em `model`. Você também pode enviar um alias de modelo, como `@supersonic-labs/julia:latest`. Um alias pode ser atualizado para uma versão mais nova quando uma for lançada, então fixe o nome canônico quando precisar de uma versão estável.
+Cada resposta retorna o nome canônico do modelo em `model`. Você também pode enviar um alias de modelo, como `@supersonic-labs/julia:latest`. Um alias pode passar para uma versão mais nova quando uma for lançada, então fixe o nome canônico quando precisar de uma versão estável.
 
 Um limite de contexto não especificado não significa entrada ilimitada. Limites específicos do modelo e a interpretação das pontuações podem variar; valide um modelo em exemplos representativos antes de direcionar o tráfego de produção.
 
 Uma chave de API autenticada e um saldo positivo na conta são necessários, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md), [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
 
-### Descubra modelos programaticamente
+### Descobrir modelos programaticamente
 
-`GET /api/v1/information/decisions-models.json` lista o catálogo atual de modelos de decisão sem autenticação. O array `data` da resposta contém:
+`GET /api/v1/information/decisions-models.json` lista o catálogo atual de modelos de decisão sem autenticação. A matriz `data` da resposta contém:
 
 - `name`: o identificador canônico a ser usado em uma solicitação de decisão.
 - `aliases`: outros identificadores aceitos para esse modelo.
 - `contextLength`: o contexto anunciado em tokens, ou `null` quando não especificado.
 - `maxImages`: o número de imagens aceitas por solicitação, ou `0` para modelos apenas de texto.
 - `releaseDate`: a data de lançamento do catálogo no formato `yyyy-MM-dd`.
-- `capabilities`: tipos de perguntas suportados (`noul`, `choice` e/ou `score`).
-- `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; veja [Uso e custo](#usage-and-cost).
+- `capabilities`: tipos de perguntas que o modelo responde (`noul`, `choice`, `score`) e mídia que aceita (`imageinput`, `audioinput`, `videoinput`, `fileinput`).
+- `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; consulte [Uso e custo](#usage-and-cost).
 
 Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Ela descreve os modelos configurados, não uma verificação de saúde do provedor em tempo real. Limites específicos de opções e perguntas por modelo não estão incluídos nesta listagem.
 
 ## Escreva as perguntas
 
-| Tipo | Formato de `criteria` | Use-o para |
+| Tipo | Formato de `criteria` | Use para |
 | --- | --- | --- |
 | `choice` | Objeto mapeando IDs de escolha para descrições | Selecionar um destino ou categoria |
 | `noul` | Objeto com descrições não vazias para `false` e `true` | Avaliar uma condição Booleana |
-| `score` | Array ordenado de descrições de nível | Avaliar uma condição graduada |
+| `score` | Matriz ordenada de descrições de nível | Avaliar uma condição graduada |
 
-Cada pergunta requer `instructions` não vazios. Use descrições que distingam as opções, não apenas IDs opacos. Por exemplo, `"billing": "Charges, payments, and refunds"` fornece mais evidências do que `"billing": "B"`.
+Toda pergunta requer `instructions` não vazias. Use descrições que distingam as opções, não apenas IDs opacos. Por exemplo, `"billing": "Charges, payments, and refunds"` fornece mais evidências do que `"billing": "B"`.
 
 Para `noul`, ambos os critérios são obrigatórios. Descreva o que conta como falso com tanto cuidado quanto o que conta como verdadeiro, especialmente quando o estado pode omitir a informação relevante. Para `score`, mantenha a ordem dos níveis consistente entre as solicitações.
 
-## Avalie uma solicitação de suporte
+## Avaliar uma solicitação de suporte
 
-Envie o seguinte corpo JSON para `POST /api/v1/generations/decisions`. O exemplo usa Julia-1; seu estado pode ser texto, um objeto ou um array.
+Envie o seguinte corpo JSON para `POST /api/v1/generations/decisions`. O exemplo usa Julia-1; seu estado pode ser texto, um objeto ou uma matriz.
 
 ```json
 {
@@ -7324,13 +7345,52 @@ Dicas para respostas confiáveis:
 
 - Mantenha apenas evidências relevantes no estado.
 - Escreva instruções que expliquem a decisão, não aquelas que pedem uma cadeia de raciocínio ou texto adicional.
-- Evite sobreposição nas descrições de escolha, a menos que essa ambiguidade seja intencional.
+- Evite sobreposição nas descrições das opções, a menos que essa ambiguidade seja intencional.
 
-Para uma solicitação de triage executada inalterada no Jev, GPT-6 Luna Decisions e Gemini Decision 1, com código de roteamento e custo medido, consulte [Exemplo da API de Decisões Jev e OpenAI: triagem de ticket de suporte](https://aivax.net/blog/support-triage-typed-decisions/).
+Para uma solicitação de triagem executada inalterada no Jev, GPT-6 Luna Decisions e Gemini Decision 1, com código de roteamento e custo medido, veja [Exemplo da API de Decisões Jev e OpenAI: triagem de ticket de suporte](https://aivax.net/blog/support-triage-typed-decisions/).
 
-### Envie imagens
+### Avaliar uma conversa
 
-Alguns modelos de decisão aceitam imagens; verifique `maxImages` na [listagem de modelos](#discover-models-programmatically). Coloque cada imagem diretamente em um array `state` de nível superior como parte `image_url`, ao lado de itens de texto escritos como strings simples:
+Use `input` quando a evidência for um chat entre um cliente e um agente, um transcript de bot ou qualquer conversa que você já armazene no formato de mensagem de [completions de chat](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md). Envie `input` em vez de `state`; uma solicitação com ambos retorna `400`.
+
+```json
+{
+  "model": "@supersonic-labs/julia-1",
+  "input": [
+    { "role": "user", "content": "My order arrived damaged." },
+    { "role": "assistant", "content": "Sorry about that. Do you want a refund or a replacement?" },
+    { "role": "user", "content": "A replacement, please. I need it before Friday." }
+  ],
+  "questions": {
+    "refund_requested": {
+      "type": "noul",
+      "instructions": "Does the customer ask for money back?",
+      "criteria": {
+        "false": "The customer does not ask for money to be returned",
+        "true": "The customer asks for a refund or return of a payment"
+      }
+    }
+  }
+}
+```
+
+- `input` deve ser uma matriz não vazia. Cada mensagem tem um `role` (`system`, `user`, `assistant` ou `tool`; `user` quando omitido) e um `content` que é uma string ou uma matriz de partes de conteúdo.
+- A conversa é convertida em texto, com cada mensagem precedida por seu papel, e torna-se o primeiro item de `state`. Cada parte de imagem, áudio, vídeo e arquivo nas mensagens é anexada como sua própria mídia após esse texto, na ordem das mensagens.
+- Partes de mídia dentro de mensagens seguem os mesmos formatos, verificações de capacidade e limites de imagens que [mídia enviada em `state`](#send-media). Uma conversa com uma imagem enviada para um modelo apenas de texto retorna `400`.
+- O uso é contado no estado convertido, então conversas longas consomem tokens de entrada como um estado de texto equivalente, e os limites de contexto do modelo e do Julia-1 ainda se aplicam. Remova mensagens que não afetam a decisão.
+
+### Enviar mídia
+
+Alguns modelos de decisão aceitam mídia; verifique `capabilities` e `maxImages` na [listagem de modelos](#discover-models-programmatically). Coloque cada parte diretamente em uma matriz `state` de nível superior, junto aos itens de texto escritos como strings simples. Em uma conversa, coloque as mesmas partes na matriz `content` de uma mensagem.
+
+| Mídia | Parte | Capacidade obrigatória | Dados aceitos |
+| --- | --- | --- | --- |
+| Imagem | `image_url` | `imageinput` e `maxImages` acima de zero | URL de dados Base64 do tipo `image/png`, `image/jpeg` ou `image/webp` |
+| Áudio | `input_audio` | `audioinput` | Base64 bruto em `data` e um `format` suportado |
+| Vídeo | `video_url` | `videoinput` | URL de dados Base64 do tipo `video/*` |
+| Documento | `file` | `fileinput` | URL de dados Base64 ou URL público `https://` em `file_data` |
+
+Imagens usam uma parte `image_url`:
 
 ```json
 {
@@ -7349,22 +7409,50 @@ Alguns modelos de decisão aceitam imagens; verifique `maxImages` na [listagem d
 }
 ```
 
-- `url` deve ser uma URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotos `http(s)` não são buscados e são rejeitados.
+- `url` deve ser um URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotos `http(s)` não são buscados e são rejeitados.
 - Imagens aninhadas dentro de objetos em `state` não são lidas como imagens. Um campo `images` de nível superior, partes `input_image` e base64 sem o prefixo `data:image/...;base64,` não são suportados.
-- Apenas alguns modelos aceitam imagens, cada um até um máximo por solicitação. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`. Veja [Limites específicos do modelo](#model-specific-limits).
-- Clef e Clef Flash também limitam o tamanho da imagem e a quantidade de texto que leem de `state`; veja a mesma seção de limites. A cobrança usa os tokens de entrada processados pelo modelo, conforme relatado em `usage.input_tokens`.
+- Apenas alguns modelos aceitam imagens, cada um até um máximo por solicitação. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`. Consulte [Limites específicos do modelo](#model-specific-limits).
+- Clef e Clef Flash também limitam o tamanho da imagem e a quantidade de texto que leem de `state`; consulte a mesma seção de limites. A cobrança usa os tokens de entrada processados pelo modelo, conforme relatado em `usage.input_tokens`.
 
-### Leia a resposta
+#### Áudio, vídeo e documentos
 
-A resposta de sucesso é um objeto JSON diretamente, **sem um envelope `data`**. Ele contém:
+Modelos que listam `audioinput`, `videoinput` ou `fileinput`, como `@google/gemini-decision-1`, aceitam essas partes na mesma matriz `state` de nível superior. Cada parte pode ser combinada com texto e outra mídia em uma única solicitação:
+
+```json
+{
+  "model": "@google/gemini-decision-1",
+  "state": [
+    "Support call recording and the invoice the customer mentioned.",
+    { "type": "input_audio", "input_audio": { "data": "<RAW_BASE64_AUDIO>", "format": "mp3" } },
+    { "type": "video_url", "video_url": { "url": "data:video/mp4;base64,<BASE64_VIDEO>" } },
+    { "type": "file", "file": { "file_data": "data:application/pdf;base64,<BASE64_PDF>", "filename": "invoice.pdf" } }
+  ],
+  "questions": {
+    "charge_disputed": {
+      "type": "noul",
+      "instructions": "Does the customer dispute a charge that appears on the invoice?",
+      "criteria": { "true": "The customer disputes an invoiced charge", "false": "No invoiced charge is disputed" }
+    }
+  }
+}
+```
+
+- **Áudio:** `data` é base64 bruto, sem prefixo `data:`. `format` é um dos `wav`, `mp3`, `mpeg`, `m4a`, `mp4`, `aac`, `aiff`, `aif`, `flac`, `ogg`, `opus` ou `webm`.
+- **Vídeo:** `url` deve ser um URL `data:video/...;base64,`. URLs de vídeo remotos não são buscados e são rejeitados.
+- **Documentos:** `file_data` é um URL de dados base64, como `data:application/pdf;base64,...`, ou um URL público `https://`. `filename` é opcional. URLs `http://` puros e base64 bruto sem o prefixo `data:` são rejeitados.
+- Enviar uma parte para um modelo que não lista a capacidade correspondente retorna `400`. Mídia aninhada dentro de objetos em `state` é ignorada, assim como as imagens.
+
+### Ler a resposta
+
+A resposta de sucesso é um objeto JSON diretamente, **sem um envelope `data`**. Contém:
 
 - `id`: o identificador da decisão.
-- `model`: o identificador canônico do modelo usado na solicitação.
+- `model`: o identificador canônico do modelo usado para a solicitação.
 - `provider`: o provedor relatado para o resultado.
-- `answers`: um objeto chaveado pelos IDs das suas perguntas.
+- `answers`: um objeto chaveado pelos seus IDs de pergunta.
 - `usage`: `input_tokens`, `output_tokens` e o `cost` cobrado.
 
-Para Julia-1, um objeto `answers` ilustrativo para o exemplo acima é mostrado abaixo. Esses números explicam o formato; eles não são uma resposta registrada nem uma garantia de qualidade.
+Para Julia-1, um objeto `answers` ilustrativo para o exemplo acima é mostrado abaixo. Esses números explicam o formato; não são uma resposta registrada nem uma garantia de qualidade.
 
 ```json
 {
@@ -7407,21 +7495,21 @@ Com Julia-1:
 - `choice` é o ID definido pelo chamador selecionado, não a descrição da opção.
 - `noul` é a probabilidade atribuída ao critério verdadeiro, não um Booleano JSON. Sua aplicação escolhe o limiar e como lidar com casos incertos.
 - `score` é o **índice de nível baseado em zero** esperado. No exemplo, `0 × 0.8 + 1 × 0.1 + 2 × 0.1 = 0.3`. Não é necessariamente um inteiro, e não é uma pontuação normalizada de 0–1 quando há mais de dois níveis.
-- `probabilities` são chaves por IDs de escolha, `false`/`true` ou índices de nível de pontuação. `legend` descreve os níveis de pontuação.
+- `probabilities` são chaveadas por IDs de escolha, `false`/`true` ou índices de nível de pontuação. `legend` descreve os níveis de pontuação.
 
 Outros modelos podem omitir campos opcionais como `probabilities`, `legend` ou `confidence`. Não assuma que todos os provedores usam a mesma escala de pontuação ou definição de confiança. Uma alta probabilidade não é prova de que a decisão está correta; valide limiares e regras de escalonamento com exemplos rotulados do seu próprio domínio.
 
 ## Limites de taxa da conta
 
-Solicitações de decisão semântica compartilham um único limite de taxa por minuto por conta, entre todos os modelos de decisão e chaves de API. Cada solicitação consome uma unidade, independentemente de quantas perguntas ela contenha ou qual modelo de decisão ela selecione. O número de solicitações por minuto depende do plano; veja [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
+Solicitações de decisão semântica compartilham um limite de taxa por minuto por conta, através de todos os modelos de decisão e chaves de API. Cada solicitação consome uma unidade, independentemente de quantas perguntas ela contém ou qual modelo de decisão ela seleciona. O número de solicitações por minuto depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
 
-Esta cota é independente da assinatura diária permitida e da cobrança: o uso incluído ainda consome unidades de solicitação. Ultimate não tem limite imposto pelo plano para esta cota, mas outros limites aplicáveis permanecem em vigor.
+Esta cota é independente da allowance diária de assinatura e da cobrança: o uso incluído ainda consome unidades de solicitação. Ultimate não tem limite imposto pelo plano para esta cota, mas outros limites aplicáveis permanecem em vigor.
 
-Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Uma tentativa imediata ainda encontra a janela ativa de limite de taxa, e alterar chaves de API dentro da mesma conta não fornece uma cota separada. Ritme as chamadas através da conta e tente novamente com backoff após a janela ser liberada.
+Solicitações acima do limite retornam `429 Too Many Requests` antes da avaliação. Uma nova tentativa imediata ainda encontrará a janela ativa de limite de taxa, e alterar chaves de API dentro da mesma conta não fornece uma cota separada. Ritme as chamadas através da conta e tente novamente com backoff após a janela ser liberada.
 
 ## Limites específicos do modelo
 
-Esses limites específicos do modelo se aplicam além da cota de solicitação de nível de conta acima. O contexto de cada modelo está listado no [Catálogo de Modelos](https://aivax.net/models#decisions); um limite de contexto não especificado não implica entrada ilimitada.
+Estes limites específicos do modelo se aplicam além da cota de solicitação de nível de conta acima. O contexto de cada modelo está listado no [Catálogo de Modelos](https://aivax.net/models#decisions); um limite de contexto não especificado não implica entrada ilimitada.
 
 A maioria dos modelos de decisão é apenas de texto. O campo `maxImages` da [listagem de modelos](#discover-models-programmatically) é o número autoritativo de imagens que um modelo aceita por solicitação.
 
@@ -7439,29 +7527,29 @@ Julia-1 tem limites de serviço adicionais:
 | Descrição de uma opção individual | No máximo 48 tokens |
 | Limite de payload de decisão | 256 KiB |
 
-Esses limites interagem: vinte opções podem exceder o orçamento combinado de pergunta/opções mesmo que cada descrição caiba em seu limite individual. Os limites atuais de serviço do AIVAX Julia-1 se aplicam mesmo se um cartão de modelo upstream listar um contexto maior. Encurte as descrições ou reduza o número de opções em vez de assumir que todos os máximos podem ser usados simultaneamente.
+Estes limites interagem: vinte opções podem exceder o orçamento combinado de pergunta/opções mesmo que cada descrição caiba em seu limite individual. Os limites atuais de serviço do AIVAX Julia-1 se aplicam mesmo se um cartão de modelo upstream listar um contexto maior. Encurte descrições ou reduza o número de opções em vez de assumir que cada máximo pode ser usado simultaneamente.
 
 Entradas que excedem o contexto ou o orçamento de pergunta/opções são rejeitadas, não truncadas silenciosamente. O literal `<mask>` é reservado e não pode aparecer no estado, instruções ou descrições de opções do Julia-1.
 
 ## Uso e custo
 
-Modelos de decisão são cobrados por token de entrada nas taxas base em USD listadas no [Catálogo de Modelos](https://aivax.net/models#decisions), antes dos ajustes de conta e plano (veja o [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers)).
+Modelos de decisão são cobrados por token de entrada nas taxas base em USD listadas no [Catálogo de Modelos](https://aivax.net/models#decisions), antes dos ajustes de conta e plano (consulte o [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers)).
 
-Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo o preenchimento. O estado compartilhado é portanto contado novamente para cada pergunta, então o uso de entrada cresce com o número de perguntas mesmo quando elas compartilham um único estado. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
+Para Julia-1, o uso de entrada soma a sequência codificada para cada pergunta, excluindo o preenchimento. O estado compartilhado é portanto contado novamente para cada pergunta, então o uso de entrada cresce com o número de perguntas mesmo quando elas compartilham um estado. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
 
-Julia-1 é atualmente elegível para a cota diária de decisão semântica em todos os planos. Outros modelos de decisão são cobrados normalmente. A cota é compartilhada entre todas as chamadas de decisão elegíveis da conta, não reservada para cada pergunta ou chave de API. Veja [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) para capacidade relativa do plano e regras de cobertura.
+Julia-1 está atualmente elegível para a allowance diária de decisão semântica em todos os planos. Outros modelos de decisão são cobrados normalmente. A allowance é compartilhada entre todas as chamadas de decisão elegíveis da conta, não reservada para cada pergunta ou chave de API. Consulte [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances) para capacidade relativa do plano e regras de cobertura.
 
-Quando não coberto, a entrada do Julia-1 é cobrada em sua [taxa listada](https://aivax.net/models#decisions), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor realmente cobrado; ele é zero quando a entrada é totalmente coberta pela cota.
+Quando não coberto, a entrada do Julia-1 é cobrada em sua [taxa listada](https://aivax.net/models#decisions), sujeita a ajustes de conta e plano. Use o `usage.cost` retornado para o valor realmente cobrado; ele é zero quando a entrada é totalmente coberta pela allowance.
 
 ## Erros e uso confiável
 
 - **Modelo ou pergunta inválido:** verifique o identificador exato do modelo, tipo de pergunta, instruções e forma dos critérios. IDs de pergunta e IDs de escolha devem ser não vazios.
-- **Limite de contexto ou opção excedido:** encurte o estado ou as descrições, reduza o número de opções ou selecione um modelo com limites adequados. Tentar novamente a mesma entrada inválida não a resolverá.
+- **Limite de contexto ou opção excedido:** encurte o estado ou descrições, reduza o número de opções ou selecione um modelo com limites adequados. Tentar novamente a mesma entrada inválida não resolverá o problema.
 - **Erro de autenticação ou saldo:** verifique a chave de API e o saldo da conta antes de tentar novamente. Um modelo de preço zero ainda requer um saldo positivo.
-- **Limite de taxa (429):** reduza a taxa de solicitação da conta e tente novamente com backoff. Múltiplas perguntas em uma única solicitação ainda contam como uma solicitação, mas os limites de payload específicos do modelo e o uso por pergunta permanecem aplicáveis.
-- **Capacidade temporária ou indisponibilidade do provedor:** evite uma tempestade de tentativas paralelas imediatas. Reduza a concorrência e use tentativas limitadas com backoff para falhas transitórias.
+- **Limite de taxa (429):** reduza a taxa de solicitação da conta e tente novamente com backoff. Múltiplas perguntas em uma única solicitação ainda contam como uma solicitação, mas os limites de payload específicos do modelo e o uso por pergunta continuam aplicáveis.
+- **Capacidade temporária ou indisponibilidade do provedor:** evite uma tempestade de novas tentativas paralelas imediatas. Reduza a concorrência e use novas tentativas limitadas com backoff para falhas transitórias.
 
-Avalie `choice`, `noul` e `score` separadamente ao validar um modelo: o sucesso no roteamento não estabelece pontuação confiável ou comportamento Booleano. Inclua estados ambíguos e incompletos em seu conjunto de testes e use revisão humana onde uma decisão errada tenha consequências materiais. Uma tentativa é uma nova solicitação; não assuma deduplicação automática ou saídas idênticas do modelo.
+Valide `choice`, `noul` e `score` separadamente ao validar um modelo: o sucesso no roteamento não estabelece pontuação confiável ou comportamento Booleano. Inclua estados ambíguos e incompletos em seu conjunto de testes e use revisão humana onde uma decisão errada tenha consequências materiais. Uma nova tentativa é uma nova solicitação; não assuma deduplicação automática ou saídas idênticas do modelo.
 
 ## Referência da API
 
@@ -10575,6 +10663,8 @@ Alterações:
 
 - **Conta — Impostos brasileiros sobre pagamentos.** Novos pagamentos agora incluem impostos brasileiros, adicionados sobre o valor devido: recargas de crédito, pagamentos e renovações de assinatura, e faturas emitidas pela equipe da AIVAX. O total cobrado é o valor dividido por (1 - 0,1333), o que corresponde a aproximadamente 11,33% do total em impostos de serviço e 2% em IOF. Por exemplo, um pagamento de assinatura de $19,00 cobra $21,92. Os impostos não são adicionados ao saldo, e os preços listados dos planos não os incluem. Antes de confirmar uma recarga, o painel agora lista os créditos, a taxa de serviço, os impostos e o total cobrado. O valor devido mostrado para uma alteração de plano já inclui impostos, e os recibos listam cada imposto. As faturas criadas antes desta alteração mantêm seu valor. Veja [Impostos sobre pagamentos](https://docs.aivax.net/pt-br/docs/pricing.md#taxes-on-payments).
 - **Conta — Faturas de serviço.** Quando a AIVAX emite uma fatura de serviço (nota fiscal de serviços) para um pagamento, você recebe uma notificação no painel e um e-mail, e a fatura recebe um link de download **Fatura de serviço** na aba Faturas do Analytics. Os dados de uso retornam o link em `serviceInvoiceLocation`, que é `null` até que a fatura de serviço seja emitida.
+- **Decisões — Entrada de conversa e mídia.** Solicitações de decisão agora aceitam `input`, um array de mensagens de conversa, em vez de `state`. Os dois campos são mutuamente exclusivos. A conversa torna-se o primeiro item de estado, e partes de imagem, áudio, vídeo e documento são avaliadas como mídia. Modelos que listam `audioinput`, `videoinput` ou `fileinput` no [listagem de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically) aceitam essas partes; Gemini Decision 1 aceita todas as quatro. Veja [Enviar mídia](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#send-media).
+- **Roteamento — Etapas auxiliares permanecem em provedores de retenção zero.** Reescrita de prompt, roteamento de complexidade, moderação de conteúdo e processamento de documentos agora sempre são executados em um provedor de retenção zero, mesmo quando **Apenas provedores de retenção zero** está desativado. Desativar a opção não fornece mais um fallback para essas etapas; quando nenhum provedor desse tipo está disponível, a solicitação falha e deve ser tentada novamente mais tarde. Veja [Apenas provedores de retenção zero](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md).
 - **Analytics — Origem do custo e totais de pagamento no relatório mensal.** O relatório mensal agora divide o valor cobrado em custos do provedor, repassados de provedores terceirizados, e custos de serviço, cobrados diretamente pela AIVAX. Ele também soma os pagamentos confirmados no mês, com seus impostos e, quando disponíveis, o método de pagamento e suas taxas. Get Monthly Usage Report retorna esses totais em `providerCost`, `directServiceCost` e `payments`.
 
 ## Sexta-feira, 13 de novembro de 2026

@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/ai-gateways/index.html
 
 - [Conceitos de Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md)
 
-- [Modelos e Nomes de Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
+- [Nomes dos Modelos e do Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
 

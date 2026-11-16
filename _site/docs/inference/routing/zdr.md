@@ -4,4 +4,6 @@ Source: https://docs.aivax.net/docs/inference/routing/zdr.html
 
 Enable **Zero data retention providers only** in the dashboard account settings to route text inference with integrated models only to providers that do not retain prompts. Providers that are not zero data retention are excluded before `allowed_providers` and `preset` are applied. When the model has no zero data retention provider available, the request fails instead of falling back to another provider; choose a model with a zero data retention provider or disable the option.
 
-The option applies only to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
+The option applies to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
+
+Platform steps that run before or around a request always use a zero data retention provider, whether or not the account option is enabled: prompt rewriting, complexity routing, content moderation, and document processing. Disabling the option does not move those steps to another provider. When no zero data retention provider is available for one of them, the request fails and should be retried later.
