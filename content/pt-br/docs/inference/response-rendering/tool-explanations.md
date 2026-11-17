@@ -1,10 +1,10 @@
 ---
-{title: Explicações das Ferramentas,linkTitle: Explicações das ferramentas,weight: 30,group: Response rendering,sourceHash: 101d0bab987125fb,aliases: [/docs/pt-br/inference/response-rendering/tool-explanations.html]}
+{title: Explicações das Ferramentas,linkTitle: Explicações das ferramentas,weight: 30,group: Response rendering,sourceHash: 997b243f71cb6357,aliases: [/docs/pt-br/inference/response-rendering/tool-explanations.html]}
 ---
 
 # Explicações de ferramentas
 
-Use explicações de ferramentas quando seu cliente mostrar aos usuários por que uma ferramenta do lado do servidor está sendo executada. A configuração também pode ser armazenada em um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md#tool-explanations) como `toolInvocationExplanations`. Defina `tool_invocation_explanations: true` para solicitar ao AIVAX que inclua campos de explicação nos argumentos de ferramentas do lado do servidor. Quando o modelo fornece `_tool_reason` e `_tool_goal`, `servertool.explanation` contém uma versão amigável ao cliente:
+Use explicações de ferramentas quando seu cliente mostrar aos usuários por que uma ferramenta do lado do servidor está sendo executada. A configuração também pode ser armazenada em um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md#tool-explanations) como `toolInvocationExplanations`. Defina `tool_invocation_explanations: true` para solicitar ao AIVAX que inclua campos de explicação nos argumentos das ferramentas do lado do servidor. Quando o modelo fornece `_tool_reason` e `_tool_goal`, `servertool.explanation` contém uma versão amigável ao cliente:
 
 ```json
 {
@@ -42,6 +42,8 @@ Exemplo de evento de stream:
 }
 ```
 
-O `state` é `Created` quando a chamada da ferramenta começa, e depois `Completed` ou `Failed` quando termina. Todos os eventos de uma única chamada compartilham o mesmo `id`, portanto, renderize-os como uma única linha de status que muda de estado. `explanation` será `null` quando o modelo não fornecer ambos os campos; nesse caso, use o nome da ferramenta como fallback.
+O AIVAX remove `_tool_reason` e `_tool_goal` dos argumentos antes de chamar uma ferramenta de um [servidor MCP](/docs/pt-br/tools/mcp.md) ou um callback de função de protocolo, portanto, essas ferramentas recebem apenas os argumentos declarados em seu esquema.
 
-Exiba `reason` como o rótulo de status, como "Buscando a previsão do tempo de hoje online". `goal` é útil em uma visualização expandida ou de auditoria. Não exiba `contents` para os usuários finais, a menos que a interface seja construída para inspeção técnica, pois ele contém os argumentos brutos da ferramenta.
+`state` é `Created` quando a chamada da ferramenta começa, e depois `Completed` ou `Failed` quando termina. Todos os eventos de uma única chamada compartilham o mesmo `id`, então renderize-os como uma única linha de status que muda de estado. `explanation` será `null` quando o modelo não fornecer ambos os campos; nesse caso, use o nome da ferramenta como fallback.
+
+Mostre `reason` como o rótulo de status, como "Buscando a previsão do tempo de hoje online". `goal` é útil em uma visualização expandida ou de auditoria. Não mostre `contents` aos usuários finais, a menos que a interface seja construída para inspeção técnica, pois ele contém os argumentos brutos da ferramenta.
