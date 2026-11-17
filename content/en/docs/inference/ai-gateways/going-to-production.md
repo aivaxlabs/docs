@@ -30,7 +30,7 @@ When enabling [memory](/docs/tools/builtin-tools.md#memory), define what the ass
 
 Use workers when an external system must decide something during the inference flow. Because the worker is called in the critical path, keep it fast and deterministic.
 
-When you enable moderation, see [LLM input moderation: system prompt or separate moderation step?](https://aivax.net/blog/aivax-gateway-moderation/) for what it covers, its failure behavior, and what still needs application-level checks.
+When you enable moderation, see [LLM moderation API: separate layer or model self-assessment?](https://aivax.net/blog/aivax-gateway-moderation/) for what it covers, its failure behavior, and what still needs application-level checks.
 
 ## Client integration
 

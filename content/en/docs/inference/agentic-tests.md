@@ -70,7 +70,7 @@ Remote content can change between test runs and contributes to usage. Use only t
 
 A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.
 
-Follow the [multi-turn conversation testing walkthrough](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery.
+Follow [multi-turn evaluation for LLM agents with a simulated user and judge](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery, including how a goal that leaks the answer can end in a loss.
 
 ### Validation hooks
 

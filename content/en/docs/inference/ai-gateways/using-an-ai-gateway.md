@@ -49,6 +49,8 @@ Requests sent with a private key can override supported gateway values for that 
 | `tool_invocation_explanations` | [Tool explanations](/docs/inference/response-rendering/tool-explanations.md). |
 | `routing_options` | [Provider routing](/docs/inference/routing/setup-routing.md#override-routing-per-request). |
 
+To compare how the same `reasoning_effort` level behaves on OpenAI, Claude and Gemini models, see [how to set reasoning effort across OpenAI, Anthropic and Gemini](https://aivax.net/blog/reasoning-is-a-protocol-not-just-a-model-setting/).
+
 `frequency_penalty` is configured only on the gateway. Instructions, RAG, MCP sources, protocol functions, skills, workers, and moderation cannot be overridden per request.
 
 Public API keys accept only a small set of request fields and reject the others; see [Limits](/docs/inference/chat-completions/limits.md#public-api-keys).

@@ -119,4 +119,4 @@ Moderation currently applies only to input text:
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 
-For a decision guide on system prompts, a separate moderation step, and authorization, see [LLM input moderation: system prompt or separate moderation step?](https://aivax.net/blog/aivax-gateway-moderation/).
+For when self-assessment is enough and when the separate safeguard stays necessary, with timings from live runs, see [LLM moderation API: separate layer or model self-assessment?](https://aivax.net/blog/aivax-gateway-moderation/).

@@ -101,7 +101,7 @@ Each MCP source accepts the following fields. Use them to name the source, authe
 | `allowClientInstructions` | `boolean` | `true` | Adds the usage instructions advertised by the server to the gateway context. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
 | `allowRemoteSkills` | `boolean` | `true` | Imports verified remote skills from servers that advertise the skills extension. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
 
-If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
+If your server targets MCP `2026-07-28`, see [Stateless MCP: migrating off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
 
 ## Server instructions and remote skills
 
@@ -136,7 +136,7 @@ Import limits and exclusions:
 - Frontmatter does not grant tool permissions or populate the gateway's allowed-tool lists. Existing tool policies still apply.
 - This integration does not add a per-skill approval system or a new execution sandbox. Disable remote skills when your policy requires those controls.
 
-Before connecting a third-party server, review the [third-party MCP connection checklist](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/).
+Before connecting a third-party server, review [MCP server security best practices for third-party servers](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/), which covers tool poisoning, credentials, worker-based blocking and server-side approval.
 
 The same options apply to MCP sources added by gateway workers. Existing account skills remain available. New connections fetch skill content during discovery, while `read_skill` controls when that content enters the model's active skill context.
 
