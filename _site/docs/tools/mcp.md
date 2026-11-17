@@ -84,7 +84,7 @@ Define MCP servers on the gateway when the assistant should discover and call th
 ]
 ```
 
-Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`; the default is 600 seconds.
+Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`, separately for each calling context; the default is 600 seconds.
 
 Each MCP source accepts the following fields. Use them to name the source, authenticate the connection, and control what the model sees:
 
@@ -99,7 +99,7 @@ Each MCP source accepts the following fields. Use them to name the source, authe
 | `allowClientInstructions` | `boolean` | `true` | Adds the usage instructions advertised by the server to the gateway context. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
 | `allowRemoteSkills` | `boolean` | `true` | Imports verified remote skills from servers that advertise the skills extension. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
 
-If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
+If your server targets MCP `2026-07-28`, see [Stateless MCP: migrating off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
 
 ## Server instructions and remote skills
 
@@ -134,19 +134,19 @@ Import limits and exclusions:
 - Frontmatter does not grant tool permissions or populate the gateway's allowed-tool lists. Existing tool policies still apply.
 - This integration does not add a per-skill approval system or a new execution sandbox. Disable remote skills when your policy requires those controls.
 
-Before connecting a third-party server, review the [third-party MCP connection checklist](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/).
+Before connecting a third-party server, review [MCP server security best practices for third-party servers](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/), which covers tool poisoning, credentials, worker-based blocking and server-side approval.
 
 The same options apply to MCP sources added by gateway workers. Existing account skills remain available. New connections fetch skill content during discovery, while `read_skill` controls when that content enters the model's active skill context.
 
-## Metadata sent with tool calls
+## Metadata sent with MCP requests
 
-Use this section when your MCP server must identify the calling context or receive application values with the call.
+Use this section when your MCP server must identify the calling context or receive application values with a request.
 
-For each `tools/call` request, AIVAX adds execution context in `params._meta`, alongside `params.arguments`.
+AIVAX adds the calling context in `params._meta` to every request and notification it sends to the server: `initialize`, `notifications/initialized`, `tools/list`, `skills/list`, `resources/read`, and `tools/call`.
 
-- Arguments contain the tool input.
+- In `tools/call`, arguments contain the tool input.
 - Metadata identifies the calling context and carries application-supplied values.
-- These fields describe tool execution requests, not tool discovery (`tools/list`).
+- Discovery requests carry the context of the inference that triggered them. Results are cached per calling context, so a cached tool list is never reused for another user, conversation, or metadata set.
 
 The following example illustrates a call with an identified user, a conversation token, and custom metadata:
 
@@ -183,7 +183,7 @@ These fields identify the calling context. All paths below are relative to `para
 | `_aiv_external_user_id` | `string` or `null` | External user identifier carried by the inference context. For chat clients it comes from the session; for chat completions it comes from the request's `user` field. It can be `null` when no user was identified. Use it to look up the user in your application, not as an AIVAX account ID or proof of authorization. |
 | `_aiv_call_source` | `string` | Origin of the inference, not the outbound tool transport. An MCP tool called during web chat inference still receives `WebChatClient`, not `McpClient`. See the values below. |
 | `_aiv_conversation_token` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it is the request's `conversation_token`, or the token AIVAX generated when none was sent. It can be `null`; it is neither an authentication credential nor a unique tool-call ID. Multiple calls in the same conversation may share it. |
-| `_aiv_moment` | `string` | Timestamp created when AIVAX prepares this tool call, in ISO 8601 round-trip format with fractional seconds and a UTC offset. It uses the AIVAX server's local clock, not the user's timezone or the conversation start time. Parse the offset and convert to your application's timezone when needed. |
+| `_aiv_moment` | `string` | Timestamp created when AIVAX opens the connection that sends this request, in ISO 8601 round-trip format with fractional seconds and a UTC offset. It uses the AIVAX server's local clock, not the user's timezone or the conversation start time. Parse the offset and convert to your application's timezone when needed. |
 
 ### Call source values
 
@@ -203,9 +203,9 @@ Consumers should tolerate future source values.
 
 ### Custom metadata and security
 
-Custom inference metadata is a map of string keys to string values. It comes from request `metadata` for chat completions or session metadata for chat clients.
+Custom inference metadata is a map of string keys to string values. It comes from request `metadata` for chat completions or session metadata for chat clients, including sessions created by messaging integrations.
 
-AIVAX copies these entries directly into `params._meta`. In the example, `tenant_id` and `request_id` are application-defined, not built-in AIVAX fields. There is no nested `metadata` object in the MCP envelope. With no custom metadata, only the AIVAX fields remain.
+AIVAX copies these entries directly into `params._meta`. Custom keys beginning with `_aiv` are ignored and never replace the AIVAX fields. In the example, `tenant_id` and `request_id` are application-defined, not built-in AIVAX fields. There is no nested `metadata` object in the MCP envelope. With no custom metadata, only the AIVAX fields remain.
 
 Before you rely on metadata:
 

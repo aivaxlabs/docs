@@ -28,7 +28,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Nomes dos Modelos e do Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
 - [Usando Gateways de IA por meio de SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
-- [Levar um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
+- [Levando um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
 - [Conceitos de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md)
 - [Contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md)
 - [Reutilização de Sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md)
@@ -94,7 +94,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 ## Ferramentas
 
 - [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
-- [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
+- [Suporte para o Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 - [Funções de Protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md)
 - [Sandboxing de Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md)
 

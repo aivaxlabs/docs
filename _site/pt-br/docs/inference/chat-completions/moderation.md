@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.
 
 # Moderação
 
-A moderação aplica a política de segurança às solicitações do usuário antes que o modelo principal as responda. Use-a para bloquear solicitações inseguras ou fora da política em assistentes voltados ao usuário. Configure-a na seção **Moderação de Conteúdo** do editor de gateway ou em `parameters.moderationParameters`.
+A moderação aplica a política de segurança às solicitações dos usuários antes que o modelo principal as responda. Utilize-a para bloquear solicitações inseguras ou fora da política em assistentes voltados ao usuário. Configure-a na seção **Moderação de Conteúdo** do editor do gateway ou em `parameters.moderationParameters`.
 
 A moderação é uma configuração do Gateway AI; chamadas diretas a `chat/completions` com um nome de modelo não a executam, e as solicitações não podem alterá-la.
 
@@ -19,9 +19,9 @@ O campo `moderationParameters.mode` seleciona como a moderação é executada:
 | Requisitos do modelo | Nenhum | O modelo principal deve suportar chamada de ferramentas |
 
 - `LayeredGuardrail`: Um modelo de salvaguarda independente analisa o texto de entrada da conversa antes do modelo principal. As conversas sinalizadas são bloqueadas, e o modelo principal responde com uma recusa. O uso de moderação é cobrado conforme descrito em [Preços de inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#pricing).
-- `SelfAssessment`: Nenhum modelo de salvaguarda separado é executado, portanto, não há cobrança por análise de moderação. O modelo principal recebe instruções de moderação construídas a partir dos mesmos níveis de sensibilidade das categorias e regras adicionais, além de uma ferramenta interna de recusa. Quando o modelo julga que a solicitação mais recente atinge o limite de uma categoria habilitada, ele chama a ferramenta com um motivo, as categorias violadas e uma mensagem final para o usuário. A inferência termina imediatamente, outras chamadas de ferramentas desse turno são ignoradas, a mensagem final é retornada como resposta do assistente e a resposta é marcada como recusa.
+- `SelfAssessment`: Nenhum modelo de salvaguarda separado é executado, portanto, não há cobrança por análise de moderação. O modelo principal recebe instruções de moderação construídas a partir dos mesmos níveis de sensibilidade das categorias e regras adicionais, além de uma ferramenta de recusa interna. Quando o modelo julga que a solicitação mais recente atinge o limite de uma categoria habilitada, ele chama a ferramenta com um motivo, as categorias violadas e uma mensagem final para o usuário. A inferência termina imediatamente, outras chamadas de ferramentas desse turno são ignoradas, a mensagem final é retornada como resposta do assistente e a resposta é marcada como recusa.
 
-Como o `SelfAssessment` depende do julgamento do modelo principal em vez de um classificador independente, ele troca latência e custo menores por isolamento mais fraco: não é uma camada independente, e a qualidade da aplicação depende do modelo. Prefira `LayeredGuardrail` quando tentativas de jailbreak forem um risco real.
+Como o `SelfAssessment` depende do julgamento do modelo principal em vez de um classificador independente, ele troca latência e custo menores por um isolamento mais fraco: não é uma camada independente, e a qualidade da aplicação depende do modelo. Prefira `LayeredGuardrail` quando tentativas de jailbreak forem um risco real.
 
 ## Categorias
 
@@ -33,11 +33,11 @@ No modo `LayeredGuardrail`, quando pelo menos uma categoria de moderação está
 | **Conteúdo sexual e explícito** | `sexualExplicitThreshold` | Conteúdo sexualmente explícito ou adulto. |
 | **Tópicos políticos** | `politicalThreshold` | Persuasão política, campanhas, manipulação ou conteúdo altamente político. |
 | **Conteúdo perigoso** | `dangerousContentThreshold` | Armas, explosivos, abuso cibernético, autolesão ou outros atos e instruções perigosas. |
-| **Tentativas de jailbreak** | `jailbreakThreshold` | Tentativas de substituir instruções, revelar instruções protegidas, exfiltrar dados ou injetar prompts. |
+| **Tentativas de jailbreak** | `jailbreakThreshold` | Tentativas de sobrescrever instruções, revelar instruções protegidas, exfiltrar dados ou injetar prompts. |
 
 ## Entenda os níveis de sensibilidade
 
-O valor configurado no gateway é um **nível de sensibilidade** de `0` a `10`, não a própria pontuação da salvaguarda. Um nível mais alto reduz a pontuação necessária para bloquear a entrada. Valores fora dessa faixa são rejeitados quando o gateway é salvo.
+O valor configurado no gateway é um **nível de sensibilidade** de `0` a `10`, não a pontuação da própria salvaguarda. Um nível mais alto reduz a pontuação necessária para bloquear a entrada. Valores fora dessa faixa são rejeitados quando o gateway é salvo.
 
 | Nível de sensibilidade | Pontuações da salvaguarda que bloqueiam |
 | ---: | --- |
@@ -48,7 +48,7 @@ O valor configurado no gateway é um **nível de sensibilidade** de `0` a `10`, 
 | `8` | `3`–`10` |
 | `10` | `1`–`10` |
 
-Para categorias habilitadas, o corte de bloqueio é `11 - nível de sensibilidade`. Uma pontuação de salvaguarda de `0` nunca bloqueia. Configure cada categoria independentemente; a solicitação é bloqueada quando qualquer categoria habilitada atinge seu corte.
+Para categorias habilitadas, o ponto de corte para bloqueio é `11 - nível de sensibilidade`. Uma pontuação de salvaguarda de `0` nunca bloqueia. Configure cada categoria independentemente; a solicitação é bloqueada quando qualquer categoria habilitada atinge seu ponto de corte.
 
 No modo `SelfAssessment`, os mesmos níveis de sensibilidade definem o limite que o modelo principal deve aplicar, embora não haja uma pontuação numérica de salvaguarda.
 
@@ -85,36 +85,36 @@ O seguinte fragmento de gateway habilita diferentes níveis de sensibilidade e f
 
 ## O que acontece quando uma entrada é bloqueada
 
-Quando qualquer categoria habilitada atinge seu corte:
+Quando qualquer categoria habilitada atinge seu ponto de corte:
 
 1. O AIVAX marca as mensagens originais da conversa como indisponíveis para a solicitação de inferência principal.
 2. O AIVAX as substitui por uma instrução identificando as categorias que causaram o bloqueio.
 3. O modelo principal gera uma recusa em vez de responder à solicitação original.
 
-A recusa é gerada pelo modelo; a moderação não retorna um corpo de resposta fixo. No modo `SelfAssessment`, o modelo principal produz a recusa por meio da ferramenta de recusa, conforme descrito acima. Solicitações bloqueadas ainda são cobradas pela análise de moderação e pela geração da recusa.
+A recusa é gerada pelo modelo; a moderação não retorna um corpo de resposta fixo. No modo `SelfAssessment`, o modelo principal produz a recusa através da ferramenta de recusa, conforme descrito acima. Solicitações bloqueadas ainda são cobradas pela análise de moderação e pela geração da recusa.
 
-No modo `LayeredGuardrail`, se todos os modelos de moderação falharem em produzir um resultado válido, a solicitação não será rejeitada. O modelo principal recebe instruções estritas derivadas das categorias configuradas, níveis de sensibilidade e regras adicionais, e aplica a política ele mesmo. Se seu aplicativo deve falhar de forma fechada (fail closed) quando a moderação estiver indisponível, imponha isso no seu aplicativo ou em um worker.
+No modo `LayeredGuardrail`, se todos os modelos de moderação falharem em produzir um resultado válido, a solicitação não será rejeitada. O modelo principal receberá instruções estritas derivadas das categorias configuradas, níveis de sensibilidade e regras adicionais, aplicando a política ele mesmo. Se sua aplicação deve falhar de forma fechada (fail closed) quando a moderação estiver indisponível, imponha isso em sua aplicação ou em um worker.
 
 ## Onde a moderação é executada no pipeline
 
 A moderação é executada uma vez por solicitação, antes que o loop agêntico comece. Veja [Pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md) para a ordem completa. Como consequência:
 
-- [Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) são executados primeiro. Um worker pode bloquear uma solicitação antes que a moderação seja executada, e a moderação avalia a conversa conforme alterada pelo worker.
+- [Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md) executam primeiro. Um worker pode bloquear uma solicitação antes que a moderação seja executada, e a moderação avalia a conversa conforme alterada pelo worker.
 - Documentos recuperados por estratégias de injeção [RAG](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#rag) já estão na última mensagem do usuário, então a salvaguarda os avalia junto com o texto do usuário.
 - Resultados de ferramentas produzidos posteriormente na mesma solicitação, incluindo resultados de pesquisa `QueryFunction`, não são moderados.
 - [Pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md) é executado depois, então as descrições de mídia não são moderadas.
 
 ## Contexto e limitações atuais
 
-No modo `LayeredGuardrail`, a salvaguarda recebe o histórico de conversa disponível, não apenas a mensagem mais recente. Os papéis das mensagens e o texto são preservados como dados de conversa serializados não confiáveis para reduzir a chance de que instruções dentro da conversa substituam a política da salvaguarda. Se a conversa exceder a janela de contexto da salvaguarda, o contexto mais antigo pode ser truncado.
+No modo `LayeredGuardrail`, a salvaguarda recebe o histórico de conversa disponível, não apenas a última mensagem. Os papéis das mensagens e o texto são preservados como dados de conversa serializados não confiáveis para reduzir a chance de que instruções dentro da conversa substituam a política da salvaguarda. Se a conversa exceder a janela de contexto da salvaguarda, o contexto mais antigo pode ser truncado.
 
 A moderação atualmente aplica-se apenas ao texto de entrada:
 
-- A saída gerada não é moderada.
+- Saída gerada não é moderada.
 - Imagens, áudio, vídeo e conteúdos de arquivos não são analisados. A salvaguarda recebe apenas um marcador indicando que havia mídia presente.
-- A autorização de ferramentas ou workers ainda requer política em nível de aplicativo; a moderação não é um mecanismo de autorização.
+- Autorização de ferramentas ou workers ainda requer política em nível de aplicativo; a moderação não é um mecanismo de autorização.
 - No modo `LayeredGuardrail`, a moderação adiciona uma inferência de salvaguarda antes da inferência principal, o que adiciona latência e uso de moderação faturável (veja [Preços de inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#pricing)). O modo `SelfAssessment` não adiciona inferência separada.
 
 Use a moderação para políticas amplas de segurança. Use workers quando a decisão depender de identidade externa, estado da conta ou política específica do negócio.
 
-Para um guia de decisão sobre prompts de sistema, uma etapa de moderação separada e autorização, veja [Moderação de entrada LLM: prompt de sistema ou etapa de moderação separada?](https://aivax.net/blog/aivax-gateway-moderation/).
+Para saber quando a autoavaliação é suficiente e quando a salvaguarda separada permanece necessária, com tempos de execução em ambiente real, veja [API de moderação LLM: camada separada ou autoavaliação do modelo?](https://aivax.net/blog/aivax-gateway-moderation/).

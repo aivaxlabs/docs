@@ -2419,6 +2419,8 @@ Requests sent with a private key can override supported gateway values for that 
 | `tool_invocation_explanations` | [Tool explanations](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md). |
 | `routing_options` | [Provider routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md#override-routing-per-request). |
 
+To compare how the same `reasoning_effort` level behaves on OpenAI, Claude and Gemini models, see [how to set reasoning effort across OpenAI, Anthropic and Gemini](https://aivax.net/blog/reasoning-is-a-protocol-not-just-a-model-setting/).
+
 `frequency_penalty` is configured only on the gateway. Instructions, RAG, MCP sources, protocol functions, skills, workers, and moderation cannot be overridden per request.
 
 Public API keys accept only a small set of request fields and reject the others; see [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md#public-api-keys).
@@ -2539,7 +2541,7 @@ When enabling [memory](https://docs.aivax.net/docs/tools/builtin-tools.md#memory
 
 Use workers when an external system must decide something during the inference flow. Because the worker is called in the critical path, keep it fast and deterministic.
 
-When you enable moderation, see [LLM input moderation: system prompt or separate moderation step?](https://aivax.net/blog/aivax-gateway-moderation/) for what it covers, its failure behavior, and what still needs application-level checks.
+When you enable moderation, see [LLM moderation API: separate layer or model self-assessment?](https://aivax.net/blog/aivax-gateway-moderation/) for what it covers, its failure behavior, and what still needs application-level checks.
 
 ## Client integration
 
@@ -3862,7 +3864,7 @@ Moderation currently applies only to input text:
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 
-For a decision guide on system prompts, a separate moderation step, and authorization, see [LLM input moderation: system prompt or separate moderation step?](https://aivax.net/blog/aivax-gateway-moderation/).
+For when self-assessment is enough and when the separate safeguard stays necessary, with timings from live runs, see [LLM moderation API: separate layer or model self-assessment?](https://aivax.net/blog/aivax-gateway-moderation/).
 
 ---
 
@@ -4165,7 +4167,7 @@ Enable **Zero data retention providers only** in the dashboard account settings 
 
 The option applies to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
 
-Platform steps that run before or around a request always use a zero data retention provider, whether or not the account option is enabled: prompt rewriting, complexity routing, content moderation, and document processing. Disabling the option does not move those steps to another provider. When no zero data retention provider is available for one of them, the request fails and should be retried later.
+Platform steps that run before or around a request always use a zero data retention provider, whether or not the account option is enabled: content moderation, the complexity router, RAG query rewriting, the summary read aloud by chat clients, the rewrite of text with voice instructions for speech generation, and Media Injector. Disabling the option does not move those steps to another provider. When no zero data retention provider is available for one of them, the request fails and should be retried later.
 
 ---
 
@@ -4924,7 +4926,7 @@ Set these options in the chat client configuration:
 | `suggestionButtons` | Buttons with ready-made prompts, each with a `label` and the `prompt` it sends. |
 | `languageCode` | Language of the chat interface. |
 | `customStyles`, `customScripts` | Your own CSS and JavaScript, added to the hosted page. |
-| `showToolCalls` | Shows tool activity in the conversation. On by default. |
+| `showToolCalls` | Shows the reasoning and tool activity blocks in the conversation. When off, the blocks are hidden and only the status line shows what the assistant is doing. On by default. |
 | `debug` | Shows diagnostic information for troubleshooting, and enables `/usage` in integrations. Off by default; turn it off again after use. |
 
 ## Attachments and audio
@@ -5314,7 +5316,7 @@ Remote content can change between test runs and contributes to usage. Use only t
 
 A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.
 
-Follow the [multi-turn conversation testing walkthrough](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery.
+Follow [multi-turn evaluation for LLM agents with a simulated user and judge](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery, including how a goal that leaks the answer can end in a loss.
 
 ### Validation hooks
 
@@ -7269,7 +7271,7 @@ The available decision models, with their aliases, supported question types, con
 
 Each response returns the canonical model name in `model`. You can also send a model alias, such as `@supersonic-labs/julia:latest`. An alias can move to a newer version when one is released, so pin the canonical name when you need a stable version.
 
-An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
+An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic. For a labeled 40-ticket comparison of four decision models, including how option order changed some answers, see [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
 
 An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing.md), and [Plans and limits](https://docs.aivax.net/docs/limits.md).
 
@@ -8610,7 +8612,7 @@ Define MCP servers on the gateway when the assistant should discover and call th
 ]
 ```
 
-Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`; the default is 600 seconds.
+Your MCP server must support **Streamable HTTP** to work with AIVAX as a gateway tool source. You can define custom headers in your MCP server configuration to set up authentication or other needs. Tools, server instructions, and remote skill discovery are cached according to `cacheDuration`, separately for each calling context; the default is 600 seconds.
 
 Each MCP source accepts the following fields. Use them to name the source, authenticate the connection, and control what the model sees:
 
@@ -8625,7 +8627,7 @@ Each MCP source accepts the following fields. Use them to name the source, authe
 | `allowClientInstructions` | `boolean` | `true` | Adds the usage instructions advertised by the server to the gateway context. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
 | `allowRemoteSkills` | `boolean` | `true` | Imports verified remote skills from servers that advertise the skills extension. See [server instructions and remote skills](#server-instructions-and-remote-skills). |
 
-If your server targets MCP `2026-07-28`, see [how to migrate an MCP server off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
+If your server targets MCP `2026-07-28`, see [Stateless MCP: migrating off Mcp-Session-Id](https://aivax.net/blog/mcp-stateless-core-moves-session-state-into-your-application/) for how it interacts with this gateway.
 
 ## Server instructions and remote skills
 
@@ -8660,19 +8662,19 @@ Import limits and exclusions:
 - Frontmatter does not grant tool permissions or populate the gateway's allowed-tool lists. Existing tool policies still apply.
 - This integration does not add a per-skill approval system or a new execution sandbox. Disable remote skills when your policy requires those controls.
 
-Before connecting a third-party server, review the [third-party MCP connection checklist](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/).
+Before connecting a third-party server, review [MCP server security best practices for third-party servers](https://aivax.net/blog/mcp-is-a-trust-boundary-not-just-a-tool-catalog/), which covers tool poisoning, credentials, worker-based blocking and server-side approval.
 
 The same options apply to MCP sources added by gateway workers. Existing account skills remain available. New connections fetch skill content during discovery, while `read_skill` controls when that content enters the model's active skill context.
 
-## Metadata sent with tool calls
+## Metadata sent with MCP requests
 
-Use this section when your MCP server must identify the calling context or receive application values with the call.
+Use this section when your MCP server must identify the calling context or receive application values with a request.
 
-For each `tools/call` request, AIVAX adds execution context in `params._meta`, alongside `params.arguments`.
+AIVAX adds the calling context in `params._meta` to every request and notification it sends to the server: `initialize`, `notifications/initialized`, `tools/list`, `skills/list`, `resources/read`, and `tools/call`.
 
-- Arguments contain the tool input.
+- In `tools/call`, arguments contain the tool input.
 - Metadata identifies the calling context and carries application-supplied values.
-- These fields describe tool execution requests, not tool discovery (`tools/list`).
+- Discovery requests carry the context of the inference that triggered them. Results are cached per calling context, so a cached tool list is never reused for another user, conversation, or metadata set.
 
 The following example illustrates a call with an identified user, a conversation token, and custom metadata:
 
@@ -8709,7 +8711,7 @@ These fields identify the calling context. All paths below are relative to `para
 | `_aiv_external_user_id` | `string` or `null` | External user identifier carried by the inference context. For chat clients it comes from the session; for chat completions it comes from the request's `user` field. It can be `null` when no user was identified. Use it to look up the user in your application, not as an AIVAX account ID or proof of authorization. |
 | `_aiv_call_source` | `string` | Origin of the inference, not the outbound tool transport. An MCP tool called during web chat inference still receives `WebChatClient`, not `McpClient`. See the values below. |
 | `_aiv_conversation_token` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it is the request's `conversation_token`, or the token AIVAX generated when none was sent. It can be `null`; it is neither an authentication credential nor a unique tool-call ID. Multiple calls in the same conversation may share it. |
-| `_aiv_moment` | `string` | Timestamp created when AIVAX prepares this tool call, in ISO 8601 round-trip format with fractional seconds and a UTC offset. It uses the AIVAX server's local clock, not the user's timezone or the conversation start time. Parse the offset and convert to your application's timezone when needed. |
+| `_aiv_moment` | `string` | Timestamp created when AIVAX opens the connection that sends this request, in ISO 8601 round-trip format with fractional seconds and a UTC offset. It uses the AIVAX server's local clock, not the user's timezone or the conversation start time. Parse the offset and convert to your application's timezone when needed. |
 
 ### Call source values
 
@@ -8729,9 +8731,9 @@ Consumers should tolerate future source values.
 
 ### Custom metadata and security
 
-Custom inference metadata is a map of string keys to string values. It comes from request `metadata` for chat completions or session metadata for chat clients.
+Custom inference metadata is a map of string keys to string values. It comes from request `metadata` for chat completions or session metadata for chat clients, including sessions created by messaging integrations.
 
-AIVAX copies these entries directly into `params._meta`. In the example, `tenant_id` and `request_id` are application-defined, not built-in AIVAX fields. There is no nested `metadata` object in the MCP envelope. With no custom metadata, only the AIVAX fields remain.
+AIVAX copies these entries directly into `params._meta`. Custom keys beginning with `_aiv` are ignored and never replace the AIVAX fields. In the example, `tenant_id` and `request_id` are application-defined, not built-in AIVAX fields. There is no nested `metadata` object in the MCP envelope. With no custom metadata, only the AIVAX fields remain.
 
 Before you rely on metadata:
 
@@ -8994,7 +8996,7 @@ AIVAX builds `context` separately from the model-generated arguments in `functio
 | `context.conversationToken` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it is the request's `conversation_token`, or the token AIVAX generated when none was sent. It can be `null`, and multiple function calls may share it. Do not treat it as a unique callback ID, a credential, or a guarantee that an operation has not already run. |
 | `context.moment` | `string` | JSON date-time timestamp created when AIVAX prepares the callback, using the server's local clock. It is not the user's local time or the conversation start time. Parse it as a date-time with its UTC offset rather than relying on a fixed fractional-second precision; convert to your application's timezone when needed. |
 
-Custom metadata stays nested under `context.metadata`; it is not merged into `context`. This differs from [MCP metadata](https://docs.aivax.net/docs/tools/mcp.md#metadata-sent-with-tool-calls), where the same custom entries sit alongside reserved `_aiv_*` fields in `params._meta`.
+Custom metadata stays nested under `context.metadata`; it is not merged into `context`. This differs from [MCP metadata](https://docs.aivax.net/docs/tools/mcp.md#metadata-sent-with-mcp-requests), where the same custom entries sit alongside reserved `_aiv_*` fields in `params._meta`.
 
 The authentication nonce is **not** a `context` or `metadata` field. Protocol functions receive it in the `X-Request-Nonce` HTTP header when the account has a hook key. MCP tool calls carry the equivalent value in `params._meta._aiv_nonce` instead. These context fields describe execution POST requests; do not assume that function source-listing requests have this JSON body.
 
@@ -10592,7 +10594,7 @@ When a setting changes the level, the Collection Policy column lists each condit
 
 | Description | Collection Policy | Details |
 | --- | --- | --- |
-| [Chat completions and AI Gateways](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#response-and-conversation-records) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | **Conversations logging** in the account settings stores messages, tool calls, metadata, usage, and errors as conversations. It is enabled by default. Set `allow_logging: false` to exclude a single request. Enable [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) to restrict integrated text models to providers that do not retain prompts. |
+| [Chat completions and AI Gateways](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#response-and-conversation-records) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | **Conversations logging** in the account settings stores messages, tool calls, metadata, usage, and errors as conversations. It is enabled by default. Set `allow_logging: false` to exclude a single request. Enable [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) to restrict integrated text models to providers that do not retain prompts. Auxiliary steps (content moderation, complexity routing, RAG query rewriting, the summary read aloud by chat clients, the rewrite of text with voice instructions for speech generation, and Media Injector) always run on zero data retention providers, even when the option is disabled. |
 | [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and [skill](https://docs.aivax.net/docs/inference/skills.md) configuration | 🔴 Full | Instructions, skills, tools, and integration settings are stored until deleted. |
 | Multimodal preprocessing | 🔴 Full | When attachments are converted to text through description, OCR, or transcription during inference, the resulting text is cached per account to avoid reprocessing the same content. Original files are not stored. |
 | Provider error diagnostics | 🔴 Full | When a model provider returns an error, the request sent to the provider and its response may be stored for diagnosis, regardless of conversation logging. |
@@ -10657,6 +10659,18 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Tuesday, November 17th, 2026
+
+Fixes:
+
+- **Chat clients — Session metadata in messaging integrations.** Replies and scheduled messages from WhatsApp, Telegram, and other messaging integrations now carry the session metadata to MCP servers, protocol functions, gateway workers, and stored conversations, as web chat sessions already did.
+- **Gateways — Reserved MCP metadata keys.** Custom metadata keys beginning with `_aiv` no longer make MCP tool calls fail. They are ignored, and the AIVAX fields keep their values.
+
+Changes:
+
+- **Gateways — Metadata in every MCP request.** AIVAX now sends the calling context and custom metadata in `params._meta` of every request to an MCP server, including `initialize`, `tools/list`, `skills/list`, and `resources/read`, not only `tools/call`. Discovery results are cached per calling context, so MCP servers may receive more discovery requests than before. See [Metadata sent with MCP requests](https://docs.aivax.net/docs/tools/mcp.md#metadata-sent-with-mcp-requests).
+- **Chat clients — Reasoning and tool activity in the hosted chat.** The hosted web chat now groups reasoning and tool calls into collapsible blocks with a summary such as "Thought, called web_search". A block opens while the model is working, scrolls within a fixed height, and collapses when the answer starts; opening or closing a block by hand keeps it that way. While a tool runs, the status line shows the tool's explanation instead of the generic thinking label. Tool results are not shown in the conversation. When **Tool call visibility** (`showToolCalls`) is off, these blocks are hidden and only the status line remains. See [Publish the hosted chat](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat) and [Tool explanations](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md).
+
 ## Monday, November 16th, 2026
 
 Fixes:
@@ -10668,8 +10682,9 @@ Changes:
 - **Account — Brazilian taxes on payments.** New payments now include Brazilian taxes, added on top of the amount due: credit top-ups, subscription payments and renewals, and bills issued by the AIVAX team. The charged total is the amount divided by (1 - 0.1333), which corresponds to approximately 11.33% of the total in service taxes and 2% in IOF. For example, a $19.00 subscription payment charges $21.92. Taxes are not added to the balance, and listed plan prices do not include them. Before you confirm a top-up, the dashboard now lists the credits, the service fee, the taxes, and the total charged. The amount due shown for a plan change already includes taxes, and receipts list each tax. Invoices created before this change keep their amount. See [Taxes on payments](https://docs.aivax.net/docs/pricing.md#taxes-on-payments).
 - **Account — Service invoices.** When AIVAX issues a service invoice (nota fiscal de serviços) for a payment, you receive a dashboard notification and an e-mail, and the invoice gets a **Service invoice** download link in the Invoices tab of Analytics. Usage data returns the link in `serviceInvoiceLocation`, which is `null` until the service invoice is issued.
 - **Decisions — Conversation input and media.** Decision requests now accept `input`, an array of conversation messages, instead of `state`. The two fields are mutually exclusive. The conversation becomes the first state item, and image, audio, video, and document parts are evaluated as media. Models that list `audioinput`, `videoinput`, or `fileinput` in the [decision model listing](https://docs.aivax.net/docs/data-processing/decisions.md#discover-models-programmatically) accept those parts; Gemini Decision 1 accepts all four. See [Send media](https://docs.aivax.net/docs/data-processing/decisions.md#send-media).
-- **Routing — Auxiliary steps stay on zero data retention providers.** Prompt rewriting, complexity routing, content moderation, and document processing now always run on a zero data retention provider, even when **Zero data retention providers only** is disabled. Disabling the option no longer provides a fallback for these steps; when no such provider is available, the request fails and should be retried later. See [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md).
+- **Routing — Auxiliary steps stay on zero data retention providers.** Content moderation, the complexity router, RAG query rewriting (`UserRewrite` and `FullRewrite`), the summary read aloud by chat clients with `summarizeTextBeforeAudioSynthesis`, the rewrite of text with voice instructions for speech generation, and Media Injector now always run on a zero data retention provider, even when **Zero data retention providers only** is disabled. When none is available for one of these steps, the request fails with an error stating that no zero data retention provider is available, instead of falling back to another provider; retry later. Only content moderation still moves on to its other models. These steps can cost about twice as much as before, depending on the provider selected. See [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md).
 - **Analytics — Cost origin and payment totals in the monthly report.** The monthly report now splits the billed amount into provider costs, passed through from third-party providers, and service costs, charged directly by AIVAX. It also totals the payments confirmed in the month, with their taxes and, when available, the payment method and its fees. Get Monthly Usage Report returns these totals in `providerCost`, `directServiceCost`, and `payments`.
+- **RAG — Reflex v1.5 reranker.** The rerank endpoint accepts `@aivax/reflex-v1.5`, a higher-accuracy option to `@aivax/reflex-v1`. It ranks up to 15,000 documents per request and returns at most 50 results, so requests with a larger `top_n` are rejected. It costs $0.015 per 1M input tokens, and documents already processed recently for the same account cost $0.005 per 1M tokens. Requests count toward the subscription allowance, like Reflex v1. The default reranker is still `@aivax/reflex-v1`; select the new model with `model`. See [Reranking](https://docs.aivax.net/docs/rag/reranking.md).
 
 ## Friday, November 13th, 2026
 

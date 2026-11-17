@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gate
 
 # Usando um Gateway de IA
 
-Crie um gateway no painel ou por meio da API e, em seguida, chame-o pelo endpoint `chat/completions` compatível com OpenAI, passando seu ID ou slug como `model`.
+Crie um gateway no painel ou com a API, e chame-o por meio do endpoint `chat/completions` compatível com OpenAI, passando seu ID ou slug como `model`.
 
 ## Criar e gerenciar gateways
 
@@ -38,23 +38,25 @@ Solicitações enviadas com uma chave privada podem substituir os valores suport
 | --- | --- |
 | `temperature`, `top_p`, `seed`, `presence_penalty` | Parâmetros de amostragem. |
 | `reasoning_effort`, `verbosity` | Configurações de raciocínio e verbosidade, quando o modelo as suporta. |
-| `max_completion_tokens`, `stop` | Comprimento da saída e sequências de parada. |
+| `max_completion_tokens`, `stop` | Comprimento de saída e sequências de parada. |
 | `tools` | Adiciona ferramentas do lado do cliente às ferramentas do gateway. |
-| `builtin_tools` | Habilita [ferramentas integradas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/built-in-tools.md) adicionais. |
+| `builtin_tools` | Habilita [ferramentas integradas adicionais](https://docs.aivax.net/pt-br/docs/inference/chat-completions/built-in-tools.md). |
 | `response_schema`, `response_format` | [Saída estruturada](https://docs.aivax.net/pt-br/docs/inference/chat-completions/structured-output.md). |
 | `time_zone` | Fuso horário do gateway. |
 | `multimodal_resolver` | Mecanismos de [pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md). |
 | `tool_invocation_explanations` | [Explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md). |
 | `routing_options` | [Roteamento de provedores](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md#override-routing-per-request). |
 
+Para comparar como o mesmo nível de `reasoning_effort` se comporta nos modelos OpenAI, Claude e Gemini, consulte [como definir o esforço de raciocínio entre OpenAI, Anthropic e Gemini](https://aivax.net/blog/reasoning-is-a-protocol-not-just-a-model-setting/).
+
 `frequency_penalty` é configurado apenas no gateway. Instruções, RAG, fontes MCP, funções de protocolo, habilidades, trabalhadores e moderação não podem ser substituídos por solicitação.
 
 Chaves de API públicas aceitam apenas um pequeno conjunto de campos de solicitação e rejeitam os demais; consulte [Limites](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md#public-api-keys).
 
-## Testar incrementalmente
+## Teste incrementalmente
 
-Quando um gateway se comporta de maneira inesperada, teste primeiro um prompt simples e, em seguida, adicione RAG, ferramentas, mídia ou saída estruturada um de cada vez. Isso isola o recurso que causa o problema. Consulte [Solução de problemas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md).
+Quando um gateway se comporta de maneira inesperada, teste primeiro um prompt simples e, em seguida, adicione RAG, ferramentas, mídia ou saída estruturada um de cada vez. Isso isola o recurso que causa o problema. Consulte [Resolução de problemas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md).
 
-## Usar um gateway de clientes MCP
+## Use um gateway a partir de clientes MCP
 
-Para expor um modelo integrado ou um Gateway de IA como ferramenta para um cliente MCP externo, consulte [Inferência MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/inference-mcp.md).
+Para expor um modelo integrado ou um Gateway de IA como uma ferramenta para um cliente MCP externo, consulte [Inferência MCP](https://docs.aivax.net/pt-br/docs/mcp-utilities/inference-mcp.md).

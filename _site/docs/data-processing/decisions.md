@@ -16,7 +16,7 @@ The available decision models, with their aliases, supported question types, con
 
 Each response returns the canonical model name in `model`. You can also send a model alias, such as `@supersonic-labs/julia:latest`. An alias can move to a newer version when one is released, so pin the canonical name when you need a stable version.
 
-An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic.
+An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic. For a labeled 40-ticket comparison of four decision models, including how option order changed some answers, see [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
 
 An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing.md), and [Plans and limits](https://docs.aivax.net/docs/limits.md).
 
