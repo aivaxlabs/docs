@@ -232,7 +232,7 @@ AIVAX builds `context` separately from the model-generated arguments in `functio
 | `context.conversationToken` | `string` or `null` | Conversation correlation token carried by the session or inference request. For chat completions, it is the request's `conversation_token`, or the token AIVAX generated when none was sent. It can be `null`, and multiple function calls may share it. Do not treat it as a unique callback ID, a credential, or a guarantee that an operation has not already run. |
 | `context.moment` | `string` | JSON date-time timestamp created when AIVAX prepares the callback, using the server's local clock. It is not the user's local time or the conversation start time. Parse it as a date-time with its UTC offset rather than relying on a fixed fractional-second precision; convert to your application's timezone when needed. |
 
-Custom metadata stays nested under `context.metadata`; it is not merged into `context`. This differs from [MCP metadata](/docs/tools/mcp#metadata-sent-with-tool-calls), where the same custom entries sit alongside reserved `_aiv_*` fields in `params._meta`.
+Custom metadata stays nested under `context.metadata`; it is not merged into `context`. This differs from [MCP metadata](/docs/tools/mcp#metadata-sent-with-mcp-requests), where the same custom entries sit alongside reserved `_aiv_*` fields in `params._meta`.
 
 The authentication nonce is **not** a `context` or `metadata` field. Protocol functions receive it in the `X-Request-Nonce` HTTP header when the account has a hook key. MCP tool calls carry the equivalent value in `params._meta._aiv_nonce` instead. These context fields describe execution POST requests; do not assume that function source-listing requests have this JSON body.
 

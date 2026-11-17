@@ -8,6 +8,18 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Tuesday, November 17th, 2026
+
+Fixes:
+
+- **Chat clients — Session metadata in messaging integrations.** Replies and scheduled messages from WhatsApp, Telegram, and other messaging integrations now carry the session metadata to MCP servers, protocol functions, gateway workers, and stored conversations, as web chat sessions already did.
+- **Gateways — Reserved MCP metadata keys.** Custom metadata keys beginning with `_aiv` no longer make MCP tool calls fail. They are ignored, and the AIVAX fields keep their values.
+
+Changes:
+
+- **Gateways — Metadata in every MCP request.** AIVAX now sends the calling context and custom metadata in `params._meta` of every request to an MCP server, including `initialize`, `tools/list`, `skills/list`, and `resources/read`, not only `tools/call`. Discovery results are cached per calling context, so MCP servers may receive more discovery requests than before. See [Metadata sent with MCP requests](/docs/tools/mcp.md#metadata-sent-with-mcp-requests).
+- **Chat clients — Reasoning and tool activity in the hosted chat.** The hosted web chat now groups reasoning and tool calls into collapsible blocks with a summary such as "Thought, called web_search". A block opens while the model is working, scrolls within a fixed height, and collapses when the answer starts; opening or closing a block by hand keeps it that way. While a tool runs, the status line shows the tool's explanation instead of the generic thinking label. Tool results are not shown in the conversation. When **Tool call visibility** (`showToolCalls`) is off, these blocks are hidden and only the status line remains. See [Publish the hosted chat](/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat) and [Tool explanations](/docs/inference/response-rendering/tool-explanations.md).
+
 ## Monday, November 16th, 2026
 
 Fixes:
@@ -21,6 +33,7 @@ Changes:
 - **Decisions — Conversation input and media.** Decision requests now accept `input`, an array of conversation messages, instead of `state`. The two fields are mutually exclusive. The conversation becomes the first state item, and image, audio, video, and document parts are evaluated as media. Models that list `audioinput`, `videoinput`, or `fileinput` in the [decision model listing](/docs/data-processing/decisions.md#discover-models-programmatically) accept those parts; Gemini Decision 1 accepts all four. See [Send media](/docs/data-processing/decisions.md#send-media).
 - **Routing — Auxiliary steps stay on zero data retention providers.** Content moderation, the complexity router, RAG query rewriting (`UserRewrite` and `FullRewrite`), the summary read aloud by chat clients with `summarizeTextBeforeAudioSynthesis`, the rewrite of text with voice instructions for speech generation, and Media Injector now always run on a zero data retention provider, even when **Zero data retention providers only** is disabled. When none is available for one of these steps, the request fails with an error stating that no zero data retention provider is available, instead of falling back to another provider; retry later. Only content moderation still moves on to its other models. These steps can cost about twice as much as before, depending on the provider selected. See [Zero data retention providers only](/docs/inference/routing/zdr.md).
 - **Analytics — Cost origin and payment totals in the monthly report.** The monthly report now splits the billed amount into provider costs, passed through from third-party providers, and service costs, charged directly by AIVAX. It also totals the payments confirmed in the month, with their taxes and, when available, the payment method and its fees. Get Monthly Usage Report returns these totals in `providerCost`, `directServiceCost`, and `payments`.
+- **RAG — Reflex v1.5 reranker.** The rerank endpoint accepts `@aivax/reflex-v1.5`, a higher-accuracy option to `@aivax/reflex-v1`. It ranks up to 15,000 documents per request and returns at most 50 results, so requests with a larger `top_n` are rejected. It costs $0.015 per 1M input tokens, and documents already processed recently for the same account cost $0.005 per 1M tokens. Requests count toward the subscription allowance, like Reflex v1. The default reranker is still `@aivax/reflex-v1`; select the new model with `model`. See [Reranking](/docs/rag/reranking.md).
 
 ## Friday, November 13th, 2026
 
