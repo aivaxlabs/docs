@@ -42,6 +42,8 @@ Example stream event:
 }
 ```
 
+AIVAX removes `_tool_reason` and `_tool_goal` from the arguments before calling an [MCP server](/docs/tools/mcp.md) tool or a protocol function callback, so these tools receive only the arguments declared in their schema.
+
 `state` is `Created` when the tool call starts, then `Completed` or `Failed` when it ends. All events of one call share the same `id`, so render them as a single status row that changes state. `explanation` is `null` when the model did not supply both fields; fall back to the tool name in that case.
 
 Show `reason` as the status label, such as "Searching for today's weather forecast online". `goal` is useful in an expanded or audit view. Do not show `contents` to end users unless the surface is built for technical inspection, because it contains the raw tool arguments.
