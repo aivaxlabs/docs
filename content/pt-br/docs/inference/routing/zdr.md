@@ -1,5 +1,5 @@
 ---
-{title: Provedores de Retenção Zero de Dados,linkTitle: ZDR,weight: 30,group: Routing,sourceHash: baf58646651619b3,aliases: [/docs/pt-br/inference/routing/zdr.html]}
+{title: Provedores de Retenção Zero de Dados,linkTitle: ZDR,weight: 30,group: Routing,sourceHash: ad9b19a6d84d9451,aliases: [/docs/pt-br/inference/routing/zdr.html]}
 ---
 
 # Apenas provedores com retenção zero de dados
@@ -8,4 +8,4 @@ Ative a opção **Apenas provedores com retenção zero de dados** nas configura
 
 Essa opção aplica-se apenas à inferência de texto. Ela não altera o registro das conversas; use `allow_logging` ou a configuração de registro de conversas da conta para isso.
 
-As etapas da plataforma executadas antes ou durante uma solicitação sempre utilizam um provedor com retenção zero de dados, independentemente de a opção da conta estar ativada: reescrita de prompts, roteamento por complexidade, moderação de conteúdo e processamento de documentos. Desativar a opção não move essas etapas para outro provedor. Quando não há nenhum provedor com retenção zero de dados disponível para uma dessas etapas, a solicitação falha e deve ser tentada novamente mais tarde.
+As etapas da plataforma executadas antes ou durante uma solicitação sempre usam um provedor com retenção zero de dados, independentemente de a opção da conta estar ativada: moderação de conteúdo, roteador de complexidade, reescrita de consultas RAG, leitura em voz alta do resumo pelos clientes de chat, reescrita de texto com instruções de voz para geração de fala e Media Injector. Desativar a opção não move essas etapas para outro provedor. Quando não há um provedor com retenção zero de dados disponível para uma delas, a solicitação falha e deve ser tentada novamente mais tarde.

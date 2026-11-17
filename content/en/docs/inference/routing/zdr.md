@@ -8,4 +8,4 @@ Enable **Zero data retention providers only** in the dashboard account settings 
 
 The option applies to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
 
-Platform steps that run before or around a request always use a zero data retention provider, whether or not the account option is enabled: prompt rewriting, complexity routing, content moderation, and document processing. Disabling the option does not move those steps to another provider. When no zero data retention provider is available for one of them, the request fails and should be retried later.
+Platform steps that run before or around a request always use a zero data retention provider, whether or not the account option is enabled: content moderation, the complexity router, RAG query rewriting, the summary read aloud by chat clients, the rewrite of text with voice instructions for speech generation, and Media Injector. Disabling the option does not move those steps to another provider. When no zero data retention provider is available for one of them, the request fails and should be retried later.

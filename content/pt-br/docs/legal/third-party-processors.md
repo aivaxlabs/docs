@@ -1,5 +1,5 @@
 ---
-{title: Processadores de Dados,linkTitle: Processadores de Dados,weight: 30,group: Legal documents,sourceHash: ab83a29ae6bbc935,aliases: [/docs/pt-br/legal/third-party-processors.html]}
+{title: Processadores de Dados,linkTitle: Processadores de Dados,weight: 30,group: Legal documents,sourceHash: deca5d1c0bfdc7a6,aliases: [/docs/pt-br/legal/third-party-processors.html]}
 ---
 
 # Processadores de Dados
@@ -50,7 +50,7 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
-| [Completions de chat e Gateways de IA](/docs/pt-br/inference/chat-completions/concepts.md#response-and-conversation-records) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | O **registro de conversas** nas configurações da conta armazena mensagens, chamadas de ferramentas, metadados, uso e erros como conversas. Ele está habilitado por padrão. Defina `allow_logging: false` para excluir uma única solicitação. Habilite [Apenas provedores com retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) para restringir modelos de texto integrados a provedores que não retêm prompts. |
+| [Completions de chat e Gateways de IA](/docs/pt-br/inference/chat-completions/concepts.md#response-and-conversation-records) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | O **registro de conversas** nas configurações da conta armazena mensagens, chamadas de ferramentas, metadados, uso e erros como conversas. Está habilitado por padrão. Defina `allow_logging: false` para excluir uma única solicitação. Habilite [Apenas provedores com retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) para restringir os modelos de texto integrados a provedores que não retêm prompts. Etapas auxiliares (moderação de conteúdo, roteamento de complexidade, reescrita de consultas RAG, o resumo lido em voz alta pelos clientes de chat, a reescrita de texto com instruções de voz para geração de fala e o Media Injector) sempre são executados em provedores com retenção zero de dados, mesmo quando a opção está desabilitada. |
 | Configuração do [Gateway de IA](/docs/pt-br/inference/ai-gateways/concepts.md) e [skill](/docs/pt-br/inference/skills.md) | 🔴 Completo | Instruções, skills, ferramentas e configurações de integração são armazenadas até serem excluídas. |
 | Pré-processamento multimodal | 🔴 Completo | Quando anexos são convertidos em texto por meio de descrição, OCR ou transcrição durante a inferência, o texto resultante é armazenado em cache por conta para evitar reprocessemento do mesmo conteúdo. Arquivos originais não são armazenados. |
 | Diagnósticos de erro do provedor | 🔴 Completo | Quando um provedor de modelo retorna um erro, a solicitação enviada ao provedor e sua resposta podem ser armazenadas para diagnóstico, independentemente do registro de conversas. |
