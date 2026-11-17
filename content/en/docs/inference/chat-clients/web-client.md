@@ -42,7 +42,7 @@ Set these options in the chat client configuration:
 | `suggestionButtons` | Buttons with ready-made prompts, each with a `label` and the `prompt` it sends. |
 | `languageCode` | Language of the chat interface. |
 | `customStyles`, `customScripts` | Your own CSS and JavaScript, added to the hosted page. |
-| `showToolCalls` | Shows tool activity in the conversation. On by default. |
+| `showToolCalls` | Shows the reasoning and tool activity blocks in the conversation. When off, the blocks are hidden and only the status line shows what the assistant is doing. On by default. |
 | `debug` | Shows diagnostic information for troubleshooting, and enables `/usage` in integrations. Off by default; turn it off again after use. |
 
 ## Attachments and audio
