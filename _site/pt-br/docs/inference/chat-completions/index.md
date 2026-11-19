@@ -14,7 +14,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/index.html
 
 - [Entrada e Multimodalidade](https://docs.aivax.net/pt-br/docs/inference/chat-completions/input-and-multimodality.md)
 
-- [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
+- [Armazenamento em cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
 
 - [Ferramentas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/tools.md)
 

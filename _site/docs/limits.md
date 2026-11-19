@@ -57,6 +57,8 @@ Product limits use the same rules as account limits: they are shared across the 
 | Limit | Free | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
 | Collections | 5 | 100 | 1,000 | — |
+| Documents per account | 2,000 | 200,000 | — | — |
+| Documents per collection | 1,000 | 50,000 | 250,000 | 500,000 |
 | Searches | 20/min | 300/min | 1,500/min | 3,000/min |
 | Reranking requests | 30/min | 500/min | 3,000/min | — |
 | Reflex processing time | 30 minutes/day | 3 hours/day | 12 hours/day | — |
@@ -65,7 +67,7 @@ Product limits use the same rules as account limits: they are shared across the 
 | Documents per WebSocket JSONL import | 10,000 | 50,000 | 1,000,000 | 10,000,000 |
 | Media Injector files | 2/day | 20/day | 250/day | 1,000/day |
 
-The reranking request limit applies to the [reranking endpoint](https://docs.aivax.net/docs/rag/reflex.md) and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. The Reflex processing-time limit counts the time spent processing Reflex requests on both paths; cached input does not consume it separately. If an import exceeds the per-import limit, split it into multiple imports. See [Collections](https://docs.aivax.net/docs/rag/collections.md), [Documents](https://docs.aivax.net/docs/rag/documents.md), and [Reflex](https://docs.aivax.net/docs/rag/reflex.md).
+The reranking request limit applies to the [reranking endpoint](https://docs.aivax.net/docs/rag/reflex.md) and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. The Reflex processing-time limit counts the time spent processing Reflex requests on both paths; cached input does not consume it separately. If an import exceeds the per-import limit, split it into multiple imports. Document limits count stored documents and are checked only when a new document is created; updating or reindexing an existing document is not blocked. Once a limit is reached, creating a document returns `400 Bad Request` and an import stops with an error. The count can take up to 30 seconds to reflect recent insertions or deletions. See [Collections](https://docs.aivax.net/docs/rag/collections.md), [Documents](https://docs.aivax.net/docs/rag/documents.md), and [Reflex](https://docs.aivax.net/docs/rag/reflex.md).
 
 ### Data processing
 

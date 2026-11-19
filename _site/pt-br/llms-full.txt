@@ -951,11 +951,11 @@ Source: https://docs.aivax.net/pt-br/docs/limits.html
 
 # Planos e Limites
 
-A AIVAX possui quatro planos de conta: **Gratuito**, **Pro**, **Max** e **Ultimate**. O plano atual controla o acesso ao modelo, limites de taxa da conta e do produto, cota de armazenamento, períodos de retenção e as cotas diárias de serviço incluídas. Todos os limites de cada plano estão listados nesta página; as páginas dos produtos linkam aqui em vez de repetir os valores.
+A AIVAX possui quatro planos de conta: **Gratuito**, **Pro**, **Max** e **Ultimate**. O plano atual controla o acesso ao modelo, limites de taxa da conta e do produto, cota de armazenamento, períodos de retenção e cotas diárias de serviço incluídas. Todos os limites dos planos estão listados nesta página; as páginas dos produtos linkam para cá em vez de repetir os valores.
 
 Para preços de assinatura comercial e pacotes de planos, use a [página de preços da AIVAX](https://aivax.net/pricing). Os mesmos preços públicos da lista estão disponíveis em [Preços de lista dos planos](https://docs.aivax.net/pt-br/docs/pricing.md#plan-list-prices).
 
-Um travessão (`—`) significa que o plano não impõe um limite, e `Não disponível` significa que o recurso não está disponível no plano. Limites específicos de modelo, gateway, provedor ou produto ainda podem se aplicar. Limites que são iguais em todos os planos, como tamanhos de arquivo ou resultados por solicitação, são documentados em cada página de produto.
+Um travessão (`—`) significa que o plano não impõe um limite, e `Não disponível` significa que o recurso não está disponível no plano. Modelos, gateways, provedores ou limites específicos do produto ainda podem se aplicar. Limites que são iguais em todos os planos, como tamanhos de arquivo ou resultados por solicitação, são documentados em cada página de produto.
 
 ## Limites da conta
 
@@ -964,21 +964,21 @@ Um travessão (`—`) significa que o plano não impõe um limite, e `Não dispo
 | **Inferência** |  |  |  |  |
 | Acesso ao modelo | Modelos de baixo preço | Todos os modelos | Todos os modelos | Todos os modelos |
 | Multiplicador de comissão de inferência | 1,25x | 1,05x | 1,02x | 1,00x |
-| Teto diário de comissão de inferência | US$ 1,50 | US$ 1,20 | US$ 1,00 | Sem comissão |
+| Teto diário de comissão de inferência | $1,50 | $1,20 | $1,00 | Sem comissão |
 | Solicitações de modelo integrado | 20/min e 500/dia | 150/min | 1.000/min | — |
-| Tokens de entrada de modelo integrado | 1.000.000/min | 15.000.000/min | 60.000.000/min | — |
+| Tokens de entrada do modelo integrado | 1.000.000/min | 15.000.000/min | 60.000.000/min | — |
 | Solicitações BYOK | 30/min | 150/min | 1.000/min | — |
 | Contexto máximo | 64.000 tokens de entrada | — | — | — |
-| Cota mensal de modelo de assinatura | Não disponível | Incluído | Incluído | Incluído |
+| Cota mensal de modelos de assinatura | Não disponível | Incluído | Incluído | Incluído |
 | **Conta e suporte** |  |  |  |  |
 | Cota de armazenamento | 30 MB | 2 GB | 10 GB | 20 GB |
-| Custo por GB excedente | Não disponível | US$ 0,50/GB/mês | US$ 0,30/GB/mês | US$ 0,20/GB/mês |
+| Custo por GB excedente | Não disponível | $0,50/GB/mês | $0,30/GB/mês | $0,20/GB/mês |
 | Retenção de conversas | 2 horas | 2 dias | 14 dias | 30 dias |
 | Retenção do histórico de pesquisa RAG | 2 horas | 3 dias | 14 dias | 30 dias |
-| Taxa de serviço em recargas de crédito | 5% (mínimo US$ 0,20) | Nenhuma | Nenhuma | Nenhuma |
+| Taxa de serviço nos recargas de crédito | 5% (mínimo $0,20) | Nenhuma | Nenhuma | Nenhuma |
 | Nível de suporte | E-mail | Prioritário | Prioritário | Dedicado |
 
-O texto do documento armazenado em uma coleção conta para a cota de armazenamento como bytes UTF-8. Texto com acentos ou caracteres não latinos pode usar mais dessa cota do que texto latino básico do mesmo comprimento. O histórico de pesquisa RAG é a lista de pesquisas exibidas em [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md#search-history).
+O texto do documento armazenado em uma coleção conta para a cota de armazenamento como bytes UTF-8. Texto com acentos ou caracteres não latinos pode usar mais dessa cota do que texto latino básico do mesmo comprimento. O histórico de pesquisa RAG é a lista de pesquisas mostrada em [Observabilidade RAG](https://docs.aivax.net/pt-br/docs/rag/observability.md#search-history).
 
 As solicitações de modelo integrado são limitadas tanto pela contagem de solicitações quanto pelos tokens de entrada. Os grupos de limite de taxa do modelo ajustam os limites de contagem de solicitações:
 
@@ -989,11 +989,11 @@ As solicitações de modelo integrado são limitadas tanto pela contagem de soli
 | Baixo | 0,3x |
 | Gratuito | 0,1x |
 
-Por exemplo, uma conta Pro normalmente tem 150 solicitações de modelo integrado por minuto. Com um grupo de modelo `Descontado`, o limite ajustado é de 75 solicitações por minuto.
+Por exemplo, uma conta Pro normalmente tem 150 solicitações de modelo integrado por minuto. Com um grupo de modelos `Descontado`, o limite ajustado é de 75 solicitações por minuto.
 
 BYOK usa uma chave de provedor configurada no gateway em vez de um modelo integrado da AIVAX, mas as solicitações ainda passam pela infraestrutura da AIVAX e usam o limite BYOK do plano.
 
-Os limites de taxa são compartilhados entre todas as chaves de API da mesma conta. Uma solicitação que excederia uma janela ativa retorna `429 Too Many Requests`; ajuste o ritmo das solicitações e use retentativas limitadas com backoff.
+Os limites de taxa são compartilhados entre todas as chaves de API da mesma conta. Uma solicitação que excederia uma janela ativa retorna `429 Too Many Requests`; ajuste as solicitações e use retentativas limitadas com backoff.
 
 Contas personalizadas usam os limites de taxa do plano Pro multiplicados por um fator acordado para a conta, ou não têm limites de taxa de plano quando nenhum fator é definido. Contas personalizadas suportam 8 execuções simultâneas de Testes Agentic.
 
@@ -1006,6 +1006,8 @@ Os limites do produto usam as mesmas regras dos limites da conta: eles são comp
 | Limite | Gratuito | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
 | Coleções | 5 | 100 | 1.000 | — |
+| Documentos por conta | 2.000 | 200.000 | — | — |
+| Documentos por coleção | 1.000 | 50.000 | 250.000 | 500.000 |
 | Pesquisas | 20/min | 300/min | 1.500/min | 3.000/min |
 | Solicitações de reranking | 30/min | 500/min | 3.000/min | — |
 | Tempo de processamento Reflex | 30 minutos/dia | 3 horas/dia | 12 horas/dia | — |
@@ -1014,7 +1016,7 @@ Os limites do produto usam as mesmas regras dos limites da conta: eles são comp
 | Documentos por importação JSONL WebSocket | 10.000 | 50.000 | 1.000.000 | 10.000.000 |
 | Arquivos do Media Injector | 2/dia | 20/dia | 250/dia | 1.000/dia |
 
-O limite de solicitações de reranking aplica-se ao [endpoint de reranking](https://docs.aivax.net/pt-br/docs/rag/reflex.md) e às pesquisas RAG que usam um reranker, incluindo pesquisas através de Gateways AI e ferramentas MCP. O limite de tempo de processamento Reflex conta o tempo gasto processando solicitações Reflex em ambos os caminhos; a entrada em cache não consome esse limite separadamente. Se uma importação exceder o limite por importação, divida-a em várias importações. Veja [Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md), [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) e [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md).
+O limite de solicitações de reranking aplica-se ao [endpoint de reranking](https://docs.aivax.net/pt-br/docs/rag/reflex.md) e às pesquisas RAG que usam um reranker, incluindo pesquisas através de AI Gateways e ferramentas MCP. O limite de tempo de processamento do Reflex conta o tempo gasto processando solicitações Reflex em ambos os caminhos; a entrada em cache não consome isso separadamente. Se uma importação exceder o limite por importação, divida-a em várias importações. Os limites de documentos contam documentos armazenados e são verificados apenas quando um novo documento é criado; atualizar ou reindexar um documento existente não é bloqueado. Uma vez atingido um limite, criar um documento retorna `400 Bad Request` e uma importação para com um erro. A contagem pode levar até 30 segundos para refletir inserções ou exclusões recentes. Consulte [Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md), [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) e [Reflex](https://docs.aivax.net/pt-br/docs/rag/reflex.md).
 
 ### Processamento de dados
 
@@ -1027,16 +1029,16 @@ O limite de solicitações de reranking aplica-se ao [endpoint de reranking](htt
 | Solicitações de descrição de mídia | 10/min e 40/hora | 40/min | 100/min | 200/min |
 | Solicitações de decisão semântica | 10/min | 30/min | 200/min | — |
 
-Os limites de classificação, extração, resumo e segmentação contam cada item na matriz `documents` da solicitação, não cada solicitação HTTP; extração e resumo compartilham uma cota. O refinamento de instrução compartilha essa cota e conta cada item em sua matriz `context`. Os limites de tradução, descrição de mídia e decisão semântica contam solicitações HTTP. Uma solicitação de decisão semântica consome uma unidade independentemente de quantas perguntas ela contém ou qual modelo de decisão ela seleciona, e o uso incluíso de decisões ainda consome unidades de solicitação. Veja [Classificação](https://docs.aivax.net/pt-br/docs/data-processing/classification.md), [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md), [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md), [Refinamento de Instrução](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md), [Segmentação de texto](https://docs.aivax.net/pt-br/docs/data-processing/text-segmentation.md), [Traduções](https://docs.aivax.net/pt-br/docs/data-processing/translations.md), [Descrições de mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md) e [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md).
+Os limites de classificação, extração, resumo e segmentação contam cada item na matriz `documents` da solicitação, não cada solicitação HTTP; extração e resumo compartilham uma cota. O refinamento de instrução compartilha essa cota e conta cada item em sua matriz `context`. Os limites de tradução, descrição de mídia e decisão semântica contam solicitações HTTP. Uma solicitação de decisão semântica consome uma unidade independentemente de quantas perguntas ela contém ou qual modelo de decisão ela seleciona, e o uso de decisão incluído ainda consome unidades de solicitação. Consulte [Classificação](https://docs.aivax.net/pt-br/docs/data-processing/classification.md), [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md), [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md), [Refinamento de Instrução](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md), [Segmentação de texto](https://docs.aivax.net/pt-br/docs/data-processing/text-segmentation.md), [Traduções](https://docs.aivax.net/pt-br/docs/data-processing/translations.md), [Descrições de mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md) e [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md).
 
 ### Fala
 
 | Limite | Gratuito | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| Solicitações standalone de texto para fala | 3/min e 40/hora | 20/min | 100/min | 300/min |
-| Solicitações standalone de transcrição de áudio | 3/min e 40/hora | 20/min | 100/min | 300/min |
+| Solicitações autônomas de texto para fala | 3/min e 40/hora | 20/min | 100/min | 300/min |
+| Solicitações autônomas de transcrição de áudio | 3/min e 40/hora | 20/min | 100/min | 300/min |
 
-Texto para fala e transcrição têm cotas separadas com os mesmos valores. [Sessões de Voz](https://docs.aivax.net/pt-br/docs/inference/voice-session.md) não estão sujeitas a essas cotas standalone. Veja [Texto para fala](https://docs.aivax.net/pt-br/docs/generations/speech.md) e [Fala para texto](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md).
+Texto para fala e transcrição têm cotas separadas com os mesmos valores. [Sessões de Voz](https://docs.aivax.net/pt-br/docs/inference/voice-session.md) não estão sujeitas a essas cotas autônomas. Consulte [Texto para fala](https://docs.aivax.net/pt-br/docs/generations/speech.md) e [Fala para texto](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md).
 
 ### Ferramentas integradas e pesquisa na web
 
@@ -1049,7 +1051,7 @@ Texto para fala e transcrição têm cotas separadas com os mesmos valores. [Ses
 | Ações gerais de serviço | 30/dia | 2.500/dia | 30.000/dia | 100.000/dia |
 | Comandos Bash | 300/hora | 30.000/hora | 100.000/hora | — |
 
-As ações gerais de serviço compartilham uma cota diária. O limite de geração de imagens é uma cota diária compartilhada pela ferramenta integrada, pela [API de geração de imagens](https://docs.aivax.net/pt-br/docs/generations/images.md) e pelo [MCP de geração de mídia](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md); cada solicitação conta uma vez, independentemente do número de imagens solicitadas. Veja [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md), [Pesquisa na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md) e [Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md).
+As ações gerais de serviço compartilham uma cota diária. O limite de geração de imagens é uma cota diária compartilhada pela ferramenta integrada, pela [API de geração de imagens](https://docs.aivax.net/pt-br/docs/generations/images.md) e pelo [MCP de geração de mídia](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md); cada solicitação conta uma vez, independente do número de imagens solicitadas. Consulte [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md), [Pesquisa na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md) e [Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md).
 
 ### Lote e Testes Agentic
 
@@ -1059,36 +1061,36 @@ As ações gerais de serviço compartilham uma cota diária. O limite de geraç�
 | Novas execuções de Teste Agentic | 5/min | 20/min | 100/min | — |
 | Execuções simultâneas de Teste Agentic | 1 | 4 | 6 | 8 |
 
-Se o processamento em lote for pausado devido à cota, ele retoma após a reinicialização da janela. Execuções manuais, execuções agendadas e avaliações diretas compartilham uma nova cota de execução. Veja [Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md#limits) e [Testes Agentic](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md#pricing-and-limits).
+Se o processamento em lote for pausado devido à cota, ele retoma após a reinicialização da janela. Execuções manuais, execuções agendadas e avaliações diretas compartilham uma nova cota de execução. Consulte [Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md#limits) e [Testes Agentic](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md#pricing-and-limits).
 
-## Cotas diárias de assinatura incluídas
+## Cotias diárias de assinatura incluídas
 
 Cada plano inclui cotas diárias separadas para os serviços abaixo. Cada comparação refere-se ao mesmo serviço no plano Gratuito, não a um saldo de crédito compartilhado ou a um número garantido de solicitações. A cota não utilizada de um serviço não pode cobrir outro. Contas personalizadas não recebem cotas de assinatura.
 
 | Serviço incluído | Gratuito | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| Incorporações de pesquisa e inserção RAG | 10.000 tokens | 15× Gratuito | 50× Gratuito | 100× Gratuito |
+| Embeddings de pesquisa e inserção RAG | 10.000 tokens | 15× Gratuito | 50× Gratuito | 100× Gratuito |
 | Reranking com Reflex | 2.000 tokens de entrada | 4× Gratuito | 20× Gratuito | 50× Gratuito |
 | Decisões semânticas com modelos elegíveis | 20.000 tokens de entrada | 2× Gratuito | 3× Gratuito | 5× Gratuito |
 | Busca e extração OCR | 1.000 PUs | 8× Gratuito | 25× Gratuito | 50× Gratuito |
 
-As pesquisas RAG e as inserções de documentos compartilham a cota de incorporação. Ela não cobre geração de respostas, processamento de mídia, extração ou resumo de documentos, classificação de texto ou segmentação. Uma incorporação de consulta servida do cache não a consome. O Reflex usa uma cota de reranking separada que inclui tanto a entrada em cache quanto a não emcache. A cota de decisão semântica cobre apenas modelos de decisão elegíveis; veja [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#usage-and-cost). A conversão JSON opcional da Busca é separada da cota de extração.
+As pesquisas RAG e as inserções de documentos compartilham a cota de embedding. Ela não cobre geração de respostas, processamento de mídia, extração ou resumo de documentos, classificação de texto ou segmentação. Um embedding de consulta servido do cache não o consome. O Reflex usa uma cota de reranking separada que inclui entradas em cache e não em cache. A cota de decisão semântica cobre apenas modelos de decisão elegíveis; consulte [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#usage-and-cost). A conversão JSON opcional da Busca é separada da cota de extração.
 
-A cobertura é avaliada para cada item de serviço medido: a incorporação de um documento, a incorporação individual de um termo de consulta, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas taxas normais. Os itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As cotas atuais permitem uma margem de 10% acima de sua capacidade base. Um item que excederia essa margem deixa a cota inalterada e é cobrado normalmente. Uma solicitação pode conter vários itens, então alguns podem ser incluídos enquanto outros são cobrados.
+A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas taxas normais. Os itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As cotas atuais permitem uma margem de 10% acima de sua capacidade base. Um item que excederia essa margem deixa a cota inalterada e é cobrado normalmente. Uma solicitação pode conter vários itens, então alguns podem ser incluídos enquanto outros são cobrados.
 
-As cotas diárias são redefinidas à meia-noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de redefinição; o uso pode exceder 100% dentro da margem. Essas cotas diárias não cobrem a inferência de modelos de texto; os modelos de assinatura usam uma [cota mensal](#monthly-subscription-model-quota) separada, e a inferência com outros modelos é medida contra o saldo da conta. As cotas não contornam os requisitos de saldo ou os limites de taxa. Veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) para saber como os itens não cobertos são faturados. Para um tutorial sobre testar um pipeline de recuperação dentro dessas cotas, veja [API RAG Gratuita na AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+As cotas diárias são redefinidas à meia-noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de reinicialização; o uso pode exceder 100% enquanto estiver dentro da margem. Essas cotas diárias não cobrem a inferência de modelos de texto; os modelos de assinatura usam uma [cota mensal](#monthly-subscription-model-quota) separada, e a inferência com outros modelos é medida contra o saldo da conta. As cotas não contornam os requisitos de saldo ou os limites de taxa. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) para saber como os itens não cobertos são faturados. Para um tutorial sobre testar um pipeline de recuperação dentro dessas cotas, consulte [API RAG Gratuita na AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
-## Cota mensal de modelo de assinatura
+## Cota mensal de modelos de assinatura
 
-Pro, Max e Ultimate incluem uma cota mensal para modelos de assinatura. Os planos Gratuito e Personalizado não a incluem. A cota é renovada no início de cada mês civil. Todos os modelos de assinatura a compartilham. Max inclui 5× a cota Pro, e Ultimate inclui 12,5× a cota Pro. Para os modelos disponíveis e o uso que cada plano inclui, veja [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
+Pro, Max e Ultimate incluem uma cota mensal para modelos de assinatura. Os planos Gratuito e Personalizado não a incluem. A cota é renovada no início de cada mês civil. Todos os modelos de assinatura a compartilham. Max inclui 5× a cota Pro, e Ultimate inclui 12,5× a cota Pro. Para os modelos disponíveis e o uso que cada plano inclui, consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
 
-Os modelos de assinatura são os modelos do catálogo cujos nomes começam com `@aivax-subscription/`. Usá-los nunca debitam o saldo da conta, e eles não têm preços por token. Todo e qualquer outro modelo é medido contra o saldo como de costume. Para diferenciá-los, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`.
+Os modelos de assinatura são os modelos do catálogo cujos nomes começam com `@aivax-subscription/`. Usá-los nunca debita o saldo da conta, e eles não têm preços por token. Todo os outros modelos são medidos contra o saldo como de costume. Para diferenciá-los, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`.
 
-Quando a cota é esgotada, ou o plano não possui nenhuma, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests` com uma mensagem de que a cota do modelo de assinatura foi esgotada. A solicitação não é roteada para um modelo fora da assinatura. Nos planos com a cota, as solicitações têm sucesso novamente após sua renovação no próximo mês; até lá, selecione outro modelo ou mude para um plano que o inclua.
+Quando a cota é esgotada, ou o plano não tem nenhuma, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests` com uma mensagem de que a cota do modelo de assinatura foi esgotada. A solicitação não é roteada para um modelo fora da assinatura. Nos planos com a cota, as solicitações têm sucesso novamente após a renovação no próximo mês; até lá, selecione outro modelo ou mude para um plano que o inclua.
 
-A taxa na qual cada modelo de assinatura consome a cota é dinâmica e pode mudar diariamente. Veja [Taxa de consumo](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md#consumption-rate).
+A taxa na qual cada modelo de assinatura consome a cota é dinâmica e pode mudar diariamente. Consulte [Taxa de consumo](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md#consumption-rate).
 
-A resposta do saldo da conta relata a cota apenas como uma porcentagem usada, em um consumo de assinatura do tipo `InferenceMonthly`. `planLimits.includesSubscriptionModels` é `true` nos planos que incluem a cota. Veja [Obter Saldo da Conta](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
+A resposta do saldo da conta relata a cota apenas como uma porcentagem usada, em um consumo de assinatura do tipo `InferenceMonthly`. `planLimits.includesSubscriptionModels` é `true` nos planos que incluem a cota. Consulte [Obter Saldo da Conta](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
 
 ## Estimando PUs e tokens
 
@@ -1096,7 +1098,7 @@ O uso é medido em unidades de processamento (PUs) ou tokens, dependendo do serv
 
 **Unidades de processamento de Busca e OCR**
 
-| Conteúdo | PUs Aproximados |
+| Conteúdo | PUs aproximados |
 | --- | --- |
 | Arquivo de texto simples ou Markdown | 0 |
 | PDF ou DOCX de texto nativo, 10 páginas | ≈ 1 (mínimo de 1 PU por item) |
@@ -1108,15 +1110,15 @@ Páginas nativas são convertidas a partir de sua camada de texto e custam quase
 
 **Tokens**
 
-| Conteúdo | Tokens Aproximados |
+| Conteúdo | Tokens aproximados |
 | --- | --- |
-| Consulta de pesquisa RAG, como "como redefinir minha senha se perdi acesso ao meu e-mail?" | ≈ 10–30 |
+| Consulta de pesquisa RAG, como "como redefino minha senha se perdi o acesso ao meu e-mail?" | ≈ 10–30 |
 | Uma página de texto em inglês, cerca de 500 palavras | ≈ 650–750 |
 | Chunk de documento RAG de 1.500 caracteres | ≈ 350–400 |
 | Reranking Reflex de 50 candidatos com cerca de 300 tokens cada | ≈ 15.000–16.000, já que a consulta é pontuada com cada candidato |
 | Um livro de 300 páginas, cerca de 300 palavras por página | ≈ 110.000–130.000 |
 
-As estimativas de tokens assumem texto em inglês, onde um token é cerca de quatro caracteres ou três quartos de uma palavra. Português, espanhol e outros idiomas acentuados geralmente precisam de 20–50% mais tokens para o mesmo conteúdo; código, JSON e scripts não latinos podem precisar de mais. Uma incorporação de consulta servida do cache não é cobrada, e nas conclusões de chat o histórico de conversa e as instruções do sistema são enviados novamente a cada turno.
+As estimativas de tokens assumem texto em inglês, onde um token é cerca de quatro caracteres ou três quartos de uma palavra. Português, espanhol e outros idiomas com acentos geralmente precisam de 20–50% mais tokens para o mesmo conteúdo; código, JSON e scripts não latinos podem precisar de mais. Um embedding de consulta servido do cache não é cobrado, e nas conclusões de chat, o histórico de conversas e as instruções do sistema são enviados novamente a cada turno.
 
 ## Chaves de API públicas
 
@@ -1132,7 +1134,7 @@ Chaves públicas têm limites adicionais independentes do plano da conta.
 | Por endereço remoto | 100.000/5min, 500.000/30min, 2.000.000/6h, 5.000.000/dia |
 | Global por chave | 500.000/5min, 2.000.000/30min, 10.000.000/6h, 25.000.000/dia |
 
-Chaves públicas podem ser usadas para conclusões de chat, os endpoints `/api/v1/generations/*`, pesquisa semântica RAG e geração de respostas RAG. Para conclusões de chat, as chaves públicas também exigem um UUID completo do Gateway AI, restringem parâmetros de solicitação e omitem superfícies de ferramentas do lado do servidor. Veja [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md).
+Chaves públicas podem ser usadas para conclusões de chat, os endpoints `/api/v1/generations/*`, pesquisa semântica RAG e geração de respostas RAG. Para conclusões de chat, chaves públicas também exigem um UUID completo do AI Gateway, restringem parâmetros de solicitação e omitem superfícies de ferramentas do lado do servidor. Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md).
 
 ---
 
@@ -3171,7 +3173,7 @@ Vários caches afetam uma solicitação de inferência. O cache de prompt reduz 
 
 ## Cache de prompt
 
-Provedores que suportam cache de prompt reutilizam o processamento de um prefixo de solicitação idêntico. Os tokens de entrada em cache são cobrados à taxa de cache do modelo, que é inferior à sua taxa de entrada. As taxas por modelo estão listadas na página **Models** (Modelos) do painel e em `GET /v1/models`.
+Provedores que suportam cache de prompt reutilizam o processamento de um prefixo de solicitação idêntico. Os tokens de entrada em cache são cobrados à taxa de cache do modelo, que é inferior à sua taxa de entrada. As taxas por modelo estão listadas na página **Models** do painel e em `GET /v1/models`.
 
 A resposta relata a entrada em cache separadamente:
 
@@ -3190,24 +3192,26 @@ A resposta relata a entrada em cache separadamente:
 
 `prompt_tokens` conta apenas a entrada não em cache. Adicione `prompt_tokens_details.cached_tokens` a ele para obter o tamanho total da entrada.
 
-Envie `prompt_cache_key` para agrupar solicitações que compartilham um prefixo, como as solicitações de um gateway ou de um usuário; a AIVAX encaminha esse valor ao provedor. Provedores que não o suportam ignoram-no.
+Envie `prompt_cache_key` para agrupar solicitações que compartilham um prefixo, como as solicitações de um gateway ou de um usuário; a AIVAX o encaminha ao provedor. Provedores que não o suportam ignoram-no.
+
+Quando a AIVAX chama um provedor por meio da API Responses, as mensagens do sistema e do desenvolvedor vão no início de `input`, portanto, permanecem em cache no GPT-6.2, onde `instructions` de nível superior nunca é armazenado em cache. Veja [por que a taxa de acerto do cache de prompt é baixa](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ### Mantenha o prefixo estável
 
-O cache corresponde apenas a um prefixo idêntico, portanto, coloque conteúdo estável no início e conteúdo variável no final:
+O cache corresponde apenas a um prefixo idêntico, portanto, coloque conteúdo estável primeiro e conteúdo variável por último:
 
-- Mantenha as instruções do sistema, definições de ferramentas e listas de habilidades inalteradas entre as solicitações. As instruções do gateway são um prefixo estável por padrão; fontes de instrução remota alteram isso sempre que seu conteúdo muda.
-- Não coloque carimbos de data/hora, IDs de solicitação ou valores específicos do usuário nas instruções do sistema. Envie-os na última mensagem do usuário ou em `metadata`.
-- Anexe novas mensagens ao final do histórico em vez de reescrever as anteriores. O [truncamento de contexto](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md#context-window-and-truncation) e o [truncamento de mensagens de ferramenta](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md#tool-message-truncation) reescrevem mensagens anteriores e reduzem as acertos do cache.
-- Documentos RAG recuperados são inseridos na última mensagem do usuário, portanto, eles não quebram o prefixo das mensagens anteriores.
+- Mantenha as instruções do sistema, definições de ferramentas e listas de habilidades inalteradas entre as solicitações. As instruções do gateway são um prefixo estável por padrão; fontes de instrução remota alteram-no sempre que seu conteúdo muda.
+- Não coloque carimbos de data/hora, IDs de solicitação ou valores específicos do usuário nas instruções do sistema. Envie-os na mensagem mais recente do usuário ou em `metadata`.
+- Anexe novas mensagens ao final do histórico em vez de reescrever as anteriores. [Truncamento de contexto](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md#context-window-and-truncation) e [truncamento de mensagens de ferramenta](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md#tool-message-truncation) reescrevem mensagens anteriores e reduzem os acertos do cache.
+- Documentos RAG recuperados são inseridos na mensagem mais recente do usuário, portanto, eles não quebram o prefixo das mensagens anteriores.
 
-Para verificar a taxa de acerto do cache no seu próprio uso, consulte [por que a taxa de acerto do cache de prompt é baixa](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+Para verificar a taxa de acerto no seu próprio uso, consulte [por que a taxa de acerto do cache de prompt é baixa](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ## Resultados de pré-processamento multimodal
 
-Os resultados do [pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md) são armazenados em cache por conteúdo e mecanismo. Quando a mesma mídia é resolvida novamente com o mesmo mecanismo, a AIVAX reutiliza a descrição e não cobra por ela novamente. Alterar o mecanismo processa e cobra pelo conteúdo novamente.
+Os resultados do [pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md) são armazenados em cache por conteúdo e mecanismo. Quando a mesma mídia é resolvida novamente com o mesmo mecanismo, a AIVAX reutiliza a descrição e não a cobra novamente. Alterar o mecanismo processa e cobra o conteúdo novamente.
 
-Isso é importante quando você reenvia o histórico completo: uma imagem anexada na primeira interação não é descrita novamente em cada interação posterior.
+Isso importa quando você reenvia o histórico completo: uma imagem anexada na primeira interação não é descrita novamente em cada interação posterior.
 
 ## Definições remotas
 
@@ -3217,15 +3221,15 @@ A AIVAX armazena em cache recursos que um gateway busca em seus servidores:
 | --- | --- | --- |
 | [Fontes de instrução remota](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#instructions) | 600 segundos | 0 a 86.400 segundos por fonte |
 | Listas de ferramentas [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md), instruções do servidor e habilidades remotas | 600 segundos | `cacheDuration`, 0 a 86.400 segundos |
-| [Fontes de funções de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) | 10 minutos | Não |
+| [Fontes de função de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) | 10 minutos | Não |
 
-Uma falha na busca de uma fonte de instrução remota é armazenada em cache por no máximo 30 segundos, para que uma interrupção temporária seja resolvida rapidamente. Chamadas de ferramentas nunca são armazenadas em cache: toda chamada de ferramenta MCP ou função de protocolo chega ao seu servidor.
+Uma falha na busca de uma fonte de instrução remota é armazenada em cache por no máximo 30 segundos, para que uma interrupção temporária seja resolvida rapidamente. Chamadas de ferramentas nunca são armazenadas em cache: toda chamada de ferramenta MCP ou função de protocolo atinge seu servidor.
 
 Reduza a duração do cache enquanto desenvolve uma fonte e aumente-a em produção para reduzir as solicitações ao seu servidor e a latência da primeira chamada.
 
 ## Estado da ferramenta no lado do servidor
 
-As chamadas de ferramentas e os resultados das interações recentes no lado do servidor são mantidos por uma hora após o último uso, para que uma solicitação com o mesmo `conversation_token` possa restaurá-los. Este é um estado de conversa, não um cache de resposta: a AIVAX nunca retorna uma resposta armazenada para uma solicitação repetida. Consulte [Reutilização de sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md).
+As chamadas de ferramentas e os resultados das interações recentes mantidos no lado do servidor são preservados por uma hora após seu último uso, para que uma solicitação com o mesmo `conversation_token` possa restaurá-los. Este é um estado de conversa, não um cache de resposta: a AIVAX nunca retorna uma resposta armazenada para uma solicitação repetida. Consulte [Reutilização de sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md).
 
 ---
 
@@ -4043,9 +4047,9 @@ Source: https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.html
 
 Alguns modelos integrados estão disponíveis por meio de mais de um provedor. O roteamento de provedores permite que o AIVAX escolha entre esses provedores sem alterar o modelo solicitado pelo seu aplicativo. Isso difere do [roteamento de modelos](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md#model-routing), que pode selecionar um modelo diferente com base na complexidade da solicitação.
 
-O AIVAX considera os provedores que estão atualmente disponíveis e compatíveis com a solicitação. Se apenas um provedor for elegível, a preferência de roteamento não altera o resultado. Quando o provedor selecionado falha antes de começar a responder, o AIVAX tenta novamente a solicitação em outro provedor elegível. Provedores com falhas recentes são classificados com prioridade menor, e provedores que falham repetidamente são temporariamente excluídos do roteamento. O roteamento de provedores aplica-se apenas aos modelos integrados do AIVAX; uma gateway de chave própria (bring-your-own-key) usa o endpoint do provedor configurado nessa gateway.
+O AIVAX considera os provedores que estão atualmente disponíveis e compatíveis com a solicitação. Se apenas um provedor for elegível, a preferência de roteamento não altera o resultado. Quando o provedor selecionado falha antes de começar a responder, o AIVAX tenta novamente a solicitação em outro provedor elegível. Provedores com falhas recentes são classificados com prioridade menor, e provedores que falham repetidamente são temporariamente excluídos do roteamento. O roteamento de provedores aplica-se apenas aos modelos integrados do AIVAX; um gateway bring-your-own-key (traga sua própria chave) usa o endpoint do provedor configurado nesse gateway.
 
-Você pode definir o roteamento em três locais, do mais geral ao mais específico: a [AI Gateway](#configure-routing-in-an-ai-gateway), um sufixo no [nome do modelo](https://docs.aivax.net/pt-br/docs/inference/routing/inline-routing.md) e a [solicitação](#override-routing-per-request). As configurações de privacidade da conta podem restringir ainda mais os provedores elegíveis; consulte [ZDR](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md) e [Provedores especiais](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md).
+Você pode definir o roteamento em três locais, do mais geral ao mais específico: no [AI Gateway](#configure-roteamento-em-um-ai-gateway), em um sufixo no [nome do modelo](https://docs.aivax.net/pt-br/docs/inference/routing/inline-routing.md) e na [solicitação](#substituir-roteamento-por-solicitação). As configurações de privacidade da conta podem restringir ainda mais os provedores elegíveis; consulte [ZDR](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md) e [Provedores especiais](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md).
 
 As preferências de roteamento disponíveis são:
 
@@ -4057,11 +4061,11 @@ As preferências de roteamento disponíveis são:
 | `Quality` | Seleciona o provedor que o AIVAX classifica como mais alto em qualidade, sem otimizar para preço ou velocidade. |
 | `Special` | Inclui [provedores especiais](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md) e seleciona o menor preço combinado aplicável de tokens de entrada e saída, quebrando empates pela disponibilidade relatada e depois por falhas recentes. |
 
-## Configurar roteamento em uma AI Gateway
+## Configurar roteamento em um AI Gateway
 
-Use uma AI Gateway quando o mesmo roteamento deve ser aplicado a todas as solicitações. No editor da gateway, selecione um modelo integrado, escolha a estratégia em **Preferência de roteamento**, liste as tags dos provedores em ordem em **Provedores permitidos** e salve a gateway.
+Use um AI Gateway quando o mesmo roteamento deve ser aplicado a todas as solicitações. No editor do gateway, selecione um modelo integrado, escolha a estratégia em **Preferência de roteamento**, liste as tags dos provedores em ordem em **Provedores permitidos** e salve o gateway.
 
-A configuração equivalente da gateway usa `parameters.routingOption` e `parameters.allowedProviders`:
+A configuração equivalente do gateway usa `parameters.routingOption` e `parameters.allowedProviders`:
 
 ```json
 {
@@ -4075,13 +4079,13 @@ A configuração equivalente da gateway usa `parameters.routingOption` e `parame
 }
 ```
 
-`allowedProviders` segue as mesmas regras que `routing_options.allowed_providers` abaixo. Ele assume o valor padrão `["*"]`, e uma lista vazia é rejeitada ao salvar a gateway.
+`allowedProviders` segue as mesmas regras que `routing_options.allowed_providers` abaixo. Ele assume o valor padrão `["*"]`, e uma lista vazia é rejeitada ao salvar o gateway.
 
-Após salvar, chame a gateway normalmente usando seu ID ou slug como `model`. O AIVAX aplica a preferência de roteamento armazenada enquanto preserva as instruções, ferramentas, configuração de RAG e outras configurações da gateway. Consulte [Usando uma AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md) para o fluxo de trabalho completo da gateway.
+Após salvar, chame o gateway normalmente usando seu ID ou slug como `model`. O AIVAX aplica a preferência de roteamento armazenada enquanto preserva as instruções do gateway, ferramentas, configuração de RAG e outras configurações. Consulte [Usando um AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md) para o fluxo de trabalho completo do gateway.
 
 ## Substituir roteamento por solicitação
 
-Use `routing_options` para escolher como os provedores são selecionados para uma única solicitação. A substituição funciona com um modelo integrado direto ou uma AI Gateway que usa um modelo integrado:
+Use `routing_options` para escolher como os provedores são selecionados para uma única solicitação. A substituição funciona com um modelo integrado direto ou com um AI Gateway que usa um modelo integrado:
 
 ```json
 {
@@ -4089,7 +4093,7 @@ Use `routing_options` para escolher como os provedores são selecionados para um
     "messages": [
         {
             "role": "user",
-            "content": "Summarize this incident report."
+            "content": "Resuma este relatório de incidente."
         }
     ],
     "routing_options": {
@@ -4105,22 +4109,22 @@ Use `routing_options` para escolher como os provedores são selecionados para um
 
 | Campo | Descrição |
 |---|---|
-| `preset` | Preferência de roteamento: `Balanced`, `Cheapest`, `Fastest`, `Quality` ou `Special`. Quando omitido, o `routingOption` salvo da gateway é usado. |
-| `allowed_providers` | Lista ordenada de tags de provedores. O AIVAX tenta a primeira tag e passa para a próxima apenas quando nenhum provedor correspondente está disponível ou é compatível com a solicitação. `"*"` corresponde a qualquer provedor. Quando omitido, o `allowedProviders` salvo da gateway é usado, que assume o valor padrão `["*"]`. |
+| `preset` | Preferência de roteamento: `Balanced`, `Cheapest`, `Fastest`, `Quality` ou `Special`. Quando omitido, o `routingOption` salvo no gateway é usado. |
+| `allowed_providers` | Lista ordenada de tags de provedores. O AIVAX tenta a primeira tag e passa para a próxima apenas quando nenhum provedor correspondente está disponível ou é compatível com a solicitação. `"*"` corresponde a qualquer provedor. Quando omitido, o `allowedProviders` salvo no gateway é usado, que assume o valor padrão `["*"]`. |
 
 Dentro de cada etapa, `preset` escolhe entre os provedores correspondentes. Sem `"*"` no final, a solicitação falha quando nenhum dos provedores listados está disponível. Uma lista vazia de `allowed_providers` é rejeitada. A correspondência de tags não diferencia maiúsculas de minúsculas.
 
-A tag de cada provedor é mostrada nos detalhes do provedor na página **Models** do painel, onde pode ser copiada, e retornada como `tag` na lista de provedores de `GET /v1/models`. Uma tag identifica um endpoint de provedor, incluindo sua região ou variante, quando existe, como `azure-us` ou `azure-eu`.
+A tag de cada provedor é mostrada nos detalhes do provedor na página **Modelos** do painel, onde pode ser copiada, e retornada como `tag` na lista de provedores de `GET /v1/models`. Uma tag identifica um endpoint de provedor, incluindo sua região ou variante, quando existe, como `azure-us` ou `azure-eu`.
 
-`GET /v1/models` aceita um parâmetro de consulta opcional `filter` com um nome de modelo, como `?filter=@openai/gpt-4o`. A resposta contém então apenas as entradas cujo nome seja igual a ele ou seja uma versão instantânea datada dele (um sufixo numérico final de pelo menos quatro dígitos), ordenadas da correspondência mais próxima, com a versão mais nova primeiro. Sem `filter`, a lista completa é retornada. Consulte [Modelos descontinuados](#deprecated-models) para saber como distinguir um modelo atual de um antigo.
+`GET /v1/models` aceita um parâmetro de consulta `filter` opcional com um nome de modelo, como `?filter=@openai/gpt-4o`. A resposta contém então apenas entradas cujo nome seja igual a ele ou uma versão datada dele (um sufixo numérico final de pelo menos quatro dígitos), ordenadas da correspondência mais próxima, com a versão mais recente primeiro. Sem `filter`, a lista completa é retornada. Consulte [Modelos descontinuados](#modelos-descontinuados) para saber como distinguir um modelo atual de um antigo.
 
-Os valores da solicitação substituem o roteamento salvo da gateway apenas para essa solicitação; eles não atualizam a gateway. Como `routing_options` é uma extensão do AIVAX, envie-o como um campo extra no corpo da solicitação ao usar um SDK compatível com OpenAI.
+Os valores da solicitação substituem o roteamento salvo do gateway apenas para essa solicitação; eles não atualizam o gateway. Como `routing_options` é uma extensão do AIVAX, envie-o como um campo extra no corpo da solicitação ao usar um SDK compatível com OpenAI.
 
 O campo anterior `routing_preset` está descontinuado, mas ainda é aceito. Substitua `"routing_preset": "Fastest"` por `"routing_options": { "preset": "Fastest" }`. Quando ambos são enviados, `routing_options.preset` tem precedência.
 
 ## Provedor nas respostas
 
-As respostas para modelos integrados incluem um campo `provider` ao lado de `model` com a tag do provedor que atendeu à solicitação. Nas respostas em streaming, todos os chunks o incluem. O campo é `null` para gateways que usam suas próprias credenciais de provedor.
+As respostas para modelos integrados incluem um campo `provider` ao lado de `model` com a tag do provedor que atendeu à solicitação. Nas respostas em streaming, cada chunk inclui esse campo. O campo é `null` para gateways que usam suas próprias credenciais de provedor.
 
 ```json
 {
@@ -4135,7 +4139,9 @@ Se um provedor falhar e o AIVAX tentar novamente a solicitação em outro proved
 
 ## Modelos descontinuados
 
-Use `_details.provider_model.is_deprecated` em `GET /v1/models` quando precisar preferir um modelo integrado atual. Ele é `true` quando o modelo é marcado como descontinuado ou quando tem uma data de lançamento mais de 12 meses antes do dia atual. Um modelo sem data de lançamento não é marcado como descontinuado apenas por idade. A flag não remove o modelo da lista por si só.
+Use `_details.provider_model.is_deprecated` em `GET /v1/models` quando precisar preferir um modelo integrado atual. Ele será `true` quando o modelo estiver marcado como descontinuado ou quando tiver uma data de lançamento mais de 12 meses antes do dia atual. Um modelo sem data de lançamento não é marcado como descontinuado apenas por idade. A flag não remove o modelo da lista por si só.
+
+Um provedor também pode redirecionar um ID aposentado para outro modelo em vez de rejeitá-lo, como a API Gemini faz para Gemini 2.5 Pro e Flash a partir de 1º de dezembro de 2026. Consulte [fixar um ID de modelo versus usar um alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/).
 
 ---
 
@@ -11082,177 +11088,183 @@ Source: https://docs.aivax.net/pt-br/docs/legal/changelogs.html
 
 Alterações técnicas que afetam os produtos, serviços ou a API pública da AIVAX. As datas indicam quando as entradas foram adicionadas ou atualizadas, não sendo datas confirmadas de lançamento em produção. Cada item identifica o produto ou serviço afetado; manutenções sem impacto visível ao usuário são omitidas.
 
-Esta página lista as alterações dos últimos 14 dias. Entradas mais antigas estão mantidas no [arquivo de changelogs](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+Esta página lista as alterações dos últimos 14 dias. Entradas mais antigas são mantidas no [arquivo de changelogs](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Thursday, November 19th, 2026
+
+Alterações:
+
+- **RAG — Limites de documentos por conta e por coleção.** Cada plano agora limita o número de documentos armazenados por conta e por coleção: Free 2.000 por conta e 1.000 por coleção, Pro 200.000 e 50.000, Max 250.000 por conta sem limite de coleção, e Ultimate 500.000 por conta sem limite de coleção. Apenas a criação de novos documentos conta; atualizações ou reindexação de documentos existentes não são afetadas. Quando um limite é atingido, a criação de documentos falha com `400 Bad Request`, incluindo através de importações, ferramentas MCP, memórias e o Media Injector. Exclua documentos ou faça upgrade do plano para continuar; consulte [Plans and Limits](https://docs.aivax.net/pt-br/docs/limits.md#rag-and-collections).
 
 ## Wednesday, November 18th, 2026
 
-Mudanças incompatíveis (Breaking changes):
+Alterações incompatíveis (Breaking changes):
 
-- **Models — Campos do modelo de assinatura.** `GET /api/v1/information/models.json` não retorna mais `pricing[].subscriptionMultiplier` e agora retorna `flags.isSubscription`. Em `GET /v1/models`, `_details.provider_model.subscription_multiplier` foi substituído pelo booleano `_details.provider_model.subscription`. Modelos de assinatura retornam arrays de preço vazios. Atualize clientes que leem os campos removidos para usar os novos; veja [Models and gateway names](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md).
-- **Audio transcriptions — Grok STT 1.0 removido.** `@x-ai/grok-stt-1.0` (também aceito como `x-ai/grok-stt-1.0`) atingiu o fim da vida útil e não está mais disponível; solicitações que o nomeiam falham agora. `@x-ai/grok-stt-2.0` o substitui como o modelo padrão de fala para texto (speech-to-text) ao mesmo preço de $0,10 por hora. Atualize solicitações que nomeiam o modelo antigo para usar `@x-ai/grok-stt-2.0`, ou omita o modelo para usar o padrão; veja [Audio transcriptions](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md).
+- **Models — Campos do modelo de assinatura.** `GET /api/v1/information/models.json` já não retorna `pricing[].subscriptionMultiplier` e agora retorna `flags.isSubscription`. Em `GET /v1/models`, `_details.provider_model.subscription_multiplier` foi substituído pelo booleano `_details.provider_model.subscription`. Modelos de assinatura retornam arrays de preços vazios. Atualize clientes que leem os campos removidos para usar os novos; consulte [Models and gateway names](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md).
+- **Audio transcriptions — Grok STT 1.0 removido.** `@x-ai/grok-stt-1.0` (também aceito como `x-ai/grok-stt-1.0`) chegou ao fim da vida útil e não está mais disponível; solicitações que o nomeiam agora falham. `@x-ai/grok-stt-2.0` o substitui como o modelo padrão de fala-para-texto ao mesmo preço de $0,10 por hora. Atualize solicitações que nomeiam o modelo antigo para usar `@x-ai/grok-stt-2.0`, ou omita o modelo para usar o padrão; consulte [Audio transcriptions](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md).
 
-Correções (Fixes):
+Correções:
 
-- **Speech — Preços do ElevenLabs v3 e Multilingual v2.** `@elevenlabs/eleven-v3` e `@elevenlabs/eleven-multilingual-v2` agora custam $0,04 por 1.000 caracteres, uma redução de $30, corrigindo um erro de precificação. Os rótulos de preço no painel para esses modelos e para o GPT-4o mini TTS agora correspondem ao valor cobrado.
+- **Speech — Preços do ElevenLabs v3 e Multilingual v2.** `@elevenlabs/eleven-v3` e `@elevenlabs/eleven-multilingual-v2` agora custam $0,04 por 1.000 caracteres, uma redução de $30, corrigindo um erro de precificação. Os rótulos de preço no painel para esses modelos e GPT-4o mini TTS agora correspondem ao valor cobrado.
 
 - **Models — Busca de modelos por ID com prefixo do fornecedor.** O filtro `name` em `GET /api/v1/information/models.json` e o parâmetro `filter` em `GET /v1/models` agora reconhecem nomes como `minimax-m3.1-flash` para `@minimax/m3.1-flash` sem tratar `flash` e `flash-lite` como o mesmo modelo.
 
-Alterações (Changes):
+Alterações:
 
-- **Account — Cota mensal para modelos de assinatura.** Pro, Max e Ultimate agora incluem uma cota mensal para modelos de assinatura, cujos nomes começam com `@aivax-subscription/`, renovada no início de cada mês civil. O uso desses modelos nunca debita o saldo da conta; outros modelos ainda são cobrados no saldo. Planos Free e Custom não têm cota. Quando a cota é esgotada, ou o plano não possui nenhuma, solicitações a modelos de assinatura retornam `429 Too Many Requests` até a renovação no próximo mês. A resposta do saldo da conta relata a cota como uma porcentagem usada em um consumo de assinatura do tipo `InferenceMonthly`, e `planLimits.includesSubscriptionModels` é `true` nos planos que o incluem. O multiplicador de assinatura de modelo anterior não se aplica mais. A nova página [Subscription models](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md) lista os modelos disponíveis, suas janelas de contexto e o uso que cada plano inclui como equivalente aos preços do catálogo, além de descrever a taxa de consumo dinâmica, disponibilidade e retenção de dados desses modelos. Modelos de assinatura não possuem retenção zero de dados e falham quando **Zero data retention providers only** está habilitado.
+- **Account — Cota mensal para modelos de assinatura.** Pro, Max e Ultimate agora incluem uma cota mensal para modelos de assinatura, cujos nomes começam com `@aivax-subscription/`, renovada no início de cada mês civil. Usar esses modelos nunca debita o saldo da conta; outros modelos ainda são cobrados no saldo. Planos Free e Custom não têm cota. Quando a cota se esgota, ou o plano não possui nenhuma, solicitações a modelos de assinatura retornam `429 Too Many Requests` até a renovação no próximo mês. A resposta do saldo da conta relata a cota como uma porcentagem usada em um consumo de assinatura do tipo `InferenceMonthly`, e `planLimits.includesSubscriptionModels` é `true` nos planos que o incluem. O multiplicador de assinatura de modelo anterior já não se aplica. A nova página [Subscription models](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md) lista os modelos disponíveis, suas janelas de contexto e o uso que cada plano inclui como equivalente aos preços do catálogo, e descreve a taxa de consumo dinâmica, disponibilidade e retenção de dados desses modelos. Modelos de assinatura não possuem retenção de dados zero e falham quando **Zero data retention providers only** está habilitado.
 - **Summarization and Extraction — URLs de PDF.** O provedor agora busca um PDF diretamente quando a parte `file` tem uma URL HTTP(S) pública cujo caminho termina em `.pdf`, ou um `filename` terminando em `.pdf`. Esses downloads usam os limites de arquivo do provedor. Os campos de solicitação existentes ainda funcionam.
-- **Audio transcriptions — Novos modelos e menor preço do Parakeet.** Adicionado `@nvidia/nemotron-3.5-transcribe` ($0,001 por minuto, gravações de até uma hora, 40 idiomas) e `@qwen/qwen3-asr-1.7b` ($0,027 por hora). `@nvidia/parakeet-tdt-0.6b-v3` agora custa $0,001 por minuto, reduzido de $0,0015.
-- **Speech — Speechify Simba 3.5 e preços atualizados.** Adicionado `@speechify/simba-3.5`, um modelo de texto para fala (text-to-speech) que cobre 48 idiomas, a $0,0075 por 1.000 caracteres, selecionável em AI Gateways, clientes de chat e no painel. `@fish-audio/drama-3` agora custa $0,01 por 1.000 caracteres, aumentado de $0,002, e `@elevenlabs/eleven-flash-v2.5` custa $0,02, aumentado de $0,01.
+- **Audio transcriptions — Novos modelos e menor preço do Parakeet.** Adicionado `@nvidia/nemotron-3.5-transcribe` ($0,001 por minuto, gravações de até uma hora, 40 idiomas) e `@qwen/qwen3-asr-1.7b` ($0,027 por hora). `@nvidia/parakeet-tdt-0.6b-v3` agora custa $0,001 por minuto, uma redução de $0,0015.
+- **Speech — Speechify Simba 3.5 e preços atualizados.** Adicionado `@speechify/simba-3.5`, um modelo de texto-para-fala que cobre 48 idiomas, a $0,0075 por 1.000 caracteres, selecionável em AI Gateways, clientes de chat e no painel. `@fish-audio/drama-3` agora custa $0,01 por 1.000 caracteres, um aumento de $0,002, e `@elevenlabs/eleven-flash-v2.5` custa $0,02, um aumento de $0,01.
 
 ## Tuesday, November 17th, 2026
 
-Correções (Fixes):
+Correções:
 
-- **Chat clients — Metadados de sessão em integrações de mensagens.** Respostas e mensagens agendadas do WhatsApp, Telegram e outras integrações de mensagens agora carregam os metadados da sessão para servidores MCP, funções de protocolo, workers de gateway e conversas armazenadas, assim como as sessões de web chat já faziam.
-- **Gateways — Chaves reservadas de metadados MCP.** Chaves de metadados personalizados começando com `_aiv` não fazem mais as chamadas de ferramenta MCP falharem. Elas são ignoradas, e os campos da AIVAX mantêm seus valores.
-- **Tools — Explicações de ferramentas não quebram mais chamadas MCP e de função de protocolo.** Com explicações de ferramentas habilitadas, a AIVAX agora remove `_tool_reason` e `_tool_goal` dos argumentos que envia para servidores MCP e callbacks de função de protocolo. Servidores MCP que rejeitam argumentos desconhecidos não falham mais nessas chamadas. Eventos `servertool` em streaming ainda incluem ambos os campos e `explanation`. Veja [Tool explanations](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
-- **Account — Contas inativas com saldo são mantidas.** Contas desativadas ou inativas não são mais excluídas pela limpeza agendada enquanto ainda possuem saldo.
-- **Models — Busca de modelo com sufixos.** O filtro `name` de `GET /api/v1/information/models.json` agora ignora uma tag de provedor `#` ou um sufixo de variante `:` e retorna o modelo base correspondente.
+- **Chat clients — Metadados de sessão em integrações de mensagens.** Respostas e mensagens agendadas do WhatsApp, Telegram e outras integrações de mensagens agora carregam os metadados da sessão para servidores MCP, funções de protocolo, workers de gateway e conversas salvas, assim como as sessões de web chat já faziam.
+- **Gateways — Chaves de metadados reservados do MCP.** Chaves de metadados personalizados começando com `_aiv` já não fazem chamadas de ferramenta MCP falharem. Elas são ignoradas, e os campos AIVAX mantêm seus valores.
+- **Tools — Explicações de ferramentas já não quebram chamadas MCP e de função de protocolo.** Com explicações de ferramentas habilitadas, a AIVAX agora remove `_tool_reason` e `_tool_goal` dos argumentos que envia para servidores MCP e callbacks de função de protocolo. Servidores MCP que rejeitam argumentos desconhecidos já não falham nessas chamadas. Eventos `servertool` em streaming ainda incluem ambos os campos e `explanation`. Consulte [Tool explanations](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
+- **Account — Contas inativas com saldo são mantidas.** Contas desativadas ou inativas não são mais excluídas pela limpeza agendada enquanto ainda mantêm um saldo.
+- **Models — Busca de modelos com sufixos.** O filtro `name` de `GET /api/v1/information/models.json` agora ignora uma tag de provedor `#` ou um sufixo de variante `:` e retorna o modelo base correspondente.
 
-Alterações (Changes):
+Alterações:
 
 - **Models — GPT-6.2 Astra e GPT-6.2 Sol.** Adiciona `@openai/gpt-6.2-astra`, `@openai/gpt-6.2-astra:pro`, `@openai/gpt-6.2-sol` e `@openai/gpt-6.2-sol:pro`, com raciocínio, entrada de imagem e arquivo, chamada de ferramentas e saída estruturada. `@model-router/openai:frontier` agora roteia para `@openai/gpt-6.2-astra` em vez de `@openai/gpt-6-astra`; selecione `@openai/gpt-6-astra` diretamente para manter o modelo anterior.
-- **Decisions — Liquid d1.2 e d1.2-ultra.** Adiciona `@liquid/d1.2` e `@liquid/d1.2-ultra`, com contexto de 64K, entrada de imagem e perguntas de sim/não, múltipla escolha e pontuação. `@liquid/d:latest` agora resolve para `@liquid/d1.2` em vez de `@liquid/d1.1`. Verifique os preços na [lista de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically).
-- **Gateways — Metadados em toda solicitação MCP.** A AIVAX agora envia o contexto de chamada e metadados personalizados em `params._meta` de toda solicitação a um servidor MCP, incluindo `initialize`, `tools/list`, `skills/list` e `resources/read`, não apenas `tools/call`. Os resultados de descoberta são armazenados em cache por contexto de chamada, então servidores MCP podem receber mais solicitações de descoberta do que antes. Veja [Metadata sent with MCP requests](https://docs.aivax.net/pt-br/docs/tools/mcp.md#metadata-sent-with-mcp-requests).
-- **Chat clients — Raciocínio e atividade de ferramentas no chat hospedado.** O chat web hospedado agora agrupa raciocínio e chamadas de ferramentas em blocos expansíveis com um resumo como "Thought, called web_search". Um bloco abre enquanto o modelo está trabalhando, rola dentro de uma altura fixa e colapsa quando a resposta começa; abrir ou fechar um bloco manualmente mantém esse estado. Enquanto uma ferramenta está em execução, a linha de status mostra a explicação da ferramenta em vez do genérico rótulo de pensamento. Resultados de ferramentas não são mostrados na conversa. Quando a **Visibilidade de chamada de ferramenta** (`showToolCalls`) está desligada, esses blocos ficam ocultos e apenas a linha de status permanece. Veja [Publish the hosted chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat) e [Tool explanations](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
+- **Decisions — Liquid d1.2 e d1.2-ultra.** Adiciona `@liquid/d1.2` e `@liquid/d1.2-ultra`, com janela de contexto de 64K, entrada de imagem e perguntas de sim/não, múltipla escolha e pontuação. `@liquid/d:latest` agora resolve para `@liquid/d1.2` em vez de `@liquid/d1.1`. Verifique os preços na [lista de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically).
+- **Gateways — Metadados em toda solicitação MCP.** A AIVAX agora envia o contexto de chamada e metadados personalizados em `params._meta` de toda solicitação a um servidor MCP, incluindo `initialize`, `tools/list`, `skills/list` e `resources/read`, não apenas `tools/call`. Resultados de descoberta são armazenados em cache por contexto de chamada, então servidores MCP podem receber mais solicitações de descoberta do que antes. Consulte [Metadata sent with MCP requests](https://docs.aivax.net/pt-br/docs/tools/mcp.md#metadata-sent-with-mcp-requests).
+- **Chat clients — Raciocínio e atividade de ferramentas no chat hospedado.** O web chat hospedado agora agrupa raciocínio e chamadas de ferramentas em blocos recolhíveis com um resumo como "Thought, called web_search". Um bloco abre enquanto o modelo trabalha, rola dentro de uma altura fixa e recolhe quando a resposta começa; abrir ou fechar um bloco manualmente mantém esse estado. Enquanto uma ferramenta executa, a linha de status mostra a explicação da ferramenta em vez do rótulo genérico de pensamento. Resultados de ferramentas não são mostrados na conversa. Quando a **Visibilidade de chamada de ferramenta** (`showToolCalls`) está desligada, esses blocos são ocultos e apenas a linha de status permanece. Consulte [Publish the hosted chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat) e [Tool explanations](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
 
 ## Monday, November 16th, 2026
 
-Correções (Fixes):
+Correções:
 
-- **Account — Recargas pagas com método de pagamento salvo.** Adicionar créditos não abre mais uma aba de navegador vazia quando um método de pagamento salvo liquida o pagamento imediatamente. O painel confirma o pagamento.
+- **Account — Recargas pagas com método de pagamento salvo.** Adicionar créditos já não abre uma aba de navegador vazia quando um método de pagamento salvo liquida o pagamento imediatamente. O painel confirma o pagamento.
 
-Alterações (Changes):
+Alterações:
 
-- **Account — Impostos brasileiros sobre pagamentos.** Novos pagamentos agora incluem impostos brasileiros, adicionados acima do valor devido: recargas de crédito, pagamentos e renovações de assinatura, e faturas emitidas pela equipe da AIVAX. O total cobrado é o valor dividido por (1 - 0,1333), o que corresponde a aproximadamente 11,33% do total em impostos sobre serviços e 2% em IOF. Por exemplo, um pagamento de assinatura de $19,00 cobra $21,92. Impostos não são adicionados ao saldo, e os preços listados dos planos não os incluem. Antes de confirmar uma recarga, o painel agora lista os créditos, a taxa de serviço, os impostos e o total cobrado. O valor devido mostrado para uma alteração de plano já inclui impostos, e os recibos listam cada imposto. Faturas criadas antes desta mudança mantêm seu valor. Veja [Taxes on payments](https://docs.aivax.net/pt-br/docs/pricing.md#taxes-on-payments).
+- **Account — Impostos brasileiros sobre pagamentos.** Novos pagamentos agora incluem impostos brasileiros, adicionados acima do valor devido: recargas de crédito, pagamentos e renovações de assinatura, e faturas emitidas pela equipe da AIVAX. O total cobrado é o valor dividido por (1 - 0,1333), o que corresponde a aproximadamente 11,33% de impostos sobre serviços e 2% de IOF no total. Por exemplo, um pagamento de assinatura de $19,00 cobra $21,92. Impostos não são adicionados ao saldo, e os preços listados dos planos não os incluem. Antes de confirmar uma recarga, o painel agora lista os créditos, a taxa de serviço, os impostos e o total cobrado. O valor devido mostrado para uma alteração de plano já inclui impostos, e os recibos listam cada imposto. Faturas criadas antes desta alteração mantêm seu valor. Consulte [Taxes on payments](https://docs.aivax.net/pt-br/docs/pricing.md#taxes-on-payments).
 - **Account — Faturas de serviço.** Quando a AIVAX emite uma fatura de serviço (nota fiscal de serviços) para um pagamento, você recebe uma notificação no painel e um e-mail, e a fatura ganha um link de download **Service invoice** na aba Invoices de Analytics. Dados de uso retornam o link em `serviceInvoiceLocation`, que é `null` até que a fatura de serviço seja emitida.
-- **Decisions — Entrada de conversa e mídia.** Solicitações de decisão agora aceitam `input`, um array de mensagens de conversa, em vez de `state`. Os dois campos são mutuamente exclusivos. A conversa torna-se o primeiro item de estado, e partes de imagem, áudio, vídeo e documento são avaliadas como mídia. Modelos que listam `audioinput`, `videoinput` ou `fileinput` na [lista de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically) aceitam essas partes; Gemini Decision 1 aceita todas as quatro. Veja [Send media](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#send-media).
-- **Routing — Etapas auxiliares permanecem em provedores de retenção zero de dados.** Moderação de conteúdo, roteador de complexidade, reescrita de consulta RAG (`UserRewrite` e `FullRewrite`), leitura resumida lida por clientes de chat com `summarizeTextBeforeAudioSynthesis`, reescrita de texto com instruções de voz para geração de fala e Media Injector agora sempre executam em um provedor de retenção zero de dados, mesmo quando **Zero data retention providers only** está desabilitado. Quando nenhum estiver disponível para uma dessas etapas, a solicitação falhará com um erro informando que nenhum provedor de retenção zero de dados está disponível, em vez de cair para outro provedor; tente novamente mais tarde. Apenas a moderação de conteúdo ainda avança para seus outros modelos. Essas etapas podem custar cerca de duas vezes mais do que antes, dependendo do provedor selecionado. Veja [Zero data retention providers only](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md).
-- **Analytics — Origem do custo e totais de pagamento no relatório mensal.** O relatório mensal agora divide o valor cobrado em custos de provedor, repassados de terceiros, e custos de serviço, cobrados diretamente pela AIVAX. Ele também soma os pagamentos confirmados no mês, com seus impostos e, quando disponíveis, o método de pagamento e suas taxas. Get Monthly Usage Report retorna esses totais em `providerCost`, `directServiceCost` e `payments`.
-- **RAG — Reranker Reflex v1.5.** O endpoint de rerank aceita `@aivax/reflex-v1.5`, uma opção de maior precisão para `@aivax/reflex-v1`. Ele classifica até 15.000 documentos por solicitação e retorna no máximo 50 resultados, então solicitações com um `top_n` maior são rejeitadas. Custa $0,015 por 1 milhão de tokens de entrada, e documentos já processados recentemente para a mesma conta custam $0,005 por 1 milhão de tokens. Solicitações contam para a cota de assinatura, como o Reflex v1. O reranker padrão ainda é `@aivax/reflex-v1`; selecione o novo modelo com `model`. Veja [Reranking](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
+- **Decisions — Entrada de conversa e mídia.** Solicitações de decisão agora aceitam `input`, um array de mensagens de conversa, em vez de `state`. Os dois campos são mutuamente exclusivos. A conversa torna-se o primeiro item de estado, e partes de imagem, áudio, vídeo e documento são avaliadas como mídia. Modelos que listam `audioinput`, `videoinput` ou `fileinput` na [lista de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically) aceitam essas partes; Gemini Decision 1 aceita todas as quatro. Consulte [Send media](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#send-media).
+- **Routing — Etapas auxiliares permanecem em provedores de retenção de dados zero.** Moderação de conteúdo, roteador de complexidade, reescrita de consulta RAG (`UserRewrite` e `FullRewrite`), leitura em voz alta do resumo pelos clientes de chat com `summarizeTextBeforeAudioSynthesis`, reescrita de texto com instruções de voz para geração de fala e Media Injector agora sempre executam em um provedor de retenção de dados zero, mesmo quando **Zero data retention providers only** está desabilitado. Quando nenhum estiver disponível para uma dessas etapas, a solicitação falhará com um erro indicando que nenhum provedor de retenção de dados zero está disponível, em vez de cair para outro provedor; tente novamente mais tarde. Apenas a moderação de conteúdo ainda avança para seus outros modelos. Essas etapas podem custar cerca de duas vezes mais do que antes, dependendo do provedor selecionado. Consulte [Zero data retention providers only](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md).
+- **Analytics — Origem do custo e totais de pagamento no relatório mensal.** O relatório mensal agora divide o valor faturado em custos de provedor, repassados de provedores terceirizados, e custos de serviço, cobrados diretamente pela AIVAX. Ele também soma os pagamentos confirmados no mês, com seus impostos e, quando disponíveis, o método de pagamento e suas taxas. Get Monthly Usage Report retorna esses totais em `providerCost`, `directServiceCost` e `payments`.
+- **RAG — Reranker Reflex v1.5.** O endpoint de rerank aceita `@aivax/reflex-v1.5`, uma opção de maior precisão para `@aivax/reflex-v1`. Ele classifica até 15.000 documentos por solicitação e retorna no máximo 50 resultados, então solicitações com um `top_n` maior são rejeitadas. Custa $0,015 por 1M tokens de entrada, e documentos já processados recentemente para a mesma conta custam $0,005 por 1M tokens. Solicitações contam para a cota de assinatura, como o Reflex v1. O reranker padrão ainda é `@aivax/reflex-v1`; selecione o novo modelo com `model`. Consulte [Reranking](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
 
 ## Friday, November 13th, 2026
 
-Mudanças incompatíveis (Breaking changes):
+Alterações incompatíveis (Breaking changes):
 
-- **Chat clients — `allowedFrameOrigins` removido.** A opção obsoleta `allowedFrameOrigins` do cliente de chat não é mais retornada quando você lê um cliente de chat. Solicitações que ainda a enviam continuam funcionando, e o valor é ignorado. Incorporar o chat hospedado em um iframe não é afetado; veja [Publish the hosted chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat).
+- **Chat clients — `allowedFrameOrigins` removido.** A opção obsoleta `allowedFrameOrigins` do cliente de chat já não é retornada quando você lê um cliente de chat. Solicitações que ainda a enviam continuam funcionando, e o valor é ignorado. Incorporar o chat hospedado em um iframe não é afetado; consulte [Publish the hosted chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat).
 
-Correções (Fixes):
+Correções:
 
 - **Batch — Trabalhos retomam após o limite diário de itens.** Um trabalho pausado porque o limite diário de itens processados do plano foi atingido agora retoma automaticamente após a reinicialização da janela de limite, conforme descrito em [Batch and Agentic Tests limits](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests). Anteriormente, esses trabalhos podiam permanecer pausados até serem retomados manualmente. Trabalhos que já estão presos podem ser retomados definindo seu estado como ativo. Falhas temporárias do provedor de modelo ainda pausam o trabalho após erros repetidos e ainda exigem uma retomada manual.
 - **Chat clients — Contagem de tokens de sessão após Send Prompt.** Sessões que recebem mensagens através do Send Prompt agora relatam sua contagem de tokens na listagem de sessões. Anteriormente, essas sessões sempre mostravam 0 tokens. As contagens são atualizadas no próximo prompt de cada sessão.
 
-Alterações (Changes):
+Alterações:
 
 - **Chat clients — Inserir mensagens em uma sessão.** O novo endpoint `POST /api/v1/web-chat-client/<chat-client-id>/sessions/insert-message` anexa mensagens de usuário, assistente ou ferramenta a uma sessão ativa, identificada por `sessionId` ou `tag`, sem executar inferência e sem consumir saldo. As mensagens inseridas são usadas como contexto pelo próximo prompt. A solicitação falha com 409 enquanto uma inferência está em execução para a sessão.
 
 ## Thursday, November 12th, 2026
 
-Mudanças incompatíveis (Breaking changes):
+Alterações incompatíveis (Breaking changes):
 
-- **Image generation — DreamShaper 8 LCM removido.** `@lykon/dreamshaper-8-lcm` não está mais disponível, e solicitações que o nomeiam são rejeitadas. Escolha outro modelo de texto para imagem, como `@black-forest-labs/flux-schnell`. Veja [Image generation](https://docs.aivax.net/pt-br/docs/generations/images.md).
+- **Image generation — DreamShaper 8 LCM removido.** `@lykon/dreamshaper-8-lcm` não está mais disponível, e solicitações que o nomeiam são rejeitadas. Escolha outro modelo de texto-para-imagem, como `@black-forest-labs/flux-schnell`. Consulte [Image generation](https://docs.aivax.net/pt-br/docs/generations/images.md).
 
-Alterações (Changes):
+Alterações:
 
-- **Chat clients — Contexto descartável no Send Prompt.** Send Prompt aceita um novo campo `context` com texto ou partes de conteúdo compatíveis com OpenAI, incluindo imagens, áudio, vídeo e arquivos. As partes são adicionadas no início da última mensagem de usuário apenas para essa solicitação e nunca são salvas no histórico da sessão ou na conversa armazenada. Veja [Add disposable context to the last user message](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#add-disposable-context-to-the-last-user-message).
+- **Chat clients — Contexto descartável no Send Prompt.** Send Prompt aceita um novo campo `context` com texto ou partes de conteúdo compatíveis com OpenAI, incluindo imagens, áudio, vídeo e arquivos. As partes são adicionadas ao início da última mensagem de usuário apenas para essa solicitação e nunca são salvas no histórico da sessão ou na conversa armazenada. Consulte [Add disposable context to the last user message](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#add-disposable-context-to-the-last-user-message).
 - **Image generation — GPT Image 2.6 Flare e Sunburst.** Adiciona `@openai/gpt-image-2.6-flare`, para geração rápida, e `@openai/gpt-image-2.6-sunburst`, para composições detalhadas. Ambos suportam edição de imagem de referência e são precificados em $0,025 por imagem de saída mais $0,025 por imagem de referência por saída.
 - **Image generation — Modelos mais antigos depreciados.** `@openai/gpt-image-2.5-flare`, `@openai/gpt-image-2.5-sunburst` e `@openai/gpt-image-1-mini` agora são marcados como depreciados. Eles continuam funcionando por enquanto; migre para `@openai/gpt-image-2.6-flare`, `@openai/gpt-image-2.6-sunburst` ou `@openai/gpt-image-2`.
-- **Image generation — Preços menores.** `@bytedance/seedream-5-pro` agora custa $0,035 por imagem de saída, reduzido de $0,09, e `@recraft/recraft-v4.1-flash` custa $0,007, reduzido de $0,008.
+- **Image generation — Preços menores.** `@bytedance/seedream-5-pro` agora custa $0,035 por imagem de saída, uma redução de $0,09, e `@recraft/recraft-v4.1-flash` custa $0,007, uma redução de $0,008.
 
 ## Wednesday, November 11th, 2026
 
-Correções (Fixes):
+Correções:
 
-- **Account — Recargas de crédito adicionam o valor escolhido ao saldo.** Uma nova recarga agora adiciona exatamente o valor que você escolhe ao seu saldo. A taxa do processador de pagamento e a taxa de serviço são cobradas junto com o pagamento e não são adicionadas ao saldo. Créditos já adicionados permanecem inalterados. Veja [Credit top-ups](https://docs.aivax.net/pt-br/docs/pricing.md#credit-top-ups).
+- **Account — Recargas de crédito adicionam o valor escolhido ao saldo.** Uma nova recarga agora adiciona exatamente o valor que você escolhe ao seu saldo. A taxa do processador de pagamento e a taxa de serviço são cobradas junto com o pagamento e não são adicionadas ao saldo. Créditos já adicionados permanecem inalterados. Consulte [Credit top-ups](https://docs.aivax.net/pt-br/docs/pricing.md#credit-top-ups).
 
-Alterações (Changes):
+Alterações:
 
-- **Dashboard — Página inicial redesenhada.** A página inicial do dashboard agora mostra seu saldo de crédito com um lembrete para adicionar créditos quando acabar, uso nas últimas 24 horas, 7, 30 ou 90 dias com tendências de tokens e solicitações, e atalhos para AI Gateways, Coleções RAG, Clientes de Chat e Voz. **Get started**, **Copy Prompt** e o gráfico anual de uso diário de tokens permanecem disponíveis. Totais de tokens agora contam apenas o uso baseado em tokens, e totais de solicitações contam cada solicitação uma vez. O painel de amostra de código foi removido; veja o [Overview](https://docs.aivax.net/pt-br/docs/overview.md) para exemplos.
-- **Dashboard — Layout de página mais consistente.** Títulos de seção na página de Uso agora incluem uma breve descrição, e o espaçamento das seções em Analytics e Batch está alinhado com outras páginas. Na página de Gerações, as ferramentas de texto e as ferramentas de imagem e reranking estão agrupadas sob seus próprios rótulos na lista de abas.
-- **AI Gateways — Novos eventos de worker `tool.fetched` e `message.completed`.** Workers de gateway agora recebem `tool.fetched` após uma ferramenta do lado do servidor retornar seu resultado, e podem manter, bloquear ou substituir esse resultado com uma ação `tool.fetched.response`. Workers também recebem `message.completed` após cada inferência terminar, com as mensagens, erros, se a falha foi fatal e uso; este evento é uma notificação e sua resposta é ignorada. Workers que retornam `2xx` para eventos desconhecidos não precisam de alteração. Veja [Gateway Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md).
-- **Account — Sem taxa de serviço em recargas de crédito para Pro, Max e Ultimate.** Adicionar créditos no Pro, Max e Ultimate não inclui mais a taxa de serviço da AIVAX. A taxa do processador de pagamento ainda se aplica, e o Free mantém a taxa de serviço. O painel mostra cada taxa antes de você confirmar. Veja [Credit top-ups](https://docs.aivax.net/pt-br/docs/pricing.md#credit-top-ups).
-- **Account — Teto diário na comissão de inferência.** A comissão de inferência do plano na inferência de modelos integrados agora é limitada a $1,50 por dia no Free, $1,20 no Pro e $1,00 no Max. Após o teto ser atingido, a inferência de modelo é cobrada nas taxas do modelo até a meia-noite no fuso horário America/Sao_Paulo. Outros serviços que incluem o multiplicador do plano em suas taxas não estão cobertos pelo teto. Veja [Plan multipliers](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers).
-- **Account — Comissão de inferência como entrada de uso separada.** Para inferência de modelo integrado, a comissão do plano agora é registrada como sua própria entrada de uso, `inference.commission`, sob o mesmo modelo da solicitação. Entradas de token agora mostram as taxas do modelo sem a comissão; o total cobrado para uma solicitação permanece inalterado enquanto o teto diário não for atingido. Se você calcular preços unitários a partir de entradas de uso, adicione as entradas `inference.commission` para obter o custo completo.
-- **Account — Nomes de modelos no uso de moderação e Testes Agênticos.** O uso de moderação de entrada é agora registrado sob `@aivax/layered-moderation` e atribuído aos mesmos recursos da solicitação, como a chave de API e o AI gateway. O uso de usuário simulado e juiz dos Testes Agênticos é registrado sob `@aivax/agentic-tests:user-<profile>` e `@aivax/agentic-tests:judge-<profile>`, como `@aivax/agentic-tests:judge-medium`, em vez do modelo subjacente. Recursos remotos buscados por um teste são atribuídos à sua execução. Os preços permanecem inalterados.
+- **Dashboard — Página inicial redesenhada.** A página inicial do dashboard agora mostra seu saldo de crédito com um lembrete para adicionar créditos quando acabar, uso nas últimas 24 horas, 7, 30 ou 90 dias com tendências de tokens e solicitações, e atalhos para AI Gateways, Coleções RAG, Clientes de Chat e Voz. **Get started**, **Copy Prompt** e o gráfico anual de uso diário de tokens permanecem disponíveis. Totais de tokens agora contam apenas uso baseado em tokens, e totais de solicitações contam cada solicitação uma vez. O painel de amostra de código foi removido; consulte [Overview](https://docs.aivax.net/pt-br/docs/overview.md) para exemplos.
+- **Dashboard — Layout de página mais consistente.** Títulos de seção na página Uso agora incluem uma breve descrição, e o espaçamento das seções em Analytics e Batch está alinhado com outras páginas. Na página Gerações, as ferramentas de texto e as ferramentas de imagem e reranking estão agrupadas sob seus próprios rótulos na lista de abas.
+- **AI Gateways — Novos eventos de worker `tool.fetched` e `message.completed`.** Workers de gateway agora recebem `tool.fetched` após uma ferramenta do lado do servidor retornar seu resultado, e podem manter, bloquear ou substituir esse resultado com uma ação `tool.fetched.response`. Workers também recebem `message.completed` após cada inferência terminar, com as mensagens, erros, se a falha foi fatal e uso; este evento é uma notificação e sua resposta é ignorada. Workers que retornam `2xx` para eventos desconhecidos não precisam de alteração. Consulte [Gateway Workers](https://docs.aivax.net/pt-br/docs/inference/workers.md).
+- **Account — Sem taxa de serviço em recargas de crédito para Pro, Max e Ultimate.** Adicionar créditos no Pro, Max e Ultimate já não inclui a taxa de serviço da AIVAX. A taxa do processador de pagamento ainda se aplica, e o Free mantém a taxa de serviço. O painel mostra cada taxa antes de você confirmar. Consulte [Credit top-ups](https://docs.aivax.net/pt-br/docs/pricing.md#credit-top-ups).
+- **Account — Teto diário na comissão de inferência.** A comissão de inferência do plano na inferência de modelo integrado é agora limitada a $1,50 por dia no Free, $1,20 no Pro e $1,00 no Max. Após o teto ser atingido, a inferência de modelo é cobrada nas taxas do modelo até a meia-noite no fuso horário America/Sao_Paulo. Outros serviços que incluem o multiplicador do plano em suas taxas não estão cobertos pelo teto. Consulte [Plan multipliers](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers).
+- **Account — Comissão de inferência como entrada de uso separada.** Para inferência de modelo integrado, a comissão do plano é agora registrada como sua própria entrada de uso, `inference.commission`, sob o mesmo modelo da solicitação. Entradas de token agora mostram as taxas do modelo sem a comissão; o total cobrado para uma solicitação permanece inalterado enquanto o teto diário não for atingido. Se você calcular preços unitários a partir de entradas de uso, adicione as entradas `inference.commission` para obter o custo completo.
+- **Account — Nomes de modelos no uso de moderação e Testes Agênticos.** O uso de moderação de entrada é agora registrado sob `@aivax/layered-moderation` e atribuído aos mesmos recursos da solicitação, como a chave de API e o AI gateway. O uso de usuário simulado e juiz de Testes Agênticos é registrado sob `@aivax/agentic-tests:user-<profile>` e `@aivax/agentic-tests:judge-<profile>`, como `@aivax/agentic-tests:judge-medium`, em vez do modelo subjacente. Recursos remotos buscados por um teste são atribuídos à sua execução. Preços permanecem inalterados.
 
 ## Tuesday, November 10th, 2026
 
-Mudanças incompatíveis (Breaking changes):
+Alterações incompatíveis (Breaking changes):
 
-- **Chat clients — Novas URLs de webhook para integrações de mensagens.** Integrações do Telegram, Z-API, Evolution API e Kapso agora têm uma URL de webhook que contém uma chave gerada para cada integração. Copie a nova URL das configurações de integração no painel e atualize-a no provedor, ou use **Update hooks** para o Telegram. URLs atuais continuam funcionando até 1º de dezembro de 2026 e são rejeitados após essa data. Você pode rotacionar a chave a qualquer momento com **Rotate webhook key** ou `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; a URL anterior deixa de funcionar imediatamente. Webhooks do Telegram registrados com a nova URL também exigem o token secreto que **Update hooks** configura. Veja [Chat clients](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md#webhook-urls).
-- **Chat clients — Alterar contexto volta para as instruções do sistema.** A alteração de 9 de novembro é revertida: o conteúdo carregado a partir do `contextLocation` de uma sessão e as `instructions` de `POST /api/v1/public/chat-clients/<access-key>/prompt` são novamente anexadas às instruções do sistema, após o `extraContext` da sessão, em vez de serem enviadas como uma mensagem de usuário após a última mensagem de usuário. `instructions` novamente aceita apenas uma string ou um array de strings, unidas por linhas em branco; partes de conteúdo como imagens e arquivos não são mais aceitas. Veja [Choose where to put context](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
-- **Chat clients — Assinaturas de webhook do Kapso são verificadas.** Quando a **Webhook secret key** está definida em uma integração Kapso, solicitações cujo `X-Webhook-Signature` não corresponde são rejeitadas. Deixe-o vazio se você não configurou um segredo no Kapso. Anexos de mídia agora são baixados apenas da API do Kapso.
+- **Chat clients — Novas URLs de webhook para integrações de mensagens.** Integrações do Telegram, Z-API, Evolution API e Kapso agora têm uma URL de webhook que contém uma chave gerada para cada integração. Copie a nova URL das configurações de integração no painel e atualize-a no provedor, ou use **Update hooks** para o Telegram. URLs atuais continuam funcionando até 1º de dezembro de 2026 e são rejeitados após essa data. Você pode rotacionar a chave a qualquer momento com **Rotate webhook key** ou `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; a URL anterior deixa de funcionar imediatamente. Webhooks do Telegram registrados com a nova URL também exigem o token secreto que **Update hooks** configura. Consulte [Chat clients](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md#webhook-urls).
+- **Chat clients — Alterar contexto volta para as instruções do sistema.** A alteração de 9 de novembro foi revertida: o conteúdo carregado a partir do `contextLocation` de uma sessão e as `instructions` de `POST /api/v1/public/chat-clients/<access-key>/prompt` são novamente anexadas às instruções do sistema, após o `extraContext` da sessão, em vez de serem enviadas como uma mensagem de usuário após a última mensagem de usuário. `instructions` novamente aceita apenas uma string ou um array de strings, unidas com linhas em branco; partes de conteúdo como imagens e arquivos não são mais aceitas. Consulte [Choose where to put context](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
+- **Chat clients — Assinaturas de webhook do Kapso são verificadas.** Quando **Webhook secret key** está definido em uma integração Kapso, solicitações cujo `X-Webhook-Signature` não corresponde são rejeitadas. Deixe-o vazio se você não configurou um segredo no Kapso. Anexos de mídia agora são baixados apenas da API Kapso.
 
-Correções (Fixes):
+Correções:
 
-- **Chat clients — Mensagens agendadas continuam executando quando uma conta não está disponível.** Mensagens agendadas para outros clientes de chat não são mais retidas por um cliente de chat cuja conta está desativada.
+- **Chat clients — Mensagens agendadas continuam executando quando uma conta não está disponível.** Mensagens agendadas para outros clientes de chat não são mais retidas por um cliente de chat cuja conta está desabilitada.
 - **Chat clients — Detalhes de agendamento exigem propriedade do cliente de chat.** Visualizar ou cancelar uma mensagem agendada ou tarefa recorrente agora retorna um erro a menos que o cliente de chat pertença à sua conta.
 - **Language models — Presets de roteamento inválidos são rejeitados.** Valores numéricos em `routing_preset` ou `routing_options.preset` que não correspondem a uma opção de roteamento agora retornam um erro de validação em vez de um erro de servidor. Um sufixo numérico de modelo `#` que não corresponde a uma opção de roteamento é agora lido como uma tag de provedor.
-- **Language models — Provedores que não conseguem acomodar a entrada são ignorados.** O roteamento não escolhe mais um provedor cuja janela de contexto é conhecida por ser menor que a entrada da solicitação.
+- **Language models — Provedores que não conseguem acomodar a entrada são ignorados.** O roteamento não mais escolhe um provedor cuja janela de contexto é conhecida por ser menor que a entrada da solicitação.
 
-Alterações (Changes):
+Alterações:
 
-- **Data processing — Correções no refinamento de instrução.** Cada item de `suggestedFixes` retornado por `POST /api/v1/generations/instruction-refinement` agora tem um array `patches` com a correção como diffs unificados contra os itens de contexto enviados na solicitação, um por item alterado, para que você possa visualizar e aplicar uma correção sem reescrevê-la manualmente. `patches` está vazio quando uma correção precisa de conteúdo ou fatos que não estão na solicitação. Campos de resposta existentes permanecem inalterados. Veja [Instruction Refinement](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md).
+- **Data processing — Patches no refinamento de instrução.** Cada item de `suggestedFixes` retornado por `POST /api/v1/generations/instruction-refinement` agora tem um array `patches` com a correção como diffs unificados contra os itens de contexto enviados na solicitação, um por item alterado, para que você possa visualizar e aplicar uma correção sem reescrevê-la manualmente. `patches` está vazio quando uma correção precisa de conteúdo ou fatos que não estão na solicitação. Campos de resposta existentes permanecem inalterados. Consulte [Instruction Refinement](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md).
 - **Chat clients — Chaves de acesso de sessão mais longas.** Novas sessões de cliente de chat recebem chaves de acesso mais longas. Chaves existentes continuam funcionando.
 - **Language models — Nomes de provedores no catálogo de modelos.** O catálogo de modelos e o endpoint de modelos agora mostram apenas o nome público de cada provedor, sem sufixos internos. Tags de provedor permanecem inalteradas.
 - **Conversations — Recusas de moderação são identificadas na lista de conversas.** Conversas recusadas pela moderação do AI gateway agora mostram um rótulo **Moderated** com as categorias violadas na lista de conversas do dashboard, em vez de **Error**. `GET /api/v1/conversations` retorna essas categorias no novo campo `moderationCategories`, que é `null` para conversas que a moderação não recusou.
 
 ## Monday, November 9th, 2026
 
-Mudanças incompatíveis (Breaking changes):
+Alterações incompatíveis (Breaking changes):
 
-- **Chat clients — Alterar contexto não vai mais para as instruções do sistema.** O conteúdo carregado a partir do `contextLocation` de uma sessão e as `instructions` de `POST /api/v1/public/chat-clients/<access-key>/prompt` são agora enviados como uma mensagem de usuário logo após a última mensagem de usuário, em vez de serem anexados às instruções do sistema. Nenhum deles é salvo no histórico da sessão ou retornado em `createdMessages`, e alterá-los em cada solicitação não invalida mais o cache de prompt da conversa. Modelos geralmente dão menos peso às mensagens de usuário do que às instruções do sistema: se você usou `instructions` ou `contextLocation` para regras que o assistente deve seguir sempre, mova essas regras para o `extraContext` da sessão ou para as instruções do AI gateway. `extraContext` permanece inalterado e fica nas instruções do sistema. `instructions` agora também aceita uma parte de conteúdo compatível com OpenAI ou um array delas, incluindo imagens e arquivos; strings e arrays de strings continuam funcionando, mas os itens do array são agora enviados como partes de texto separadas em vez de serem unidos por linhas em branco. Veja [Choose where to put context](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
+- **Chat clients — Alterar contexto já não vai para as instruções do sistema.** O conteúdo carregado a partir do `contextLocation` de uma sessão e as `instructions` de `POST /api/v1/public/chat-clients/<access-key>/prompt` são agora enviados como uma mensagem de usuário logo após a última mensagem de usuário, em vez de serem anexados às instruções do sistema. Nenhum deles é salvo no histórico da sessão ou retornado em `createdMessages`, e alterá-los em cada solicitação já não invalida o cache de prompt da conversa. Modelos geralmente dão menos peso a mensagens de usuário do que a instruções do sistema: se você usou `instructions` ou `contextLocation` para regras que o assistente deve seguir sempre, mova essas regras para o `extraContext` da sessão ou instruções do AI gateway. `extraContext` permanece inalterado e fica nas instruções do sistema. `instructions` agora também aceita uma parte de conteúdo compatível com OpenAI ou um array delas, incluindo imagens e arquivos; strings e arrays de strings continuam funcionando, mas os itens do array são agora enviados como partes de texto separadas em vez de serem unidos com linhas em branco. Consulte [Choose where to put context](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
 
-Correções (Fixes):
+Correções:
 
-- **Language models — Provedores com falha são retryados e evitados.** Quando um provedor falha antes de enviar o primeiro token de resposta, incluindo erros relatados dentro de uma resposta em streaming, a solicitação é agora retryada em outro provedor elegível em vez de retornar `Provider returned error`. Provedores que continuam falhando são classificados mais baixo por todas as preferências de roteamento e são temporariamente removidos do roteamento quando falham repetidamente. Solicitações limitadas por `allowed_providers` a um único provedor indisponível ainda podem falhar; adicione `"*"` como o último item para permitir um fallback. Veja [Routing setup](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
-- **Dashboard — Configurações do AI gateway mostram seus valores salvos.** No editor do AI gateway, **Moderation mode** poderia mostrar **Layered guardrail** mesmo quando **Self-assessment** estava salvo, e os seletores de **Routing preference** e **Communication protocol** abriam sem nenhuma opção selecionada. O editor agora mostra e destaca a opção salva. Os valores salvos não foram alterados.
+- **Language models — Provedores com falha são retryados e evitados.** Quando um provedor falha antes de enviar o primeiro token de resposta, incluindo erros relatados dentro de uma resposta em streaming, a solicitação agora é retryada em outro provedor elegível em vez de retornar `Provider returned error`. Provedores que continuam falhando são classificados mais baixo por todas as preferências de roteamento e são temporariamente removidos do roteamento quando falham repetidamente. Solicitações limitadas por `allowed_providers` a um único provedor indisponível ainda podem falhar; adicione `"*"` como o último item para permitir um fallback. Consulte [Routing setup](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
+- **Dashboard — Configurações do AI gateway mostram seus valores salvos.** No editor do AI gateway, **Moderation mode** poderia mostrar **Layered guardrail** mesmo quando **Self-assessment** foi salvo, e os seletores **Routing preference** e **Communication protocol** abriam sem nenhuma opção selecionada. O editor agora mostra e destaca a opção salva. Os valores salvos não foram alterados.
 
-Alterações (Changes):
+Alterações:
 
-- **Chat clients — Streaming e opções de inferência no Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` aceita `stream: true` para retornar eventos enviados pelo servidor com texto, raciocínio e atualizações de ferramentas, seguidos por um evento `result` com o corpo de resposta usual. O novo objeto `inferenceOptions` sobrescreve `reasoningEffort`, `renderingMode` (`default` ou `textual_blocks`) e `toolInvocationExplanations` para uma solicitação, e o novo campo `tools` adiciona ferramentas do lado do cliente compatíveis com OpenAI que estão disponíveis apenas para essa solicitação. Falhas temporárias de provedor que acontecem antes de qualquer saída são agora retryadas automaticamente. Veja [Sending prompts from your application](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application).
-- **Data processing — Refinamento de instrução.** O novo endpoint `POST /api/v1/generations/instruction-refinement` revisa instruções do sistema, prompts, habilidades, descrições de ferramentas e conhecimento contra diretrizes de engenharia de prompt da documentação dos fornecedores de modelos. A visualização `micro` revisa a redação de cada item, e a visualização `macro` revisa como os itens funcionam juntos como um agente: propósito, limites de autoridade, onde cada regra reside, seleção de habilidade e capacidades configuradas. Retorna uma pontuação geral, um resumo, achados priorizados com o intervalo de linha e coluna do texto afetado e as fontes de diretriz por trás deles, e correções sugeridas. Veja [Instruction Refinement](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md). Solicitações são cobradas em unidades de processamento, e cada item de contexto conta como um documento para o limite de taxa de processamento de documentos.
+- **Chat clients — Streaming e opções de inferência no Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` aceita `stream: true` para retornar eventos enviados pelo servidor com texto, raciocínio e atualizações de ferramentas, seguidos por um evento `result` com o corpo de resposta usual. O novo objeto `inferenceOptions` sobrescreve `reasoningEffort`, `renderingMode` (`default` ou `textual_blocks`) e `toolInvocationExplanations` para uma solicitação, e o novo campo `tools` adiciona ferramentas do lado do cliente compatíveis com OpenAI que estão disponíveis apenas para essa solicitação. Falhas temporárias de provedor que acontecem antes de qualquer saída são agora retryadas automaticamente. Consulte [Sending prompts from your application](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application).
+- **Data processing — Refinamento de instrução.** O novo endpoint `POST /api/v1/generations/instruction-refinement` revisa instruções do sistema, prompts, habilidades, descrições de ferramentas e conhecimento contra diretrizes de engenharia de prompt da documentação dos fornecedores de modelos. A visualização `micro` revisa a redação de cada item, e a visualização `macro` revisa como os itens funcionam juntos como um agente: propósito, limites de autoridade, onde cada regra reside, seleção de habilidade e capacidades configuradas. Retorna uma pontuação geral, um resumo, achados priorizados com o intervalo de linha e coluna do texto afetado e as fontes de diretriz por trás deles, e correções sugeridas. Consulte [Instruction Refinement](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md). Solicitações são cobradas em unidades de processamento, e cada item de contexto conta como um documento para o limite de taxa de processamento de documentos.
 
 ## Sunday, November 8th, 2026
 
-Alterações (Changes):
+Alterações:
 
-- **Dashboard — Compartilhamento de entrada em cache em Conversas.** A lista **Conversas** tem uma nova coluna **Cached %** mostrando quanto da entrada de cada conversa foi servida a partir do cache de prompt. Para conversas com mais de 1K tokens de entrada, o valor é verde acima de 95%, amarelo acima de 90% e mostra um aviso abaixo disso. Um traço significa que nenhuma entrada em cache foi relatada, o que geralmente significa que o modelo ou provedor não suporta caching de prompt. `GET /api/v1/conversations` agora também retorna `cachedInputTokenCount`.
+- **Dashboard — Compartilhamento de entrada em cache em Conversas.** A lista **Conversas** tem uma nova coluna **Cached %** mostrando quanto da entrada de cada conversa foi servida a partir do cache de prompt. Para conversas com mais de 1K tokens de entrada, o valor é verde acima de 95%, amarelo acima de 90% e mostra um aviso abaixo disso. Um traço significa que nenhuma entrada em cache foi relatada, o que geralmente significa que o modelo ou provedor não suporta cache de prompt. `GET /api/v1/conversations` agora também retorna `cachedInputTokenCount`.
 - **Dashboard — Uso BYOK em Analytics.** **Usage per model** em **Analytics** agora inclui modelos usados através de AI gateways com sua própria chave de provedor (BYOK). O custo BYOK é uma estimativa baseada no preço do catálogo do modelo AIVAX correspondente e nunca é cobrado; modelos BYOK sem correspondência no catálogo mostram seus tokens sem custo. A nova coluna **Effective usage** mostra o valor realmente cobrado, e modelos usados de ambas as formas mostram a participação da AIVAX de seus tokens ao passar o mouse. Uso BYOK passado é estimado a partir de conversas armazenadas, então só cobre conversas que foram mantidas. Saldo, gasto por período, faturas e relatórios mensais permanecem inalterados.
 
 ## Saturday, November 7th, 2026
 
-Alterações (Changes):
+Alterações:
 
-- **Language models — Preços mais altos nas rotas Grand Anak.** Solicitações atendidas pelos provedores especiais `grand-anak-<route>` agora custam o dobro das taxas anteriores de token para entrada, entrada em cache e saída. Outros provedores não são afetados. Verifique as taxas atuais em `GET /api/v1/information/models.json`, e remova essas tags de `allowed_providers` ou use a preferência `Balanced` para manter as solicitações fora dos provedores especiais. Veja [Special providers](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md).
+- **Language models — Preços mais altos em rotas Grand Anak.** Solicitações atendidas pelos provedores especiais `grand-anak-<route>` agora custam o dobro das taxas de token anteriores para entrada, entrada em cache e saída. Outros provedores não são afetados. Verifique as taxas atuais em `GET /api/v1/information/models.json`, e remova essas tags de `allowed_providers` ou use a preferência `Balanced` para manter solicitações fora de provedores especiais. Consulte [Special providers](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md).
 
 ## Friday, November 6th, 2026
 
-Mudanças incompatíveis (Breaking changes):
+Alterações incompatíveis (Breaking changes):
 
-- **Account — Limites menores para Pro e Max.** Pro e Max agora têm limites de taxa, armazenamento, retenção e cotas diárias menores. Max tem limites fixos onde anteriormente não tinha, uma cota de armazenamento de 10 GB com excesso a $0,30/GB/mês, retenção de conversa de 14 dias e um multiplicador de comissão de inferência de 1,02x. Solicitações de modelo integrado Pro são de 150/min e o histórico de pesquisa Pro é mantido por 3 dias. Revise os novos valores em [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) e ajuste o ritmo das solicitações que agora poderiam retornar `429 Too Many Requests`.
-- **Language models — Rotas de provedor especial renomeadas.** Cada rota de provedor especial agora tem seu próprio nome e tag de roteamento, como `Grand Anak (Cyan Route)` com a tag `grand-anak-cyan`. As tags anteriores `grand-anak`, `grand-anak-flex` e `grand-anak-route-<n>` não correspondem mais a nenhum provedor. Se `allowed_providers`, **Allowed providers** de um AI gateway ou um sufixo de modelo `#tag` listar uma delas, substitua-a por uma tag atual de `GET /api/v1/information/models.json`. Veja [Special providers](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md).
+- **Account — Limites menores para Pro e Max.** Pro e Max agora têm limites de taxa, armazenamento, retenção e allowances diários menores. Max tem limites fixos onde anteriormente não tinha, uma cota de armazenamento de 10 GB com excesso a $0,30/GB/mês, retenção de conversa de 14 dias e um multiplicador de comissão de inferência de 1,02x. Solicitações de modelo integrado Pro são 150/min e o histórico de pesquisa Pro é mantido por 3 dias. Revise os novos valores em [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) e pace as solicitações que agora poderiam retornar `429 Too Many Requests`.
+- **Language models — Rotas de provedor especial renomeadas.** Cada rota de provedor especial agora tem seu próprio nome e tag de roteamento, como `Grand Anak (Cyan Route)` com a tag `grand-anak-cyan`. As tags anteriores `grand-anak`, `grand-anak-flex` e `grand-anak-route-<n>` não correspondem mais a nenhum provedor. Se `allowed_providers`, **Allowed providers** de um AI gateway ou um sufixo de modelo `#tag` listar uma delas, substitua-a por uma tag atual de `GET /api/v1/information/models.json`. Consulte [Special providers](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md).
 
-Correções (Fixes):
+Correções:
 
-- **RAG — Tags de coleção são atualizadas imediatamente.** As tags retornadas nos detalhes da coleção agora refletem documentos adicionados, editados e excluídos logo após a mudança, em vez de possivelmente mostrar uma lista anterior por alguns minutos.
+- **RAG — Tags de coleção atualizam imediatamente.** As tags retornadas nos detalhes da coleção agora refletem documentos adicionados, editados e excluídos logo após a mudança, em vez de possivelmente mostrar uma lista anterior por alguns minutos.
 
-Alterações (Changes):
+Alterações:
 
 - **Models — LFM3-1.7B e DeepSeek V4.1 Flash 1017 abliterated.** Adiciona `@liquid/lfm-3-1.7b`, um modelo de raciocínio compacto com chamada de ferramentas e saída estruturada, e `@deepseek/deepseek-v4.1-flash-1017-abliterated`, uma variante sem censura do DeepSeek V4.1 Flash 1017 com chamada de ferramentas e entrada de imagem.
-- **Dashboard — Conversas do Avi Assistant não são armazenadas.** Conversas com o Assistente Avi no dashboard não aparecem mais na página **Conversas**. Registros de uso e cobrança ainda são criados.
-- **Account — Plano Ultimate.** Um novo plano Ultimate está disponível a $199 por mês. Ele mantém os limites anteriormente oferecidos pelo Max: sem limite de plano em solicitações de modelo integrado, solicitações BYOK ou novas execuções de Teste Agêntico, 20 GB de armazenamento, retenção de 30 dias, um multiplicador de comissão de inferência de 1,00x e suporte dedicado. `GET /api/v1/information/plans.json` agora também retorna Ultimate. Veja [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) e [preços de assinatura](https://aivax.net/pricing).
-- **Docs — Limites de plano em uma página.** Todo limite por plano, incluindo RAG, processamento de dados, fala, ferramentas integradas, Batch e Testes Agênticos, agora está listado em [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#product-limits). Páginas de produto vinculam a ele em vez de repetir os valores. A página também fornece tamanhos aproximados de PU e token para conteúdo comum, como PDFs digitalizados, páginas da web e consultas RAG; veja [Estimating PUs and tokens](https://docs.aivax.net/pt-br/docs/limits.md#estimating-pus-and-tokens).
+- **Dashboard — Conversas do Assistente Avi não são armazenadas.** Conversas com o Assistente Avi no dashboard não aparecem mais na página **Conversas**. Registros de uso e faturamento ainda são criados.
+- **Account — Plano Ultimate.** Um novo plano Ultimate está disponível a $199 por mês. Ele mantém os limites anteriormente oferecidos pelo Max: sem limite de plano em solicitações de modelo integrado, solicitações BYOK ou novas execuções de Teste Agênico, 20 GB de armazenamento, retenção de 30 dias, um multiplicador de comissão de inferência de 1,00x e suporte dedicado. `GET /api/v1/information/plans.json` agora também retorna Ultimate. Consulte [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md) e [preços de assinatura](https://aivax.net/pricing).
+- **Docs — Limites de plano em uma página.** Todo limite por plano, incluindo RAG, processamento de dados, fala, ferramentas integradas, Batch e Testes Agênticos, agora está listado em [Plans and limits](https://docs.aivax.net/pt-br/docs/limits.md#product-limits). Páginas de produto vinculam a ele em vez de repetir os valores. A página também dá tamanhos aproximados de PU e tokens para conteúdo comum, como PDFs digitalizados, páginas da web e consultas RAG; consulte [Estimating PUs and tokens](https://docs.aivax.net/pt-br/docs/limits.md#estimating-pus-and-tokens).
 - **Dashboard — Comparação de planos com Ultimate.** A página **Plan** em **My account** compara Free, Pro, Max e Ultimate lado a lado, com preços de lista carregados da lista pública de planos.
-- **Dashboard — Alternância mais rápida entre contas salvas.** Alternar para uma conta salva reutiliza sua sessão de console ativa quando ainda é válida, então o console não faz login novamente nem pede um código de dois fatores nesse caso. Quando a sessão expirou, o login regular é executado.
+- **Dashboard — Alternância mais rápida entre contas salvas.** Alternar para uma conta salva reutiliza sua sessão de console ativa quando ainda é válida, então o console não faz login novamente ou pede um código de dois fatores nesse caso. Quando a sessão expirou, o login regular é executado.
 - **Docs — Páginas do pipeline de inferência.** A seção Inference tem novas páginas para [Processing pipeline](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md), com a ordem em que as etapas do gateway são executadas e como elas afetam umas às outras, [Moderation](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md), [Context truncation](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md) e [Function interpreter](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md). A página standalone Processing pipeline anterior agora redireciona para a nova. O interpretador de função (`knownToolHandlerName`) agora é documentado como depreciado; use um modelo com chamada nativa de ferramentas em vez disso.
-- **Dashboard — Aviso antes de descartar edições não salvas.** Editores de AI gateways, clientes de chat e suas integrações, habilidades, Testes Agênticos, fluxos de trabalho Batch, documentos e configurações de coleção agora pedem confirmação antes de você sair da página com alterações não salvas, incluindo através do botão voltar do navegador, uma recarga ou fechando a aba. O mesmo se aplica quando uma caixa de diálogo com um campo de texto ou código foi editada e ainda está aberta. Salvar a página, ou confirmar ou fechar a caixa de diálogo, limpa o aviso.
-- **Dashboard — Campos de código de dois fatores mais claros.** Os seis campos de código na caixa de diálogo de dois fatores são maiores, mostram um ponto placeholder em cada campo vazio, destacam campos preenchidos e estão centralizados na caixa de diálogo. O código é submetido assim que todos os seis dígitos são digitados ou colados, e pressionar Enter também confirma.
+- **Dashboard — Aviso antes de descartar edições não salvas.** Editores para AI gateways, clientes de chat e suas integrações, habilidades, Testes Agênticos, fluxos de trabalho Batch, documentos e configurações de coleção agora pedem confirmação antes de você sair da página com alterações não salvas, incluindo através do botão voltar do navegador, uma recarga ou fechando a aba. O mesmo se aplica quando um diálogo com um campo de texto ou código foi editado e ainda está aberto. Salvar a página, ou confirmar ou fechar o diálogo, limpa o aviso.
+- **Dashboard — Campos de código de dois fatores mais claros.** Os seis campos de código no diálogo de dois fatores são maiores, mostram um ponto placeholder em cada campo vazio, destacam campos preenchidos e estão centralizados no diálogo. O código é submetido assim que todos os seis dígitos são digitados ou colados, e pressionar Enter também confirma.
 - **Dashboard — Modelo de orçamento para edições assistidas por IA.** O painel para editar conteúdo com IA agora pré-seleciona `@model-router/openai:budget`, e o painel é mais largo para que todas as suas opções se encaixem. Você ainda pode escolher outro modelo antes de solicitar a edição.
 
 

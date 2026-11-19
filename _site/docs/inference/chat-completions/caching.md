@@ -27,6 +27,8 @@ The response reports cached input separately:
 
 Send `prompt_cache_key` to group requests that share a prefix, such as the requests of one gateway or one user; AIVAX forwards it to the provider. Providers that do not support it ignore it.
 
+When AIVAX calls a provider over the Responses API, system and developer messages go at the start of `input`, so they stay cacheable on GPT-6.2, where top-level `instructions` is never cached. See [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+
 ### Keep the prefix stable
 
 The cache matches only an identical prefix, so put stable content first and variable content last:

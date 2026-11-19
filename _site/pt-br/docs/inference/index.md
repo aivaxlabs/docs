@@ -18,7 +18,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Inferência com Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/chat-completions/ai-gateways.md)
 - [Pipeline de Processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md)
 - [Entrada e Multimodalidade](https://docs.aivax.net/pt-br/docs/inference/chat-completions/input-and-multimodality.md)
-- [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
+- [Armazenamento em cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md)
 - [Ferramentas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/tools.md)
 - [Funções do MCP e Protocolos na Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/mcp-and-protocol-functions.md)
 - [Saída Estruturada](https://docs.aivax.net/pt-br/docs/inference/chat-completions/structured-output.md)

@@ -6,6 +6,12 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Thursday, November 19th, 2026
+
+Changes:
+
+- **RAG — Document limits per account and per collection.** Each plan now limits the number of documents stored per account and per collection: Free 2,000 per account and 1,000 per collection, Pro 200,000 and 50,000, Max 250,000 per collection with no account limit, and Ultimate 500,000 per collection with no account limit. Only creating new documents counts; updating or reindexing existing documents is not affected. When a limit is reached, document creation fails with `400 Bad Request`, including through imports, MCP tools, memories, and the Media Injector. Delete documents or upgrade the plan to continue; see [Plans and Limits](https://docs.aivax.net/docs/limits.md#rag-and-collections).
+
 ## Wednesday, November 18th, 2026
 
 Breaking changes:

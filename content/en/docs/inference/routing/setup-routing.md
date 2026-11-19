@@ -98,3 +98,5 @@ If a provider fails and AIVAX retries the request on another provider, `provider
 ## Deprecated models
 
 Use `_details.provider_model.is_deprecated` in `GET /v1/models` when you need to prefer a current integrated model. It is `true` when the model is flagged as deprecated, or when it has a release date more than 12 months before the current day. A model with no release date is not marked deprecated by age alone. The flag does not by itself remove the model from the list.
+
+A provider can also reroute a retired ID to another model instead of rejecting it, as the Gemini API does for Gemini 2.5 Pro and Flash from December 1st, 2026. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/).

@@ -1006,6 +1006,8 @@ Product limits use the same rules as account limits: they are shared across the 
 | Limit | Free | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
 | Collections | 5 | 100 | 1,000 | — |
+| Documents per account | 2,000 | 200,000 | — | — |
+| Documents per collection | 1,000 | 50,000 | 250,000 | 500,000 |
 | Searches | 20/min | 300/min | 1,500/min | 3,000/min |
 | Reranking requests | 30/min | 500/min | 3,000/min | — |
 | Reflex processing time | 30 minutes/day | 3 hours/day | 12 hours/day | — |
@@ -1014,7 +1016,7 @@ Product limits use the same rules as account limits: they are shared across the 
 | Documents per WebSocket JSONL import | 10,000 | 50,000 | 1,000,000 | 10,000,000 |
 | Media Injector files | 2/day | 20/day | 250/day | 1,000/day |
 
-The reranking request limit applies to the [reranking endpoint](https://docs.aivax.net/docs/rag/reflex.md) and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. The Reflex processing-time limit counts the time spent processing Reflex requests on both paths; cached input does not consume it separately. If an import exceeds the per-import limit, split it into multiple imports. See [Collections](https://docs.aivax.net/docs/rag/collections.md), [Documents](https://docs.aivax.net/docs/rag/documents.md), and [Reflex](https://docs.aivax.net/docs/rag/reflex.md).
+The reranking request limit applies to the [reranking endpoint](https://docs.aivax.net/docs/rag/reflex.md) and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. The Reflex processing-time limit counts the time spent processing Reflex requests on both paths; cached input does not consume it separately. If an import exceeds the per-import limit, split it into multiple imports. Document limits count stored documents and are checked only when a new document is created; updating or reindexing an existing document is not blocked. Once a limit is reached, creating a document returns `400 Bad Request` and an import stops with an error. The count can take up to 30 seconds to reflect recent insertions or deletions. See [Collections](https://docs.aivax.net/docs/rag/collections.md), [Documents](https://docs.aivax.net/docs/rag/documents.md), and [Reflex](https://docs.aivax.net/docs/rag/reflex.md).
 
 ### Data processing
 
@@ -3192,6 +3194,8 @@ The response reports cached input separately:
 
 Send `prompt_cache_key` to group requests that share a prefix, such as the requests of one gateway or one user; AIVAX forwards it to the provider. Providers that do not support it ignore it.
 
+When AIVAX calls a provider over the Responses API, system and developer messages go at the start of `input`, so they stay cacheable on GPT-6.2, where top-level `instructions` is never cached. See [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+
 ### Keep the prefix stable
 
 The cache matches only an identical prefix, so put stable content first and variable content last:
@@ -4135,6 +4139,8 @@ If a provider fails and AIVAX retries the request on another provider, `provider
 ## Deprecated models
 
 Use `_details.provider_model.is_deprecated` in `GET /v1/models` when you need to prefer a current integrated model. It is `true` when the model is flagged as deprecated, or when it has a release date more than 12 months before the current day. A model with no release date is not marked deprecated by age alone. The flag does not by itself remove the model from the list.
+
+A provider can also reroute a retired ID to another model instead of rejecting it, as the Gemini API does for Gemini 2.5 Pro and Flash from December 1st, 2026. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/).
 
 ---
 
@@ -11087,6 +11093,12 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Thursday, November 19th, 2026
+
+Changes:
+
+- **RAG — Document limits per account and per collection.** Each plan now limits the number of documents stored per account and per collection: Free 2,000 per account and 1,000 per collection, Pro 200,000 and 50,000, Max 250,000 per collection with no account limit, and Ultimate 500,000 per collection with no account limit. Only creating new documents counts; updating or reindexing existing documents is not affected. When a limit is reached, document creation fails with `400 Bad Request`, including through imports, MCP tools, memories, and the Media Injector. Delete documents or upgrade the plan to continue; see [Plans and Limits](https://docs.aivax.net/docs/limits.md#rag-and-collections).
 
 ## Wednesday, November 18th, 2026
 
