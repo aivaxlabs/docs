@@ -1,5 +1,5 @@
 ---
-{title: Integração com Harness,linkTitle: Integração com harness,weight: 10,sourceHash: 225377bd86e459d1}
+{title: Integração com Harness,linkTitle: Integração com harness,weight: 20,sourceHash: 5daeba12d31acfea}
 ---
 
 # Integração com harness
@@ -14,7 +14,7 @@ Chave:      <AIVAX_API_KEY>
 Modelo:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Todos os modelos de assinatura têm janela de contexto de 500.000 tokens, aceitam os esforços de raciocínio `max`, `high` e `low` (o MiniMax M3.1 Flash também aceita `xhigh` e `medium`) e são identificados por `flags.isSubscription` ou `_details.provider_model.subscription`. Consulte [Modelos de assinatura](/docs/pt-br/inference/subscription-models/index.md) para a lista completa.
+Todos os modelos de assinatura têm janela de contexto de 500.000 tokens, aceitam os esforços de raciocínio `max`, `high` e `low` (o MiniMax M3.1 Flash também aceita `xhigh` e `medium`) e são identificados por `flags.isSubscription` ou `_details.provider_model.subscription`. Consulte [Modelos de assinatura](/docs/pt-br/inference/subscription-models/overview.md) para a lista completa.
 
 Para usar a partir de um SDK, consulte [Autenticação](/docs/pt-br/authentication.md). Para declarar o endpoint como uma AI Gateway, consulte [AI Gateways](/docs/pt-br/inference/ai-gateways/concepts.md).
 

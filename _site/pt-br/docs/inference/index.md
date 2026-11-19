@@ -61,6 +61,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 
 ## Modelos de Assinatura
 
+- [Visão Geral dos Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md)
 - [Integração com Harness](https://docs.aivax.net/pt-br/docs/inference/subscription-models/integration.md)
 
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)

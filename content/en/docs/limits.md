@@ -133,13 +133,13 @@ Daily allowances reset at midnight in the server's local time. Check the account
 
 ## Monthly subscription model quota
 
-Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](inference/subscription-models/_index.md).
+Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](inference/subscription-models/overview.md).
 
 Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance, and they have no per-token prices. Every other model is metered against the balance as usual. To tell them apart, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
 
 When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after it renews next month; until then, select another model or move to a plan that includes it.
 
-The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](inference/subscription-models/_index.md#consumption-rate).
+The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](inference/subscription-models/overview.md#consumption-rate).
 
 The account balance response reports the quota only as a used percentage, in a subscription consumption of type `InferenceMonthly`. `planLimits.includesSubscriptionModels` is `true` on plans that include the quota. See [Get Account Balance](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
 

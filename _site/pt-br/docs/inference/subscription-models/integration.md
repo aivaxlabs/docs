@@ -12,7 +12,7 @@ Chave:      <AIVAX_API_KEY>
 Modelo:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Todos os modelos de assinatura têm janela de contexto de 500.000 tokens, aceitam os esforços de raciocínio `max`, `high` e `low` (o MiniMax M3.1 Flash também aceita `xhigh` e `medium`) e são identificados por `flags.isSubscription` ou `_details.provider_model.subscription`. Consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/index.md) para a lista completa.
+Todos os modelos de assinatura têm janela de contexto de 500.000 tokens, aceitam os esforços de raciocínio `max`, `high` e `low` (o MiniMax M3.1 Flash também aceita `xhigh` e `medium`) e são identificados por `flags.isSubscription` ou `_details.provider_model.subscription`. Consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md) para a lista completa.
 
 Para usar a partir de um SDK, consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md). Para declarar o endpoint como uma AI Gateway, consulte [AI Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md).
 

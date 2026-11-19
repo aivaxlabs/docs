@@ -8,13 +8,13 @@ O campo `model` de `/v1/chat/completions` seleciona o que executa a solicitaçã
 | --- | --- | --- |
 | Nome do modelo integrado | `@openai/gpt-5-mini` | O modelo diretamente, sem configuração de gateway. |
 | ID completo do gateway | `<GATEWAY_UUID>` | O AI Gateway com esse ID. |
-| Slug do gateway | `support:50c3` | O AI Gateway cujo slug corresponde, no formato `name:final-id`. |
+| Slug do gateway | `support:50c3` | O AI Gateway cujo slug corresponde, no formato `nome:id-final`. |
 
-Os nomes dos modelos integrados começam com `@` e seguem o padrão `@creator/model-name`. Liste-os com `GET /v1/models`; a mesma lista inclui os gateways da sua conta.
+Os nomes dos modelos integrados começam com `@` e seguem o padrão `@criador/nome-do-modelo`. Liste-os com `GET /v1/models`; a mesma lista inclui os gateways da sua conta.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Model%20listing)
 
-Os modelos sob o prefixo `@aivax-subscription/` são modelos de assinatura: `_details.provider_model.subscription` é `true` na listagem e seu preço está vazio. Eles usam a cota mensal do plano em vez do saldo da conta; consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/index.md).
+Os modelos sob o prefixo `@aivax-subscription/` são modelos de assinatura: `_details.provider_model.subscription` é `true` na listagem e seu preço está vazio. Eles usam a cota mensal do plano em vez do saldo da conta; consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
 
 Chaves de API públicas aceitam apenas o ID completo de um gateway. Slugs e nomes de modelos integrados são rejeitados; consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md).
 
@@ -32,4 +32,4 @@ Valide três pontos antes de colocar um modelo em produção:
 
 Um gateway permite alterar o modelo por trás de um nome estável, para que as aplicações cliente não precisem ser alteradas quando um modelo for descontinuado. Você ainda precisa qualificar a substituição com seus próprios prompts e ferramentas antes de fazer a troca. Para distinguir um modelo atual de um antigo, consulte [Modelos descontinuados](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md#deprecated-models).
 
-Veja [travar um ID de modelo versus usar um alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) para uma lista de verificação de substituição. Para o encerramento do GPT-4o e GPT-4.1 em 14 de janeiro de 2027, consulte [como migrar para gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/). Para o encerramento do GPT-5 e o3 em 11 de dezembro de 2026, consulte [como migrar para GPT-6.1 Sol, Terra e GPT-6 Luna](https://aivax.net/blog/migrate-gpt-5-and-o3-to-gpt-5-6-before-december-11/).
+Consulte [travar um ID de modelo versus usar um alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/) para uma lista de verificação de substituição. Para o encerramento do GPT-4o e GPT-4.1 em 14 de janeiro de 2027, consulte [como migrar para gpt-6-luna](https://aivax.net/blog/migrate-gpt-4o-and-gpt-4-1-to-gpt-6-luna/). Para o encerramento do GPT-5 e o3 em 11 de dezembro de 2026, consulte [como migrar para GPT-6.1 Sol, Terra e GPT-6 Luna](https://aivax.net/blog/migrate-gpt-5-and-o3-to-gpt-5-6-before-december-11/).

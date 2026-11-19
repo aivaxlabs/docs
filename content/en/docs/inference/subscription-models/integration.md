@@ -1,5 +1,5 @@
 ---
-{title: Harness Integration,linkTitle: Harness integration,weight: 10}
+{title: Harness Integration,linkTitle: Harness integration,weight: 20}
 ---
 
 # Harness integration
@@ -14,7 +14,7 @@ API key:   <AIVAX_API_KEY>
 Model:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Every subscription model has a 500,000-token context window, accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`), and is identified from `flags.isSubscription` or `_details.provider_model.subscription`. See [Subscription models](/docs/inference/subscription-models/index.md) for the full list.
+Every subscription model has a 500,000-token context window, accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`), and is identified from `flags.isSubscription` or `_details.provider_model.subscription`. See [Subscription models](/docs/inference/subscription-models/overview.md) for the full list.
 
 To use it from an SDK, see [Authentication](/docs/authentication.md). To declare the endpoint as an AI Gateway, see [AI Gateways](/docs/inference/ai-gateways/concepts.md).
 

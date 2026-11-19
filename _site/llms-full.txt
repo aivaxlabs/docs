@@ -889,7 +889,7 @@ Every plan includes separate daily allowances for eligible RAG embeddings, Refle
 
 Pro, Max, and Ultimate include a monthly subscription model quota, renewed at the start of each calendar month. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
 
-The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md) and [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
+The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) and [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
 
 ## Storage
 
@@ -1080,13 +1080,13 @@ Daily allowances reset at midnight in the server's local time. Check the account
 
 ## Monthly subscription model quota
 
-Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md).
+Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
 
 Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance, and they have no per-token prices. Every other model is metered against the balance as usual. To tell them apart, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
 
 When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after it renews next month; until then, select another model or move to a plan that includes it.
 
-The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](https://docs.aivax.net/docs/inference/subscription-models/index.md#consumption-rate).
+The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](https://docs.aivax.net/docs/inference/subscription-models/overview.md#consumption-rate).
 
 The account balance response reports the quota only as a used percentage, in a subscription consumption of type `InferenceMonthly`. `planLimits.includesSubscriptionModels` is `true` on plans that include the quota. See [Get Account Balance](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
 
@@ -2368,7 +2368,7 @@ Integrated model names start with `@` and follow `@creator/model-name`. List the
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Model%20listing)
 
-Models under the `@aivax-subscription/` prefix are subscription models: `_details.provider_model.subscription` is `true` in the listing and their pricing is empty. They use the plan's monthly quota instead of the account balance; see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md).
+Models under the `@aivax-subscription/` prefix are subscription models: `_details.provider_model.subscription` is `true` in the listing and their pricing is empty. They use the plan's monthly quota instead of the account balance; see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
 
 Public API keys accept only a gateway's full ID. Slugs and integrated model names are rejected; see [Authentication](https://docs.aivax.net/docs/authentication.md).
 
@@ -5268,6 +5268,56 @@ Users can ask the assistant to list or cancel their scheduled messages. You can 
 
 ---
 
+Source: https://docs.aivax.net/docs/inference/subscription-models/overview.html
+
+# Subscription models
+
+Subscription models are text models included in the Pro, Max, and Ultimate plans. Their names start with `@aivax-subscription/`. They use the plan's [monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota) instead of the account balance, so a request to one of them never debits your credits.
+
+Use them like any other integrated model: in API requests, in AI Gateways, in coding agents and other OpenAI-compatible tools, or for everyday tasks. Free and Custom plans do not include the quota.
+
+## Available models
+
+The table lists each model's context window and the usage included every month, expressed as the equivalent at the model's integrated catalog price. All subscription models share the same quota.
+
+| Model | Context window | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $380<br>12.5× Pro |
+| GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+| GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+| Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $490<br>12.5× Pro |
+| MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+
+Each value assumes the whole monthly quota is spent on that model with a typical mix of input, cached input, and output tokens, and is rounded up to the nearest $10. The values are estimates, not guaranteed amounts. Spreading usage across several subscription models divides the same quota between them.
+
+The quota renews at the start of each calendar month. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
+
+## Consumption rate
+
+Subscription models are provided by suppliers through direct agreements that cover the models' original price. The rate at which a model consumes the quota follows those agreements, so it is dynamic and can change daily, and it can also fluctuate during the day. You may notice the same model using slightly more or slightly less of your quota for similar requests. The included equivalents above change with it.
+
+## Availability
+
+A subscription model runs the model it names. AIVAX rigorously checks the models delivered by its suppliers against the contracted models.
+
+A subscription model can become unavailable for an indefinite period when its supplier has excess demand. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
+
+## When the quota is exhausted
+
+When the quota is exhausted, or the plan does not include it, a request to a subscription model returns `429 Too Many Requests`. The request is not routed to a model outside the subscription and is never charged to the account balance. To continue before the quota renews, select another model explicitly; regular models are charged to the balance at their rates.
+
+## Data retention
+
+Subscription models are not zero data retention. Their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. Prompts are not used for training.
+
+With [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) enabled, requests to subscription models fail. Do not send personal, confidential, or regulated data to these models unless that retention is acceptable. AIVAX's own records follow the account's conversation logging setting; see [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md#inference).
+
+## Identify subscription models
+
+Subscription models have no per-token prices in the catalog. To identify them from an application, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`. See [Models and gateway names](https://docs.aivax.net/docs/inference/ai-gateways/models-and-gateway-names.md).
+
+---
+
 Source: https://docs.aivax.net/docs/inference/subscription-models/integration.html
 
 # Harness integration
@@ -5282,7 +5332,7 @@ API key:   <AIVAX_API_KEY>
 Model:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Every subscription model has a 500,000-token context window, accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`), and is identified from `flags.isSubscription` or `_details.provider_model.subscription`. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md) for the full list.
+Every subscription model has a 500,000-token context window, accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`), and is identified from `flags.isSubscription` or `_details.provider_model.subscription`. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) for the full list.
 
 To use it from an SDK, see [Authentication](https://docs.aivax.net/docs/authentication.md). To declare the endpoint as an AI Gateway, see [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).
 
@@ -10560,7 +10610,7 @@ AIVAX uses third-party services for infrastructure, object storage, transactiona
 
 When selecting a model or enabling a tool, the Account Manager may cause content to be sent to the selected model provider, aggregator, or tool provider. AIVAX does not control third-party policies and recommends prior review.
 
-Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control, and do not use them for training. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md#data-retention).
+Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control, and do not use them for training. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md#data-retention).
 
 ---
 
@@ -10977,7 +11027,7 @@ When a setting changes the level, the Collection Policy column lists each condit
 | Multimodal preprocessing | 🔴 Full | When attachments are converted to text through description, OCR, or transcription during inference, the resulting text is cached per account to avoid reprocessing the same content. Original files are not stored. |
 | Provider error diagnostics | 🔴 Full | When a model provider returns an error, the request sent to the provider and its response may be stored for diagnosis, regardless of conversation logging. |
 | [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | 🔴 Full | Sessions store message history, extra context, and metadata until the session expires. Media sent as data URLs is uploaded to object storage and referenced by a public URL. Generated audio is cached when audio synthesis is enabled. Inference also follows the conversation logging condition. |
-| [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | AIVAX records follow the account's **Conversations logging** setting. Subscription models are not zero data retention: their suppliers collect prompts and keep them for an indefinite period for moderation and internal control, and do not use them for training. Requests to these models fail when **Zero data retention providers only** is enabled. |
+| [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | AIVAX records follow the account's **Conversations logging** setting. Subscription models are not zero data retention: their suppliers collect prompts and keep them for an indefinite period for moderation and internal control, and do not use them for training. Requests to these models fail when **Zero data retention providers only** is enabled. |
 | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | Follows the account's **Conversations logging** setting. It cannot be disabled per session. |
 | [Batch processing](https://docs.aivax.net/docs/inference/batch.md) | 🔴 Full | Workflows, jobs, and item inputs and outputs are stored until you delete them or clean the job items. |
 | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | 🔴 Full | Test definitions, runs, simulated conversations, and judge results are stored. |
@@ -11053,7 +11103,7 @@ Fixes:
 
 Changes:
 
-- **Account — Monthly subscription model quota.** Pro, Max, and Ultimate now include a monthly quota for subscription models, the models whose names start with `@aivax-subscription/`, renewed at the start of each calendar month. Using these models never debits the account balance; other models are still charged to the balance. Free and Custom plans have no quota. When the quota is exhausted, or the plan has none, requests to subscription models return `429 Too Many Requests` until it renews next month. The account balance response reports the quota as a used percentage in a subscription consumption of type `InferenceMonthly`, and `planLimits.includesSubscriptionModels` is `true` on plans that include it. The previous model subscription multiplier no longer applies. The new [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md) page lists the available models, their context windows, and the usage each plan includes as an equivalent at catalog prices, and describes the dynamic consumption rate, availability, and data retention of these models. Subscription models are not zero data retention and fail when **Zero data retention providers only** is enabled.
+- **Account — Monthly subscription model quota.** Pro, Max, and Ultimate now include a monthly quota for subscription models, the models whose names start with `@aivax-subscription/`, renewed at the start of each calendar month. Using these models never debits the account balance; other models are still charged to the balance. Free and Custom plans have no quota. When the quota is exhausted, or the plan has none, requests to subscription models return `429 Too Many Requests` until it renews next month. The account balance response reports the quota as a used percentage in a subscription consumption of type `InferenceMonthly`, and `planLimits.includesSubscriptionModels` is `true` on plans that include it. The previous model subscription multiplier no longer applies. The new [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) page lists the available models, their context windows, and the usage each plan includes as an equivalent at catalog prices, and describes the dynamic consumption rate, availability, and data retention of these models. Subscription models are not zero data retention and fail when **Zero data retention providers only** is enabled.
 - **Summarization and Extraction — PDF URLs.** The provider now fetches a PDF directly when the `file` part has a public HTTP(S) URL whose path ends in `.pdf`, or a `filename` ending in `.pdf`. These downloads use the provider's file limits. Existing request fields still work.
 - **Audio transcriptions — New models and lower Parakeet price.** Added `@nvidia/nemotron-3.5-transcribe` ($0.001 per minute, recordings up to one hour, 40 languages) and `@qwen/qwen3-asr-1.7b` ($0.027 per hour). `@nvidia/parakeet-tdt-0.6b-v3` now costs $0.001 per minute, down from $0.0015.
 - **Speech — Speechify Simba 3.5 and updated prices.** Added `@speechify/simba-3.5`, a text-to-speech model covering 48 languages, at $0.0075 per 1,000 characters, selectable in AI gateways, chat clients, and the dashboard. `@fish-audio/drama-3` now costs $0.01 per 1,000 characters, up from $0.002, and `@elevenlabs/eleven-flash-v2.5` costs $0.02, up from $0.01.

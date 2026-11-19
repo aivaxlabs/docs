@@ -63,6 +63,7 @@ Source: https://docs.aivax.net/docs/index.html
 - [Managing Chat Client Sessions](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md)
 - [Web Chat Client](https://docs.aivax.net/docs/inference/chat-clients/web-client.md)
 - [Chat Client Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md)
+- [Subscription Models Overview](https://docs.aivax.net/docs/inference/subscription-models/overview.md)
 - [Harness Integration](https://docs.aivax.net/docs/inference/subscription-models/integration.md)
 - [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md)
 - [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md)
