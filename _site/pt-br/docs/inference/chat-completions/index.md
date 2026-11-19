@@ -38,5 +38,5 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/index.html
 
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
 
-- [Solução de Problemas de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
+- [Solução de Problemas na Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
 

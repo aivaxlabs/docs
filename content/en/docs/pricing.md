@@ -35,7 +35,13 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 ## Included daily allowances
 
-Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). These daily allowances do not cover text-model inference; see [Subscription models](#subscription-models). For what each allowance covers, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+
+## Subscription models
+
+Pro, Max, and Ultimate include a monthly subscription model quota, renewed at the start of each calendar month. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
+
+The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](inference/subscription-models.md) and [Monthly subscription model quota](limits.md#monthly-subscription-model-quota).
 
 ## Storage
 
@@ -54,7 +60,7 @@ API responses include a `Consumed-Credits` header when the request charged usage
 
 Cross-origin responses expose `Consumed-Credits` and `X-Request-ID`, so browser JavaScript on another origin can read them when they are present. `X-Request-ID` is the identifier AIVAX assigned to that request.
 
-The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance. Treat a missing header as zero.
+The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance or by the monthly subscription model quota. Treat a missing header as zero.
 
 The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](inference/batch.md) work, is not included. Streamed responses never include this header, because it is added after the response has been produced. For a streamed request, read the `cost` recorded with the conversation (available when conversation logging is enabled) or calculate the cost from the reported token counts. Use your account usage records as the source of truth for billing.
 

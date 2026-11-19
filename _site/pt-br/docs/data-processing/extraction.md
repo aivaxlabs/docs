@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/extraction.html
 
 # Extração
 
-Use a Extração para transformar texto, imagens e PDFs em JSON moldado por um esquema que você define. Ela se adapta a faturas, recibos, formulários, contratos e outros documentos onde seu aplicativo precisa dos mesmos campos em cada documento, como um número, o nome de uma empresa, um total ou uma lista de itens.
+Use a Extração para transformar texto, imagens e PDFs em JSON moldado por um esquema que você define. Ela se adapta a faturas, recibos, formulários, contratos e outros documentos onde seu aplicativo precisa dos mesmos campos de cada documento, como um número, o nome da empresa, um total ou uma lista de itens.
 
 Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt-br/docs/authentication.md) e certifique-se de que a conta tenha um saldo positivo.
 
@@ -30,16 +30,16 @@ Escolha a Extração quando você já sabe quais campos precisa e deseja que sej
 
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
-| `responseSchema` | Objeto JSON Schema | Sim | Esquema de objeto cujas `properties` descrevem os campos a extrair. Deve ter pelo menos uma propriedade. |
+| `responseSchema` | Objeto JSON Schema | Sim | Esquema de objeto cujos `properties` descrevem os campos a extrair. Deve ter pelo menos uma propriedade. |
 | `documents` | Array de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
-| `instructions` | String | Não | Orientações que se aplicam a todos os documentos, como qual parte conta como fornecedor. |
+| `instructions` | String | Não | Diretrizes que se aplicam a todos os documentos, como qual parte conta como fornecedor. |
 
 Cada propriedade em `responseSchema` é um campo a ser encontrado. Sua `description` é o critério de busca, então escreva-a como uma definição curta e específica, como "valor total devido" em vez de "total". Objetos aninhados e arrays de objetos são suportados. `$ref` e `$defs` não são; incorpore todas as definições inline.
 
 Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos:
 
 - Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de múltiplas páginas.
-- A AIVAX baixa URLs remotos antes do processamento, dentro do limite de tamanho de arquivo em [Preços e limites](#precos-e-limites). O recurso deve ser acessível sem login.
+- O recurso deve ser acessível sem login. Para uma parte `file`, o provedor busca o PDF diretamente quando o caminho da URL ou `filename` termina em `.pdf`.
 - Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, então verifique o tipo de conteúdo de cada documento na solicitação.
 
 A seguinte solicitação extrai campos de fatura de um documento de texto e um PDF:
@@ -73,8 +73,8 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
     {
       "type": "file",
       "file": {
-        "filename": "fatura.pdf",
-        "file_data": "https://example.com/fatura.pdf"
+        "filename": "invoice.pdf",
+        "file_data": "https://example.com/invoice.pdf"
       }
     }
   ]
@@ -113,10 +113,10 @@ A Extração é cobrada pelos tokens de entrada de cada documento. Tokens de sa�
 | --- | ---: |
 | Entrada de Extração | **$0,04/M tokens** |
 
-A Extração e o [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md) compartilham os mesmos limites de documentos. Arquivos remotos são baixados até 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
+Extração e [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md) compartilham os mesmos limites de documentos. O provedor aplica seus próprios limites aos PDFs que busca diretamente. A AIVAX aplica um limite de 5 MB por arquivo aos seus próprios downloads. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
 
 A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
-A referência de API embutida contém os detalhes mantidos pelo servidor para solicitações, respostas, autenticação e erros:
+A referência de API embutida contém os detalhes mantidos pelo servidor de solicitação, resposta, autenticação e erro:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Extract%20data%20from%20documents)

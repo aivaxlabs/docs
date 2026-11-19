@@ -5,7 +5,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 ## Portais de IA
 
 - [Conceitos de Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md)
-- [Nomes dos Modelos e do Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
+- [Nomes de Modelos e Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
 - [Usando Gateways de IA por meio de SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
 - [Levando um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
@@ -30,7 +30,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md)
 - [Interpretador de Funções (Descontinuado)](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md)
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
-- [Solução de Problemas de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
+- [Solução de Problemas na Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
 
 ## Roteamento
 
@@ -58,6 +58,8 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Gerenciando Sessões do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md)
 - [Cliente de Chat Web](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md)
 - [Integrações do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md)
+
+- [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models.md)
 
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 

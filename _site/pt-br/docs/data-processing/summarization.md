@@ -2,9 +2,9 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/summarization.html
 
 # Resumo
 
-Use o recurso de Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. Ele se adapta a relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, pesquisa ou de uma etapa posterior do fluxo de trabalho.
+Use o recurso de Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. Ele se adapta a relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, busca ou de uma etapa posterior do fluxo de trabalho.
 
-Um resumo reafirma o documento com novas palavras, sem adicionar informações ou comentários. Para obter campos específicos no formato JSON, use [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md). Para fazer perguntas abertas sobre mídia ou descrever conteúdo visual, use [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md).
+Um resumo reafirma o documento com novas palavras, sem adicionar informações ou comentários. Para obter campos específicos como JSON, use [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md) em vez disso. Para fazer perguntas abertas sobre mídia ou descrever conteúdo visual, use [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md).
 
 Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt-br/docs/authentication.md) e certifique-se de que a conta tenha um saldo positivo.
 
@@ -20,9 +20,9 @@ Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
 | `documents` | Array de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
-| `instructions` | String | Não | Orientações que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
+| `instructions` | String | Não | Diretrizes que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
 
-Imagens e arquivos aceitam dados URL base64 ou URLs HTTP(S) públicos. Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas. A AIVAX baixa URLs remotos antes do processamento, dentro do limite de tamanho de arquivo em [Preços e limites](#precos-e-limites); o recurso deve ser acessível sem login. Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, portanto, verifique o tipo de conteúdo de cada documento na solicitação.
+Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos. Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas. O recurso deve ser acessível sem login. Para uma parte `file`, o provedor busca o PDF diretamente quando o caminho da URL ou o `filename` termina em `.pdf`. Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`. O erro não identifica qual documento foi rejeitado, portanto, verifique o tipo de conteúdo de cada documento na solicitação.
 
 ```json
 {
@@ -47,7 +47,7 @@ Imagens e arquivos aceitam dados URL base64 ou URLs HTTP(S) públicos. Os format
 {
   "message": null,
   "data": [
-    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne o gasto duplo com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Permanece seguro enquanto nós honestos controlam a maior parte do poder de computação."
+    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne a dupla gasto com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Permanece seguro enquanto nós honestos controlam a maior parte do poder de computação."
   ]
 }
 ```
@@ -62,7 +62,7 @@ O Resumo é cobrado pelos tokens de entrada de cada documento. Tokens de saída 
 | --- | ---: |
 | Entrada de Resumo | **$0,04/M tokens** |
 
-O Resumo e a [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md) compartilham os mesmos limites de documentos. Arquivos remotos são baixados até 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
+Resumo e [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md) compartilham os mesmos limites de documentos. O provedor aplica seus próprios limites aos PDFs que busca diretamente. AIVAX aplica um limite de 5 MB por arquivo aos seus próprios downloads. O número de documentos processados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
 
 A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 

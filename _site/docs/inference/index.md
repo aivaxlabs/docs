@@ -59,6 +59,8 @@ Source: https://docs.aivax.net/docs/inference/index.html
 - [Web Chat Client](https://docs.aivax.net/docs/inference/chat-clients/web-client.md)
 - [Chat Client Integrations](https://docs.aivax.net/docs/inference/chat-clients/integrations.md)
 
+- [Subscription Models](https://docs.aivax.net/docs/inference/subscription-models.md)
+
 - [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md)
 
 - [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md)

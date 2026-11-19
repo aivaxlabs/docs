@@ -6,7 +6,7 @@ This page lists the limits that apply to `chat/completions` requests. Account-wi
 
 ## Rate limits
 
-Requests count toward the account's plan limits for integrated models or BYOK, and return `429 Too Many Requests` when a limit is reached. See [Plans and limits](https://docs.aivax.net/docs/limits.md).
+Requests count toward the account's plan limits for integrated models or BYOK, and return `429 Too Many Requests` when a limit is reached. Requests to subscription models also return `429` when the plan's monthly subscription model quota is exhausted. See [Plans and limits](https://docs.aivax.net/docs/limits.md).
 
 ## Context window
 

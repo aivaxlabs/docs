@@ -40,7 +40,7 @@ Each property in `responseSchema` is one field to find. Its `description` is the
 Images and files accept base64 data URLs or public HTTP(S) URLs:
 
 - Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs.
-- AIVAX downloads remote URLs before processing, within the file size limit in [Pricing and limits](#pricing-and-limits). The resource must be reachable without sign-in.
+- The resource must be reachable without sign-in. For a `file` part, the provider fetches the PDF directly when the URL path or `filename` ends in `.pdf`.
 - Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 
@@ -118,7 +118,7 @@ Extraction is billed for the input tokens of each document. Output tokens are no
 | --- | ---: |
 | Extraction input | **$0.04/M tokens** |
 
-Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. The provider applies its own limits to PDFs it fetches directly. AIVAX applies a 5 MB limit per file to its own downloads. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 

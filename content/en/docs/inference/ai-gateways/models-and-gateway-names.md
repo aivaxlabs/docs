@@ -16,6 +16,8 @@ Integrated model names start with `@` and follow `@creator/model-name`. List the
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Model%20listing&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
+Models under the `@aivax-subscription/` prefix are subscription models: `_details.provider_model.subscription` is `true` in the listing and their pricing is empty. They use the plan's monthly quota instead of the account balance; see [Subscription models](/docs/inference/subscription-models.md).
+
 Public API keys accept only a gateway's full ID. Slugs and integrated model names are rejected; see [Authentication](/docs/authentication.md).
 
 An integrated model name can carry a provider routing suffix, such as `@openai/gpt-6-luna#cheapest`. See [Inline routing](/docs/inference/routing/inline-routing.md).

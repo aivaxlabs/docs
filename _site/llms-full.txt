@@ -883,7 +883,13 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 ## Included daily allowances
 
-Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). LLM subscription coverage is currently disabled. For what each allowance covers, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). These daily allowances do not cover text-model inference; see [Subscription models](#subscription-models). For what each allowance covers, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+
+## Subscription models
+
+Pro, Max, and Ultimate include a monthly subscription model quota, renewed at the start of each calendar month. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
+
+The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md) and [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
 
 ## Storage
 
@@ -902,7 +908,7 @@ API responses include a `Consumed-Credits` header when the request charged usage
 
 Cross-origin responses expose `Consumed-Credits` and `X-Request-ID`, so browser JavaScript on another origin can read them when they are present. `X-Request-ID` is the identifier AIVAX assigned to that request.
 
-The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance. Treat a missing header as zero.
+The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance or by the monthly subscription model quota. Treat a missing header as zero.
 
 The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](https://docs.aivax.net/docs/inference/batch.md) work, is not included. Streamed responses never include this header, because it is added after the response has been produced. For a streamed request, read the `cost` recorded with the conversation (available when conversation logging is enabled) or calculate the cost from the reported token counts. Use your account usage records as the source of truth for billing.
 
@@ -963,7 +969,7 @@ An em dash (`—`) means the plan does not impose a limit, and `Not available` m
 | Integrated model input tokens | 1,000,000/min | 15,000,000/min | 60,000,000/min | — |
 | BYOK requests | 30/min | 150/min | 1,000/min | — |
 | Maximum context | 64,000 input tokens | — | — | — |
-| LLM subscription coverage | Currently disabled | Currently disabled | Currently disabled | Currently disabled |
+| Monthly subscription model quota | Not available | Included | Included | Included |
 | **Account and support** |  |  |  |  |
 | Storage quota | 30 MB | 2 GB | 10 GB | 20 GB |
 | Cost per excess GB | Not available | $0.50/GB/month | $0.30/GB/month | $0.20/GB/month |
@@ -1070,7 +1076,19 @@ RAG searches and document insertions share the embedding allowance. It does not 
 
 Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.
 
-Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements or rate limits. See [Pricing](https://docs.aivax.net/docs/pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. These daily allowances do not cover text-model inference; subscription models use a separate [monthly quota](#monthly-subscription-model-quota), and inference with other models is metered against the account balance. Allowances do not bypass balance requirements or rate limits. See [Pricing](https://docs.aivax.net/docs/pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+
+## Monthly subscription model quota
+
+Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md).
+
+Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance, and they have no per-token prices. Every other model is metered against the balance as usual. To tell them apart, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
+
+When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after it renews next month; until then, select another model or move to a plan that includes it.
+
+The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](https://docs.aivax.net/docs/inference/subscription-models.md#consumption-rate).
+
+The account balance response reports the quota only as a used percentage, in a subscription consumption of type `InferenceMonthly`. `planLimits.includesSubscriptionModels` is `true` on plans that include the quota. See [Get Account Balance](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
 
 ## Estimating PUs and tokens
 
@@ -2349,6 +2367,8 @@ The `model` field of `/v1/chat/completions` selects what runs the request. It ac
 Integrated model names start with `@` and follow `@creator/model-name`. List them with `GET /v1/models`; the same list includes the gateways of your account.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Model%20listing)
+
+Models under the `@aivax-subscription/` prefix are subscription models: `_details.provider_model.subscription` is `true` in the listing and their pricing is empty. They use the plan's monthly quota instead of the account balance; see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md).
 
 Public API keys accept only a gateway's full ID. Slugs and integrated model names are rejected; see [Authentication](https://docs.aivax.net/docs/authentication.md).
 
@@ -3918,7 +3938,7 @@ This page lists the limits that apply to `chat/completions` requests. Account-wi
 
 ## Rate limits
 
-Requests count toward the account's plan limits for integrated models or BYOK, and return `429 Too Many Requests` when a limit is reached. See [Plans and limits](https://docs.aivax.net/docs/limits.md).
+Requests count toward the account's plan limits for integrated models or BYOK, and return `429 Too Many Requests` when a limit is reached. Requests to subscription models also return `429` when the plan's monthly subscription model quota is exhausted. See [Plans and limits](https://docs.aivax.net/docs/limits.md).
 
 ## Context window
 
@@ -3986,7 +4006,7 @@ AIVAX uses two response styles:
 | `401 Unauthorized` | Confirm that the private key is present, complete, active, and sent through the SDK configuration. |
 | `402 Payment Required` | Review [Pricing](https://docs.aivax.net/docs/pricing.md) and confirm that the account is ready for a billable request. |
 | `403 Forbidden` | Confirm that the key type, model, or selected resource allows this operation. |
-| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. |
+| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. If the message says the subscription model quota is exhausted, it renews next month; use another model in the meantime. See [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota). |
 | `500 Internal Server Error` | An unexpected AIVAX failure occurred. Retry later; the response does not include internal details. |
 | `503 Service Unavailable` | A service AIVAX depends on is temporarily unavailable. Retry after the interval in the `Retry-After` header. |
 | `524` or proxy timeout | The request took longer than the proxy allows while AIVAX was still processing it. Send it to the [direct inference host](https://docs.aivax.net/docs/overview.md#long-running-inference) with a longer client timeout. |
@@ -5245,6 +5265,56 @@ Without a template, Kapso sends scheduled messages as plain text, which only wor
 ### Review and cancel scheduled messages
 
 Users can ask the assistant to list or cancel their scheduled messages. You can also review them per chat client in the API reference: **List Hook Schedules** shows pending messages, recurring tasks, and users who stopped replying to scheduled messages. **Get Schedule** shows the outcome of a message, including when it was skipped, and **Cancel Schedule** and **Cancel Recurring Task** remove it. Scheduled messages and recurring tasks are deleted together with their chat client.
+
+---
+
+Source: https://docs.aivax.net/docs/inference/subscription-models.html
+
+# Subscription models
+
+Subscription models are text models included in the Pro, Max, and Ultimate plans. Their names start with `@aivax-subscription/`. They use the plan's [monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota) instead of the account balance, so a request to one of them never debits your credits.
+
+Use them like any other integrated model: in API requests, in AI Gateways, in coding agents and other OpenAI-compatible tools, or for everyday tasks. Free and Custom plans do not include the quota.
+
+## Available models
+
+The table lists each model's context window and the usage included every month, expressed as the equivalent at the model's integrated catalog price. All subscription models share the same quota.
+
+| Model | Context window | Pro | Max | Ultimate |
+| --- | --- | --- | --- | --- |
+| DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $380<br>12.5× Pro |
+| GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+| GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+| Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $490<br>12.5× Pro |
+| MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+
+Each value assumes the whole monthly quota is spent on that model with a typical mix of input, cached input, and output tokens, and is rounded up to the nearest $10. The values are estimates, not guaranteed amounts. Spreading usage across several subscription models divides the same quota between them.
+
+The quota renews at the start of each calendar month. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
+
+## Consumption rate
+
+Subscription models are provided by suppliers through direct agreements that cover the models' original price. The rate at which a model consumes the quota follows those agreements, so it is dynamic and can change daily, and it can also fluctuate during the day. You may notice the same model using slightly more or slightly less of your quota for similar requests. The included equivalents above change with it.
+
+## Availability
+
+A subscription model runs the model it names. AIVAX rigorously checks the models delivered by its suppliers against the contracted models.
+
+A subscription model can become unavailable for an indefinite period when its supplier has excess demand. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
+
+## When the quota is exhausted
+
+When the quota is exhausted, or the plan does not include it, a request to a subscription model returns `429 Too Many Requests`. The request is not routed to a model outside the subscription and is never charged to the account balance. To continue before the quota renews, select another model explicitly; regular models are charged to the balance at their rates.
+
+## Data retention
+
+Subscription models are not zero data retention. Their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. Prompts are not used for training.
+
+With [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) enabled, requests to subscription models fail. Do not send personal, confidential, or regulated data to these models unless that retention is acceptable. AIVAX's own records follow the account's conversation logging setting; see [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md#inference).
+
+## Identify subscription models
+
+Subscription models have no per-token prices in the catalog. To identify them from an application, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`. See [Models and gateway names](https://docs.aivax.net/docs/inference/ai-gateways/models-and-gateway-names.md).
 
 ---
 
@@ -7736,7 +7806,7 @@ Each property in `responseSchema` is one field to find. Its `description` is the
 Images and files accept base64 data URLs or public HTTP(S) URLs:
 
 - Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs.
-- AIVAX downloads remote URLs before processing, within the file size limit in [Pricing and limits](#pricing-and-limits). The resource must be reachable without sign-in.
+- The resource must be reachable without sign-in. For a `file` part, the provider fetches the PDF directly when the URL path or `filename` ends in `.pdf`.
 - Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 
@@ -7814,7 +7884,7 @@ Extraction is billed for the input tokens of each document. Output tokens are no
 | --- | ---: |
 | Extraction input | **$0.04/M tokens** |
 
-Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. The provider applies its own limits to PDFs it fetches directly. AIVAX applies a 5 MB limit per file to its own downloads. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
@@ -7848,7 +7918,7 @@ Before calling this endpoint, [create an API key](https://docs.aivax.net/docs/au
 | `documents` | Content part array | Yes | One or more documents as OpenAI-compatible content parts: `text`, `image_url`, or `file`. |
 | `instructions` | String | No | Guidance that applies to every summary, such as format, language, focus, or length. |
 
-Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, within the file size limit in [Pricing and limits](#pricing-and-limits); the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
+Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. The resource must be reachable without sign-in. For a `file` part, the provider fetches the PDF directly when the URL path or `filename` ends in `.pdf`. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 ```json
 {
@@ -7888,7 +7958,7 @@ Summarization is billed for the input tokens of each document. Output tokens are
 | --- | ---: |
 | Summarization input | **$0.04/M tokens** |
 
-Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. The provider applies its own limits to PDFs it fetches directly. AIVAX applies a 5 MB limit per file to its own downloads. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
@@ -9579,7 +9649,7 @@ For production workflows, keep a human approval step before writes. The MCP can 
 
 ### Monitor costs and model choices
 
-The MCP can help an operations assistant investigate cost patterns and model selection. By listing models and invoking account API routes for usage, billing, gateway, or key information, the assistant can explain which models are expensive, which routes are using a subscription multiplier, and whether a cheaper model could handle part of the workload.
+The MCP can help an operations assistant investigate cost patterns and model selection. By listing models and invoking account API routes for usage, billing, gateway, or key information, the assistant can explain which models are expensive, which models are subscription models that do not debit the account balance, and whether a cheaper model could handle part of the workload.
 
 This is especially useful when a team has many gateways or batch jobs and wants to understand why spend changed. Instead of looking only at totals, an assistant can connect usage to model metadata, plan availability, gateway configuration, and feature choices such as RAG, tools, batch, or multimodal input.
 
@@ -10186,6 +10256,8 @@ AIVAX uses third-party services for infrastructure, object storage, transactiona
 
 When selecting a model or enabling a tool, the Account Manager may cause content to be sent to the selected model provider, aggregator, or tool provider. AIVAX does not control third-party policies and recommends prior review.
 
+Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control, and do not use them for training. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md#data-retention).
+
 ---
 
 ### 11. International Data Transfers
@@ -10601,6 +10673,7 @@ When a setting changes the level, the Collection Policy column lists each condit
 | Multimodal preprocessing | 🔴 Full | When attachments are converted to text through description, OCR, or transcription during inference, the resulting text is cached per account to avoid reprocessing the same content. Original files are not stored. |
 | Provider error diagnostics | 🔴 Full | When a model provider returns an error, the request sent to the provider and its response may be stored for diagnosis, regardless of conversation logging. |
 | [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | 🔴 Full | Sessions store message history, extra context, and metadata until the session expires. Media sent as data URLs is uploaded to object storage and referenced by a public URL. Generated audio is cached when audio synthesis is enabled. Inference also follows the conversation logging condition. |
+| [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | AIVAX records follow the account's **Conversations logging** setting. Subscription models are not zero data retention: their suppliers collect prompts and keep them for an indefinite period for moderation and internal control, and do not use them for training. Requests to these models fail when **Zero data retention providers only** is enabled. |
 | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | Follows the account's **Conversations logging** setting. It cannot be disabled per session. |
 | [Batch processing](https://docs.aivax.net/docs/inference/batch.md) | 🔴 Full | Workflows, jobs, and item inputs and outputs are stored until you delete them or clean the job items. |
 | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | 🔴 Full | Test definitions, runs, simulated conversations, and judge results are stored. |
@@ -10660,6 +10733,26 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Wednesday, November 18th, 2026
+
+Breaking changes:
+
+- **Models — Subscription model fields.** `GET /api/v1/information/models.json` no longer returns `pricing[].subscriptionMultiplier` and now returns `flags.isSubscription`. In `GET /v1/models`, `_details.provider_model.subscription_multiplier` is replaced by the boolean `_details.provider_model.subscription`. Subscription models return empty pricing arrays. Update clients that read the removed fields to use the new ones; see [Models and gateway names](https://docs.aivax.net/docs/inference/ai-gateways/models-and-gateway-names.md).
+- **Audio transcriptions — Grok STT 1.0 removed.** `@x-ai/grok-stt-1.0` (also accepted as `x-ai/grok-stt-1.0`) reached end of life and is no longer available; requests that name it now fail. `@x-ai/grok-stt-2.0` replaces it as the default speech-to-text model at the same price of $0.10 per hour. Update requests that name the old model to use `@x-ai/grok-stt-2.0`, or omit the model to use the default; see [Audio transcriptions](https://docs.aivax.net/docs/generations/audio-transcriptions.md).
+
+Fixes:
+
+- **Speech — ElevenLabs v3 and Multilingual v2 prices.** `@elevenlabs/eleven-v3` and `@elevenlabs/eleven-multilingual-v2` now cost $0.04 per 1,000 characters, down from $30, correcting a pricing error. The dashboard price labels for these models and GPT-4o mini TTS now match the amount charged.
+
+- **Models — Look up models by vendor-prefixed ID.** The `name` filter on `GET /api/v1/information/models.json` and the `filter` parameter on `GET /v1/models` now recognize names such as `minimax-m3.1-flash` for `@minimax/m3.1-flash` without treating `flash` and `flash-lite` as the same model.
+
+Changes:
+
+- **Account — Monthly subscription model quota.** Pro, Max, and Ultimate now include a monthly quota for subscription models, the models whose names start with `@aivax-subscription/`, renewed at the start of each calendar month. Using these models never debits the account balance; other models are still charged to the balance. Free and Custom plans have no quota. When the quota is exhausted, or the plan has none, requests to subscription models return `429 Too Many Requests` until it renews next month. The account balance response reports the quota as a used percentage in a subscription consumption of type `InferenceMonthly`, and `planLimits.includesSubscriptionModels` is `true` on plans that include it. The previous model subscription multiplier no longer applies. The new [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md) page lists the available models, their context windows, and the usage each plan includes as an equivalent at catalog prices, and describes the dynamic consumption rate, availability, and data retention of these models. Subscription models are not zero data retention and fail when **Zero data retention providers only** is enabled.
+- **Summarization and Extraction — PDF URLs.** The provider now fetches a PDF directly when the `file` part has a public HTTP(S) URL whose path ends in `.pdf`, or a `filename` ending in `.pdf`. These downloads use the provider's file limits. Existing request fields still work.
+- **Audio transcriptions — New models and lower Parakeet price.** Added `@nvidia/nemotron-3.5-transcribe` ($0.001 per minute, recordings up to one hour, 40 languages) and `@qwen/qwen3-asr-1.7b` ($0.027 per hour). `@nvidia/parakeet-tdt-0.6b-v3` now costs $0.001 per minute, down from $0.0015.
+- **Speech — Speechify Simba 3.5 and updated prices.** Added `@speechify/simba-3.5`, a text-to-speech model covering 48 languages, at $0.0075 per 1,000 characters, selectable in AI gateways, chat clients, and the dashboard. `@fish-audio/drama-3` now costs $0.01 per 1,000 characters, up from $0.002, and `@elevenlabs/eleven-flash-v2.5` costs $0.02, up from $0.01.
 
 ## Tuesday, November 17th, 2026
 
@@ -10827,30 +10920,5 @@ Changes:
 - **Inference — Session reuse with `conversation_token`.** `/v1/chat/completions` accepts `conversation_token`. When the same token is sent in every request of a conversation, AIVAX restores the calls and results of server-side tools from earlier turns before the model runs, including turns that ended with a text-only answer. Responses return `conversation_token` at the root (in the last chunk when streaming) and the assistant message ID in `id` and `choices[].message.id` (in every chunk `id` when streaming). When no token is sent, AIVAX generates and returns one. `idempotency_key` remains a deprecated alias; sending both with different values returns `400 Bad Request`. See [Session reuse](https://docs.aivax.net/docs/inference/chat-completions/session-reuse.md).
 - **Dashboard — Usage per model and per provider in Analytics.** On the **Analytics** page, the **Usage per model** table now shows one row per model with **Input tokens**, **Cached tokens**, **Output tokens** and **Total usage**, instead of one row per SKU. A new **Usage per provider** tab shows each provider with its top model by cost, token volume and total usage.
 - **Generations — Inline reference images.** `POST /api/v1/generations/images` accepts `data:` URIs in `referenceImages` — `image/png`, `image/jpeg`, `image/webp` or `image/gif` with base64 data, up to 8 MB each — alongside HTTP(S) URLs. Invalid data URIs return `400 Bad Request`. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
-
-## Tuesday, November 3rd, 2026
-
-Breaking changes:
-
-- **Models — `is_deprecated` now means old or deprecated.** In `GET /v1/models` and `GET /api/v1/models`, `_details.provider_model.is_deprecated` was inverted: models released in the last 12 months were reported as deprecated, and older models were reported as current. It is now `true` only when the model is flagged as deprecated or its release date is more than 12 months before the current day. Models with no release date are not marked deprecated by age. Clients that hid or selected models from the previous value should invert that check. See [Deprecated models](https://docs.aivax.net/docs/inference/routing/setup-routing.md#deprecated-models).
-
-Fixes:
-
-- **API — Malformed resource identifiers return 400.** A path identifier that cannot be read, such as an incomplete ID on an AI Gateway or another resource route, now returns `400 Bad Request` instead of `500 Internal Server Error`. Treat that response as an invalid request and do not retry it as a server failure. See [Troubleshoot requests](https://docs.aivax.net/docs/inference/chat-completions/troubleshooting.md).
-- **API — Browser clients can read request and cost headers.** Cross-origin responses now expose `X-Request-ID` and `Consumed-Credits`, so browser JavaScript can read the request identifier and the request cost when those headers are present. See [Request cost header](https://docs.aivax.net/docs/pricing.md#request-cost-header).
-- **RAG — Indexing no longer fails when long documents are embedded together.** Indexing a collection no longer fails only because several long documents were embedded in one request. Split very large documents before import when you need precise retrieval; see [Document size](https://docs.aivax.net/docs/rag/documents.md#document-size).
-- **Dashboard — OAuth authorization page no longer stuck loading.** When an application sends you to the console to request access, the page now shows the application name, the reason, the requested permissions and the **Authorize** and **Deny** buttons, instead of staying on "Loading the authorization request...". Invalid or expired requests show their error message again. See [OAuth](https://docs.aivax.net/docs/oauth.md).
-- **Dashboard — Two-factor code prompt no longer stuck loading.** When signing in or switching to a saved account with two-factor authentication, the authentication code dialog shows the code fields instead of staying on "Getting things ready...".
-- **RAG — JSONL imports with `insert-mode=sync` no longer time out in large collections.** After `END`, the **Index Documents (JSONL WebSocket)** endpoint could fail with an execution time error while removing documents absent from the stream, leaving those documents in the collection. Sync imports now finish in large collections, and imports with many lines complete faster. The multipart **Index Documents (JSONL)** endpoint also benefits for sync removals. A document changed by another request while a sync import is running is no longer removed by that import. If a previous sync import failed this way, send it again: unchanged documents are skipped and only the removal runs. Error messages now report the exact line that failed.
-
-Changes:
-
-- **Account — Pro and Max list prices.** The public Pro subscription is $19 per month, down from $39. Max is $99 per month, down from $399. These are list prices, not a negotiated account price. See [subscription pricing](https://aivax.net/pricing) and [Plan list prices](https://docs.aivax.net/docs/pricing.md#plan-list-prices).
-- **Account — Public plan list prices.** `GET /api/v1/information/plans.json` returns the Free, Pro, and Max list prices without authentication. Each entry has `plan` and `monthlyPrice` in USD. Free is `0`. It does not return negotiated prices. See [Plan list prices](https://docs.aivax.net/docs/pricing.md#plan-list-prices).
-- **Models — GLM-5.3-FlashX-Legal and Particle 1.** Adds `@z-ai/glm-5.3-flashx-legal` and `@particle-ai/particle-1` as selectable text models, billed per provider at published token rates. Existing account and plan adjustments still apply. Existing model identifiers remain unchanged.
-- **RAG — Document text counts as UTF-8 bytes.** Text stored in a collection now counts toward the storage quota as UTF-8 bytes. Text that uses only basic Latin characters is unchanged. Text with accents or other non-Latin characters can use more of the quota than it did before. Other stored data is counted as before. See [Account limits](https://docs.aivax.net/docs/limits.md#account-limits).
-- **Analytics — Printable monthly usage statement.** The **Monthly Reports** tab now produces a compact black-and-white document designed for printing and PDF export, showing the account name. Totals appear as a statement with a short description of each charge: **Inference**, **RAG** and **Services**, adding up to **Total billed**. The **Models used** table now lists input tokens, cached tokens, the cached share of the input, and output tokens for each model. Select **Include BRL values** to add a Brazilian real column beside each US dollar amount, converted at the exchange rate when the report is generated. Amounts in the report are shown with two decimal places. Through the API, `GET /api/v1/information/usage/monthly-report` returns the new `accountName` and `usdBrlRate` fields and per-model `inputTokens`, `cachedTokens` and `outputTokens`, and accepts `includeBrl=true`.
-- **Dashboard — Simpler OAuth authorization page.** When an application requests access to your account, the console now shows a single centered card with the application name, the reason, the list of what it will be able to do, the access duration, and the **Authorize** and **Deny** buttons. The signed-in account is shown below the card, with a **Switch account** link that returns to the same request after signing in. See [OAuth](https://docs.aivax.net/docs/oauth.md).
-- **Account — Step-by-step authenticator setup.** Adding an authenticator in the **Security** tab's two-factor authentication dialog now goes through separate steps. The first step shows the QR code and the secret in **QR code** and **Secret** tabs, with the reminder to save the secret. **Continue** opens the name and six-digit code fields. When the account already has an authenticator, a following step asks for a code from a current one. A confirmation step ends the setup. Invalid codes are shown inside the dialog, and **Back** returns to the previous step without clearing what was typed.
 
 

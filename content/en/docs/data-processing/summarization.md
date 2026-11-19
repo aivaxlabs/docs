@@ -24,7 +24,7 @@ Before calling this endpoint, [create an API key](../authentication.md) and make
 | `documents` | Content part array | Yes | One or more documents as OpenAI-compatible content parts: `text`, `image_url`, or `file`. |
 | `instructions` | String | No | Guidance that applies to every summary, such as format, language, focus, or length. |
 
-Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. AIVAX downloads remote URLs before processing, within the file size limit in [Pricing and limits](#pricing-and-limits); the resource must be reachable without sign-in. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
+Images and files accept base64 data URLs or public HTTP(S) URLs. Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs. The resource must be reachable without sign-in. For a `file` part, the provider fetches the PDF directly when the URL path or `filename` ends in `.pdf`. Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
 
 ```json
 {
@@ -64,7 +64,7 @@ Summarization is billed for the input tokens of each document. Output tokens are
 | --- | ---: |
 | Summarization input | **$0.04/M tokens** |
 
-Summarization and [Extraction](extraction.md) share the same document limits. Remote files are downloaded up to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](/docs/limits.md#data-processing).
+Summarization and [Extraction](extraction.md) share the same document limits. The provider applies its own limits to PDFs it fetches directly. AIVAX applies a 5 MB limit per file to its own downloads. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](/docs/limits.md#data-processing).
 
 The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 

@@ -71,7 +71,7 @@ For production workflows, keep a human approval step before writes. The MCP can 
 
 ### Monitor costs and model choices
 
-The MCP can help an operations assistant investigate cost patterns and model selection. By listing models and invoking account API routes for usage, billing, gateway, or key information, the assistant can explain which models are expensive, which routes are using a subscription multiplier, and whether a cheaper model could handle part of the workload.
+The MCP can help an operations assistant investigate cost patterns and model selection. By listing models and invoking account API routes for usage, billing, gateway, or key information, the assistant can explain which models are expensive, which models are subscription models that do not debit the account balance, and whether a cheaper model could handle part of the workload.
 
 This is especially useful when a team has many gateways or batch jobs and wants to understand why spend changed. Instead of looking only at totals, an assistant can connect usage to model metadata, plan availability, gateway configuration, and feature choices such as RAG, tools, batch, or multimodal input.
 

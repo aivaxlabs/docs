@@ -13,7 +13,7 @@ AIVAX uses two response styles:
 | `401 Unauthorized` | Confirm that the private key is present, complete, active, and sent through the SDK configuration. |
 | `402 Payment Required` | Review [Pricing](https://docs.aivax.net/docs/pricing.md) and confirm that the account is ready for a billable request. |
 | `403 Forbidden` | Confirm that the key type, model, or selected resource allows this operation. |
-| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. |
+| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. If the message says the subscription model quota is exhausted, it renews next month; use another model in the meantime. See [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota). |
 | `500 Internal Server Error` | An unexpected AIVAX failure occurred. Retry later; the response does not include internal details. |
 | `503 Service Unavailable` | A service AIVAX depends on is temporarily unavailable. Retry after the interval in the `Retry-After` header. |
 | `524` or proxy timeout | The request took longer than the proxy allows while AIVAX was still processing it. Send it to the [direct inference host](https://docs.aivax.net/docs/overview.md#long-running-inference) with a longer client timeout. |

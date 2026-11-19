@@ -1,5 +1,5 @@
 ---
-{title: Limites de Inferência,linkTitle: Limites,weight: 140,group: Inference,sourceHash: d094183edcd91e31,aliases: [/docs/pt-br/inference/chat-completions/limits.html]}
+{title: Limites de Inferência,linkTitle: Limites,weight: 140,group: Inference,sourceHash: efe1ce6c7f568cbe,aliases: [/docs/pt-br/inference/chat-completions/limits.html]}
 ---
 
 # Limites de inferência
@@ -8,7 +8,7 @@ Esta página lista os limites aplicáveis às solicitações `chat/completions`.
 
 ## Limites de taxa
 
-As solicitações contam para os limites do plano da conta para modelos integrados ou BYOK (Bring Your Own Key) e retornam `429 Too Many Requests` quando um limite é atingido. Consulte [Planos e limites](/docs/pt-br/limits.md).
+As solicitações contam para os limites do plano da conta para modelos integrados ou BYOK (Bring Your Own Key) e retornam `429 Too Many Requests` quando um limite é atingido. Solicitações a modelos de assinatura também retornam `429` quando a cota mensal do modelo de assinatura do plano é esgotada. Consulte [Planos e limites](/docs/pt-br/limits.md).
 
 ## Janela de contexto
 
@@ -46,7 +46,7 @@ Consulte [Entrada e multimodalidade](input-and-multimodality.md#media-requiremen
 
 ## Duração da solicitação
 
-Uma solicitação pode executar várias gerações e chamadas de ferramenta. Em `https://inference.aivax.net`, uma solicitação não streaming que excede o tempo limite do proxy retorna `524`. Use streaming ou envie solicitações longas para o host de inferência direto; consulte [Inferência de longa duração](concepts.md#long-running-inference).
+Uma solicitação pode executar várias gerações e chamadas de ferramentas. Em `https://inference.aivax.net`, uma solicitação não streaming que excede o tempo limite do proxy retorna `524`. Use streaming ou envie solicitações longas para o host de inferência direto; consulte [Inferência de longa duração](concepts.md#long-running-inference).
 
 ## Chaves de API públicas
 
@@ -54,7 +54,7 @@ Chaves públicas são projetadas para código executado em um navegador. Com uma
 
 - aceita apenas o ID completo de um gateway em `model`, não slugs ou nomes de modelos integrados;
 - aceita apenas estes campos de solicitação: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `stream`, `conversation_token` e `idempotency_key`. Qualquer outro campo retorna `400 Bad Request`;
-- não utiliza as fontes MCP do gateway, funções de protocolo, ferramentas embutidas, shell ou habilidades;
+- não utiliza as fontes MCP do gateway, funções de protocolo, ferramentas integradas, shell ou habilidades;
 - aplica limites de taxa de solicitação e tokens por chave e por endereço remoto. Consulte [Chaves de API públicas](/docs/pt-br/limits.md#public-api-keys) para os valores.
 
 Consulte [Autenticação](/docs/pt-br/authentication.md) antes de expor uma chave pública.

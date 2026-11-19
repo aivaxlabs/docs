@@ -20,7 +20,7 @@ An em dash (`—`) means the plan does not impose a limit, and `Not available` m
 | Integrated model input tokens | 1,000,000/min | 15,000,000/min | 60,000,000/min | — |
 | BYOK requests | 30/min | 150/min | 1,000/min | — |
 | Maximum context | 64,000 input tokens | — | — | — |
-| LLM subscription coverage | Currently disabled | Currently disabled | Currently disabled | Currently disabled |
+| Monthly subscription model quota | Not available | Included | Included | Included |
 | **Account and support** |  |  |  |  |
 | Storage quota | 30 MB | 2 GB | 10 GB | 20 GB |
 | Cost per excess GB | Not available | $0.50/GB/month | $0.30/GB/month | $0.20/GB/month |
@@ -127,7 +127,19 @@ RAG searches and document insertions share the embedding allowance. It does not 
 
 Coverage is evaluated for each metered service item: a document's embedding, an individual query-term embedding, a reranking call, a decision call's input usage, or an extraction operation. Each item is either fully included or billed in full at normal rates. Included items are tracked in subscription consumption, not as zero-cost entries in billing history. The current allowances permit a 10% margin above their base capacity. An item that would exceed that margin leaves the allowance unchanged and is billed normally. One request can contain several items, so some may be included while others are charged.
 
-Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. LLM subscription coverage is currently disabled, so text-model inference and RAG answer generation remain metered separately. Allowances do not bypass balance requirements or rate limits. See [Pricing](https://docs.aivax.net/docs/pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Daily allowances reset at midnight in the server's local time. Check the account's subscription usage indicators for consumption and reset status; usage can exceed 100% while within the margin. These daily allowances do not cover text-model inference; subscription models use a separate [monthly quota](#monthly-subscription-model-quota), and inference with other models is metered against the account balance. Allowances do not bypass balance requirements or rate limits. See [Pricing](https://docs.aivax.net/docs/pricing.md) for how uncovered items are billed. For a walkthrough of testing a retrieval pipeline within these allowances, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+
+## Monthly subscription model quota
+
+Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md).
+
+Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance, and they have no per-token prices. Every other model is metered against the balance as usual. To tell them apart, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
+
+When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after it renews next month; until then, select another model or move to a plan that includes it.
+
+The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](https://docs.aivax.net/docs/inference/subscription-models.md#consumption-rate).
+
+The account balance response reports the quota only as a used percentage, in a subscription consumption of type `InferenceMonthly`. `planLimits.includesSubscriptionModels` is `true` on plans that include the quota. See [Get Account Balance](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
 
 ## Estimating PUs and tokens
 
