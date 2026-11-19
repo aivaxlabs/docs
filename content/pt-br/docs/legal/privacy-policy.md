@@ -1,5 +1,5 @@
 ---
-{title: Política de Privacidade,linkTitle: Política de Privacidade,weight: 10,group: Legal documents,sourceHash: 1b6612613f4a8274,aliases: [/docs/pt-br/legal/privacy-policy.html]}
+{title: Política de Privacidade,linkTitle: Política de Privacidade,weight: 10,group: Legal documents,sourceHash: 6d05c850ab847778,aliases: [/docs/pt-br/legal/privacy-policy.html]}
 ---
 
 # Política de Privacidade
@@ -11,7 +11,7 @@ Atualização anterior: 20 de julho de 2026
 
 ---
 
-Bem-vindo à AIVAX. Esta Política de Privacidade descreve como a AIVAX coleta, usa, armazena, compartilha e protege informações em seus serviços de inferência de IA. Ela foi redigida para transparência e clareza técnica e não constitui aconselhamento jurídico. Os Gerentes de Conta devem revisar esta política com seus próprios conselheiros jurídicos quando necessário.
+Bem-vindo à AIVAX. Esta Política de Privacidade descreve como a AIVAX coleta, usa, armazena, compartilha e protege informações em seus serviços de inferência de IA. Ela foi redigida para garantir transparência e clareza técnica, não constituindo aconselhamento jurídico. Os Gerentes de Conta devem revisar este documento com seus próprios conselheiros jurídicos quando necessário.
 
 Ao utilizar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com os termos desta política.
 
@@ -19,15 +19,15 @@ Ao utilizar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com o
 
 - **AIVAX:** Empresa que fornece a plataforma e os serviços de orquestração de modelos de IA.
 - **Gerente de Conta da AIVAX ("Gerente de Conta"):** Pessoa física ou jurídica que cria e administra a conta e integra a API.
-- **Usuário Final:** Indivíduo que interage com o aplicativo do Gerente de Conta que consome a API da AIVAX.
+- **Usuário Final:** Indivíduo que interage com a aplicação do Gerente de Conta que consome a API da AIVAX.
 - **Dados da Conta:** Dados de registro e administrativos, como nome, e-mail, empresa, cargo, identificadores internos, preferências e configurações de chave de API.
 - **Dados de Faturamento:** Dados necessários para faturas, recibos, saldo da conta, créditos, eventos de pagamento e processamento de pagamentos por meio de processadores terceirizados.
 - **Dados de Inferência:** Entradas enviadas aos modelos e as saídas resultantes. Nos Termos de Uso, isso corresponde ao Conteúdo de Entrada e ao Conteúdo Gerado.
 - **Dados de Treinamento Semântico:** Conteúdo RAG (Recuperação Aumentada por Geração) e de reranking elegível, anonimizado, coletado após o Gerente de Conta habilitar a coleta de dados semânticos, conforme descrito em [Coleta de Dados](/docs/pt-br/data-sharing). A indexação e o armazenamento de documentos estão excluídos.
-- **Conversas:** Sequências armazenadas de interações de inferência, incluindo mensagens, metadados, nome do modelo, objeto de uso, ferramentas, recursos e informações de erro quando o registro de conversas estiver habilitado.
-- **Metadados Técnicos:** Logs de inferência e acesso, endereços IP ou informações de encaminhamento, strings de user-agent, carimbos de data/hora, latência, identificadores de sessão, uso de tokens, códigos de resposta, identificadores de solicitação e sinais de segurança ou abuso.
+- **Conversas:** Sequências armazenadas de interações de inferência, incluindo mensagens, metadados, nome do modelo, objeto de uso, ferramentas, recursos e informações de erro, quando o registro de conversas estiver habilitado.
+- **Metadados Técnicos:** Logs de inferência e acesso, endereços IP ou informações de encaminhamento, strings do user-agent, carimbos de data/hora, latência, identificadores de sessão, uso de tokens, códigos de resposta, identificadores de solicitação e sinais de segurança ou abuso.
 - **Processador:** A AIVAX quando processa dados de acordo com as instruções do Gerente de Conta.
-- **Controlador:** A AIVAX quando define finalidades para dados de conta, faturamento, segurança e conformidade.
+- **Controlador:** A AIVAX quando define as finalidades para dados de conta, faturamento, segurança e conformidade.
 - **Subprocessador:** Terceiro contratado ou configurado pela AIVAX para apoiar o processamento, como infraestrutura, e-mail, faturamento, provedores de modelos, provedores de pesquisa ou armazenamento de objetos.
 
 ---
@@ -40,7 +40,7 @@ Ao utilizar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com o
 | Dados de Faturamento | Controlador para finalidades legais, contratuais e operacionais de faturamento | Fornece e verifica |
 | Dados de Inferência / Conversas | Processador para processamento direcionado pelo cliente; Controlador para segurança, prevenção de abuso e logs operacionais, quando aplicável | Controlador do conteúdo e da finalidade |
 | Dados de Treinamento Semântico | Controlador para desenvolvimento de modelos e sistemas semânticos com base no consentimento do Gerente de Conta | Controlador do conteúdo de origem e responsável pela base legal e pelos avisos necessários aos usuários finais |
-| Metadados Técnicos | Controlador para segurança, confiabilidade, prevenção de abuso e operações da plataforma; Processador quando gerado como parte da execução do serviço | Controlador do contexto do aplicativo de origem |
+| Metadados Técnicos | Controlador para segurança, confiabilidade, prevenção de abuso e operações da plataforma; Processador quando gerado como parte da execução do serviço | Controlador do contexto da aplicação de origem |
 
 Ao atuar como Processador, a AIVAX segue as instruções do Gerente de Conta expressas por meio de chamadas de API, configurações do painel, seleção de modelos e integrações configuradas.
 
@@ -68,9 +68,9 @@ A AIVAX não requer categorias especiais de dados pessoais sensíveis. Se o Gere
 | --- | --- | --- | --- |
 | Dados da Conta | Criação de conta, autenticação, gerenciamento de conta, comunicações operacionais | Execução contratual / interesse legítimo | Enquanto a conta estiver ativa; contas desativadas ou inativas podem ser excluídas por limpeza agendada de acordo com as regras da plataforma |
 | Dados de Faturamento | Faturas, créditos, confirmação de pagamento, prevenção de fraude, registros fiscais e contábeis | Obrigações legais / execução contratual | De acordo com requisitos legais, contábeis e contratuais |
-| Metadados Técnicos | Segurança, prevenção de abuso, depuração, confiabilidade, limitação de taxa, contabilidade de custos | Interesse legítimo / execução contratual | Logs de inferência e acesso e metadados, incluindo endereços IP e strings de user-agent, são retidos por até 1 ano |
+| Metadados Técnicos | Segurança, prevenção de abuso, depuração, confiabilidade, limitação de taxa, contabilidade de custos | Interesse legítimo / execução contratual | Logs de inferência e acesso e metadados, incluindo endereços IP e strings do user-agent, são retidos por até 1 ano |
 | Dados de Inferência | Execução da inferência solicitada e integrações configuradas | Execução contratual | Processados para a solicitação e podem ser armazenados dentro das Conversas quando o registro de conversas estiver habilitado |
-| Dados de Treinamento Semântico | Desenvolver, treinar, ajustar fino, avaliar, testar e melhorar modelos e sistemas de recuperação ou classificação semântica | Consentimento | Retidos na forma anonimizada enquanto razoavelmente necessário para essas finalidades, obrigações legais, segurança e auditorias; depois excluídos |
+| Dados de Treinamento Semântico | Desenvolver, treinar, ajustar finamente, avaliar, testar e melhorar modelos e sistemas de recuperação ou classificação semântica | Consentimento | Retidos na forma anonimizada enquanto razoavelmente necessário para essas finalidades, obrigações legais, segurança e auditorias; depois, excluídos |
 | Conversas | Monitoramento, suporte, exportação, depuração, revisão de uso e histórico voltado ao usuário | Interesse legítimo / execução contratual | Visíveis/exportáveis de acordo com a retenção do plano: Grátis até 2 horas, Pro até 2 dias, Max até 14 dias, Ultimate até 30 dias |
 | Suporte | Resolver dúvidas, incidentes e solicitações de conformidade | Execução contratual / interesse legítimo | Retidos conforme necessário para resolver a solicitação e manter registros comerciais |
 | Dados Agregados ou Anonimizados | Planejamento de capacidade, confiabilidade, prevenção de abuso, melhoria do serviço | Fora do escopo da LGPD quando irreversivelmente anonimizados | Indeterminado enquanto anonimizado |
@@ -83,7 +83,7 @@ Os períodos de exportação de conversas são de 2 horas, 1 dia, 7 dias e 30 di
 
 A AIVAX coleta e registra conversas apenas quando o Gerente de Conta habilita o recurso de observabilidade ("Conversas"), seja para a solicitação individual ou globalmente para a conta. Se não estiver habilitado para a solicitação ou por meio da configuração geral da conta, a AIVAX não coleta, registra ou armazena o conteúdo da conversa dessa solicitação. O processamento de entradas e saídas para executar a inferência não cria um registro de conversa armazenado.
 
-A AIVAX não pode recuperar ou fornecer conversas que não foram coletadas porque esse recurso não estava habilitado, inclusive em resposta a uma ordem judicial. Os logs técnicos e metadados descritos na Seção 4 são separados do conteúdo das conversas. A divulgação de conversas armazenadas às autoridades está sujeita aos requisitos de ordem judicial na Seção 7.1.
+A AIVAX não pode recuperar ou fornecer conversas que não foram coletadas porque esse recurso não estava habilitado, inclusive em resposta a uma ordem judicial. Os logs técnicos e metadados descritos na Seção 4 são separados do conteúdo das conversas. A divulgação de conversas armazenadas às autoridades está sujeita aos requisitos de ordem judicial da Seção 7.1.
 
 O Gerente de Conta autenticado pode listar, visualizar, exportar e excluir conversas armazenadas por meio da API de conversas, sujeito à autorização e às janelas de retenção. Excluir uma conversa remove o registro de conversa correspondente para essa conta do armazenamento de produção.
 
@@ -91,7 +91,7 @@ O Gerente de Conta autenticado pode listar, visualizar, exportar e excluir conve
 
 ### 6. RAG, Memórias e Armazenamento
 
-A AIVAX pode armazenar coleções RAG, documentos, embeddings, metadados de documentos, memórias do usuário, descrições de mídia, dados de sessão de chat web e arquivos do workspace shell quando esses recursos forem usados.
+A AIVAX pode armazenar coleções RAG, documentos, embeddings, metadados de documentos, memórias do usuário, descrições de mídia, dados de sessão de chat web e arquivos do workspace shell quando esses recursos forem utilizados.
 
 A contabilidade atual de armazenamento inclui:
 
@@ -107,9 +107,9 @@ As cotas de armazenamento são baseadas no plano. O armazenamento incluído atua
 
 ### 7. Coleta Opcional de Dados Semânticos e Treinamento de Modelos
 
-Por padrão, a AIVAX não utiliza Dados de Inferência do Gerente de Conta ou Conversas para treinar modelos proprietários da AIVAX. Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, a AIVAX pode usar registros RAG e de reranking anonimizados elegíveis gerados enquanto a configuração estiver habilitada para as finalidades descritas em [Coleta de Dados](/docs/pt-br/data-sharing). A indexação e o armazenamento de documentos RAG não estão incluídos e não recebem desconto de programa.
+Por padrão, a AIVAX não utiliza os Dados de Inferência ou as Conversas do Gerente de Conta para treinar modelos proprietários da AIVAX. Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, a AIVAX pode usar registros RAG e de reranking elegíveis e anonimizados gerados enquanto a configuração estiver habilitada para as finalidades descritas em [Coleta de Dados](/docs/pt-br/data-sharing). A indexação e o armazenamento de documentos RAG não estão incluídos e não recebem desconto no programa.
 
-Antes do armazenamento, a AIVAX anonimiza esses registros removendo o vínculo com a conta e excluindo identificadores operacionais, nomes de documentos, dados de faturamento e carimbos de data/hora da coleta. A conta é consultada apenas para verificar o consentimento e aplicar o desconto elegível. A AIVAX não retém um mapeamento de conta para registro.
+Antes do armazenamento, a AIVAX anonimiza esses registros removendo a relação com a conta e excluindo identificadores operacionais, nomes de documentos, dados de faturamento e carimbos de data/hora da coleta. A conta é consultada apenas para verificar o consentimento e aplicar o desconto elegível. A AIVAX não retém um mapeamento de conta para registro.
 
 A configuração é desativada por padrão. Desativá-la interrompe a nova coleta, mas não exclui automaticamente os registros coletados enquanto o consentimento estava ativo nem reverte o treinamento já concluído. Como os mapeamentos de conta para registro não são armazenados, a AIVAX não pode localizar um registro de treinamento apenas por um ID de conta. O Gerente de Conta permanece responsável pela base legal, avisos e permissões necessárias para os dados pessoais submetidos por seus usuários finais. Solicitações relativas a dados pessoais presentes dentro do conteúdo semântico podem ser enviadas para **privacy@aivax.net** ou **wm@aivax.net** com informações suficientes para localizar o conteúdo, quando aplicável.
 
@@ -119,14 +119,14 @@ Provedores de modelos e agregadores de terceiros podem ter seus próprios termos
 
 ### 7.1. Ordens Judiciais e Solicitações de Autoridades Estrangeiras
 
-Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens emitidas em outros países devem ser submetidas por meio dos tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que a AIVAX divulgue dados. Uma ordem estrangeira por si só não autoriza a divulgação.
+Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens emitidas em outros países devem ser submetidas por meio dos tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que a AIVAX divulgue os dados. Uma ordem estrangeira por si só não autoriza a divulgação.
 
 Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto buscam os procedimentos aplicáveis por meio dos tribunais brasileiros. A preservação não é divulgação e não autoriza a coleta ou reconstrução do conteúdo de conversas que não foram registradas.
 
 Para cumprir uma ordem de tribunal brasileiro, a AIVAX pode fornecer os seguintes dados, limitados ao escopo da ordem e aos registros realmente disponíveis:
 
-- **Logs e metadados técnicos:** Até 1 ano de logs e metadados de inferência e acesso, incluindo endereços IP e strings de user-agent. Esses registros não implicam que o conteúdo da conversa foi coletado.
-- **Conversas armazenadas:** Apenas conversas coletadas enquanto o Gerente de Conta havia habilitado "Conversas" para a solicitação ou globalmente para a conta, e que permanecem disponíveis. A AIVAX fornece essas conversas às autoridades apenas sob uma ordem de tribunal brasileiro; ela não pode fornecer conversas que nunca foram coletadas.
+- **Logs e metadados técnicos:** Até 1 ano de logs e metadados de inferência e acesso, incluindo endereços IP e strings do user-agent. Esses registros não implicam que o conteúdo da conversa foi coletado.
+- **Conversas armazenadas:** Apenas conversas coletadas enquanto o Gerente de Conta havia habilitado "Conversas" para a solicitação ou globalmente para a conta, e que permanecem disponíveis. A AIVAX fornece essas conversas às autoridades apenas sob uma ordem de tribunal brasileiro; não pode fornecer conversas que nunca foram coletadas.
 - **Outras informações da conta e recursos armazenados:** Informações da conta, memórias do usuário, gateways de IA e suas configurações, coleções RAG e documentos e outros recursos armazenados da conta. Os registros disponíveis podem incluir backups com histórico de até 3 meses, conforme descrito na Seção 21.
 
 Esses períodos descrevem os limites da retenção disponível, não uma garantia de que cada registro exista durante todo o período. Uma solicitação de preservação não restaura registros que nunca foram coletados ou que não estão mais disponíveis.
@@ -135,7 +135,7 @@ Esses períodos descrevem os limites da retenção disponível, não uma garanti
 
 ### 8. Direitos do Titular dos Dados (Art. 18, LGPD)
 
-Quando a AIVAX atua como Controlador, os titulares dos dados podem solicitar confirmação de processamento, acesso, correção, anonimização, bloqueio ou exclusão, portabilidade, informações sobre compartilhamento, revogação de consentimento, quando aplicável, oposição ao processamento baseado em interesse legítimo e revisão de decisões automatizadas, quando aplicável.
+Quando a AIVAX atua como Controlador, os titulares dos dados podem solicitar confirmação do processamento, acesso, correção, anonimização, bloqueio ou exclusão, portabilidade, informações sobre compartilhamento, revogação de consentimento, quando aplicável, oposição ao processamento baseado em interesse legítimo e revisão de decisões automatizadas, quando aplicável.
 
 Canal: **privacy@aivax.net** ou **wm@aivax.net** (Encarregado de Proteção de Dados). Podemos solicitar verificação de identidade. Para dados nos quais a AIVAX atua como Processador, a AIVAX pode direcionar o titular dos dados ao Gerente de Conta Controlador.
 
@@ -146,7 +146,7 @@ Canal: **privacy@aivax.net** ou **wm@aivax.net** (Encarregado de Proteção de D
 Encarregado de Proteção de Dados (Art. 41): **(Identidade anonimizada)**
 Contato: **wm@aivax.net**
 
-As funções incluem comunicação com titulares de dados e com a ANPD, orientação interna de conformidade e suporte para avaliações de impacto à privacidade.
+As funções incluem comunicação com titulares de dados e com a ANPD, orientação interna de conformidade e apoio para avaliações de impacto à privacidade.
 
 ---
 
@@ -154,15 +154,15 @@ As funções incluem comunicação com titulares de dados e com a ANPD, orienta�
 
 A AIVAX utiliza serviços de terceiros para infraestrutura, armazenamento de objetos, e-mail transacional, faturamento, pesquisa na web, geração de imagens, reranking e inferência de modelos de IA. A lista técnica atual é mantida em [Processadores de Dados](/docs/pt-br/legal/third-party-processors).
 
-Ao selecionar um modelo ou habilitar uma ferramenta, o Gerente de Conta pode fazer com que o conteúdo seja enviado ao provedor de modelo, agregador ou provedor de ferramentas selecionado. A AIVAX não controla as políticas de terceiros e recomenda a revisão prévia.
+Ao selecionar um modelo ou habilitar uma ferramenta, o Gerente de Conta pode fazer com que o conteúdo seja enviado ao provedor de modelo, agregador ou provedor de ferramenta selecionado. A AIVAX não controla as políticas de terceiros e recomenda a revisão prévia.
 
-Modelos de assinatura, cujos nomes começam com `@aivax-subscription/`, não têm retenção zero de dados. Seus fornecedores coletam prompts e os retêm por tempo indeterminado para moderação e controle interno, e não os utilizam para treinamento. O Gerente de Conta não deve enviar dados pessoais, confidenciais ou regulamentados a esses modelos, a menos que essa retenção seja aceitável. Consulte [Modelos de assinatura](/docs/pt-br/inference/subscription-models.md#data-retention).
+Modelos de assinatura, cujos nomes começam com `@aivax-subscription/`, não têm retenção zero de dados. Seus fornecedores coletam prompts e os retêm por um período indeterminado para moderação e controle interno, e não os utilizam para treinamento. O Gerente de Conta não deve enviar dados pessoais, confidenciais ou regulados a esses modelos, a menos que essa retenção seja aceitável. Consulte [Modelos de assinatura](/docs/pt-br/inference/subscription-models/_index.md#data-retention).
 
 ---
 
 ### 11. Transferências Internacionais de Dados
 
-Os dados podem ser processados ou armazenados fora do Brasil dependendo da infraestrutura selecionada, provedor de modelo, provedor de pesquisa, provedor de armazenamento de objetos ou provedor de pagamento. A AIVAX aplica salvaguardas técnicas e contratuais adequadas ao serviço, incluindo controles de acesso, criptografia em trânsito, minimização e segregação lógica, quando aplicável.
+Os dados podem ser processados ou armazenados fora do Brasil, dependendo da infraestrutura selecionada, provedor de modelo, provedor de pesquisa, provedor de armazenamento de objetos ou provedor de pagamento. A AIVAX aplica salvaguardas técnicas e contratuais adequadas ao serviço, incluindo controles de acesso, criptografia em trânsito, minimização e segregação lógica, quando aplicável.
 
 ---
 
@@ -171,13 +171,13 @@ Os dados podem ser processados ou armazenados fora do Brasil dependendo da infra
 As principais medidas incluem:
 
 - Criptografia em trânsito com HTTPS/TLS.
-- Autenticação por chave de API e autorização limitada à conta.
-- Acesso administrativo baseado em função.
+- Autenticação por chave de API e autorização baseada na conta.
+- Acesso administrativo baseado em papéis.
 - Limitação de taxa para inferência, pesquisa RAG, inserção de documentos, ferramentas e operações de pagamento.
 - Verificações de saldo, saldo mínimo e cota de armazenamento antes de operações que incorram em custos.
 - Logs operacionais e relatórios de erro para solução de problemas e prevenção de abuso.
 - Separação entre recursos de propriedade da conta, como coleções, documentos, conversas, memórias e arquivos shell.
-- Configuração segura de credenciais por meio de parâmetros de inicialização do aplicativo, em vez de segredos codificados.
+- Configuração segura de credenciais por meio de parâmetros de inicialização da aplicação, em vez de segredos codificados.
 
 Nenhuma medida de segurança é absoluta; a AIVAX mantém um processo de melhoria contínua.
 
@@ -203,7 +203,7 @@ As interfaces do painel podem usar cookies estritamente necessários ou armazena
 
 ### 16. Crianças, Adolescentes e Menores Emancipados
 
-Os serviços não se destinam a pessoas menores de 18 anos, exceto menores emancipados legalmente com 16 anos ou mais, conforme a lei brasileira. O Gerente de Conta é responsável por implementar verificações apropriadas quando seu caso de uso puder envolver menores.
+Os serviços não se destinam a pessoas menores de 18 anos, exceto menores emancipados legalmente com idade igual ou superior a 16 anos, conforme a lei brasileira. O Gerente de Conta é responsável por implementar verificações adequadas quando seu caso de uso puder envolver menores.
 
 ---
 
@@ -233,7 +233,7 @@ A AIVAX fornece APIs para exportar o histórico de conversas em JSON ou JSONL de
 
 ### 21. Backups e Recuperação de Desastres
 
-A AIVAX mantém backups para continuidade operacional e recuperação de desastres, com cópias históricas de até 3 meses atrás. Esses backups podem conter informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e coleções e documentos RAG. Dados de produção excluídos podem permanecer nos backups dentro desse período até que a rotação do backup seja concluída. Os dados de backup disponíveis podem ser fornecidos para cumprir uma ordem de tribunal brasileiro conforme a Seção 7.1. Backups não contêm conversas que nunca foram coletadas porque "Conversas" não estava habilitado.
+A AIVAX mantém backups para continuidade operacional e recuperação de desastres, com cópias históricas com até 3 meses de antecedência. Esses backups podem conter informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e coleções e documentos RAG. Dados de produção excluídos podem permanecer nos backups dentro desse período até que a rotação do backup seja concluída. Os dados de backup disponíveis podem ser fornecidos para cumprir uma ordem de tribunal brasileiro conforme a Seção 7.1. Backups não contêm conversas que nunca foram coletadas porque "Conversas" não estava habilitado.
 
 ---
 

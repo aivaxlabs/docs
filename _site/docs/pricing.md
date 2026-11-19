@@ -39,7 +39,7 @@ Every plan includes separate daily allowances for eligible RAG embeddings, Refle
 
 Pro, Max, and Ultimate include a monthly subscription model quota, renewed at the start of each calendar month. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
 
-The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models.md) and [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
+The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/index.md) and [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
 
 ## Storage
 

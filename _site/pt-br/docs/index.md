@@ -63,7 +63,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Gerenciando Sessões do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md)
 - [Cliente de Chat Web](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md)
 - [Integrações do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md)
-- [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models.md)
+- [Integração com Harness](https://docs.aivax.net/pt-br/docs/inference/subscription-models/integration.md)
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 - [Voz e Tempo Real](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
 - [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
@@ -113,5 +113,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

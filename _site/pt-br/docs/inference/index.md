@@ -59,7 +59,9 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Cliente de Chat Web](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md)
 - [Integrações do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md)
 
-- [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models.md)
+## Modelos de Assinatura
+
+- [Integração com Harness](https://docs.aivax.net/pt-br/docs/inference/subscription-models/integration.md)
 
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 

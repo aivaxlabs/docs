@@ -2,6 +2,22 @@
 
 Changelog entries older than the ones shown at https://docs.aivax.net/docs/legal/changelogs.html, newest first.
 
+## Wednesday, November 4th, 2026
+
+Breaking changes:
+
+- **Inference — Chat completion IDs use the `aivx_` format.** In `/v1/chat/completions`, the response `id` and the `id` of every streamed chunk, including tool and error chunks, are now the assistant message ID in the `aivx_` format, instead of a UUID or a `chatcmpl-` value. Every chunk of a response shares the same ID. Tool call IDs are also longer. Update clients that validate the `chatcmpl-` prefix or expect a different ID per chunk.
+
+Fixes:
+
+- **Conversations — Conversation tokens are scoped to the account.** Two accounts that sent the same `idempotency_key` or `conversation_token` could update the same stored conversation record. Each account now keeps its own record for the same token. No action is required.
+
+Changes:
+
+- **Inference — Session reuse with `conversation_token`.** `/v1/chat/completions` accepts `conversation_token`. When the same token is sent in every request of a conversation, AIVAX restores the calls and results of server-side tools from earlier turns before the model runs, including turns that ended with a text-only answer. Responses return `conversation_token` at the root (in the last chunk when streaming) and the assistant message ID in `id` and `choices[].message.id` (in every chunk `id` when streaming). When no token is sent, AIVAX generates and returns one. `idempotency_key` remains a deprecated alias; sending both with different values returns `400 Bad Request`. See [Session reuse](/docs/inference/chat-completions/session-reuse.md).
+- **Dashboard — Usage per model and per provider in Analytics.** On the **Analytics** page, the **Usage per model** table now shows one row per model with **Input tokens**, **Cached tokens**, **Output tokens** and **Total usage**, instead of one row per SKU. A new **Usage per provider** tab shows each provider with its top model by cost, token volume and total usage.
+- **Generations — Inline reference images.** `POST /api/v1/generations/images` accepts `data:` URIs in `referenceImages` — `image/png`, `image/jpeg`, `image/webp` or `image/gif` with base64 data, up to 8 MB each — alongside HTTP(S) URLs. Invalid data URIs return `400 Bad Request`. See [Image generation](/docs/generations/images.md).
+
 ## Tuesday, November 3rd, 2026
 
 Breaking changes:

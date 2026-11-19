@@ -1,58 +1,58 @@
 ---
-{title: Planos e Limites,linkTitle: Planos e limites,weight: 40,group: Introduction,sourceHash: 8bea07a85fed68ed,aliases: [/docs/pt-br/limits.html]}
+{title: Planos e Limites,linkTitle: Planos e limites,weight: 40,group: Introduction,sourceHash: 9b1123b235d7a20c,aliases: [/docs/pt-br/limits.html]}
 ---
 
 # Planos e Limites
 
-AIVAX possui quatro planos de conta: **Gratuito**, **Pro**, **Max** e **Ultimate**. O plano atual controla o acesso ao modelo, limites de taxa da conta e do produto, cota de armazenamento, períodos de retenção e cotas diárias de serviço incluídas. Todos os limites de cada plano estão listados nesta página; as páginas dos produtos linkam aqui em vez de repetir os valores.
+A AIVAX possui quatro planos de conta: **Gratuito**, **Pro**, **Max** e **Ultimate**. O plano atual controla o acesso ao modelo, os limites de taxa da conta e do produto, a cota de armazenamento, os períodos de retenção e as cotas diárias de serviço incluídas. Todos os limites de cada plano estão listados nesta página; as páginas dos produtos fazem link para cá em vez de repetir os valores.
 
-Para preços de assinatura comercial e pacotes de planos, use a [página de preços da AIVAX](https://aivax.net/pricing). Os mesmos preços públicos da lista estão disponíveis em [Preços de lista dos planos](pricing.md#plan-list-prices).
+Para preços de assinatura comercial e pacotes de planos, utilize a [página de preços da AIVAX](https://aivax.net/pricing). Os mesmos preços públicos da lista estão disponíveis em [Preços de lista dos planos](pricing.md#plan-list-prices).
 
-Um travessão (`—`) significa que o plano não impõe um limite, e `Não disponível` significa que o recurso não está disponível no plano. Limites específicos de modelo, gateway, provedor ou produto ainda podem se aplicar. Limites que são iguais em todos os planos, como tamanhos de arquivo ou resultados por solicitação, são documentados em cada página de produto.
+Um travessão (`—`) significa que o plano não impõe um limite, e `Não disponível` significa que o recurso não está disponível no plano. Podem ainda aplicar-se limites específicos do modelo, gateway, provedor ou produto. Os limites que são iguais em todos os planos, como tamanhos de arquivo ou resultados por solicitação, estão documentados em cada página de produto.
 
 ## Limites da conta
 
 | Limite | Gratuito | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
 | **Inferência** |  |  |  |  |
-| Acesso ao modelo | Modelos de baixo preço | Todos os modelos | Todos os modelos | Todos os modelos |
+| Acesso ao modelo | Modelos de baixo custo | Todos os modelos | Todos os modelos | Todos os modelos |
 | Multiplicador de comissão de inferência | 1,25x | 1,05x | 1,02x | 1,00x |
-| Teto diário de comissão de inferência | US$ 1,50 | US$ 1,20 | US$ 1,00 | Sem comissão |
+| Teto diário de comissão de inferência | $1,50 | $1,20 | $1,00 | Sem comissão |
 | Solicitações de modelo integrado | 20/min e 500/dia | 150/min | 1.000/min | — |
-| Tokens de entrada de modelo integrado | 1.000.000/min | 15.000.000/min | 60.000.000/min | — |
+| Tokens de entrada do modelo integrado | 1.000.000/min | 15.000.000/min | 60.000.000/min | — |
 | Solicitações BYOK | 30/min | 150/min | 1.000/min | — |
 | Contexto máximo | 64.000 tokens de entrada | — | — | — |
-| Cota mensal de modelo de assinatura | Não disponível | Incluído | Incluído | Incluído |
+| Cota mensal de modelos de assinatura | Não disponível | Incluído | Incluído | Incluído |
 | **Conta e suporte** |  |  |  |  |
 | Cota de armazenamento | 30 MB | 2 GB | 10 GB | 20 GB |
-| Custo por GB excedente | Não disponível | US$ 0,50/GB/mês | US$ 0,30/GB/mês | US$ 0,20/GB/mês |
+| Custo por GB excedente | Não disponível | $0,50/GB/mês | $0,30/GB/mês | $0,20/GB/mês |
 | Retenção de conversas | 2 horas | 2 dias | 14 dias | 30 dias |
 | Retenção do histórico de pesquisa RAG | 2 horas | 3 dias | 14 dias | 30 dias |
-| Taxa de serviço em recargas de crédito | 5% (mínimo US$ 0,20) | Nenhuma | Nenhuma | Nenhuma |
+| Taxa de serviço nos recargas de crédito | 5% (mínimo $0,20) | Nenhuma | Nenhuma | Nenhuma |
 | Nível de suporte | E-mail | Prioritário | Prioritário | Dedicado |
 
-O texto do documento armazenado em uma coleção conta para a cota de armazenamento como bytes UTF-8. Texto com acentos ou caracteres não latinos pode usar mais dessa cota do que texto latino básico do mesmo comprimento. O histórico de pesquisa RAG é a lista de pesquisas mostrada em [Observabilidade RAG](rag/observability.md#search-history).
+O texto do documento armazenado em uma coleção conta para a cota de armazenamento como bytes UTF-8. Texto com acentos ou caracteres não latinos pode usar mais dessa cota do que texto latino básico do mesmo comprimento. O histórico de pesquisa RAG é a lista de pesquisas exibidas em [Observabilidade RAG](rag/observability.md#search-history).
 
-As solicitações de modelo integrado são limitadas tanto pela contagem de solicitações quanto pelos tokens de entrada. Os grupos de limite de taxa do modelo ajustam os limites de contagem de solicitações:
+As solicitações de modelo integrado são limitadas tanto pela contagem de solicitações quanto pelos tokens de entrada. Os grupos de limite de taxa do modelo ajustam os limiares de contagem de solicitações:
 
-| Grupo de limite de taxa | Multiplicador de limite |
+| Grupo de limite de taxa | Multiplicador de limiar |
 | --- | --- |
 | Comum | 1,0x |
 | Descontado | 0,5x |
 | Baixo | 0,3x |
 | Gratuito | 0,1x |
 
-Por exemplo, uma conta Pro tem normalmente 150 solicitações de modelo integrado por minuto. Com um grupo de modelo `Descontado`, o limite ajustado é de 75 solicitações por minuto.
+Por exemplo, uma conta Pro tem normalmente 150 solicitações de modelo integrado por minuto. Com um grupo de modelo `Descontado`, o limiar ajustado é de 75 solicitações por minuto.
 
-BYOK usa uma chave de provedor configurada no gateway em vez de um modelo integrado da AIVAX, mas as solicitações ainda passam pela infraestrutura da AIVAX e usam o limite BYOK do plano.
+O BYOK usa uma chave de provedor configurada no gateway em vez de um modelo integrado da AIVAX, mas as solicitações ainda passam pela infraestrutura da AIVAX e usam o limite BYOK do plano.
 
-Os limites de taxa são compartilhados entre todas as chaves de API da mesma conta. Uma solicitação que excederia uma janela ativa retorna `429 Too Many Requests`; ajuste as solicitações e use retentativas limitadas com backoff.
+Os limites de taxa são compartilhados entre todas as chaves de API da mesma conta. Uma solicitação que excederia uma janela ativa retorna `429 Too Many Requests`; ajuste o ritmo das solicitações e use retentativas limitadas com backoff.
 
 Contas personalizadas usam os limites de taxa do plano Pro multiplicados por um fator acordado para a conta, ou não têm limites de taxa de plano quando nenhum fator é definido. Contas personalizadas suportam 8 execuções simultâneas de Testes Agentic.
 
 ## Limites do produto
 
-Os limites do produto usam as mesmas regras dos limites da conta: eles são compartilhados entre as chaves de API da conta, e uma solicitação acima de uma janela ativa retorna `429 Too Many Requests`. Onde um limite conta itens em vez de solicitações HTTP, a nota abaixo da tabela indica isso.
+Os limites do produto usam as mesmas regras dos limites da conta: são compartilhados entre as chaves de API da conta, e uma solicitação acima de uma janela ativa retorna `429 Too Many Requests`. Onde um limite conta itens em vez de solicitações HTTP, a nota abaixo de sua tabela indica isso.
 
 ### RAG e coleções
 
@@ -67,7 +67,7 @@ Os limites do produto usam as mesmas regras dos limites da conta: eles são comp
 | Documentos por importação WebSocket JSONL | 10.000 | 50.000 | 1.000.000 | 10.000.000 |
 | Arquivos do Media Injector | 2/dia | 20/dia | 250/dia | 1.000/dia |
 
-O limite de solicitações de reranking aplica-se ao [endpoint de reranking](rag/reflex.md) e às pesquisas RAG que usam um reranker, incluindo pesquisas através de Gateways de IA e ferramentas MCP. O limite de tempo de processamento do Reflex conta o tempo gasto processando solicitações Reflex em ambos os caminhos; a entrada em cache não consome isso separadamente. Se uma importação exceder o limite por importação, divida-a em várias importações. Veja [Coleções](rag/collections.md), [Documentos](rag/documents.md) e [Reflex](rag/reflex.md).
+O limite de solicitações de reranking aplica-se ao [endpoint de reranking](rag/reflex.md) e às pesquisas RAG que usam um reranker, incluindo pesquisas através de AI Gateways e ferramentas MCP. O limite de tempo de processamento do Reflex conta o tempo gasto processando solicitações Reflex em ambos os caminhos; a entrada em cache não consome esse limite separadamente. Se uma importação exceder o limite por importação, divida-a em várias importações. Consulte [Coleções](rag/collections.md), [Documentos](rag/documents.md) e [Reflex](rag/reflex.md).
 
 ### Processamento de dados
 
@@ -80,16 +80,16 @@ O limite de solicitações de reranking aplica-se ao [endpoint de reranking](rag
 | Solicitações de descrição de mídia | 10/min e 40/hora | 40/min | 100/min | 200/min |
 | Solicitações de decisão semântica | 10/min | 30/min | 200/min | — |
 
-Os limites de classificação, extração, resumo e segmentação contam cada item na matriz `documents` da solicitação, não cada solicitação HTTP; extração e resumo compartilham uma cota. O refinamento de instrução compartilha essa cota e conta cada item em sua matriz `context`. Os limites de tradução, descrição de mídia e decisão semântica contam solicitações HTTP. Uma solicitação de decisão semântica consome uma unidade independentemente de quantas perguntas ela contém ou qual modelo de decisão ela seleciona, e o uso incluíso de decisões ainda consome unidades de solicitação. Veja [Classificação](data-processing/classification.md), [Extração](data-processing/extraction.md), [Resumo](data-processing/summarization.md), [Refinamento de Instrução](data-processing/instruction-refinement.md), [Segmentação de texto](data-processing/text-segmentation.md), [Traduções](data-processing/translations.md), [Descrições de mídia](data-processing/media-descriptions.md) e [Decisões Semânticas](data-processing/decisions.md).
+Os limites de classificação, extração, resumo e segmentação contam cada item na matriz `documents` da solicitação, não cada solicitação HTTP; extração e resumo compartilham uma cota. O refinamento de instrução compartilha essa cota e conta cada item em sua matriz `context`. Os limites de tradução, descrição de mídia e decisão semântica contam solicitações HTTP. Uma solicitação de decisão semântica consome uma unidade independentemente de quantas perguntas ela contém ou qual modelo de decisão ela seleciona, e o uso incluíso de decisões ainda consome unidades de solicitação. Consulte [Classificação](data-processing/classification.md), [Extração](data-processing/extraction.md), [Resumo](data-processing/summarization.md), [Refinamento de Instrução](data-processing/instruction-refinement.md), [Segmentação de texto](data-processing/text-segmentation.md), [Traduções](data-processing/translations.md), [Descrições de mídia](data-processing/media-descriptions.md) e [Decisões Semânticas](data-processing/decisions.md).
 
 ### Fala
 
 | Limite | Gratuito | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| Solicitações autônomas de texto para fala | 3/min e 40/hora | 20/min | 100/min | 300/min |
-| Solicitações autônomas de transcrição de áudio | 3/min e 40/hora | 20/min | 100/min | 300/min |
+| Solicitações standalone de texto para fala | 3/min e 40/hora | 20/min | 100/min | 300/min |
+| Solicitações standalone de transcrição de áudio | 3/min e 40/hora | 20/min | 100/min | 300/min |
 
-Texto para fala e transcrição têm cotas separadas com os mesmos valores. [Sessões de Voz](inference/voice-session.md) não estão sujeitas a essas cotas autônomas. Veja [Texto para fala](generations/speech.md) e [Fala para texto](generations/audio-transcriptions.md).
+Texto para fala e transcrição têm cotas separadas com os mesmos valores. [Sessões de Voz](inference/voice-session.md) não estão sujeitas a essas cotas standalone. Consulte [Texto para fala](generations/speech.md) e [Fala para texto](generations/audio-transcriptions.md).
 
 ### Ferramentas integradas e pesquisa na web
 
@@ -97,24 +97,24 @@ Texto para fala e transcrição têm cotas separadas com os mesmos valores. [Ses
 | --- | --- | --- | --- | --- |
 | Pesquisa na web | 15/dia | 500/dia | 4.000/dia | 10.000/dia |
 | Pesquisa X/Twitter | Não disponível | 200/dia | 3.000/dia | 10.000/dia |
-| Geração de documentos e páginas da web | 5/dia | 500/dia | 15.000/dia | 50.000/dia |
+| Geração de documentos e páginas web | 5/dia | 500/dia | 15.000/dia | 50.000/dia |
 | Geração e edição de imagens | 5/dia | 150/dia | 1.500/dia | 5.000/dia |
 | Ações gerais de serviço | 30/dia | 2.500/dia | 30.000/dia | 100.000/dia |
 | Comandos Bash | 300/hora | 30.000/hora | 100.000/hora | — |
 
-As ações gerais de serviço compartilham uma cota diária. O limite de geração de imagens é uma cota diária compartilhada pela ferramenta integrada, pela [API de geração de imagens](generations/images.md) e pelo [MCP de geração de mídia](mcp-utilities/media-generation-mcp.md); cada solicitação conta uma vez, independente do número de imagens solicitadas. Veja [Ferramentas integradas](tools/builtin-tools.md), [Pesquisa na Web](web-foundation/web-search.md) e [Shell](tools/shell.md).
+As ações gerais de serviço compartilham uma cota diária. O limite de geração de imagens é uma cota diária compartilhada pela ferramenta integrada, pela [API de geração de imagens](generations/images.md) e pelo [Media generation MCP](mcp-utilities/media-generation-mcp.md); cada solicitação conta uma vez, independentemente do número de imagens solicitadas. Consulte [Ferramentas integradas](tools/builtin-tools.md), [Pesquisa na Web](web-foundation/web-search.md) e [Shell](tools/shell.md).
 
-### Lote e Testes Agentic
+### Batch e Testes Agentic
 
 | Limite | Gratuito | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| Itens de fluxo de trabalho de lote processados | 500/dia | 25.000/dia | 250.000/dia | — |
+| Itens de fluxo de trabalho do Batch processados | 500/dia | 25.000/dia | 250.000/dia | — |
 | Novas execuções de Teste Agentic | 5/min | 20/min | 100/min | — |
 | Execuções simultâneas de Teste Agentic | 1 | 4 | 6 | 8 |
 
-Se o processamento em lote for pausado devido à cota, ele será retomado após a reinicialização da janela. Execuções manuais, execuções agendadas e avaliações diretas compartilham uma nova cota de execução. Veja [Lote](inference/batch.md#limits) e [Testes Agentic](inference/agentic-tests.md#pricing-and-limits).
+Se o processamento em lote for pausado devido à cota, ele será retomado após a reinicialização da janela. Execuções manuais, execuções agendadas e avaliações diretas compartilham uma nova cota de execução. Consulte [Batch](inference/batch.md#limits) e [Testes Agentic](inference/agentic-tests.md#pricing-and-limits).
 
-## Cotias diárias de assinatura incluídas
+## Cotás diárias de assinatura incluídas
 
 Cada plano inclui cotas diárias separadas para os serviços abaixo. Cada comparação refere-se ao mesmo serviço no plano Gratuito, não a um saldo de crédito compartilhado ou a um número garantido de solicitações. A cota não utilizada de um serviço não pode cobrir outro. Contas personalizadas não recebem cotas de assinatura.
 
@@ -125,29 +125,29 @@ Cada plano inclui cotas diárias separadas para os serviços abaixo. Cada compar
 | Decisões semânticas com modelos elegíveis | 20.000 tokens de entrada | 2× Gratuito | 3× Gratuito | 5× Gratuito |
 | Busca e extração OCR | 1.000 PUs | 8× Gratuito | 25× Gratuito | 50× Gratuito |
 
-Pesquisas RAG e inserções de documentos compartilham a cota de embedding. Ela não cobre geração de respostas, processamento de mídia, extração ou resumo de documentos, classificação de texto ou segmentação. Um embedding de consulta servido do cache não o consome. O Reflex usa uma cota de reranking separada que inclui entradas em cache e não em cache. A cota de decisão semântica cobre apenas modelos de decisão elegíveis; veja [Decisões Semânticas](data-processing/decisions.md#usage-and-cost). A conversão JSON opcional de Fetch é separada da cota de extração.
+As pesquisas RAG e as inserções de documentos compartilham a cota de embedding. Ela não cobre geração de respostas, processamento de mídia, extração ou resumo de documentos, classificação de texto ou segmentação. Um embedding de consulta servido do cache não o consome. O Reflex usa uma cota de reranking separada que inclui entradas em cache e não em cache. A cota de decisão semântica cobre apenas modelos de decisão elegíveis; consulte [Decisões Semânticas](data-processing/decisions.md#usage-and-cost). A conversão JSON opcional Fetch é separada da cota de extração.
 
-A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas taxas normais. Itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As cotas atuais permitem uma margem de 10% acima de sua capacidade base. Um item que excederia essa margem deixa a cota inalterada e é cobrado normalmente. Uma solicitação pode conter vários itens, então alguns podem ser incluídos enquanto outros são cobrados.
+A cobertura é avaliada para cada item de serviço medido: o embedding de um documento, o embedding de um termo de consulta individual, uma chamada de reranking, o uso de entrada de uma chamada de decisão ou uma operação de extração. Cada item é totalmente incluído ou cobrado integralmente nas taxas normais. Os itens incluídos são rastreados no consumo da assinatura, não como entradas de custo zero no histórico de faturamento. As cotas atuais permitem uma margem de 10% acima de sua capacidade base. Um item que excederia essa margem deixa a cota inalterada e é cobrado normalmente. Uma solicitação pode conter vários itens, então alguns podem ser incluídos enquanto outros são cobrados.
 
-As cotas diárias são redefinidas à meia-noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de reinicialização; o uso pode exceder 100% enquanto estiver dentro da margem. Essas cotas diárias não cobrem a inferência de modelos de texto; os modelos de assinatura usam uma [cota mensal](#monthly-subscription-model-quota) separada, e a inferência com outros modelos é medida contra o saldo da conta. As cotas não contornam os requisitos de saldo ou os limites de taxa. Veja [Preços](pricing.md) para saber como os itens não cobertos são faturados. Para um tutorial sobre testar um pipeline de recuperação dentro dessas cotas, veja [API RAG Gratuita na AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+As cotas diárias são redefinidas à meia-noite no horário local do servidor. Verifique os indicadores de uso da assinatura da conta para consumo e status de redefinição; o uso pode exceder 100% dentro da margem. Essas cotas diárias não cobrem a inferência de modelos de texto; os modelos de assinatura usam uma [cota mensal](#monthly-subscription-model-quota) separada, e a inferência com outros modelos é medida contra o saldo da conta. As cotas não contornam os requisitos de saldo ou os limites de taxa. Consulte [Preços](pricing.md) para saber como os itens não cobertos são faturados. Para um tutorial sobre testar um pipeline de recuperação dentro dessas cotas, consulte [API RAG Gratuita na AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
-## Cota mensal de modelo de assinatura
+## Cota mensal de modelos de assinatura
 
-Pro, Max e Ultimate incluem uma cota mensal para modelos de assinatura. Os planos Gratuito e Personalizado não a incluem. A cota é renovada no início de cada mês civil. Todos os modelos de assinatura a compartilham. Max inclui 5× a cota Pro, e Ultimate inclui 12,5× a cota Pro. Para os modelos disponíveis e o uso que cada plano inclui, veja [Modelos de Assinatura](inference/subscription-models.md).
+Pro, Max e Ultimate incluem uma cota mensal para modelos de assinatura. Os planos Gratuito e Personalizado não a incluem. A cota é renovada no início de cada mês civil. Todos os modelos de assinatura a compartilham. O Max inclui 5× a cota do Pro, e o Ultimate inclui 12,5× a cota do Pro. Para os modelos disponíveis e o uso que cada plano inclui, consulte [Modelos de assinatura](inference/subscription-models/_index.md).
 
-Os modelos de assinatura são os modelos do catálogo cujos nomes começam com `@aivax-subscription/`. Usá-los nunca debita o saldo da conta, e eles não têm preços por token. Todo e qualquer outro modelo é medido contra o saldo como de costume. Para diferenciá-los, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`.
+Os modelos de assinatura são os modelos do catálogo cujos nomes começam com `@aivax-subscription/`. Usá-los nunca debita o saldo da conta, e eles não têm preços por token. Todo os outros modelos são medidos contra o saldo como de costume. Para diferenciá-los, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`.
 
-Quando a cota está esgotada, ou o plano não possui nenhuma, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests` com uma mensagem de que a cota do modelo de assinatura está esgotada. A solicitação não é roteada para um modelo fora da assinatura. Nos planos com a cota, as solicitações são bem-sucedidas novamente após a renovação no próximo mês; até lá, selecione outro modelo ou mude para um plano que o inclua.
+Quando a cota se esgota, ou o plano não possui nenhuma, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests` com uma mensagem de que a cota do modelo de assinatura foi esgotada. A solicitação não é roteada para um modelo fora da assinatura. Nos planos com a cota, as solicitações são bem-sucedidas novamente após sua renovação no próximo mês; até lá, selecione outro modelo ou mude para um plano que a inclua.
 
-A taxa na qual cada modelo de assinatura consome a cota é dinâmica e pode mudar diariamente. Veja [Taxa de consumo](inference/subscription-models.md#consumption-rate).
+A taxa na qual cada modelo de assinatura consome a cota é dinâmica e pode mudar diariamente. Consulte [Taxa de consumo](inference/subscription-models/_index.md#consumption-rate).
 
-A resposta do saldo da conta relata a cota apenas como uma porcentagem usada, em um consumo de assinatura do tipo `InferenceMonthly`. `planLimits.includesSubscriptionModels` é `true` nos planos que incluem a cota. Veja [Obter Saldo da Conta](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
+A resposta do saldo da conta relata a cota apenas como uma porcentagem usada, em um consumo de assinatura do tipo `InferenceMonthly`. `planLimits.includesSubscriptionModels` é `true` nos planos que incluem a cota. Consulte [Obter Saldo da Conta](https://inference.aivax.net/apidocs/llms.txt?endpoint=GET%20%2Fapi%2Fv1%2Finformation%2Fbalance).
 
-## Estimando PUs e tokens
+## Estimativa de PUs e tokens
 
 O uso é medido em unidades de processamento (PUs) ou tokens, dependendo do serviço. Os exemplos abaixo ajudam você a estimar o tamanho de uma carga de trabalho. Eles são aproximações (`≈`), não valores garantidos: o valor exato é relatado nos campos de uso de cada resposta.
 
-**Unidades de processamento de Busca e OCR**
+**Unidades de processamento Fetch e OCR**
 
 | Conteúdo | PUs aproximados |
 | --- | --- |
@@ -157,7 +157,7 @@ O uso é medido em unidades de processamento (PUs) ou tokens, dependendo do serv
 | Foto ou captura de tela com texto | ≈ 40–50 |
 | PDF digitalizado, 10 páginas | ≈ 400–500 |
 
-Páginas nativas são convertidas a partir de sua camada de texto e custam quase nada; páginas digitalizadas, imagens e imagens embutidas em uma página passam por OCR e aumentam o total. Um PDF que mistura ambos é cobrado pelas páginas que realmente precisam de OCR.
+Páginas nativas são convertidas a partir de sua camada de texto e custam quase nada; páginas digitalizadas, imagens e imagens incorporadas em uma página passam por OCR e aumentam o total. Um PDF que mistura ambos é cobrado pelas páginas que realmente precisam de OCR.
 
 **Tokens**
 
@@ -180,9 +180,9 @@ Chaves públicas têm limites adicionais independentes do plano da conta.
 | Por endereço remoto | 3/5s, 20/min, 300/hora, 1.000/dia |
 | Global por chave | 10/5s, 60/min, 1.500/hora, 10.000/dia |
 
-| Escopo | Limites de token |
+| Escopo | Limites de tokens |
 | --- | --- |
 | Por endereço remoto | 100.000/5min, 500.000/30min, 2.000.000/6h, 5.000.000/dia |
 | Global por chave | 500.000/5min, 2.000.000/30min, 10.000.000/6h, 25.000.000/dia |
 
-Chaves públicas podem ser usadas para conclusões de chat, os endpoints `/api/v1/generations/*`, pesquisa semântica RAG e geração de respostas RAG. Para conclusões de chat, chaves públicas também exigem um UUID completo do AI Gateway, restringem parâmetros de solicitação e omitem superfícies de ferramentas do lado do servidor. Veja [Autenticação](authentication.md).
+Chaves públicas podem ser usadas para conclusões de chat, os endpoints `/api/v1/generations/*`, pesquisa semântica RAG e geração de respostas RAG. Para conclusões de chat, chaves públicas também exigem um UUID completo do AI Gateway, restringem parâmetros de solicitação e omitem superfícies de ferramentas do lado do servidor. Consulte [Autenticação](authentication.md).
