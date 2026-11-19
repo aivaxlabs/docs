@@ -1,5 +1,5 @@
 ---
-{title: Visão Geral dos Modelos de Assinatura,linkTitle: Visão geral,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/subscription-models.html],sourceHash: 68f9b018c974cfff}
+{title: Visão Geral dos Modelos de Assinatura,linkTitle: Visão geral,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/subscription-models.html,/pt-br/docs/inference/subscription-models.html],sourceHash: 68f9b018c974cfff}
 ---
 
 # Modelos de assinatura
