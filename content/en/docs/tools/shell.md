@@ -43,6 +43,10 @@ If persistence is disabled, or the inference context has no user external ID, th
 
 Enable persistence only for data the user expects to survive — working documents, generated reports, configuration they manage. Keep secrets, credentials, and other users' data out of the persistent workspace: anything written there endures beyond the session that created it.
 
+## Internet access
+
+By default, the shell environment has internet access through the network commands `curl`, `wget` and `ping`, with responses capped at 50 MB. Set `bashOptions.allowInternetAccess` to `false` to disable it: the network commands are removed and commands run fully offline.
+
 ## Pricing and limits
 
 The number of Bash commands per hour depends on the plan; see [Built-in tools and web search limits](../limits.md#built-in-tools-and-web-search). These limits apply to every plan:

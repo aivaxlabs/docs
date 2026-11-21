@@ -19,10 +19,13 @@ The table lists each model's context window and the usage included every month, 
 | GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
 | Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $490<br>12.5× Pro |
 | MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+| Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $40 | ≈ $190<br>5× Pro | ≈ $460<br>12.5× Pro |
+| Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $480<br>12.5× Pro |
+| Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320<br>5× Pro | ≈ $800<br>12.5× Pro |
 
 Each value assumes the whole monthly quota is spent on that model with a typical mix of input, cached input, and output tokens, and is rounded up to the nearest $10. The values are estimates, not guaranteed amounts. Spreading usage across several subscription models divides the same quota between them.
 
-The quota renews at the start of each calendar month. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](/docs/limits.md#monthly-subscription-model-quota).
+The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15, not on November 1. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](/docs/limits.md#monthly-subscription-model-quota).
 
 ## Consumption rate
 

@@ -8,6 +8,14 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Friday, November 20th, 2026
+
+Changes:
+
+- **Account — Monthly subscription model quota renewal.** The monthly subscription model quota no longer resets on the 1st of each month. The quota window now starts with the first request that consumes it and lasts one month, so it renews on the monthly anniversary of the first use — a quota first used on October 15 renews on November 15. A month without any use starts no window, and long-inactive accounts get a fresh window on their next request. The `resetAt` time in the account balance response reflects the first-use anniversary. Existing consumption keeps its history, so accounts whose current window already started on the 1st continue on that anchor until the next renewal.
+- **Models — New subscription models.** Adds `@aivax-subscription/qwen3.8-max`, `@aivax-subscription/step-5-preview`, and `@aivax-subscription/grok-4.7` to the subscription model catalog, joining the existing five. All plans include the same shared monthly quota; see [Subscription models](/docs/inference/subscription-models/overview.md).
+- **AI gateways — Internet access toggle for the virtual Bash tool.** AI gateway settings now include an **Allow internet access** option for the virtual Bash tool, enabled by default. Disabling it removes network commands such as `curl`, `wget` and `ping` from the Bash environment so the model runs commands fully offline. Existing gateways keep internet access; the option can be changed at any time in the gateway settings.
+
 ## Thursday, November 19th, 2026
 
 Changes:

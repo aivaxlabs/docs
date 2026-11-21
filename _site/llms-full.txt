@@ -887,7 +887,7 @@ Every plan includes separate daily allowances for eligible RAG embeddings, Refle
 
 ## Subscription models
 
-Pro, Max, and Ultimate include a monthly subscription model quota, renewed at the start of each calendar month. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
+Pro, Max, and Ultimate include a monthly subscription model quota whose window starts with the first request that uses it and renews one month later. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
 
 The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) and [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
 
@@ -1082,11 +1082,11 @@ Daily allowances reset at midnight in the server's local time. Check the account
 
 ## Monthly subscription model quota
 
-Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
+Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota window starts with the first request that uses it and lasts one month, so it renews on the monthly anniversary of the first use, not on the 1st. A month without any use starts no window. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
 
 Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance, and they have no per-token prices. Every other model is metered against the balance as usual. To tell them apart, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
 
-When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after it renews next month; until then, select another model or move to a plan that includes it.
+When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after the window renews one month after the first use; until then, select another model or move to a plan that includes it.
 
 The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](https://docs.aivax.net/docs/inference/subscription-models/overview.md#consumption-rate).
 
@@ -4010,7 +4010,7 @@ AIVAX uses two response styles:
 | `401 Unauthorized` | Confirm that the private key is present, complete, active, and sent through the SDK configuration. |
 | `402 Payment Required` | Review [Pricing](https://docs.aivax.net/docs/pricing.md) and confirm that the account is ready for a billable request. |
 | `403 Forbidden` | Confirm that the key type, model, or selected resource allows this operation. |
-| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. If the message says the subscription model quota is exhausted, it renews next month; use another model in the meantime. See [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota). |
+| `429 Too Many Requests` | Retry later and review [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing request volume. If the message says the subscription model quota is exhausted, it renews one month after the first request that used it; use another model in the meantime. See [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota). |
 | `500 Internal Server Error` | An unexpected AIVAX failure occurred. Retry later; the response does not include internal details. |
 | `503 Service Unavailable` | A service AIVAX depends on is temporarily unavailable. Retry after the interval in the `Retry-After` header. |
 | `524` or proxy timeout | The request took longer than the proxy allows while AIVAX was still processing it. Send it to the [direct inference host](https://docs.aivax.net/docs/overview.md#long-running-inference) with a longer client timeout. |
@@ -5293,10 +5293,13 @@ The table lists each model's context window and the usage included every month, 
 | GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
 | Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $490<br>12.5× Pro |
 | MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
+| Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $40 | ≈ $190<br>5× Pro | ≈ $460<br>12.5× Pro |
+| Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $480<br>12.5× Pro |
+| Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320<br>5× Pro | ≈ $800<br>12.5× Pro |
 
 Each value assumes the whole monthly quota is spent on that model with a typical mix of input, cached input, and output tokens, and is rounded up to the nearest $10. The values are estimates, not guaranteed amounts. Spreading usage across several subscription models divides the same quota between them.
 
-The quota renews at the start of each calendar month. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
+The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15, not on November 1. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
 
 ## Consumption rate
 
@@ -9575,6 +9578,10 @@ If persistence is disabled, or the inference context has no user external ID, th
 
 Enable persistence only for data the user expects to survive — working documents, generated reports, configuration they manage. Keep secrets, credentials, and other users' data out of the persistent workspace: anything written there endures beyond the session that created it.
 
+## Internet access
+
+By default, the shell environment has internet access through the network commands `curl`, `wget` and `ping`, with responses capped at 50 MB. Set `bashOptions.allowInternetAccess` to `false` to disable it: the network commands are removed and commands run fully offline.
+
 ## Pricing and limits
 
 The number of Bash commands per hour depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search). These limits apply to every plan:
@@ -11093,6 +11100,14 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 Technical changes that affect AIVAX products, services, or the public API. Dates identify when entries were added or updated, not confirmed production rollout dates. Each item identifies the affected product or service; maintenance with no user-facing effect is omitted.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Friday, November 20th, 2026
+
+Changes:
+
+- **Account — Monthly subscription model quota renewal.** The monthly subscription model quota no longer resets on the 1st of each month. The quota window now starts with the first request that consumes it and lasts one month, so it renews on the monthly anniversary of the first use — a quota first used on October 15 renews on November 15. A month without any use starts no window, and long-inactive accounts get a fresh window on their next request. The `resetAt` time in the account balance response reflects the first-use anniversary. Existing consumption keeps its history, so accounts whose current window already started on the 1st continue on that anchor until the next renewal.
+- **Models — New subscription models.** Adds `@aivax-subscription/qwen3.8-max`, `@aivax-subscription/step-5-preview`, and `@aivax-subscription/grok-4.7` to the subscription model catalog, joining the existing five. All plans include the same shared monthly quota; see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
+- **AI gateways — Internet access toggle for the virtual Bash tool.** AI gateway settings now include an **Allow internet access** option for the virtual Bash tool, enabled by default. Disabling it removes network commands such as `curl`, `wget` and `ping` from the Bash environment so the model runs commands fully offline. Existing gateways keep internet access; the option can be changed at any time in the gateway settings.
 
 ## Thursday, November 19th, 2026
 

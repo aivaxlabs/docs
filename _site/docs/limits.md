@@ -133,11 +133,11 @@ Daily allowances reset at midnight in the server's local time. Check the account
 
 ## Monthly subscription model quota
 
-Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota renews at the start of each calendar month. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
+Pro, Max, and Ultimate include a monthly quota for subscription models. Free and Custom plans do not include it. The quota window starts with the first request that uses it and lasts one month, so it renews on the monthly anniversary of the first use, not on the 1st. A month without any use starts no window. All subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
 
 Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance, and they have no per-token prices. Every other model is metered against the balance as usual. To tell them apart, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
 
-When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after it renews next month; until then, select another model or move to a plan that includes it.
+When the quota is exhausted, or the plan has none, a request to a subscription model returns `429 Too Many Requests` with a message that the subscription model quota is exhausted. The request is not routed to a model outside the subscription. On plans with the quota, requests succeed again after the window renews one month after the first use; until then, select another model or move to a plan that includes it.
 
 The rate at which each subscription model consumes the quota is dynamic and can change daily. See [Consumption rate](https://docs.aivax.net/docs/inference/subscription-models/overview.md#consumption-rate).
 

@@ -30,7 +30,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Moderação](https://docs.aivax.net/pt-br/docs/inference/chat-completions/moderation.md)
 - [Interpretador de Funções (Descontinuado)](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md)
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
-- [Solução de Problemas na Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
+- [Solução de Problemas de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
 
 ## Roteamento
 
