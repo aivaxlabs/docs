@@ -70,7 +70,7 @@ Remote content can change between test runs and contributes to usage. Use only t
 
 A focused test usually gives more actionable results than one broad scenario. Separate unrelated goals into different tests so that a failure identifies the behavior that regressed.
 
-Follow [multi-turn evaluation for LLM agents with a simulated user and judge](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery, including how a goal that leaks the answer can end in a loss.
+Follow [multi-turn evaluation for LLM agents with a simulated user and judge](https://aivax.net/blog/introducing-agentic-tests/) to define observable goals, run a simulated conversation, and inspect recovery, including how a goal that leaks the answer can end in a loss. Moving tests off OpenAI Evals before it closes? See [OpenAI Evals alternatives and where multi-turn tests go](https://aivax.net/blog/openai-evals-shutdown-multi-turn-agent-tests/).
 
 ### Validation hooks
 
