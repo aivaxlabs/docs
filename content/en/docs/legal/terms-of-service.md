@@ -156,6 +156,8 @@ AIVAX Services may route Input Content to AI models, rerankers, search providers
 
 When using a specific model, provider, or tool, you may also be subject to that provider's terms. You are responsible for reviewing provider suitability before sending personal, confidential, regulated, or sensitive data.
 
+Data-handling classifications that AIVAX shows for a provider or model, including "zero data retention" and statements that prompts are not used for training, reflect what the provider or aggregator declares. AIVAX does not audit, verify, or guarantee that third parties do not collect, retain, or use Input Content, and is not responsible for a third party's failure to honor those declarations.
+
 ---
 
 ### 5. Suspension and Termination
