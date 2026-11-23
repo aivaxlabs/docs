@@ -43,7 +43,7 @@ When the quota is exhausted, or the plan does not include it, a request to a sub
 
 ## Data retention
 
-Subscription models are not zero data retention. Their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. Prompts are not used for training.
+Subscription models are not zero data retention. Their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. The suppliers state that prompts are not used for training; AIVAX does not verify or guarantee this.
 
 With [Zero data retention providers only](/docs/inference/routing/zdr.md) enabled, requests to subscription models fail. Do not send personal, confidential, or regulated data to these models unless that retention is acceptable. AIVAX's own records follow the account's conversation logging setting; see [Data Processors](/docs/legal/third-party-processors.md#inference).
 

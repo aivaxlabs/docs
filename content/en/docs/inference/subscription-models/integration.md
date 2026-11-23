@@ -29,21 +29,7 @@ Subscription models appear in the picker with the rest of the catalog, and their
 
 ## Codex
 
-> [!WARNING]
-> The Codex CLI speaks only the [OI] Responses API, and AIVAX does not serve `/v1/responses`. Codex cannot connect to AIVAX directly today; it needs a local Responses-to-Chat-Completions translator in front of the endpoint.
-
-Run a translator that exposes `/v1/responses` and forwards to `https://inference.aivax.net/v1`, for example a local LiteLLM proxy:
-
-```yaml
-model_list:
-  - model_name: "@aivax-subscription/kimi-k3.1-pro"
-    litellm_params:
-      model: "openai/@aivax-subscription/kimi-k3.1-pro"
-      api_base: "https://inference.aivax.net/v1"
-      api_key: "os.environ/AIVAX_API_KEY"
-```
-
-Then declare the proxy as a provider in `~/.codex/config.toml`:
+The Codex CLI speaks the [OI] Responses API, which AIVAX serves at `/v1/responses`. Declare AIVAX as a provider in `~/.codex/config.toml`:
 
 ```toml
 model_provider = "aivax"
@@ -52,28 +38,25 @@ model_context_window = 500000
 
 [model_providers.aivax]
 name = "AIVAX"
-base_url = "http://127.0.0.1:4000/v1"
-env_key = "AIVAX_PROXY_KEY"
+base_url = "https://inference.aivax.net/v1"
+env_key = "AIVAX_API_KEY"
 wire_api = "responses"
 supports_websockets = false
 ```
 
 Select the model with `codex --model "@aivax-subscription/glm-5.3"`, with `-c model=...`, or with `/model` in the TUI.
 
-Two consequences follow from the translation layer. Codex does not know the AIVAX models, so set `model_context_window` yourself and expect a metadata warning in the picker; supply `model_catalog_json` if you want the list pre-filled. Tool calling, `apply_patch`, and reasoning output depend entirely on the translator, so verify a real edit and a shell command before relying on it.
+Codex does not know the AIVAX models, so set `model_context_window` yourself and expect a metadata warning in the picker; supply `model_catalog_json` if you want the list pre-filled. The endpoint is stateless and supports only function tools: hosted tools such as web search and other tool types (`custom`, `namespace`) are ignored. Verify a real edit and a shell command before relying on it.
 
 ## [CC]
 
-> [!WARNING]
-> The [CC] CLI targets the Anthropic Messages API (`/v1/messages`), which AIVAX does not serve. [CC] cannot connect to AIVAX directly; it needs a local Anthropic-Messages-to-Chat-Completions translator in front of the endpoint.
-
-Point [CC] at the translator through the `env` block of `~/.claude/settings.json`, or through the same variables exported in your shell:
+The [CC] CLI targets the Anthropic Messages API, which AIVAX serves at `/v1/messages`. Point [CC] at AIVAX through the `env` block of `~/.claude/settings.json`, or through the same variables exported in your shell:
 
 ```json
 {
   "env": {
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:4000",
-    "ANTHROPIC_AUTH_TOKEN": "<PROXY_KEY>",
+    "ANTHROPIC_BASE_URL": "https://inference.aivax.net",
+    "ANTHROPIC_AUTH_TOKEN": "<AIVAX_API_KEY>",
     "ANTHROPIC_MODEL": "@aivax-subscription/kimi-k3.1-pro",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "@aivax-subscription/kimi-k3.1-pro",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "@aivax-subscription/glm-5.3",
@@ -86,7 +69,7 @@ Point [CC] at the translator through the `env` block of `~/.claude/settings.json
 
 `ANTHROPIC_BASE_URL` takes no `/v1` suffix, because [CC] appends the Anthropic paths itself. `ANTHROPIC_AUTH_TOKEN` must be set to a non-empty value, otherwise [CC] opens its login screen; use `/status` to confirm the base URL and the credential source.
 
-Gateway model discovery only keeps model names containing `claude` or `anthropic`, so the `@aivax-subscription/` names must be set explicitly through the variables above. Keep the Haiku alias pointed at a subscription model as well, because session titles and other background tasks use it. As with Codex, tool use and reasoning fidelity depend on the translator, and the `anthropic-beta` headers and thinking blocks that [CC] sends must be handled or disabled there.
+Gateway model discovery only keeps model names containing `claude` or `anthropic`, so the `@aivax-subscription/` names must be set explicitly through the variables above. Keep the Haiku alias pointed at a subscription model as well, because session titles and other background tasks use it. Only client tools are supported: Anthropic server tools, such as the web search used by the WebSearch tool, are ignored.
 
 ## OpenCode
 

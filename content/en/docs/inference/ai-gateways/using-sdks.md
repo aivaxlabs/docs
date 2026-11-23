@@ -46,7 +46,7 @@ console.log(response.choices[0].message.content);
 
 Replace `my-gateway:50c3` with your gateway's full ID or slug.
 
-OpenAI-compatible inference uses `/v1/chat/completions`. The `/v1/responses` endpoint is not supported.
+OpenAI-compatible inference uses `/v1/chat/completions`. The stateless `/v1/responses` endpoint and the Anthropic-compatible `/v1/messages` endpoint are also available; only function tools are supported in both.
 
 ## Send AIVAX fields
 
