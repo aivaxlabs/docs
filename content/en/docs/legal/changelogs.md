@@ -8,6 +8,25 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Monday, November 23rd, 2026
+
+Changes:
+
+- **Inference — Responses and Anthropic Messages endpoints.** Adds `POST /v1/responses` (also `/api/v1/responses`), following the Open Responses specification and compatible with OpenAI Responses API clients, and `POST /v1/messages` (also `/api/v1/messages`), compatible with the Anthropic Messages API, its SDKs and Claude Code. Both accept an integrated model name or an AI Gateway as `model`, support streaming and non-streaming responses, function/client tools, images, files and reasoning, and are billed like chat completions. The Responses endpoint is stateless: `previous_response_id` is not supported, so send the full conversation in `input`. Only function/client tools are supported: other tool types, such as Anthropic server and Anthropic-defined tools (web search or bash) or Responses `custom`, `namespace` and `web_search` tools, are ignored, as are unsupported Responses input items and Anthropic content blocks. `file_id` references are not supported in either endpoint. The `x-api-key` header is now accepted for authentication in addition to `Authorization: Bearer`.
+- **Observability — Conversation list filters cover the whole period.** `GET /api/v1/conversations` now applies filters (`--gateway`, `--model`, `--user`, `--api-key`, `--chat-client`, `--chat-session`, `--id`, `--token`, `--rid`) and free-text search across the whole requested period before the result limit of 300 conversations, or 1,000 with a filter. Previously the limit was applied first, so in high-volume accounts filtered results stopped a few days back even though the conversations were still retained. Free text can now be combined with filters, and the response includes `conversationToken` and `requestId`. When more conversations match than the limit, the `X-Results-Truncated` response header carries the applied limit. The dashboard shows a notice in that case and now lists the full update date, a short conversation ID, and the request ID. The CLI `conversations list` command adds `--search`, `--id`, `--token` and `--request-id` and prints the same notice.
+
+## Sunday, November 22nd, 2026
+
+Changes:
+
+- **Docs — Third-party data handling is described as declared, not guaranteed.** The [Privacy Policy](/docs/legal/privacy-policy.md), [Terms of Use](/docs/legal/terms-of-service.md), [Data Processors](/docs/legal/third-party-processors.md), and [Zero data retention providers only](/docs/inference/routing/zdr.md) pages now state that the zero data retention classification, and statements that prompts are not used for training, reflect what each provider or aggregator declares; AIVAX does not audit, verify, or guarantee them. In Data Processors, services that send content to a third-party provider are now classified as Partial instead of ZDR, even when AIVAX stores nothing: reranking, web search, fetch and OCR, X posts search, text-to-speech, speech-to-text, media descriptions, text classification, semantic decisions, and text segmentation. No service behavior changed. The **Zero data retention providers only** setting in the dashboard shows the same notice.
+
+## Sunday, November 22nd, 2026
+
+Changes:
+
+- **Account — Welcome dialog and privacy defaults for new accounts.** New accounts are created with conversation logging and RAG logging disabled and special providers allowed; semantic data collection and **Zero data retention providers only** remain disabled. On the first visit to the dashboard, a welcome dialog presents AI Gateways, RAG, chat sessions, and the model gateway, and then lets the user turn observability (conversation and RAG logging) on or off, choose between all providers and zero data retention providers only, and allow or disallow special providers. The dialog appears only once, and every choice can be changed later in the **Privacy** tab of the account settings. Existing accounts keep their current settings; see [Special providers](/docs/inference/routing/special-providers.md) and [Zero data retention](/docs/inference/routing/zdr.md).
+
 ## Friday, November 20th, 2026
 
 Changes:
@@ -31,7 +50,7 @@ Breaking changes:
 
 Fixes:
 
-- **Speech — ElevenLabs v3 and Multilingual v2 prices.** `@elevenlabs/eleven-v3` and `@elevenlabs/eleven-multilingual-v2` now cost $0.04 per 1,000 characters, down from $30, correcting a pricing error. The dashboard price labels for these models and GPT-4o mini TTS now match the amount charged.
+- **Speech — ElevenLabs v3 and Multilingual v2 prices.** `@elevenlabs/eleven-v3` and `@elevenlabs/eleven-multilingual-v2` cost $0.04 per 1,000 characters. The dashboard price labels for these models and GPT-4o mini TTS match the amount charged.
 
 - **Models — Look up models by vendor-prefixed ID.** The `name` filter on `GET /api/v1/information/models.json` and the `filter` parameter on `GET /v1/models` now recognize names such as `minimax-m3.1-flash` for `@minimax/m3.1-flash` without treating `flash` and `flash-lite` as the same model.
 
@@ -49,7 +68,7 @@ Fixes:
 - **Chat clients — Session metadata in messaging integrations.** Replies and scheduled messages from WhatsApp, Telegram, and other messaging integrations now carry the session metadata to MCP servers, protocol functions, gateway workers, and stored conversations, as web chat sessions already did.
 - **Gateways — Reserved MCP metadata keys.** Custom metadata keys beginning with `_aiv` no longer make MCP tool calls fail. They are ignored, and the AIVAX fields keep their values.
 - **Tools — Tool explanations no longer break MCP and protocol function calls.** With tool explanations enabled, AIVAX now removes `_tool_reason` and `_tool_goal` from the arguments it sends to MCP servers and protocol function callbacks. MCP servers that reject unknown arguments no longer fail these calls. Streamed `servertool` events still include both fields and `explanation`. See [Tool explanations](/docs/inference/response-rendering/tool-explanations.md).
-- **Account — Inactive accounts with a balance are kept.** Disabled or inactive accounts are no longer deleted by the scheduled cleanup while they still hold a balance.
+- **Account — Inactive account cleanup.** The scheduled cleanup only removes disabled or inactive accounts with no remaining balance.
 - **Models — Model lookup with suffixes.** The `name` filter of `GET /api/v1/information/models.json` now ignores a `#` provider tag or a `:` variant suffix and returns the matching base model.
 
 Changes:

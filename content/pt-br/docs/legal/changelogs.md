@@ -31,7 +31,7 @@ Alterações disruptivas (Breaking changes):
 
 Correções:
 
-- **Fala — Preços do ElevenLabs v3 e Multilingual v2.** `@elevenlabs/eleven-v3` e `@elevenlabs/eleven-multilingual-v2` agora custam $0,04 por 1.000 caracteres, abaixo de $30, corrigindo um erro de precificação. Os rótulos de preço do painel para esses modelos e GPT-4o mini TTS agora correspondem ao valor cobrado.
+- **Fala — Preços do ElevenLabs v3 e Multilingual v2.** `@elevenlabs/eleven-v3` e `@elevenlabs/eleven-multilingual-v2` custam $0,04 por 1.000 caracteres. Os rótulos de preço do painel para esses modelos e GPT-4o mini TTS correspondem ao valor cobrado.
 
 - **Modelos — Busca de modelos por ID com prefixo de fornecedor.** O filtro `name` em `GET /api/v1/information/models.json` e o parâmetro `filter` em `GET /v1/models` agora reconhecem nomes como `minimax-m3.1-flash` para `@minimax/m3.1-flash` sem tratar `flash` e `flash-lite` como o mesmo modelo.
 
@@ -49,7 +49,7 @@ Correções:
 - **Clientes de chat — Metadados de sessão em integrações de mensagens.** Respostas e mensagens agendadas de WhatsApp, Telegram e outras integrações de mensagens agora carregam os metadados da sessão para servidores MCP, funções de protocolo, workers de gateway e conversas armazenadas, assim como as sessões de chat web já faziam.
 - **Gateways — Chaves de metadados reservados do MCP.** Chaves de metadados personalizados começando com `_aiv` já não fazem chamadas de ferramentas MCP falharem. Elas são ignoradas, e os campos da AIVAX mantêm seus valores.
 - **Ferramentas — Explicações de ferramentas não quebram mais chamadas MCP e de função de protocolo.** Com explicações de ferramentas habilitadas, a AIVAX agora remove `_tool_reason` e `_tool_goal` dos argumentos que envia para servidores MCP e callbacks de função de protocolo. Servidores MCP que rejeitam argumentos desconhecidos já não falham nessas chamadas. Eventos `servertool` em streaming ainda incluem ambos os campos e `explanation`. Consulte [Explicações de ferramentas](/docs/pt-br/inference/response-rendering/tool-explanations.md).
-- **Conta — Contas inativas com saldo são mantidas.** Contas desativadas ou inativas não são mais excluídas pela limpeza agendada enquanto ainda possuem um saldo.
+- **Conta — Limpeza de contas inativas.** A limpeza agendada só remove contas desativadas ou inativas sem saldo restante.
 - **Modelos — Busca de modelos com sufixos.** O filtro `name` de `GET /api/v1/information/models.json` agora ignora uma tag de provedor `#` ou um sufixo de variante `:` e retorna o modelo base correspondente.
 
 Alterações:
