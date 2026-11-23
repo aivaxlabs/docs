@@ -7,7 +7,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Conceitos de Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md)
 - [Nomes de Modelos e Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
-- [Usando Gateways de IA por meio de SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
+- [Usando Gateways de IA via SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
 - [Levando um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
 
 ## Inferência
@@ -62,7 +62,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 ## Modelos de Assinatura
 
 - [Visão Geral dos Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md)
-- [Integração com Harness](https://docs.aivax.net/pt-br/docs/inference/subscription-models/integration.md)
+- [Integração do Harness](https://docs.aivax.net/pt-br/docs/inference/subscription-models/integration.md)
 
 - [Testes Agênticos](https://docs.aivax.net/pt-br/docs/inference/agentic-tests.md)
 

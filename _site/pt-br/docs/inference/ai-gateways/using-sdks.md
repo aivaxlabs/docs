@@ -44,7 +44,7 @@ console.log(response.choices[0].message.content);
 
 Substitua `my-gateway:50c3` pelo ID completo ou slug do seu gateway.
 
-A inferência compatível com o OpenAI usa `/v1/chat/completions`. O endpoint `/v1/responses` não é suportado.
+A inferência compatível com o OpenAI usa `/v1/chat/completions`. O endpoint sem estado `/v1/responses` e o endpoint compatível com Anthropic `/v1/messages` também estão disponíveis; apenas ferramentas de função são suportadas em ambos.
 
 ## Enviar campos AIVAX
 
@@ -70,4 +70,4 @@ Os campos que o AIVAX adiciona às respostas, como `conversation_token`, `provid
 
 ## Solicitações longas
 
-Solicitações com raciocínio longo ou muitas chamadas de ferramentas podem exceder o tempo limite do proxy do host padrão. Use o host de inferência direto `https://direct.inference.aivax.net/v1` como `base_url` e aumente o tempo limite do SDK; consulte [Inferência de longa duração](https://docs.aivax.net/pt-br/docs/overview.md#long-running-inference).
+Solicitações com raciocínio longo ou muitas chamadas de ferramenta podem exceder o tempo limite do proxy do host padrão. Use o host de inferência direto `https://direct.inference.aivax.net/v1` como `base_url` e aumente o tempo limite do SDK; consulte [Inferência de longa duração](https://docs.aivax.net/pt-br/docs/overview.md#long-running-inference).

@@ -19,6 +19,8 @@ These three services read documents, but they return different things:
 
 Choose Extraction when you already know which fields you need and want them read directly from the document. Choose Fetch when you need the document's full text, for example to index it or to read a web page. Choose Media Descriptions when you need an explanation of visual or audiovisual content, such as a chart, a photo, or a video, rather than specific fields.
 
+For a request pattern that keeps a failed document from costing the rest, see [extract structured data from a PDF, one document per request](https://aivax.net/blog/extract-structured-data-from-pdf-llm-api-what-a-failed-batch-costs/).
+
 ## Endpoint
 
 <div class="request-item post">

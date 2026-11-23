@@ -1,16 +1,16 @@
 ---
-{title: Visão Geral dos Modelos de Assinatura,linkTitle: Visão geral,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/subscription-models.html,/docs/pt-br/inference/subscription-models/overview.html],sourceHash: 88559b9b179b0d08}
+{title: Visão Geral dos Modelos de Assinatura,linkTitle: Visão geral,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/subscription-models.html,/docs/pt-br/inference/subscription-models/overview.html],sourceHash: d8a1c5cb8c5c2721}
 ---
 
 # Modelos de assinatura
 
-Os modelos de assinatura são modelos de texto incluídos nos planos Pro, Max e Ultimate. Seus nomes começam com `@aivax-subscription/`. Eles usam a [cota mensal de modelos de assinatura](/docs/pt-br/limits.md#monthly-subscription-model-quota) do plano em vez do saldo da conta, portanto, uma solicitação a um deles nunca debita seus créditos.
+Os modelos de assinatura são modelos de texto incluídos nos planos Pro, Max e Ultimate. Seus nomes começam com `@aivax-subscription/`. Eles utilizam a [cota mensal de modelos de assinatura](/docs/pt-br/limits.md#monthly-subscription-model-quota) do plano em vez do saldo da conta, portanto, uma solicitação a um deles nunca debita seus créditos.
 
 Use-os como qualquer outro modelo integrado: em solicitações de API, em AI Gateways, em agentes de codificação e outras ferramentas compatíveis com OpenAI, ou para tarefas cotidianas. Os planos Free e Custom não incluem a cota.
 
 ## Modelos disponíveis
 
-A tabela lista a janela de contexto de cada modelo e o uso incluído todos os meses, expresso como o equivalente ao preço do catálogo integrado do modelo. Todos os modelos de assinatura compartilham a mesma cota.
+A tabela lista a janela de contexto de cada modelo e o uso incluído todo mês, expresso como equivalente ao preço do catálogo integrado do modelo. Todos os modelos de assinatura compartilham a mesma cota.
 
 | Modelo | Janela de contexto | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
@@ -23,9 +23,9 @@ A tabela lista a janela de contexto de cada modelo e o uso incluído todos os me
 | Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $480<br>12.5× Pro |
 | Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320<br>5× Pro | ≈ $800<br>12.5× Pro |
 
-Cada valor assume que toda a cota mensal é gasta nesse modelo com uma mistura típica de tokens de entrada, entrada em cache e saída, e é arredondado para cima para o próximo múltiplo de $10. Os valores são estimativas, não quantias garantidas. Dividir o uso entre vários modelos de assinatura divide a mesma cota entre eles.
+Cada valor assume que toda a cota mensal é gasta nesse modelo com uma mistura típica de tokens de entrada, entrada em cache e saída, e é arredondado para cima para o próximo $10. Os valores são estimativas, não quantias garantidas. Dividir o uso entre vários modelos de assinatura divide a mesma cota entre eles.
 
-A janela de cota começa com a primeira solicitação que a utiliza e dura um mês: usá-la pela primeira vez em 15 de outubro renova a cota em 15 de novembro, não em 1º de novembro. A resposta do saldo da conta informa isso apenas como uma porcentagem usada; consulte [Cota mensal de modelos de assinatura](/docs/pt-br/limits.md#monthly-subscription-model-quota).
+A janela de cota começa com a primeira solicitação que a utiliza e dura um mês: usá-la pela primeira vez em 15 de outubro renova a cota em 15 de novembro, não em 1º de novembro. A resposta do saldo da conta informa isso apenas como uma porcentagem usada; veja [Cota mensal de modelos de assinatura](/docs/pt-br/limits.md#monthly-subscription-model-quota).
 
 ## Taxa de consumo
 
@@ -33,20 +33,20 @@ Os modelos de assinatura são fornecidos por fornecedores por meio de acordos di
 
 ## Disponibilidade
 
-Um modelo de assinatura executa o modelo que nomeia. A AIVAX verifica rigorosamente os modelos entregues por seus fornecedores em relação aos modelos contratados.
+Um modelo de assinatura executa o modelo que nomeia. A AIVAX verifica rigorosamente os modelos entregues por seus fornecedores contra os modelos contratados.
 
 Um modelo de assinatura pode se tornar indisponível por um período indeterminado quando seu fornecedor tem demanda excessiva. As solicitações falham enquanto estiverem indisponíveis; use outro modelo de assinatura ou um modelo integrado regular enquanto isso.
 
 ## Quando a cota está esgotada
 
-Quando a cota está esgotada, ou o plano não a inclui, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests`. A solicitação não é roteada para um modelo fora da assinatura e nunca é cobrada no saldo da conta. Para continuar antes que a cota seja renovada, selecione outro modelo explicitamente; os modelos regulares são cobrados no saldo nas suas taxas.
+Quando a cota está esgotada, ou o plano não a inclui, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests`. A solicitação não é roteada para um modelo fora da assinatura e nunca é cobrada no saldo da conta. Para continuar antes da renovação da cota, selecione outro modelo explicitamente; os modelos regulares são cobrados no saldo nas suas taxas.
 
 ## Retenção de dados
 
-Os modelos de assinatura não têm retenção zero de dados. Seus fornecedores coletam prompts e os mantêm por um período indeterminado para moderação e controle interno. Os prompts não são usados para treinamento.
+Os modelos de assinatura não têm retenção zero de dados. Seus fornecedores coletam prompts e os mantêm por um período indeterminado para moderação e controle interno. Os fornecedores afirmam que os prompts não são usados para treinamento; a AIVAX não verifica nem garante isso.
 
-Com [Somente provedores de retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) habilitado, as solicitações a modelos de assinatura falham. Não envie dados pessoais, confidenciais ou regulamentados a esses modelos, a menos que essa retenção seja aceitável. Os próprios registros da AIVAX seguem a configuração de registro de conversas da conta; consulte [Processadores de Dados](/docs/pt-br/legal/third-party-processors.md#inference).
+Com [Somente provedores de retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) habilitado, as solicitações a modelos de assinatura falham. Não envie dados pessoais, confidenciais ou regulamentados a esses modelos, a menos que essa retenção seja aceitável. Os registros próprios da AIVAX seguem a configuração de registro de conversas da conta; veja [Processadores de Dados](/docs/pt-br/legal/third-party-processors.md#inference).
 
 ## Identificar modelos de assinatura
 
-Os modelos de assinatura não têm preços por token no catálogo. Para identificá-los a partir de um aplicativo, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`. Consulte [Nomes de modelos e gateways](/docs/pt-br/inference/ai-gateways/models-and-gateway-names.md).
+Modelos de assinatura não têm preços por token no catálogo. Para identificá-los de um aplicativo, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`. Veja [Nomes de modelos e gateways](/docs/pt-br/inference/ai-gateways/models-and-gateway-names.md).

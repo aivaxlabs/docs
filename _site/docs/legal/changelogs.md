@@ -6,6 +6,25 @@ Technical changes that affect AIVAX products, services, or the public API. Dates
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Monday, November 23rd, 2026
+
+Changes:
+
+- **Inference — Responses and Anthropic Messages endpoints.** Adds `POST /v1/responses` (also `/api/v1/responses`), following the Open Responses specification and compatible with OpenAI Responses API clients, and `POST /v1/messages` (also `/api/v1/messages`), compatible with the Anthropic Messages API, its SDKs and Claude Code. Both accept an integrated model name or an AI Gateway as `model`, support streaming and non-streaming responses, function/client tools, images, files and reasoning, and are billed like chat completions. The Responses endpoint is stateless: `previous_response_id` is not supported, so send the full conversation in `input`. Only function/client tools are supported: other tool types, such as Anthropic server and Anthropic-defined tools (web search or bash) or Responses `custom`, `namespace` and `web_search` tools, are ignored, as are unsupported Responses input items and Anthropic content blocks. `file_id` references are not supported in either endpoint. The `x-api-key` header is now accepted for authentication in addition to `Authorization: Bearer`.
+- **Observability — Conversation list filters cover the whole period.** `GET /api/v1/conversations` now applies filters (`--gateway`, `--model`, `--user`, `--api-key`, `--chat-client`, `--chat-session`, `--id`, `--token`, `--rid`) and free-text search across the whole requested period before the result limit of 300 conversations, or 1,000 with a filter. Previously the limit was applied first, so in high-volume accounts filtered results stopped a few days back even though the conversations were still retained. Free text can now be combined with filters, and the response includes `conversationToken` and `requestId`. When more conversations match than the limit, the `X-Results-Truncated` response header carries the applied limit. The dashboard shows a notice in that case and now lists the full update date, a short conversation ID, and the request ID. The CLI `conversations list` command adds `--search`, `--id`, `--token` and `--request-id` and prints the same notice.
+
+## Sunday, November 22nd, 2026
+
+Changes:
+
+- **Docs — Third-party data handling is described as declared, not guaranteed.** The [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md), [Terms of Use](https://docs.aivax.net/docs/legal/terms-of-service.md), [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md), and [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) pages now state that the zero data retention classification, and statements that prompts are not used for training, reflect what each provider or aggregator declares; AIVAX does not audit, verify, or guarantee them. In Data Processors, services that send content to a third-party provider are now classified as Partial instead of ZDR, even when AIVAX stores nothing: reranking, web search, fetch and OCR, X posts search, text-to-speech, speech-to-text, media descriptions, text classification, semantic decisions, and text segmentation. No service behavior changed. The **Zero data retention providers only** setting in the dashboard shows the same notice.
+
+## Sunday, November 22nd, 2026
+
+Changes:
+
+- **Account — Welcome dialog and privacy defaults for new accounts.** New accounts are created with conversation logging and RAG logging disabled and special providers allowed; semantic data collection and **Zero data retention providers only** remain disabled. On the first visit to the dashboard, a welcome dialog presents AI Gateways, RAG, chat sessions, and the model gateway, and then lets the user turn observability (conversation and RAG logging) on or off, choose between all providers and zero data retention providers only, and allow or disallow special providers. The dialog appears only once, and every choice can be changed later in the **Privacy** tab of the account settings. Existing accounts keep their current settings; see [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md) and [Zero data retention](https://docs.aivax.net/docs/inference/routing/zdr.md).
+
 ## Friday, November 20th, 2026
 
 Changes:
@@ -29,7 +48,7 @@ Breaking changes:
 
 Fixes:
 
-- **Speech — ElevenLabs v3 and Multilingual v2 prices.** `@elevenlabs/eleven-v3` and `@elevenlabs/eleven-multilingual-v2` now cost $0.04 per 1,000 characters, down from $30, correcting a pricing error. The dashboard price labels for these models and GPT-4o mini TTS now match the amount charged.
+- **Speech — ElevenLabs v3 and Multilingual v2 prices.** `@elevenlabs/eleven-v3` and `@elevenlabs/eleven-multilingual-v2` cost $0.04 per 1,000 characters. The dashboard price labels for these models and GPT-4o mini TTS match the amount charged.
 
 - **Models — Look up models by vendor-prefixed ID.** The `name` filter on `GET /api/v1/information/models.json` and the `filter` parameter on `GET /v1/models` now recognize names such as `minimax-m3.1-flash` for `@minimax/m3.1-flash` without treating `flash` and `flash-lite` as the same model.
 
@@ -47,7 +66,7 @@ Fixes:
 - **Chat clients — Session metadata in messaging integrations.** Replies and scheduled messages from WhatsApp, Telegram, and other messaging integrations now carry the session metadata to MCP servers, protocol functions, gateway workers, and stored conversations, as web chat sessions already did.
 - **Gateways — Reserved MCP metadata keys.** Custom metadata keys beginning with `_aiv` no longer make MCP tool calls fail. They are ignored, and the AIVAX fields keep their values.
 - **Tools — Tool explanations no longer break MCP and protocol function calls.** With tool explanations enabled, AIVAX now removes `_tool_reason` and `_tool_goal` from the arguments it sends to MCP servers and protocol function callbacks. MCP servers that reject unknown arguments no longer fail these calls. Streamed `servertool` events still include both fields and `explanation`. See [Tool explanations](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md).
-- **Account — Inactive accounts with a balance are kept.** Disabled or inactive accounts are no longer deleted by the scheduled cleanup while they still hold a balance.
+- **Account — Inactive account cleanup.** The scheduled cleanup only removes disabled or inactive accounts with no remaining balance.
 - **Models — Model lookup with suffixes.** The `name` filter of `GET /api/v1/information/models.json` now ignores a `#` provider tag or a `:` variant suffix and returns the matching base model.
 
 Changes:
@@ -153,40 +172,3 @@ Changes:
 
 - **Chat clients — Streaming and inference options in Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` accepts `stream: true` to return server-sent events with text, reasoning and tool updates, followed by a `result` event with the usual response body. The new `inferenceOptions` object overrides `reasoningEffort`, `renderingMode` (`default` or `textual_blocks`) and `toolInvocationExplanations` for one request, and the new `tools` field adds OpenAI-compatible client-side tools that are available only for that request. Temporary provider failures that happen before any output are now retried automatically. See [Sending prompts from your application](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application).
 - **Data processing — Instruction refinement.** The new `POST /api/v1/generations/instruction-refinement` endpoint reviews system instructions, prompts, skills, tool descriptions and knowledge against prompt engineering guidelines from model vendors' documentation. The `micro` view reviews the wording of each item, and the `macro` view reviews how the items work together as one agent: purpose, limits of authority, where each rule lives, skill selection and configured capabilities. It returns an overall score, a summary, prioritized findings with the line and column range of the affected text and the guideline sources behind them, and suggested fixes. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md). Requests are billed in processing units, and each context item counts as one document toward the document-processing rate limit.
-
-## Sunday, November 8th, 2026
-
-Changes:
-
-- **Dashboard — Cached input share on Conversations.** The **Conversations** list has a new **Cached %** column showing how much of each conversation's input was served from the prompt cache. For conversations with more than 1K input tokens, the value is green above 95%, yellow above 90%, and shows a warning below that. A dash means no cached input was reported, which usually means the model or provider doesn't support prompt caching. `GET /api/v1/conversations` now also returns `cachedInputTokenCount`.
-- **Dashboard — BYOK usage in Analytics.** **Usage per model** in **Analytics** now includes models used through AI gateways with your own provider key (BYOK). BYOK cost is an estimate based on the catalog price of the matching AIVAX model and is never charged; BYOK models with no catalog match show their tokens with no cost. The new **Effective usage** column shows the amount actually charged, and models used both ways show the AIVAX share of their tokens on hover. Past BYOK usage is estimated from stored conversations, so it only covers conversations that were kept. Balance, period spend, invoices, and monthly reports are unchanged.
-
-## Saturday, November 7th, 2026
-
-Changes:
-
-- **Language models — Higher prices on Grand Anak routes.** Requests served by the `grand-anak-<route>` special providers now cost twice the previous token rates for input, cached input, and output. Other providers are not affected. Check current rates in `GET /api/v1/information/models.json`, and remove these tags from `allowed_providers` or use the `Balanced` preference to keep requests off special providers. See [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md).
-
-## Friday, November 6th, 2026
-
-Breaking changes:
-
-- **Account — Lower Pro and Max limits.** Pro and Max now have lower rate limits, storage, retention, and daily allowances. Max has fixed limits where it previously had none, a 10 GB storage quota with excess at $0.30/GB/month, 14-day conversation retention, and a 1.02x inference commission multiplier. Pro integrated model requests are 150/min and Pro search history is kept for 3 days. Review the new values in [Plans and limits](https://docs.aivax.net/docs/limits.md) and pace requests that could now return `429 Too Many Requests`.
-- **Language models — Special provider routes renamed.** Each special provider route now has its own name and routing tag, such as `Grand Anak (Cyan Route)` with the tag `grand-anak-cyan`. The previous tags `grand-anak`, `grand-anak-flex`, and `grand-anak-route-<n>` no longer match any provider. If `allowed_providers`, an AI gateway's **Allowed providers**, or a `#tag` model suffix lists one of them, replace it with a current tag from `GET /api/v1/information/models.json`. See [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md).
-
-Fixes:
-
-- **RAG — Collection tags update immediately.** The tags returned in collection details now reflect added, edited, and deleted documents right after the change, instead of possibly showing an earlier list for a few minutes.
-
-Changes:
-
-- **Models — LFM3-1.7B and DeepSeek V4.1 Flash 1017 abliterated.** Adds `@liquid/lfm-3-1.7b`, a compact reasoning model with tool calling and structured output, and `@deepseek/deepseek-v4.1-flash-1017-abliterated`, an uncensored variant of DeepSeek V4.1 Flash 1017 with tool calling and image input.
-- **Dashboard — Avi Assistant conversations are not stored.** Conversations with the Avi Assistant in the dashboard no longer appear on the **Conversations** page. Usage and billing records are still created.
-- **Account — Ultimate plan.** A new Ultimate plan is available at $199 per month. It keeps the limits previously offered by Max: no plan limit on integrated model requests, BYOK requests, or new Agentic Test runs, 20 GB of storage, 30-day retention, a 1.00x inference commission multiplier, and dedicated support. `GET /api/v1/information/plans.json` now also returns Ultimate. See [Plans and limits](https://docs.aivax.net/docs/limits.md) and [subscription pricing](https://aivax.net/pricing).
-- **Docs — Plan limits on one page.** Every per-plan limit, including RAG, data processing, speech, built-in tools, Batch, and Agentic Tests, is now listed in [Plans and limits](https://docs.aivax.net/docs/limits.md#product-limits). Product pages link to it instead of repeating the values. The page also gives approximate PU and token sizes for common content, such as scanned PDFs, web pages, and RAG queries; see [Estimating PUs and tokens](https://docs.aivax.net/docs/limits.md#estimating-pus-and-tokens).
-- **Dashboard — Plan comparison with Ultimate.** The **Plan** page in **My account** compares Free, Pro, Max, and Ultimate side by side, with list prices loaded from the public plan list.
-- **Dashboard — Faster switching between saved accounts.** Switching to a saved account reuses its active console session when it is still valid, so the console no longer signs in again or asks for a two-factor code in that case. When the session has expired, the regular sign-in runs.
-- **Docs — Inference pipeline pages.** The Inference section has new pages for [Processing pipeline](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md), with the order in which gateway steps run and how they affect each other, [Moderation](https://docs.aivax.net/docs/inference/chat-completions/moderation.md), [Context truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md), and [Function interpreter](https://docs.aivax.net/docs/inference/chat-completions/function-interpreter.md). The previous standalone Processing pipeline page now redirects to the new one. The function interpreter (`knownToolHandlerName`) is now documented as deprecated; use a model with native tool calling instead.
-- **Dashboard — Warning before discarding unsaved edits.** Editors for AI gateways, chat clients and their integrations, skills, Agentic Tests, Batch workflows, documents, and collection settings now ask for confirmation before you leave the page with unsaved changes, including through the browser back button, a reload, or closing the tab. The same applies when a dialog with a text or code field has been edited and is still open. Saving the page, or confirming or closing the dialog, clears the warning.
-- **Dashboard — Clearer two-factor code fields.** The six code fields in the two-factor dialog are larger, show a placeholder dot in each empty field, highlight filled fields, and are centered in the dialog. The code is submitted as soon as all six digits are typed or pasted, and pressing Enter also confirms it.
-- **Dashboard — Budget model for AI-assisted edits.** The panel for editing content with AI now preselects `@model-router/openai:budget`, and the panel is wider so all of its options fit. You can still choose another model before requesting the edit.

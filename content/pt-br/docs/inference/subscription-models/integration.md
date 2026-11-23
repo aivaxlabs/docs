@@ -1,49 +1,35 @@
 ---
-{title: Integração com Harness,linkTitle: Integração com harness,weight: 20,sourceHash: 5daeba12d31acfea}
+{title: Integração do Harness,linkTitle: Integração do Harness,weight: 20,sourceHash: d1678dc020cb476a,aliases: [/docs/pt-br/inference/subscription-models/integration.html]}
 ---
 
-# Integração com harness
+# Integração do Harness
 
-Agentes de codificação e outros harnesses acessam os modelos de assinatura pela mesma API de Chat Completions compatível com [OI] usada por todos os modelos da AIVAX. Não há configuração extra do lado da AIVAX: crie uma [chave de API](/docs/pt-br/authentication.md), aponte o harness para `https://inference.aivax.net/v1` e use um nome de modelo `@aivax-subscription/`.
+Agentes de codificação e outros harnesses acessam modelos por assinatura através da mesma API [OI]-compatible Chat Completions usada por todos os modelos AIVAX. Nenhuma configuração extra é necessária no lado da AIVAX: crie uma [chave de API](/docs/pt-br/authentication.md), aponte o harness para `https://inference.aivax.net/v1` e use um nome de modelo `@aivax-subscription/`.
 
-Use `https://direct.inference.aivax.net/v1` quando o harness executa loops longos de ferramentas ou janelas de contexto grandes e você prefere evitar timeouts de solicitação na gateway. O modelo entregue e o consumo da cota são idênticos; apenas o host muda.
+Use `https://direct.inference.aivax.net/v1` em vez disso quando o harness executar loops longos de ferramentas ou janelas de contexto grandes e você preferir evitar timeouts de solicitação do gateway. O modelo entregue e o consumo da cota são idênticos; apenas o host muda.
 
 ```text
-URL base:   https://inference.aivax.net/v1
-Chave:      <AIVAX_API_KEY>
+URL Base:  https://inference.aivax.net/v1
+Chave de API:   <AIVAX_API_KEY>
 Modelo:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Todos os modelos de assinatura têm janela de contexto de 500.000 tokens, aceitam os esforços de raciocínio `max`, `high` e `low` (o MiniMax M3.1 Flash também aceita `xhigh` e `medium`) e são identificados por `flags.isSubscription` ou `_details.provider_model.subscription`. Consulte [Modelos de assinatura](/docs/pt-br/inference/subscription-models/overview.md) para a lista completa.
+Cada modelo por assinatura possui uma janela de contexto de 500.000 tokens, aceita os níveis de esforço de raciocínio `max`, `high` e `low` (MiniMax M3.1 Flash também aceita `xhigh` e `medium`) e é identificado por `flags.isSubscription` ou `_details.provider_model.subscription`. Consulte [Modelos por assinatura](/docs/pt-br/inference/subscription-models/overview.md) para a lista completa.
 
-Para usar a partir de um SDK, consulte [Autenticação](/docs/pt-br/authentication.md). Para declarar o endpoint como uma AI Gateway, consulte [AI Gateways](/docs/pt-br/inference/ai-gateways/concepts.md).
+Para usá-lo via SDK, consulte [Autenticação](/docs/pt-br/authentication.md). Para declarar o endpoint como um Gateway de IA, consulte [Gateways de IA](/docs/pt-br/inference/ai-gateways/concepts.md).
 
 ## Avi
 
-O Avi é um cliente desktop da AIVAX com um provedor AIVAX dedicado, então o endpoint e a lista de modelos já estão registrados.
+O Avi é um cliente desktop da AIVAX com um provedor dedicado da AIVAX, portanto, o endpoint e a lista de modelos já estão registrados.
 
-1. Abra **Configurações**, depois **AIVAX**, e entre com sua conta, por OAuth ou com uma chave de API.
-2. No campo de composição, abra o seletor de modelos e escolha uma entrada do provedor **AIVAX**.
+1. Abra **Configurações**, depois **AIVAX** e faça login na sua conta, seja via OAuth ou com uma chave de API.
+2. No compositor, abra o seletor de modelos e escolha uma entrada do provedor **AIVAX**.
 
-Os modelos de assinatura aparecem no seletor junto com o restante do catálogo, e o consumo é informado pelo `/usage` como origem de assinatura da AIVAX, em vez de débito no saldo. Como o Avi lê nomes, limites de contexto, capacidades e esforços de raciocínio do catálogo público, nenhuma entrada precisa de configuração manual.
+Os modelos por assinatura aparecem no seletor junto com o restante do catálogo, e seu consumo é relatado por `/usage` como uma fonte de assinatura AIVAX em vez de um débito de saldo. Como o Avi lê nomes de modelos, limites de contexto, capacidades e esforços de raciocínio do catálogo público, uma entrada não precisa de configuração manual.
 
 ## Codex
 
-> [!WARNING]
-> A CLI do Codex fala apenas a API Responses do [OI], e a AIVAX não serve `/v1/responses`. O Codex não consegue se conectar diretamente à AIVAX hoje; ele precisa de um tradutor local de Responses para Chat Completions antes do endpoint.
-
-Execute um tradutor que exponha `/v1/responses` e encaminhe para `https://inference.aivax.net/v1`, por exemplo um proxy LiteLLM local:
-
-```yaml
-model_list:
-  - model_name: "@aivax-subscription/kimi-k3.1-pro"
-    litellm_params:
-      model: "openai/@aivax-subscription/kimi-k3.1-pro"
-      api_base: "https://inference.aivax.net/v1"
-      api_key: "os.environ/AIVAX_API_KEY"
-```
-
-Em seguida, declare o proxy como provedor em `~/.codex/config.toml`:
+A CLI do Codex fala a API [OI] Responses, que a AIVAX serve em `/v1/responses`. Declare a AIVAX como um provedor em `~/.codex/config.toml`:
 
 ```toml
 model_provider = "aivax"
@@ -52,28 +38,25 @@ model_context_window = 500000
 
 [model_providers.aivax]
 name = "AIVAX"
-base_url = "http://127.0.0.1:4000/v1"
-env_key = "AIVAX_PROXY_KEY"
+base_url = "https://inference.aivax.net/v1"
+env_key = "AIVAX_API_KEY"
 wire_api = "responses"
 supports_websockets = false
 ```
 
 Selecione o modelo com `codex --model "@aivax-subscription/glm-5.3"`, com `-c model=...` ou com `/model` na TUI.
 
-Duas consequências vêm da camada de tradução. O Codex não conhece os modelos da AIVAX, então defina `model_context_window` por conta própria e espere um aviso de metadados no seletor; forneça `model_catalog_json` se quiser a lista preenchida. Chamadas de ferramenta, `apply_patch` e saída de raciocínio dependem inteiramente do tradutor, então valide uma edição real e um comando de shell antes de confiar nele.
+O Codex não conhece os modelos da AIVAX, então defina `model_context_window` você mesmo e espere um aviso de metadados no seletor; forneça `model_catalog_json` se quiser que a lista seja preenchida automaticamente. O endpoint é stateless e suporta apenas ferramentas de função: ferramentas hospedadas, como pesquisa na web e outros tipos de ferramenta (`custom`, `namespace`), são ignoradas. Verifique uma edição real e um comando de shell antes de confiar nele.
 
 ## [CC]
 
-> [!WARNING]
-> A CLI do [CC] usa a API Anthropic Messages (`/v1/messages`), que a AIVAX não serve. O [CC] não consegue se conectar diretamente à AIVAX; ele precisa de um tradutor local de Anthropic Messages para Chat Completions antes do endpoint.
-
-Aponte o [CC] para o tradutor pelo bloco `env` de `~/.claude/settings.json`, ou pelas mesmas variáveis exportadas no seu shell:
+A CLI [CC] tem como alvo a Anthropic Messages API, que a AIVAX serve em `/v1/messages`. Aponte o [CC] para a AIVAX através do bloco `env` de `~/.claude/settings.json`, ou através das mesmas variáveis exportadas no seu shell:
 
 ```json
 {
   "env": {
-    "ANTHROPIC_BASE_URL": "http://127.0.0.1:4000",
-    "ANTHROPIC_AUTH_TOKEN": "<PROXY_KEY>",
+    "ANTHROPIC_BASE_URL": "https://inference.aivax.net",
+    "ANTHROPIC_AUTH_TOKEN": "<AIVAX_API_KEY>",
     "ANTHROPIC_MODEL": "@aivax-subscription/kimi-k3.1-pro",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "@aivax-subscription/kimi-k3.1-pro",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "@aivax-subscription/glm-5.3",
@@ -84,9 +67,9 @@ Aponte o [CC] para o tradutor pelo bloco `env` de `~/.claude/settings.json`, ou 
 }
 ```
 
-`ANTHROPIC_BASE_URL` não leva sufixo `/v1`, porque o [CC] acrescenta os caminhos da Anthropic por conta própria. `ANTHROPIC_AUTH_TOKEN` precisa ter um valor não vazio, caso contrário o [CC] abre a tela de login; use `/status` para confirmar a URL base e a origem da credencial.
+`ANTHROPIC_BASE_URL` não recebe o sufixo `/v1`, porque o [CC] adiciona os caminhos da Anthropic ele mesmo. `ANTHROPIC_AUTH_TOKEN` deve ser definido com um valor não vazio, caso contrário, o [CC] abre sua tela de login; use `/status` para confirmar a URL base e a origem das credenciais.
 
-A descoberta de modelos da gateway mantém apenas nomes que contêm `claude` ou `anthropic`, então os nomes `@aivax-subscription/` precisam ser definidos explicitamente pelas variáveis acima. Mantenha o alias Haiku apontado para um modelo de assinatura também, porque títulos de sessão e outras tarefas em segundo plano o utilizam. Assim como no Codex, o uso de ferramentas e a fidelidade do raciocínio dependem do tradutor, e os cabeçalhos `anthropic-beta` e os blocos de pensamento que o [CC] envia precisam ser tratados ou desativados nele.
+A descoberta de modelos do gateway mantém apenas nomes de modelos contendo `claude` ou `anthropic`, então os nomes `@aivax-subscription/` devem ser definidos explicitamente através das variáveis acima. Mantenha o alias Haiku apontando para um modelo por assinatura também, pois títulos de sessão e outras tarefas em segundo plano o usam. Apenas ferramentas de cliente são suportadas: ferramentas de servidor da Anthropic, como a pesquisa na web usada pela ferramenta WebSearch, são ignoradas.
 
 ## OpenCode
 
@@ -117,22 +100,22 @@ Declare um provedor personalizado em `~/.config/opencode/opencode.json` (ou no `
 }
 ```
 
-Versões anteriores do OpenCode usam o bloco legado `provider` com `npm: "@ai-sdk/openai-compatible"`, `api` para a URL base e `options.apiKey`; o formato atual acima é traduzido automaticamente a partir dele.
+Versões mais antigas do OpenCode usam o bloco legado `provider` com `npm: "@ai-sdk/openai-compatible"`, `api` para a URL base e `options.apiKey`; o formato atual acima é traduzido automaticamente a partir dele.
 
-Provedores personalizados precisam listar seus modelos, porque a descoberta automática cobre apenas os provedores locais embutidos. Use uma chave curta como `glm-5.3` e coloque o nome real da AIVAX em `modelID`, para que a referência em tempo de execução permaneça `aivax/glm-5.3` e a solicitação carregue o modelo de assinatura. A chave do provedor se torna o prefixo do modelo: `opencode run --model aivax/glm-5.3`, ou escolha em `/models`.
+Provedores personalizados devem listar seus modelos, porque a descoberta automática cobre apenas os provedores locais integrados. Use uma chave curta, como `glm-5.3`, e coloque o nome real da AIVAX em `modelID`, para que a referência do runtime permaneça `aivax/glm-5.3` e a solicitação carregue o modelo por assinatura. A chave do provedor torna-se o prefixo do modelo: `opencode run --model aivax/glm-5.3`, ou selecione-a em `/models`.
 
-Se uma solicitação falhar na contabilização de uso em streaming, adicione `"compatibility": { "streamUsage": false }` ao provedor.
+Se uma solicitação falhar na contabilidade de uso em streaming, adicione `"compatibility": { "streamUsage": false }` ao provedor.
 
 ## VSCode
 
-O VS Code inclui um provedor **Custom Endpoint** nativo para Bring Your Own Key, que aceita qualquer endpoint de Chat Completions, Responses ou Anthropic Messages.
+O VS Code vem com um provedor **Custom Endpoint** de primeira mão para Bring Your Own Key, que aceita qualquer endpoint Chat Completions, Responses ou Anthropic Messages.
 
-1. Abra a exibição de Chat, abra o seletor de modelos e escolha **Manage Language Models** (ou execute **Chat: Manage Language Models** na Paleta de Comandos).
-2. Escolha **Add Models**, depois **Custom Endpoint**.
-3. Defina o tipo de API como **Chat Completions**, informe a URL base e a chave da AIVAX e adicione os nomes dos modelos.
-4. Selecione os modelos no seletor do Chat.
+1. Abra a visualização Chat, abra o seletor de modelos e escolha **Gerenciar Modelos de Linguagem** (ou execute **Chat: Gerenciar Modelos de Linguagem** na Paleta de Comandos).
+2. Escolha **Adicionar Modelos**, depois **Endpoint Personalizado**.
+3. Defina o tipo de API como **Chat Completions**, insira a URL base e a chave da AIVAX, depois adicione os nomes dos modelos.
+4. Selecione os modelos no seletor de Chat.
 
-Os modelos ficam em `chatLanguageModels.json`:
+Os modelos são armazenados em `chatLanguageModels.json`:
 
 ```json
 [
@@ -157,21 +140,21 @@ Os modelos ficam em `chatLanguageModels.json`:
 ]
 ```
 
-Informe a URL completa do endpoint para que o VS Code não acrescente um caminho. As capacidades são declaradas manualmente: o modo agente exige `toolCalling: true`, e os limites de tokens informados são o que o gerenciador de contexto utiliza. O Bring Your Own Key cobre sessões de Chat e de agente; completions embutidas e embeddings continuam vindo do GitHub Copilot, e as organizações podem desativar o recurso por política.
+Forneça a URL completa do endpoint para que o VS Code não acrescente um caminho para você. As capacidades são declaradas manualmente: o modo agente precisa de `toolCalling: true`, e os limites de token que você insere são o que o gerenciador de contexto usa. Bring Your Own Key cobre sessões de Chat e agente; complementos de código inline e embeddings ainda vêm do GitHub Copilot, e as organizações podem desativar o recurso por política.
 
-Se preferir uma extensão ao provedor nativo, Continue, Cline e Roo Code expõem um provedor compatível com [OI] no qual a mesma URL base e os mesmos nomes de modelo se aplicam.
+Se você preferir uma extensão sobre o provedor integrado, Continue, Cline e Roo Code expõem todos um provedor [OI]-Compatible onde a mesma URL base e nomes de modelos se aplicam.
 
 ## Visual Studio 2026
 
-O Visual Studio 2026 18.12 e posteriores aceitam qualquer endpoint compatível com [OI] por meio do Bring Your Own Model.
+Visual Studio 2026 18.12 e posteriores aceitam qualquer endpoint [OI]-compatible através do Bring Your Own Model.
 
-1. Abra o Copilot Chat, abra o seletor de modelos e escolha **Manage models**.
-2. Escolha **Add model provider**, depois **Custom Endpoint**.
-3. Informe o nome da conexão, o endpoint `https://inference.aivax.net/v1` e a chave de API.
-4. Adicione os nomes de modelo `@aivax-subscription/` e, em cada modelo, defina o formato de API como **Completions**, o tamanho de contexto como 500000 e habilite a chamada de ferramentas.
-5. Selecione o modelo no seletor e trabalhe no Agent Mode, que é a experiência suportada pelo BYOM.
+1. Abra o Copilot Chat, abra o seletor de modelos e escolha **Gerenciar modelos**.
+2. Escolha **Adicionar provedor de modelos**, depois **Endpoint Personalizado**.
+3. Insira o nome da conexão, o endpoint `https://inference.aivax.net/v1` e a chave de API.
+4. Adicione os nomes dos modelos `@aivax-subscription/`, depois defina o formato de API de cada modelo como **Completions**, seu tamanho de contexto para 500000 e ative a chamada de ferramentas.
+5. Selecione o modelo no seletor e trabalhe no Modo Agente, que é a experiência que o BYOM suporta.
 
-Não há arquivo de configuração documentado para isso; a conexão fica nas configurações da IDE. As capacidades são declaradas por modelo, exatamente como no VS Code, e os administradores podem remover **Add model provider** por política. Versões 18.x anteriores aceitavam endpoints personalizados apenas para [OI] e Ollama, então atualize antes de configurar.
+Não há arquivo de configuração documentado para isso; a conexão vive nas configurações do IDE. As capacidades são declaradas por modelo, exatamente como no VS Code, e os administradores podem remover **Adicionar provedor de modelos** por política. Versões anteriores da série 18.x aceitavam endpoints personalizados apenas para [OI] e Ollama, então atualize antes de configurar.
 
 ## Pi Agent
 
@@ -209,13 +192,13 @@ O Pi lê provedores personalizados de `~/.pi/agent/models.json`:
 }
 ```
 
-Os modelos precisam ser listados, porque o Pi só descobre modelos em tempo de execução por uma extensão. Para tornar um deles o padrão, adicione `defaultProvider: "aivax"` e `defaultModel: "@aivax-subscription/kimi-k3.1-pro"` a `~/.pi/agent/settings.json`.
+Os modelos devem ser listados, porque o Pi só descobre modelos em tempo de execução através de uma extensão. Para tornar um padrão, adicione `defaultProvider: "aivax"` e `defaultModel: "@aivax-subscription/kimi-k3.1-pro"` em `~/.pi/agent/settings.json`.
 
-A referência em tempo de execução é `aivax/@aivax-subscription/kimi-k3.1-pro`, opcionalmente com um nível de raciocínio como `:high`. Prefira `defaultModel` e o seletor `/model` a digitar essa string manualmente, porque a parte do modelo já contém uma `/`. O custo é opcional; sem ele o Pi informa custo zero mesmo que a solicitação consuma sua cota, e uma credencial salva em `auth.json` tem precedência sobre `apiKey`.
+A referência do runtime é `aivax/@aivax-subscription/kimi-k3.1-pro`, opcionalmente com um nível de pensamento, como `:high`. Prefira `defaultModel` e o seletor `/model` a passar essa string manualmente, porque a parte do modelo já contém um `/`. O custo é opcional; sem ele, o Pi reporta custo zero mesmo que a solicitação consuma sua cota, e uma credencial salva em `auth.json` tem precedência sobre `apiKey`.
 
 ## [DSH]
 
-O harness da DeepSeek ([DSH]) guarda provedores em `$DSH_HOME/profiles/<profile>/cordis.patch.yml`, onde o perfil é `web` para a interface web e `headless` para execuções no terminal. O caminho interativo é **Settings**, **Models**, **Add model provider**, **Custom model API**.
+O harness DeepSeek ([DSH]) armazena provedores em `$DSH_HOME/profiles/<profile>/cordis.patch.yml`, onde o perfil é `web` para a interface da web e `headless` para execuções de terminal. A rota interativa é **Configurações**, **Modelos**, **Adicionar provedor de modelos**, **API de modelo personalizada**.
 
 ```yaml
 - id: agent-default-model
@@ -244,13 +227,13 @@ O harness da DeepSeek ([DSH]) guarda provedores em `$DSH_HOME/profiles/<profile>
             name: GLM 5.3
 ```
 
-`apiKeyEnv` contém o nome da variável de ambiente, não a chave em si. Os modelos listados aparecem no seletor, e escolher um o armazena como padrão para novas sessões; a ação **Fetch available models** na interface preenche a lista a partir de `GET /v1/models`.
+`apiKeyEnv` contém o nome da variável de ambiente, não a chave em si. Os modelos listados aparecem no seletor, e escolher um armazena-o como padrão para novas sessões; a ação **Buscar modelos disponíveis** na interface preenche a lista a partir de `GET /v1/models`.
 
-Se o provedor padrão continuar respondendo a partir do catálogo da DeepSeek, ele é uma entrada de provedor separada; mantenha a rota da AIVAX com identificador próprio e selecione-a explicitamente.
+Se o provedor padrão ainda responder a partir do catálogo da DeepSeek, trata-se de uma entrada de provedor separada; mantenha a rota da AIVAX sob seu próprio identificador e selecione-a explicitamente.
 
 ## OpenClaw
 
-O OpenClaw aceita endpoints de terceiros em `models.providers` de `~/.openclaw/openclaw.json`, um arquivo JSON5:
+O OpenClaw aceita endpoints de terceiros sob `models.providers` em `~/.openclaw/openclaw.json`, um arquivo JSON5:
 
 ```json5
 {
@@ -282,13 +265,13 @@ O OpenClaw aceita endpoints de terceiros em `models.providers` de `~/.openclaw/o
 }
 ```
 
-Uma referência de modelo é `provedor/modelo`, dividida na primeira `/`, então o nome de assinatura mantém sua própria barra após o identificador do provedor. `agents.defaults.model.primary` define o padrão, e `openclaw models set` ou `/model` alternam por sessão.
+Uma referência de modelo é `provider/model`, dividida no primeiro `/`, então o nome da assinatura mantém sua própria barra após o id do provedor. `agents.defaults.model.primary` define o padrão, e `openclaw models set` ou `/model` alterna por sessão.
 
-Declare cada modelo que pretende usar com sua janela de contexto e limites de tokens, porque um endpoint personalizado não tem catálogo que os descreva. Se a AIVAX rejeitar o parâmetro de raciocínio, adicione `compat: { supportsReasoningEffort: false }` ao modelo. Modelos renderizados como somente texto durante o onboarding, como os nomes Kimi e DeepSeek, precisam de `input: ["text", "image"]` adicionado manualmente quando o modelo aceita imagens.
+Declare cada modelo que você planeja usar com sua janela de contexto e limites de token, porque um endpoint personalizado não tem catálogo para descrevê-los. Se a AIVAX rejeitar o parâmetro de raciocínio, adicione `compat: { supportsReasoningEffort: false }` ao modelo. Modelos renderizados como texto único durante o onboarding, como os nomes Kimi e DeepSeek, precisam de `input: ["text", "image"]` adicionado manualmente quando o modelo aceita imagens.
 
 ## Hermes Agent
 
-O Hermes Agent usa `~/.hermes/config.yaml` como fonte única de verdade, com segredos em `~/.hermes/.env`:
+O Hermes Agent usa `~/.hermes/config.yaml` como sua única fonte de verdade, com segredos em `~/.hermes/.env`:
 
 ```yaml
 model:
@@ -299,9 +282,9 @@ model:
   context_length: 500000
 ```
 
-Defina `AIVAX_API_KEY` em `~/.hermes/.env`. O comando `hermes model` escreve o mesmo bloco interativamente por **Custom endpoint**.
+Defina `AIVAX_API_KEY` em `~/.hermes/.env`. O comando `hermes model` escreve o mesmo bloco interativamente através de **Endpoint personalizado**.
 
-A URL base mantém o sufixo `/v1`, porque o Hermes chama um endpoint personalizado diretamente. O Hermes se recusa a iniciar com janela de contexto abaixo de 64.000 tokens, e não consegue inferir a janela de um modelo desconhecido, então defina `context_length` explicitamente. `OPENAI_BASE_URL` não redireciona um provedor personalizado.
+A URL base mantém seu sufixo `/v1`, porque o Hermes chama um endpoint personalizado diretamente. O Hermes recusa iniciar com uma janela de contexto abaixo de 64.000 tokens, e não pode inferir a janela de um modelo desconhecido, então defina `context_length` explicitamente. `OPENAI_BASE_URL` não redireciona um provedor personalizado.
 
 Para vários endpoints, use o mapa `providers` e alterne com `/model custom:aivax:@aivax-subscription/glm-5.3` dentro de uma sessão:
 
@@ -315,39 +298,39 @@ providers:
     context_length: 500000
 ```
 
-O Hermes envia `reasoning_effort: medium` por padrão em solicitações de Chat Completions. Um endpoint que rejeite o nível retorna `400` sem rebaixamento silencioso, então escolha o nível por modelo ou desative o campo com `supports_reasoning: false`.
+O Hermes envia `reasoning_effort: medium` por padrão em solicitações Chat Completions. Um endpoint que rejeita o nível retorna `400` sem uma redução silenciosa, então escolha o nível por modelo ou desative o campo com `supports_reasoning: false`.
 
 ## OpenBot
 
-O OpenBot hospeda CLIs de codificação externas e acessa endpoints de terceiros pelo provedor Custom, que ele executa no runtime OpenCode incluído. Adicione-o em **Settings**, **Providers**, depois **Custom provider**:
+O OpenBot hospeda CLIs de codificação externas e alcança endpoints de terceiros através de seu provedor Custom, que executa em seu runtime OpenCode embutido. Adicione-o em **Configurações**, **Provedores**, depois **Provedor personalizado**:
 
 ```text
-Nome do provedor: AIVAX
-URL base:         https://inference.aivax.net/v1
-Chave de API:     <AIVAX_API_KEY>
-Modelos:          @aivax-subscription/kimi-k3.1-pro
-                  @aivax-subscription/glm-5.3
-Janela contexto:  500000
+Nome do Provedor:  AIVAX
+URL Base:       https://inference.aivax.net/v1
+Chave de API:        <AIVAX_API_KEY>
+Modelos:         @aivax-subscription/kimi-k3.1-pro
+                @aivax-subscription/glm-5.3
+Janela de contexto: 500000
 Saída máxima:     32000
 ```
 
-A chave é criptografada pelo aplicativo e não deve ser editada manualmente, então use o formulário em vez da cópia armazenada. Como o provedor roda sobre o OpenCode, um `opencode.json` no projeto que restrinja `enabled_providers` ou `disabled_providers` pode ocultá-lo; verifique esse arquivo se o provedor não aparecer.
+A chave é criptografada pelo aplicativo e não deve ser editada manualmente, então use o formulário em vez da cópia armazenada. Como o provedor roda no OpenCode, um projeto `opencode.json` que restringe `enabled_providers` ou `disabled_providers` pode ocultá-lo; verifique esse arquivo se o provedor não aparecer.
 
-Cada turno envia as ferramentas do agente junto com um esforço de raciocínio, então o modelo de assinatura escolhido precisa aceitar ambos em Chat Completions.
+Cada turno envia as ferramentas do agente junto com um esforço de raciocínio, então o modelo por assinatura que você escolhe deve aceitar ambos sobre Chat Completions.
 
 ## ZCode
 
-O ZCode adiciona provedores na interface: abra o seletor de modelos, escolha **Manage Models**, depois **Add Provider**, e preencha o endpoint [OI].
+O ZCode adiciona provedores na interface do usuário: abra o seletor de modelos, escolha **Gerenciar Modelos**, depois **Adicionar Provedor**, e preencha o endpoint [OI].
 
 ```text
-Nome do provedor:   AIVAX
+Nome do Provedor:      AIVAX
 Endpoint [OI]:      https://inference.aivax.net/v1
 Endpoint Anthropic: deixe vazio
-Chave de API:       <AIVAX_API_KEY>
-Modelos:            @aivax-subscription/kimi-k3.1-pro
+Chave de API:            <AIVAX_API_KEY>
+Modelos:             @aivax-subscription/kimi-k3.1-pro
                     @aivax-subscription/glm-5.3
 ```
 
-Depois abra as configurações **Advanced** de cada modelo e defina a janela de contexto como 500000 e o máximo de tokens de saída. O ZCode assume 200.000 tokens para um modelo desconhecido e só reconhece a janela maior por um sufixo no nome do modelo, que os modelos de assinatura não carregam.
+Depois, abra as configurações **Avançadas** por modelo e defina a janela de contexto para 500000 e os tokens de saída máximos. O ZCode define um modelo desconhecido como padrão para 200.000 tokens e reconhece apenas a janela longa a partir de um sufixo no nome do modelo, o que os modelos por assinatura não possuem.
 
-O ZCode não lê variáveis de ambiente do shell para configurar modelos, então a chave precisa ser informada no formulário. Ele também envia um `reasoning_effort` de nível superior para endpoints compatíveis com [OI]; se um nível for rejeitado com `400`, escolha um inferior. As configurações ficam em `~/.zcode/`, onde o arquivo de credenciais é criptografado por dispositivo.
+O ZCode não lê variáveis de ambiente do shell para configuração de modelos, então a chave deve ser inserida no formulário. Ele também envia um `reasoning_effort` de nível superior para endpoints [OI]-compatible; se um nível for rejeitado com `400`, escolha um menor. As configurações são armazenadas sob `~/.zcode/`, onde o arquivo de credenciais é criptografado por dispositivo.

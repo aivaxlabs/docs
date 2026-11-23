@@ -25,35 +25,35 @@ The data protection law column summarizes the principal frameworks identified in
 
 ## Collection Policies
 
-The tables below describe what AIVAX itself retains for each service. Each service is classified into one of three levels:
+The tables below describe what AIVAX itself retains for each service and whether a third-party provider receives the content. Each service is classified into one of three levels:
 
 | Level | Meaning |
 | --- | --- |
-| 🟢 **ZDR** | Zero data retention. AIVAX does not store the request input or output after the response is returned. |
-| 🟡 **Partial** | AIVAX keeps logs, records, or metadata about the operation, but not its content, for an indefinite period. |
+| 🟢 **ZDR** | Zero data retention. AIVAX does not store the request input or output after the response is returned, and the service does not send it to a third-party provider. |
+| 🟡 **Partial** | AIVAX does not store the content, but keeps logs, records, or metadata about the operation for an indefinite period, or sends the content to a third-party provider that may collect or retain it. |
 | 🔴 **Full** | AIVAX stores the content itself, which may include personal or sensitive data, for an indefinite period. |
 
-When a setting changes the level, the Collection Policy column lists each condition and its level. Every service also produces the usage, billing, and technical records described in the [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md), and stored account resources may be included in backups. Third-party providers that receive data for a request apply their own retention rules. MCP Utilities follow the policy of the service they call.
+When a setting changes the level, the Collection Policy column lists each condition and its level. Every service also produces the usage, billing, and technical records described in the [Privacy Policy](https://docs.aivax.net/docs/legal/privacy-policy.md), and stored account resources may be included in backups. Third-party providers that receive data for a request apply their own retention rules, so a service that sends content to one is classified as Partial even when AIVAX stores nothing. A provider's "zero data retention" classification, or its statement that prompts are not used for training, reflects what the provider or aggregator declares. AIVAX does not audit, verify, or guarantee that third parties do not collect, retain, or use prompts, and is not responsible for a third party's failure to honor those declarations. MCP Utilities follow the policy of the service they call.
 
 ## RAG and Collections
 
 | Description | Collection Policy | Details |
 | --- | --- | --- |
 | [Collections and documents](https://docs.aivax.net/docs/rag/collections.md) | 🔴 Full | Document text, embeddings, and metadata are stored until you delete the document or collection. |
-| [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) | **RAG logging enabled:** 🔴 Full<br>**RAG logging disabled:** 🟡 Partial | **RAG logging** in the account settings records query terms, returned documents, scores, processing time, and cost in the collection's [Transactions](https://docs.aivax.net/docs/rag/observability.md) tab. It is enabled by default. |
-| [Reflex and rerankers](https://docs.aivax.net/docs/rag/reranking.md) | **Data Sharing disabled:** 🟢 ZDR<br>**Data Sharing enabled:** 🔴 Full | Candidate documents are not stored; Reflex uses a temporary in-memory cache to bill repeated input at the cache-hit rate. With [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled, the anonymized query, documents, and ranking results are kept for model development. Data Sharing is disabled by default and also covers the anonymized results of semantic searches. |
+| [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) | **RAG logging enabled:** 🔴 Full<br>**RAG logging disabled:** 🟡 Partial | **RAG logging** in the account settings records query terms, returned documents, scores, processing time, and cost in the collection's [Transactions](https://docs.aivax.net/docs/rag/observability.md) tab. It is disabled by default for new accounts. |
+| [Reflex and rerankers](https://docs.aivax.net/docs/rag/reranking.md) | **Data Sharing disabled:** 🟡 Partial<br>**Data Sharing enabled:** 🔴 Full | AIVAX does not store candidate documents; Reflex uses a temporary in-memory cache to bill repeated input at the cache-hit rate. Depending on the selected reranker, the query and candidate documents are sent to a third-party provider. With [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled, the anonymized query, documents, and ranking results are kept for model development. Data Sharing is disabled by default and also covers the anonymized results of semantic searches. |
 | [User memories](https://docs.aivax.net/docs/tools/builtin-tools.md#memory) | 🔴 Full | Memories saved by the Memory built-in tool are stored in the `@memories` collection until deleted or expired. |
 
 ## Inference
 
 | Description | Collection Policy | Details |
 | --- | --- | --- |
-| [Chat completions and AI Gateways](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#response-and-conversation-records) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | **Conversations logging** in the account settings stores messages, tool calls, metadata, usage, and errors as conversations. It is enabled by default. Set `allow_logging: false` to exclude a single request. Enable [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) to restrict integrated text models to providers that do not retain prompts. Auxiliary steps (content moderation, complexity routing, RAG query rewriting, the summary read aloud by chat clients, the rewrite of text with voice instructions for speech generation, and Media Injector) always run on zero data retention providers, even when the option is disabled. |
+| [Chat completions and AI Gateways](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#response-and-conversation-records) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | **Conversations logging** in the account settings stores messages, tool calls, metadata, usage, and errors as conversations. It is disabled by default for new accounts. Set `allow_logging: false` to exclude a single request. Enable [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) to restrict integrated text models to providers that declare zero data retention. Auxiliary steps (content moderation, complexity routing, RAG query rewriting, the summary read aloud by chat clients, the rewrite of text with voice instructions for speech generation, and Media Injector) always run on zero data retention providers, even when the option is disabled. |
 | [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and [skill](https://docs.aivax.net/docs/inference/skills.md) configuration | 🔴 Full | Instructions, skills, tools, and integration settings are stored until deleted. |
 | Multimodal preprocessing | 🔴 Full | When attachments are converted to text through description, OCR, or transcription during inference, the resulting text is cached per account to avoid reprocessing the same content. Original files are not stored. |
 | Provider error diagnostics | 🔴 Full | When a model provider returns an error, the request sent to the provider and its response may be stored for diagnosis, regardless of conversation logging. |
 | [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | 🔴 Full | Sessions store message history, extra context, and metadata until the session expires. Media sent as data URLs is uploaded to object storage and referenced by a public URL. Generated audio is cached when audio synthesis is enabled. Inference also follows the conversation logging condition. |
-| [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | AIVAX records follow the account's **Conversations logging** setting. Subscription models are not zero data retention: their suppliers collect prompts and keep them for an indefinite period for moderation and internal control, and do not use them for training. Requests to these models fail when **Zero data retention providers only** is enabled. |
+| [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | AIVAX records follow the account's **Conversations logging** setting. Subscription models are not zero data retention: their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. The suppliers state that they do not use prompts for training; AIVAX does not verify or guarantee this. Requests to these models fail when **Zero data retention providers only** is enabled. |
 | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | Follows the account's **Conversations logging** setting. It cannot be disabled per session. |
 | [Batch processing](https://docs.aivax.net/docs/inference/batch.md) | 🔴 Full | Workflows, jobs, and item inputs and outputs are stored until you delete them or clean the job items. |
 | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | 🔴 Full | Test definitions, runs, simulated conversations, and judge results are stored. |
@@ -64,9 +64,9 @@ When a setting changes the level, the Collection Policy column lists each condit
 
 | Description | Collection Policy | Details |
 | --- | --- | --- |
-| [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) | 🟢 ZDR | Queries and results are not stored. Queries are sent to the web search providers listed above. |
-| [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md) | 🟢 ZDR | Fetched pages, files, extracted text, and JSON output are not stored. Optional JSON conversion is processed by a language model provider. |
-| [X posts search](https://docs.aivax.net/docs/tools/builtin-tools.md#x-posts-search) | 🟢 ZDR | Queries and posts are not stored. Queries are sent to X. |
+| [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md) | 🟡 Partial | AIVAX does not store queries or results. Queries are sent to the web search providers listed above. |
+| [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md) | 🟡 Partial | AIVAX does not store fetched pages, files, extracted text, or JSON output. OCR of scanned pages and images and optional JSON conversion are processed by model providers. |
+| [X posts search](https://docs.aivax.net/docs/tools/builtin-tools.md#x-posts-search) | 🟡 Partial | AIVAX does not store queries or posts. Queries are sent to X. |
 
 ## Media Generation
 
@@ -74,17 +74,17 @@ When a setting changes the level, the Collection Policy column lists each condit
 | --- | --- | --- |
 | [Image generation](https://docs.aivax.net/docs/generations/images.md) | 🔴 Full | Generated images are uploaded to object storage and served from a public URL. Anyone with the URL can open the image. Prompts and reference images are sent to the image model provider. |
 | [Document](https://docs.aivax.net/docs/tools/builtin-tools.md#document-generation) and [web page](https://docs.aivax.net/docs/tools/builtin-tools.md#web-page-generation) generation | 🔴 Full | Files created by these built-in tools are hosted on AIVAX servers and served from a public URL. |
-| [Text-to-speech](https://docs.aivax.net/docs/generations/speech.md) | **API:** 🟢 ZDR<br>**[Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md):** 🔴 Full | The API returns audio in the response without storing it. The MCP speech tool uploads the MP3 to object storage and returns a public URL. |
-| [Speech-to-text](https://docs.aivax.net/docs/generations/audio-transcriptions.md) | 🟢 ZDR | Audio and transcripts are not stored. |
+| [Text-to-speech](https://docs.aivax.net/docs/generations/speech.md) | **API:** 🟡 Partial<br>**[Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md):** 🔴 Full | The text is sent to the speech model provider. The API returns audio in the response without storing it. The MCP speech tool uploads the MP3 to object storage and returns a public URL. |
+| [Speech-to-text](https://docs.aivax.net/docs/generations/audio-transcriptions.md) | 🟡 Partial | AIVAX does not store audio or transcripts. Audio is sent to the transcription model provider. |
 
 ## Data Processing
 
 | Description | Collection Policy | Details |
 | --- | --- | --- |
-| [Media Descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md) | 🟢 ZDR | Submitted media and generated descriptions are not stored by this endpoint. Attachments converted during inference follow the multimodal preprocessing policy. |
-| [Text Classification](https://docs.aivax.net/docs/data-processing/classification.md) | 🟢 ZDR | Text is not stored. Embeddings use a temporary in-memory cache to reduce latency and cost for repeated text. |
-| [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md) | 🟢 ZDR | Inputs and results are not stored. |
-| [Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) | 🟢 ZDR | Source text and segments are not stored. Sanitization is processed by a language model provider. |
+| [Media Descriptions](https://docs.aivax.net/docs/data-processing/media-descriptions.md) | 🟡 Partial | Submitted media and generated descriptions are not stored by this endpoint. Media is sent to a model provider for description, OCR, or transcription. Attachments converted during inference follow the multimodal preprocessing policy. |
+| [Text Classification](https://docs.aivax.net/docs/data-processing/classification.md) | 🟡 Partial | AIVAX does not store the text. It is sent to an embedding model provider, and embeddings use a temporary in-memory cache to reduce latency and cost for repeated text. |
+| [Semantic Decisions](https://docs.aivax.net/docs/data-processing/decisions.md) | 🟡 Partial | AIVAX does not store inputs or results. Depending on the selected decision model, inputs are sent to a third-party provider. |
+| [Text Segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md) | 🟡 Partial | AIVAX does not store source text or segments. Text is sent to an embedding model provider, and sanitization is processed by a language model provider. |
 
 ## Account Utilities
 

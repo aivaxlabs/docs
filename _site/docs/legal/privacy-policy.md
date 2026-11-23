@@ -154,7 +154,9 @@ AIVAX uses third-party services for infrastructure, object storage, transactiona
 
 When selecting a model or enabling a tool, the Account Manager may cause content to be sent to the selected model provider, aggregator, or tool provider. AIVAX does not control third-party policies and recommends prior review.
 
-Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control, and do not use them for training. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md#data-retention).
+Data-handling classifications that AIVAX shows for a provider or model, including "zero data retention", reflect what the provider or aggregator declares. AIVAX does not audit, verify, or guarantee that third parties do not collect, retain, or use prompts, and is not responsible for a third party's failure to honor those declarations.
+
+Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control. The suppliers state that they do not use prompts for training; this is the suppliers' commitment, which AIVAX does not verify or guarantee. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md#data-retention).
 
 ---
 
