@@ -8,21 +8,15 @@ AIVAX authenticates API requests with account API keys. A login key is a separat
 
 AIVAX accepts API keys via:
 
-- `Authorization: Bearer <API_KEY>`
+- `Authorization: Bearer <API_KEY>` (recommended for server-to-server calls)
 - `Authorization: Basic <BASE64_USERNAME_COLON_API_KEY>`
-- `?api-key=<API_KEY>`
-
-Choose how to send the key:
-
-- Prefer `Authorization: Bearer <API_KEY>` for server-to-server calls.
-- `Authorization: Basic <BASE64_USERNAME_COLON_API_KEY>` is also accepted.
-- Use `?api-key=<API_KEY>` only when a client or integration cannot send headers, because URLs can be logged by proxies, browsers, and monitoring tools.
+- `?api-key=<API_KEY>` (use only when a client or integration cannot send headers, because URLs can be logged by proxies, browsers, and monitoring tools)
 
 ## API key types
 
 A key type decides which routes the caller can use. Choose it from where the code runs and who owns the account.
 
-AIVAX has two key families because browser-facing and server-side use cases have different risk profiles. If your code runs on your server, use a private key and keep it out of client bundles, logs, and public repositories. If your code runs in a browser or another environment where the key can be inspected by the end user, use a public key and keep the workflow limited to routes designed for public access. Application keys are a third type: an account holder approves them for a third-party application through [OAuth](oauth.md).
+If your code runs on your server, use a private key and keep it out of client bundles, logs, and public repositories. If your code runs in a browser or another environment where the end user can inspect the key, use a public key, which is limited to routes designed for public access. Application keys are a third type: an account holder approves them for a third-party application through [OAuth](oauth.md).
 
 | Type | Prefix | Intended use | Access |
 | --- | --- | --- | --- |
@@ -57,8 +51,8 @@ A public key cannot:
 
 When a public key calls chat completions:
 
-- The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are disabled.
-- MCP sources, protocol functions, built-in tools, Bash, skills, and sentinel options are stripped from the request.
+- The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are not available.
+- MCP sources, protocol functions, built-in tools, Bash, skills, and other advanced options are removed from the request.
 - Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `conversation_token`, `idempotency_key`, and `stream`.
 - Request and token rate limits are applied both globally per key and per remote address. See [Public API keys](limits.md#public-api-keys) for the current values.
 
@@ -72,9 +66,9 @@ Use an application key when a third-party application should call AIVAX with the
 
 Create and revoke API keys in the API Keys area of the AIVAX dashboard. Use this area when you need a new key, a label, an expiration date, or a revocation.
 
-Keys belong to an account and can have a label, expiration, and type. Expired keys are rejected by authentication.
+Keys belong to an account and can have a label, expiration, and type. Expired keys are rejected.
 
-Create separate keys for separate applications. That makes rotation safer: if one integration is compromised, you can revoke only that key instead of breaking every service tied to the account. Use labels to identify each key's owner and application, and expiration dates to plan when to renew or replace it.
+Create separate keys for separate applications. If one integration is compromised, you can revoke only that key without affecting other services. Use labels to identify each key's owner and application, and expiration dates to plan renewals.
 
 ## OAuth authorization
 
@@ -99,13 +93,7 @@ client = OpenAI(
 
 Hook authentication lets your service verify outbound AIVAX requests. Use it for AI Gateway workers and server-side protocol functions.
 
-This is the reverse direction of normal API authentication:
-
-1. In a normal API call, your application proves it is allowed to call AIVAX by sending an API key.
-2. In a worker or protocol-function callback, AIVAX calls your service.
-3. Your service needs a way to verify that the request really came from the account configuration you control.
-
-That is what `X-Request-Nonce` is for.
+This is the reverse direction of normal API authentication: AIVAX calls your service, and your service verifies that the request comes from your account configuration using `X-Request-Nonce`.
 
 If your account has a hook key, AIVAX sends:
 
@@ -192,8 +180,6 @@ When at least one authenticator is confirmed:
 - If the login key is valid and the code is missing, the response has `requiresTwoFactor: true` and does not create a session.
 - Send the same login key again with `totpCode`.
 
-Accounts without an authenticator are unchanged.
-
 Removing the last authenticator disables the prompt. Disabling two-factor authentication without a current code is handled by [AIVAX support](https://aivax.net/contact/).
 
 ### Recover access
@@ -202,9 +188,7 @@ The sign-in page links to account support. Use these paths when the account hold
 
 #### Recover login key
 
-**Recover login key** asks for the registration e-mail. AIVAX shows the same confirmation whether or not that e-mail belongs to an account.
-
-When the e-mail belongs to an account, the message contains:
+**Recover login key** asks for the registration e-mail. When the e-mail belongs to an account, the message contains:
 
 - a one-time sign-in link;
 - a link to reset the login key.
@@ -215,13 +199,9 @@ Both links expire in one hour.
 - The reset link creates a new login key, e-mails it, and signs the account out of every console session.
 - The reset link does not disable two-factor authentication or revoke API keys.
 
-#### Disable two-factor authentication
+#### Disable two-factor authentication or registration e-mail unavailable
 
-**Disable two-factor authentication** opens [AIVAX support](https://aivax.net/contact/).
-
-#### Registration e-mail no longer available
-
-If the registration e-mail is no longer available, use the same [support page](https://aivax.net/contact/).
+If you need to disable two-factor authentication, or the registration e-mail is no longer available, contact [AIVAX support](https://aivax.net/contact/).
 
 #### Reset the login key in Security
 

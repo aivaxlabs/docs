@@ -21,12 +21,11 @@ When `response_schema` is present, AIVAX follows this loop.
 1. AIVAX adds schema instructions to the model request.
 2. After the model generates an answer, AIVAX tries to extract JSON from:
    - The complete generated text.
-   - Common repaired variants, such as missing opening or closing braces.
    - JSON code blocks found in the generated text.
 3. If the extracted JSON does not validate against the schema, AIVAX adds a feedback message with the validation errors and asks the model to generate the JSON again.
 4. This continues until a valid JSON value is generated or the configured attempt limit is reached.
 
-JSON Healing improves reliability, but it is not an absolute guarantee. If the model repeatedly fails the schema, the request can fail after the attempt limit; see [When healing fails](#when-healing-fails).
+If the model keeps failing the schema, the request fails after the attempt limit; see [When healing fails](#when-healing-fails).
 
 ## Basic example
 
@@ -165,23 +164,17 @@ What the client receives:
 - Without streaming, the response is HTTP `503` with the error code `service_unavailable` and the header `Retry-After: 5`.
 - With streaming, the stream ends with a chunk whose `finish_reason` is `error` and whose `error` object carries the code and message, followed by `[DONE]`. See [Streaming](/docs/inference/chat-completions/streaming.md).
 
-If healing frequently reaches the attempt limit, adjust the instruction and schema before raising the limit. Common causes:
-
-- Overly rigid schemas.
-- Missing `required` fields.
-- Vague prompts.
-- Noisy tool results.
-- A model that is too small for the task.
+If healing frequently reaches the attempt limit, adjust the instruction and schema before raising the limit. Common causes are overly rigid schemas, vague prompts, noisy tool results, or a model that is too small for the task.
 
 ## Supported schema features
 
-AIVAX validates the generated JSON with JSON Schema. Use these features when you need to constrain a value. The documented supported features are:
+AIVAX validates the generated JSON with JSON Schema. Supported features:
 
 - `string`: `minLength`, `maxLength`, `pattern`, `format`, and `enum`.
 - `number` and `integer`: `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`, and `multipleOf`.
 - `array`: `items`, `uniqueItems`, `minItems`, and `maxItems`.
 - `object`: `properties` and `required`.
-- `boolean` and `bool`.
+- `boolean`.
 - `null`.
 - Multiple types, for example `"type": ["string", "number"]`.
 

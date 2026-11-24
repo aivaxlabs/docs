@@ -4,7 +4,7 @@
 
 # Raw multi-turn example
 
-The example below shows the shape of a streamed response when server-side reasoning is visible to the client, [`tool_invocation_explanations`](tool-explanations.md) is enabled, and [`textual_blocks`](chat-presentation-guidance.md#response-rendering-mode) is used to keep the response timeline textual. The exact tool result attributes can vary by renderer, but the important behavior is the ordering: reasoning, assistant answer fragments, tool activity, more reasoning, and the final answer can all belong to the same assistant turn.
+The example below shows the shape of a streamed response when server-side reasoning is visible to the client, [`tool_invocation_explanations`](tool-explanations.md) is enabled, and [`textual_blocks`](chat-presentation-guidance.md#response-rendering-mode) is used to keep the response timeline textual. Note the ordering: reasoning, assistant answer fragments, tool activity, more reasoning, and the final answer can all belong to the same assistant turn.
 
 ```json
 {

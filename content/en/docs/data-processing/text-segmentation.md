@@ -18,15 +18,15 @@ Segmentation earns its keep on long, multi-topic sources — manuals, articles, 
 
 A good segment is the smallest span that still answers a question on its own: a complete statement or a tight group of statements about one subtopic, typically a paragraph or a short section. Segments are most useful when the source has clear headings, paragraphs, and complete statements — the segmenter preserves those boundaries instead of cutting mid-thought.
 
-Watch the failure modes of messy sources. Tables lose their headers, OCR drops line structure, transcripts ramble across topics, and exported documents repeat running headers on every page. Review results from those sources before indexing, and prefer cleaning the source (fixing headings, removing boilerplate) over asking the segmenter to guess around it.
+Messy sources, such as tables without headers, OCR output, rambling transcripts, and exports that repeat page headers, benefit from cleaning first. Fix headings and remove boilerplate, then review the results before indexing.
 
 ## Prepare source text
 
 Supply complete source text whenever possible, cleaned as described above.
 
-Without sanitization, segments target about 300 tokens and cover the whole document in source order, without overlap. Boundaries follow the document structure and the semantic similarity of neighboring passages; documents of about that size or smaller are returned as one segment.
+Segments target about 300 tokens and cover the whole document in source order. Boundaries follow the document structure and the meaning of neighboring passages; documents of about that size or smaller are returned as one segment.
 
-Use sanitization only when omitted content is genuinely irrelevant to retrieval. Sanitized requests are processed by a language model and take longer. When exact source wording, legal fidelity, or full traceability matters, retain and review the source text instead.
+Use sanitization only when omitted content is genuinely irrelevant to retrieval. Sanitized requests take longer. When exact source wording or full traceability matters, retain and review the source text instead.
 
 For the supported request, response, authentication, and error contract, use the API Reference:
 

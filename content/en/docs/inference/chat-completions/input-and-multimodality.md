@@ -81,7 +81,7 @@ For video input, send a `video_url` content part. The following example uses a b
 }
 ```
 
-External links must be accessible to AIVAX without authentication, firewall restrictions, or JavaScript-only rendering. The inference can fail because of failed downloads, redirects, blocked URLs, unsupported formats, or provider-specific size limits.
+External links must be publicly reachable without authentication. The request fails when a URL cannot be downloaded, its format is unsupported, or it exceeds the provider's size limit.
 
 ## Prompt shortcut
 

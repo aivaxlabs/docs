@@ -24,11 +24,11 @@ Use prompts that state the outcome you need rather than relying on vague visual 
 
 Control the output with these optional fields:
 
-- `size`: the image dimensions, either as a `"1024x1024"` string or as `{ "width": 1024, "height": 1024 }`. Each side must be between 64 and 4096 pixels. The default is 1080×1920. The model may adjust the size to dimensions it supports, so check the delivered image.
+- `size`: the image dimensions, either as a `"1024x1024"` string or as `{ "width": 1024, "height": 1024 }`. Each side must be between 64 and 4096 pixels. The default is 1080×1920. The model may adjust the size to a dimension it supports.
 - `format`: `png`, `jpeg` or `webp`. When omitted, the image keeps the format produced by the model.
 - `quality`: an integer from 1 to 100 that sets the `jpeg` or `webp` encoding quality. It has no effect on `png`. When the image is converted and `quality` is omitted, 90 is used.
 
-Each prompt group returns `images`, the URLs of the delivered images, and `outputs`, one entry per requested image in request order. Each entry has the image `url`, the `cost` charged for it and, when it failed, an `error` message with a `null` URL. The group `cost` is the sum charged for that prompt. A request can succeed with some failed images, so check `outputs` rather than assuming `images` has `count` entries.
+Each prompt group returns `images`, the URLs of the delivered images, and `outputs`, one entry per requested image in request order. Each entry has the image `url`, the `cost` charged for it and, when it failed, an `error` message with a `null` URL. The group `cost` is the sum charged for that prompt. A request can succeed with some failed images, so check `outputs`.
 
 Supply up to four HTTP(S) reference images when the selected model supports them and the output must follow an existing subject, style, or composition. References guide the result; they do not guarantee identity preservation, so inspect the output before publishing.
 
@@ -42,7 +42,7 @@ To let an MCP-compatible agent or IDE generate images without calling this endpo
 
 ## Pricing, limits, and errors
 
-Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Each output is priced at the selected model's fixed output tariff, plus that model's per-reference tariff for every reference image sent with it. Prompt processing is included. For token- and megapixel-priced providers, the charge uses rounded-up estimates rather than exact provider-cost pass-through. No additional AIVAX image-generation markup or account and plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
+Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Prompt processing is included, and no account or plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
 
 The built-in image generation and editing tool has a daily limit that depends on the plan; see [Built-in tools and web search limits](/docs/limits.md#built-in-tools-and-web-search).
 

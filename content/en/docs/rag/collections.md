@@ -57,13 +57,13 @@ Start it from the collection settings in the Console, under **Advanced settings 
 | Medium | Recommended default. Balances recall and safety. |
 | High | More aggressive semantic matching; can remove documents that are only very similar. |
 
-The de-duplicator runs in two passes. It first removes documents whose text is exactly the same, then compares indexed documents with their closest neighbors in the collection and removes those above the selected similarity level. One document of each duplicate group is kept. Documents still waiting for indexing are only compared in the exact pass, so wait for indexing to finish before running it.
+The de-duplicator removes exact copies first, then documents whose similarity exceeds the selected level, keeping one document of each duplicate group. Wait for indexing to finish before running it, because documents still waiting for indexing are only checked for exact copies.
 
-Before starting, the Console shows an estimate of the processing units and cost for the current number of documents. The task runs in the background, and only one de-duplication can run per collection at a time. When it finishes or fails, the account receives a notification.
+Before starting, the Console shows an estimate of the processing units (PUs) and cost for the current number of documents. The task runs in the background, one per collection at a time, and the account receives a notification when it finishes or fails.
 
-Removed documents are deleted, not hidden. Before deleting them, AIVAX backs them up as JSONL files with their name, text, reference, and tags, and the completion notification links to these backups. Metadata is not included in the backup, so export the collection first when document metadata matters.
+Removed documents are deleted. Before deletion, AIVAX saves them as JSONL backups with their name, text, reference, and tags, linked from the completion notification. Backups do not include metadata, so export the collection first when you need it.
 
-The de-duplicator is billed by processing time: one processing unit (PU) per second of processing, with a minimum of one PU per task. The plan multiplier applies.
+The de-duplicator is billed by processing time, in PUs. The plan multiplier applies.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Estimate%20Collection%20De-duplication&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 

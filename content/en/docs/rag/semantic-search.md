@@ -83,8 +83,6 @@ To get the most recent relevant documents, select a pool by meaning and sort it 
 }
 ```
 
-Each reranker has a maximum number of documents it accepts; a `candidates` value above it is rejected.
-
 ### Results
 
 Each result tells you which document matched and how it scored. It has a `rank`, a `document`, and `scores`:
@@ -100,9 +98,8 @@ Use a cursor when the first page is not enough and you want the next slice of th
 
 1. The first request computes the candidate pool and returns its first page.
 2. To read the next page, send the same request body with `cursor` set to the previous `page.cursor`.
-3. Later pages are read from the stored pool, so they are not charged again and keep the same order.
 
-A cursor expires after 10 minutes without use and then returns `410 Gone`. Repeat the request without `cursor` to run the query again. A cursor sent with a different request body is rejected with `400 Bad Request`. The pool never grows. To see more than `candidates` results, raise `candidates`.
+Later pages keep the same order and are not charged again. A cursor expires after 10 minutes without use and then returns `410 Gone`; repeat the request without `cursor` to run the query again. A cursor sent with a different request body is rejected with `400 Bad Request`. To see more than `candidates` results, raise `candidates`.
 
 ## Find similar documents
 
@@ -148,7 +145,7 @@ It accepts `collections`, `filter`, `sort`, `limit`, `cursor`, and `include`.
 - Sorting by score is rejected.
 - Results contain only `document`, without `rank` or `scores`.
 
-Browse cursors point to the last returned document instead of a stored pool, so they do not expire. Documents added or changed between requests appear in later pages according to the sort order.
+Browse cursors do not expire.
 
 ## Filter results
 
@@ -169,7 +166,7 @@ How filters combine:
 - A filter set on a collection item is combined with the top-level `filter` for that collection.
 - Filters run before the search terms are embedded.
 - Only matching documents are ranked, so results never include documents outside the filter.
-- When no document matches, a query returns an empty result without generating embeddings or charging for the query.
+- When no document matches, a query returns an empty result at no charge.
 
 Filters do not replace good document text. The meaning a user searches for must appear in the contents. See [Advanced filters](document-filters.md) for the complete syntax, operators, limits, and errors, or [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/) for a worked guide.
 

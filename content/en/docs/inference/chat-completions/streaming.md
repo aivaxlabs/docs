@@ -104,8 +104,6 @@ Once the stream starts, the HTTP status is already `200`. A failure is sent as a
 
 Check every chunk for `error` and treat it as a failed request. Text already received belongs to an incomplete answer; discard it or mark it as incomplete. For integrated models, provider error details are not returned; for gateways that use your own provider key, the provider's message is returned as is.
 
-When a provider fails before any data was sent, AIVAX retries the request on another eligible provider, so the client sees no error.
-
 ## Streaming with `json_only`
 
 With `json_only: true`, AIVAX generates the complete JSON first and sends it as a single SSE event containing the raw JSON, followed by `[DONE]`. The event is not a `chat.completion.chunk`. See [JSON-only](/docs/inference/structured-responses/json-only.md).

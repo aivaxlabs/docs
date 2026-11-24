@@ -47,7 +47,6 @@ Use structured responses when your application needs JSON output that matches a 
 
 `response_schema` enables JSON Healing. AIVAX asks the model for JSON, extracts JSON from the generated text or markdown blocks, validates it against the schema, and retries with validation feedback until the output is valid or the attempt limit is reached.
 
-
 If your application cannot parse or validate the result, follow the [invalid JSON troubleshooting guide](https://aivax.net/blog/structured-output-healing-boundary/) before increasing the retry budget.
 
 ## Choose a field

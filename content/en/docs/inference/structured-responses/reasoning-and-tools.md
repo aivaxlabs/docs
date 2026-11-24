@@ -17,7 +17,7 @@ Only failed JSON answers count toward `max_attempts`. Tool calls and reasoning d
 
 ## Where the JSON comes from
 
-AIVAX reads the JSON from the final answer content, never from the reasoning. The answer can contain the JSON alone or inside a Markdown code block; AIVAX also tolerates a missing opening or closing brace or bracket. Text around a code block is discarded.
+AIVAX reads the JSON from the final answer content, never from the reasoning. The answer can contain the JSON alone or inside a Markdown code block.
 
 Tell the model to put the JSON in its final answer. A model that writes the result only in its reasoning produces an empty answer, which fails validation.
 

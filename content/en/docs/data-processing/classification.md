@@ -24,7 +24,7 @@ Before calling this endpoint, [create an API key](../authentication.md) and make
 | `documents` | `string[]` | Yes | One or more non-empty documents to classify. Results preserve this order and each document's zero-based index. |
 | `labels` | `string[]` | Yes | One or more non-empty labels. Every label is scored for every document. |
 
-Duplicate documents and labels are preserved. The endpoint always uses the current default embedding model and does not accept a model parameter, score threshold, or result limit.
+The endpoint uses the default embedding model and does not accept a model parameter, score threshold, or result limit.
 
 The following request classifies three documents, one of them in German, against three labels:
 
@@ -45,7 +45,7 @@ The following request classifies three documents, one of them in German, against
 
 ## Read the response
 
-`results` contains one item for each input document. Each `scores` array contains every supplied label, ordered by descending cosine similarity. Labels with equal scores preserve their original order. The example below is abbreviated to the first document:
+`results` contains one item for each input document. Each `scores` array contains every supplied label, ordered by descending cosine similarity. The example below is abbreviated to the first document:
 
 ```json
 {
@@ -72,13 +72,9 @@ The following request classifies three documents, one of them in German, against
 }
 ```
 
-A score measures vector similarity, not a calibrated probability. Compare scores within the same request and embedding model rather than interpreting a value as a percentage confidence. Negative scores are valid and remain in the response because the endpoint does not filter labels.
-
-Embedding usage is billed for text that requires inference and is associated with the authenticated API key. Repeated text may be served from an internal cache, reducing latency and costs. Because the endpoint returns every document-label pair, response size and comparison work grow with `documents × labels`.
+A score measures vector similarity, not a probability. Compare scores within the same request rather than reading a value as a percentage confidence.
 
 ## Pricing and limits
-
-Text classification uses the default embedding model and is billed for the embedding work performed.
 
 | Description | Pricing |
 | --- | ---: |

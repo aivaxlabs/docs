@@ -14,7 +14,7 @@ Requests count toward the account's plan limits for integrated models or BYOK, a
 
 The context window is the model's maximum input size. A gateway can set a lower limit with `contextMaximumSize` and choose what happens when a conversation exceeds it; see [Context truncation](context-truncation.md).
 
-On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more. Token counts for this check are approximate and include system instructions and tool definitions.
+On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more.
 
 ## Remote instruction sources
 
@@ -28,7 +28,7 @@ Each remote instruction source response can be at most 5 MB. See [Processing pip
 
 - `conversation_token` accepts any non-empty string with 128 characters or less.
 - Server-side tool state is kept for one hour after its last use.
-- `idempotency_key` is a deprecated alias; when both are sent, they must have the same value.
+- `idempotency_key` is a deprecated alias of `conversation_token`.
 
 See [Session reuse](session-reuse.md).
 

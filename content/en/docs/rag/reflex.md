@@ -35,13 +35,13 @@ For the supported request, response, authentication, and error contract, use the
 
 ## Use Reflex with RAG
 
-Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. In this flow, it can improve the order of retrieved candidates but cannot recover a document that the retrieval stage did not select. If relevant documents are consistently absent, adjust retrieval, chunking, query formulation, or candidate count before tuning reranking.
+Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. It improves the order of retrieved candidates but cannot recover a document the retrieval stage did not select.
 
-Every plan includes a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking. Cached and uncached input both consume this allowance. It is separate from the RAG embedding allowance and the processing-time cap; other rerankers are billed normally. For relative plan capacity and coverage rules, see [Plans and Limits](../limits.md#included-daily-subscription-allowances).
+Every plan includes a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking and separate from the RAG embedding allowance. Other rerankers are billed normally. See [Plans and Limits](../limits.md#included-daily-subscription-allowances) for plan capacity.
 
 ## Pricing and limits
 
-Reflex is billed by input tokens. Input served from the account-scoped cache is billed at a lower rate. Accounts with [Data Sharing](../data-sharing.md) enabled receive a discount on eligible reranking operations.
+Reflex is billed by input tokens, with a lower rate for cached input. Accounts with [Data Sharing](../data-sharing.md) enabled receive a discount on eligible reranking operations.
 
 | Description | Pricing |
 | --- | ---: |
@@ -50,4 +50,4 @@ Reflex is billed by input tokens. Input served from the account-scoped cache is 
 
 Each request accepts up to 10,000 candidate documents and returns up to 200 ranked results on every plan. Reflex processing time per day and reranking requests per minute depend on the plan; see [RAG and collections limits](../limits.md#rag-and-collections).
 
-The processing-time limit counts the time spent processing Reflex requests, both on the reranking endpoint and in RAG searches that use Reflex; cached input does not consume it separately. The reranking request limit applies to the reranking endpoint and to RAG searches that use a reranker, including searches through AI Gateways and MCP tools. Requests above a limit return `429 Too Many Requests`.
+The processing-time limit covers Reflex requests on the reranking endpoint and in RAG searches. The reranking request limit applies to the reranking endpoint and to RAG searches that use a reranker, including through AI Gateways and MCP tools. Requests above a limit return `429 Too Many Requests`.

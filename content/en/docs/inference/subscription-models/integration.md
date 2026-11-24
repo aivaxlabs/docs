@@ -4,7 +4,7 @@
 
 # Harness integration
 
-Coding agents and other harnesses reach subscription models through the same [OI]-compatible Chat Completions API used by every AIVAX model. No extra setup is required on the AIVAX side: create an [API key](/docs/authentication.md), point the harness at `https://inference.aivax.net/v1`, and use a `@aivax-subscription/` model name.
+Coding agents and other harnesses reach subscription models through the same OpenAI-compatible Chat Completions API used by every AIVAX model. No extra setup is required on the AIVAX side: create an [API key](/docs/authentication.md), point the harness at `https://inference.aivax.net/v1`, and use a `@aivax-subscription/` model name.
 
 Use `https://direct.inference.aivax.net/v1` instead when the harness runs long tool loops or large context windows and you would rather avoid gateway request timeouts. The delivered model and the quota consumption are identical; only the host changes.
 
@@ -29,7 +29,7 @@ Subscription models appear in the picker with the rest of the catalog, and their
 
 ## Codex
 
-The Codex CLI speaks the [OI] Responses API, which AIVAX serves at `/v1/responses`. Declare AIVAX as a provider in `~/.codex/config.toml`:
+The Codex CLI speaks the OpenAI Responses API, which AIVAX serves at `/v1/responses`. Declare AIVAX as a provider in `~/.codex/config.toml`:
 
 ```toml
 model_provider = "aivax"
@@ -46,11 +46,11 @@ supports_websockets = false
 
 Select the model with `codex --model "@aivax-subscription/glm-5.3"`, with `-c model=...`, or with `/model` in the TUI.
 
-Codex does not know the AIVAX models, so set `model_context_window` yourself and expect a metadata warning in the picker; supply `model_catalog_json` if you want the list pre-filled. The endpoint is stateless and supports only function tools: hosted tools such as web search and other tool types (`custom`, `namespace`) are ignored. Verify a real edit and a shell command before relying on it.
+Codex does not know the AIVAX models, so set `model_context_window` yourself and expect a metadata warning in the picker; supply `model_catalog_json` if you want the list pre-filled. The endpoint is stateless and supports only function tools: hosted tools such as web search and other tool types (`custom`, `namespace`) are ignored.
 
-## [CC]
+## Claude Code
 
-The [CC] CLI targets the Anthropic Messages API, which AIVAX serves at `/v1/messages`. Point [CC] at AIVAX through the `env` block of `~/.claude/settings.json`, or through the same variables exported in your shell:
+The Claude Code CLI targets the Anthropic Messages API, which AIVAX serves at `/v1/messages`. Point Claude Code at AIVAX through the `env` block of `~/.claude/settings.json`, or through the same variables exported in your shell:
 
 ```json
 {
@@ -67,7 +67,7 @@ The [CC] CLI targets the Anthropic Messages API, which AIVAX serves at `/v1/mess
 }
 ```
 
-`ANTHROPIC_BASE_URL` takes no `/v1` suffix, because [CC] appends the Anthropic paths itself. `ANTHROPIC_AUTH_TOKEN` must be set to a non-empty value, otherwise [CC] opens its login screen; use `/status` to confirm the base URL and the credential source.
+`ANTHROPIC_BASE_URL` takes no `/v1` suffix, because Claude Code appends the Anthropic paths itself. `ANTHROPIC_AUTH_TOKEN` must be set to a non-empty value, otherwise Claude Code opens its login screen; use `/status` to confirm the base URL and the credential source.
 
 Gateway model discovery only keeps model names containing `claude` or `anthropic`, so the `@aivax-subscription/` names must be set explicitly through the variables above. Keep the Haiku alias pointed at a subscription model as well, because session titles and other background tasks use it. Only client tools are supported: Anthropic server tools, such as the web search used by the WebSearch tool, are ignored.
 
@@ -99,8 +99,6 @@ Declare a custom provider in `~/.config/opencode/opencode.json` (or in the proje
   }
 }
 ```
-
-Older OpenCode releases use the legacy `provider` block with `npm: "@ai-sdk/openai-compatible"`, `api` for the base URL, and `options.apiKey`; the current format above is translated automatically from it.
 
 Custom providers must list their models, because automatic discovery only covers the built-in local providers. Use a short key such as `glm-5.3` and put the real AIVAX name in `modelID`, so the runtime reference stays `aivax/glm-5.3` and the request carries the subscription model. The provider key becomes the model prefix: `opencode run --model aivax/glm-5.3`, or pick it in `/models`.
 
@@ -140,13 +138,13 @@ The models are stored in `chatLanguageModels.json`:
 ]
 ```
 
-Give the full endpoint URL so VS Code does not append a path for you. Capabilities are declared by hand: agent mode needs `toolCalling: true`, and the token limits you enter are what the context manager uses. Bring Your Own Key covers Chat and agent sessions; inline code completions and embeddings still come from GitHub Copilot, and organizations can disable the feature by policy.
+Give the full endpoint URL so VS Code does not append a path for you. Capabilities are declared by hand: agent mode needs `toolCalling: true`, and the token limits you enter are what the context manager uses.
 
-If you prefer an extension over the built-in provider, Continue, Cline, and Roo Code all expose an [OI]-Compatible provider where the same base URL and model names apply.
+If you prefer an extension over the built-in provider, Continue, Cline, and Roo Code all expose an OpenAI-Compatible provider where the same base URL and model names apply.
 
 ## Visual Studio 2026
 
-Visual Studio 2026 18.12 and later accept any [OI]-compatible endpoint through Bring Your Own Model.
+Visual Studio 2026 18.12 and later accept any OpenAI-compatible endpoint through Bring Your Own Model.
 
 1. Open Copilot Chat, open the model picker, and choose **Manage models**.
 2. Choose **Add model provider**, then **Custom Endpoint**.
@@ -154,7 +152,7 @@ Visual Studio 2026 18.12 and later accept any [OI]-compatible endpoint through B
 4. Add the `@aivax-subscription/` model names, then set each model's API format to **Completions**, its context size to 500000, and enable tool calling.
 5. Select the model in the picker and work in Agent Mode, which is the experience BYOM supports.
 
-There is no documented configuration file for this; the connection lives in the IDE settings. Capabilities are declared per model, exactly as in VS Code, and administrators can remove **Add model provider** by policy. Earlier 18.x releases only accepted custom endpoints for [OI] and Ollama, so update before configuring.
+The connection lives in the IDE settings. Capabilities are declared per model, as in VS Code.
 
 ## Pi Agent
 
@@ -196,9 +194,9 @@ Models must be listed, because Pi only discovers models at runtime through an ex
 
 The runtime reference is `aivax/@aivax-subscription/kimi-k3.1-pro`, optionally with a thinking level such as `:high`. Prefer `defaultModel` and the `/model` picker over passing that string by hand, because the model part already contains a `/`. Cost is optional; without it Pi reports zero cost even though the request consumes your quota, and a credential saved in `auth.json` takes precedence over `apiKey`.
 
-## [DSH]
+## DeepSeek harness
 
-The DeepSeek harness ([DSH]) stores providers in `$DSH_HOME/profiles/<profile>/cordis.patch.yml`, where the profile is `web` for the web UI and `headless` for terminal runs. The interactive route is **Settings**, **Models**, **Add model provider**, **Custom model API**.
+The DeepSeek harness stores providers in `$DSH_HOME/profiles/<profile>/cordis.patch.yml`, where the profile is `web` for the web UI and `headless` for terminal runs. The interactive route is **Settings**, **Models**, **Add model provider**, **Custom model API**.
 
 ```yaml
 - id: agent-default-model
@@ -228,8 +226,6 @@ The DeepSeek harness ([DSH]) stores providers in `$DSH_HOME/profiles/<profile>/c
 ```
 
 `apiKeyEnv` holds the name of the environment variable, not the key itself. Listed models appear in the picker, and choosing one stores it as the default for new sessions; the **Fetch available models** action in the UI fills the list from `GET /v1/models`.
-
-If the default provider still answers from the DeepSeek catalog, it is a separate provider entry; keep the AIVAX route under its own identifier and select it explicitly.
 
 ## OpenClaw
 
@@ -267,7 +263,7 @@ OpenClaw accepts third-party endpoints under `models.providers` in `~/.openclaw/
 
 A model reference is `provider/model`, split at the first `/`, so the subscription name keeps its own slash after the provider id. `agents.defaults.model.primary` sets the default, and `openclaw models set` or `/model` switches per session.
 
-Declare every model you plan to use with its context window and token limits, because a custom endpoint has no catalog to describe them. If AIVAX rejects the reasoning parameter, add `compat: { supportsReasoningEffort: false }` to the model. Models rendered as text-only during onboarding, as Kimi and DeepSeek names are, need `input: ["text", "image"]` added by hand when the model accepts images.
+Declare every model you plan to use with its context window and token limits, because a custom endpoint has no catalog to describe them. If AIVAX rejects the reasoning parameter, add `compat: { supportsReasoningEffort: false }` to the model. Add `input: ["text", "image"]` for models that accept images.
 
 ## Hermes Agent
 
@@ -284,7 +280,7 @@ model:
 
 Set `AIVAX_API_KEY` in `~/.hermes/.env`. The `hermes model` command writes the same block interactively through **Custom endpoint**.
 
-The base URL keeps its `/v1` suffix, because Hermes calls a custom endpoint directly. Hermes refuses to start with a context window below 64,000 tokens, and it cannot infer the window of an unknown model, so set `context_length` explicitly. `OPENAI_BASE_URL` does not redirect a custom provider.
+The base URL keeps its `/v1` suffix, because Hermes calls a custom endpoint directly. Hermes cannot infer the context window of an unknown model, so set `context_length` explicitly.
 
 For several endpoints, use the `providers` map and switch with `/model custom:aivax:@aivax-subscription/glm-5.3` inside a session:
 
@@ -314,23 +310,21 @@ Context window: 500000
 Max output:     32000
 ```
 
-The key is encrypted by the application and is not meant to be edited by hand, so use the form instead of the stored copy. Because the provider runs on OpenCode, a project `opencode.json` that restricts `enabled_providers` or `disabled_providers` can hide it; check that file if the provider does not appear.
-
-Each turn sends the agent's tools together with a reasoning effort, so the subscription model you pick must accept both over Chat Completions.
+If the provider does not appear, check whether a project `opencode.json` restricts `enabled_providers` or `disabled_providers`.
 
 ## ZCode
 
-ZCode adds providers in the UI: open the model selector, choose **Manage Models**, then **Add Provider**, and fill the [OI] endpoint.
+ZCode adds providers in the UI: open the model selector, choose **Manage Models**, then **Add Provider**, and fill the OpenAI endpoint.
 
 ```text
 Provider name:      AIVAX
-[OI] endpoint:      https://inference.aivax.net/v1
+OpenAI endpoint:      https://inference.aivax.net/v1
 Anthropic endpoint: leave empty
 API key:            <AIVAX_API_KEY>
 Models:             @aivax-subscription/kimi-k3.1-pro
                     @aivax-subscription/glm-5.3
 ```
 
-Then open the per-model **Advanced** settings and set the context window to 500000 and the maximum output tokens. ZCode defaults an unknown model to 200,000 tokens and only recognizes the long window from a suffix on the model name, which subscription models do not carry.
+Then open the per-model **Advanced** settings and set the context window to 500000 and the maximum output tokens.
 
-ZCode does not read shell environment variables for model setup, so the key must be entered in the form. It also sends a top-level `reasoning_effort` to [OI]-compatible endpoints; if a level is rejected with `400`, choose a lower one. Settings are stored under `~/.zcode/`, where the credentials file is encrypted per device.
+ZCode does not read shell environment variables for model setup, so the key must be entered in the form. It also sends a top-level `reasoning_effort` to OpenAI-compatible endpoints; if a level is rejected with `400`, choose a lower one.

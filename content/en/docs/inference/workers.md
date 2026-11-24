@@ -66,7 +66,7 @@ Read the body before you act:
 2. Branch on `event.name`.
 3. Read `event.data`. The exact shape depends on the event.
 
-Treat the JSON above as the envelope. Do not assume every event carries the same `data` fields.
+The JSON above is the common envelope; the `data` fields differ by event.
 
 ## Authentication
 
@@ -93,7 +93,7 @@ After AIVAX sends the request, it handles your response as follows:
 | `2xx` without `application/json+worker-action` | Continue normally. |
 | Non-OK response without `application/json+worker-action` | Stop the event. |
 
-If the worker request fails with an HTTP request exception, AIVAX logs the failure and stops the event.
+If the request to your worker fails, the event stops.
 
 ### When to continue or stop
 
@@ -214,13 +214,7 @@ Use `add-mcp-source` when the tool list must depend on this message, user, chann
 }
 ```
 
-For this inference only, AIVAX:
-
-1. Lists the tools from the MCP server.
-2. Converts each schema into a model-callable function.
-3. Makes those tools available only for that inference.
-
-For a source that should stay on the gateway, configure MCP directly in the AI Gateway.
+The tools of that MCP server are available to the model for this inference only. For a source that should stay on the gateway, configure MCP directly in the AI Gateway.
 
 ## `tool.called`
 
@@ -318,7 +312,7 @@ Choose one outcome:
         "messages": [],
         "errors": [
             {
-                "message": "Failed to parse tool arguments JSON for tool `check_order`.",
+                "message": "The `check_order` tool call failed.",
                 "fatal": false
             }
         ],
@@ -343,7 +337,7 @@ Choose one outcome:
 | `fatal` | Whether the inference was interrupted by an error. |
 | `usage` | Token usage, cost in USD, and performance of the inference. It is `null` when the inference failed before the model call. |
 
-The worker response is ignored: `message.completed` cannot stop, rewrite, or delay the inference. When AIVAX retries a request on another provider, only the final attempt sends `message.completed`.
+The worker response is ignored: `message.completed` cannot stop, rewrite, or delay the inference.
 
 ## Example: blocking unauthorized users
 

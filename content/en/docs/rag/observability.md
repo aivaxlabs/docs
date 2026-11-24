@@ -70,7 +70,7 @@ Use the playground to reproduce a low-quality search from the history, adjust op
 
 ## Media Injector jobs
 
-Files imported with [Media Injector](documents.md#import-from-files-with-media-injector) are processed as background jobs. Follow them under **Batch > Media Processing**, which refreshes automatically and shows each job's collection, files, state, elapsed time, number of documents produced, current cost, and estimated cost. Cancel queued or processing jobs, and retry or delete failed or cancelled ones.
+Files imported with [Media Injector](documents.md#import-from-files-with-media-injector) are processed as background jobs. Follow them under **Batch > Media Processing**, which shows each job's collection, files, state, elapsed time, documents produced, and cost. Cancel queued or processing jobs, and retry or delete failed or cancelled ones.
 
 After a job completes, its documents appear in the collection as Queued until they are indexed.
 

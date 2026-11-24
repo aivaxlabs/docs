@@ -69,15 +69,7 @@ Expose only speech generation:
 X-Mcp-Enabled-Tools: list_models, generate_speech
 ```
 
-The server reads the header as follows:
-
-- Tool names are case-insensitive.
-- Spaces around comma-separated values are ignored.
-- If the header is omitted, all tools are exposed.
-- If the header lists recognized tools, only those tools are exposed.
-- If the header is empty or contains no recognized tool names, no tools are exposed.
-
-Keep `list_models` enabled alongside a generation tool. The agent can then discover valid model names instead of guessing them. MCP clients may cache tool discovery, so reconnect or refresh the server after changing this header.
+If the header is omitted, all tools are exposed. Keep `list_models` enabled alongside a generation tool so the agent can discover valid model names. MCP clients may cache tool discovery, so reconnect or refresh the server after changing this header.
 
 ## Tools
 
@@ -87,7 +79,7 @@ These are the operations the server can expose. Call one when the client needs a
 
 `list_models` lists the models available for image generation or speech generation. Use it before a generation call when the agent needs a valid model name, a description, or pricing.
 
-Each result includes the model's description and pricing. Image models also indicate whether they accept reference images. Deprecated image models are not listed.
+Each result includes the model's description and pricing. Image models also indicate whether they accept reference images.
 
 Input:
 
@@ -166,11 +158,7 @@ Example arguments:
 
 The tool returns the URL of the MP3 audio as MCP text. The URL is publicly accessible, so anyone with it can play the audio.
 
-Unlike the Speech Generation API:
-
-- It does not return the audio inline.
-- It does not offer other output formats.
-- Convert the downloaded file if your workflow needs WAV or OGG.
+Unlike the Speech Generation API, the tool returns only an MP3 URL, not inline audio or other formats. Convert the downloaded file if your workflow needs WAV or OGG.
 
 Voices differ per speech model. For voice selection and text preparation guidance, see [Speech Generation](/docs/generations/speech).
 

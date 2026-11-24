@@ -68,15 +68,7 @@ X-Mcp-Enabled-Tools: web_search
 X-Mcp-Enabled-Tools: fetch_url, web_search
 ```
 
-The server reads the header as follows:
-
-- Tool names are case-insensitive.
-- Spaces around comma-separated values are ignored.
-- If the header is omitted, both tools are exposed.
-- If the header contains one recognized tool, only that tool is exposed.
-- If the header is empty or contains no recognized tool names, no tools are exposed.
-
-MCP clients may cache tool discovery, so reconnect or refresh the server after changing this header.
+If the header is omitted, both tools are exposed. MCP clients may cache tool discovery, so reconnect or refresh the server after changing this header.
 
 ## Tools
 

@@ -21,9 +21,9 @@ The `moderationParameters.mode` field selects how moderation runs:
 | Model requirements | None | The main model must support tool calling |
 
 - `LayeredGuardrail`: An independent safeguard model analyzes the conversation's input text before the main model. Flagged conversations are blocked, and the main model responds with a refusal. Moderation usage is billed as described in [Inference pricing](concepts.md#pricing).
-- `SelfAssessment`: No separate safeguard model runs, so there is no moderation analysis charge. The main model receives moderation instructions built from the same category sensitivity levels and additional rules, plus an internal refusal tool. When the model judges that the latest request reaches the boundary of an enabled category, it calls the tool with a reason, the violated categories, and a final message for the user. The inference ends immediately, other tool calls from that turn are skipped, the final message is returned as the assistant reply, and the response is marked as a refusal.
+- `SelfAssessment`: No separate safeguard model runs, so there is no moderation analysis charge. The main model receives moderation instructions built from the same category sensitivity levels and additional rules. When it judges that the latest request reaches the boundary of an enabled category, the inference ends with a refusal message for the user and the response is marked as a refusal.
 
-Because `SelfAssessment` relies on the main model's judgment instead of an independent classifier, it trades lower latency and cost for weaker isolation: it is not an independent layer, and enforcement quality depends on the model. Prefer `LayeredGuardrail` when jailbreak attempts are a real risk.
+`SelfAssessment` trades isolation for lower latency and cost: enforcement depends on the main model's judgment. Prefer `LayeredGuardrail` when jailbreak attempts are a real risk.
 
 ## Categories
 
@@ -89,13 +89,13 @@ The following gateway fragment enables different sensitivity levels and gives th
 
 When any enabled category reaches its cutoff:
 
-1. AIVAX marks the original conversation messages as unavailable to the main inference request.
-2. AIVAX replaces them with an instruction identifying the categories that caused the block.
+1. The original conversation messages are not sent to the main model.
+2. The main model receives an instruction identifying the categories that caused the block.
 3. The main model generates a refusal instead of answering the original request.
 
-The refusal is model-generated; moderation does not return a fixed response body. In `SelfAssessment` mode, the main model produces the refusal itself through the refusal tool, as described above. Blocked requests are still billed for the moderation analysis and for the refusal generation.
+The refusal is model-generated; moderation does not return a fixed response body. Blocked requests are still billed for the moderation analysis and for the refusal generation.
 
-In `LayeredGuardrail` mode, if every moderation model fails to produce a valid result, the request is not rejected. The main model instead receives strict instructions derived from the configured categories, sensitivity levels, and additional rules, and applies the policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
+In `LayeredGuardrail` mode, if moderation cannot produce a result, the request is not rejected: the main model applies the configured policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
 
 ## Where moderation runs in the pipeline
 
@@ -106,16 +106,13 @@ Moderation runs once per request, before the agentic loop starts. See [Processin
 - Tool results produced later in the same request, including `QueryFunction` search results, are not moderated.
 - [Multimodal pre-processing](multimodal-pre-processing.md) runs afterwards, so media descriptions are not moderated.
 
-## Context and current limitations
+## Scope
 
-In `LayeredGuardrail` mode, the safeguard receives the available conversation history, not only the latest message. Message roles and text are preserved as untrusted serialized conversation data to reduce the chance that instructions inside the conversation override the safeguard policy. If the conversation exceeds the safeguard context window, older context can be truncated.
-
-Moderation currently applies only to input text:
+In `LayeredGuardrail` mode, the safeguard evaluates the conversation history, not only the latest message. Moderation applies only to input text:
 
 - Generated output is not moderated.
 - Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
 - Tool or worker authorization still requires application-level policy; moderation is not an authorization mechanism.
-- In `LayeredGuardrail` mode, moderation adds a safeguard inference before the main inference, which adds latency and billable moderation usage (see [Inference pricing](concepts.md#pricing)). `SelfAssessment` mode adds no separate inference.
 
 Use moderation for broad safety policy. Use workers when the decision depends on external identity, account state, or business-specific policy.
 

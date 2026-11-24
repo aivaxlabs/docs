@@ -23,19 +23,17 @@ The table lists each model's context window and the usage included every month, 
 | Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $480<br>12.5× Pro |
 | Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320<br>5× Pro | ≈ $800<br>12.5× Pro |
 
-Each value assumes the whole monthly quota is spent on that model with a typical mix of input, cached input, and output tokens, and is rounded up to the nearest $10. The values are estimates, not guaranteed amounts. Spreading usage across several subscription models divides the same quota between them.
+The values are approximate. Spreading usage across several subscription models divides the same quota between them.
 
-The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15, not on November 1. The account balance response reports it only as a used percentage; see [Monthly subscription model quota](/docs/limits.md#monthly-subscription-model-quota).
+The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15. See [Monthly subscription model quota](/docs/limits.md#monthly-subscription-model-quota).
 
 ## Consumption rate
 
-Subscription models are provided by suppliers through direct agreements that cover the models' original price. The rate at which a model consumes the quota follows those agreements, so it is dynamic and can change daily, and it can also fluctuate during the day. You may notice the same model using slightly more or slightly less of your quota for similar requests. The included equivalents above change with it.
+The rate at which a model consumes the quota can change over time, so similar requests may use slightly more or less of your quota. The included equivalents above change with it.
 
 ## Availability
 
-A subscription model runs the model it names. AIVAX rigorously checks the models delivered by its suppliers against the contracted models.
-
-A subscription model can become unavailable for an indefinite period when its supplier has excess demand. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
+A subscription model runs the model it names. A subscription model can occasionally become unavailable. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
 
 ## When the quota is exhausted
 
@@ -43,7 +41,7 @@ When the quota is exhausted, or the plan does not include it, a request to a sub
 
 ## Data retention
 
-Subscription models are not zero data retention. Their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. The suppliers state that prompts are not used for training; AIVAX does not verify or guarantee this.
+Subscription models are not zero data retention. Prompts sent to them are collected and kept for an indefinite period for moderation and internal control. According to the providers' terms, they are not used for training.
 
 With [Zero data retention providers only](/docs/inference/routing/zdr.md) enabled, requests to subscription models fail. Do not send personal, confidential, or regulated data to these models unless that retention is acceptable. AIVAX's own records follow the account's conversation logging setting; see [Data Processors](/docs/legal/third-party-processors.md#inference).
 

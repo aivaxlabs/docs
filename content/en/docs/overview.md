@@ -161,7 +161,7 @@ A completed test run is not automatically a successful behavior result. Review t
 
 Use this section to trace cost, connect a compatible agent, or operate the account from scripts.
 
-AIVAX records conversations and usage so you can trace behavior, attribute cost, and diagnose failures. The dashboard and account APIs expose:
+AIVAX tracks usage, and conversations when logging is enabled, so you can trace behavior, attribute cost, and diagnose failures. The dashboard and account APIs expose:
 
 - Account balance.
 - Usage.
@@ -283,9 +283,7 @@ Use this list to confirm that the direct host serves the call you need. It serve
 | `POST` | `/api/v1/generations/teach-skill` | Teach skill from a tutorial video |
 | `POST` | `/api/v1/web/fetch` | [Web fetch and OCR](web-foundation/fetch-and-ocr.md) |
 
-Compatibility aliases of these generation endpoints, such as `/api/v1/generations/validations` and `/api/v1/generations/reflex/rerank`, are also served.
-
-Any other path returns `404 Not Found` on the direct host. Account management, AI Gateway, collection, document, batch, and other administrative APIs, including web search, remain available only on `https://inference.aivax.net`.
+Any other path returns `404 Not Found` on the direct host. Account management, AI Gateway, collection, document, batch, and other administrative APIs, including web search, are available only on `https://inference.aivax.net`.
 
 The endpoints most likely to need the direct host are:
 

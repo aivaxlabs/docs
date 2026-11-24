@@ -4,7 +4,7 @@
 
 # Voice and Realtime
 
-Voice Session is AIVAX's low-latency, stateful voice API. Use it for a live spoken conversation. Your client opens an authenticated WebSocket, AIVAX connects that session to a realtime inference service, and events follow the OpenAI-compatible GA Realtime JSON protocol after the upgrade.
+Voice Session is AIVAX's low-latency, stateful voice API. Use it for a live spoken conversation. Your client opens an authenticated WebSocket and exchanges events using the OpenAI-compatible GA Realtime JSON protocol.
 
 Choose Voice Session when the caller and the assistant should speak in the same session. It supports:
 
@@ -46,9 +46,7 @@ Prefer the `Authorization` header. AIVAX also accepts `?api-key=<AIVAX_API_KEY>`
 
 ## Migrate to GA Realtime events
 
-Use this section when an existing client still sends the legacy Voice Session envelope. After the WebSocket upgrade, exchange OpenAI-compatible GA Realtime JSON events directly.
-
-Do not send the legacy `session_start` envelope. Do not depend on the former AIVAX-specific STT, TTS, WAV-segment, or playback-confirmation events.
+Use this section if your client still sends the legacy `session_start` envelope or relies on the former AIVAX-specific STT, TTS, WAV-segment, or playback-confirmation events. After the WebSocket upgrade, exchange GA Realtime JSON events directly.
 
 The main migration changes are:
 
@@ -149,12 +147,11 @@ Use `input_audio_buffer.clear` to discard buffered audio that should not become 
 
 ## Receive transcripts and audio
 
-Handle the native GA Realtime event stream as it arrives. Do not assume one fixed sequence. Route by `type`, and keep the identifiers that tie a response to its items.
+Handle the GA Realtime event stream as it arrives. Route by `type`, and keep the identifiers that tie a response to its items.
 
 In particular:
 
 - `input_audio_buffer.speech_started` and `input_audio_buffer.speech_stopped` report server-VAD boundaries;
-- `conversation.item.input_audio_transcription.*` events are not currently emitted because input-transcription sessions are not supported;
 - `response.output_audio_transcript.delta` and `response.output_audio_transcript.done` provide the assistant's spoken transcript;
 - `response.output_audio.delta` carries a base64 PCM audio chunk;
 - `response.output_audio.done` marks the end of an output-audio stream;
@@ -174,7 +171,7 @@ Decode each `response.output_audio.delta` value as raw mono signed 16-bit little
 }
 ```
 
-Event fields can evolve with the GA Realtime protocol. Ignore unknown event types or fields that your client does not use. Keep the identifiers you need to correlate responses and items.
+Ignore event types and fields that your client does not use.
 
 ## Handle interruptions
 
@@ -186,7 +183,7 @@ Use this flow when the caller speaks over the assistant. Cancellation stops gene
 
 Track played audio duration in the client. Do not assume every received chunk reached the speaker.
 
-Treat already-finished response races as normal, and make cancel handling idempotent. For a client-side ledger that computes the played duration per item, and the common ways that offset goes wrong, see [handling Realtime API interruptions with conversation.item.truncate](https://aivax.net/blog/openai-realtime-api-interruptions-conversation-item-truncate/).
+Make cancel handling idempotent, since the response may already have finished. For a client-side ledger that computes the played duration per item, and the common ways that offset goes wrong, see [handling Realtime API interruptions with conversation.item.truncate](https://aivax.net/blog/openai-realtime-api-interruptions-conversation-item-truncate/).
 
 ## Use tools
 
@@ -197,7 +194,7 @@ Declare client tools in the standard GA Realtime `tools` session field. Use this
 3. Add one native `function_call_output` conversation item per `call_id`.
 4. Send a single `response.create` after the originating `response.done` arrives and every call from that response has an output.
 
-Tools configured as AIVAX server `InternalFunctions` execute within AIVAX and require no client action. Client-defined tools continue to be returned normally and remain the client's responsibility.
+Tools that AIVAX runs server-side require no client action; only client-defined tools are returned to you.
 
 Your tool handler should:
 
@@ -206,42 +203,22 @@ Your tool handler should:
 - enforce timeouts;
 - return a useful error result when execution fails.
 
-Do not wait for a client tool result that is being executed as an AIVAX server function.
-
 ## Billing and limits
 
 Voice Sessions are billed at the selected realtime model's rates. The charge uses that model's text, audio, and image token prices. The [plan multiplier](/docs/pricing#plan-multipliers) applies.
 
-These account rules also apply:
-
-- Model access, balance, and inference limits follow [Plans and Limits](/docs/limits).
-- Voice Sessions do not use the standalone text-to-speech and audio-transcription request quotas.
-- Input transcription is not currently supported inside Voice Sessions.
+Model access, balance, and inference limits follow [Plans and Limits](/docs/limits). Voice Sessions do not use the standalone text-to-speech and audio-transcription request quotas.
 
 ## Disconnect gracefully
 
-A Voice Session lasts only while the WebSocket is open. It is not resumable after disconnect. Close it on purpose when the conversation ends.
-
-For a normal shutdown:
+A Voice Session lasts only while the WebSocket is open and cannot be resumed after a disconnect. Close it on purpose when the conversation ends:
 
 1. Stop microphone capture and stop sending audio.
 2. Let any response or required tool-result exchange finish, or cancel it explicitly.
-3. Stop and drain local playback as appropriate for the product experience.
+3. Stop and drain local playback.
 4. Close the WebSocket with a normal close code.
 5. Release audio devices, playback queues, pending calls, and session state.
 
-Treat these as terminal session outcomes:
-
-- peer closure;
-- network loss;
-- authentication failure;
-- model errors;
-- server shutdown.
-
-Reconnecting starts a new session:
-
-1. Open a new authenticated WebSocket.
-2. Send a new `session.update`.
-3. Rebuild any application context your experience requires.
+Peer closure, network loss, authentication failures, and model errors also end the session. To continue, open a new authenticated WebSocket, send a new `session.update`, and rebuild any application context your experience requires.
 
 Use bounded retry with backoff for transient failures. Do not automatically retry authentication or configuration errors.

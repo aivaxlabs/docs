@@ -4,15 +4,9 @@
 
 # Pricing
 
-AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product: subscription allowances, storage, the request cost header, the data sharing discount, plan multipliers, credit top-up fees, and taxes on payments.
+AIVAX charges usage to the account balance in USD. Each product documents its own rates in a dedicated pricing section, linked below. This page covers the rules shared by every product.
 
 See [subscription pricing](https://aivax.net/pricing) for monthly plan prices and [Plans and limits](limits.md) for account-level quotas. **M** means one million tokens; **1k** means one thousand units. Approximate prices (`~`) vary with the model used and the work performed.
-
-## Plan list prices
-
-Use the pricing page when you are choosing a plan in a browser. To read the same public list prices from an application, call `GET /api/v1/information/plans.json`. No API key is required. The response lists Free, Pro, Max, and Ultimate. Each entry has `plan` and `monthlyPrice` in USD. Free is `0` because that plan has no subscription fee. A negotiated Custom price, or the price currently applied to an account, is not included. Use the Subscriptions API when you need the authenticated account's price.
-
-<script src="https://inference.aivax.net/apidocs?embed-target=Get%20Plans&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Product pricing
 
@@ -35,17 +29,15 @@ Use the pricing page when you are choosing a plan in a browser. To read the same
 
 ## Included daily allowances
 
-Every plan includes separate daily allowances for eligible RAG embeddings, Reflex reranking, eligible semantic decisions, and Fetch/OCR extraction. Product rates apply when a metered item is not covered. Coverage is all-or-nothing per item, not necessarily per complete request: an item that cannot fit within the remaining allowance and its permitted margin is billed in full. Compare the allowances and check exclusions in [Plans and limits](limits.md#included-daily-subscription-allowances). These daily allowances do not cover text-model inference; see [Subscription models](#subscription-models). For what each allowance covers, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Every plan includes daily allowances for RAG embeddings, Reflex reranking, semantic decisions, and Fetch/OCR extraction. Usage beyond the allowance is charged at the product rates. Compare the allowances in [Plans and limits](limits.md#included-daily-subscription-allowances). These allowances do not cover text-model inference; see [Subscription models](#subscription-models).
 
 ## Subscription models
 
-Pro, Max, and Ultimate include a monthly subscription model quota whose window starts with the first request that uses it and renews one month later. It applies only to subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance and they have no per-token prices; other models are charged to the balance at their rates. Free and Custom plans have no quota, so requests to subscription models on those plans return `429 Too Many Requests`, as they do when a paid plan's quota is exhausted. An exhausted quota is never charged to the balance or routed to another model.
-
-The usage included by each plan is published as an equivalent at the models' integrated catalog prices, rounded up to the nearest $10. The consumption rate is dynamic and can change daily, so the same model can use slightly more or less of the quota over time. See [Subscription models](inference/subscription-models/overview.md) and [Monthly subscription model quota](limits.md#monthly-subscription-model-quota).
+Pro, Max, and Ultimate include a monthly quota for subscription models, the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance; other models are charged at their rates. When the quota is exhausted, or on plans without one, requests to subscription models return `429 Too Many Requests`. See [Subscription models](inference/subscription-models/overview.md) and [Monthly subscription model quota](limits.md#monthly-subscription-model-quota).
 
 ## Storage
 
-Each plan includes storage. Pro, Max, and Ultimate overages are billed hourly at the monthly rates below; Free storage cannot be expanded. Document text stored in a collection counts as UTF-8 bytes. Text with accents or non-Latin characters can use more of the included quota than basic Latin text of the same length.
+Each plan includes storage. On Pro, Max, and Ultimate, storage beyond the included amount is billed at the monthly rates below; Free storage cannot be expanded.
 
 | Description | Pricing |
 | --- | ---: |
@@ -56,19 +48,13 @@ Each plan includes storage. Pro, Max, and Ultimate overages are billed hourly at
 
 ## Request cost header
 
-API responses include a `Consumed-Credits` header when the request charged usage to your account balance. Its value is the total charged by that request in USD, written as a decimal number with a dot separator, for example `Consumed-Credits: 0.000184`. It already includes the plan multiplier and covers every item charged during the request, such as inference, embeddings, reranking, and tool usage.
+API responses include a `Consumed-Credits` header with the total charged by the request in USD, for example `Consumed-Credits: 0.000184`. The value includes the plan multiplier and every item charged during the request. The header is omitted when nothing was charged; treat a missing header as zero.
 
-Cross-origin responses expose `Consumed-Credits` and `X-Request-ID`, so browser JavaScript on another origin can read them when they are present. `X-Request-ID` is the identifier AIVAX assigned to that request.
-
-The header is omitted when the request charged nothing, including requests rejected by validation or covered entirely by a daily subscription allowance or by the monthly subscription model quota. Treat a missing header as zero.
-
-The value only covers charges recorded before the response is sent. Usage recorded later, such as asynchronous [Batch](inference/batch.md) work, is not included. Streamed responses never include this header, because it is added after the response has been produced. For a streamed request, read the `cost` recorded with the conversation (available when conversation logging is enabled) or calculate the cost from the reported token counts. Use your account usage records as the source of truth for billing.
-
-Parse the value as a floating-point number. Very small amounts, such as `1E-05`, can be written in scientific notation, and the sum of several charges can carry floating-point noise in its last digits.
+Streamed responses and asynchronous work, such as [Batch](inference/batch.md), do not include this header. Use your account usage records as the source of truth for billing.
 
 ## Data Sharing discount
 
-Accounts that enable [Data Sharing](data-sharing.md) receive a 10% discount on eligible RAG query-embedding usage and eligible reranking operations performed while sharing is enabled. Other services keep their regular prices.
+Accounts that enable [Data Sharing](data-sharing.md) receive a 10% discount on RAG query embeddings and reranking while sharing is enabled.
 
 ## Plan multipliers
 
@@ -81,18 +67,14 @@ Usage rates are subject to the plan's inference tax:
 | Max | +2% | $1.00 |
 | Ultimate | 0% | Not applicable |
 
-For integrated-model inference, the tax is recorded as its own usage entry, `inference.commission`, under the model that served the request, so token entries show the model's rates. Once the day's `inference.commission` entries reach the ceiling, further model inference is charged at the model's rates only. The day runs from midnight to midnight in the America/Sao_Paulo time zone, and the count starts again at midnight.
-
-Other services subject to the plan multiplier include it in their own rates, and those charges don't count toward the ceiling.
+Once the day's inference tax reaches the ceiling, further model inference that day is charged at the model's rates only. Other services include the plan multiplier in their own rates.
 
 BYOK usage is not affected by inference taxes. Product pages state when a rate is exempt from the plan multiplier, as with image generation.
 
 ## Credit top-ups
 
-Adding credits charges the amount you choose plus the payment processor fee and the [taxes on payments](#taxes-on-payments). Only the amount you choose is added to your balance; fees and taxes are not. On Free, an AIVAX service fee of 5% of the amount, with a $0.20 minimum, is also added. Pro, Max, and Ultimate pay no AIVAX service fee. The dashboard shows each fee, the taxes, and the total before you confirm the payment.
+Adding credits charges the amount you choose plus the payment processor fee and the [taxes on payments](#taxes-on-payments). Only the amount you choose is added to your balance. On Free, a service fee of 5% of the amount, with a $0.20 minimum, is also added; paid plans pay no service fee. The dashboard shows the total before you confirm the payment.
 
 ## Taxes on payments
 
-Every payment includes Brazilian taxes: credit top-ups, subscription payments and renewals, and bills issued by the AIVAX team. The taxes are added on top of the amount due, so the charged total is the amount divided by (1 - 0.1333). They correspond to approximately 11.33% of the total in service taxes and 2% in IOF.
-
-For example, a $19.00 subscription payment charges $21.92, and adding $10.00 in credits on a plan with no service fee charges $11.54 before the payment processor fee. Taxes are not added to your balance, and listed plan prices do not include them. The receipt of each payment lists the amount and each tax.
+Every payment, including credit top-ups and subscriptions, includes Brazilian taxes added on top of the amount due: about 11.33% of the total in service taxes and 2% in IOF. For example, a $19.00 subscription payment charges $21.92. Listed plan prices do not include taxes, and each receipt lists them.

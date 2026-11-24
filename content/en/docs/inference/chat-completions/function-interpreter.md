@@ -15,7 +15,7 @@ The function interpreter, also called the tool handler, adds tool calling to mod
 | `native` or `null` | Uses the model's native tool calling. This is the default and the recommended value. |
 | `react.v1.selfcall` | Uses a ReAct-style interpreter that runs on the same model as the gateway. |
 
-Any other value makes requests to the gateway fail with an error saying the tool handler is not recognized.
+Any other value makes requests to the gateway fail.
 
 ## How `react.v1.selfcall` works
 
@@ -29,10 +29,9 @@ See [Processing pipeline](processing-pipeline.md) for where this step runs.
 
 ## Limitations
 
-- **One tool per step.** The interpreter selects at most one tool per generation, so parallel tool calls are not possible.
+- **One tool per step.** Parallel tool calls are not possible.
 - **More cost and latency.** Every generation with tools adds an extra model call, billed like any other inference.
-- **Weaker reliability.** Tool names and arguments are parsed from text. The model can produce invalid JSON or call a tool that does not exist, and the arguments are not constrained by the provider.
-- **Tool calling becomes available to any model.** A gateway with an interpreter accepts tools and features that require tool calling, such as `QueryFunction` RAG, even when the model has no native support. Their quality depends on how well the model follows the interpreter format.
+- **Text-based selection.** Tool names and arguments are parsed from text, so results depend on how well the model follows the interpreter format.
 
 ## Migrate away from the interpreter
 

@@ -8,11 +8,11 @@ Built-in tools are capabilities maintained by AIVAX, such as web search, URL rea
 
 Some tools have usage charges. See [Pricing and limits](#pricing-and-limits) before enabling them in a production workflow.
 
-The model decides which tool to call and which arguments to send. Not every model follows tool-call rules reliably.
+The model decides which tool to call and which arguments to send.
 
 ## How to Choose and Combine Tools
 
-Built-in tools should be enabled as work capabilities, not as agent decoration. Each tool adds a decision to the model: it needs to perceive that the tool exists, understand when to use it, assemble valid arguments, wait for the result, and continue the response. The more similar tools are available at the same time, the higher the chance of redundant use or poor choice. Start with the smallest set that solves the use case and write clear instructions on when to use each.
+Enable only the tools your use case needs. Each tool adds a decision for the model, and similar tools enabled together can lead to redundant or poor choices. Start with the smallest set that solves the use case and write clear instructions on when to use each.
 
 Pick each tool by the kind of need it covers:
 
@@ -21,7 +21,6 @@ Pick each tool by the kind of need it covers:
 - `Code`: calculations, data transformations, and small algorithmic tasks.
 - `Request`: the model must call an HTTP API with a specific method, headers, or body.
 - `Remember`: only in chat clients or calls with an identifiable user, because memory tools store and retrieve persistent information for that user.
-- `AdvancedWebUsage`: disabled; it returns an unavailable response. See [Changelogs](../legal/changelogs.md).
 
 Treat generation tools (image, document, and web page) as output actions. They do more than improve an answer: they create artifacts that are hosted or attached to the conversation. Tell the model when to generate an artifact and when to reply in text. In support, for example, a document fits a quote, proposal, or formal summary; a web page fits a visual report; an image fits creative ideation. When the user only asks for an explanation, plain text is usually enough.
 
@@ -36,9 +35,9 @@ The values in `builtin_tools.tools` are configuration flags such as `WebSearch`,
 
 Enable `DateTime` to expose `get_date_time`. This tool takes no arguments and reads the current time when it is called. It returns the date, time, day of the week, time zone, UTC offset, and an ISO 8601 timestamp.
 
-The tool reports the gateway time zone, set in the gateway's `parameters.timeZone` with an IANA identifier. The default is `America/Sao_Paulo`, and daylight-saving changes are applied automatically. In the dashboard, edit **Time zone** under **Date and time** in the gateway's **Parameters + Tuning** tab. The same zone is used by scheduling tools and by the Bash tool, so every date the model reads or writes uses one time zone. The browser or user-context time zone does not change it.
+The tool reports the gateway time zone, set in the gateway's `parameters.timeZone` with an IANA identifier. The default is `America/Sao_Paulo`. In the dashboard, edit **Time zone** under **Date and time** in the gateway's **Parameters + Tuning** tab. Scheduling tools and the Bash tool use the same zone.
 
-To use another zone for a single request to `/v1/chat/completions`, send `time_zone`, such as `"time_zone": "Asia/Tokyo"`. Invalid identifiers are rejected. Batch workflows use the time zone of the AI Gateway they run on, or `America/Sao_Paulo` when they name a model directly.
+To use another zone for a single request to `/v1/chat/completions`, send `time_zone`, such as `"time_zone": "Asia/Tokyo"`. Batch workflows use the time zone of the AI Gateway they run on, or `America/Sao_Paulo` when they name a model directly.
 
 Activation via `builtin_tools`:
 
@@ -50,7 +49,7 @@ Activation via `builtin_tools`:
 
 For a saved gateway, include `DateTime` in `parameters.sentinelOptions.enabledFunctions`. For a Batch workflow, use `enabledTools.enabledFunctions`.
 
-Example tool result (illustrative, not a live reading):
+Example tool result:
 
 ```json
 {
@@ -63,18 +62,16 @@ Example tool result (illustrative, not a live reading):
 }
 ```
 
-The date uses `yyyy-MM-dd`, time uses 24-hour `HH:mm:ss`, and weekday names are returned in English. All fields describe the same instant.
+The date uses `yyyy-MM-dd`, time uses 24-hour `HH:mm:ss`, and weekday names are returned in English.
 
 ## Internet Search
 
 Enable `WebSearch` to let the model search the internet for specific or real-time information, such as weather, news, or game results.
 
-AIVAX runs searches through a mix of providers, chosen by network availability and latency.
-
 You can choose between two search modes in the dashboard:
 
 - **Full**: inserts the entire content of each result into the conversation context.
-- **Summarized**: inserts an AI-generated summary of the results, produced by the search provider.
+- **Summarized**: inserts an AI-generated summary of the results.
 
 `Full` can give more precise results but may consume more input tokens. See [Pricing and limits](#pricing-and-limits) before enabling internet search in production.
 
@@ -95,10 +92,6 @@ Activation via `builtin_tools`:
     }
 }
 ```
-
-## Advanced Internet Search
-
-`AdvancedWebUsage` is disabled and returns an unavailable response. See [Changelogs](../legal/changelogs.md) for details.
 
 ## Code Execution
 
@@ -122,13 +115,9 @@ Activation via `builtin_tools`:
 
 Enable `OpenUrl` to let the model read the content of URLs and links provided by the user.
 
-The tool sends a simple `GET` request to the destination; it does not crawl. Some sites may identify the access as a bot and block it.
+The tool sends a simple `GET` request to the destination; it does not crawl. Some sites block automated access.
 
-AIVAX handles the returned content by type:
-
-- **HTML**: tags, scripts, CSS, and other noise are removed, keeping only the page's plain text.
-- **Other text**: the content is read as is.
-- **Non-text content**: when the response indicates a filename (in the path or the `Content-Disposition` header), AIVAX tries to convert the downloaded file to text.
+HTML pages are reduced to their plain text, other text is read as is, and files such as documents are converted to text when possible.
 
 Activation via `builtin_tools`:
 
@@ -153,7 +142,7 @@ Both tools require an identified user: set a stable `tag` in a [chat client](/do
 | `true` (default) | The gateway reads, replaces, and deletes the user's memories saved by any gateway in the account. |
 | `false` | The gateway only reads, replaces, and deletes the user's memories that it saved itself. |
 
-In the dashboard, this is the **Memory visibility** option in the gateway's tool settings. Memories saved outside a saved gateway, and memories migrated from the earlier memory tools, have no gateway and are visible only to gateways with shared memory.
+In the dashboard, this is the **Memory visibility** option in the gateway's tool settings. Memories saved outside a saved gateway are visible only to gateways with shared memory.
 
 Activation via `builtin_tools`:
 
@@ -165,7 +154,7 @@ Activation via `builtin_tools`:
 }
 ```
 
-Memories are **not automatically added to system instructions**. Tell the model when to call `memory_search`, such as before answering a question about a saved preference. The removed `include_all_memory_context` option, including its `IncludeAllMemoryContext` spelling, is ignored if sent.
+Memories are **not automatically added to system instructions**. Tell the model when to call `memory_search`, such as before answering a question about a saved preference.
 
 ### Save, Replace, or Delete a Memory
 
@@ -179,7 +168,7 @@ Memories are **not automatically added to system instructions**. Tell the model 
 | Only `id` | Deletes that memory. |
 | `id` and `content` both omitted or `null` | Returns an error. |
 
-Only memories belonging to the current user can be replaced or deleted. The former `memory_update`, `memory_remove`, and `memory_clear` tools are no longer available; update instructions and tool-call handling to use `memory_save` for individual changes.
+Only memories belonging to the current user can be replaced or deleted. The former `memory_update`, `memory_remove`, and `memory_clear` tools are no longer available; use `memory_save` instead.
 
 ### Search Memories
 
@@ -187,8 +176,8 @@ Only memories belonging to the current user can be replaced or deleted. The form
 
 | Argument | Behavior |
 | --- | --- |
-| `query` | A text query for semantic search over the current user's memories, reranked with `rrf` (Reciprocal Rank Fusion). Returns up to 10 results. |
-| `filter` | A string using [AIVAX document filter syntax](/docs/rag/document-filters). Returns up to 10 matching memories, newest first, without generating query embeddings. |
+| `query` | A text query for semantic search over the current user's memories. Returns up to 10 results. |
+| `filter` | A string using [AIVAX document filter syntax](/docs/rag/document-filters). Returns up to 10 matching memories, newest first. |
 
 Each result contains `id`, `content`, `createdAt`, `updatedAt`, and `expiresAt` (`null` when the memory never expires). Expired memories are never returned. Use `query` to find meaning; use `filter` for exact text, metadata, or creation and update dates:
 
@@ -201,7 +190,7 @@ Each result contains `id`, `content`, `createdAt`, `updatedAt`, and `expiresAt` 
 | Mentions a birthday and was created in the last 30 days | `content contains "birthday" and createdAt >= now-30d` |
 | Saved in a specific conversation | `metadata.conversation_token = "<conversation token>"` |
 
-Dates and timestamps without an offset use the server reference time zone described in [Document filters — Dates](/docs/rag/document-filters#dates). A memory's creation or update date is not the date of an event mentioned in its text.
+For how dates without an offset are interpreted, see [Document filters — Dates](/docs/rag/document-filters#dates).
 
 ### Storage and Management
 
@@ -216,25 +205,23 @@ Memories are documents in the `@memories` RAG collection in your AIVAX account. 
 }
 ```
 
-When no conversation token is available, `conversation_token` is JSON `null`, not a string. `gateway_id` is the ID of the gateway that saved the memory, or `null` when it was not saved by a saved gateway. `expires_at` is a Unix timestamp in seconds, or `null` when the memory never expires. Newly saved or updated memories become searchable after indexing completes, usually within a few seconds.
+`gateway_id` is `null` when the memory was not saved by a saved gateway, and `expires_at` is a Unix timestamp in seconds, or `null` when the memory never expires. New or updated memories become searchable within a few seconds.
 
-Memories saved with `expiresInDays` are deleted in a periodic cleanup after they expire; until then they are hidden from `memory_search`. Memories without an expiration are kept until deleted. When managing the collection directly, set or remove `metadata.expires_at` to control expiration. Inspect and manage them in the dashboard's Collections and Documents pages or through the [Collections and Documents APIs](../rag/collections.md). The dedicated Memories API and dashboard Memories page are removed. **Deleting the `@memories` collection erases every user's memories in the account**; the collection is recreated on the next save.
+Expired memories are hidden from `memory_search` and removed automatically. Memories without an expiration are kept until deleted. Inspect and manage memories in the dashboard's Collections and Documents pages or through the [Collections and Documents APIs](../rag/collections.md). **Deleting the `@memories` collection erases every user's memories in the account**; the collection is recreated on the next save.
 
-The automatic user restriction applies to the memory tools. When managing the collection directly, use `metadata.external_user_id` to select the intended user's records and preserve the user metadata.
+The automatic user restriction applies only to the memory tools. When managing the collection directly, use `metadata.external_user_id` to select the intended user's records and preserve the user metadata.
 
 ### Billing, Limits, and Errors
 
-Saving or replacing memory content indexes it like any collection document, with document-embedding charges. A `query` search is billed as a RAG query embedding. A `filter` search has no embedding cost, and the `rrf` reranker has no reranking cost. Memory has no separate tool charge; see [Pricing and limits](#pricing-and-limits).
-
-Both memory tools use the account's [RAG rate limits](../rag/collections.md#pricing-and-limits). If the account has no balance or reaches a rate limit, the tool returns an error to the model. Instruct the model to report the failure rather than claim it saved or recalled information. For a recent save that is not yet found, allow indexing to finish before searching again.
+Memory has no separate tool charge; see [Pricing and limits](#pricing-and-limits). Both memory tools use the account's [RAG rate limits](../rag/collections.md#pricing-and-limits). If the account has no balance or reaches a rate limit, the tool returns an error to the model. Instruct the model to report the failure rather than claim it saved or recalled information.
 
 ### Migration from Earlier Memory and Calendar Tools
 
-Existing non-expired memories were moved to each account's `@memories` collection, preserving their original IDs, user identifiers in `external_user_id`, creation dates, and expiration dates in `expires_at`. Migrated records have `conversation_token: null`. They are re-indexed, which is billed as document embedding.
+Existing non-expired memories were moved to each account's `@memories` collection, keeping their IDs, user identifiers, creation dates, and expiration dates. Gateways with private memory do not see them, because migrated memories belong to no gateway.
 
-The `Calendar` built-in tool and its appointment tools were removed from the API and dashboard. Existing gateways and Batch workflows have the flag removed automatically, but requests that still include `Calendar` in `builtin_tools.tools` fail: remove it from your requests. Non-expired calendar reminders were migrated to text memories in the form `Reminder at <date> (<n> minutes): <description>`. These are stored text, not scheduled reminders or a replacement calendar service.
+The `Calendar` built-in tool was removed. Requests that still include `Calendar` in `builtin_tools.tools` fail: remove it from your requests. Existing calendar reminders were migrated to text memories.
 
-The former Memories API, including list, get, delete, and migration prompt generation, is no longer available. Move application-level memory management to the Collections and Documents APIs. Update gateway instructions to search explicitly. Gateways with private memory do not see migrated memories, because migrated records have no `gateway_id`. The former `retentionDays` argument is now `expiresInDays`; omitting it creates a memory that never expires, where the old default was 30 days.
+The former Memories API is no longer available. Move application-level memory management to the Collections and Documents APIs, and update gateway instructions to search explicitly. The former `retentionDays` argument is now `expiresInDays`; omitting it creates a memory that never expires, where the old default was 30 days.
 
 For application-level controls around memory writes, deletion policies, and review, see [How to protect LLM agent memory from poisoning](https://aivax.net/blog/persistent-memory-is-a-write-path/).
 
@@ -246,7 +233,7 @@ Generated images are attached to the conversation context, but the assistant can
 
 Image generation can incur usage charges. See [Pricing and limits](#pricing-and-limits) before enabling it in production.
 
-You can also allow explicit and adult images with `image_generation_allow_mature_content`. When this feature is enabled, the model will be allowed to generate adult material. For this to happen, the model must also “agree” to generate such content. Some models have a lower security filter than others. For example, Gemini models have the lowest security filter, making them a viable option for role‐play and generating such material.
+You can allow adult images with `image_generation_allow_mature_content`. The selected model must also accept generating such content.
 
 You are always responsible for the [material you generate](/docs/legal/terms-of-service), and it must comply with our terms of service.
 
@@ -327,7 +314,7 @@ Activation via `builtin_tools`:
 
 Enable `Request` to give the model a full HTTP request tool. The model can set the method, headers, form fields, and body of each request.
 
-Text responses are read up to the platform content limit. Binary responses are not expanded into the context; the tool returns a short binary-content marker with the content type and size when available.
+Text responses are returned to the model; binary responses are not, and the tool reports only their content type and size.
 
 Activation via `builtin_tools`:
 
@@ -349,7 +336,7 @@ Web and X searches are billed per search. The [plan multiplier](../pricing.md#pl
 | --- | ---: |
 | Web search | **$5/1k searches** |
 | X (Twitter) search | **$5/1k searches** |
-| [Memory](#memory) | Saving or replacing content: document embedding; semantic `query` search: RAG query embedding; `filter` search: no embedding cost; `rrf` reranking: no cost |
+| [Memory](#memory) | Saving or replacing content: document embedding; semantic `query` search: RAG query embedding; `filter` search: no cost |
 | Advanced requests | No separate charge |
 | Document generation | No separate charge |
 | Web page generation | No separate charge |
@@ -369,7 +356,7 @@ Use these checks when a tool is not called, is called too often, or fails.
 
 ### The tool is called too often
 
-Reduce ambiguity. Tools like `WebSearch`, `AdvancedWebUsage`, and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link. For `Remember`, distinguish a request to save information from a question that requires retrieving an existing memory. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use [workers](/docs/inference/workers) to block or replace calls in specific scenarios.
+Reduce ambiguity. Tools like `WebSearch` and `XPostsSearch` compete for recent information; `OpenUrl` and `Request` can seem similar when the user sends a link. For `Remember`, distinguish a request to save information from a question that requires retrieving an existing memory. Remove unnecessary tools, make gateway instruction descriptions more restrictive, and, when possible, use [workers](/docs/inference/workers) to block or replace calls in specific scenarios.
 
 ### The tool fails
 

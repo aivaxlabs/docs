@@ -27,7 +27,7 @@ Prefer Media Descriptions when the extraction guidance is stable and the result 
 
 Provide media that AIVAX can access, and use guidance that focuses the extraction on the information your workflow needs. The optional `extractionGuidance` instruction narrows the output — "identify the main subject and visible text" for an image, "summarize the sequence of events" for a video — so write it as the question your workflow needs answered.
 
-Each submitted item is handled independently and results come back in input order, so keep the positions aligned when correlating results with the original media. Remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)).
+Results come back in input order. Remote file URLs are downloaded before processing, within a size limit (see [Pricing, limits, and errors](#pricing-limits-and-errors)).
 
 ## Choose the engines
 
@@ -61,7 +61,7 @@ Inference engines return a structured description whose shape depends on the con
 
 The `preset` property is deprecated. It cannot be combined with `options`; a request that sends both is rejected with `400`.
 
-For remote media, make sure the resource remains accessible for the duration of processing and does not require interactive sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.
+Remote media must be accessible without sign-in. Avoid sending credentials, personal data, or other content that must not appear in a generated description.
 
 The embedded reference is the source of truth for accepted media forms, request options, and response fields.
 
@@ -75,6 +75,6 @@ The embedded reference is the source of truth for accepted media forms, request 
 
 The price is approximate and depends on the selected engine. `InferenceHigh` costs more than `InferenceLow`; `Ocr` and `Stt` are billed as OCR and speech-to-text usage.
 
-Remote files are downloaded by AIVAX up to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](/docs/limits.md#data-processing).
+Remote files are limited to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](/docs/limits.md#data-processing).
 
 Correct inaccessible media or invalid content before retrying.

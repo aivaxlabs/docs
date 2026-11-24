@@ -93,9 +93,9 @@ Each finding has these properties:
 | `locations` | Object array | Every item the finding involves, such as both sides of a conflict. Each location has the `contextIndex` of the item in `context` (zero-based) and an `evidenceSpan`. Can be empty when the problem is not tied to an item. |
 | `sources` | Object array | Guidelines that support the finding, described below. |
 
-`evidenceSpan` gives the location of the problem in that item's `content` as `fromLine`, `toLine`, `fromColumn`, and `toColumn`, all 1-based and inclusive. It is `null` when the problem is an omission, when it lies in a skill's `description`, or when the cited text could not be located. Columns count characters from the start of the line, so line breaks inside `content` must match the text you display when you highlight a span.
+`evidenceSpan` gives the location of the problem in that item's `content` as `fromLine`, `toLine`, `fromColumn`, and `toColumn`, all 1-based and inclusive. It is `null` when the problem is an omission, when it lies in a skill's `description`, or when the cited text could not be located.
 
-Each source has an `id` that identifies the guideline in its catalog, a `number` within its type, a `type`, and `references` with the vendor documentation URLs behind it. `type` reflects the guideline's weight: a `rule` prevents predictable failures, a `practice` reliably improves results, a `tip` is optional and situational, and a `dont` is an anti-pattern to avoid. Some macro guidelines cover agent design rather than vendor guidance and have an empty `references` array.
+Each source has an `id` that identifies the guideline in its catalog, a `number` within its type, a `type`, and `references` with the vendor documentation URLs behind it. `type` reflects the guideline's weight: a `rule` prevents predictable failures, a `practice` reliably improves results, a `tip` is optional and situational, and a `dont` is an anti-pattern to avoid.
 
 Each suggested fix has a `refFinding` array with the finding ids it resolves, a `description` of exactly what to change and in which item, a `patches` array described below, and a `type`:
 
@@ -106,11 +106,11 @@ Each suggested fix has a `refFinding` array with the finding ids it resolves, a 
 | `transfer` | Move the text to another item or type, such as from the instructions into a skill. The description names the destination. |
 | `add` | Write content that is missing. The description names the item that should hold it. |
 
-`patches` holds the fix as text changes. Each patch has the `contextIndex` of the item it changes and a `diff` in unified diff format, with three lines of context, against the `content` you sent for that item. The file names in the `---` and `+++` headers are the item's `title` prefixed with `a/` and `b/`, or `context-<index>` when the item has no title. Header lines end with a line feed, and content lines keep the line endings of your `content`. A fix that changes several items, such as a `transfer`, has one patch per item; apply them together.
+`patches` holds the fix as text changes. Each patch has the `contextIndex` of the item it changes and a `diff` in unified diff format against the `content` you sent for that item. A fix that changes several items, such as a `transfer`, has one patch per item; apply them together.
 
-`patches` is empty when the fix can't be written as a change to the items you sent: it needs content that isn't there, such as a new skill or a tool, it needs facts only you have, such as a limit or a contact, or the text to change couldn't be located unambiguously. Use the `description` in those cases.
+`patches` is empty when the fix can't be written as a change to the items you sent, for example when it needs a new skill or tool, or facts only you have. Use the `description` in those cases.
 
-Every patch is computed against the original `content`, independently of the other fixes, so two fixes can change the same lines. Apply patches one fix at a time; when a patch no longer applies because an earlier one changed the same text, skip it or request a new review.
+Every patch is computed against the original `content`, independently of the other fixes, so two fixes can change the same lines. When a patch no longer applies because an earlier one changed the same text, skip it or request a new review.
 
 `title`, `description`, `summary`, and fix descriptions are written in the language used by most of the analyzed content.
 
@@ -165,11 +165,11 @@ Every patch is computed against the original `content`, independently of the oth
 }
 ```
 
-Reviews are model-generated. The score and findings can vary between requests for the same content, and a finding can be wrong or miss context that only you have. A suggested removal can still drop a business rule the review didn't recognize as critical, so check removals against your requirements, read each patch before applying it, and confirm that the changed agent still behaves as expected.
+Reviews are model-generated. Read each patch before applying it, check removals against your requirements, and confirm that the changed agent still behaves as expected.
 
 ## Pricing and limits
 
-Instruction Refinement is billed in processing units (PUs), covering input and output usage. Usage is recorded once per request. The PU price varies with the processing model that serves the request, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies. Longer context items consume more input.
+Instruction Refinement is billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies. Longer context items consume more input.
 
 Instruction Refinement shares the document limits of [Extraction](extraction.md) and [Summarization](summarization.md). Each item in the request's `context` array counts as one document, not each HTTP request. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](/docs/limits.md#data-processing). A request that would exceed any active window returns `429 Too Many Requests`.
 

@@ -14,8 +14,6 @@ Web Search retrieves current information from the internet for research, fact ch
 | [Web utilities MCP](/docs/mcp-utilities/web-utilities-mcp) | Give an MCP-compatible agent, IDE, or automation client access to the `web_search` tool without running an AIVAX model inference. |
 | Direct API | Call the search endpoint from your backend when no model or agent is involved — scheduled monitors, dataset enrichment, or pre-fetching context before inference. |
 
-`AdvancedWebUsage` is disabled and returns an unavailable response. See [Changelogs](/docs/legal/changelogs) for details.
-
 ## Search and verify sources
 
 Write a focused query that includes the topic and any relevant date, product version, or location. For several independent questions, use separate searches rather than combining unrelated topics into one query.

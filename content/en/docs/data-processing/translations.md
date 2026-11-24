@@ -25,7 +25,7 @@ Before calling this endpoint, [create an API key](../authentication.md) and make
 
 Languages are free-form: a name such as `Japanese`, a code such as `pt-BR`, or a variant such as `Spanish (Mexico, informal)`. The same languages apply to every document in the request.
 
-The service returns only the translated content. It preserves formatting, line breaks, Markdown, code, URLs, numbers, and proper names, and treats the content as text to translate, not as instructions. For images, it translates the visible text; for audio, it translates the spoken content. Other content types, such as files or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
+The service returns only the translated content and preserves formatting, Markdown, code, URLs, numbers, and proper names. Content is always treated as text to translate, not as instructions. For images, it translates the visible text; for audio, the spoken content. Other content types, such as files or video, return `400 Bad Request`.
 
 ```json
 {
@@ -48,7 +48,7 @@ The service returns only the translated content. It preserves formatting, line b
 
 ## Read the response
 
-`data` contains one translated string per document, in the same order as `documents`. Documents are translated independently and in parallel. If any document fails, the request returns an error instead of partial results. Documents that finished before the failure are still billed, so retry only after fixing the failing document.
+`data` contains one translated string per document, in the same order as `documents`. If any document fails, the request returns an error instead of partial results. Documents that finished before the failure are still billed, so fix or remove the failing document before retrying.
 
 ```json
 {
@@ -60,11 +60,11 @@ The service returns only the translated content. It preserves formatting, line b
 }
 ```
 
-Translations are model-generated. Review them before publishing legal, medical, financial, or other consequential content, and keep the original available for reference.
+Translations are model-generated. Review them before publishing legal, medical, financial, or other consequential content.
 
 ## Pricing and limits
 
-Translations are billed in processing units (PUs), covering input and output usage. Usage is recorded for each document. The PU price varies with the processing model selected for the content type, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies.
+Translations are billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies.
 
 The number of translation requests per minute and per day depends on the plan; see [Data processing limits](/docs/limits.md#data-processing). The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`.
 

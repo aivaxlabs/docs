@@ -6,7 +6,7 @@
 
 An advanced filter, also called a document filter, restricts a RAG search to the documents that match a condition, such as a tag, a metadata value, or a date range. Only documents that pass the filter are ranked by semantic similarity, so results never include documents outside the filter. For a task-oriented walkthrough, see [How to filter RAG results by metadata, tags and date](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
 
-Filters are evaluated **before** the search terms are embedded. When no document in the requested collections matches the filter, the request returns an empty result without generating embeddings or charging for the search.
+Filters are applied **before** the search terms are embedded. When no document matches the filter, the request returns an empty result at no charge.
 
 Some example filters:
 
@@ -74,7 +74,7 @@ Ordering works on dates for `createdAt` and `updatedAt`, and on **numbers only**
 | `startswith` | Begins with the text | Same | `name startswith "contract-"` |
 | `endswith` | Ends with the text | Same | `name endswith ".pdf"` |
 
-These operators match literally, without wildcards: `%` and `_` match only themselves. They do not split words or match synonyms. Use the search terms for meaning and the filter for exact constraints.
+These operators match literally, without wildcards or synonyms. Use the search terms for meaning and the filter for exact constraints.
 
 ### Lists
 
@@ -97,9 +97,9 @@ These operators match literally, without wildcards: `%` and `_` match only thems
 
 ### Strings
 
-Strings use double or single quotes. Inside a string, escape the same quote with a backslash: `"say \"hi\""`, `'it\'s'`. Supported escapes are `\"`, `\'`, `\\`, `\/`, `\n`, `\r`, `\t`, and `\uXXXX`.
+Strings use double or single quotes. Escape a quote inside a string with a backslash: `"say \"hi\""`, `'it\'s'`.
 
-Text comparisons ignore letter case and accents: `name = "relatorio"` matches a document named `Relatório`. `=` and `in` also ignore trailing spaces: `"report "` matches `"report"`.
+Text comparisons ignore letter case and accents: `name = "relatorio"` matches a document named `Relatório`.
 
 ### Numbers
 
@@ -123,7 +123,7 @@ createdAt >= "2026-09-01T03:00:00Z"
 ```
 
 - A date without a time means midnight.
-- A value without `Z` or an offset is interpreted in the AIVAX service time zone, America/Sao_Paulo (UTC−03:00). Add `Z` or an offset when you need an exact instant.
+- Add `Z` or an offset when you need an exact instant; a value without one is read in the AIVAX service time zone.
 - Other formats, such as `15/06/2025`, are rejected.
 
 **Relative times** use `now`, optionally followed by `+` or `-` and an amount with a unit, without quotes:
@@ -264,9 +264,9 @@ Models can also send a filter string in the optional `filter` argument of these 
 - The search tool of the [Collections MCP](../mcp-utilities/collections-mcp.md#generated-tools).
 - The `query` tool of AI gateways that use the `QueryFunction` [query strategy](../inference/chat-completions/processing-pipeline.md#rag).
 
-The [`memory_search` tool](../tools/builtin-tools.md#search-memories) also accepts a filter string, but requires exactly one of `query` or `filter`, not both. Its filter-only mode returns up to 10 matching memories for the current user, newest first, without query embeddings.
+The [`memory_search` tool](../tools/builtin-tools.md#search-memories) also accepts a filter string; see its reference for how it combines with `query`.
 
-Automatic gateway RAG, which searches before the model call, does not apply filters. An invalid filter in a tool call is returned to the model as a tool error with the same message as the API.
+Automatic gateway RAG, which searches before the model call, does not apply filters. An invalid filter in a tool call is returned to the model as a tool error.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Query%20collections&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -274,7 +274,7 @@ Automatic gateway RAG, which searches before the model call, does not apply filt
 
 ## Limits
 
-These limits apply to every filter, including filters used by memory search and the Collections MCP.
+These limits apply to every filter, including those used by memory search and the Collections MCP.
 
 | Limit | Value |
 | --- | --- |
@@ -287,9 +287,9 @@ These limits apply to every filter, including filters used by memory search and 
 | Minimum `contains` length | 3 characters |
 | Execution time | 10 seconds |
 
-Conditions on `content`, `endswith`, and tags examine every document in the requested collections, so they take longer in large collections. Metadata conditions use an index of metadata values and stay fast in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
+Conditions on `content`, `endswith`, and tags take longer in large collections. If a filter exceeds the time limit, the request fails and asks for more selective conditions. To keep filters fast:
 
-- Prefer conditions on `name` (`=`, `in`, `startswith`).
+- Prefer conditions on `name` and metadata.
 - Split very large corpora into smaller collections.
 - Reserve `content contains` for collections where it stays fast.
 
