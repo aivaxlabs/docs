@@ -54,7 +54,7 @@ AIVAX accepts context in three places. All of them are added to the system instr
 | `contextLocation` (session) | AIVAX fetches the URL before each inference and appends its content after `extraContext`. | Server-controlled context that can change while the conversation goes on, such as the cart, an order status, or the record open in your application. |
 | `instructions` ([Send Prompt](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#add-context-for-one-inference)) | That request only, appended after the `contextLocation` content. | Context for that moment, such as a temporary answer format or the item the user just selected. |
 
-None of them is saved to the session history: the model sees the latest version on each request. Because they are part of the system instructions, which start every request, changing them invalidates the prompt cache for the whole history.
+None of them is saved to the session history: the model sees the latest version on each request.
 
 Keep `extraContext` stable during the conversation. Each change to it, or to the content returned by `contextLocation`, invalidates the prompt cache for the whole history, which increases latency and input cost on the next request. For information that changes on every request, or that is not text, use the Send Prompt `context` field instead: it goes into the last user message rather than the system instructions, so the cached history before that message is kept. See [Add disposable context to the last user message](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#add-disposable-context-to-the-last-user-message).
 

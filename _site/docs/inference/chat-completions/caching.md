@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/docs/inference/chat-completions/caching.html
 
 # Caching
 
-Several caches affect an inference request. Prompt caching lowers the cost of input the provider has already processed. Other caches let AIVAX reuse media descriptions and remote definitions instead of fetching or processing them again.
+Prompt caching lowers the cost of input the provider has already processed. AIVAX also caches media descriptions and remote definitions so they are not processed or fetched again.
 
 ## Prompt caching
 
@@ -27,8 +27,6 @@ The response reports cached input separately:
 
 Send `prompt_cache_key` to group requests that share a prefix, such as the requests of one gateway or one user; AIVAX forwards it to the provider. Providers that do not support it ignore it.
 
-When AIVAX calls a provider over the Responses API, system and developer messages go at the start of `input`, so they stay cacheable on GPT-6.2, where top-level `instructions` is never cached. See [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
-
 ### Keep the prefix stable
 
 The cache matches only an identical prefix, so put stable content first and variable content last:
@@ -38,7 +36,7 @@ The cache matches only an identical prefix, so put stable content first and vari
 - Append new messages to the end of the history instead of rewriting earlier ones. [Context truncation](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md#context-window-and-truncation) and [tool message truncation](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md#tool-message-truncation) rewrite earlier messages and reduce cache hits.
 - Retrieved RAG documents are inserted into the latest user message, so they do not break the prefix of earlier messages.
 
-To check the hit rate on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+To understand a low hit rate on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
 
 ## Multimodal pre-processing results
 
@@ -56,10 +54,10 @@ AIVAX caches resources that a gateway fetches from your servers:
 | [MCP](https://docs.aivax.net/docs/tools/mcp.md) tool lists, server instructions, and remote skills | 600 seconds | `cacheDuration`, 0 to 86,400 seconds |
 | [Protocol function sources](https://docs.aivax.net/docs/tools/protocol-functions.md) | 10 minutes | No |
 
-A failed fetch of a remote instruction source is cached for at most 30 seconds, so a temporary outage clears quickly. Tool calls are never cached: every MCP tool or protocol function call reaches your server.
+Tool calls are never cached: every MCP tool or protocol function call reaches your server.
 
 Lower the cache duration while you develop a source, and raise it in production to reduce requests to your server and the latency of the first call.
 
 ## Server-side tool state
 
-The server-side tool calls and results of recent turns are kept for one hour after their last use, so a request with the same `conversation_token` can restore them. This is a conversation state, not a response cache: AIVAX never returns a stored answer for a repeated request. See [Session reuse](https://docs.aivax.net/docs/inference/chat-completions/session-reuse.md).
+The server-side tool calls and results of recent turns are kept for one hour after their last use, so a request with the same `conversation_token` can restore them. AIVAX never returns a stored answer for a repeated request. See [Session reuse](https://docs.aivax.net/docs/inference/chat-completions/session-reuse.md).

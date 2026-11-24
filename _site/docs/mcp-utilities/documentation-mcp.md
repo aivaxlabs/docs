@@ -109,23 +109,15 @@ Use the documentation MCP when you want an assistant to answer AIVAX questions f
 
 ### Answer from the manual
 
-Use it in IDEs, support tools, onboarding agents, internal implementation copilots, and evaluation workflows. The assistant should search the manual before it recommends a route, parameter, feature, model, or debugging step.
+Use it in IDEs, support tools, onboarding agents, and implementation copilots. The assistant should search the manual before it recommends a route, parameter, feature, model, or debugging step.
 
 ### Design a gateway
 
-Before creating or editing an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md), the assistant can search for the relevant feature, check model capabilities, then explain what configuration to use and why. For example, it can compare:
-
-- built-in tools;
-- MCP functions;
-- server-side functions;
-- workers;
-- RAG collections;
-- structured responses;
-- multimodal pre-processing.
+Before creating or editing an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md), the assistant can search for the relevant feature, check model capabilities, then explain which configuration to use and why: built-in tools, MCP functions, server-side functions, workers, RAG collections, structured responses, or multimodal pre-processing.
 
 ### Troubleshoot an error
 
-The assistant can move from an error message to the likely product boundary. It can search for authentication rules, plan limits, multimodal balance requirements, RAG search parameters, gateway behavior, or public-key restrictions. It can then produce a focused checklist that reflects AIVAX behavior.
+The assistant can search for authentication rules, plan limits, RAG search parameters, gateway behavior, or public-key restrictions, then produce a focused checklist for the error.
 
 ### Choose a model
 

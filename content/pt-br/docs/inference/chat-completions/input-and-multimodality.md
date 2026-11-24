@@ -1,5 +1,5 @@
 ---
-{title: Entrada e Multimodalidade,linkTitle: Entrada e multimodalidade,weight: 50,group: Inference,sourceHash: 2b3fb61f736dce58,aliases: [/docs/pt-br/inference/chat-completions/input-and-multimodality.html]}
+{title: Entrada e Multimodalidade,linkTitle: Entrada e multimodalidade,weight: 50,group: Inference,sourceHash: 8482913fd84ab4eb,aliases: [/docs/pt-br/inference/chat-completions/input-and-multimodality.html]}
 ---
 
 # Entrada e multimodalidade
@@ -19,7 +19,7 @@ A AIVAX aceita partes de conteúdo de mensagens compatíveis com o OpenAI para t
             "content": [
                 {
                     "type": "text",
-                    "text": "Descreva brevemente estas entradas."
+                    "text": "Descreva brevemente essas entradas."
                 },
                 {
                     "type": "image_url",
@@ -67,7 +67,7 @@ Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a se
             "content": [
                 {
                     "type": "text",
-                    "text": "Resuma as ações principais neste vídeo e identifique quaisquer riscos de segurança visíveis."
+                    "text": "Resuma as ações principais deste vídeo e identifique quaisquer riscos de segurança visíveis."
                 },
                 {
                     "type": "video_url",
@@ -81,7 +81,7 @@ Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a se
 }
 ```
 
-Os links externos devem ser acessíveis à AIVAX sem autenticação, restrições de firewall ou renderização apenas via JavaScript. A inferência pode falhar devido a downloads com falha, redirecionamentos, URLs bloqueadas, formatos não suportados ou limites de tamanho específicos do provedor.
+Links externos devem ser publicamente acessíveis sem autenticação. A solicitação falhará se uma URL não puder ser baixada, seu formato não for suportado ou exceder o limite de tamanho do provedor.
 
 ## Atalho de prompt
 
@@ -96,15 +96,15 @@ Para uma solicitação simples apenas de texto, você pode enviar `prompt` em ve
 
 ## Requisitos de mídia
 
-Solicitações com mídia exigem um saldo mínimo na conta: arquivos e vídeos precisam de um saldo maior do que imagens e áudio. A mídia é cobrada pelo modelo selecionado de acordo com suas taxas de entrada. Revise [Preços](/docs/pt-br/pricing.md) e [Planos e limites](/docs/pt-br/limits.md) antes de usar mídia em produção.
+Solicitações com mídia exigem um saldo mínimo de conta: arquivos e vídeos precisam de um saldo maior do que imagens e áudio. A mídia é cobrada pelo modelo selecionado de acordo com suas taxas de entrada. Consulte [Preços](/docs/pt-br/pricing.md) e [Planos e limites](/docs/pt-br/limits.md) antes de usar mídia em produção.
 
 Quando o modelo selecionado não suporta uma modalidade, converta a mídia em texto usando [pré-processamento multimodal](multimodal-pre-processing.md).
 
 ## Quando uma solicitação multimodal falha
 
-Reduza o escopo do problema:
+Reduza o problema:
 
 1. Teste uma mensagem de texto simples com o mesmo modelo.
-2. Teste um pequeno anexo.
+2. Teste um anexo pequeno.
 3. Teste o mesmo anexo com `multimodal_resolver`.
 4. Revise a URL, o formato, o tamanho e o suporte de modalidade do modelo.

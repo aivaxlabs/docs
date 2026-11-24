@@ -8,13 +8,7 @@ It is designed for applications that need AI resources but should not own them: 
 
 ## When to use it
 
-Use OAuth when the person who owns the AIVAX account is not the developer of the application. They should never have to copy an API key into a third-party product, and the application should only receive the permissions it needs.
-
-Use OAuth when:
-
-- the account holder is not the developer of the application;
-- the person should not copy an API key into your product;
-- the application needs only the permissions it will use.
+Use OAuth when the person who owns the AIVAX account is not the developer of the application. They never have to copy an API key into a third-party product, and the application receives only the permissions it needs.
 
 Use a [private or public API key](https://docs.aivax.net/docs/authentication.md#api-key-types) when the application and the AIVAX account belong to you. For example, a backend that serves your own users with your own AIVAX account should use a private key.
 
@@ -32,7 +26,7 @@ No refresh token is issued. When the token expires or is revoked, start a new au
 
 ## Create an authorization request
 
-Use this call when your application is ready to send a person to the AIVAX console. This endpoint does not require authentication and is rate limited per remote address.
+Use this call when your application is ready to send a person to the AIVAX console. This endpoint does not require authentication.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Create%20OAuth%20Authorization%20Request)
 
@@ -72,8 +66,6 @@ Open the returned address in the person's browser. Do this before the request ex
 1. Open `authorizationUrl` in the person's browser.
 2. The console asks them to sign in when they are not signed in, and returns to the request afterwards.
 3. The console shows your application name, the reason, the requested permissions and the full return address.
-4. The **Authorize** button stays disabled for five seconds so the request can be read.
-5. Authorizing requires a browser check.
 
 ## Receive the token
 

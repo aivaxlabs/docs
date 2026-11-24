@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/structured-
 
 # Saída estruturada
 
-Use respostas estruturadas quando seu aplicativo precisar de uma saída JSON que corresponda a um esquema. O AIVAX oferece suporte a eles por meio de `response_schema`, `response_format` e `json_only`.
+Use respostas estruturadas quando sua aplicação precisar de uma saída JSON que corresponda a um esquema. O AIVAX suporta isso por meio de `response_schema`, `response_format` e `json_only`.
 
 ```json
 {
@@ -43,19 +43,18 @@ Use respostas estruturadas quando seu aplicativo precisar de uma saída JSON que
 }
 ```
 
-O `response_schema` permite o Curativo de JSON (JSON Healing). O AIVAX solicita ao modelo que gere JSON, extrai o JSON do texto ou dos blocos de markdown gerados, valida-o contra o esquema e tenta novamente com base no feedback de validação até que a saída seja válida ou o limite de tentativas seja atingido.
+O `response_schema` habilita o JSON Healing (Cura do JSON). O AIVAX solicita ao modelo que gere JSON, extrai o JSON do texto ou dos blocos de markdown gerados, valida contra o esquema e tenta novamente com feedback de validação até que a saída seja válida ou o limite de tentativas seja atingido.
 
-
-Se o seu aplicativo não conseguir analisar ou validar o resultado, siga o [guia de solução de problemas para JSON inválido](https://aivax.net/blog/structured-output-healing-boundary/) antes de aumentar o orçamento de retentativas.
+Se sua aplicação não conseguir analisar ou validar o resultado, siga o [guia de solução de problemas de JSON inválido](https://aivax.net/blog/structured-output-healing-boundary/) antes de aumentar o orçamento de retentativas.
 
 ## Escolha um campo
 
 | Campo | Validação | Use quando |
 | --- | --- | --- |
-| `response_schema` | O AIVAX valida a saída e tenta novamente com feedback ([Curativo de JSON](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-healing.md)). | Qualquer modelo, incluindo modelos sem saída estruturada nativa, e respostas que usam ferramentas antes do JSON. |
-| `response_format` com `json_schema` | O provedor aplica o esquema nativamente; o AIVAX também realiza curativos quando `healing_options` está definido ou o Curativo de JSON automático está habilitado na conta. | O modelo suporta saída estruturada nativa e você deseja que o provedor restrinja a geração. |
-| `json_only` | Retorna apenas o JSON final, sem o envelope de conclusão de chat. | O consumidor é um programa que espera um corpo JSON puro; consulte [Apenas JSON](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-only.md). |
+| `response_schema` | O AIVAX valida a saída e tenta novamente com feedback ([JSON Healing](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-healing.md)). | Qualquer modelo, incluindo modelos sem saída estruturada nativa, e respostas que usam ferramentas antes do JSON. |
+| `response_format` com `json_schema` | O provedor aplica o esquema nativamente; o AIVAX também realiza cura quando `healing_options` está definido ou o JSON Healing automático está habilitado na conta. | O modelo suporta saída estruturada nativa e você deseja que o provedor restrinja a geração. |
+| `json_only` | Retorna apenas o JSON final, sem o envelope de conclusão de chat. | O consumidor é um programa que espera um corpo JSON puro; veja [JSON-only](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-only.md). |
 
-Com ferramentas ou raciocínio, o modelo pode chamar ferramentas e raciocinar primeiro; o JSON é extraído apenas da resposta final. Consulte [Raciocínio e ferramentas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/reasoning-and-tools.md).
+Com ferramentas ou raciocínio, o modelo pode chamar ferramentas e raciocinar primeiro; o JSON é extraído apenas da resposta final. Veja [Raciocínio e ferramentas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/reasoning-and-tools.md).
 
-Os campos de saída estruturada não estão disponíveis com chaves de API públicas. Quando o limite de tentativas é atingido, a solicitação falha com `503 Service Unavailable`; consulte [Curativo de JSON](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-healing.md#when-healing-fails).
+Os campos de saída estruturada não estão disponíveis com chaves de API públicas. Quando o limite de tentativas é atingido, a solicitação falha com `503 Service Unavailable`; veja [JSON Healing](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-healing.md#when-healing-fails).

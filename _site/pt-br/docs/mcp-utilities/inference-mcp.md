@@ -2,9 +2,9 @@ Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/inference-mcp.html
 
 # Inference MCP
 
-O Inference MCP expõe um modelo integrado do AIVAX ou um Gateway de IA como uma ferramenta para clientes MCP compatíveis. Utilize-o quando outro modelo, agente, IDE ou assistente de desktop precisar chamar o modelo ou gateway configurado do AIVAX como um subagente.
+O Inference MCP expõe um modelo integrado do AIVAX ou um Gateway de IA como uma ferramenta para clientes MCP compatíveis. Utilize-o quando outro modelo, agente, IDE ou assistente de desktop precisar chamar o modelo ou gateway do AIVAX configurado como um subagente.
 
-Para obter informações sobre a configuração de modelos, instruções, RAG, ferramentas e workers no gateway subjacente, consulte [Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md).
+Para informações sobre a configuração de modelos, instruções, RAG, ferramentas e workers no gateway subjacente, consulte [AI Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md).
 
 ## Endpoint
 
@@ -18,10 +18,10 @@ https://inference.aivax.net/v1/mcp/inference
 | --- | --- | --- |
 | `Authorization` | Token Bearer para sua chave de API do AIVAX. | Sim |
 | `X-Mcp-Model-Name` | Tag do modelo integrado, ID completo do gateway ou slug do gateway. | Sim |
-| `X-Mcp-Tool-Name` | Nome base da ferramenta. O AIVAX converte para o formato de identificador e expõe `invoke_{tool_name}`. | Não, padrão é `ai_model` |
+| `X-Mcp-Tool-Name` | Nome base da ferramenta. O AIVAX o converte para o formato de identificador e expõe `invoke_{tool_name}`. | Não, padrão é `ai_model` |
 | `X-Mcp-Tool-Description` | Descrição exibida ao cliente MCP. | Não |
 | `X-Mcp-Tool-Title` | Título amigável exibido ao cliente MCP. | Não |
-| `X-Mcp-User` | ID de usuário externo armazenado no contexto de inferência. | Não |
+| `X-Mcp-User` | ID do usuário externo armazenado no contexto de inferência. | Não |
 
 ## Exemplo de configuração
 
@@ -49,4 +49,4 @@ A ferramenta MCP gerada aceita um argumento:
 | --- | --- | --- |
 | `prompt` | string | Prompt enviado ao modelo ou gateway configurado. |
 
-A ferramenta MCP retorna a resposta do gateway como texto e compartilha a mesma faturação de inferência e limite de taxa do endpoint de conclusão de chat subjacente.
+A ferramenta MCP retorna a resposta do gateway como texto. As cobranças e os limites de taxa são os mesmos da conclusão de chat subjacente.

@@ -49,4 +49,4 @@ The generated MCP tool accepts one argument:
 | --- | --- | --- |
 | `prompt` | string | Prompt sent to the configured model or gateway. |
 
-The MCP tool returns the gateway response as text and shares the same inference billing and rate-limit path as the underlying chat completion.
+The MCP tool returns the gateway response as text. Billing and rate limits are the same as for the underlying chat completion.

@@ -1,5 +1,5 @@
 ---
-{title: Fala para Texto (STT),linkTitle: Fala para texto (STT),weight: 30,group: Media generation,sourceHash: 4cbdaae4e713d5d7,aliases: [/docs/pt-br/generations/audio-transcriptions.html]}
+{title: Fala para Texto (STT),linkTitle: Fala para texto (STT),weight: 30,group: Media generation,sourceHash: 8fd7b1a4dbb7ec12,aliases: [/docs/pt-br/generations/audio-transcriptions.html]}
 ---
 
 # Fala para Texto (STT)
@@ -16,13 +16,13 @@ Consulte os modelos de transcrição disponíveis para a conta autenticada antes
 
 ## Transcreva áudio
 
-Envie o áudio como base64 com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho em [Preços, limites e erros](#precos-limites-e-erros). A cobrança segue a duração medida da mídia, e arquivos sem duração mensurável são rejeitados.
+Envie o áudio como base64 junto com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho em [Preços, limites e erros](#pricing-limits-and-errors). A cobrança segue a duração da mídia.
 
-Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário específico; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe a detecção cuidar disso.
+Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário específico do domínio; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe que a detecção faça o trabalho.
 
-Revise o texto retornado antes de usá-lo em ações visíveis ao usuário ou irreversíveis: gravações ruidosas, múltiplos falantes, vocabulário especializado e má qualidade do microfone podem afetar a qualidade da transcrição. O endpoint retorna o texto da transcrição, não rótulos de falante, então planeje uma etapa de diarização ou revisão no fluxo subsequente para arquivos onde a atribuição do falante é importante.
+Revise o texto retornado antes de usá-lo em ações visíveis ao usuário ou irreversíveis. O endpoint retorna o texto da transcrição sem rótulos de locutor.
 
-A referência embutida é a fonte da verdade para formas de solicitação aceitas, opções e campos de resposta.
+A referência embutida é a fonte da verdade para formas aceitas de solicitação, opções e campos de resposta.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Transcribe%20audio&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -34,4 +34,4 @@ Uma transcrição geralmente é o início de um pipeline, não o fim. Indexe-a e
 
 O preço da transcrição varia conforme o modelo; as tarifas atuais estão listadas no [Catálogo de Modelos](https://aivax.net/models#speech-to-text).
 
-As solicitações independentes de transcrição de áudio têm limite por minuto e, no plano Free, por hora; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As solicitações de transcrição possuem uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado tem limite de 75 MB por solicitação. Corrija áudios inválidos ou inacessíveis antes de tentar novamente uma solicitação com falha.
+As solicitações de transcrição de áudio isolada são limitadas por minuto e, no plano Free, por hora; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As solicitações de transcrição têm uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado é limitado a 75 MB por solicitação. Corrija áudios inválidos ou inacessíveis antes de tentar novamente uma solicitação com falha.

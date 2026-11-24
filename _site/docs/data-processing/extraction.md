@@ -38,16 +38,11 @@ For a request pattern that keeps a failed document from costing the rest, see [e
 
 Each property in `responseSchema` is one field to find. Its `description` is the search criterion, so write it as a short, specific definition, such as "total amount due" instead of "total". Nested objects and arrays of objects are supported. `$ref` and `$defs` are not; inline every definition instead.
 
-
 Images and files accept base64 data URLs or public HTTP(S) URLs:
 
 - Supported formats are JPEG, PNG, TIFF, and PDF, including multi-page PDFs.
-- The resource must be reachable without sign-in. For a `file` part, the provider fetches the PDF directly when the URL path or `filename` ends in `.pdf`.
-- Other content types, such as audio or video, return `400 Bad Request`. The error does not identify which document was rejected, so check the content type of each document in the request.
-
-
-
-
+- The resource must be reachable without sign-in.
+- Other content types, such as audio or video, return `400 Bad Request`.
 
 The following request extracts invoice fields from a text document and a PDF:
 
@@ -90,7 +85,7 @@ The following request extracts invoice fields from a text document and a PDF:
 
 ## Read the response
 
-`data` contains one object per document, in the same order as `documents`. Each object uses the property names from your schema. Values are converted to the `number`, `integer`, or `boolean` type declared in the schema when possible. A field that is not found is `null`, and an array with no matches is empty.
+`data` contains one object per document, in the same order as `documents`. Each object uses the property names from your schema. A field that is not found is `null`, and an array with no matches is empty.
 
 ```json
 {
@@ -108,9 +103,9 @@ The following request extracts invoice fields from a text document and a PDF:
 }
 ```
 
-Documents are processed independently and in parallel. If any document fails, the whole request returns an error instead of partial results. Correct or remove that document and retry. Documents that finished before the failure are still billed and count toward your quota, so retry only after fixing the failing document.
+Documents are processed independently. If any document fails, the whole request returns an error instead of partial results. Documents that finished before the failure are still billed and count toward your quota, so fix or remove the failing document before retrying.
 
-Extracted values are model-generated. They can be missing, incomplete, or wrong, especially in low-quality scans or complex layouts. Validate the structure and verify consequential values, such as amounts and identifiers, against the original document.
+Extracted values are model-generated. Verify consequential values, such as amounts and identifiers, against the original document.
 
 ## Pricing and limits
 
@@ -120,7 +115,7 @@ Extraction is billed for the input tokens of each document. Output tokens are no
 | --- | ---: |
 | Extraction input | **$0.04/M tokens** |
 
-Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. The provider applies its own limits to PDFs it fetches directly. AIVAX applies a 5 MB limit per file to its own downloads. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Extraction and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md) share the same document limits. Remote files are limited to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
 The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 

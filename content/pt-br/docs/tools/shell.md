@@ -1,18 +1,18 @@
 ---
-{title: Sandboxing de Shell,linkTitle: Isolamento de shell,weight: 40,group: Tools,sourceHash: 2b092de8460b754e,aliases: [/docs/pt-br/tools/shell.html]}
+{title: Sandboxing de Shell,linkTitle: Isolamento de shell,weight: 40,group: Tools,sourceHash: 473cb413b046777c,aliases: [/docs/pt-br/tools/shell.html]}
 ---
 
 # Sandboxing de Shell
 
-A AIVAX oferece um ambiente de shell virtual que pode ser utilizado por assistentes de agente para executar comandos de terminal durante a inferência. Este recurso é especialmente útil para tarefas como manipulação de dados, chamadas de API, execução de scripts e fluxos de trabalho que são mais fáceis de expressar como operações de linha de comando.
+A AIVAX oferece um ambiente de shell virtual que pode ser utilizado por assistentes de agentes para executar comandos de terminal durante a inferência. Este recurso é especialmente útil para tarefas como manipulação de dados, chamadas de API, execução de scripts e fluxos de trabalho que são mais fáceis de expressar como operações de linha de comando.
 
 O ambiente de shell permite mover ferramentas selecionadas do modelo para o lado do shell, transformando-as em comandos CLI. Isso é útil quando você possui muitas ferramentas e não deseja expor todas elas diretamente ao modelo, ou quando uma ferramenta é mais fácil de usar por meio de argumentos de linha de comando e pipes.
 
-Quando habilitado em um AI Gateway, o modelo vê uma ferramenta `shell` com um argumento: `command`. Os comandos são executados em um shell isolado (sandboxed) com módulos de rede, padrões de sistema de arquivos e um espaço de trabalho montado em `/home/workspace`. Cada comando tem um limite de tempo e uma capacidade máxima de saída retornada ao modelo; consulte [Preços e limites](#preços-e-limites).
+Quando habilitado em um AI Gateway, o modelo vê uma ferramenta `shell` com um argumento: `command`. Os comandos são executados em um shell isolado (sandboxed) com um espaço de trabalho montado em `/home/workspace`. Cada comando tem um limite de tempo e uma capacidade máxima de saída retornada ao modelo; consulte [Preços e limites](#pricing-and-limits).
 
 ## Design para os limites
 
-O tempo limite do comando e a capacidade de saída moldam o comportamento das ferramentas de shell. Mantenha os comandos rápidos e sua saída restrita: filtre no servidor com `grep`, `awk` ou flags de consulta antes de imprimir, e prefira ferramentas que retornem CSV ou linhas delimitadas que o modelo possa fatiar com pipes. Quando um resultado excede legítimamente a capacidade, divida o trabalho — um comando para listar ou contar, seguidos por buscas para buscar fatias — ou escreva a saída completa em um arquivo no espaço de trabalho e leia a parte relevante de volta por meio da API de arquivo Shell abaixo.
+O tempo limite do comando e a capacidade de saída moldam o comportamento das ferramentas de shell. Mantenha os comandos rápidos e sua saída restrita: filtre no lado do servidor com `grep`, `awk` ou flags de consulta antes de imprimir, e prefira ferramentas que retornem CSV ou linhas delimitadas que o modelo possa fatiar com pipes. Quando um resultado excede legítimamente a capacidade, divida o trabalho — um comando para listar ou contar, seguidos por buscas para buscar fatias — ou escreva a saída completa em um arquivo no espaço de trabalho e leia a parte relevante de volta por meio da API de arquivos do Shell abaixo.
 
 Operações de longa duração não pertencem a um comando de inferência. Mova exportações, transformações em massa e loops de polling para [Batch](../inference/batch.md) ou um trabalho externo, e deixe o shell lidar com as fatias interativas.
 
@@ -24,16 +24,16 @@ Na interface de shell virtual, utilitários padrão de linha de comando e módul
 get-users --filter active --format csv | grep "John Doe" | awk -F, '{print $1, $2}'
 ```
 
-Na linha acima, `get-users` é uma ferramenta personalizada que retorna uma lista de usuários no formato CSV. O comando `grep` filtra os resultados para encontrar "John Doe", e `awk` extrai e formata as colunas desejadas. Esta ferramenta pode ter sido definida por [MCP](/docs/pt-br/tools/mcp), [ferramentas integradas](/docs/pt-br/tools/builtin-tools) ou ser uma [ferramenta de protocolo](/docs/pt-br/tools/protocol-functions).
+Na linha acima, `get-users` é uma ferramenta personalizada que retorna uma lista de usuários em formato CSV. O comando `grep` filtra os resultados para encontrar "John Doe", e `awk` extrai e formata as colunas desejadas. Esta ferramenta pode ter sido definida por [MCP](/docs/pt-br/tools/mcp), [ferramentas integradas](/docs/pt-br/tools/builtin-tools) ou ser uma [ferramenta de protocolo](/docs/pt-br/tools/protocol-functions).
 
-As ferramentas movidas para o shell não são mais expostas como funções diretas do modelo, exceto ferramentas reservadas como `shell` e `read_skill`. Configure a lista de ferramentas de shell como:
+As ferramentas movidas para o shell não são mais expostas como funções diretas do modelo, exceto ferramentas reservadas como `shell` e `read_skill`. Configure a lista de ferramentas do shell como:
 
 - `WhiteList`: apenas as ferramentas listadas são expostas como comandos de shell.
 - `BlackList`: as ferramentas listadas permanecem como ferramentas diretas do modelo, e as outras ferramentas não reservadas são expostas como comandos de shell.
 
 Use o nome da função de runtime ao listar ferramentas, como `web_search`, `open_url`, `request`, ou um nome de função de protocolo/MCP. Cada comando de shell gerado a partir de uma ferramenta suporta `--help` e mapeia propriedades do JSON Schema para opções de linha de comando.
 
-Prefira a whitelist quando o modelo precisar de um conjunto de comandos pequeno e previsível — caso contrário, cada nova ferramenta vaza automaticamente para o shell. Prefira a blacklist quando a maioria das ferramentas for amigável ao shell e apenas algumas precisarem permanecer como funções diretas por motivos de latência ou confiabilidade.
+Prefira a whitelist quando o modelo precisar de um conjunto de comandos pequeno e previsível. Prefira a blacklist quando a maioria das ferramentas for compatível com shell e apenas algumas precisarem permanecer como funções diretas.
 
 ## Persistência de dados
 
@@ -45,7 +45,7 @@ Habilite a persistência apenas para dados que o usuário espera que sobrevivam 
 
 ## Acesso à internet
 
-Por padrão, o ambiente de shell tem acesso à internet por meio dos comandos de rede `curl`, `wget` e `ping`, com respostas limitadas a 50 MB. Defina `bashOptions.allowInternetAccess` como `false` para desativá-lo: os comandos de rede são removidos e os comandos são executados totalmente offline.
+Por padrão, o shell tem acesso à internet por meio de `curl`, `wget` e `ping`. Defina `bashOptions.allowInternetAccess` como `false` para remover os comandos de rede e executar totalmente offline.
 
 ## Preços e limites
 
@@ -55,13 +55,13 @@ O número de comandos Bash por hora depende do plano; consulte [Limites de ferra
 | --- | --- |
 | Tempo por comando | 60 segundos |
 | Saída retornada ao modelo | 4.096 caracteres |
-| Upload da API de arquivo Shell | Corpo de solicitação máximo de 100 MB |
+| Upload da API de arquivos do Shell | Corpo da solicitação máximo de 100 MB |
 
-## API de arquivo Shell
+## API de arquivos do Shell
 
-A AIVAX também expõe endpoints de E/S de Shell em `/api/v1/shell/io` para contas autenticadas. Toda solicitação requer o cabeçalho `X-Shell-User-Id`, que escopoia o sandbox do sistema de arquivos no qual o endpoint opera.
+A AIVAX também expõe endpoints de E/S do Shell em `/api/v1/shell/io` para contas autenticadas. Cada solicitação requer o cabeçalho `X-Shell-User-Id`, que escopa o sandbox do sistema de arquivos no qual o endpoint opera.
 
-Com esses endpoints, você pode listar diretórios, baixar arquivos, inspecionar metadados de arquivos, criar endereços públicos temporários de arquivos, fazer upload de arquivos, criar diretórios e excluir arquivos ou diretórios. Os uploads têm um tamanho máximo de corpo de solicitação; consulte [Preços e limites](#preços-e-limites).
+Com esses endpoints, você pode listar diretórios, baixar arquivos, inspecionar metadados de arquivos, criar endereços públicos temporários de arquivos, fazer upload de arquivos, criar diretórios e excluir arquivos ou diretórios. Os uploads têm um tamanho máximo de corpo de solicitação; consulte [Preços e limites](#pricing-and-limits).
 
 Referência:
 

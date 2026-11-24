@@ -17,7 +17,7 @@ The channel only carries the messages. Inference is still performed by the AI Ga
 
 Each conversation in the app is its own [session](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md), identified by the chat or the user's phone number, depending on the provider. Integration sessions last three hours by default. Change `sessionDuration`, in seconds, in the integration settings to keep them longer or shorter. A session that is still in use is extended automatically, so an active conversation does not expire in the middle of an exchange.
 
-Each channel adds its own context to the session. On Telegram, the assistant receives instructions about formatting and expected channel behavior. On WhatsApp, the assistant is told to write with WhatsApp formatting, such as `*bold*` and `_italic_`, because Markdown is not converted.
+On WhatsApp, the assistant writes with WhatsApp formatting, such as `*bold*` and `_italic_`, because Markdown is not converted.
 
 Integrations reply with text and images. Audio replies are available only in the [hosted web chat](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#attachments-and-audio).
 
@@ -56,7 +56,7 @@ Replies use Telegram's rich formatting, so Markdown, tables, and formulas render
 | `clientToken` | No | The account security token, required only if you enabled it in Z-API. |
 | `sessionDuration` | No | Session lifetime, in seconds. Three hours by default. |
 
-The assistant receives text, images with their captions, and audio. Other message types, such as documents, videos, stickers, and locations, are ignored without a reply. Messages sent by the connected number itself are ignored, as are webhooks for another instance.
+The assistant receives text, images with their captions, and audio. Other message types, such as documents, videos, stickers, and locations, are ignored without a reply. Messages sent by the connected number itself are ignored.
 
 ### Evolution API
 
@@ -87,7 +87,7 @@ Evolution API has the widest support for incoming messages: text, images, audio,
 | `continuedMessagesTemplateId` | No | The name of the WhatsApp template used for [scheduled messages](#scheduled-messages-on-whatsapp-business). |
 | `sessionDuration` | No | Session lifetime, in seconds. Three hours by default. |
 
-The assistant receives text, images and stickers, audio, videos, PDF documents, and replies to interactive buttons and lists. For audio without a file, the Kapso transcription is used. Other document types are sent to the model as a link when `uploadUnsupportedFiles` is enabled in the chat client; otherwise the assistant tells the user the format is not supported. Locations, reactions, and contacts are ignored. Messages from users who have no phone number in the webhook are ignored.
+The assistant receives text, images and stickers, audio, videos, PDF documents, and replies to interactive buttons and lists. Other document types are sent to the model as a link when `uploadUnsupportedFiles` is enabled in the chat client; otherwise the assistant tells the user the format is not supported. Locations, reactions, and contacts are ignored.
 
 ## Webhook URLs
 
@@ -135,7 +135,7 @@ Times are interpreted in the gateway time zone, set in `parameters.timeZone`, un
 When a message is due, AIVAX runs a new inference with the same AI Gateway and the user's conversation history, together with the reason and context the assistant saved when scheduling. The assistant then writes the message and sends it through the same channel.
 
 - **The assistant can decide not to send it.** If, given the conversation, the message is no longer needed, the assistant can skip it and nothing reaches the user.
-- **Timing is approximate.** Messages are sent within a few minutes of the scheduled time. A message that cannot be sent long after its time is marked as failed.
+- **Timing is approximate.** Messages are sent within a few minutes of the scheduled time.
 - **The session can be new.** If the user's session expired, the scheduled message starts a new session without the previous history.
 - **It is billed as a normal inference** on the account that owns the chat client. If the account has no available balance at that time, the message is not sent.
 - **Long replies are sent as one message.** `splitAnswerIntoMessageChunks` does not apply to scheduled messages.

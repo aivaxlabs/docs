@@ -2,28 +2,28 @@ Source: https://docs.aivax.net/pt-br/docs/inference/skills.html
 
 # Habilidades
 
-As habilidades (também conhecidas como capacidades) são instruções que seu agente carrega sob demanda para realizar tarefas específicas com maior eficiência. Utilize-as para comportamentos especializados que apenas algumas conversas exigem, em vez de manter todas as regras nas instruções do sistema.
+Habilidades (também conhecidas como capacidades) são instruções que seu agente carrega sob demanda para realizar tarefas específicas com mais eficiência. Utilize-as para comportamentos especializados que apenas algumas conversas exigem, em vez de manter todas as regras nas instruções do sistema.
 
-O agente carrega uma habilidade apenas quando ela é relevante para a tarefa atual. Isso ocorre por meio da ferramenta `read_skill`, que adiciona as instruções da habilidade ao contexto da conversa.
+O agente carrega uma habilidade apenas quando ela é relevante para a tarefa atual. Ele faz isso por meio da ferramenta `read_skill`, que adiciona as instruções da habilidade ao contexto da conversa.
 
 ## Como funcionam as habilidades?
 
-Cada habilidade é identificada por um slug e uma breve descrição do que ela faz e quando deve ser usada. Sua conta pode ter muitas habilidades, e cada [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) habilita apenas o subconjunto que necessita.
+Cada habilidade é identificada por um slug e uma breve descrição do que ela faz e quando deve ser usada. Sua conta pode ter muitas habilidades, e cada [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) habilita apenas o subconjunto que precisa.
 
 No momento da inferência, o fluxo é:
 
-1. A VAX lista o slug e a descrição de cada habilidade habilitada no gateway nas instruções do sistema do modelo e adiciona a função `read_skill` ao contexto. As instruções completas não são incluídas neste ponto.
+1. AIVAX lista o slug e a descrição de cada habilidade habilitada no gateway nas instruções do sistema do modelo e adiciona a função `read_skill` ao contexto. As instruções completas não são incluídas neste momento.
 2. Quando uma tarefa corresponde a uma habilidade, o modelo chama `read_skill` com um array de slugs de habilidades.
-3. A chamada retorna as instruções das habilidades correspondentes, cada uma envolvida nas tags `<skill:slug>` e `</skill:slug>`, onde `slug` é o próprio slug da habilidade.
+3. A chamada retorna as instruções das habilidades correspondentes.
 
 O modelo pode ativar mais de uma habilidade quando uma tarefa abrange múltiplos domínios. Quando a tarefa ativa muda, ele pode chamar `read_skill` novamente com uma lista diferente.
 
 Para que isso funcione, o modelo base escolhido deve suportar **chamadas de função** e **instruções do sistema**.
 
-- Se o seu modelo não suportar chamadas de função, escolha um modelo com chamada nativa de ferramentas. O [interpretador de funções](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md) está obsoleto.
-- Se o seu modelo não suportar instruções do sistema, considere usar a flag `Sem instruções do sistema`, que fornece as instruções do sistema como uma mensagem do usuário.
+- Se seu modelo não suportar chamadas de função, escolha um modelo com chamada nativa de ferramentas. O [interpretador de funções](https://docs.aivax.net/pt-br/docs/inference/chat-completions/function-interpreter.md) está obsoleto.
+- Se seu modelo não suportar instruções do sistema, considere usar a flag `No system instructions` (Sem instruções do sistema), que fornece as instruções do sistema como uma mensagem do usuário.
 
-Modelos maiores tendem a seguir instruções e chamadas de função de forma muito rigorosa. Execute testes para confirmar que seu modelo carrega as habilidades corretas e as alterna quando a tarefa muda.
+Modelos maiores tendem a seguir instruções e chamadas de função de forma muito estrita. Execute testes para confirmar que seu modelo carrega as habilidades corretas e as alterna quando a tarefa muda.
 
 ## Estrutura e operação
 
@@ -33,19 +33,17 @@ Uma habilidade possui `slug`, `description`, `instructions` e `options`:
 - `description`: O texto que ajuda o modelo a decidir quando carregar a habilidade. Explique o cenário de uso em vez de repetir o nome.
 - `instructions`: O conteúdo completo inserido quando a habilidade é ativada.
 
-`instructionSources` é armazenado e exportado com a configuração da habilidade, mas apenas o campo inline `instructions` é injetado quando o modelo ativa uma habilidade.
-
-Escreva a descrição como uma regra de roteamento. Uma descrição como “habilidade jurídica” é fraca porque não diz quando usá-la. Uma descrição melhor seria “use quando o usuário solicitar análise, revisão ou explicação de cláusulas contratuais em linguagem simples.”
+Escreva a descrição como uma regra de roteamento. Uma descrição como “habilidade jurídica” é fraca porque não diz quando usá-la. Uma descrição melhor seria “use quando o usuário pedir análise, revisão ou explicação de cláusulas contratuais em linguagem simples.”
 
 As instruções, por outro lado, devem ser operacionais: explique como responder, quais perguntas fazer quando os dados estiverem faltando, quais ferramentas podem ser úteis, quais limites devem ser respeitados e o formato final esperado. O modelo lê a descrição para escolher a habilidade e lê as instruções para executar a tarefa.
 
-`allowedToolsNames` faz parte da configuração da habilidade e associa nomes de ferramentas em tempo de execução a uma habilidade, como `web_search`, `open_url`, `generate_image` ou `generate_web_page`. Quando o gateway oculta ferramentas sem uma habilidade, essas ferramentas ficam disponíveis após o modelo ativar a habilidade com `read_skill`.
+`allowedToolsNames` associa ferramentas a uma habilidade, como `web_search`, `open_url`, `generate_image` ou `generate_web_page`. Quando o gateway oculta ferramentas sem uma habilidade, essas ferramentas ficam disponíveis após o modelo ativar a habilidade com `read_skill`.
 
-Apenas as habilidades da chamada `read_skill` bem-sucedida mais recente estão ativas; uma chamada bloqueada por um trabalhador do gateway ou rejeitada como inválida não as expõe. Use a lista geral de ferramentas sempre visível para ferramentas que devem permanecer disponíveis independentemente da habilidade ativa.
+Apenas as habilidades da chamada `read_skill` mais recente estão ativas. Use a lista geral de ferramentas sempre visível para ferramentas que devem permanecer disponíveis independentemente da habilidade ativa.
 
 ### Importar e exportar habilidades
 
-As habilidades podem ser importadas e exportadas em JSONL. Este formato é útil para versionamento de habilidades, migração de configurações entre contas, manutenção de um conjunto de habilidades em um repositório ou revisão de alterações antes da publicação. Cada linha deve representar uma habilidade com pelo menos `slug` e `instructions`; `description` e `options` podem complementar a configuração. Ao importar uma habilidade com um `slug` existente, a VAX atualiza a habilidade correspondente em vez de criar um duplicado.
+As habilidades podem ser importadas e exportadas em JSONL. Este formato é útil para versionamento de habilidades, migração de configurações entre contas, manutenção de um conjunto de habilidades em um repositório ou revisão de alterações antes da publicação. Cada linha deve representar uma habilidade com pelo menos `slug` e `instructions`; `description` e `options` podem complementar a configuração. Ao importar uma habilidade com um `slug` existente, a AIVAX atualiza a habilidade correspondente em vez de criar um duplicado.
 
 ## Como escrever habilidades?
 
@@ -57,18 +55,18 @@ Uma habilidade bem escrita deve conter:
 
 1. **Slug claro e descritivo**: Use um slug curto que identifique imediatamente o propósito da habilidade, como `python_code_analysis`, `customer_support` ou `technical_translation`.
 
-2. **Descrição concisa**: Forneça uma breve descrição (1–2 frases) que explique quando a habilidade deve ser ativada. Esta descrição é crucial porque o modelo a usa para decidir se deve carregar a habilidade.
+2. **Descrição concisa**: Forneça uma breve descrição (1–2 frases) que explique quando a habilidade deve ser ativada. Esta descrição é crucial, pois o modelo a usa para decidir se carrega a habilidade.
 
 3. **Instruções detalhadas**: As instruções reais devem incluir:
    - Objetivos claros da tarefa
    - Formato de resposta esperado
    - Regras específicas a seguir
-   - Exemphos, quando apropriado
+   - Exemplos, quando apropriado
    - Restrições ou limitações importantes
 
 ### Melhores práticas
 
-- **Seja específico**: Evite instruções vagas. Em vez de “seja útil”, diga “forneça explicações passo a passo com exemplos de código.”
+- **Seja específico**: Evite instruções vagas. Em vez de “seja útil”, diga “forneça explicações passo a passo com exemplos de código”.
 - **Use linguagem imperativa**: Comece frases com verbos de ação (analyze, explain, compare, list).
 - **Mantenha o escopo limitado**: Cada habilidade deve focar em uma área de conhecimento específica ou tipo de tarefa.
 - **Teste iterativamente**: Refine suas habilidades com base na resposta do modelo na prática.
@@ -77,7 +75,7 @@ Uma habilidade bem escrita deve conter:
 ### Exemplo de habilidade
 
 - Nome: Análise de Desempenho de Código
-- Descrição: Use quando o usuário solicitar análise de desempenho, otimização ou identificação de gargalos em código.
+- Descrição: Use quando o usuário pedir análise de desempenho, otimização ou identificação de gargalos em código.
 - Instruções:
 
 ```markdown
@@ -105,11 +103,11 @@ As habilidades são mais úteis quando o agente precisa de comportamento especia
 - Diferentes personas ou papéis
 
 **3. Processos complexos e estruturados**
-- Fluxos de trabalho em várias etapas
+- Fluxos de trabalho em múltiplas etapas
 - Análises que seguem frameworks específicos
-- Geração de documentos com formatos estritos
+- Geração de documentos com formatos rigorosos
 
-**4. Tarefas que requerem contexto extenso**
+**4. Tarefas que exigem contexto extenso**
 - Quando as instruções são longas demais para serem incluídas toda vez
 - Conhecimento que é relevante apenas ocasionalmente
 - Múltiplos conjuntos de regras mutuamente exclusivos
@@ -119,7 +117,7 @@ As habilidades são mais úteis quando o agente precisa de comportamento especia
 - **Instruções permanentes**: Se as instruções devem estar sempre ativas, coloque-as nas instruções do sistema base.
 - **Tarefas simples**: Para respostas diretas que não requerem contexto especial.
 - **Conhecimento geral**: Informações que o modelo já conhece bem não precisam ser reforçadas por meio de habilidades.
-- **Poucas ou muitas habilidades**: Busque 3–10 habilidades. Menos que isso, considere usar instruções base. Mais que isso pode confundir o modelo.
+- **Poucas ou muitas habilidades**: Busque ter entre 3 e 10 habilidades. Menos que isso, considere usar instruções base. Mais que isso pode confundir o modelo.
 
 ### Comparação: Habilidades vs. Instruções do Sistema
 
@@ -133,7 +131,7 @@ As habilidades são mais úteis quando o agente precisa de comportamento especia
 
 ### Dicas de implementação
 
-- **Comece pequeno**: Implemente 2–3 habilidades inicialmente e expanda conforme necessário.
+- **Comece pequeno**: Implemente inicialmente 2–3 habilidades e expanda conforme necessário.
 - **Monitore o uso**: Verifique se o modelo está ativando as habilidades corretamente.
 - **Evite sobreposição**: Habilidades com descrições semelhantes podem confundir o modelo.
 - **Teste transições**: Certifique-se de que o modelo troca de habilidades quando apropriado.

@@ -2,13 +2,13 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/streaming.h
 
 # Streaming
 
-Defina `stream: true` para receber a resposta como eventos enviados pelo servidor (SSE) enquanto ela é gerada. Cada evento é uma linha `data:` contendo um `chat.completion.chunk` em JSON, e o stream termina com `data: [DONE]`. SDKs compatíveis com OpenAI analisam esse formato diretamente.
+Defina `stream: true` para receber a resposta como eventos enviados pelo servidor (SSE) enquanto ela é gerada. Cada evento é uma linha `data:` com um `chat.completion.chunk` em JSON, e o stream termina com `data: [DONE]`. SDKs compatíveis com OpenAI analisam esse formato diretamente.
 
-Use streaming para chats voltados ao usuário, para que ele veja o progresso enquanto o raciocínio e as ferramentas são executados. O streaming também mantém os dados fluindo, de modo que solicitações longas raramente atingem os limites de tempo (timeouts) do proxy.
+Use streaming para chats voltados ao usuário, para que ele veja o progresso enquanto o raciocínio e as ferramentas são executados. O streaming também mantém os dados fluindo, de modo que solicitações longas raramente atingem os limites de tempo (timeouts) de proxies.
 
-## Tipos de eventos
+## Tipos de evento
 
-| O chunk contém | Significado |
+| Chunk contém | Significado |
 | --- | --- |
 | `choices[].delta.content` | Um fragmento do texto da resposta. |
 | `choices[].delta.reasoning` | Um fragmento do raciocínio do modelo, quando o modelo o retorna. |
@@ -42,16 +42,16 @@ Enquanto o AIVAX executa uma ferramenta integrada, uma ferramenta MCP ou uma fun
 | Campo | Descrição |
 | --- | --- |
 | `name` | Nome da ferramenta. |
-| `id` | ID da chamada da ferramenta. Todos os eventos de uma mesma chamada compartilham este ID. |
+| `id` | ID da chamada da ferramenta. Todos os eventos de uma mesma chamada compartilham esse ID. |
 | `contents` | Argumentos da ferramenta como uma string JSON. |
-| `state` | `Created` quando a chamada começa, seguido por `Completed` ou `Failed`. |
+| `state` | `Created` quando a chamada começa, depois `Completed` ou `Failed`. |
 | `explanation` | `{ "reason", "goal" }` quando as [explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md) estão habilitadas e o modelo as forneceu; caso contrário, `null`. |
 
 Para receber o raciocínio e a atividade das ferramentas como blocos de texto dentro de `delta.content` em vez de campos separados, use `rendering_mode: "textual_blocks"`; consulte [Diretrizes de apresentação de chat](https://docs.aivax.net/pt-br/docs/inference/response-rendering/chat-presentation-guidance.md).
 
 ## Chunk de uso
 
-O último chunk antes de `[DONE]` possui `delta` vazio, o `finish_reason` final e `usage`:
+O último chunk antes de `[DONE]` tem um `delta` vazio, o `finish_reason` final e `usage`:
 
 ```json
 {
@@ -73,7 +73,7 @@ O último chunk antes de `[DONE]` possui `delta` vazio, o `finish_reason` final 
 
 ## Keep-alive
 
-Enquanto um stream está aberto, o AIVAX envia um evento keep-alive com o dado `%ping%` a cada 15 segundos, para que proxies não fechem uma conexão ociosa durante chamadas de ferramentas longas. Ignore eventos cujos dados sejam `%ping%`. Se seu analisador SSE esperar JSON em cada evento, ignore esses eventos ou desative o keep-alive.
+Enquanto um stream está aberto, o AIVAX envia um evento keep-alive com os dados `%ping%` a cada 15 segundos, para que proxies não fechem uma conexão ociosa durante chamadas de ferramentas longas. Ignore eventos cujos dados sejam `%ping%`. Se seu analisador SSE esperar JSON em cada evento, ignore esses eventos ou desative o keep-alive.
 
 Para desativar o keep-alive, envie o cabeçalho de solicitação:
 
@@ -85,7 +85,7 @@ Desative-o apenas quando nada entre seu cliente e o AIVAX fechar conexões ocios
 
 ## Erros durante um stream
 
-Uma vez que o stream começa, o status HTTP já é `200`. Uma falha é enviada como um chunk com `finish_reason: "error"` e um objeto `error`, seguido por `[DONE]`:
+Uma vez iniciado o stream, o status HTTP já é `200`. Uma falha é enviada como um chunk com `finish_reason: "error"` e um objeto `error`, seguido por `[DONE]`:
 
 ```json
 {
@@ -101,8 +101,6 @@ Uma vez que o stream começa, o status HTTP já é `200`. Uma falha é enviada c
 ```
 
 Verifique cada chunk quanto a `error` e trate-o como uma solicitação falha. O texto já recebido pertence a uma resposta incompleta; descarte-o ou marque-o como incompleto. Para modelos integrados, os detalhes do erro do provedor não são retornados; para gateways que usam sua própria chave de provedor, a mensagem do provedor é retornada conforme está.
-
-Quando um provedor falha antes que qualquer dado tenha sido enviado, o AIVAX retrya a solicitação em outro provedor elegível, de modo que o cliente não vê nenhum erro.
 
 ## Streaming com `json_only`
 

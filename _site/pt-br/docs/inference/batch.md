@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/batch.html
 
 # Processamento em Lote (Batch)
 
-O Batch executa o mesmo fluxo de trabalho de IA sobre muitos itens independentes. Ele transforma uma lista de entradas em uma fila em segundo plano com instruções fixas, saída estruturada, validação opcional, rastreamento de progresso, tentativas de repetição e exportação de resultados.
+O Batch executa o mesmo fluxo de trabalho de IA em vários itens independentes. Ele transforma uma lista de entradas em uma fila em segundo plano com instruções fixas, saída estruturada, validação opcional, rastreamento de progresso, tentativas de repetição e exportação de resultados.
 
 Use o Batch quando dezenas, centenas ou milhares de registros precisarem do mesmo raciocínio e cada registro puder ser tratado isoladamente. Tarefas típicas:
 
@@ -17,20 +17,20 @@ Use o Batch quando dezenas, centenas ou milhares de registros precisarem do mesm
 
 ## O que o Batch resolve
 
-Use o Batch quando você construiria a fila manualmente. Processar muitos itens geralmente exige tratamento de erros, tentativas de repetição, validação JSON e exportação de resultados. O Batch mantém essas partes no AIVAX, permitindo que você opere a carga de trabalho em vez de montar o pipeline.
+Use o Batch quando, caso contrário, você teria que criar a fila manualmente. O processamento de muitos itens geralmente exige tratamento de erros, tentativas de repetição, validação JSON e exportação de resultados. O Batch mantém essas partes no AIVAX, permitindo que você opere a carga de trabalho em vez de montar o pipeline.
 
 Na prática, isso oferece:
 
 - **Processamento repetível:** a mesma instrução, modelo e esquema são aplicados a todos os itens.
 - **Execução assíncrona:** o trabalho continua em segundo plano, sem manter uma solicitação aberta.
-- **Saída estruturada:** cada item pode ser obrigado a retornar um objeto compatível com um JSON Schema.
+- **Saída estruturada:** cada item pode ser obrigado a retornar um objeto compatível com um Esquema JSON.
 - **Correção e validação:** o AIVAX tenta reprocessar respostas inválidas e pode executar uma segunda etapa de validação.
 - **Operação em escala:** os trabalhos podem ser iniciados, pausados, retomados, monitorados, filtrados, limpos, reenviados para nova tentativa e exportados.
 - **Controle operacional:** a interface mostra o progresso, falhas, confiança e eventos do trabalho.
 
 ## Quando usar
 
-Use o Batch quando cada item puder ser processado isoladamente e não precisar compartilhar memória com os outros. Um item típico é uma única linha para:
+Use o Batch quando cada item puder ser processado isoladamente e não precisar compartilhar memória com os outros. Um item típico é uma linha para:
 
 - um cliente;
 - uma URL;
@@ -43,7 +43,7 @@ Use o Batch quando cada item puder ser processado isoladamente e não precisar c
 
 O Batch é uma boa escolha quando:
 
-- a mesma instrução se aplica a todos os itens;
+- a mesma prompt se aplica a todos os itens;
 - você precisa de resultados tabulares ou JSON para consumo posterior;
 - o tempo de resposta pode ser assíncrono;
 - você deseja rastrear erros e repetir apenas os itens problemáticos;
@@ -57,7 +57,7 @@ O Batch é uma boa escolha quando:
 - você está indexando documentos para RAG;
 - a tarefa é puramente determinística e não requer um modelo de IA.
 
-Para indexar conhecimento pesquisável, use [coleções RAG](https://docs.aivax.net/pt-br/docs/rag/collections.md). Para uma resposta imediata única a um usuário, use [inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md).
+Para indexar conhecimento pesquisável, use [coleções RAG](https://docs.aivax.net/pt-br/docs/rag/collections.md). Para uma resposta única e imediata a um usuário, use [inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md).
 
 ## Conceitos
 
@@ -65,7 +65,7 @@ O Batch é construído a partir de um fluxo de trabalho (workflow), um trabalho 
 
 ### Fluxo de Trabalho (Workflow)
 
-O fluxo de trabalho é a receita de processamento. Crie-o quando vários trabalhos seguirem a mesma regra. Ele define como os itens futuros serão tratados:
+O fluxo de trabalho é a receita de processamento. Crie-o quando muitos trabalhos seguirem a mesma regra. Ele define como os itens futuros serão tratados:
 
 - título;
 - instruções de processamento;
@@ -81,16 +81,11 @@ Alterar um fluxo de trabalho afeta os trabalhos subsequentes e os itens processa
 
 Cada item é processado pelo modelo integrado ou Gateway de IA que você escolher. Defina essa escolha na configuração **Modelo** do fluxo de trabalho. A API usa a mesma escolha que `modelName`.
 
-Quando o fluxo de trabalho não usa um Gateway de IA, o Batch otimiza o custo:
-
-- Os itens são sempre roteados com a preferência de roteamento de provedor `Cheapest` (Mais Barato) [configuração de roteamento](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md).
-- Essa preferência seleciona o provedor disponível com o menor preço de tokens de entrada e saída para esse modelo.
-- A configuração padrão `Balanced` não é aplicada, portanto, a seleção do provedor pode diferir de outros recursos que solicitam o mesmo modelo.
-- Quando apenas um provedor está disponível ou é compatível com a solicitação, o roteamento não altera o resultado.
+Quando o fluxo de trabalho não usa um Gateway de IA, o Batch roteia cada item com a preferência de roteamento de [provedor `Cheapest`](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md), que seleciona o provedor disponível com o menor preço por token para esse modelo.
 
 Crie um [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e selecione-o no fluxo de trabalho quando precisar de uma rota diferente ou de uma configuração de gateway compartilhado. Um gateway permite:
 
-- usar as preferências `Balanced`, `Fastest` ou `Quality`;
+- usar a preferência `Balanced`, `Fastest` ou `Quality`;
 - restringir quais provedores são tentados;
 - aplicar instruções fixas, ferramentas e configuração de RAG a cada item.
 
@@ -102,9 +97,9 @@ Consulte a Referência da API embutida para ver os estados de trabalho suportado
 
 ### Item
 
-Um item é uma linha da lista importada. Cada linha torna-se uma entrada independente enviada ao modelo com as instruções do fluxo de trabalho.
+Um item é uma linha da lista importada. Cada linha se torna uma entrada independente enviada ao modelo com as instruções do fluxo de trabalho.
 
-Cada item registra seu resultado de processamento, saída, confiança e detalhes de validação. Consulte a Referência da API embutida para ver os estados de item suportados.
+Cada item registra seu resultado do processamento, saída, confiança e detalhes de validação. Consulte a Referência da API embutida para ver os estados de item suportados.
 
 ## Como usar no console
 
@@ -114,7 +109,7 @@ Use o console quando quiser projetar o fluxo de trabalho, inspecionar os itens e
 
 Um fluxo de trabalho é a regra que os trabalhos futuros reutilizarão. Em **Workflows**, crie um e configure:
 
-1. **Basic:** defina um título, a instrução de processamento e o JSON Schema do resultado.
+1. **Basic:** defina um título, a instrução de processamento e o Esquema JSON do resultado.
 2. **Behavior:** escolha as capacidades de assistente suportadas para o fluxo de trabalho.
 3. **Validation:** habilite a validação quando a resposta precisar ser verificada contra regras de negócios.
 4. **Handling:** configure o comportamento de tratamento de erros do fluxo de trabalho.
@@ -124,7 +119,7 @@ Escreva a instrução como uma regra geral, não como uma única pergunta. O ite
 Exemplo de instrução:
 
 ```text
-Classify the company provided in the input. Return the likely sector, a short justification, and signals found in the text. If the input does not contain enough information, use sector "Undefined".
+Classifique a empresa fornecida na entrada. Retorne o setor provável, uma breve justificativa e os sinais encontrados no texto. Se a entrada não contiver informações suficientes, use o setor "Undefined".
 ```
 
 Exemplo de esquema:
@@ -151,7 +146,7 @@ Um trabalho é a carga de trabalho para uma execução. Crie-o após o fluxo de 
 
 Escolha o modo de importação que corresponde à origem:
 
-- `lines`: lê um único arquivo de texto enviado e importa cada linha não vazia como um item.
+- `lines`: lê um arquivo de texto enviado e importa cada linha não vazia como um item.
 - `files`: importa cada arquivo de texto simples enviado como um item.
 - `zip`: importa cada entrada de texto simples em um arquivo ZIP enviado como um item.
 - `text`: importa o campo de texto submetido como um único item.
@@ -168,20 +163,20 @@ Exemplo:
 
 #### Itens de conversa de chat
 
-Um item também pode ser toda uma conversa em vez de texto simples. Inicie o item com o prefixo `~[chatconversation,`, seguido por uma matriz JSON de mensagens no formato de [completions de chat](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md):
+Um item também pode ser uma conversa inteira em vez de texto simples. Inicie o item com o prefixo `~[chatconversation,`, seguido por uma matriz JSON de mensagens no formato de [completions de chat](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md):
 
 ```text
 ~[chatconversation,[{"role":"user","content":"My order arrived damaged."},{"role":"assistant","content":"Sorry about that. Can you send a photo?"},{"role":"user","content":"Sent. I want a replacement, not a refund."}]
 ```
 
-O prefixo diferencia maiúsculas de minúsculas e não tem colchete de fechamento próprio: tudo após a vírgula deve ser exatamente uma matriz JSON. Com um item de conversa de chat:
+O prefixo diferencia maiúsculas de minúsculas, e tudo após a vírgula deve ser exatamente uma matriz JSON. Com um item de conversa de chat:
 
 - Cada mensagem tem um `role` (`system`, `user`, `assistant` ou `tool`) e um `content`, que é uma string ou uma matriz de partes de conteúdo (`text`, `image_url`, `input_audio`, `video_url` ou `file`). As partes de mídia só funcionam com um modelo ou Gateway de IA que aceite esse tipo de mídia.
-- As mensagens são enviadas ao modelo como uma conversa real, não como texto dentro de uma única mensagem. A instrução do fluxo de trabalho é adicionada após a última mensagem, portanto, escreva-a como uma regra para aplicar à conversa acima, como "Classify the customer's main request in this conversation."
+- As mensagens são enviadas ao modelo como uma conversa real, não como texto dentro de uma única mensagem. A instrução do fluxo de trabalho é adicionada após a última mensagem, então escreva-a como uma regra para aplicar à conversa acima, como "Classifique a principal solicitação do cliente nesta conversa."
 - A validação, quando habilitada, recebe a mesma conversa junto com o resultado gerado.
-- Se o texto após o prefixo não for uma matriz JSON, o item não será processado como texto simples. Ele terminará como um erro de execução após esgotar suas tentativas de repetição, com uma mensagem que explica o formato esperado. Corrija a entrada e importe-a novamente; tentar novamente o mesmo item não ajuda.
+- Se o texto após o prefixo não for uma matriz JSON, o item termina como um erro de execução que explica o formato esperado. Corrija a entrada e importe-a novamente; tentar novamente o mesmo item não ajuda.
 
-No modo `lines`, cada linha é um item, portanto, escreva cada conversa como JSON compacto em uma única linha. Uma conversa por arquivo funciona nos modos `files`, `zip` e `text`, onde as quebras de linha dentro do JSON são permitidas. Itens com e sem o prefixo podem ser misturados no mesmo trabalho.
+No modo `lines`, cada linha é um item, então escreva cada conversa como JSON compacto em uma única linha. Uma conversa por arquivo funciona nos modos `files`, `zip` e `text`, onde as quebras de linha dentro do JSON são permitidas. Itens com e sem o prefixo podem ser misturados no mesmo trabalho.
 
 Inicie o trabalho quando a lista importada parecer correta. A tela do trabalho permite monitorar:
 
@@ -194,7 +189,7 @@ Inicie o trabalho quando a lista importada parecer correta. A tela do trabalho p
 
 ### Operar em itens com falha
 
-Use esta etapa quando o trabalho tiver erros, recusas ou resultados que você ainda não confia. Filtre a lista por erro de execução, erro de validação, recusa ou baixa confiança. Então você pode:
+Use esta etapa quando o trabalho tiver erros, recusas ou resultados em que você ainda não confia. Filtre a lista por erro de execução, erro de validação, recusa ou baixa confiança. Então você pode:
 
 - repetir todos os erros;
 - repetir apenas erros de execução;
@@ -221,13 +216,13 @@ O fluxo da API corresponde ao do console. Cada etapa é uma operação separada:
 
 Se você ainda está decidindo se o Batch é o recurso certo:
 
-- Use o Batch para raciocínios repetidos sobre itens independentes.
+- Use o Batch para raciocínio repetido sobre itens independentes.
 - Use [coleções RAG](https://docs.aivax.net/pt-br/docs/rag/collections.md) para conhecimento pesquisável que deve ser recuperado posteriormente.
 - Use [inferência direta](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md) para uma resposta imediata única.
 
 ### Criar fluxo de trabalho
 
-Um fluxo de trabalho é a regra de processamento salva. Crie um quando os trabalhos futuros devem reutilizar a mesma política, não uma instrução única para um único registro.
+Um fluxo de trabalho é a regra de processamento salva. Crie um quando os trabalhos futuros devem reutilizar a mesma política, não uma prompt única para um único registro.
 
 Defina:
 
@@ -250,7 +245,7 @@ Importe os itens em seguida. Deixe o trabalho pausado até que a lista pareça c
 
 ### Importar itens
 
-A importação é como um arquivo de origem se torna unidades independentes de trabalho. Faça isso após a existência do trabalho e escolha o modo que corresponde à origem:
+A importação é como um arquivo de origem se torna unidades independentes de trabalho. Faça isso após o trabalho existir e escolha o modo que corresponde à origem:
 
 - uma linha por registro;
 - um arquivo por registro;
@@ -259,11 +254,11 @@ A importação é como um arquivo de origem se torna unidades independentes de t
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Import%20Batch%20Job%20Items)
 
-Consulte a Referência da API embutida para ver os modos de importação suportados, campos e restrições atuais.
+Consulte a Referência da API embutida para ver os modos de importação, campos e restrições atuais suportados.
 
 ### Iniciar, pausar ou finalizar
 
-Essas ações alteram se o trabalho continua em execução. Use-as apenas após a lista de itens ser a carga de trabalho que você pretende processar.
+Estas ações alteram se o trabalho continua em execução. Use-os apenas após a lista de itens ser a carga de trabalho que você pretende processar.
 
 - **Start** quando a lista de itens parecer correta.
 - **Pause** para investigar erros ou ajustar o fluxo de trabalho.
@@ -275,11 +270,11 @@ Consulte a Referência da API embutida para os estados de trabalho suportados.
 
 ### Monitorar
 
-O monitoramento diz se o fluxo de trabalho é saudável o suficiente para deixar em execução. Use a visualização do trabalho para o estado geral. Use a lista de itens quando precisar ver onde o trabalho está travado, quais itens falharam na validação e quais resultados de baixa confiança merecem revisão humana.
+O monitoramento diz a você se o fluxo de trabalho está saudável o suficiente para deixar em execução. Use a visualização do trabalho para o estado geral. Use a lista de itens quando precisar ver onde o trabalho está preso, quais itens falharam na validação e quais resultados de baixa confiança merecem revisão humana.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=View%20Batch%20Job)
 
-Liste os itens do trabalho quando precisar da visão nível de linha:
+Liste os itens do trabalho quando precisar da visão nível por linha:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=List%20Batch%20Job%20Items)
 
@@ -287,17 +282,17 @@ Use o endpoint de lista para filtrar itens por estado, confiança ou texto de en
 
 ### Repetir e limpar
 
-Repetição e limpeza são para itens que você já inspecionou. Repita após entender a forma da falha:
+Repetir e limpar são para itens que você já inspecionou. Repita após entender a forma da falha:
 
-- Repita **erros de execução** quando o provedor ou a solicitação falhou.
+- Repita **erros de execução** quando o provedor ou a solicitação falharam.
 - Repita **erros de validação** quando a resposta provavelmente pode ser regenerada na forma esperada.
 - Repita **resultados de baixa confiança** quando o item foi bem-sucedido, mas merece outra tentativa do modelo.
 
-Use um endpoint de limpeza quando os itens que não estão em execução não forem mais úteis e devem sair do trabalho.
+Use um endpoint de limpeza quando os itens que não estão em execução não forem mais úteis e deverem sair do trabalho.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Retry%20Batch%20Job%20Items)
 
-Use o endpoint de repetição após revisar o padrão de falha. Consulte a Referência da API embutida para ver as opções de repetição suportadas e o comportamento resultante do trabalho. Para o filtro de exportação que corresponde a cada modo de repetição e como as APIs de lote do provedor lidam com expiração, consulte [trabalhos de lote expirados: resultados parciais e repetição apenas do que falhou](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
+Use o endpoint de repetição após revisar o padrão de falha. Consulte a Referência da API embutida para ver as opções de repetição suportadas e o comportamento resultante do trabalho. Para o filtro de exportação que corresponde a cada modo de repetição e como as APIs de lote dos provedores lidam com a expiração, consulte [trabalhos de lote expirados: resultados parciais e repetição apenas do que falhou](https://aivax.net/blog/expired-batch-job-recover-partial-results-retry-failed/).
 
 Para remover itens que não estão em execução do trabalho:
 
@@ -321,7 +316,7 @@ Revise a faturamento e a capacidade antes de processar uma grande carga de traba
 
 ## Limites
 
-Os limites são a verificação de capacidade para uma grande carga de trabalho. O número de itens de fluxo de trabalho processados por dia depende do plano. Consulte [Limites de Batch e Agentic Tests](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests).
+Os limites são a verificação de capacidade para uma grande carga de trabalho. O número de itens de fluxo de trabalho processados por dia depende do plano. Consulte [Limites de Batch e Testes Agentic](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests).
 
 Estes limites de importação se aplicam a todos os planos:
 
@@ -336,7 +331,7 @@ O processamento em lote é assíncrono. Se a cota pausar ou falhar no trabalho:
 1. Aguarde até que a janela da cota seja redefinida e tente novamente.
 2. Ou atualize a conta.
 
-Para saber como as APIs de lote do provedor, como a da OpenAI, limitam e falham em um lote, e como um trabalho do AIVAX pausa em um 429 e retoma, consulte [Limites de taxa da API de Lote da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
+Para saber como as APIs de lote dos provedores, como a da OpenAI, limitam e falham em um lote, e como um trabalho do AIVAX pausa em um 429 e retoma, consulte [Limites de taxa da API Batch da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).
 
 ## Melhores práticas
 
@@ -347,8 +342,7 @@ Use estas verificações antes de uma grande execução, enquanto corrige falhas
 - Inclua exemplos de entrada e saída na instrução quando o formato for ambíguo.
 - Prefira uma linha por item; se você precisar enviar objetos complexos, use JSONL.
 - Mantenha a validação habilitada para tarefas sensíveis, como extração legal, financeira ou dados que alimentam automações.
-- Use `maxRetries` para corrigir falhas ocasionais, mas investigue erros repetidos na instrução ou no esquema.
-- Defina um `errorStopThreshold` baixo em novos fluxos de trabalho para evitar gastos em um lote com configuração incorreta.
+- Use `maxRetries` para corrigir falhas ocasionais, mas investigue erros repetidos na prompt ou no esquema.
+- Defina um `errorStopThreshold` baixo em novos fluxos de trabalho para evitar gastos em um lote com uma configuração errada.
 - Repita itens de baixa confiança separadamente. Baixa confiança não significa erro, mas indica que a resposta merece revisão.
 - Exporte resultados por estado quando a revisão manual for necessária, ex., primeiro `finished`, depois `errors`.
-- Para um guia operacional de limites de taxa, tentativas de repetição e resultados parciais, consulte [Limites de taxa da API de Lote da OpenAI e como um trabalho gerenciado lida com 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).

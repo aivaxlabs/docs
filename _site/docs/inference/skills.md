@@ -14,7 +14,7 @@ At inference time, the flow is:
 
 1. AIVAX lists the slug and description of each skill enabled in the gateway in the model's system instructions, and adds the `read_skill` function to the context. The full instructions are not included at this point.
 2. When a task matches a skill, the model calls `read_skill` with an array of skill slugs.
-3. The call returns the instructions of the matching skills, each wrapped in `<skill:slug>` and `</skill:slug>` tags, where `slug` is the skill's own slug.
+3. The call returns the instructions of the matching skills.
 
 The model can activate more than one skill when a task spans multiple domains. When the active task changes, it can call `read_skill` again with a different list.
 
@@ -33,15 +33,13 @@ A skill has `slug`, `description`, `instructions`, and `options`:
 - `description`: The text that helps the model decide when to load the skill. Explain the usage scenario instead of repeating the name.
 - `instructions`: The full content inserted when the skill is activated.
 
-`instructionSources` is stored and exported with the skill configuration, but only the inline `instructions` field is injected when the model activates a skill.
-
 Write the description as a routing rule. A description like “legal skill” is weak because it doesn’t say when to use it. A better description would be “use when the user asks for analysis, review, or explanation of contractual clauses in simple language.”
 
 The instructions, on the other hand, should be operational: explain how to respond, what questions to ask when data is missing, which tools may be useful, what limits must be respected, and the expected final format. The model reads the description to choose the skill and reads the instructions to perform the task.
 
-`allowedToolsNames` is part of the skill configuration and associates runtime tool names with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. When the gateway hides tools without a skill, these tools become available after the model activates the skill with `read_skill`.
+`allowedToolsNames` associates tools with a skill, such as `web_search`, `open_url`, `generate_image`, or `generate_web_page`. When the gateway hides tools without a skill, these tools become available after the model activates the skill with `read_skill`.
 
-Only the skills from the most recent successful `read_skill` call are active; a call blocked by a gateway worker or rejected as invalid does not expose them. Use the general always-visible tool list for tools that must stay available regardless of the active skill.
+Only the skills from the most recent `read_skill` call are active. Use the general always-visible tool list for tools that must stay available regardless of the active skill.
 
 ### Import and export skills
 

@@ -1,10 +1,10 @@
 ---
-{title: Classificação de Texto,linkTitle: Classificação de Texto,weight: 30,group: Data processing,aliases: [/docs/pt-br/generations/classification.html,/docs/pt-br/rag/classification.html,/docs/pt-br/data-processing/classification.html],sourceHash: aa2fe3c02096d4d2}
+{title: Classificação de Texto,linkTitle: Classificação de Texto,weight: 30,group: Data processing,aliases: [/docs/pt-br/generations/classification.html,/docs/pt-br/rag/classification.html,/docs/pt-br/data-processing/classification.html],sourceHash: 01c5e2a97676537d}
 ---
 
 # Classificação de Texto
 
-Use a classificação de texto para ranquear um conjunto fixo de rótulos para um ou mais documentos sem treinar um classificador personalizado. Isso se adequa a tarefas como etiquetagem, triagem ou roteamento de solicitações, onde as categorias são conhecidas antecipadamente e você precisa de um ranqueamento por similaridade em vez de uma resposta gerada.
+Use a classificação de texto para ranquear um conjunto fixo de rótulos para um ou mais documentos sem precisar treinar um classificador personalizado. É adequado para tarefas como etiquetagem, triagem ou roteamento de solicitações, nas quais as categorias são conhecidas antecipadamente e você precisa de um ranqueamento por similaridade em vez de uma resposta gerada.
 
 A AIVAX incorpora (embeds) cada documento e rótulo com o modelo de incorporação padrão e compara seus vetores usando similaridade cosseno. Para cada documento, ele retorna todos os rótulos ordenados do mais semelhante ao menos semelhante.
 
@@ -21,10 +21,10 @@ Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e c
 
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
-| `documents` | `string[]` | Sim | Um ou mais documentos não vazios para classificar. Os resultados preservam esta ordem e o índice baseado em zero de cada documento. |
+| `documents` | `string[]` | Sim | Um ou mais documentos não vazios para classificar. Os resultados preservam essa ordem e o índice baseado em zero de cada documento. |
 | `labels` | `string[]` | Sim | Um ou mais rótulos não vazios. Cada rótulo é pontuado para cada documento. |
 
-Documentos e rótulos duplicados são preservados. O endpoint sempre usa o modelo de incorporação padrão atual e não aceita parâmetro de modelo, limite de pontuação ou limite de resultados.
+O endpoint usa o modelo de incorporação padrão e não aceita parâmetro de modelo, limite de pontuação ou limite de resultados.
 
 A solicitação a seguir classifica três documentos, sendo um deles em alemão, contra três rótulos:
 
@@ -45,7 +45,7 @@ A solicitação a seguir classifica três documentos, sendo um deles em alemão,
 
 ## Leia a resposta
 
-`results` contém um item para cada documento de entrada. Cada array `scores` contém todos os rótulos fornecidos, ordenados por similaridade cosseno decrescente. Rótulos com pontuações iguais preservam sua ordem original. O exemplo abaixo está abreviado para o primeiro documento:
+`results` contém um item para cada documento de entrada. Cada array `scores` contém todos os rótulos fornecidos, ordenados por similaridade cosseno decrescente. O exemplo abaixo está abreviado para o primeiro documento:
 
 ```json
 {
@@ -72,13 +72,9 @@ A solicitação a seguir classifica três documentos, sendo um deles em alemão,
 }
 ```
 
-Uma pontuação mede a similaridade vetorial, não uma probabilidade calibrada. Compare as pontuações dentro da mesma solicitação e modelo de incorporação, em vez de interpretar um valor como uma porcentagem de confiança. Pontuações negativas são válidas e permanecem na resposta porque o endpoint não filtra rótulos.
-
-O uso de incorporação é cobrado pelo texto que requer inferência e está associado à chave de API autenticada. Texto repetido pode ser servido a partir de um cache interno, reduzindo latência e custos. Como o endpoint retorna todos os pares documento-rótulo, o tamanho da resposta e o trabalho de comparação crescem com `documents × labels`.
+Uma pontuação mede a similaridade vetorial, não uma probabilidade. Compare as pontuações dentro da mesma solicitação em vez de interpretar um valor como uma confiança percentual.
 
 ## Preços e limites
-
-A classificação de texto usa o modelo de incorporação padrão e é cobrada pelo trabalho de incorporação realizado.
 
 | Descrição | Preço |
 | --- | ---: |
@@ -86,6 +82,6 @@ A classificação de texto usa o modelo de incorporação padrão e é cobrada p
 
 O número de documentos classificados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](../limits.md#data-processing). A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retornará `429 Too Many Requests`.
 
-A referência da API embutida contém os detalhes mantidos pelo servidor sobre solicitações, respostas, autenticação e erros:
+A referência de API embutida contém os detalhes mantidos pelo servidor sobre solicitações, respostas, autenticação e erros:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Classify%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>

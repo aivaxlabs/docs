@@ -16,7 +16,7 @@ The available decision models, with their aliases, supported question types, con
 
 Each response returns the canonical model name in `model`. You can also send a model alias, such as `@supersonic-labs/julia:latest`. An alias can move to a newer version when one is released, so pin the canonical name when you need a stable version.
 
-An unspecified context limit does not mean unlimited input. Model-specific limits and interpretation of scores can differ; validate a model on representative examples before switching production traffic. For a labeled 40-ticket comparison of four decision models, including how option order changed some answers, see [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
+Limits and score interpretation differ between models, so validate a model on representative examples before switching production traffic. For a labeled 40-ticket comparison of four decision models, including how option order changed some answers, see [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
 
 An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing.md), and [Plans and limits](https://docs.aivax.net/docs/limits.md).
 
@@ -32,7 +32,7 @@ An authenticated API key and a positive account balance are required, including 
 - `capabilities`: question types the model answers (`noul`, `choice`, `score`) and media it accepts (`imageinput`, `audioinput`, `videoinput`, `fileinput`).
 - `inputPricePerMillionTokens` and `outputPricePerMillionTokens`: base token prices before account and plan adjustments; see [Usage and cost](#usage-and-cost).
 
-Use this listing to populate model selectors rather than maintaining a separate hardcoded catalog. It describes configured models, not a real-time provider health check. Model-specific option and question limits are not included in this listing.
+Use this listing to populate model selectors rather than maintaining a separate hardcoded catalog. Model-specific option and question limits are described in [Model-specific limits](#model-specific-limits).
 
 ## Write the questions
 
@@ -121,9 +121,8 @@ Use `input` when the evidence is a chat between a customer and an agent, a bot t
 ```
 
 - `input` must be a non-empty array. Each message has a `role` (`system`, `user`, `assistant`, or `tool`; `user` when omitted) and a `content` that is a string or an array of content parts.
-- The conversation is converted to text, with each message preceded by its role, and becomes the first `state` item. Every image, audio, video, and file part in the messages is appended as its own media item after that text, in message order.
 - Media parts inside messages follow the same formats, capability checks, and image limits as [media sent in `state`](#send-media). A conversation with an image sent to a text-only model returns `400`.
-- Usage is counted on the converted state, so long conversations consume input tokens like an equivalent text state, and the model context and Julia-1 limits still apply. Trim messages that do not affect the decision.
+- Long conversations consume more input tokens and count against the model's context limit. Trim messages that do not affect the decision.
 
 ### Send media
 
@@ -155,10 +154,8 @@ Images use an `image_url` part:
 }
 ```
 
-- `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are not fetched and are rejected.
-- Images nested inside objects in `state` are not read as images. A top-level `images` field, `input_image` parts, and base64 without the `data:image/...;base64,` prefix are not supported.
+- `url` must be a base64 data URL of type `image/png`, `image/jpeg`, or `image/webp`. Remote `http(s)` URLs are rejected.
 - Only some models accept images, each up to a per-request maximum. Sending images to any other model, or more than the model accepts, returns `400`. See [Model-specific limits](#model-specific-limits).
-- Clef and Clef Flash also bound the image size and the amount of text they read from `state`; see the same limits section. Billing uses the input tokens the model processes, as reported in `usage.input_tokens`.
 
 #### Audio, video, and documents
 
@@ -184,9 +181,9 @@ Models that list `audioinput`, `videoinput`, or `fileinput`, such as `@google/ge
 ```
 
 - **Audio:** `data` is raw base64, without a `data:` prefix. `format` is one of `wav`, `mp3`, `mpeg`, `m4a`, `mp4`, `aac`, `aiff`, `aif`, `flac`, `ogg`, `opus`, or `webm`.
-- **Video:** `url` must be a `data:video/...;base64,` URL. Remote video URLs are not fetched and are rejected.
-- **Documents:** `file_data` is a base64 data URL, such as `data:application/pdf;base64,...`, or a public `https://` URL. `filename` is optional. Plain `http://` URLs and raw base64 without the `data:` prefix are rejected.
-- Sending a part to a model that does not list the matching capability returns `400`. Media nested inside objects in `state` is ignored, as with images.
+- **Video:** `url` must be a `data:video/...;base64,` URL. Remote video URLs are rejected.
+- **Documents:** `file_data` is a base64 data URL, such as `data:application/pdf;base64,...`, or a public `https://` URL. `filename` is optional.
+- Sending a part to a model that does not list the matching capability returns `400`.
 
 ### Read the response
 
@@ -198,7 +195,7 @@ The success response is a JSON object directly, **without a `data` envelope**. I
 - `answers`: an object keyed by your question IDs.
 - `usage`: `input_tokens`, `output_tokens`, and the billed `cost`.
 
-For Julia-1, an illustrative `answers` object for the example above is shown below. These numbers explain the format; they are not a recorded response or a quality guarantee.
+For Julia-1, an illustrative `answers` object for the example above is shown below.
 
 ```json
 {
@@ -243,25 +240,23 @@ With Julia-1:
 - `score` is the expected **zero-based level index**. In the example, `0 × 0.8 + 1 × 0.1 + 2 × 0.1 = 0.3`. It is not necessarily an integer, and it is not a normalized 0–1 score when there are more than two levels.
 - `probabilities` are keyed by choice IDs, `false`/`true`, or score-level indices. `legend` describes the score levels.
 
-Other models may omit optional fields such as `probabilities`, `legend`, or `confidence`. Do not assume that every provider uses the same score scale or confidence definition. A high probability is not proof that the decision is correct; validate thresholds and escalation rules with labeled examples from your own domain.
+Other models may omit optional fields such as `probabilities`, `legend`, or `confidence`, and may use a different score scale. Validate thresholds and escalation rules with labeled examples from your own domain.
 
 ## Account rate limits
 
-Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request consumes one unit, regardless of how many questions it contains or which decision model it selects. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request counts once, regardless of how many questions it contains. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
 
-This quota is independent of the daily subscription allowance and of billing: included usage still consumes request units. Ultimate has no plan-imposed limit for this quota, but other applicable limits remain in effect.
-
-Requests above the limit return `429 Too Many Requests` before evaluation. An immediate retry still encounters the active rate-limit window, and changing API keys within the same account does not provide a separate quota. Pace calls across the account and retry with backoff after the window clears.
+Requests above the limit return `429 Too Many Requests`. Pace calls across the account and retry with backoff.
 
 ## Model-specific limits
 
-These model-specific limits apply in addition to the account-level request quota above. Each model's context is listed in the [Models catalog](https://aivax.net/models#decisions); an unspecified context limit does not imply unlimited input.
+These limits apply in addition to the account-level request quota above. Each model's context is listed in the [Models catalog](https://aivax.net/models#decisions).
 
-Most decision models are text-only. The `maxImages` field of the [model listing](#discover-models-programmatically) is the authoritative number of images a model accepts per request.
+Most decision models are text-only. The `maxImages` field of the [model listing](#discover-models-programmatically) is the number of images a model accepts per request.
 
-`@cloudflare/clef` and `@cloudflare/clef-flash` reject requests that exceed their processing window, so keep each image under about 300 KB before encoding. They also read roughly the first 2,000 tokens of text in `state`; images are counted separately.
+For `@cloudflare/clef` and `@cloudflare/clef-flash`, keep each image under about 300 KB before encoding and the text in `state` under roughly 2,000 tokens.
 
-Julia-1 has additional serving limits:
+Julia-1 has these limits:
 
 | Limit | Value |
 | --- | --- |
@@ -273,29 +268,27 @@ Julia-1 has additional serving limits:
 | Description of an individual option | At most 48 tokens |
 | Decision payload limit | 256 KiB |
 
-These limits interact: twenty options can exceed the combined question/options budget even if each description fits its individual limit. The current AIVAX Julia-1 serving limits apply even if an upstream model card lists a larger context. Shorten descriptions or reduce the option count instead of assuming every maximum can be used at once.
-
-Inputs exceeding the context or question/options budget are rejected, not silently truncated. The literal `<mask>` is reserved and cannot appear in Julia-1 state, instructions, or option descriptions.
+These limits interact: twenty options can exceed the question and options budget even if each description fits its individual limit. Inputs that exceed a limit are rejected, not truncated; shorten descriptions or reduce the option count. The literal `<mask>` is reserved and cannot appear in Julia-1 state, instructions, or option descriptions.
 
 ## Usage and cost
 
 Decision models are billed per input token at the base USD rates listed in the [Models catalog](https://aivax.net/models#decisions), before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers)).
 
-For Julia-1, input usage sums the encoded sequence for each question, excluding padding. The shared state is therefore counted again for each question, so input usage grows with the number of questions even when they share one state. Julia-1 does not generate text, so its `output_tokens` value is zero.
+For Julia-1, the shared state is counted again for each question, so input usage grows with the number of questions. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
-Julia-1 is currently eligible for the daily semantic decision allowance on every plan. Other decision models are billed normally. The allowance is shared across all eligible decision calls of the account, not reserved for each question or API key. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity and coverage rules.
+Julia-1 is eligible for the daily semantic decision allowance on every plan, shared across the account. Other decision models are billed normally. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity.
 
-When not covered, Julia-1 input is billed at its [listed rate](https://aivax.net/models#decisions), subject to account and plan adjustments. Use the returned `usage.cost` for the actual billed amount; it is zero when the input is fully covered by the allowance.
+Use the returned `usage.cost` for the billed amount; it is zero when the input is covered by the allowance.
 
 ## Errors and reliable use
 
-- **Invalid model or question:** check the exact model identifier, question type, instructions, and criteria shape. Question IDs and choice IDs must be nonempty.
-- **Context or option limit exceeded:** shorten the state or descriptions, reduce the option count, or select a model with suitable limits. Retrying the same invalid input will not resolve it.
-- **Authentication or balance error:** verify the API key and account balance before retrying. A zero-priced model still requires a positive balance.
-- **Rate limit (429):** reduce the account's request rate and retry with backoff. Multiple questions in one request still count as one request, but model-specific payload limits and per-question usage remain applicable.
-- **Temporary capacity or provider unavailability:** avoid an immediate parallel retry storm. Reduce concurrency and use bounded retries with backoff for transient failures.
+- **Invalid model or question:** check the model identifier, question type, instructions, and criteria shape. Question IDs and choice IDs must be nonempty.
+- **Context or option limit exceeded:** shorten the state or descriptions, reduce the option count, or select a model with suitable limits.
+- **Authentication or balance error:** verify the API key and account balance. A zero-priced model still requires a positive balance.
+- **Rate limit (429):** reduce the account's request rate and retry with backoff.
+- **Temporary unavailability:** retry with backoff and reduced concurrency.
 
-Evaluate `choice`, `noul`, and `score` separately when validating a model: success at routing does not establish reliable scoring or Boolean behavior. Include ambiguous and incomplete states in your test set, and use human review where a wrong decision has material consequences. A retry is a new request; do not assume automatic deduplication or identical model outputs.
+Evaluate `choice`, `noul`, and `score` separately when validating a model, include ambiguous and incomplete states in your test set, and use human review where a wrong decision has material consequences.
 
 ## API reference
 

@@ -10,14 +10,7 @@ These are gateway settings; requests cannot override them. Your application stil
 
 `contextMaximumSize` is the maximum approximate number of input tokens sent to the model. When it is not set, AIVAX does not limit the input, and the request fails only if it exceeds the model's own context window.
 
-The size is an estimate, not the provider's token count. It includes:
-
-- Conversation messages, including documents inserted by [RAG](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md#rag).
-- System instructions.
-- Tool definitions, including server-side tools.
-- The response schema, when one is requested.
-
-Because the estimate can differ from the provider's tokenizer, set `contextMaximumSize` below the model's real context window to leave a margin, especially for media-heavy conversations.
+The size is an estimate of the conversation messages (including documents inserted by [RAG](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md#rag)), system instructions, tool definitions, and response schema. Because it can differ from the provider's token count, set `contextMaximumSize` below the model's real context window to leave a margin, especially for media-heavy conversations.
 
 On the Free plan, the input context is capped, even when the model or the gateway allows more. See [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md#context-window) for the value.
 
@@ -28,27 +21,22 @@ When the estimated input exceeds the limit, the gateway follows `contextOverflow
 | Action | Behavior | When to use |
 | --- | --- | --- |
 | `Throw` (default) | Returns an error instead of calling the model. | Every message matters, such as a document review, so the application decides what to remove. |
-| `Truncate` | Removes the oldest conversation messages until they fit, then continues, even if the full prompt still exceeds the limit. | Long-lived chats in which old turns lose relevance, such as support conversations. |
-| `TruncateHard` | Truncates like `Truncate`, then returns an error if the full prompt still exceeds the limit. | You want truncation, but never a request larger than the limit. |
+| `Truncate` | Removes the oldest conversation messages until they fit, then continues. | Long-lived chats in which old turns lose relevance, such as support conversations. |
+| `TruncateHard` | Truncates like `Truncate`, then returns an error if the full prompt, including system instructions, retrieved documents, and tool definitions, still exceeds the limit. | You want truncation, but never a request larger than the limit. |
 
 The gateway editor offers `Throw` and `Truncate`; set `TruncateHard` through the API.
 
 ### How truncation removes messages
 
-`Truncate` and `TruncateHard` remove messages from the beginning of the conversation, one at a time:
-
-- System messages are never removed.
-- The last remaining user message is never removed, so the model always receives the current request.
-- Tool results whose tool call was removed are also removed, so the conversation stays valid for the provider.
-- Messages are removed until the conversation messages fit the limit. System instructions, retrieved RAG documents, and tool definitions are not counted in this step, so with `Truncate` the full prompt can still exceed the limit. `TruncateHard` measures the full prompt again and fails if it does not fit.
+`Truncate` and `TruncateHard` remove messages from the beginning of the conversation. System messages and the last user message are never removed, so the model always receives the current request. Tool results are removed together with their tool call.
 
 Truncation does not summarize removed messages. When the model needs facts from early turns, keep them in the system instructions, in a [collection](https://docs.aivax.net/docs/rag/collections.md), or in [memories](https://docs.aivax.net/docs/tools/builtin-tools.md).
 
 ### When the check runs
 
-The check runs before every model generation of a request, not only once. In an agentic request, a large tool result can make the conversation exceed the limit after some tools already ran. With `Throw`, the request then fails at that point; with `Truncate`, older messages are removed and the loop continues. See [Processing pipeline](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md) for where the check runs relative to the other steps.
+The check runs before every model generation of a request. In an agentic request, a large tool result can make the conversation exceed the limit after some tools already ran. With `Throw`, the request then fails at that point; with `Truncate`, older messages are removed and the loop continues. See [Processing pipeline](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md).
 
-The check uses the conversation before [multimodal pre-processing](https://docs.aivax.net/docs/inference/chat-completions/multimodal-pre-processing.md), so media counts by its estimated original size, not by the size of its textual description.
+Media counts by its estimated original size, not by the size of its [pre-processed](https://docs.aivax.net/docs/inference/chat-completions/multimodal-pre-processing.md) description.
 
 ## Tool message truncation
 
@@ -58,9 +46,9 @@ The check uses the conversation before [multimodal pre-processing](https://docs.
 [tool response truncated - call this tool again]
 ```
 
-This applies to every tool result sent to the model, including results of [client-side tools](https://docs.aivax.net/docs/inference/chat-completions/tools.md) and server-side tools. It reduces context usage in long agentic conversations whose tools return large payloads that are only relevant once, such as search results. Avoid it when an early tool result remains important later, and use it only when the model can safely call the tool again.
+This applies to results of [client-side tools](https://docs.aivax.net/docs/inference/chat-completions/tools.md) and server-side tools. It reduces context usage in long agentic conversations whose tools return large payloads that are only relevant once, such as search results. Avoid it when an early tool result remains important later, and use it only when the model can safely call the tool again.
 
-Rewriting older tool messages also changes the request prefix, which can lower the [prompt cache](https://docs.aivax.net/docs/inference/chat-completions/caching.md) hit rate; to check this on your own usage, see [why a prompt cache hit rate is low](https://aivax.net/blog/low-prompt-cache-hit-rate-prefix-breakers-compaction/).
+Rewriting older tool messages also changes the request prefix, which can lower the [prompt cache](https://docs.aivax.net/docs/inference/chat-completions/caching.md) hit rate.
 
 ## Example
 

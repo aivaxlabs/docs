@@ -87,7 +87,7 @@ With the `agent` naming convention, it is named `{collection_name}_list`. It acc
 - `descending` (`boolean`, optional): lists newest first, or from Z to A when sorting by name. Defaults to `false`.
 - `include_content` (`boolean`, optional): adds the content and metadata of each document. Defaults to `false`, so the tool returns only names, tags, references, and dates. To read one document, prefer the get document tool.
 - `limit` (`number`, optional): documents per page, from 1 to 50. Defaults to 20.
-- `cursor` (`string`, optional): the `next_cursor` returned by the previous call. Send it with the same `filter`, `sort`, and `descending` values to read the next page. Cursors do not expire.
+- `cursor` (`string`, optional): the `next_cursor` returned by the previous call. Send it with the same `filter`, `sort`, and `descending` values to read the next page.
 
 The browse tool does not embed or rerank anything, so it has no search cost, but each call counts toward the search rate limit of your plan. Documents appear in it only after they are indexed.
 
@@ -107,7 +107,6 @@ With the `agent` naming convention, it is named `{collection_name}_get`. It acce
 It returns the name, tags, reference, metadata, dates, whether the document is already indexed, and the selected line range, followed by the content.
 
 - A single call returns at most 100,000 characters. Read longer documents in parts with `start_line` and `end_line`.
-- Documents that are still waiting to be indexed can also be read.
 - When several collections are configured, the first collection in `X-Mcp-Collection-Id` that has a document with that name is used.
 - Like the browse tool, it has no search cost and counts toward the search rate limit.
 
@@ -149,4 +148,4 @@ X-Mcp-Allow-Write: yes
 X-Mcp-Enabled-Tools: write
 ```
 
-The allowlist only narrows the tool set. `write` and `delete` still require `X-Mcp-Allow-Write: yes`; without it, they are not exposed even when listed. Without `X-Mcp-Enabled-Tools`, the server exposes every tool allowed by the other headers. Values are case-insensitive, spaces around commas are ignored, and unknown values are ignored.
+The allowlist only narrows the tool set. `write` and `delete` still require `X-Mcp-Allow-Write: yes`; without it, they are not exposed even when listed. Without `X-Mcp-Enabled-Tools`, the server exposes every tool allowed by the other headers.

@@ -15,7 +15,7 @@ A gateway separates two roles:
 - **The client application** sends messages and, with a private key, optional request overrides.
 - **The gateway administrator** controls the operational policy: which model runs, what it is told, what it can read, which tools it can call, and which limits apply.
 
-This boundary lets you change a model, a prompt, or a tool list in one place while every client keeps calling the same identifier. Each resource below is optional. Start with a model and system instructions, and add other resources only when the use case requires them: every tool, skill, or collection adds input tokens, cost, and one more path the model can choose wrongly.
+This boundary lets you change a model, a prompt, or a tool list in one place while every client keeps calling the same identifier. Each resource below is optional. Start with a model and system instructions, and add other resources only when the use case requires them: every tool, skill, or collection adds input tokens and cost.
 
 The sections below describe what each resource does and when to use it. [Processing pipeline](https://docs.aivax.net/docs/inference/chat-completions/processing-pipeline.md) documents the detailed behavior of each step.
 
@@ -85,7 +85,7 @@ Flags change how AIVAX prepares the provider request for models with specific be
 | `StrictUserAssistantTurns` | Enforces strict alternation between user and assistant messages. This disables tool messages. | Models that fail when two messages with the same role are adjacent. |
 | `DisableReasoningSummary` | Stops streaming reasoning content to the client. | Clients that must never receive reasoning. |
 
-Flags compensate for model limitations. Leave them unset unless you observe the problem a flag solves.
+Leave flags unset unless a model needs them.
 
 ## Multimodal pre-processing
 

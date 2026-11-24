@@ -81,12 +81,7 @@ Changing a workflow affects subsequent jobs and items processed with that config
 
 Each item is processed by the integrated model or AI Gateway you choose. Set that choice in the workflow **Model** setting. The API uses the same choice as `modelName`.
 
-When the workflow does not use an AI Gateway, Batch optimizes for cost:
-
-- Items are always routed with the `Cheapest` [provider routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
-- That preference selects the available provider with the lowest input and output token price for that model.
-- The `Balanced` default is not applied, so provider selection can differ from other features that request the same model.
-- When only one provider is available or compatible with the request, routing does not change the result.
+When the workflow does not use an AI Gateway, Batch routes each item with the `Cheapest` [provider routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md), which selects the available provider with the lowest token price for that model.
 
 Create an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) and select it in the workflow when you need a different route or shared gateway setup. A gateway lets you:
 
@@ -174,12 +169,12 @@ An item can also be a whole conversation instead of plain text. Start the item w
 ~[chatconversation,[{"role":"user","content":"My order arrived damaged."},{"role":"assistant","content":"Sorry about that. Can you send a photo?"},{"role":"user","content":"Sent. I want a replacement, not a refund."}]
 ```
 
-The prefix is case-sensitive and has no closing bracket of its own: everything after the comma must be exactly one JSON array. With a chat conversation item:
+The prefix is case-sensitive, and everything after the comma must be exactly one JSON array. With a chat conversation item:
 
 - Each message has a `role` (`system`, `user`, `assistant`, or `tool`) and a `content`, which is a string or an array of content parts (`text`, `image_url`, `input_audio`, `video_url`, or `file`). Media parts only work with a model or AI Gateway that accepts that media type.
 - The messages are sent to the model as a real conversation, not as text inside a single message. The workflow instruction is added after the last message, so write it as a rule to apply to the conversation above, such as "Classify the customer's main request in this conversation."
 - Validation, when enabled, receives the same conversation together with the generated result.
-- If the text after the prefix is not a JSON array, the item is not processed as plain text. It ends as an execution error once its retries are exhausted, with a message that explains the expected format. Fix the input and import it again; retrying the same item does not help.
+- If the text after the prefix is not a JSON array, the item ends as an execution error that explains the expected format. Fix the input and import it again; retrying the same item does not help.
 
 In the `lines` mode, each line is one item, so write each conversation as compact JSON on a single line. One conversation per file works with the `files`, `zip`, and `text` modes, where line breaks inside the JSON are allowed. Items with and without the prefix can be mixed in the same job.
 
@@ -351,4 +346,3 @@ Use these checks before a large run, while you repair failures, and before you h
 - Set a low `errorStopThreshold` in new workflows to avoid spending on a batch with a wrong configuration.
 - Retry low-confidence items separately. Low confidence does not mean error, but it indicates the response deserves review.
 - Export results by state when manual review is needed, e.g., first `finished`, then `errors`.
-- For an operational walkthrough of rate limits, retries, and partial results, see [OpenAI Batch API rate limits and how a managed job handles 429](https://aivax.net/blog/batch-is-an-admission-control-problem-not-a-queue/).

@@ -55,7 +55,7 @@ To reply with audio, set `audioSynthesisSource` to the `name` of a text-to-speec
 
 Use **Send Prompt** when your application needs a response using an existing chat-client session. The session access key authorizes the request; keep it private. The request uses the session history and the associated AI Gateway configuration.
 
-For long-running inference, send `POST /api/v1/public/chat-clients/<access-key>/prompt` to `https://direct.inference.aivax.net` to bypass the Cloudflare Tunnel path. Configure your HTTP client's timeout for the expected generation duration. The direct domain exposes selected routes, not the entire chat-client API; see [endpoints available on the direct host](https://docs.aivax.net/docs/overview.md#endpoints-available-on-the-direct-host).
+For long-running inference, send `POST /api/v1/public/chat-clients/<access-key>/prompt` to `https://direct.inference.aivax.net`. Configure your HTTP client's timeout for the expected generation duration. The direct domain exposes selected routes, not the entire chat-client API; see [endpoints available on the direct host](https://docs.aivax.net/docs/overview.md#endpoints-available-on-the-direct-host).
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Send%20Prompt)
 
@@ -65,7 +65,7 @@ The required `prompt` accepts plain text, one OpenAI-compatible message object, 
 
 The response contains `completionText`, `reasoning` when available, `toolCalls` for your application to execute, `usage`, and `createdMessages`. The last field contains only the messages generated during this request, in generation order—not the submitted messages or the previous session history. Its messages use the OpenAI-compatible format and may include tool calls, tool results, reasoning and per-message metadata.
 
-`completionText` is the text of the last assistant message in `createdMessages`, not a concatenation of the turn: after a tool call, it holds only the final answer. It falls back to the accumulated inference text when the last assistant message is missing or empty, so a tool-call-only turn may return an empty `completionText` — check `toolCalls` to decide whether to continue.
+`completionText` is the text of the last assistant message in `createdMessages`: after a tool call, it holds only the final answer. A tool-call-only turn may return an empty `completionText`, so check `toolCalls` to decide whether to continue.
 
 ### Decide whether to save the turn
 
@@ -148,8 +148,6 @@ Use `inferenceOptions` to override some AI Gateway settings for one request. Omi
     }
 }
 ```
-
-When the model provider fails temporarily before sending any output, AIVAX retries the request automatically, up to three times.
 
 ### Complete client-side tool calls
 

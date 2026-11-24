@@ -1,14 +1,14 @@
 ---
-{title: Processadores de Dados,linkTitle: Processadores de Dados,weight: 30,group: Legal documents,sourceHash: 6c029fdfa885534a,aliases: [/docs/pt-br/legal/third-party-processors.html]}
+{title: Processadores de Dados,linkTitle: Processadores de Dados,weight: 30,group: Legal documents,sourceHash: 04f078988e7801c7,aliases: [/docs/pt-br/legal/third-party-processors.html]}
 ---
 
 # Processadores de Dados
 
-A AIVAX utiliza serviços de terceiros para operações específicas, como infraestrutura, armazenamento de objetos, entrega de e-mails, processamento de pagamentos e pesquisa na web. Os provedores envolvidos em uma solicitação dependem do modelo selecionado, gateway, ferramenta e integração.
+A AIVAX utiliza serviços de terceiros para operações específicas, como infraestrutura, armazenamento de objetos, entrega de e-mails, processamento de pagamentos e pesquisa na web. Os provedores envolvidos em uma solicitação dependem do modelo, gateway, ferramenta e integração selecionados.
 
-Esta página é um inventário técnico divulgado, não aconselhamento jurídico. As políticas dos provedores podem mudar, e os Gerentes de Conta devem revisar os termos dos provedores aplicáveis aos seus modelos e ferramentas selecionados antes de enviar dados pessoais, confidenciais, regulamentados ou sensíveis.
+Esta página é um inventário técnico, não aconselhamento jurídico. As políticas dos provedores podem mudar, e os Gerentes de Conta devem revisar os termos dos provedores aplicáveis aos seus modelos e ferramentas selecionados antes de enviar dados pessoais, confidenciais, regulamentados ou sensíveis.
 
-A coluna "Lei de proteção de dados" resume as principais estruturas identificadas na política de privacidade atual ou no adendo de processamento de dados de cada provedor. A aplicabilidade pode variar conforme a entidade contratante, a localização do titular dos dados e a região de processamento.
+A coluna de lei de proteção de dados resume as principais estruturas identificadas na política de privacidade atual ou no adendo de processamento de dados de cada provedor. A aplicabilidade pode variar conforme a entidade contratante, a localização do titular dos dados e a região de processamento.
 
 ## Operações, Serviços e Infraestrutura
 
@@ -19,47 +19,47 @@ A coluna "Lei de proteção de dados" resume as principais estruturas identifica
 | [netcup](https://www.netcup.com/) | Infraestrutura de computação e hospedagem | [GDPR e BDSG](https://www.netcup.com/en/contact/data-privacy) |
 | [Backblaze](https://www.backblaze.com/) | Armazenamento de objetos e arquivos para mídia gerada, mídia enviada, documentos gerados, arquivos expostos e artefatos de erro | [EU/UK GDPR e CCPA/CPRA](https://www.backblaze.com/company/privacy) |
 | [Brevo](https://www.brevo.com/) | E-mail transacional e notificações | [GDPR, French Data Protection Act, CCPA/CPRA, PIPEDA e LGPD](https://www.brevo.com/legal/privacypolicy/) |
-| [Mixtic](https://mixtic.com.br/) | Links de pagamento, métodos de pagamento salvos, cobranças de crédito e assinatura e confirmação de pagamento | [LGPD (Lei Brasileira nº 13.709/2018)](https://mixtic.com.br/privacidade) |
-| [Twitter/X](https://developer.x.com/) | Ferramentas integradas de pesquisa e leitura de posts X/Twitter | [EU/UK GDPR, Swiss FADP, CCPA e LGPD](https://x.com/en/privacy) |
+| [Mixtic](https://mixtic.com.br/) | Links de pagamento, métodos de pagamento salvos, cobranças de crédito e assinatura, e confirmação de pagamento | [LGPD (Lei Brasileira nº 13.709/2018)](https://mixtic.com.br/privacidade) |
+| [Twitter/X](https://developer.x.com/) | Ferramentas integradas de pesquisa e leitura de posts do X/Twitter | [EU/UK GDPR, Swiss FADP, CCPA e LGPD](https://x.com/en/privacy) |
 | [Linkup](https://www.linkup.so/) | Pesquisa na web para enriquecimento de contexto | [GDPR, French Data Protection Act, ePrivacy Directive e CCPA/CPRA](https://www.linkup.so/privacy-policy) |
 | [Jina AI](https://jina.ai/) | Pesquisa na web para enriquecimento de contexto | [GDPR e BDSG](https://jina.ai/legal/) |
 | [Tavily](https://www.tavily.com/) | Pesquisa na web para enriquecimento de contexto | [GDPR, UK Data Protection Act 2018 e leis de privacidade estaduais dos EUA aplicáveis](https://www.tavily.com/privacy) |
 
 ## Políticas de Coleta
 
-As tabelas abaixo descrevem o que a própria AIVAX retém para cada serviço e se um provedor de terceiros recebe o conteúdo. Cada serviço é classificado em um de três níveis:
+As tabelas abaixo descrevem o que a própria AIVAX retém para cada serviço e se um provedor terceirizado recebe o conteúdo. Cada serviço é classificado em um de três níveis:
 
 | Nível | Significado |
 | --- | --- |
-| 🟢 **ZDR** | Retenção zero de dados. A AIVAX não armazena a entrada ou saída da solicitação após o retorno da resposta, e o serviço não o envia a um provedor de terceiros. |
-| 🟡 **Parcial** | A AIVAX não armazena o conteúdo, mas mantém logs, registros ou metadados sobre a operação por tempo indeterminado, ou envia o conteúdo a um provedor de terceiros que pode coletá-lo ou retê-lo. |
+| 🟢 **ZDR** | Retenção zero de dados. A AIVAX não armazena a entrada ou saída da solicitação após o retorno da resposta, e o serviço não o envia a um provedor terceirizado. |
+| 🟡 **Parcial** | A AIVAX não armazena o conteúdo, mas mantém logs, registros ou metadados sobre a operação por tempo indeterminado, ou envia o conteúdo a um provedor terceirizado que pode coletá-lo ou retê-lo. |
 | 🔴 **Completo** | A AIVAX armazena o conteúdo ela mesma, o que pode incluir dados pessoais ou sensíveis, por tempo indeterminado. |
 
-Quando uma configuração altera o nível, a coluna Política de Coleta lista cada condição e seu nível. Todo serviço também produz os registros de uso, faturamento e técnicos descritos na [Política de Privacidade](/docs/pt-br/legal/privacy-policy.md), e os recursos de conta armazenados podem ser incluídos em backups. Provedores de terceiros que recebem dados para uma solicitação aplicam suas próprias regras de retenção, portanto, um serviço que envia conteúdo a um deles é classificado como Parcial, mesmo quando a AIVAX não armazena nada. A classificação de "retenção zero de dados" de um provedor, ou sua declaração de que prompts não são usados para treinamento, reflete o que o provedor ou agregador declara. A AIVAX não audita, verifica nem garante que terceiros não coletem, retenham ou usem prompts, e não é responsável pelo fracasso de um terceiro em honrar essas declarações. As utilidades MCP seguem a política do serviço que chamam.
+Quando uma configuração altera o nível, a coluna Política de Coleta lista cada condição e seu nível. Todo serviço também produz os registros de uso, faturamento e técnicos descritos na [Política de Privacidade](/docs/pt-br/legal/privacy-policy.md), e os recursos de conta armazenados podem ser incluídos em backups. Provedores terceirizados que recebem dados para uma solicitação aplicam suas próprias regras de retenção, portanto, um serviço que envia conteúdo a um deles é classificado como Parcial, mesmo quando a AIVAX não armazena nada. A AIVAX seleciona provedores cujos termos publicados atendem às classificações de manipulação de dados mostradas nesta página, incluindo "retenção zero de dados" e não usar prompts para treinamento. Cada terceiro lida com os dados sob seus próprios termos, e a AIVAX não é responsável pelo fracasso de um terceiro em cumpri-los. As Utilidades MCP seguem a política do serviço que chamam.
 
 ## RAG e Coleções
 
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
 | [Coleções e documentos](/docs/pt-br/rag/collections.md) | 🔴 Completo | O texto do documento, embeddings e metadados são armazenados até que você exclua o documento ou a coleção. |
-| [Pesquisa semântica](/docs/pt-br/rag/semantic-search.md) | **Registro de RAG habilitado:** 🔴 Completo<br>**Registro de RAG desabilitado:** 🟡 Parcial | O **registro de RAG** nas configurações da conta registra os termos da consulta, documentos retornados, pontuações, tempo de processamento e custo na aba [Transações](/docs/pt-br/rag/observability.md) da coleção. Ele está desabilitado por padrão para novas contas. |
-| [Reflex e rerankers](/docs/pt-br/rag/reranking.md) | **Compartilhamento de dados desabilitado:** 🟡 Parcial<br>**Compartilhamento de dados habilitado:** 🔴 Completo | A AIVAX não armazena documentos candidatos; o Reflex usa um cache temporário em memória para cobrar entradas repetidas à taxa de acerto no cache. Dependendo do reranker selecionado, a consulta e os documentos candidatos são enviados a um provedor de terceiros. Com o [Compartilhamento de Dados](/docs/pt-br/data-sharing.md) habilitado, a consulta anonimizada, os documentos e os resultados de classificação são mantidos para o desenvolvimento do modelo. O Compartilhamento de Dados está desabilitado por padrão e também cobre os resultados anonimizados das pesquisas semânticas. |
+| [Pesquisa semântica](/docs/pt-br/rag/semantic-search.md) | **Registro de RAG habilitado:** 🔴 Completo<br>**Registro de RAG desabilitado:** 🟡 Parcial | O **registro de RAG** nas configurações da conta registra termos de consulta, documentos retornados, pontuações, tempo de processamento e custo na aba [Transações](/docs/pt-br/rag/observability.md) da coleção. Ele está desabilitado por padrão para novas contas. |
+| [Reflex e rerankers](/docs/pt-br/rag/reranking.md) | **Compartilhamento de Dados desabilitado:** 🟡 Parcial<br>**Compartilhamento de Dados habilitado:** 🔴 Completo | A AIVAX não armazena documentos candidatos; o Reflex usa um cache temporário na memória. Dependendo do reranker selecionado, a consulta e os documentos candidatos são enviados a um provedor terceirizado. Com o [Compartilhamento de Dados](/docs/pt-br/data-sharing.md) habilitado, a consulta anonimizada, os documentos e os resultados de classificação são mantidos para o desenvolvimento do modelo. O Compartilhamento de Dados está desabilitado por padrão e também cobre os resultados anonimizados das pesquisas semânticas. |
 | [Memórias do usuário](/docs/pt-br/tools/builtin-tools.md#memory) | 🔴 Completo | Memórias salvas pela ferramenta integrada Memory são armazenadas na coleção `@memories` até serem excluídas ou expirarem. |
 
 ## Inferência
 
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
-| [Completions de chat e Gateways de IA](/docs/pt-br/inference/chat-completions/concepts.md#response-and-conversation-records) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | O **registro de conversas** nas configurações da conta armazena mensagens, chamadas de ferramentas, metadados, uso e erros como conversas. Ele está desabilitado por padrão para novas contas. Defina `allow_logging: false` para excluir uma única solicitação. Habilite [Apenas provedores com retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) para restringir os modelos de texto integrados a provedores que declaram retenção zero de dados. Etapas auxiliares (moderação de conteúdo, roteamento de complexidade, reescrita de consultas RAG, o resumo lido em voz alta pelos clientes de chat, a reescrita de texto com instruções de voz para geração de fala e o Media Injector) sempre são executadas em provedores com retenção zero de dados, mesmo quando a opção está desabilitada. |
-| Configuração do [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md) e [skill](/docs/pt-br/inference/skills.md) | 🔴 Completo | Instruções, skills, ferramentas e configurações de integração são armazenadas até serem excluídas. |
+| [Completions de chat e Gateways de IA](/docs/pt-br/inference/chat-completions/concepts.md#response-and-conversation-records) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | O **registro de conversas** nas configurações da conta armazena mensagens, chamadas de ferramentas, metadados, uso e erros como conversas. Ele está desabilitado por padrão para novas contas. Defina `allow_logging: false` para excluir uma única solicitação. Habilite [Apenas provedores de retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) para restringir os modelos de texto integrados a provedores com termos de retenção zero de dados. Etapas auxiliares (moderação de conteúdo, roteamento de complexidade, reescrita de consultas RAG, o resumo lido em voz alta pelos clientes de chat, a reescrita de texto com instruções de voz para geração de fala e o Media Injector) sempre são executadas em provedores de retenção zero de dados, mesmo quando a opção está desabilitada. |
+| Configuração do [Gateway de IA](/docs/pt-br/inference/ai-gateways/concepts.md) e [skill](/docs/pt-br/inference/skills.md) | 🔴 Completo | Instruções, skills, ferramentas e configurações de integração são armazenadas até serem excluídas. |
 | Pré-processamento multimodal | 🔴 Completo | Quando anexos são convertidos em texto por meio de descrição, OCR ou transcrição durante a inferência, o texto resultante é armazenado em cache por conta para evitar reprocessementar o mesmo conteúdo. Arquivos originais não são armazenados. |
 | Diagnósticos de erro do provedor | 🔴 Completo | Quando um provedor de modelo retorna um erro, a solicitação enviada ao provedor e sua resposta podem ser armazenadas para diagnóstico, independentemente do registro de conversas. |
-| [Clientes de Chat](/docs/pt-br/inference/chat-clients/overview.md) | 🔴 Completo | Sessões armazenam histórico de mensagens, contexto extra e metadados até que a sessão expire. Mídia enviada como URLs de dados é carregada no armazenamento de objetos e referenciada por um URL público. Áudio gerado é armazenado em cache quando a síntese de áudio está habilitada. A inferência segue também a condição de registro de conversas. |
-| [Modelos de assinatura](/docs/pt-br/inference/subscription-models/overview.md) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | Os registros da AIVAX seguem a configuração de **Registro de Conversas** da conta. Modelos de assinatura não têm retenção zero de dados: seus fornecedores coletam prompts e os mantêm por tempo indeterminado para moderação e controle interno. Os fornecedores afirmam que não usam prompts para treinamento; a AIVAX não verifica nem garante isso. Solicitações a esses modelos falham quando **Apenas provedores com retenção zero de dados** está habilitado. |
+| [Clientes de Chat](/docs/pt-br/inference/chat-clients/overview.md) | 🔴 Completo | Sessões armazenam histórico de mensagens, contexto extra e metadados até que a sessão expire. Mídia enviada como URLs de dados é carregada no armazenamento de objetos e referenciada por um URL público. Áudio gerado é armazenado em cache quando a síntese de áudio está habilitada. A inferência também segue a condição de registro de conversas. |
+| [Modelos de assinatura](/docs/pt-br/inference/subscription-models/overview.md) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | Os registros da AIVAX seguem a configuração de **Registro de Conversas** da conta. Modelos de assinatura não têm retenção zero de dados: seus fornecedores coletam prompts e os mantêm por tempo indeterminado para moderação e controle interno. De acordo com seus termos publicados, os fornecedores não usam prompts para treinamento. Solicitações a esses modelos falham quando **Apenas provedores de retenção zero de dados** está habilitado. |
 | [Voz e Realtime](/docs/pt-br/inference/voice-session.md) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | Segue a configuração de **Registro de Conversas** da conta. Não pode ser desabilitado por sessão. |
-| [Processamento em lote](/docs/pt-br/inference/batch.md) | 🔴 Completo | Fluxos de trabalho, trabalhos e entradas e saídas de itens são armazenados até que você os exclua ou limpe os itens do trabalho. |
-| [Testes Agentic](/docs/pt-br/inference/agentic-tests.md) | 🔴 Completo | Definições de teste, execuções, conversas simuladas e resultados de juízes são armazenados. |
-| [Sandboxing de Shell](/docs/pt-br/tools/shell.md#data-persistence) | **Persistência desabilitada:** 🟢 ZDR<br>**Persistência habilitada:** 🔴 Completo | Com `allowDataPersistence` habilitado e um ID externo de usuário, os arquivos persistem em um espaço de trabalho por usuário até serem excluídos. Caso contrário, o sistema de arquivos em memória é descartado após a iteração de inferência. A persistência está desabilitada por padrão. |
+| [Processamento em lote](/docs/pt-br/inference/batch.md) | 🔴 Completo | Fluxos de trabalho, jobs e entradas e saídas de itens são armazenados até que você os exclua ou limpe os itens do job. |
+| [Testes Agentic](/docs/pt-br/inference/agentic-tests.md) | 🔴 Completo | Definições de teste, execuções, conversas simuladas e resultados de julgamento são armazenados. |
+| [Sandboxing de Shell](/docs/pt-br/tools/shell.md#data-persistence) | **Persistência desabilitada:** 🟢 ZDR<br>**Persistência habilitada:** 🔴 Completo | Com `allowDataPersistence` habilitado e um ID externo de usuário, os arquivos persistem em um espaço de trabalho por usuário até serem excluídos. Caso contrário, o sistema de arquivos na memória é descartado após a iteração de inferência. A persistência está desabilitada por padrão. |
 | [Funções de protocolo](/docs/pt-br/tools/protocol-functions.md) | 🟡 Parcial | Chamadas de função são enviadas ao seu callback e não são armazenadas além do registro de conversas. Falhas de callback e suas mensagens de erro são registradas nos logs da conta. |
 
 ## Fundação Web
@@ -67,8 +67,8 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
 | [Pesquisa na Web](/docs/pt-br/web-foundation/web-search.md) | 🟡 Parcial | A AIVAX não armazena consultas ou resultados. As consultas são enviadas aos provedores de pesquisa na web listados acima. |
-| [Busca e OCR](/docs/pt-br/web-foundation/fetch-and-ocr.md) | 🟡 Parcial | A AIVAX não armazena páginas buscadas, arquivos, texto extraído ou saída JSON. OCR de páginas digitalizadas e imagens e conversão opcional para JSON são processados por provedores de modelo. |
-| [Pesquisa de posts X](/docs/pt-br/tools/builtin-tools.md#x-posts-search) | 🟡 Parcial | A AIVAX não armazena consultas ou posts. As consultas são enviadas ao X. |
+| [Fetch e OCR](/docs/pt-br/web-foundation/fetch-and-ocr.md) | 🟡 Parcial | A AIVAX não armazena páginas buscadas, arquivos, texto extraído ou saída JSON. O OCR de páginas digitalizadas e imagens e a conversão JSON opcional são processados por provedores de modelo. |
+| [Pesquisa de posts do X](/docs/pt-br/tools/builtin-tools.md#x-posts-search) | 🟡 Parcial | A AIVAX não armazena consultas ou posts. As consultas são enviadas ao X. |
 
 ## Geração de Mídia
 
@@ -84,8 +84,8 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
 | [Descrições de Mídia](/docs/pt-br/data-processing/media-descriptions.md) | 🟡 Parcial | Mídia submetida e descrições geradas não são armazenadas por este endpoint. A mídia é enviada a um provedor de modelo para descrição, OCR ou transcrição. Anexos convertidos durante a inferência seguem a política de pré-processamento multimodal. |
-| [Classificação de Texto](/docs/pt-br/data-processing/classification.md) | 🟡 Parcial | A AIVAX não armazena o texto. Ele é enviado a um provedor de modelo de embedding, e os embeddings usam um cache temporário em memória para reduzir latência e custo para texto repetido. |
-| [Decisões Semânticas](/docs/pt-br/data-processing/decisions.md) | 🟡 Parcial | A AIVAX não armazena entradas ou resultados. Dependendo do modelo de decisão selecionado, as entradas são enviadas a um provedor de terceiros. |
+| [Classificação de Texto](/docs/pt-br/data-processing/classification.md) | 🟡 Parcial | A AIVAX não armazena o texto. Ele é enviado a um provedor de modelo de embedding, e os embeddings usam um cache temporário na memória. |
+| [Decisões Semânticas](/docs/pt-br/data-processing/decisions.md) | 🟡 Parcial | A AIVAX não armazena entradas ou resultados. Dependendo do modelo de decisão selecionado, as entradas são enviadas a um provedor terceirizado. |
 | [Segmentação de Texto](/docs/pt-br/data-processing/text-segmentation.md) | 🟡 Parcial | A AIVAX não armazena texto fonte ou segmentos. O texto é enviado a um provedor de modelo de embedding, e a sanitização é processada por um provedor de modelo de linguagem. |
 
 ## Utilitários de Conta
@@ -95,13 +95,13 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 | Contas e chaves de API | 🟡 Parcial | Dados da conta, configurações e metadados da chave de API são mantidos enquanto a conta estiver ativa. |
 | Faturamento e pagamentos | 🟡 Parcial | Faturas, créditos, recibos e registros de pagamento são mantidos de acordo com requisitos legais, contábeis e contratuais. Os pagamentos são processados pela Mixtic. |
 | Logs de uso e técnicos | 🟡 Parcial | Registros de uso com modelo, quantidade, custo e recursos vinculados, e logs de inferência e acesso com metadados como endereços IP e strings de user-agent. |
-| Logs da conta | 🟡 Parcial | Avisos operacionais e erros exibidos nos logs da conta. |
+| Logs da conta | 🟡 Parcial | Avisos operacionais e erros mostrados nos logs da conta. |
 | Notificações | 🟡 Parcial | Notificações da conta são armazenadas para o painel. Notificações por e-mail são entregues através da Brevo. |
 
 ## Notas sobre Manipulação de Dados
 
 Por padrão, a AIVAX não usa Conteúdo de Entrada do Gerente de Conta, Conteúdo Gerado ou Conversas para treinar modelos proprietários da AIVAX. Registros de RAG e reranking anonimizados elegíveis são usados apenas para desenvolvimento de modelo quando um Gerente de Conta autorizado habilita o programa opcional descrito em [Compartilhamento de Dados](/docs/pt-br/data-sharing). A indexação e o armazenamento de documentos estão excluídos.
 
-Provedores de terceiros podem ter suas próprias regras de processamento, retenção, monitoramento de abuso e melhoria de modelo. O modelo, provedor, ferramenta ou integração selecionados determinam qual terceiro recebe dados para uma solicitação específica.
+Provedores terceirizados podem ter suas próprias regras de processamento, retenção, monitoramento de abuso e melhoria de modelo. O modelo, provedor, ferramenta ou integração selecionados determinam qual terceiro recebe dados para uma solicitação específica.
 
 Evite enviar informações sensíveis, confidenciais, regulamentadas ou pessoais a um provedor, a menos que você tenha revisado os termos atuais desse provedor e tenha uma base legal adequada para o processamento.

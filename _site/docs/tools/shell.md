@@ -6,7 +6,7 @@ AIVAX offers a virtual shell environment that can be used by agent assistants to
 
 The shell environment allows moving selected model tools to the shell side, turning them into CLI commands. This is useful when you have many tools and do not want to expose all of them directly to the model, or when a tool is easier to use through command-line arguments and pipes.
 
-When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with network modules, filesystem defaults, and a workspace mounted at `/home/workspace`. Each command has a time limit and a cap on the output returned to the model; see [Pricing and limits](#pricing-and-limits).
+When enabled in an AI Gateway, the model sees a `shell` tool with one argument: `command`. Commands run in a sandboxed shell with a workspace mounted at `/home/workspace`. Each command has a time limit and a cap on the output returned to the model; see [Pricing and limits](#pricing-and-limits).
 
 ## Design for the limits
 
@@ -31,7 +31,7 @@ Tools moved into the shell are no longer exposed as direct model functions, exce
 
 Use the runtime function name when listing tools, such as `web_search`, `open_url`, `request`, or a protocol/MCP function name. Each shell command generated from a tool supports `--help` and maps JSON Schema properties to command-line options.
 
-Prefer the whitelist when the model needs a small, predictable command set — every new tool otherwise leaks into the shell automatically. Prefer the blacklist when most tools are shell-friendly and only a few must stay as direct functions for latency or reliability reasons.
+Prefer the whitelist when the model needs a small, predictable command set. Prefer the blacklist when most tools are shell-friendly and only a few must stay as direct functions.
 
 ## Data persistence
 
@@ -43,7 +43,7 @@ Enable persistence only for data the user expects to survive — working documen
 
 ## Internet access
 
-By default, the shell environment has internet access through the network commands `curl`, `wget` and `ping`, with responses capped at 50 MB. Set `bashOptions.allowInternetAccess` to `false` to disable it: the network commands are removed and commands run fully offline.
+By default, the shell has internet access through `curl`, `wget` and `ping`. Set `bashOptions.allowInternetAccess` to `false` to remove the network commands and run fully offline.
 
 ## Pricing and limits
 

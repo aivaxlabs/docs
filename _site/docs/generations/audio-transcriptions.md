@@ -14,11 +14,11 @@ Query the available transcription models for the authenticated account before se
 
 ## Transcribe audio
 
-Send the audio as base64 with its format (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm`, or `aac`). Decoded audio is subject to the size limit in [Pricing, limits, and errors](#pricing-limits-and-errors). Billing follows the measured media duration, and files with no measurable duration are rejected.
+Send the audio as base64 with its format (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm`, or `aac`). Decoded audio is subject to the size limit in [Pricing, limits, and errors](#pricing-limits-and-errors). Billing follows the media duration.
 
 Provide the optional `language` hint when the spoken language is known. It steers recognition toward that language and helps with accented speech and domain vocabulary; omit it when the language genuinely varies within one file and let detection handle it.
 
-Review the returned text before using it in user-visible or irreversible actions: noisy recordings, multiple speakers, specialized vocabulary, and poor microphone quality can affect transcription quality. The endpoint returns the transcript text, not speaker labels, so plan a diarization or review step downstream for files where speaker attribution matters.
+Review the returned text before using it in user-visible or irreversible actions. The endpoint returns the transcript text without speaker labels.
 
 The embedded reference is the source of truth for accepted request forms, options, and response fields.
 

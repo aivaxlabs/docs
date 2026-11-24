@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/docs/inference/response-rendering/raw-multi-turn-
 
 # Raw multi-turn example
 
-The example below shows the shape of a streamed response when server-side reasoning is visible to the client, [`tool_invocation_explanations`](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md) is enabled, and [`textual_blocks`](https://docs.aivax.net/docs/inference/response-rendering/chat-presentation-guidance.md#response-rendering-mode) is used to keep the response timeline textual. The exact tool result attributes can vary by renderer, but the important behavior is the ordering: reasoning, assistant answer fragments, tool activity, more reasoning, and the final answer can all belong to the same assistant turn.
+The example below shows the shape of a streamed response when server-side reasoning is visible to the client, [`tool_invocation_explanations`](https://docs.aivax.net/docs/inference/response-rendering/tool-explanations.md) is enabled, and [`textual_blocks`](https://docs.aivax.net/docs/inference/response-rendering/chat-presentation-guidance.md#response-rendering-mode) is used to keep the response timeline textual. Note the ordering: reasoning, assistant answer fragments, tool activity, more reasoning, and the final answer can all belong to the same assistant turn.
 
 ```json
 {

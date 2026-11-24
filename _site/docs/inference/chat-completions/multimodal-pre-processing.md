@@ -40,7 +40,7 @@ Use `multimodal_resolver` when the main model should receive a textual descripti
 | `videoEngine` | `InferenceLow`, `InferenceHigh` |
 | `fileEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
 
-`Inference` is accepted as an alias of `InferenceLow`. The engines work as follows:
+`Inference` is an alias of `InferenceLow`. The engines work as follows:
 
 - `InferenceLow` describes the content with a smaller, lower-cost multimodal model.
 - `InferenceHigh` describes the content with a larger multimodal model that is more accurate and costs more.
@@ -76,4 +76,4 @@ The `multimodal_preprocess` flags remain accepted for compatibility but are depr
 | `OtherFiles` | `fileEngine: "Ocr"` |
 | `All` | All of the above, with `fileEngine: "InferenceLow"` |
 
-Because one engine now covers every file type, `OtherFiles` alone also converts PDFs with OCR, and `File` alone also converts non-PDF files with OCR. Previously, the file types outside the selected flag were sent to the main model unchanged.
+Because one engine now covers every file type, `OtherFiles` alone also converts PDFs with OCR, and `File` alone also converts non-PDF files with OCR.

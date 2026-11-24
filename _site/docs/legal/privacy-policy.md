@@ -21,7 +21,7 @@ By using AIVAX services, the Account Manager acknowledges and agrees to the term
 - **Account Data:** Registration and administrative data, such as name, email, company, role, internal identifiers, preferences, and API key settings.
 - **Billing Data:** Data required for invoices, receipts, account balance, credits, payment events, and payment processing through third-party processors.
 - **Inference Data:** Inputs sent to models and resulting outputs. In the Terms of Use, this maps to Input Content and Generated Content.
-- **Semantic Training Data:** Anonymized eligible RAG and reranking content collected after the Account Manager enables semantic data collection, as described in [Data Collecting](https://docs.aivax.net/docs/data-sharing.md). Document indexing and storage are excluded.
+- **Semantic Training Data:** Anonymized eligible RAG and reranking content collected after the Account Manager enables semantic data collection, as described in [Data Sharing](https://docs.aivax.net/docs/data-sharing.md). Document indexing and storage are excluded.
 - **Conversations:** Stored sequences of inference interactions, including messages, metadata, model name, usage object, tools, resources, and error information when conversation logging is enabled.
 - **Technical Metadata:** Inference and access logs, IP addresses or forwarding information, user-agent strings, timestamps, latency, session identifiers, token usage, response codes, request identifiers, and security or abuse signals.
 - **Processor:** AIVAX when it processes data according to the Account Manager's instructions.
@@ -105,7 +105,7 @@ Storage quotas are plan-based. Current included storage is 30 MB for Free, 2 GB 
 
 ### 7. Optional Semantic Data Collection and Model Training
 
-By default, AIVAX does not use Account Manager Inference Data or Conversations to train proprietary AIVAX models. When an authorized Account Manager enables semantic data collection, AIVAX may use eligible anonymized RAG and reranking records generated while the setting is enabled for the purposes described in [Data Collecting](https://docs.aivax.net/docs/data-sharing.md). RAG document indexing and storage are not included and receive no program discount.
+By default, AIVAX does not use Account Manager Inference Data or Conversations to train proprietary AIVAX models. When an authorized Account Manager enables semantic data collection, AIVAX may use eligible anonymized RAG and reranking records generated while the setting is enabled for the purposes described in [Data Sharing](https://docs.aivax.net/docs/data-sharing.md). RAG document indexing and storage are not included and receive no program discount.
 
 Before storage, AIVAX anonymizes these records by removing the account relationship and excluding operational identifiers, document names, billing data, and collection timestamps. The account is consulted only to verify consent and apply the eligible discount. AIVAX does not retain an account-to-record mapping.
 
@@ -154,9 +154,9 @@ AIVAX uses third-party services for infrastructure, object storage, transactiona
 
 When selecting a model or enabling a tool, the Account Manager may cause content to be sent to the selected model provider, aggregator, or tool provider. AIVAX does not control third-party policies and recommends prior review.
 
-Data-handling classifications that AIVAX shows for a provider or model, including "zero data retention", reflect what the provider or aggregator declares. AIVAX does not audit, verify, or guarantee that third parties do not collect, retain, or use prompts, and is not responsible for a third party's failure to honor those declarations.
+AIVAX selects providers whose published terms meet the data-handling classifications it shows for each provider or model, including "zero data retention". Each third party handles data under its own terms, and AIVAX is not responsible for a third party's failure to comply with them.
 
-Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control. The suppliers state that they do not use prompts for training; this is the suppliers' commitment, which AIVAX does not verify or guarantee. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md#data-retention).
+Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control. According to their published terms, the suppliers do not use prompts for training. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md#data-retention).
 
 ---
 
@@ -177,7 +177,7 @@ Key measures include:
 - Balance, minimum-balance, and storage-quota checks before cost-incurring operations.
 - Operational logs and error reporting for troubleshooting and abuse prevention.
 - Separation between account-owned resources, such as collections, documents, conversations, memories, and shell files.
-- Secure credential configuration through application initialization parameters rather than hardcoded secrets.
+- Secure handling of service credentials.
 
 No security measure is absolute; AIVAX maintains a continuous improvement process.
 

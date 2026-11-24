@@ -56,8 +56,8 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Cura em JSON](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-healing.md)
 - [Respostas Estruturadas com Raciocínio e Ferramentas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/reasoning-and-tools.md)
 - [Respostas Apenas em JSON](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-only.md)
-- [Orientações para Apresentação de Chat](https://docs.aivax.net/pt-br/docs/inference/response-rendering/chat-presentation-guidance.md)
-- [Exemplo de múltiplas rodadas bruto](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
+- [Orientações para Apresentação no Chat](https://docs.aivax.net/pt-br/docs/inference/response-rendering/chat-presentation-guidance.md)
+- [Exemplo de múltiplas rodadas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
 - [Explicações das Ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md)
 - [Visão Geral dos Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/overview.md)
 - [Gerenciando Sessões do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md)
@@ -91,12 +91,12 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md)
 - [Resumo](https://docs.aivax.net/pt-br/docs/data-processing/summarization.md)
 - [Traduções](https://docs.aivax.net/pt-br/docs/data-processing/translations.md)
-- [Refinamento de Instrução](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md)
+- [Refinamento de Instruções](https://docs.aivax.net/pt-br/docs/data-processing/instruction-refinement.md)
 
 ## Ferramentas
 
 - [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md)
-- [Suporte para o Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
+- [Suporte ao Protocolo de Contexto do Modelo (MCP)](https://docs.aivax.net/pt-br/docs/tools/mcp.md)
 - [Funções de Protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md)
 - [Sandboxing de Shell](https://docs.aivax.net/pt-br/docs/tools/shell.md)
 
@@ -114,5 +114,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

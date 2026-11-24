@@ -1,12 +1,12 @@
 ---
-{title: Filtros Avançados,linkTitle: Filtros avançados,weight: 40,group: RAG and collections,aliases: [/docs/pt-br/filters/document-filters.html,/docs/pt-br/rag/document-filters.html],sourceHash: b32e504330dd7946}
+{title: Filtros Avançados,linkTitle: Filtros avançados,weight: 40,group: RAG and collections,aliases: [/docs/pt-br/filters/document-filters.html,/docs/pt-br/rag/document-filters.html],sourceHash: 169bd462ba0adc33}
 ---
 
 # Filtros Avançados
 
-Um filtro avançado, também chamado de filtro de documento, restringe uma busca RAG aos documentos que atendem a uma condição, como uma tag, um valor de metadado ou um intervalo de datas. Apenas os documentos que passam pelo filtro são classificados por similaridade semântica, portanto, os resultados nunca incluem documentos fora do filtro. Para um guia passo a passo orientado a tarefas, consulte [Como filtrar resultados RAG por metadados, tags e data](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
+Um filtro avançado, também chamado de filtro de documento, restringe uma busca RAG aos documentos que atendem a uma condição, como uma tag, um valor de metadado ou um intervalo de datas. Apenas os documentos que passam pelo filtro são classificados por similaridade semântica, portanto, os resultados nunca incluem documentos fora do filtro. Para um guia passo a passo focado em tarefas, consulte [Como filtrar resultados RAG por metadados, tags e data](https://aivax.net/blog/filter-rag-results-by-metadata-tags-date/).
 
-Os filtros são avaliados **antes** que os termos de busca sejam incorporados (embedded). Quando nenhum documento nas coleções solicitadas corresponde ao filtro, a solicitação retorna um resultado vazio sem gerar embeddings ou cobrar pela busca.
+Os filtros são aplicados **antes** que os termos da busca sejam incorporados (embedded). Quando nenhum documento corresponde ao filtro, a solicitação retorna um resultado vazio sem custo.
 
 Alguns exemplos de filtros:
 
@@ -18,16 +18,16 @@ metadata.department = "finance" and createdAt >= now-30d
 
 ## Anatomia de um Filtro
 
-Um filtro é uma ou mais **condições** unidas por `and`, `or` e `not`. Cada condição tem três partes:
+Um filtro é composto por uma ou mais **condições** unidas por `and`, `or` e `not`. Cada condição tem três partes:
 
 ```text
 metadata.pages   >   10
 └── campo ──┘   └op┘ └valor┘
 ```
 
-- **Campo** — o que observar: `name`, `content`, `reference`, `tags`, `createdAt`, `updatedAt` ou `metadata.<key>`. Consulte [Campos](#campos).
-- **Operador** — como comparar: `=`, `>`, `contains`, `in`, `has`, `exists`, entre outros. Consulte [Operadores](#operadores).
-- **Valor** — um literal para comparação: uma string entre aspas, um número, `true`, `false`, `null`, uma data ou uma lista entre parênteses. Consulte [Valores](#valores).
+- **Campo** — o que analisar: `name`, `content`, `reference`, `tags`, `createdAt`, `updatedAt` ou `metadata.<key>`. Consulte [Campos](#fields).
+- **Operador** — como comparar: `=`, `>`, `contains`, `in`, `has`, `exists` e outros. Consulte [Operadores](#operators).
+- **Valor** — um literal para comparação: uma string entre aspas, um número, `true`, `false`, `null`, uma data ou uma lista entre parênteses. Consulte [Valores](#values).
 
 O valor deve ser sempre um literal. Funções, aritmética, conversões de tipo e comparações entre dois campos não são suportadas. Palavras-chave, operadores e nomes de campos não diferenciam maiúsculas de minúsculas: `AND`, `And` e `and` são equivalentes.
 
@@ -37,17 +37,17 @@ O valor deve ser sempre um literal. Funções, aritmética, conversões de tipo 
 | --- | --- | --- |
 | `name` | texto | O nome do documento (`docid` em importações JSONL). |
 | `content` | texto | O texto do documento indexado. |
-| `reference` | texto | A referência do documento que agrupa documentos relacionados, como pedaços de uma mesma fonte. Documentos sem referência nunca correspondem a uma condição positiva sobre ela. |
+| `reference` | texto | A referência do documento que agrupa documentos relacionados, como trechos de uma única fonte. Documentos sem referência nunca correspondem a uma condição positiva sobre ela. |
 | `tags` | lista de texto | As tags do documento (`__tags`). |
 | `createdAt` | data e hora | Quando o documento foi criado. |
 | `updatedAt` | data e hora | Quando o documento foi atualizado pela última vez. |
 | `metadata.<key>` | valor JSON | Um valor dentro dos metadados do documento (`__meta`). |
 
-Consulte [Documentos](documents.md#anatomia-de-um-documento) para saber como esses campos são definidos.
+Consulte [Documentos](documents.md#anatomy-of-a-document) para saber como esses campos são definidos.
 
 ## Operadores
 
-Cada operador funciona apenas com campos e tipos de valores específicos. Qualquer outra combinação, como `tags = "x"` ou `name > "a"`, é rejeitada.
+Cada operador funciona apenas com campos e tipos de valores específicos. Qualquer outra combinação, como `tags = "x"` ou `name > "a"`, será rejeitada.
 
 ### Igualdade
 
@@ -56,7 +56,7 @@ Cada operador funciona apenas com campos e tipos de valores específicos. Qualqu
 | `=` | Igual a | `name`, `content`, `reference`, `createdAt`, `updatedAt`, `metadata.<key>` | `name = "refund-policy"` |
 | `!=` | Diferente de; exatamente `not field = value` | Igual ao `=` | `metadata.lang != "en"` |
 
-Para `metadata.<key>`, o valor pode ser texto, número, `true`, `false` ou `null`. A comparação de texto ignora maiúsculas/minúsculas e acentos; consulte [Strings](#strings).
+Para `metadata.<key>`, o valor pode ser texto, um número, `true`, `false` ou `null`. A comparação de texto ignora maiúsculas/minúsculas e acentos; consulte [Strings](#strings).
 
 ### Ordenação
 
@@ -64,17 +64,17 @@ Para `metadata.<key>`, o valor pode ser texto, número, `true`, `false` ou `null
 | --- | --- | --- | --- |
 | `>` `>=` `<` `<=` | Maior ou menor que | `createdAt`, `updatedAt`, `metadata.<key>` numérico | `metadata.pages > 10` |
 
-A ordenação funciona com datas para `createdAt` e `updatedAt`, e apenas com **números** para metadados. Datas ou textos armazenados em metadados não podem ser ordenados; consulte [Metadados](#metadados).
+A ordenação funciona com datas para `createdAt` e `updatedAt`, e apenas com **números** para metadados. Datas ou textos armazenados nos metadados não podem ser ordenados; consulte [Metadados](#metadata).
 
 ### Texto
 
 | Operador | Significado | Campos | Exemplo |
 | --- | --- | --- | --- |
-| `contains` | Inclui o texto; no mínimo 3 caracteres | `name`, `content`, `reference`, texto `metadata.<key>` | `content contains "late fee"` |
+| `contains` | Inclui o texto; pelo menos 3 caracteres | `name`, `content`, `reference`, texto `metadata.<key>` | `content contains "late fee"` |
 | `startswith` | Começa com o texto | Mesmo | `name startswith "contract-"` |
 | `endswith` | Termina com o texto | Mesmo | `name endswith ".pdf"` |
 
-Esses operadores correspondem literalmente, sem curingas: `%` e `_` correspondem apenas a si mesmos. Eles não dividem palavras nem correspondem a sinônimos. Use os termos de busca para significado e o filtro para restrições exatas.
+Esses operadores correspondem literalmente, sem curingas ou sinônimos. Use os termos da busca para significado e o filtro para restrições exatas.
 
 ### Listas
 
@@ -91,15 +91,15 @@ Esses operadores correspondem literalmente, sem curingas: `%` e `_` correspondem
 | --- | --- | --- | --- |
 | `exists` | A chave de metadado está presente, mesmo quando seu valor é `null` | `metadata.<key>` | `metadata.reviewer exists` |
 
-`exists` não recebe valor. Para exigir um valor não nulo, combine-o com `!=`: `metadata.reviewer exists and metadata.reviewer != null`.
+`exists` não aceita valor. Para exigir um valor não nulo, combine-o com `!=`: `metadata.reviewer exists and metadata.reviewer != null`.
 
 ## Valores
 
 ### Strings
 
-Strings usam aspas duplas ou simples. Dentro de uma string, escape a mesma aspa com uma barra invertida: `"say \"hi\""`, `'it\'s'`. Os escapes suportados são `\"`, `\'`, `\\`, `\/`, `\n`, `\r`, `\t` e `\uXXXX`.
+Strings usam aspas duplas ou simples. Escape uma aspa dentro de uma string com uma barra invertida: `"say \"hi\""`, `'it\'s'`.
 
-As comparações de texto ignoram maiúsculas/minúsculas e acentos: `name = "relatorio"` corresponde a um documento chamado `Relatório`. `=` e `in` também ignoram espaços finais: `"report "` corresponde a `"report"`.
+As comparações de texto ignoram maiúsculas/minúsculas e acentos: `name = "relatorio"` corresponde a um documento chamado `Relatório`.
 
 ### Números
 
@@ -123,7 +123,7 @@ createdAt >= "2026-09-01T03:00:00Z"
 ```
 
 - Uma data sem hora significa meia-noite.
-- Um valor sem `Z` ou deslocamento é interpretado no fuso horário do serviço AIVAX, America/Sao_Paulo (UTC−03:00). Adicione `Z` ou um deslocamento quando precisar de um instante exato.
+- Adicione `Z` ou um deslocamento quando precisar de um instante exato; um valor sem isso é lido no fuso horário do serviço AIVAX.
 - Outros formatos, como `15/06/2025`, são rejeitados.
 
 **Tempos relativos** usam `now`, opcionalmente seguido por `+` ou `-` e uma quantidade com uma unidade, sem aspas:
@@ -134,8 +134,8 @@ createdAt >= "2026-09-01T03:00:00Z"
 | `h` | horas |
 | `d` | dias |
 | `w` | semanas |
-| `mo` | meses calendarizados |
-| `y` | anos calendarizados |
+| `mo` | meses civis |
+| `y` | anos civis |
 
 ```text
 createdAt >= now-7d
@@ -170,7 +170,7 @@ metadata."file-path" startswith "/contracts/2026/"
 metadata."a.b" = 1
 ```
 
-O último exemplo lê uma única chave chamada `a.b`, não um caminho aninhado. Índices de array não são suportados; use `has` para verificar se um array contém um valor.
+O último exemplo lê uma chave chamada `a.b`, não um caminho aninhado. Índices de array não são suportados; use `has` para verificar se um array contém um valor.
 
 **Tipos nunca são convertidos.** O tipo do literal seleciona quais valores armazenados podem corresponder:
 
@@ -183,9 +183,9 @@ O último exemplo lê uma única chave chamada `a.b`, não um caminho aninhado. 
 
 Portanto, `metadata.year = 2026` não corresponde a `{"year": "2026"}`, e `metadata.public = true` não corresponde a `{"public": "true"}`. Se seus dados misturarem tipos, liste ambos: `metadata.year in (2026, "2026")`.
 
-Operadores de ordenação funcionam apenas com números nos metadados. Datas armazenadas em metadados não podem ser comparadas como datas; use `createdAt` e `updatedAt`, ou armazene um número classificável, como um timestamp Unix ou `20260915`.
+Operadores de ordenação funcionam apenas com números nos metadados. Datas armazenadas nos metadados não podem ser comparadas como datas; use `createdAt` e `updatedAt`, ou armazene um número classificável, como um timestamp Unix ou `20260915`.
 
-Uma chave ausente nunca corresponde a uma condição positiva, então `metadata.lang != "en"` também corresponde a documentos sem `lang`. Para excluí-los, adicione `metadata.lang exists`.
+Uma chave ausente nunca corresponde a uma condição positiva, portanto, `metadata.lang != "en"` também corresponde a documentos sem `lang`. Para excluí-los, adicione `metadata.lang exists`.
 
 Armazene metadados com tipos consistentes por chave e prefira chaves compostas por letras ASCII, dígitos, `-` e `_`.
 
@@ -198,7 +198,7 @@ Armazene metadados com tipos consistentes por chave e prefira chaves compostas p
 | Excluir rascunhos | `not tags has "draft"` |
 | Um documento específico | `name = "refund-policy"` |
 | Documentos de uma mesma família | `name startswith "manual-v2-"` |
-| Todos os pedaços de uma fonte | `reference = "manual-v2"` |
+| Todos os trechos de uma fonte | `reference = "manual-v2"` |
 | Conteúdo mencionando um termo | `content contains "late fee"` |
 | Criados nos últimos 30 dias | `createdAt >= now-30d` |
 | Atualizados em setembro de 2026 | `updatedAt >= "2026-09-01" and updatedAt < "2026-10-01"` |
@@ -220,16 +220,16 @@ Armazene metadados com tipos consistentes por chave e prefira chaves compostas p
 | `tags = "x"` | `tags has "x"` |
 | `metadata.price > "100"` | `metadata.price > 100`, com o preço armazenado como número |
 | `createdAt >= "15/06/2025"` | `createdAt >= "2025-06-15"` |
-| `metadata.date >= "2025-06-15"` | `createdAt >= "2025-06-15"`, ou um valor numérico de metadado |
+| `metadata.date >= "2025-06-15"` | `createdAt >= "2025-06-15"`, ou um valor de metadado numérico |
 | `content contains "ai"` | Um termo com pelo menos 3 caracteres |
 | `"filters": [ ... ]` | `"filter": [ ... ]` |
 
 ## Onde os Filtros São Suportados
 
-Envie o filtro no campo `filter` destes endpoints:
+Envie o filtro no campo `filter` desses endpoints:
 
 - [Consultar coleções](semantic-search.md#query-collections), [Encontrar documentos semelhantes](semantic-search.md#find-similar-documents) e [Navegar por documentos](semantic-search.md#browse-documents)
-- Geração de respostas (consulte a referência de endpoint abaixo)
+- Geração de respostas (consulte a referência do endpoint abaixo)
 
 O campo aceita uma string ou um array de strings. Os itens do array são combinados com `and`:
 
@@ -259,14 +259,14 @@ Os endpoints de busca também aceitam um filtro para uma única coleção, combi
 
 Um campo ausente ou `null` significa sem filtro. O nome do campo é `filter`; outros nomes, como `filters`, são ignorados e a busca é executada sem filtro.
 
-Modelos também podem enviar uma string de filtro no argumento opcional `filter` destas ferramentas:
+Modelos também podem enviar uma string de filtro no argumento opcional `filter` dessas ferramentas:
 
 - A ferramenta de busca do [Collections MCP](../mcp-utilities/collections-mcp.md#generated-tools).
 - A ferramenta `query` de gateways de IA que usam a estratégia de consulta `QueryFunction` [pipeline de processamento](../inference/chat-completions/processing-pipeline.md#rag).
 
-A [`memory_search` tool](../tools/builtin-tools.md#search-memories) também aceita uma string de filtro, mas requer exatamente um de `query` ou `filter`, não ambos. Seu modo apenas com filtro retorna até 10 memórias correspondentes para o usuário atual, mais recentes primeiro, sem embeddings de consulta.
+A [`memory_search` tool](../tools/builtin-tools.md#search-memories) também aceita uma string de filtro; consulte sua referência para saber como ela se combina com `query`.
 
-A busca RAG automática do gateway, que pesquisa antes da chamada do modelo, não aplica filtros. Um filtro inválido em uma chamada de ferramenta é retornado ao modelo como um erro de ferramenta com a mesma mensagem da API.
+O RAG automático do gateway, que busca antes da chamada do modelo, não aplica filtros. Um filtro inválido em uma chamada de ferramenta é retornado ao modelo como um erro de ferramenta.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Query%20collections&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
@@ -274,7 +274,7 @@ A busca RAG automática do gateway, que pesquisa antes da chamada do modelo, nã
 
 ## Limites
 
-Estes limites aplicam-se a cada filtro, incluindo filtros usados pela busca de memória e pelo Collections MCP.
+Estes limites se aplicam a cada filtro, incluindo aqueles usados pela busca de memória e pelo Collections MCP.
 
 | Limite | Valor |
 | --- | --- |
@@ -287,9 +287,9 @@ Estes limites aplicam-se a cada filtro, incluindo filtros usados pela busca de m
 | Comprimento mínimo de `contains` | 3 caracteres |
 | Tempo de execução | 10 segundos |
 
-Condições em `content`, `endswith` e tags examinam todos os documentos nas coleções solicitadas, portanto, levam mais tempo em grandes coleções. Condições de metadado usam um índice de valores de metadado e permanecem rápidas em grandes coleções. Se um filtro exceder o limite de tempo, a solicitação falhará e pedirá condições mais seletivas. Para manter os filtros rápidos:
+Condições em `content`, `endswith` e tags levam mais tempo em grandes coleções. Se um filtro exceder o limite de tempo, a solicitação falhará e solicitará condições mais seletivas. Para manter os filtros rápidos:
 
-- Prefira condições em `name` (`=`, `in`, `startswith`).
+- Prefira condições em `name` e metadados.
 - Divida corpora muito grandes em coleções menores.
 - Reserve `content contains` para coleções onde ele permanece rápido.
 

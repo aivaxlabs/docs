@@ -64,7 +64,7 @@ A good chunk includes a title or source heading, the immediate section context, 
 
 ### Document size
 
-Very small documents, below about 32 tokens, are accepted but may not be retrieved reliably. Documents above about 4,096 tokens are accepted and indexed, but they record a warning in the account logs because a single vector represents their whole text less precisely. Text far beyond that size is truncated for embedding. Split large documents instead of relying on truncation.
+Very small documents, below about 32 tokens, may not be retrieved reliably. Documents above about 4,096 tokens are indexed, but a single vector represents their text less precisely, and text far beyond that size is truncated. Split large documents instead.
 
 ## Import documents
 
@@ -78,19 +78,17 @@ AIVAX supports several ways to add documents. All of them queue new or changed d
 
 ### Updates and reindexing
 
-Documents are matched by name. When a document is created, it is queued for indexing. When its contents change, it is queued again and its vectors are regenerated. Unchanged documents are skipped.
+Documents are matched by name. A new document is queued for indexing; when its contents change, it is queued again and its vectors are regenerated. Unchanged documents are skipped.
 
-What you can update without changing the contents depends on the import method:
-
-- **Single-document update:** changes the reference, tags, or metadata without reindexing. Fields you omit keep their current values.
-- **Batch import:** updates metadata alone without reindexing. The reference and tags are updated only together with changed contents, so a line that changes only the reference or tags is skipped.
+- **Single-document update:** changes the reference, tags, or metadata without reindexing. Omitted fields keep their current values.
+- **Batch import:** updates metadata alone without reindexing. The reference and tags are updated together with changed contents, replaced by the values sent.
 
 > [!WARNING]
 > Indexing incurs cost based on document text tokens when documents are created or when their contents change.
 
 ### Batch import
 
-Use the **Index Documents (JSONL WebSocket)** endpoint for batch imports. It replaces the multipart **Index Documents (JSONL)** upload, which remains available only for existing integrations. The WebSocket import streams documents in blocks, reports progress as it goes, accepts 10× the per-request document limit of the multipart upload, and lets you resume from the last committed line after a disconnection.
+Use the **Index Documents (JSONL WebSocket)** endpoint for batch imports. It replaces the multipart **Index Documents (JSONL)** upload, which remains available only for existing integrations. The WebSocket import reports progress as it goes, accepts 10× the per-request document limit of the multipart upload, and lets you resume from the last committed line after a disconnection.
 
 Each JSONL line represents one document:
 
@@ -105,13 +103,11 @@ Each JSONL line represents one document:
 The import works as follows:
 
 1. Open a WebSocket to the endpoint. Browsers can authenticate with the `api-key` query parameter. Add `insert-mode=sync` to delete collection documents whose names were not sent.
-2. Send UTF-8 text messages with complete JSONL lines separated by `\n`. A message can contain one or many lines. Each message must arrive within 30 seconds of the previous one.
-3. AIVAX commits the lines in blocks. For each block it checks the account balance, storage quota, and collection access, saves the documents, queues them for indexing, and sends a `progress` message with the number of committed lines.
+2. Send text messages with complete JSONL lines separated by `\n`. A message can contain one or many lines; keep the connection active between messages.
+3. AIVAX commits the lines in blocks, queues the documents for indexing, and sends a `progress` message with the number of committed lines.
 4. Send a line containing only `END`. AIVAX saves the remaining lines, applies `insert-mode=sync` when requested, and sends a `completed` message before closing the connection.
 
-If the connection closes, times out, or fails before `END`, uncommitted lines are discarded, while committed blocks remain queued. The `error` message reports the committed line count, so you can resend only the remaining lines. Only one import runs per collection at a time; a second import waits up to 30 seconds and then fails with `409 Conflict`.
-
-When a line changes the text of an existing document, its reference and tags are replaced by the values sent; an omitted `__meta` keeps the existing metadata.
+If the connection closes before `END`, uncommitted lines are discarded, while committed blocks remain queued. The `error` message reports the committed line count, so you can resend only the remaining lines. Only one import runs per collection at a time; a concurrent import fails with `409 Conflict`. An omitted `__meta` keeps the existing metadata.
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Index%20Documents%20(JSONL%20WebSocket))
 
@@ -126,13 +122,11 @@ In the Console:
 1. Open the target collection and choose **Import from files**.
 2. Select one or more source files.
 3. Optionally provide processing context. The same context is applied to every selected file.
-4. Confirm the import. The files are uploaded sequentially, and a separate job is created for each file after all of its chunks have reached AIVAX.
+4. Confirm the import. AIVAX creates one job per file.
 5. Follow the jobs under **Batch > Media Processing**.
 6. After each job completes, review the generated documents and wait for indexing before testing [Search](https://docs.aivax.net/docs/rag/semantic-search.md).
 
-A job can be `queued`, `processing`, `completed`, `failed`, or `cancelled`. Failed or cancelled jobs can be retried while their uploaded data is still available.
-
-If no job appears, the upload did not reach its completion step. Retry the upload and check the error shown. File names are preserved during upload, including accented letters and non-Latin scripts.
+A job can be `queued`, `processing`, `completed`, `failed`, or `cancelled`. Failed or cancelled jobs can be retried. If no job appears, retry the upload and check the error shown.
 
 | Source group | Processing behavior |
 | --- | --- |

@@ -131,7 +131,7 @@ Each hook receives a worker-compatible JSON envelope:
 }
 ```
 
-The hook URL must be an absolute HTTP or HTTPS URL without embedded credentials and must not resolve to localhost, loopback, private, link-local, or other blocked local addresses. When the account has a hook key, AIVAX also sends `X-Request-Nonce`; validate it before trusting the payload. Hook requests use `POST` with `Content-Type: application/json`.
+The hook URL must be a public HTTP or HTTPS URL without embedded credentials. When the account has a hook key, AIVAX also sends `X-Request-Nonce`; validate it before trusting the payload. Hook requests use `POST` with `Content-Type: application/json`.
 
 Hook responses follow the [worker](https://docs.aivax.net/docs/inference/workers.md) convention:
 
@@ -139,20 +139,20 @@ Hook responses follow the [worker](https://docs.aivax.net/docs/inference/workers
 - A non-`2xx` response or an HTTP request failure interrupts the run immediately.
 - The response body does not select another action.
 
-An interrupted run is stored as `failed` and emits a terminal result with `reason: "validation_hook_interrupted"`. The run's `result.hooks` array records an audit entry for each hook call, with the event, URL, timestamp, status or error, whether execution continued, and up to 4,000 characters of the response body.
+An interrupted run is stored as `failed` and emits a terminal result with `reason: "validation_hook_interrupted"`. The run's `result.hooks` array records an audit entry for each hook call, with the event, URL, timestamp, status or error, and whether execution continued.
 
 ### Run and inspect a test
 
 Select **Run test** to queue an execution. Runs can be `pending`, `running`, `succeeded`, `failed`, or `cancelled`. Both the rate of new runs and account-level concurrency depend on the current plan. See [Pricing and limits](#pricing-and-limits) for current values.
 
-Manual runs, scheduled runs, and direct API evaluations share one new-run quota across the account's API keys. A persisted run counts when it is queued and does not count again when execution begins. Conversation turns do not consume additional run units, although applicable inference limits still apply. A manual run request above the quota returns HTTP 429 without creating a run; wait for the rate-limit window to clear before retrying.
+Manual runs, scheduled runs, and direct API evaluations share one new-run quota across the account's API keys. Each run counts once, when it is queued; conversation turns do not consume additional run units. A manual run request above the quota returns HTTP 429 without creating a run; wait for the rate-limit window to clear before retrying.
 
-A run processes its conversation turn by turn, while eligible runs from the same account can execute concurrently. Before every turn, AIVAX checks that the account can continue operating. A run can fail if the balance is exhausted or inference cannot continue. You can cancel a pending or running run from the dashboard.
+A run can fail if the balance is exhausted or inference cannot continue. You can cancel a pending or running run from the dashboard.
 
 The run inspector retains:
 
 - simulated-user, assistant, and judge messages in chronological order;
-- a precise timestamp for every retained message;
+- a timestamp for every message;
 - prompt, cached prompt, and completion token usage per message;
 - every judge opinion, including its reasoning, score, state, and trajectory values;
 - the final evaluation result, failure information, and total cost charged to the run.
@@ -163,7 +163,7 @@ Use the judge opinions to identify the turn where the conversation improved, bec
 
 A test can run automatically from a standard five-field cron expression. The minimum supported interval is five minutes. For example, `*/15 * * * *` runs every 15 minutes.
 
-If the account's new-run quota is exhausted, a due scheduled test waits for a later scheduling check without creating a run. Scheduling does not bypass the quota or reserve capacity separately from manual runs and direct evaluations.
+Scheduled runs use the same new-run quota as manual runs and direct evaluations. If the quota is exhausted when a test is due, no run is created.
 
 Disable scheduling when you want to preserve the test definition without creating new scheduled runs. Manual runs remain available from the test page.
 
@@ -208,7 +208,7 @@ Tuning guidance:
 
 ## Pricing and limits
 
-Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies. In usage records, these charges appear under `@aivax/agentic-tests:user-<profile>` and `@aivax/agentic-tests:judge-<profile>`, for example `@aivax/agentic-tests:judge-medium`.
+Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies.
 
 | Description | Pricing |
 | --- | ---: |
@@ -220,9 +220,7 @@ Each test includes the selected model or AI Gateway's inference charges, plus si
 | High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
 | High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
 
-New runs per minute and concurrent runs per account depend on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). These per-minute limits are shared across API keys belonging to the same account. They are independent of subscription allowances and billing. Manual runs, scheduled runs, and direct evaluations share one new-run quota. A persisted run consumes its unit when it is queued, not again when execution starts; individual conversation turns do not consume additional run units. Excess manual run requests and direct evaluations return `429 Too Many Requests`. A scheduled test without available quota waits for a later scheduling check rather than creating an extra run. Existing runs remain subject to their separate concurrency and inference limits.
-
-Pace requests across the account and use bounded retries with backoff after a 429. An immediate retry still encounters the active rate-limit window. Ultimate has no plan-imposed limit on new runs, but other applicable limits remain in effect.
+New runs per minute and concurrent runs per account depend on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). Both are shared across the account's API keys. Manual runs and direct evaluations above the new-run quota return `429 Too Many Requests`; use bounded retries with backoff. Ultimate has no plan-imposed limit on new runs.
 
 Each test accepts up to 16 `resources` and 16 `hooks`.
 
@@ -232,7 +230,7 @@ Use the direct evaluation endpoint when an application needs to run an ephemeral
 
 Authenticate with a private AIVAX API key, send `Accept: text/event-stream`, and keep the key on a trusted backend. Do not expose a private key in browser code or a distributed application bundle.
 
-Each direct evaluation consumes one unit from the same account quota as persisted runs. If that quota is exceeded, the request returns HTTP 429 before the SSE stream opens. Check the HTTP status before processing events, and use bounded retries with backoff. See [Pricing and limits](#pricing-and-limits).
+Each direct evaluation consumes one unit from the same new-run quota as persisted runs. If the quota is exceeded, the request returns HTTP 429 before the SSE stream opens, so check the HTTP status before processing events. See [Pricing and limits](#pricing-and-limits).
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Evaluate%20Agentic%20Test)
 
@@ -383,7 +381,7 @@ Route messages by `event.type` and concatenate streamed content chunks in order.
   }
   ```
 
-- **`chat.validation.end`** — Reports the final outcome and closes the evaluation. The legacy event name is preserved for compatibility. `score` is included when the final outcome follows a judge evaluation, but may be absent when the turn budget is exhausted.
+- **`chat.validation.end`** — Reports the final outcome and closes the evaluation. `score` is included when the final outcome follows a judge evaluation, but may be absent when the turn budget is exhausted.
 
   ```json
   {

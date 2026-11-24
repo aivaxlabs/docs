@@ -61,17 +61,17 @@ AIVAX matches the assistant messages you send back with its stored turns in this
 2. The IDs of the tool calls it carries, when the turn also requested tools from your client.
 3. The text of the message, within the same `conversation_token`.
 
-Matching by `id` is the most reliable. Matching by text is a fallback for clients that discard the `id`, and it can fail without an error, for example when the text was changed or when two answers in the same conversation have the same text. When no match is found, the message is used exactly as you sent it.
+Matching by `id` is the most reliable. Matching by text is a fallback for clients that discard the `id`. When no match is found, the message is used exactly as you sent it.
 
 ## Client requirements
 
 - **Use one token per conversation.** Reusing a token across different conversations, users, or branches can restore tool results from another conversation. Generate a new token when a new conversation starts, and do not use values that users can guess or choose.
 - **Do not share tokens between end users.** The token is not a credential, but anyone who can call your account with it can continue that conversation's stored context.
 - **Store and resend the message `id`.** Save the `aivx_...` ID of every assistant message you receive and send it back as the `id` of that message in later requests. This is the recommended way to restore a turn, and it keeps working when the text alone cannot identify it.
-- **Send back the exact content AIVAX returned.** Keep the full text of each assistant message as you received it, including the text the model wrote before calling tools, joined in a single assistant message. Do not split it into several messages, drop parts of it, or rewrite, translate, or summarize it. Matching by text ignores whitespace only. When `rendering_mode` is `textual_blocks`, the content mixes reasoning and answer blocks, so only the `id` can identify the turn.
+- **Send back the exact content AIVAX returned.** Keep the full text of each assistant message as you received it, in a single assistant message. Do not split, rewrite, translate, or summarize it. When `rendering_mode` is `textual_blocks`, only the `id` can identify the turn.
 - **Preserve tool call IDs.** When a response requests tools from your client, send back the same `tool_calls[].id` values and answer each one with a `tool` message.
-- **Handle expired state.** The server-side state of a turn expires after one hour without use. After that, or when it cannot be found, the conversation continues normally, but the model no longer sees the results of those earlier server-side tools.
-- **Do not resend restored tools yourself.** You do not need to rebuild server-side tool calls or results. If your history already contains them with the same IDs, AIVAX does not add them again.
+- **Handle expired state.** The server-side state of a turn expires after one hour without use. After that, the conversation continues normally, but the model no longer sees the results of those earlier server-side tools.
+- **Do not rebuild server-side tool calls.** AIVAX restores them for you.
 
 `idempotency_key` is a deprecated alias of `conversation_token`. It still works, but new integrations should use `conversation_token`. When both are sent, they must have the same value; otherwise the request fails with `400 Bad Request`.
 

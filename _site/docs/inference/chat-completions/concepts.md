@@ -72,25 +72,21 @@ Set `metadata` to attach string key/value information to the inference request. 
 
 ## Response and conversation records
 
-The standard `/v1/chat/completions` response envelope includes `generation_context`. Its `generated_usage` entries contain `sku`, `amount`, `unit_price`, `quantity`, and `description`. Set [`json_only: true`](https://docs.aivax.net/docs/inference/structured-responses/json-only.md) to return only the final JSON without this envelope.
+The standard `/v1/chat/completions` response envelope includes `generation_context`, which lists the usage billed for the request. Set [`json_only: true`](https://docs.aivax.net/docs/inference/structured-responses/json-only.md) to return only the final JSON without this envelope.
 
 `usage` reports `prompt_tokens`, `completion_tokens`, and `total_tokens`. `prompt_tokens` counts only uncached input; cached input is reported separately in `prompt_tokens_details.cached_tokens`. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
 
 Responses for integrated models also include `provider`, the tag of the provider that served the request; see [Provider in responses](https://docs.aivax.net/docs/inference/routing/setup-routing.md#provider-in-responses).
 
-Set `allow_logging: false` in a `/v1/chat/completions` request to keep that request out of the account conversation logs. It defaults to `true`, and it cannot enable logging when conversation logging is disabled for the account. Usage and billing records are still created.
+Set `allow_logging: false` in a `/v1/chat/completions` request to keep that request out of the account conversation logs. It defaults to `true` and cannot enable logging when conversation logging is disabled for the account.
 
-When conversation logging is enabled, the stored record includes its ID, origin, model name, request ID, response schema, tools and tool input schemas, usage, linked resources, created and updated timestamps, token count, external user ID, error message, messages, and metadata. Gateway and API key context is available through the linked resources.
-
-Use `conversation_token` and `metadata` to correlate these records with your own workflow.
+When conversation logging is enabled, the stored record includes the messages, tools, usage, model, gateway and API key context, and `metadata`. Use `conversation_token` and `metadata` to correlate these records with your own workflow.
 
 ## Pricing
 
-Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs), covering input, cached input, and output usage; its PU price varies with the model and provider used. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it. In usage records, moderation charges appear under the model `@aivax/layered-moderation`.
+Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs); its PU price varies with the model and provider used. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it.
 
 | Description | Pricing |
 | --- | ---: |
 | AI model and AI Gateway inference | Selected model and provider rates |
 | Input moderation | Variable price per PU; separate from the main inference charge |
-
-One moderation PU equals one output token of the moderation model, and input tokens count in proportion to their price. For example, with a model priced at $0.10/M input and $0.40/M output tokens, a check using 3,000 input and 50 output tokens consumes 800 PUs (3,000 × 0.25 + 50), about $0.00032 before the plan multiplier.

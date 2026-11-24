@@ -11,29 +11,29 @@ Um worker pode:
 - reescrever o contexto;
 - adicionar instruções ou ferramentas;
 - substituir o resultado de uma ferramenta do lado do servidor, antes ou depois da execução da ferramenta;
-- receber uma notificação quando uma inferência termina.
+- receber uma notificação quando uma inferência for concluída.
 
 Use um worker quando a decisão depender dos seus próprios sistemas. Casos típicos:
 
 - verificações de assinatura;
 - enriquecimento de CRM;
-- política específica do inquilino (tenant);
+- política específica para inquilino (tenant);
 - registro de auditoria;
 - bloqueio dinâmico de ferramentas;
 - substituição do resultado de uma ferramenta visível pelo modelo por dados de um sistema interno.
 
-Os workers executam no caminho de toda inferência que eles manipulam. Cada evento adiciona uma solicitação HTTP antes que o gateway possa continuar, então mantenha o endpoint rápido e previsível. A exceção é `message.completed`, que é enviado após a resposta e não a atrasa.
+Os workers executam no caminho de cada inferência que manipulam. Cada evento adiciona uma solicitação HTTP antes que o gateway possa continuar, então mantenha o endpoint rápido e previsível. A exceção é `message.completed`, que é enviada após a resposta e não a atrasa.
 
-| Evento | Quando é acionado | Pode alterar a solicitação |
+| Evento | Quando dispara | Pode alterar a solicitação |
 |---|---|---|
 | [`message.received`](#messagereceived) | Antes da chamada ao modelo. | Sim |
 | [`tool.called`](#toolcalled) | Antes de uma ferramenta do lado do servidor ser executada. | Sim |
 | [`tool.fetched`](#toolfetched) | Após uma ferramenta do lado do servidor retornar seu resultado. | Sim |
-| [`message.completed`](#messagecompleted) | Após o término da inferência, com ou sem erros. | Não |
+| [`message.completed`](#messagecompleted) | Após a conclusão da inferência, com ou sem erros. | Não |
 
 ## Formato da solicitação
 
-A solicitação é o evento que o AIVAX envia ao seu worker. Ela chega quando um evento de worker configurado é acionado, antes que o gateway continue.
+A solicitação é o evento que o AIVAX envia ao seu worker. Ela chega quando um evento de worker configurado dispara, antes que o gateway continue.
 
 O AIVAX envia este `POST` para a URL do worker do gateway:
 
@@ -61,10 +61,10 @@ O AIVAX envia este `POST` para a URL do worker do gateway:
 Leia o corpo antes de agir:
 
 1. Valide `gatewayId` quando um endpoint atende mais de um gateway.
-2. Ramifique com base em `event.name`.
+2. Faça o branching com base em `event.name`.
 3. Leia `event.data`. O formato exato depende do evento.
 
-Trate o JSON acima como o envelope. Não assuma que todos os eventos possuem os mesmos campos `data`.
+O JSON acima é o envelope comum; os campos `data` diferem conforme o evento.
 
 ## Autenticação
 
@@ -77,13 +77,13 @@ Trate estes campos como entrada não confiável:
 - `externalUserId`
 - `metadata`
 - mensagens
-- argumentos de ferramentas
+- argumentos da ferramenta
 
 ## Comportamento da resposta
 
-A resposta informa ao AIVAX se deve continuar, parar ou aplicar uma ação. Escolha-a intencionalmente: um enriquecimento opcional pode falhar abertamente (fail open), e uma verificação de autorização ou conformidade deve falhar fechadamente (fail closed).
+A resposta informa ao AIVAX se deve continuar, parar ou aplicar uma ação. Escolha-a intencionalmente: o enriquecimento opcional pode falhar abrindo (fail open), e uma verificação de autorização ou conformidade deve falhar fechando (fail closed).
 
-Após o AIVAX enviar a solicitação, ele trata sua resposta da seguinte forma:
+Após o AIVAX enviar a solicitação, ele processa sua resposta da seguinte maneira:
 
 | Resposta | Comportamento |
 |---|---|
@@ -91,7 +91,7 @@ Após o AIVAX enviar a solicitação, ele trata sua resposta da seguinte forma:
 | `2xx` sem `application/json+worker-action` | Continua normalmente. |
 | Resposta não OK sem `application/json+worker-action` | Interrompe o evento. |
 
-Se a solicitação do worker falhar com uma exceção de solicitação HTTP, o AIVAX registra a falha e interrompe o evento.
+Se a solicitação ao seu worker falhar, o evento é interrompido.
 
 ### Quando continuar ou parar
 
@@ -99,11 +99,11 @@ Use o status que corresponde ao risco:
 
 1. Retorne `Content-Type: application/json+worker-action` quando o AIVAX deve aplicar a ação JSON.
 2. Retorne `2xx` sem esse tipo de conteúdo quando o worker apenas adiciona enriquecimento opcional, ou quando sua lógica não tem nada a adicionar. A conversa continua.
-3. Retorne uma resposta não OK sem esse tipo de conteúdo quando autorização, conformidade ou política de negócios não podem falhar abertamente. O AIVAX interrompe o evento.
+3. Retorne uma resposta não OK sem esse tipo de conteúdo quando autorização, conformidade ou política de negócios não puderem falhar abrindo. O AIVAX interrompe o evento.
 
 ## `message.received`
 
-`message.received` é o hook para o prompt preparado. Use-o para inspecionar, reescrever ou interromper o contexto antes que o modelo seja executado. Ele é acionado após o gateway preparar o contexto da mensagem recebida e antes da chamada ao modelo.
+`message.received` é o hook para o prompt preparado. Use-o para inspecionar, reescrever ou interromper o contexto antes que o modelo seja executado. Ele dispara após o gateway preparar o contexto da mensagem recebida e antes da chamada ao modelo.
 
 ```json
 {
@@ -133,7 +133,7 @@ Para alterar o contexto, retorne `Content-Type: application/json+worker-action` 
 }
 ```
 
-Use uma reescrita quando o contexto preparado não for o que o modelo deve ver. Ações disponíveis:
+Use uma reescrita quando o contexto preparado não for o que o modelo deveria ver. Ações disponíveis:
 
 | Ação | Descrição | Parâmetros |
 |---|---|---|
@@ -147,7 +147,7 @@ Use uma reescrita quando o contexto preparado não for o que o modelo deve ver. 
 
 ### Substituir o contexto do usuário
 
-Use este padrão quando a política deve substituir a entrada original do usuário. O exemplo executa `clear` e depois adiciona uma mensagem de substituição, para que o modelo responda à mensagem de política em vez da entrada original:
+Use este padrão quando a política deve substituir a entrada original do usuário. O exemplo executa `clear` e, em seguida, adiciona uma mensagem de substituição, para que o modelo responda à mensagem de política em vez da entrada original:
 
 ```json
 {
@@ -171,7 +171,7 @@ Use este padrão quando a política deve substituir a entrada original do usuár
 
 ### Remover uma mensagem
 
-Use `remove-message` quando uma mensagem deve sair do contexto e o restante deve permanecer. Este exemplo remove a primeira mensagem, usando seu índice baseado em zero:
+Use `remove-message` quando uma mensagem deve sair do contexto e o restante permanecer. Este exemplo remove a primeira mensagem, usando seu índice baseado em zero:
 
 ```json
 {
@@ -212,17 +212,11 @@ Use `add-mcp-source` quando a lista de ferramentas depender desta mensagem, usu�
 }
 ```
 
-Apenas para esta inferência, o AIVAX:
-
-1. Lista as ferramentas do servidor MCP.
-2. Converte cada esquema em uma função chamável pelo modelo.
-3. Torna essas ferramentas disponíveis apenas para essa inferência.
-
-Para uma fonte que deve permanecer no gateway, configure o MCP diretamente no AI Gateway.
+As ferramentas desse servidor MCP estão disponíveis para o modelo apenas para esta inferência. Para uma fonte que deve permanecer no gateway, configure o MCP diretamente no AI Gateway.
 
 ## `tool.called`
 
-`tool.called` é o hook para uma ferramenta interna do lado do servidor. Use-o para permitir a chamada, bloqueá-la ou substituir o resultado que o modelo verá. O evento é acionado antes que o AIVAX execute essa ferramenta.
+`tool.called` é o hook para uma ferramenta interna do lado do servidor. Use-o para permitir a chamada, bloqueá-la ou substituir o resultado que o modelo verá. O evento dispara antes que o AIVAX execute essa ferramenta.
 
 ```json
 {
@@ -255,7 +249,7 @@ Escolha um dos resultados:
 }
 ```
 
-`result` é o texto injetado como resultado da ferramenta. `messages` é opcional e anexa mensagens adicionais no formato OpenAI ao contexto da conversa. Campos de `data`:
+`result` é o texto injetado como resultado da ferramenta. `messages` é opcional e anexa mensagens extras no formato OpenAI ao contexto da conversa. Campos de `data`:
 
 | Campo | Descrição |
 |---|---|
@@ -266,7 +260,7 @@ Quando você retorna `tool.called.response`, o AIVAX usa o resultado fornecido p
 
 ## `tool.fetched`
 
-`tool.fetched` é o hook para o resultado de uma ferramenta interna do lado do servidor. Use-o para auditar, ofuscar ou substituir o que a ferramenta retornou antes que o modelo o veja. O evento é acionado após o AIVAX executar a ferramenta, e não é acionado quando uma resposta `tool.called` já substituiu ou bloqueou a chamada.
+`tool.fetched` é o hook para o resultado de uma ferramenta interna do lado do servidor. Use-o para auditar, ofuscar ou substituir o que a ferramenta retornou antes que o modelo o veja. O evento dispara após o AIVAX executar a ferramenta, e não dispara quando uma resposta `tool.called` já substituiu ou bloqueou a chamada.
 
 ```json
 {
@@ -287,14 +281,14 @@ Quando você retorna `tool.called.response`, o AIVAX usa o resultado fornecido p
 
 | Campo | Descrição |
 |---|---|
-| `result` | O texto que a ferramenta retornou, conforme o modelo o veria. |
-| `failed` | Indica se a execução da ferramenta falhou. |
+| `result` | O texto que a ferramenta retornou, como o modelo o veria. |
+| `failed` | Se a execução da ferramenta falhou. |
 
 Escolha um dos resultados:
 
 1. Retorne uma resposta não OK para descartar o resultado. O modelo recebe uma mensagem dizendo que o gateway bloqueou o resultado da ferramenta.
 2. Retorne `2xx` para manter o resultado inalterado.
-3. Retorne `Content-Type: application/json+worker-action` com `type: "tool.fetched.response"` para substituir o resultado. `data` possui os mesmos campos que [`tool.called.response`](#toolcalled):
+3. Retorne `Content-Type: application/json+worker-action` com `type: "tool.fetched.response"` para substituir o resultado. `data` tem os mesmos campos que [`tool.called.response`](#toolcalled):
 
 ```json
 {
@@ -307,7 +301,7 @@ Escolha um dos resultados:
 
 ## `message.completed`
 
-`message.completed` é uma notificação enviada quando uma inferência termina. Use-o para logs de auditoria, análises, alertas ou reconciliação de cobrança em seus próprios sistemas. Ele é acionado após a resposta, independentemente de a inferência ter sido bem-sucedida ou falhada, portanto, não atrasa o usuário.
+`message.completed` é uma notificação enviada quando uma inferência termina. Use-a para logs de auditoria, análises, alertas ou reconciliação de cobrança em seus próprios sistemas. Ela dispara após a resposta, seja a inferência bem-sucedida ou falha, portanto, não atrasa o usuário.
 
 ```json
 {
@@ -316,7 +310,7 @@ Escolha um dos resultados:
         "messages": [],
         "errors": [
             {
-                "message": "Falha ao analisar o JSON de argumentos da ferramenta para a ferramenta `check_order`.",
+                "message": "A chamada da ferramenta `check_order` falhou.",
                 "fatal": false
             }
         ],
@@ -337,11 +331,11 @@ Escolha um dos resultados:
 | Campo | Descrição |
 |---|---|
 | `messages` | As mensagens da inferência, incluindo as geradas pelo modelo e pelas ferramentas. Quando a inferência falha antes da chamada ao modelo, ela contém as mensagens de entrada preparadas. |
-| `errors` | Os erros relacionados à inferência. Cada item possui uma `message` e uma flag `fatal`. |
-| `fatal` | Indica se a inferência foi interrompida por um erro. |
+| `errors` | Os erros relacionados à inferência. Cada item tem uma `message` e uma flag `fatal`. |
+| `fatal` | Se a inferência foi interrompida por um erro. |
 | `usage` | Uso de tokens, custo em USD e desempenho da inferência. É `null` quando a inferência falhou antes da chamada ao modelo. |
 
-A resposta do worker é ignorada: `message.completed` não pode parar, reescrever ou atrasar a inferência. Quando o AIVAX tenta novamente uma solicitação em outro provedor, apenas a tentativa final envia `message.completed`.
+A resposta do worker é ignorada: `message.completed` não pode parar, reescrever ou atrasar a inferência.
 
 ## Exemplo: bloqueando usuários não autorizados
 
@@ -444,6 +438,6 @@ Este padrão mantém a API interna fora do contexto do modelo. O worker permanec
 1. Autenticar a solicitação.
 2. Validar o usuário.
 3. Chamar o sistema interno.
-4. Decidir quanto de dados pode retornar ao contexto do modelo.
+4. Decidir quanto dados podem retornar ao contexto do modelo.
 
 Para saber como os workers se encaixam na execução do gateway, consulte [Pipelines](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md).

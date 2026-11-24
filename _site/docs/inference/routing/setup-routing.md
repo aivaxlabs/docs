@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/docs/inference/routing/setup-routing.html
 
 Some integrated models are available through more than one provider. Provider routing lets AIVAX choose among those providers without changing the model requested by your application. This differs from [model routing](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md#model-routing), which can select a different model based on request complexity.
 
-AIVAX considers providers that are currently available and compatible with the request. If only one provider is eligible, the routing preference does not change the result. When the selected provider fails before it starts answering, AIVAX retries the request on another eligible provider. Providers with recent failures are ranked lower, and providers that fail repeatedly are temporarily left out of routing. Provider routing applies only to integrated AIVAX models; a bring-your-own-key gateway uses the provider endpoint configured in that gateway.
+AIVAX considers providers that are currently available and compatible with the request. If only one provider is eligible, the routing preference does not change the result. When the selected provider fails before it starts answering, AIVAX retries the request on another eligible provider. Provider routing applies only to integrated AIVAX models; a bring-your-own-key gateway uses the provider endpoint configured in that gateway.
 
 You can set routing in three places, from the most general to the most specific: the [AI Gateway](#configure-routing-in-an-ai-gateway), a suffix in the [model name](https://docs.aivax.net/docs/inference/routing/inline-routing.md), and the [request](#override-routing-per-request). Account privacy settings can further restrict the eligible providers; see [ZDR](https://docs.aivax.net/docs/inference/routing/zdr.md) and [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md).
 
@@ -16,7 +16,7 @@ Available routing preferences are:
 | `Cheapest` | Selects the provider with the lowest applicable input and output token price. |
 | `Fastest` | Prioritizes the provider with the highest available throughput. |
 | `Quality` | Selects the provider that AIVAX ranks highest for quality, without optimizing for price or speed. |
-| `Special` | Includes [special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md) and selects the lowest applicable combined input and output token price, breaking ties by reported uptime and then by recent failures. |
+| `Special` | Includes [special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md) and selects the lowest applicable combined input and output token price. |
 
 ## Configure routing in an AI Gateway
 
@@ -73,11 +73,12 @@ Within each step, `preset` chooses among the matching providers. Without `"*"` a
 
 Each provider's tag is shown in the provider details of the dashboard **Models** page, where it can be copied, and returned as `tag` in the provider list of `GET /v1/models`. A tag identifies a provider endpoint, including its region or variant when one exists, such as `azure-us` or `azure-eu`.
 
-`GET /v1/models` accepts an optional `filter` query parameter with a model name, such as `?filter=@openai/gpt-4o`. The response then contains only entries whose name equals it or is a dated snapshot of it (a trailing numeric suffix of at least four digits), ordered from the closest match, with the newest snapshot first. Without `filter`, the full list is returned. See [Deprecated models](#deprecated-models) for how to tell a current model from an old one.
+`GET /v1/models` accepts an optional `filter` query parameter with a model name, such as `?filter=@openai/gpt-4o`. The response then contains only that model and its dated snapshots, closest match first. Without `filter`, the full list is returned. See [Deprecated models](#deprecated-models) for how to tell a current model from an old one.
 
 The request values override the gateway's saved routing for that request only; they do not update the gateway. Because `routing_options` is an AIVAX extension, send it as an extra request-body field when using an OpenAI-compatible SDK.
 
 The previous `routing_preset` field is deprecated but still accepted. Replace `"routing_preset": "Fastest"` with `"routing_options": { "preset": "Fastest" }`. When both are sent, `routing_options.preset` takes precedence.
+
 ## Provider in responses
 
 Responses for integrated models include a `provider` field next to `model` with the tag of the provider that served the request. In streaming responses, every chunk includes it. The field is `null` for gateways that use your own provider credentials.
@@ -95,6 +96,6 @@ If a provider fails and AIVAX retries the request on another provider, `provider
 
 ## Deprecated models
 
-Use `_details.provider_model.is_deprecated` in `GET /v1/models` when you need to prefer a current integrated model. It is `true` when the model is flagged as deprecated, or when it has a release date more than 12 months before the current day. A model with no release date is not marked deprecated by age alone. The flag does not by itself remove the model from the list.
+Use `_details.provider_model.is_deprecated` in `GET /v1/models` when you need to prefer a current integrated model. It is `true` when the model is flagged as deprecated or was released more than 12 months ago. Deprecated models stay in the list.
 
 A provider can also reroute a retired ID to another model instead of rejecting it, as the Gemini API does for Gemini 2.5 Pro and Flash from December 1st, 2026. See [pinning a model ID versus using an alias](https://aivax.net/blog/pin-llm-model-id-or-use-alias-model-deprecations/).

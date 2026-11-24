@@ -21,14 +21,14 @@ Use `builtin_tools` para habilitar as [ferramentas integradas](https://docs.aiva
 }
 ```
 
-As ferramentas integradas incluem `DateTime`, `WebSearch`, `AdvancedWebUsage` (desativado; retorna uma resposta de indisponibilidade; consulte os [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)), `OpenUrl`, `Code`, `Request`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
+As ferramentas integradas incluem `DateTime`, `WebSearch`, `OpenUrl`, `Code`, `Request`, `Remember`, `GenerateWebPage`, `GenerateDocument`, `XPostsSearch` e `ImageGeneration`.
 
-O `DateTime` expõe `get_date_time`, uma ferramenta sem argumentos que retorna a data atual, hora, dia da semana em inglês, fuso horário, deslocamento UTC e carimbo de data/hora ISO 8601. Ele utiliza o fuso horário do gateway (padrão `America/Sao_Paulo`); envie `time_zone` com um identificador IANA para substituí-lo para uma única solicitação. Essa configuração é independente do fuso horário do navegador do usuário. Consulte [Data e Hora Atual](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
+O `DateTime` expõe `get_date_time`, que retorna a data e a hora atuais. Ele usa o fuso horário do gateway (padrão `America/Sao_Paulo`); envie `time_zone` com um identificador IANA para substituí-lo apenas para esta solicitação. Consulte [Data e Hora Atuais](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#current-date-and-time) para exemplos de configuração e saída.
 
-Ferramentas sob demanda são adequadas para chamadas ocasionais, protótipos e integrações que não precisam de um gateway persistente. Se o mesmo aplicativo sempre usa as mesmas ferramentas, prefira configurá-las em um Gateway de IA para que a política seja centralizada.
+Ferramentas sob demanda são adequadas para chamadas ocasionais, protótipos e integrações que não precisam de um gateway persistente. Se o mesmo aplicativo sempre usar as mesmas ferramentas, prefira configurá-las em um Gateway de IA para centralizar a política.
 
 ## Combinar com um gateway
 
-Quando `model` é um gateway, `builtin_tools` adiciona ferramentas às que o gateway já habilita; ele não remove as ferramentas do gateway. As `options` se aplicam às ferramentas desta solicitação. Chaves de API públicas não podem enviar `builtin_tools`.
+Quando `model` é um gateway, `builtin_tools` adiciona ferramentas às que o gateway já habilita; ele não remove as ferramentas do gateway. As `options` aplicam-se às ferramentas desta solicitação. Chaves de API públicas não podem enviar `builtin_tools`.
 
 As ferramentas integradas são ferramentas do lado do servidor: suas chamadas aparecem como eventos `servertool` durante o streaming e não são retornadas como mensagens. Reutilize o `conversation_token` para que as rodadas subsequentes mantenham seus resultados; consulte [Contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md). Cada ferramenta é cobrada de acordo com suas próprias tarifas; consulte [Preços e limites das ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#pricing-and-limits).
