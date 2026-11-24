@@ -38,6 +38,10 @@ The macro view needs the related items to judge relationships. Send the base ins
 | `context[].description` | String | No | A description of the item. For skills, send the description the agent uses to select the skill, so the review can check whether it activates when needed. |
 | `context[].content` | String | Yes | The item text. Must not be empty. |
 
+### Context item types
+
+Set `context[].type` to one of these values:
+
 | Type | Use for |
 | --- | --- |
 | `instruction` | System or developer instructions that are always loaded. |
@@ -50,6 +54,10 @@ The macro view needs the related items to judge relationships. Send the base ins
 Send in one request the items that the same agent receives. A guideline can be satisfied by another item, and findings can point out items that conflict with or duplicate each other; reviewing items in separate requests misses those relationships. In the micro view, `knowledge` and `documentation` items are used only as context.
 
 An unknown `view` or `type`, an empty `content`, or an empty `context` array returns `400 Bad Request`.
+
+### Example request
+
+This request reviews an instruction and a skill together, so the review can find that they contradict each other:
 
 ```json
 {
@@ -82,6 +90,8 @@ An unknown `view` or `type`, an empty `content`, or an empty `context` array ret
 | `findings` | Object array | The problems found, up to 20. Can be empty when the context has no relevant problems. |
 | `suggestedFixes` | Object array | Concrete changes that resolve one or more findings. In the macro view, conflicts and risks come first. |
 
+### Findings
+
 Each finding has these properties:
 
 | Property | Type | Description |
@@ -96,6 +106,8 @@ Each finding has these properties:
 `evidenceSpan` gives the location of the problem in that item's `content` as `fromLine`, `toLine`, `fromColumn`, and `toColumn`, all 1-based and inclusive. It is `null` when the problem is an omission, when it lies in a skill's `description`, or when the cited text could not be located.
 
 Each source has an `id` that identifies the guideline in its catalog, a `number` within its type, a `type`, and `references` with the vendor documentation URLs behind it. `type` reflects the guideline's weight: a `rule` prevents predictable failures, a `practice` reliably improves results, a `tip` is optional and situational, and a `dont` is an anti-pattern to avoid.
+
+### Suggested fixes
 
 Each suggested fix has a `refFinding` array with the finding ids it resolves, a `description` of exactly what to change and in which item, a `patches` array described below, and a `type`:
 
@@ -113,6 +125,10 @@ Each suggested fix has a `refFinding` array with the finding ids it resolves, a 
 Every patch is computed against the original `content`, independently of the other fixes, so two fixes can change the same lines. When a patch no longer applies because an earlier one changed the same text, skip it or request a new review.
 
 `title`, `description`, `summary`, and fix descriptions are written in the language used by most of the analyzed content.
+
+### Example response
+
+The response to the request above:
 
 ```json
 {

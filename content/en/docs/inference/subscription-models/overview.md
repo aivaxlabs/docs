@@ -33,7 +33,7 @@ The rate at which a model consumes the quota can change over time, so similar re
 
 ## Availability
 
-A subscription model runs the model it names. A subscription model can occasionally become unavailable. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
+A subscription model runs the model it names, but it can occasionally become unavailable. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
 
 ## When the quota is exhausted
 
