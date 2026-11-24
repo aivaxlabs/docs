@@ -72,7 +72,7 @@ It accepts:
 - `search_terms` (`string[]`): one or more search terms.
 - `filter` (`string`, optional): a [document filter](../rag/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
-The MCP read tool accepts at most 10 search terms and 500 total characters per call.
+The number of terms and characters per call is limited; see [Pricing and limits](#pricing-and-limits).
 
 ### Browse tool
 
@@ -108,7 +108,7 @@ With the `agent` naming convention, it is named `{collection_name}_get`. It acce
 
 It returns the name, tags, reference, metadata, dates, whether the document is already indexed, and the selected line range, followed by the content.
 
-- A single call returns at most 100,000 characters. Read longer documents in parts with `start_line` and `end_line`.
+- A single call returns a limited amount of text, so read longer documents in parts with `start_line` and `end_line`. See [Pricing and limits](#pricing-and-limits).
 - When several collections are configured, the first collection in `X-Mcp-Collection-Id` that has a document with that name is used.
 - Like the browse tool, it has no search cost and counts toward the search rate limit.
 
@@ -119,6 +119,16 @@ When `X-Mcp-Allow-Write` is disabled, only the search, browse, and get document 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
 
 For a coding-agent setup with a read-only runbook collection and a write-enabled notes collection, see [Claude Code memory MCP](https://aivax.net/blog/upgrade-your-harness-with-aivax-mcps/).
+
+## Pricing and limits
+
+Searches are billed as [Collections searches](../rag/collections.md#pricing-and-limits). Browse and get document calls have no search cost, and all three read tools count toward your plan's search rate limit.
+
+| Limit | Value |
+| --- | --- |
+| Search terms per search call | 10 |
+| Characters across all search terms | 500 |
+| Characters returned per get document call | 100,000 |
 
 ## Select which tools are exposed
 
