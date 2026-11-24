@@ -8,6 +8,18 @@ Changes to AIVAX products, services, and the public API.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Tuesday, November 24th, 2026
+
+Breaking changes:
+
+- **Image generation — Grok Imagine Pro and MAI-Image-2.5 Flash removed.** `@x-ai/grok-imagine-pro` and `@microsoft/mai-image-2.5-flash` are no longer in the catalog. Until December 1st, 2026, requests and gateways that name them are served by `@x-ai/grok-imagine-image-2.0` and `@microsoft/mai-image-2.7-flash`, at those models' prices; update them before that date. See [Image generation](/docs/generations/images.md).
+
+Changes:
+
+- **Image generation — New models.** Adds `@microsoft/mai-image-2.7` ($0.029 per output image plus $0.025 per reference image per output), `@microsoft/mai-image-2.7-flash` ($0.008 plus $0.008), `@bytedance/seedream-5.5` ($0.035 plus $0.008), `@minimax/minimax-h3-image` ($0.004 plus $0.006) and `@minimax/minimax-h3-image-highspeed` ($0.008 plus $0.013). All of them support reference-image editing. See [Image generation](/docs/generations/images.md).
+- **Image generation — Older models deprecated.** `@microsoft/mai-image-2.6`, `@microsoft/mai-image-2.6-flash` and `@openai/gpt-image-2` are now marked as deprecated. They keep working for now; move to `@microsoft/mai-image-2.7`, `@microsoft/mai-image-2.7-flash` or `@openai/gpt-image-2.6-flare`.
+- **Image generation — Qwen Image 2.1 price update.** `@qwen/qwen-image-2.1` now costs $0.042 per output image, down from $0.06, plus $0.035 per reference image per output, down from $0.13.
+
 ## Monday, November 23rd, 2026
 
 Changes:
