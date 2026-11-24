@@ -1,5 +1,5 @@
 ---
-{title: Visão Geral dos Modelos de Assinatura,linkTitle: Visão geral,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/subscription-models.html,/docs/pt-br/inference/subscription-models/overview.html],sourceHash: 9f6f01db650b872f}
+{title: Visão Geral dos Modelos de Assinatura,linkTitle: Visão geral,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/subscription-models.html,/docs/pt-br/inference/subscription-models/overview.html],sourceHash: 425aa5f619c784e5}
 ---
 
 # Modelos de assinatura
@@ -10,7 +10,7 @@ Use-os como qualquer outro modelo integrado: em solicitações de API, em AI Gat
 
 ## Modelos disponíveis
 
-A tabela lista a janela de contexto de cada modelo e o uso incluído a cada mês, expresso como o equivalente ao preço do catálogo integrado do modelo. Todos os modelos de assinatura compartilham a mesma cota.
+A tabela lista a janela de contexto de cada modelo e o uso incluído todos os meses, expresso como o equivalente ao preço do catálogo integrado do modelo. Todos os modelos de assinatura compartilham a mesma cota.
 
 | Modelo | Janela de contexto | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
@@ -29,22 +29,22 @@ A janela da cota começa com a primeira solicitação que a utiliza e dura um m�
 
 ## Taxa de consumo
 
-A taxa na qual um modelo consome a cota pode mudar ao longo do tempo, portanto, solicitações semelhantes podem usar um pouco mais ou menos de sua cota. Os equivalentes incluídos acima mudam conforme isso ocorre.
+A taxa na qual um modelo consome a cota pode mudar ao longo do tempo, portanto, solicitações semelhantes podem usar ligeiramente mais ou menos de sua cota. Os equivalentes incluídos acima mudam conforme isso ocorre.
 
 ## Disponibilidade
 
-Um modelo de assinatura executa o modelo que nomeia. Um modelo de assinatura pode ocasionalmente ficar indisponível. As solicitações falham enquanto ele estiver indisponível; use outro modelo de assinatura ou um modelo integrado regular durante esse período.
+Um modelo de assinatura executa o modelo que nomeia, mas ele pode ocasionalmente ficar indisponível. As solicitações falham enquanto estiverem indisponíveis; use outro modelo de assinatura ou um modelo integrado regular durante esse período.
 
 ## Quando a cota é esgotada
 
-Quando a cota é esgotada, ou o plano não a inclui, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests`. A solicitação não é roteada para um modelo fora da assinatura e nunca é cobrada no saldo da conta. Para continuar antes da renovação da cota, selecione outro modelo explicitamente; os modelos regulares são cobrados no saldo nas suas taxas.
+Quando a cota é esgotada, ou o plano não a inclui, uma solicitação a um modelo de assinatura retorna `429 Too Many Requests`. A solicitação não é roteada para um modelo fora da assinatura e nunca é cobrada no saldo da conta. Para continuar antes que a cota seja renovada, selecione outro modelo explicitamente; os modelos regulares são cobrados no saldo nas suas taxas.
 
 ## Retenção de dados
 
 Os modelos de assinatura não têm retenção zero de dados. As prompts enviadas a eles são coletadas e mantidas por um período indeterminado para moderação e controle interno. De acordo com os termos dos provedores, elas não são usadas para treinamento.
 
-Com [Somente provedores de retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) habilitado, as solicitações a modelos de assinatura falham. Não envie dados pessoais, confidenciais ou regulamentados a esses modelos, a menos que essa retenção seja aceitável. Os registros próprios da AIVAX seguem a configuração de registro de conversas da conta; consulte [Processadores de Dados](/docs/pt-br/legal/third-party-processors.md#inference).
+Com apenas [Provedores com retenção zero de dados](/docs/pt-br/inference/routing/zdr.md) habilitado, as solicitações a modelos de assinatura falham. Não envie dados pessoais, confidenciais ou regulamentados para esses modelos, a menos que essa retenção seja aceitável. Os próprios registros da AIVAX seguem a configuração de registro de conversas da conta; consulte [Processadores de Dados](/docs/pt-br/legal/third-party-processors.md#inference).
 
 ## Identificar modelos de assinatura
 
-Os modelos de assinatura não possuem preços por token no catálogo. Para identificá-los a partir de um aplicativo, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`. Consulte [Nomes de modelos e gateways](/docs/pt-br/inference/ai-gateways/models-and-gateway-names.md).
+Os modelos de assinatura não têm preços por token no catálogo. Para identificá-los a partir de um aplicativo, verifique `flags.isSubscription` em `GET /api/v1/information/models.json` ou `_details.provider_model.subscription` em `GET /v1/models`. Consulte [Nomes de modelos e gateways](/docs/pt-br/inference/ai-gateways/models-and-gateway-names.md).

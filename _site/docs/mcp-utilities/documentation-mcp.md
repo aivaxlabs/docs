@@ -60,7 +60,7 @@ The tool accepts:
 | `search_terms` | `string[]` | Yes | Search terms to query against AIVAX documentation and API reference. |
 | `search_type` | `string` | No | Search scope. Use `documentation-manual`, `api-function-reference`, or `all`. |
 
-The search can query the documentation manual, the API function reference, or both. It returns relevant documentation snippets in text form so the client can use them directly as context. Search accepts at most 10 search terms and 500 total characters per call.
+The search can query the documentation manual, the API function reference, or both. It returns relevant documentation snippets in text form so the client can use them directly as context. The number of terms and characters per call is limited; see [Pricing and limits](#pricing-and-limits).
 
 Example arguments:
 
@@ -154,6 +154,10 @@ Choose `search_type` from the kind of answer you need:
 - Use `search_type: "all"` when the assistant is unsure which page contains the answer.
 - Use `api-function-reference` when it needs route names, request bodies, or endpoint behavior.
 - Use `documentation-manual` when it needs conceptual guidance, tradeoffs, or workflow explanations.
+
+## Pricing and limits
+
+Both tools use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#account-limits). `aivax_search_documentation` also accepts at most 10 search terms and 500 total characters per call.
 
 ## Security guidance
 

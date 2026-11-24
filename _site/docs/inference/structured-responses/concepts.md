@@ -11,11 +11,9 @@ Use structured responses when another system will consume the output and free-fo
 
 ## Choosing a mode
 
-Use `response_schema` when AIVAX should own validation and repair. This is the safest mode for models that do not natively support structured output, for responses that use tools before producing JSON, and for systems that cannot tolerate malformed JSON.
-
-Use `response_format` with `type: "json_schema"` when the provider model should handle the structured output natively. AIVAX will still use the schema internally, and healing is applied when `response_format.json_schema.healing_options` is provided or the account has automatic JSON Healing enabled.
-
-Use `json_only: true` when the HTTP response body should contain only the final JSON. This removes the normal chat completion envelope, choices, usage, and generation metadata from the response body. See [JSON-only](https://docs.aivax.net/docs/inference/structured-responses/json-only.md).
+- **`response_schema`:** use it when AIVAX should own validation and repair. This is the safest mode for models that do not natively support structured output, for responses that use tools before producing JSON, and for systems that cannot tolerate malformed JSON.
+- **`response_format` with `type: "json_schema"`:** use it when the provider model should handle the structured output natively. AIVAX still uses the schema internally, and healing is applied when `response_format.json_schema.healing_options` is provided or the account has automatic JSON Healing enabled.
+- **`json_only: true`:** use it when the HTTP response body should contain only the final JSON. This removes the normal chat completion envelope, choices, usage, and generation metadata from the response body. See [JSON-only](https://docs.aivax.net/docs/inference/structured-responses/json-only.md).
 
 | Page | Covers |
 | --- | --- |

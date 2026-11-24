@@ -6,6 +6,18 @@ Changes to AIVAX products, services, and the public API.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Tuesday, November 24th, 2026
+
+Breaking changes:
+
+- **Image generation — Grok Imagine Pro and MAI-Image-2.5 Flash removed.** `@x-ai/grok-imagine-pro` and `@microsoft/mai-image-2.5-flash` are no longer in the catalog. Until December 1st, 2026, requests and gateways that name them are served by `@x-ai/grok-imagine-image-2.0` and `@microsoft/mai-image-2.7-flash`, at those models' prices; update them before that date. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+
+Changes:
+
+- **Image generation — New models.** Adds `@microsoft/mai-image-2.7` ($0.029 per output image plus $0.025 per reference image per output), `@microsoft/mai-image-2.7-flash` ($0.008 plus $0.008), `@bytedance/seedream-5.5` ($0.035 plus $0.008), `@minimax/minimax-h3-image` ($0.004 plus $0.006) and `@minimax/minimax-h3-image-highspeed` ($0.008 plus $0.013). All of them support reference-image editing. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+- **Image generation — Older models deprecated.** `@microsoft/mai-image-2.6`, `@microsoft/mai-image-2.6-flash` and `@openai/gpt-image-2` are now marked as deprecated. They keep working for now; move to `@microsoft/mai-image-2.7`, `@microsoft/mai-image-2.7-flash` or `@openai/gpt-image-2.6-flare`.
+- **Image generation — Qwen Image 2.1 price update.** `@qwen/qwen-image-2.1` now costs $0.042 per output image, down from $0.06, plus $0.035 per reference image per output, down from $0.13.
+
 ## Monday, November 23rd, 2026
 
 Changes:
@@ -136,18 +148,3 @@ Changes:
 - **Data processing — Patches in instruction refinement.** Each item of `suggestedFixes` returned by `POST /api/v1/generations/instruction-refinement` now has a `patches` array with the fix as unified diffs against the context items sent in the request, so you can preview and apply a fix directly. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md).
 - **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
 - **Conversations — Moderation refusals are identified in the conversation list.** Conversations refused by AI gateway moderation now show a **Moderated** label with the violated categories in the dashboard conversation list, instead of **Error**. `GET /api/v1/conversations` returns them in the new `moderationCategories` field.
-
-## Monday, November 9th, 2026
-
-Breaking changes:
-
-- **Chat clients — Changing context no longer goes into the system instructions.** The content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are now sent as a user message right after the last user message, instead of being appended to the system instructions. Neither is saved to the session history or returned in `createdMessages`, and changing them on each request no longer invalidates the prompt cache of the conversation. Models usually give user messages less weight than system instructions: if you used `instructions` or `contextLocation` for rules the assistant must always follow, move those rules to the session `extraContext` or the AI gateway instructions. `extraContext` is unchanged and stays in the system instructions. `instructions` now also accepts one OpenAI-compatible content part or an array of them, including images and files; strings and arrays of strings keep working, but array items are now sent as separate text parts instead of being joined with blank lines. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
-
-Fixes:
-
-- **Language models — Automatic provider fallback.** When a provider fails before responding, the request now continues on another eligible provider. To allow fallback when `allowed_providers` lists a single provider, add `"*"` as the last item. See [Routing setup](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
-
-Changes:
-
-- **Chat clients — Streaming and inference options in Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` accepts `stream: true` to return server-sent events with text, reasoning and tool updates, followed by a `result` event with the usual response body. The new `inferenceOptions` object overrides `reasoningEffort`, `renderingMode` (`default` or `textual_blocks`) and `toolInvocationExplanations` for one request, and the new `tools` field adds OpenAI-compatible client-side tools that are available only for that request. See [Sending prompts from your application](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application).
-- **Data processing — Instruction refinement.** The new `POST /api/v1/generations/instruction-refinement` endpoint reviews system instructions, prompts, skills, tool descriptions and knowledge against prompt engineering guidelines from model vendors' documentation. The `micro` view reviews the wording of each item, and the `macro` view reviews how the items work together as one agent. It returns an overall score, prioritized findings, and suggested fixes. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md).

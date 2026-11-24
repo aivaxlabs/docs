@@ -4097,11 +4097,17 @@ Source: https://docs.aivax.net/docs/inference/routing/zdr.html
 
 # Zero data retention providers only
 
-Enable **Zero data retention providers only** in the dashboard account settings to route text inference with integrated models only to providers that declare zero data retention for prompts. Providers that are not classified as zero data retention are excluded before `allowed_providers` and `preset` are applied. When the model has no zero data retention provider available, the request fails instead of falling back to another provider; choose a model with a zero data retention provider or disable the option.
+Enable **Zero data retention providers only** in the dashboard account settings to route text inference with integrated models only to providers that declare zero data retention for prompts. The classification is based on the data retention policy each provider declares.
 
-The zero data retention classification is based on the data retention policy each provider declares.
+## How it affects routing
+
+Providers that are not classified as zero data retention are excluded before `allowed_providers` and `preset` are applied. When the model has no zero data retention provider available, the request fails instead of falling back to another provider. In that case, choose a model with a zero data retention provider or disable the option.
+
+## What it does not change
 
 The option applies to text inference. It does not change conversation logging; use `allow_logging` or the account's conversation logging setting for that.
+
+## Platform steps
 
 Platform steps that run around a request, such as content moderation, the complexity router, and RAG query rewriting, always use a zero data retention provider, whether or not the account option is enabled. If none is available for one of them, the request fails and can be retried later.
 
@@ -4119,7 +4125,16 @@ Some integrated models are also offered by special providers, which serve them a
 | `Cheapest`, `Fastest`, `Quality` | Considered only when **Allow special providers** is enabled in the dashboard account privacy settings. New accounts allow special providers by default, and the choice can be changed in the welcome dialog or the account settings. |
 | `Special` | Always considered, regardless of the account setting. Selects the lowest applicable combined input and output token price among eligible regular and special providers. |
 
-When a model is currently available only through special providers, requests that do not allow them fail. Use the `Special` preference, or enable **Allow special providers** and use a preference other than `Balanced`. [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) and `allowed_providers` still apply to special providers.
+## When a model is only available through special providers
+
+When a model is currently available only through special providers, requests that do not allow them fail. To keep using the model, do one of the following:
+
+- Use the `Special` preference.
+- Enable **Allow special providers** and use a preference other than `Balanced`.
+
+[Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) and `allowed_providers` still apply to special providers.
+
+## Select a special provider directly
 
 Listing a special provider's tag in `allowed_providers`, or as a `#tag` suffix on the model name, routes to it under any preference, including `Balanced`.
 
@@ -4138,11 +4153,9 @@ Use structured responses when another system will consume the output and free-fo
 
 ## Choosing a mode
 
-Use `response_schema` when AIVAX should own validation and repair. This is the safest mode for models that do not natively support structured output, for responses that use tools before producing JSON, and for systems that cannot tolerate malformed JSON.
-
-Use `response_format` with `type: "json_schema"` when the provider model should handle the structured output natively. AIVAX will still use the schema internally, and healing is applied when `response_format.json_schema.healing_options` is provided or the account has automatic JSON Healing enabled.
-
-Use `json_only: true` when the HTTP response body should contain only the final JSON. This removes the normal chat completion envelope, choices, usage, and generation metadata from the response body. See [JSON-only](https://docs.aivax.net/docs/inference/structured-responses/json-only.md).
+- **`response_schema`:** use it when AIVAX should own validation and repair. This is the safest mode for models that do not natively support structured output, for responses that use tools before producing JSON, and for systems that cannot tolerate malformed JSON.
+- **`response_format` with `type: "json_schema"`:** use it when the provider model should handle the structured output natively. AIVAX still uses the schema internally, and healing is applied when `response_format.json_schema.healing_options` is provided or the account has automatic JSON Healing enabled.
+- **`json_only: true`:** use it when the HTTP response body should contain only the final JSON. This removes the normal chat completion envelope, choices, usage, and generation metadata from the response body. See [JSON-only](https://docs.aivax.net/docs/inference/structured-responses/json-only.md).
 
 | Page | Covers |
 | --- | --- |
@@ -4682,7 +4695,9 @@ Source: https://docs.aivax.net/docs/inference/chat-clients/overview.html
 
 # Chat Clients Overview
 
-A chat client publishes an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) to end users. It gives them a place to talk to the assistant—a hosted web chat, your own application, Telegram, or WhatsApp—while the gateway keeps answering with its model, instructions, tools, and knowledge. Chat clients support text conversation, deep thinking, search, and image sending. Audio features depend on the channel and the client configuration.
+A chat client publishes an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) to end users. It gives them a place to talk to the assistant—a hosted web chat, your own application, Telegram, or WhatsApp—while the gateway keeps answering with its model, instructions, tools, and knowledge.
+
+Chat clients support text conversation, deep thinking, search, and image sending. Audio features depend on the channel and the client configuration.
 
 ## How a chat client works
 
@@ -5208,7 +5223,7 @@ The rate at which a model consumes the quota can change over time, so similar re
 
 ## Availability
 
-A subscription model runs the model it names. A subscription model can occasionally become unavailable. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
+A subscription model runs the model it names, but it can occasionally become unavailable. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
 
 ## When the quota is exhausted
 
@@ -5240,9 +5255,13 @@ API key:   <AIVAX_API_KEY>
 Model:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Every subscription model has a 500,000-token context window, accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`), and is identified from `flags.isSubscription` or `_details.provider_model.subscription`. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) for the full list.
+Every subscription model:
 
-To use it from an SDK, see [Authentication](https://docs.aivax.net/docs/authentication.md). To declare the endpoint as an AI Gateway, see [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).
+- has a 500,000-token context window;
+- accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`);
+- is identified from `flags.isSubscription` or `_details.provider_model.subscription`.
+
+See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) for the full list. To use the endpoint from an SDK, see [Authentication](https://docs.aivax.net/docs/authentication.md). To declare it as an AI Gateway, see [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).
 
 ## Avi
 
@@ -5544,7 +5563,7 @@ ZCode adds providers in the UI: open the model selector, choose **Manage Models*
 
 ```text
 Provider name:      AIVAX
-OpenAI endpoint:      https://inference.aivax.net/v1
+OpenAI endpoint:    https://inference.aivax.net/v1
 Anthropic endpoint: leave empty
 API key:            <AIVAX_API_KEY>
 Models:             @aivax-subscription/kimi-k3.1-pro
@@ -8263,6 +8282,10 @@ The macro view needs the related items to judge relationships. Send the base ins
 | `context[].description` | String | No | A description of the item. For skills, send the description the agent uses to select the skill, so the review can check whether it activates when needed. |
 | `context[].content` | String | Yes | The item text. Must not be empty. |
 
+### Context item types
+
+Set `context[].type` to one of these values:
+
 | Type | Use for |
 | --- | --- |
 | `instruction` | System or developer instructions that are always loaded. |
@@ -8275,6 +8298,10 @@ The macro view needs the related items to judge relationships. Send the base ins
 Send in one request the items that the same agent receives. A guideline can be satisfied by another item, and findings can point out items that conflict with or duplicate each other; reviewing items in separate requests misses those relationships. In the micro view, `knowledge` and `documentation` items are used only as context.
 
 An unknown `view` or `type`, an empty `content`, or an empty `context` array returns `400 Bad Request`.
+
+### Example request
+
+This request reviews an instruction and a skill together, so the review can find that they contradict each other:
 
 ```json
 {
@@ -8307,6 +8334,8 @@ An unknown `view` or `type`, an empty `content`, or an empty `context` array ret
 | `findings` | Object array | The problems found, up to 20. Can be empty when the context has no relevant problems. |
 | `suggestedFixes` | Object array | Concrete changes that resolve one or more findings. In the macro view, conflicts and risks come first. |
 
+### Findings
+
 Each finding has these properties:
 
 | Property | Type | Description |
@@ -8321,6 +8350,8 @@ Each finding has these properties:
 `evidenceSpan` gives the location of the problem in that item's `content` as `fromLine`, `toLine`, `fromColumn`, and `toColumn`, all 1-based and inclusive. It is `null` when the problem is an omission, when it lies in a skill's `description`, or when the cited text could not be located.
 
 Each source has an `id` that identifies the guideline in its catalog, a `number` within its type, a `type`, and `references` with the vendor documentation URLs behind it. `type` reflects the guideline's weight: a `rule` prevents predictable failures, a `practice` reliably improves results, a `tip` is optional and situational, and a `dont` is an anti-pattern to avoid.
+
+### Suggested fixes
 
 Each suggested fix has a `refFinding` array with the finding ids it resolves, a `description` of exactly what to change and in which item, a `patches` array described below, and a `type`:
 
@@ -8338,6 +8369,10 @@ Each suggested fix has a `refFinding` array with the finding ids it resolves, a 
 Every patch is computed against the original `content`, independently of the other fixes, so two fixes can change the same lines. When a patch no longer applies because an earlier one changed the same text, skip it or request a new review.
 
 `title`, `description`, `summary`, and fix descriptions are written in the language used by most of the analyzed content.
+
+### Example response
+
+The response to the request above:
 
 ```json
 {
@@ -9471,7 +9506,7 @@ It accepts:
 - `search_terms` (`string[]`): one or more search terms.
 - `filter` (`string`, optional): a [document filter](https://docs.aivax.net/docs/rag/document-filters.md) applied before the semantic search, such as `tags has "faq" and updatedAt >= now-30d`.
 
-The MCP read tool accepts at most 10 search terms and 500 total characters per call.
+The number of terms and characters per call is limited; see [Pricing and limits](#pricing-and-limits).
 
 ### Browse tool
 
@@ -9507,7 +9542,7 @@ With the `agent` naming convention, it is named `{collection_name}_get`. It acce
 
 It returns the name, tags, reference, metadata, dates, whether the document is already indexed, and the selected line range, followed by the content.
 
-- A single call returns at most 100,000 characters. Read longer documents in parts with `start_line` and `end_line`.
+- A single call returns a limited amount of text, so read longer documents in parts with `start_line` and `end_line`. See [Pricing and limits](#pricing-and-limits).
 - When several collections are configured, the first collection in `X-Mcp-Collection-Id` that has a document with that name is used.
 - Like the browse tool, it has no search cost and counts toward the search rate limit.
 
@@ -9518,6 +9553,16 @@ When `X-Mcp-Allow-Write` is disabled, only the search, browse, and get document 
 When `X-Mcp-Allow-Write: yes` is sent, the server also exposes document creation/update and delete tools. Enable this only for trusted clients, because a model with write access can change collection contents.
 
 For a coding-agent setup with a read-only runbook collection and a write-enabled notes collection, see [Claude Code memory MCP](https://aivax.net/blog/upgrade-your-harness-with-aivax-mcps/).
+
+## Pricing and limits
+
+Searches are billed as [Collections searches](https://docs.aivax.net/docs/rag/collections.md#pricing-and-limits). Browse and get document calls have no search cost, and all three read tools count toward your plan's search rate limit.
+
+| Limit | Value |
+| --- | --- |
+| Search terms per search call | 10 |
+| Characters across all search terms | 500 |
+| Characters returned per get document call | 100,000 |
 
 ## Select which tools are exposed
 
@@ -9615,7 +9660,7 @@ The tool accepts:
 | `search_terms` | `string[]` | Yes | Search terms to query against AIVAX documentation and API reference. |
 | `search_type` | `string` | No | Search scope. Use `documentation-manual`, `api-function-reference`, or `all`. |
 
-The search can query the documentation manual, the API function reference, or both. It returns relevant documentation snippets in text form so the client can use them directly as context. Search accepts at most 10 search terms and 500 total characters per call.
+The search can query the documentation manual, the API function reference, or both. It returns relevant documentation snippets in text form so the client can use them directly as context. The number of terms and characters per call is limited; see [Pricing and limits](#pricing-and-limits).
 
 Example arguments:
 
@@ -9709,6 +9754,10 @@ Choose `search_type` from the kind of answer you need:
 - Use `search_type: "all"` when the assistant is unsure which page contains the answer.
 - Use `api-function-reference` when it needs route names, request bodies, or endpoint behavior.
 - Use `documentation-manual` when it needs conceptual guidance, tradeoffs, or workflow explanations.
+
+## Pricing and limits
+
+Both tools use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#account-limits). `aivax_search_documentation` also accepts at most 10 search terms and 500 total characters per call.
 
 ## Security guidance
 
@@ -10824,6 +10873,18 @@ Changes to AIVAX products, services, and the public API.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Tuesday, November 24th, 2026
+
+Breaking changes:
+
+- **Image generation — Grok Imagine Pro and MAI-Image-2.5 Flash removed.** `@x-ai/grok-imagine-pro` and `@microsoft/mai-image-2.5-flash` are no longer in the catalog. Until December 1st, 2026, requests and gateways that name them are served by `@x-ai/grok-imagine-image-2.0` and `@microsoft/mai-image-2.7-flash`, at those models' prices; update them before that date. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+
+Changes:
+
+- **Image generation — New models.** Adds `@microsoft/mai-image-2.7` ($0.029 per output image plus $0.025 per reference image per output), `@microsoft/mai-image-2.7-flash` ($0.008 plus $0.008), `@bytedance/seedream-5.5` ($0.035 plus $0.008), `@minimax/minimax-h3-image` ($0.004 plus $0.006) and `@minimax/minimax-h3-image-highspeed` ($0.008 plus $0.013). All of them support reference-image editing. See [Image generation](https://docs.aivax.net/docs/generations/images.md).
+- **Image generation — Older models deprecated.** `@microsoft/mai-image-2.6`, `@microsoft/mai-image-2.6-flash` and `@openai/gpt-image-2` are now marked as deprecated. They keep working for now; move to `@microsoft/mai-image-2.7`, `@microsoft/mai-image-2.7-flash` or `@openai/gpt-image-2.6-flare`.
+- **Image generation — Qwen Image 2.1 price update.** `@qwen/qwen-image-2.1` now costs $0.042 per output image, down from $0.06, plus $0.035 per reference image per output, down from $0.13.
+
 ## Monday, November 23rd, 2026
 
 Changes:
@@ -10954,20 +11015,5 @@ Changes:
 - **Data processing — Patches in instruction refinement.** Each item of `suggestedFixes` returned by `POST /api/v1/generations/instruction-refinement` now has a `patches` array with the fix as unified diffs against the context items sent in the request, so you can preview and apply a fix directly. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md).
 - **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
 - **Conversations — Moderation refusals are identified in the conversation list.** Conversations refused by AI gateway moderation now show a **Moderated** label with the violated categories in the dashboard conversation list, instead of **Error**. `GET /api/v1/conversations` returns them in the new `moderationCategories` field.
-
-## Monday, November 9th, 2026
-
-Breaking changes:
-
-- **Chat clients — Changing context no longer goes into the system instructions.** The content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are now sent as a user message right after the last user message, instead of being appended to the system instructions. Neither is saved to the session history or returned in `createdMessages`, and changing them on each request no longer invalidates the prompt cache of the conversation. Models usually give user messages less weight than system instructions: if you used `instructions` or `contextLocation` for rules the assistant must always follow, move those rules to the session `extraContext` or the AI gateway instructions. `extraContext` is unchanged and stays in the system instructions. `instructions` now also accepts one OpenAI-compatible content part or an array of them, including images and files; strings and arrays of strings keep working, but array items are now sent as separate text parts instead of being joined with blank lines. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
-
-Fixes:
-
-- **Language models — Automatic provider fallback.** When a provider fails before responding, the request now continues on another eligible provider. To allow fallback when `allowed_providers` lists a single provider, add `"*"` as the last item. See [Routing setup](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
-
-Changes:
-
-- **Chat clients — Streaming and inference options in Send Prompt.** `POST /api/v1/public/chat-clients/<access-key>/prompt` accepts `stream: true` to return server-sent events with text, reasoning and tool updates, followed by a `result` event with the usual response body. The new `inferenceOptions` object overrides `reasoningEffort`, `renderingMode` (`default` or `textual_blocks`) and `toolInvocationExplanations` for one request, and the new `tools` field adds OpenAI-compatible client-side tools that are available only for that request. See [Sending prompts from your application](https://docs.aivax.net/docs/inference/chat-clients/web-client.md#sending-prompts-from-your-application).
-- **Data processing — Instruction refinement.** The new `POST /api/v1/generations/instruction-refinement` endpoint reviews system instructions, prompts, skills, tool descriptions and knowledge against prompt engineering guidelines from model vendors' documentation. The `micro` view reviews the wording of each item, and the `macro` view reviews how the items work together as one agent. It returns an overall score, prioritized findings, and suggested fixes. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md).
 
 

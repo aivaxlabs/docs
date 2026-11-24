@@ -2,7 +2,9 @@ Source: https://docs.aivax.net/docs/inference/chat-clients/overview.html
 
 # Chat Clients Overview
 
-A chat client publishes an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) to end users. It gives them a place to talk to the assistant—a hosted web chat, your own application, Telegram, or WhatsApp—while the gateway keeps answering with its model, instructions, tools, and knowledge. Chat clients support text conversation, deep thinking, search, and image sending. Audio features depend on the channel and the client configuration.
+A chat client publishes an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) to end users. It gives them a place to talk to the assistant—a hosted web chat, your own application, Telegram, or WhatsApp—while the gateway keeps answering with its model, instructions, tools, and knowledge.
+
+Chat clients support text conversation, deep thinking, search, and image sending. Audio features depend on the channel and the client configuration.
 
 ## How a chat client works
 

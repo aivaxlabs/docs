@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/pt-br/docs/mcp-utilities/collections-mcp.html
 
 O MCP de Coleções expõe uma ou mais coleções AIVAX RAG como ferramentas para clientes MCP compatíveis. Utilize-o quando um modelo externo, agente, IDE ou assistente de desktop precisar decidir quando buscar em uma base de conhecimento AIVAX.
 
-Para um cliente de chat AIVAX típico, geralmente é mais simples anexar a coleção diretamente a um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e deixar que o pipeline RAG do gateway recupere os documentos automaticamente.
+Para um cliente de chat AIVAX típico, geralmente é mais simples anexar a coleção diretamente a um [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e permitir que o pipeline RAG do gateway recupere documentos automaticamente.
 
 Para informações sobre como criar coleções, preparar documentos e melhorar a qualidade da recuperação, consulte [Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md), [Documentos](https://docs.aivax.net/pt-br/docs/rag/documents.md) e [Busca Semântica](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md).
 
@@ -27,7 +27,7 @@ https://inference.aivax.net/v1/mcp/collections
 | `X-Mcp-Use-References` | Defina como `none` para habilitar referências nos resultados da busca; omita o cabeçalho para desabilitá-las. | desativado |
 | `X-Mcp-Allow-Write` | Use `yes` para expor ferramentas de gravação e exclusão de documentos. | desativado |
 | `X-Mcp-Naming-Convention` | Controla como as ferramentas geradas são nomeadas. Use `default` ou `agent`. | `default` |
-| `X-Mcp-Enabled-Tools` | Lista permitida separada por vírgulas dos tipos de ferramentas a expor: `search`, `browse`, `get`, `write`, `delete`. Consulte [Selecionar quais ferramentas são expostas](#select-which-tools-are-exposed). | todas as ferramentas disponíveis |
+| `X-Mcp-Enabled-Tools` | Lista de permissão separada por vírgulas dos tipos de ferramentas a expor: `search`, `browse`, `get`, `write`, `delete`. Consulte [Selecionar quais ferramentas são expostas](#select-which-tools-are-exposed). | todas as ferramentas disponíveis |
 
 ## Exemplo de configuração
 
@@ -55,9 +55,9 @@ Visual Studio Code:
 
 ## Ferramentas geradas
 
-O servidor gera até cinco ferramentas por configuração: busca, navegação, obter documento e, quando as gravações são permitidas, escrever e excluir. Os nomes das ferramentas são construídos a partir de `X-Mcp-Collection-Name` e da convenção de nomenclatura.
+O servidor gera até cinco ferramentas por configuração: search (busca), browse (navegar), get document (obter documento) e, quando as gravações são permitidas, write (gravar) e delete (excluir). Os nomes das ferramentas são construídos a partir de `X-Mcp-Collection-Name` e da convenção de nomenclatura.
 
-### Ferramenta de busca
+### Ferramenta de Busca
 
 Com a convenção de nomenclatura padrão, a ferramenta de leitura é nomeada:
 
@@ -70,11 +70,11 @@ Ela aceita:
 - `search_terms` (`string[]`): um ou mais termos de busca.
 - `filter` (`string`, opcional): um [filtro de documento](https://docs.aivax.net/pt-br/docs/rag/document-filters.md) aplicado antes da busca semântica, como `tags has "faq" and updatedAt >= now-30d`.
 
-A ferramenta de leitura MCP aceita no máximo 10 termos de busca e 500 caracteres totais por chamada.
+O número de termos e caracteres por chamada é limitado; consulte [Preços e limites](#pricing-and-limits).
 
-### Ferramenta de navegação
+### Ferramenta de Navegação
 
-A ferramenta de navegação lista documentos indexados em uma ordem fixa, sem busca semântica. Use-a quando o modelo precisar ver o que uma coleção contém, percorrer página por página todos os documentos ou ler um documento pelo seu nome exato. Com a convenção de nomenclatura padrão, ela é nomeada:
+A ferramenta de navegação lista documentos indexados em uma ordem fixa, sem busca semântica. Use-a quando o modelo precisa ver o que uma coleção contém, percorrer página por página todos os documentos ou ler um documento pelo seu nome exato. Com a convenção de nomenclatura padrão, ela é nomeada:
 
 ```text
 {collection_name}_browse_documents
@@ -85,15 +85,15 @@ Com a convenção de nomenclatura `agent`, ela é nomeada `{collection_name}_lis
 - `filter` (`string`, opcional): um [filtro de documento](https://docs.aivax.net/pt-br/docs/rag/document-filters.md), como `name = "setup.md"`, `reference = "manual-v2"` ou `tags has "faq"`.
 - `sort` (`string`, opcional): `createdAt`, `updatedAt`, `indexedAt` ou `name`. O padrão é `createdAt`.
 - `descending` (`boolean`, opcional): lista os mais recentes primeiro, ou de Z a A ao classificar por nome. O padrão é `false`.
-- `include_content` (`boolean`, opcional): adiciona o conteúdo e os metadados de cada documento. O padrão é `false`, então a ferramenta retorna apenas nomes, tags, referências e datas. Para ler um único documento, prefira a ferramenta de obter documento.
+- `include_content` (`boolean`, opcional): adiciona o conteúdo e metadados de cada documento. O padrão é `false`, então a ferramenta retorna apenas nomes, tags, referências e datas. Para ler um único documento, prefira a ferramenta obter documento.
 - `limit` (`number`, opcional): documentos por página, de 1 a 50. O padrão é 20.
 - `cursor` (`string`, opcional): o `next_cursor` retornado pela chamada anterior. Envie-o com os mesmos valores de `filter`, `sort` e `descending` para ler a próxima página.
 
-A ferramenta de navegação não incorpora nem reclassifica nada, portanto, não tem custo de busca, mas cada chamada conta para o limite de taxa de busca do seu plano. Os documentos aparecem nela apenas após serem indexados.
+A ferramenta de navegação não embute nem reclassifica nada, portanto, não tem custo de busca, mas cada chamada conta para o limite de taxa de busca do seu plano. Os documentos aparecem nela apenas após serem indexados.
 
-### Ferramenta de obter documento
+### Ferramenta Obter Documento
 
-A ferramenta de obter documento lê um único documento pelo seu nome exato, como um nome retornado pela ferramenta de navegação. Com a convenção de nomenclatura padrão, ela é nomeada:
+A ferramenta obter documento lê um único documento pelo seu nome exato, como um nome retornado pela ferramenta de navegação. Com a convenção de nomenclatura padrão, ela é nomeada:
 
 ```text
 {collection_name}_get_document
@@ -102,33 +102,43 @@ A ferramenta de obter documento lê um único documento pelo seu nome exato, com
 Com a convenção de nomenclatura `agent`, ela é nomeada `{collection_name}_get`. Ela aceita:
 
 - `name` (`string`): o nome exato do documento.
-- `start_line` e `end_line` (`number`, opcional): um intervalo de linhas baseado em 1 e inclusivo. Sem eles, o documento inteiro é retornado.
+- `start_line` e `end_line` (`number`, opcionais): um intervalo de linhas baseado em 1, inclusivo. Sem eles, o documento inteiro é retornado.
 
 Ela retorna o nome, tags, referência, metadados, datas, se o documento já está indexado e o intervalo de linhas selecionado, seguido pelo conteúdo.
 
-- Uma única chamada retorna no máximo 100.000 caracteres. Leia documentos mais longos em partes usando `start_line` e `end_line`.
+- Uma única chamada retorna uma quantidade limitada de texto, portanto, leia documentos mais longos em partes com `start_line` e `end_line`. Consulte [Preços e limites](#pricing-and-limits).
 - Quando várias coleções estão configuradas, a primeira coleção em `X-Mcp-Collection-Id` que possui um documento com esse nome é usada.
 - Como a ferramenta de navegação, ela não tem custo de busca e conta para o limite de taxa de busca.
 
-### Ferramentas de escrita e exclusão
+### Ferramentas de Gravação e Exclusão
 
 Quando `X-Mcp-Allow-Write` está desativado, apenas as ferramentas de busca, navegação e obter documento são expostas. Este é o modo recomendado para assistentes que precisam apenas ler uma base de conhecimento.
 
 Quando `X-Mcp-Allow-Write: yes` é enviado, o servidor também expõe ferramentas de criação/atualização e exclusão de documentos. Habilite isso apenas para clientes confiáveis, pois um modelo com acesso de gravação pode alterar o conteúdo da coleção.
 
-Para uma configuração de agente de codificação com uma coleção de runbook somente leitura e uma coleção de notas com gravação habilitada, consulte [Claude Code memory MCP](https://aivax.net/blog/upgrade-your-harness-with-aivax-mcps/).
+Para uma configuração de agente de código com uma coleção de runbook somente leitura e uma coleção de notas com gravação habilitada, consulte [Claude Code memory MCP](https://aivax.net/blog/upgrade-your-harness-with-aivax-mcps/).
+
+## Preços e limites
+
+As buscas são cobradas conforme [Buscas de Coleções](https://docs.aivax.net/pt-br/docs/rag/collections.md#pricing-and-limits). As chamadas de navegação e obter documento não têm custo de busca, e as três ferramentas de leitura contam para o limite de taxa de busca do seu plano.
+
+| Limite | Valor |
+| --- | --- |
+| Termos de busca por chamada de busca | 10 |
+| Caracteres em todos os termos de busca | 500 |
+| Caracteres retornados por chamada de obter documento | 100.000 |
 
 ## Selecionar quais ferramentas são expostas
 
-Use o cabeçalho opcional `X-Mcp-Enabled-Tools` para expor apenas algumas das ferramentas geradas. Forneça uma lista permitida separada por vírgulas dos tipos de ferramentas, não os nomes das ferramentas geradas, para que o mesmo valor funcione com qualquer nome de coleção e convenção de nomenclatura:
+Use o cabeçalho opcional `X-Mcp-Enabled-Tools` para expor apenas algumas das ferramentas geradas. Forneça uma lista de permissão separada por vírgulas dos tipos de ferramentas, não os nomes das ferramentas geradas, para que o mesmo valor funcione com qualquer nome de coleção e convenção de nomenclatura:
 
 - `search`: a ferramenta de leitura.
 - `browse`: a ferramenta de navegação.
-- `get`: a ferramenta de obter documento.
+- `get`: a ferramenta obter documento.
 - `write`: a ferramenta de criação/atualização de documento.
 - `delete`: a ferramenta de exclusão de documento.
 
-Por exemplo, para permitir que um cliente adicione documentos e realize buscas sem poder excluí-los:
+Por exemplo, para permitir que um cliente adicione documentos e faça buscas sem poder excluí-los:
 
 ```text
 X-Mcp-Allow-Write: yes
@@ -141,11 +151,11 @@ Para permitir que um cliente liste e leia documentos sem busca semântica:
 X-Mcp-Enabled-Tools: browse, get
 ```
 
-Para expor apenas a ferramenta de escrita, para um agente de ingestão que não deve ler a coleção:
+Para expor apenas a ferramenta de gravação, para um agente de ingestão que não deve ler a coleção:
 
 ```text
 X-Mcp-Allow-Write: yes
 X-Mcp-Enabled-Tools: write
 ```
 
-A lista permitida apenas restringe o conjunto de ferramentas. `write` e `delete` ainda exigem `X-Mcp-Allow-Write: yes`; sem ele, elas não são expostas mesmo quando listadas. Sem `X-Mcp-Enabled-Tools`, o servidor expõe todas as ferramentas permitidas pelos outros cabeçalhos.
+A lista de permissão apenas restringe o conjunto de ferramentas. `write` e `delete` ainda exigem `X-Mcp-Allow-Write: yes`; sem ele, eles não são expostos mesmo quando listados. Sem `X-Mcp-Enabled-Tools`, o servidor expõe todas as ferramentas permitidas pelos outros cabeçalhos.

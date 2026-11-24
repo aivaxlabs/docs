@@ -12,9 +12,13 @@ API key:   <AIVAX_API_KEY>
 Model:     @aivax-subscription/kimi-k3.1-pro
 ```
 
-Every subscription model has a 500,000-token context window, accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`), and is identified from `flags.isSubscription` or `_details.provider_model.subscription`. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) for the full list.
+Every subscription model:
 
-To use it from an SDK, see [Authentication](https://docs.aivax.net/docs/authentication.md). To declare the endpoint as an AI Gateway, see [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).
+- has a 500,000-token context window;
+- accepts the `max`, `high`, and `low` reasoning efforts (MiniMax M3.1 Flash also accepts `xhigh` and `medium`);
+- is identified from `flags.isSubscription` or `_details.provider_model.subscription`.
+
+See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) for the full list. To use the endpoint from an SDK, see [Authentication](https://docs.aivax.net/docs/authentication.md). To declare it as an AI Gateway, see [AI Gateways](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md).
 
 ## Avi
 
@@ -316,7 +320,7 @@ ZCode adds providers in the UI: open the model selector, choose **Manage Models*
 
 ```text
 Provider name:      AIVAX
-OpenAI endpoint:      https://inference.aivax.net/v1
+OpenAI endpoint:    https://inference.aivax.net/v1
 Anthropic endpoint: leave empty
 API key:            <AIVAX_API_KEY>
 Models:             @aivax-subscription/kimi-k3.1-pro
