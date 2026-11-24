@@ -3,7 +3,9 @@
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . | markdownify | plainify | htmlUnescape }}{{ else }}{{ with .Summary }}{{ . | plainify | htmlUnescape | truncate 160 | htmlUnescape }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}">
 <link rel="canonical" href="{{ .Permalink }}">
-<link rel="icon" href="{{ "favicon.ico" | relURL }}">
+<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="32x32">
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
 
 {{ range .AllTranslations }}
 <link rel="alternate" hreflang="{{ .Site.Language.LanguageCode }}" href="{{ .Permalink }}">

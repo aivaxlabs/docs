@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <style>
+        .ink { fill: #171713; }
+        .accent { fill: #7e2a42; }
+
+        @media (prefers-color-scheme: dark) {
+            .ink { fill: #faf9f5; }
+            .accent { fill: #e2a0b2; }
+        }
+    </style>
+
+    <defs>
+        <path id="leaf" d="M34,0 C80,-104 230,-96 344,0 C230,96 80,104 34,0 Z"/>
+    </defs>
+
+    <g transform="translate(256 256)">
+        <use href="#leaf" class="accent" transform="rotate(-45)"/>
+        <use href="#leaf" class="ink" transform="rotate(45)"/>
+        <use href="#leaf" class="ink" transform="rotate(135)"/>
+        <use href="#leaf" class="ink" transform="rotate(225)"/>
+    </g>
+</svg>
