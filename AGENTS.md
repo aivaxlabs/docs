@@ -1,5 +1,7 @@
 # AIVAX Documentation (Hugo)
 
+Before any documentation publication, the `docs-agents-enforcer` agent must be invoked to review changes. This rule is final.
+
 ## Code Style
 - Keep changes focused and minimal; avoid broad reformatting.
 - Follow existing naming and structure in docs and templates.
@@ -24,8 +26,8 @@
 
 ## Conventions
 - Never disclose absolute subscription allowance units, token quantities, or numerical allowance balances in public content, including tables, examples, and changelogs. Describe allowances through relative plan comparisons, such as “3× the Pro allowance” or “5× the Max allowance”. Scenario-based operation estimates are also permitted when calculated from actual metering and conservatively rounded without publishing exact internal capacity. Mark estimates with “≈” and disclose their assumptions; do not present scenarios as measured averages or guaranteed limits, or use “Up to” to imply a ceiling. Never invent figures or unsupported conversions. Verify each multiplier against the actual allowances; these examples are illustrative, not fixed product claims. This rule concerns subscription allowances, not independently published technical rate limits. The only exceptions are those in the list below; do not extend them to other plans, services, or pages.
-  - Exceções autorizadas pelo usuário:
-    - Franquias diárias absolutas do Free na tabela de serviços incluídos de `content/en/docs/limits.md`, autorizadas pelo Gabriel em 10/11/2026. Planos pagos continuam como múltiplos do Free. Não estenda esta exceção a outras páginas, planos ou changelogs.
+  - User-authorized exceptions:
+    - Absolute daily Free quotas in the included services table of `content/en/docs/limits.md`, authorized by Gabriel on 10/11/2026. Paid plans continue as multiples of Free. Do not extend this exception to other pages, plans, or changelogs.
 - Produce and edit documentation only in English source files under `content/en/`.
 - Never create, edit, move, or delete generated files under `content/pt-br/` by hand; only the authorized translation pipeline may update them. The initial migration imported the existing generated translations without rewriting prose.
 - Do not edit generated API artifacts/binaries under `ref/`.
@@ -40,10 +42,10 @@
 - When referencing an AIVAX API endpoint in documentation, use the embedded API reference script instead of a `curl` example. Look up the correct endpoint name in `https://inference.aivax.net/apidocs/llms.txt`, then embed it as `<script src="https://inference.aivax.net/apidocs?embed-target=ENDPOINT%20NAME&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>`.
 
 ## Changelog authoring
-- Maintain `content/en/docs/legal/changelogs.md` as the shared public changelog for backend and UI changes. Include every change that affects a product or service used by users or the public API, including visible UI changes. Exclude internal-only refactors, dependencies, tests, and operational maintenance without a user-facing effect.
+- Maintain `content/en/docs/legal/changelogs.md` as the shared public changelog for backend and UI changes. The changelog is for end users, not for the team. Include only changes a user would want to know about: new products, features, endpoints, or models; price, plan, or limit changes; breaking changes; and fixes users could notice. Exclude minor or cosmetic interface changes (layout, spacing, labels, dialogs, onboarding), internal refactors, dependencies, tests, operational maintenance, documentation-only edits, and fixes to internal or security defects that were never publicly visible. Apply the public content gate to every entry.
 - Write in English using a level-two date heading such as `## Monday, September 21st, 2026`. Verify the weekday and English ordinal suffix. Under each date, use the labels `Breaking changes:`, `Fixes:`, and `Changes:` in that order, each followed by a bulleted list; omit empty groups. Do not use tables.
 - Group removed or incompatible behavior requiring a compatibility review or migration under `Breaking changes:`, corrected behavior under `Fixes:`, and improvements or user-facing maintenance under `Changes:`. Do not hide incompatibilities under another group. Start each bullet with the product category and a concise summary, for example `- **Gateways — Summary.** Description`. Use product categories, not internal subsystem names.
-- Describe what changes for the reader, affected users or configurations, and any required action. Mention relevant limits, cost effects, defaults, or compatibility details only when supported by evidence. Breaking entries must explain the impact and migration or alternative when one exists; do not imply an alternative is equivalent when it is not.
+- Describe what changes for the reader, affected users or configurations, and any required action. Mention relevant limits, cost effects, defaults, or compatibility details only when supported by evidence. Breaking entries must explain the impact and migration or alternative when one exists; do not imply an alternative is equivalent when it is not. Write fixes as the current correct behavior; never describe how or for how long it failed before. Keep each entry to one or two sentences plus a link to the guide, which holds the details.
 - Describe only public contracts and observable behavior. Never include source code, source filenames or paths, classes, methods, commit hashes, repository details, internal infrastructure, credentials, confidential data, or implementation mechanisms. Public API fields, model identifiers, and product options may be named when necessary for users to act.
 - Verify descriptions against the actual change and current behavior, not commit titles alone. Avoid speculative benefits, unsupported guarantees, and invented release dates. Keep implementation evidence outside the public page.
 - NEVER use `Unreleased`, `Not scheduled`, or any undated/pending section. Every new or updated entry must appear under the current date of the changelog update, written out in the level-two heading using the format above. This also applies to entries based on uncommitted changes or older commits: use the changelog update date, not the commit date. The date records a documentation update, not proof of deployment; do not invent availability claims.
