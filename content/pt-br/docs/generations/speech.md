@@ -39,6 +39,7 @@ Adicione `"async": true` para enfileirar a s√≠ntese em vez de manter a solicita√
 
 ```json
 {
+  "model": "@x-ai/grok-voice-tts-1.0",
   "input": "Your order has shipped.",
   "format": "mp3",
   "raw": false,

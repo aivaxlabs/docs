@@ -39,6 +39,7 @@ Add `"async": true` to queue the synthesis instead of keeping the request open. 
 
 ```json
 {
+  "model": "@x-ai/grok-voice-tts-1.0",
   "input": "Your order has shipped.",
   "format": "mp3",
   "raw": false,
