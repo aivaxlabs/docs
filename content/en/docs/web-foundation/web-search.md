@@ -30,6 +30,18 @@ For the supported request, response, authentication, and error contract, use the
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Search%20the%20web&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
+## Async generation
+
+Add `"async": true` to queue the search, which is useful for scheduled monitors and dataset enrichment. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "query": "latest artificial intelligence research",
+  "topn": 5,
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Web Search is billed per search. Calls through [Web utilities MCP](/docs/mcp-utilities/web-utilities-mcp) use the same pricing as the corresponding built-in tool and are charged to the authenticated account. Model inference, when used, is billed separately.

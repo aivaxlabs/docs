@@ -28,7 +28,22 @@ The embedded reference is the source of truth for accepted request forms, option
 
 ## After the transcript
 
-A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](/docs/rag/collections.md) to make recordings searchable, run it through [Batch](/docs/inference/batch.md) when there are many files, or feed it to [Text classification](/docs/data-processing/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](/docs/inference/voice-session).
+A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](/docs/rag/collections.md) to make recordings searchable, run it through [Batch](/docs/inference/batch/workflows.md) when there are many files, or feed it to [Text classification](/docs/data-processing/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](/docs/inference/voice-session).
+
+## Async generation
+
+Add `"async": true` to queue the transcription, which is useful for long recordings. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "input_audio": {
+    "data": "<base64-audio>",
+    "format": "mp3"
+  },
+  "language": "en",
+  "async": true
+}
+```
 
 ## Pricing, limits, and errors
 

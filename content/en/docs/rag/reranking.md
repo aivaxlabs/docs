@@ -26,6 +26,21 @@ Use the [RAG pipeline checklist](https://aivax.net/blog/a-vector-database-is-not
 
 Send enough candidates to cover plausible answers: over-retrieve first, then rank precisely. Use `top_n` to keep only the head of the ranked list, and `min_score` to drop low-relevance tail results. Calibrate that threshold on your own queries, because score scales differ between rankers and a cutoff tuned on one workload rarely transfers to another.
 
+## Async generation
+
+Add `"async": true` to queue the reranking. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "query": "What is the capital of France?",
+  "documents": [
+    "Paris is the capital of France.",
+    "London is the capital of England."
+  ],
+  "async": true
+}
+```
+
 ## Choosing a reranker
 
 Start with the default reranker unless you have a measured reason to select another available option. The default is Reflex; alternatives include lexical matching, reciprocal-rank fusion of several signals, and third-party cross-encoders. Fusion (`rrf`) is retrieval-only and is rejected by this endpoint: it exists for combining signals inside collection search, not for autonomous ranking.

@@ -39,6 +39,10 @@ Reflex is also the default reranker after AIVAX retrieves candidates from RAG co
 
 Every plan includes a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking and separate from the RAG embedding allowance. Other rerankers are billed normally. See [Plans and Limits](../limits.md#included-daily-subscription-allowances) for plan capacity.
 
+## Async generation
+
+The reranking API accepts `"async": true` to queue the request. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md) and [Rerankers](reranking.md#async-generation).
+
 ## Pricing and limits
 
 Reflex is billed by input tokens, with a lower rate for cached input. Accounts with [Data Sharing](../data-sharing.md) enabled receive a discount on eligible reranking operations.

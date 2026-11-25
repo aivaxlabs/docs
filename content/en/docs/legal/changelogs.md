@@ -8,6 +8,12 @@ Changes to AIVAX products, services, and the public API.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
+## Wednesday, November 25th, 2026
+
+Changes:
+
+- **Inference — Async generations.** Add `"async": true` to chat completions, Responses, Messages, data processing, image and speech generation, transcription, Agentic Test, reranking, web search, and web fetch requests to queue them: the API answers with HTTP `202` and an ID, and you fetch the stored result or receive a webhook when it is done. Manage queued items under `/api/v1/async-generations`; streaming requests and public API keys cannot be queued. See [Async generations](/docs/inference/batch/async-generations.md).
+
 ## Tuesday, November 24th, 2026
 
 Breaking changes:

@@ -8,7 +8,7 @@
   "/docs/platform/ai-gateways": "/docs/inference/ai-gateways/concepts",
   "/docs/platform/analytics": "/docs/mcp-utilities/account-management-mcp",
   "/docs/platform/basics": "/docs/overview",
-  "/docs/platform/batch": "/docs/inference/batch",
+  "/docs/platform/batch": "/docs/inference/batch/workflows",
   "/docs/platform/chat-clients": "/docs/inference/chat-clients/overview",
   "/docs/platform/conversations": "/docs/inference/chat-completions/concepts",
   "/docs/platform/logs": "/docs/mcp-utilities/account-management-mcp",

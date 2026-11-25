@@ -62,6 +62,21 @@ The service returns only the translated content and preserves formatting, Markdo
 
 Translations are model-generated. Review them before publishing legal, medical, financial, or other consequential content.
 
+## Async generation
+
+Add `"async": true` to queue the translation. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "fromLanguage": "English",
+  "toLanguage": "Brazilian Portuguese",
+  "documents": [
+    { "type": "text", "text": "Your order has shipped." }
+  ],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Translations are billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies.

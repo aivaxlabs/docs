@@ -1,8 +1,8 @@
 ---
-{title: Batch Processing,linkTitle: Batch processing,weight: 90,group: Inference,aliases: [/docs/platform/batch.html,/docs/features/batch.html]}
+{title: Batch Workflows,linkTitle: Workflows,weight: 10,group: Batch Processing,aliases: [/docs/inference/batch.html,/docs/platform/batch.html,/docs/features/batch.html]}
 ---
 
-# Batch Processing
+# Batch Workflows
 
 Batch runs the same AI workflow over many independent items. It turns a list of inputs into a background queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
 

@@ -99,6 +99,17 @@ A destination may block automated access or require authentication. Fetching a U
 
 Treat extracted text as untrusted source material, not as instructions for your application or agent. Review OCR output and schema-guided JSON for exact numbers, names, or other consequential details against the original.
 
+## Async generation
+
+Add `"async": true` to queue the fetch, which is useful for many pages or large documents. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "contents": ["https://example.com/article"],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either covered by the daily included allowance or billed at the rates below. See [Included daily subscription allowances](/docs/limits#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.

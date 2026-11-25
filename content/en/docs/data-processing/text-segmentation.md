@@ -32,6 +32,18 @@ For the supported request, response, authentication, and error contract, use the
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Segment%20text&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
+## Async generation
+
+Add `"async": true` to queue the segmentation, which is useful for long documents and sanitized requests. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "documents": ["<long document text>"],
+  "sanitize": true,
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 | Description | Pricing |
