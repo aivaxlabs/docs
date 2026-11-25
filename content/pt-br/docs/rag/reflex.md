@@ -50,8 +50,8 @@ O Reflex é cobrado por tokens de entrada, com uma taxa menor para entradas em c
 | Descrição | Preço |
 | --- | ---: |
 | Reflex - cache miss | **$0,015/M tokens** |
-| Reflex - cache hit | **$0,003/M tokens** |
+| Reflex - cache hit | **$0,005/M tokens** |
 
-Cada solicitação aceita até 10.000 documentos candidatos e retorna até 200 resultados classificados em todos os planos. O tempo de processamento do Reflex por dia e as solicitações de reranking por minuto dependem do plano; consulte [Limites de RAG e coleções](../limits.md#rag-and-collections).
+Cada solicitação aceita até 15.000 documentos candidatos e retorna até 50 resultados classificados em todos os planos. O tempo de processamento do Reflex por dia e as solicitações de reranking por minuto dependem do plano; consulte [Limites de RAG e coleções](../limits.md#rag-and-collections).
 
 O limite de tempo de processamento abrange solicitações do Reflex no endpoint de reranking e nas buscas de RAG. O limite de solicitações de reranking aplica-se ao endpoint de reranking e às buscas de RAG que usam um reranker, incluindo através de Gateways de IA e ferramentas MCP. Solicitações acima de um limite retornam `429 Too Many Requests`.
