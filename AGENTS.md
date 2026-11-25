@@ -1,3 +1,7 @@
+---
+name: AIVAX Documentation Guides
+description: Always read this document when dealing with AIVAX documentations, changelogs and publishing workflows.
+---
 # AIVAX Documentation (Hugo)
 
 Before any documentation publication, the `docs-agents-enforcer` agent must be invoked to review changes. This rule is final.
