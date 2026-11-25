@@ -12,7 +12,7 @@ When enabled in an AI Gateway, the model sees a `shell` tool with one argument: 
 
 The command timeout and output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
 
-Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/inference/batch.md) or an external job, and let the shell handle the interactive slices.
+Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) or an external job, and let the shell handle the interactive slices.
 
 ## Adapting tools for shell
 

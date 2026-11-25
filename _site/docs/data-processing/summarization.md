@@ -54,6 +54,26 @@ Images and files accept base64 data URLs or public HTTP(S) URLs. Supported forma
 
 If any document fails, the request returns an error instead of partial results. Documents that finished before the failure are still billed and count toward your quota, so fix or remove the failing document before retrying. Summaries are model-generated; verify consequential information against the original document.
 
+## Async generation
+
+Add `"async": true` to queue the summary, which is useful for large files. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "instructions": "Answer in three bullet points, in English.",
+  "documents": [
+    {
+      "type": "file",
+      "file": {
+        "filename": "report.pdf",
+        "file_data": "https://example.com/report.pdf"
+      }
+    }
+  ],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Summarization is billed for the input tokens of each document. Output tokens are not billed.

@@ -6,13 +6,13 @@ A AIVAX oferece um ambiente de shell virtual que pode ser utilizado por assisten
 
 O ambiente de shell permite mover ferramentas selecionadas do modelo para o lado do shell, transformando-as em comandos CLI. Isso é útil quando você possui muitas ferramentas e não deseja expor todas elas diretamente ao modelo, ou quando uma ferramenta é mais fácil de usar por meio de argumentos de linha de comando e pipes.
 
-Quando habilitado em um AI Gateway, o modelo vê uma ferramenta `shell` com um argumento: `command`. Os comandos são executados em um shell isolado (sandboxed) com um espaço de trabalho montado em `/home/workspace`. Cada comando tem um limite de tempo e uma capacidade máxima de saída retornada ao modelo; consulte [Preços e limites](#pricing-and-limits).
+Quando habilitado em um AI Gateway, o modelo vê uma ferramenta `shell` com um argumento: `command`. Os comandos são executados em um shell isolado (sandboxed) com um espaço de trabalho montado em `/home/workspace`. Cada comando tem um limite de tempo e uma capacidade máxima de saída retornada ao modelo; consulte [Preços e limites](#precos-e-limites).
 
 ## Design para os limites
 
-O tempo limite do comando e a capacidade de saída moldam o comportamento das ferramentas de shell. Mantenha os comandos rápidos e sua saída restrita: filtre no lado do servidor com `grep`, `awk` ou flags de consulta antes de imprimir, e prefira ferramentas que retornem CSV ou linhas delimitadas que o modelo possa fatiar com pipes. Quando um resultado excede legítimamente a capacidade, divida o trabalho — um comando para listar ou contar, seguidos por buscas para buscar fatias — ou escreva a saída completa em um arquivo no espaço de trabalho e leia a parte relevante de volta por meio da API de arquivos do Shell abaixo.
+O tempo limite do comando e a capacidade de saída moldam o comportamento das ferramentas de shell. Mantenha os comandos rápidos e sua saída restrita: filtre no lado do servidor com `grep`, `awk` ou flags de consulta antes de imprimir, e prefira ferramentas que retornem CSV ou linhas delimitadas que o modelo possa fatiar com pipes. Quando um resultado excede legítimamente a capacidade, divida o trabalho — um comando para listar ou contar, seguidos por buscas para buscar fatias — ou escreva a saída completa em um arquivo no espaço de trabalho e leia a parte relevante de volta através da API de arquivos do Shell abaixo.
 
-Operações de longa duração não pertencem a um comando de inferência. Mova exportações, transformações em massa e loops de polling para [Batch](https://docs.aivax.net/pt-br/docs/inference/batch.md) ou um trabalho externo, e deixe o shell lidar com as fatias interativas.
+Operações de longa duração não pertencem a um comando de inferência. Mova exportações, transformações em massa e loops de polling para [Batch](https://docs.aivax.net/pt-br/docs/inference/batch/workflows.md) ou um job externo, e deixe o shell lidar com as fatias interativas.
 
 ## Adaptando ferramentas para shell
 
@@ -24,7 +24,7 @@ get-users --filter active --format csv | grep "John Doe" | awk -F, '{print $1, $
 
 Na linha acima, `get-users` é uma ferramenta personalizada que retorna uma lista de usuários em formato CSV. O comando `grep` filtra os resultados para encontrar "John Doe", e `awk` extrai e formata as colunas desejadas. Esta ferramenta pode ter sido definida por [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md), [ferramentas integradas](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md) ou ser uma [ferramenta de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md).
 
-As ferramentas movidas para o shell não são mais expostas como funções diretas do modelo, exceto ferramentas reservadas como `shell` e `read_skill`. Configure a lista de ferramentas do shell como:
+Ferramentas movidas para o shell não são mais expostas como funções diretas do modelo, exceto ferramentas reservadas como `shell` e `read_skill`. Configure a lista de ferramentas do shell como:
 
 - `WhiteList`: apenas as ferramentas listadas são expostas como comandos de shell.
 - `BlackList`: as ferramentas listadas permanecem como ferramentas diretas do modelo, e as outras ferramentas não reservadas são expostas como comandos de shell.
@@ -35,15 +35,15 @@ Prefira a whitelist quando o modelo precisar de um conjunto de comandos pequeno 
 
 ## Persistência de dados
 
-É possível definir persistência de dados para o ambiente de shell. Quando `allowDataPersistence` está habilitado e o contexto de inferência possui um ID externo de usuário, a AIVAX monta um espaço de trabalho persistente escopoado para a conta e o usuário. Isso permite que o agente mantenha arquivos entre conversas e sessões para esse usuário identificado.
+É possível definir persistência de dados para o ambiente de shell. Quando `allowDataPersistence` está habilitado e o contexto de inferência possui um ID externo de usuário, a AIVAX monta um espaço de trabalho persistente escopado para a conta e o usuário. Isso permite que o agente mantenha arquivos entre conversas e sessões para esse usuário identificado.
 
 Se a persistência estiver desabilitada, ou se o contexto de inferência não tiver um ID externo de usuário, o shell usa um sistema de arquivos em memória e o espaço de trabalho é descartado após a iteração de inferência.
 
-Habilite a persistência apenas para dados que o usuário espera que sobrevivam — documentos de trabalho, relatórios gerados, configurações que ele gerencia. Mantenha segredos, credenciais e dados de outros usuários fora do espaço de trabalho persistente: tudo o que é escrito lá perdura além da sessão que o criou.
+Habilite a persistência apenas para dados que o usuário espera que sobrevivam — documentos de trabalho, relatórios gerados, configurações que ele gerencia. Mantenha segredos, credenciais e dados de outros usuários fora do espaço de trabalho persistente: qualquer coisa escrita lá perdura além da sessão que a criou.
 
 ## Acesso à internet
 
-Por padrão, o shell tem acesso à internet por meio de `curl`, `wget` e `ping`. Defina `bashOptions.allowInternetAccess` como `false` para remover os comandos de rede e executar totalmente offline.
+Por padrão, o shell tem acesso à internet através de `curl`, `wget` e `ping`. Defina `bashOptions.allowInternetAccess` como `false` para remover os comandos de rede e executar totalmente offline.
 
 ## Preços e limites
 
@@ -57,9 +57,9 @@ O número de comandos Bash por hora depende do plano; consulte [Limites de ferra
 
 ## API de arquivos do Shell
 
-A AIVAX também expõe endpoints de E/S do Shell em `/api/v1/shell/io` para contas autenticadas. Cada solicitação requer o cabeçalho `X-Shell-User-Id`, que escopa o sandbox do sistema de arquivos no qual o endpoint opera.
+A AIVAX também expõe endpoints de E/S do Shell em `/api/v1/shell/io` para contas autenticadas. Toda solicitação requer o cabeçalho `X-Shell-User-Id`, que escopa o sandbox do sistema de arquivos no qual o endpoint opera.
 
-Com esses endpoints, você pode listar diretórios, baixar arquivos, inspecionar metadados de arquivos, criar endereços públicos temporários de arquivos, fazer upload de arquivos, criar diretórios e excluir arquivos ou diretórios. Os uploads têm um tamanho máximo de corpo de solicitação; consulte [Preços e limites](#pricing-and-limits).
+Com esses endpoints, você pode listar diretórios, baixar arquivos, inspecionar metadados de arquivos, criar endereços públicos temporários de arquivos, fazer upload de arquivos, criar diretórios e excluir arquivos ou diretórios. Os uploads têm um tamanho máximo de corpo de solicitação; consulte [Preços e limites](#precos-e-limites).
 
 Referência:
 

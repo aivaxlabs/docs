@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/summarization.html
 
 # Resumo
 
-Use o Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. É adequado para relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, busca ou de uma etapa posterior do fluxo de trabalho.
+Use o Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. Ele se adapta a relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, busca ou de uma etapa posterior do fluxo de trabalho.
 
 Um resumo reafirma o documento com novas palavras, sem adicionar informações ou comentários. Para obter campos específicos como JSON, use [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md) em vez disso. Para fazer perguntas abertas sobre mídia ou descrever conteúdo visual, use [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md).
 
@@ -20,7 +20,7 @@ Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
 | `documents` | Array de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
-| `instructions` | String | Não | Orientações que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
+| `instructions` | String | Não | Diretrizes que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
 
 Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos. Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas. O recurso deve ser acessível sem login. Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`.
 
@@ -47,25 +47,45 @@ Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos. Os fo
 {
   "message": null,
   "data": [
-    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Impede a dupla despesa com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Mantém-se seguro enquanto nós honestos controlam a maior parte do poder computacional."
+    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne a dupla despesa com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Permanece seguro enquanto nós honestos controlam a maior parte do poder de computação."
   ]
 }
 ```
 
 Se qualquer documento falhar, a solicitação retorna um erro em vez de resultados parciais. Documentos que foram concluídos antes da falha ainda são cobrados e contam para sua cota, então corrija ou remova o documento com falha antes de tentar novamente. Os resumos são gerados pelo modelo; verifique informações importantes contra o documento original.
 
+## Geração assíncrona
+
+Adicione `"async": true` para colocar o resumo em fila, o que é útil para arquivos grandes. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Veja [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "instructions": "Responda em três tópicos, em inglês.",
+  "documents": [
+    {
+      "type": "file",
+      "file": {
+        "filename": "report.pdf",
+        "file_data": "https://example.com/report.pdf"
+      }
+    }
+  ],
+  "async": true
+}
+```
+
 ## Preços e limites
 
-O Resumo é cobrado pelos tokens de entrada de cada documento. Os tokens de saída não são cobrados.
+O Resumo é cobrado pelos tokens de entrada de cada documento. Tokens de saída não são cobrados.
 
 | Descrição | Preço |
 | --- | ---: |
 | Entrada de Resumo | **$0,04/M tokens** |
 
-O Resumo e a [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md) compartilham os mesmos limites de documentos. Arquivos remotos têm limite de 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
+O Resumo e a [Extração](https://docs.aivax.net/pt-br/docs/data-processing/extraction.md) compartilham os mesmos limites de documentos. Arquivos remotos têm limite de 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing).
 
 A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
-A referência de API embutida contém os detalhes mantidos pelo servidor de solicitação, resposta, autenticação e erro:
+A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erro mantidos pelo servidor:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Summarize%20documents)

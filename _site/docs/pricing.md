@@ -48,7 +48,7 @@ Each plan includes storage. On Pro, Max, and Ultimate, storage beyond the includ
 
 API responses include a `Consumed-Credits` header with the total charged by the request in USD, for example `Consumed-Credits: 0.000184`. The value includes the plan multiplier and every item charged during the request. The header is omitted when nothing was charged; treat a missing header as zero.
 
-Streamed responses and asynchronous work, such as [Batch](https://docs.aivax.net/docs/inference/batch.md), do not include this header. Use your account usage records as the source of truth for billing.
+Streamed responses and asynchronous work, such as [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md), do not include this header. Use your account usage records as the source of truth for billing.
 
 ## Data Sharing discount
 

@@ -242,6 +242,28 @@ With Julia-1:
 
 Other models may omit optional fields such as `probabilities`, `legend`, or `confidence`, and may use a different score scale. Validate thresholds and escalation rules with labeled examples from your own domain.
 
+## Async generation
+
+Add `"async": true` to queue the evaluation. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "@supersonic-labs/julia-1",
+  "state": "I was charged twice. Please return the extra payment.",
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "Which team should handle this request?",
+      "criteria": {
+        "billing": "Charges, payments, and refunds",
+        "technical": "Software errors and service outages"
+      }
+    }
+  },
+  "async": true
+}
+```
+
 ## Account rate limits
 
 Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request counts once, regardless of how many questions it contains. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).

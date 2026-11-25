@@ -1,14 +1,14 @@
 ---
-{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: 4821c92d9dba7484}
+{title: Preços,linkTitle: Preços,weight: 30,group: Introduction,aliases: [/docs/pt-br/platform/account-balance.html,/docs/pt-br/pricing.html],sourceHash: dd0d35b41fcdf441}
 ---
 
 # Preços
 
 A AIVAX cobra o uso do saldo da conta em USD. Cada produto documenta suas próprias tarifas em uma seção de preços dedicada, vinculada abaixo. Esta página abrange as regras compartilhadas por todos os produtos.
 
-Veja [preços de assinatura](https://aivax.net/pricing) para preços de planos mensais e [Planos e limites](limits.md) para cotas em nível de conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo utilizado e o trabalho realizado.
+Veja [preços de assinatura](https://aivax.net/pricing) para os preços dos planos mensais e [Planos e limites](limits.md) para as cotas em nível de conta. **M** significa um milhão de tokens; **1k** significa mil unidades. Preços aproximados (`~`) variam conforme o modelo utilizado e o trabalho realizado.
 
-## Preços dos produtos
+## Preços por produto
 
 | Área | Onde encontrar as tarifas |
 | --- | --- |
@@ -25,7 +25,7 @@ Veja [preços de assinatura](https://aivax.net/pricing) para preços de planos m
 | Descrições de mídia, decisões, classificação e segmentação | Páginas de [Processamento de dados](data-processing/media-descriptions.md) |
 | Extração e resumo de documentos | [Extração](data-processing/extraction.md) e [Resumo](data-processing/summarization.md) |
 | Traduções | [Traduções](data-processing/translations.md) |
-| Ferramentas integradas e memória | [Ferramentas integradas](tools/builtin-tools.md) |
+| Ferramentas e memória integradas | [Ferramentas integradas](tools/builtin-tools.md) |
 
 ## Cotas diárias incluídas
 
@@ -33,11 +33,11 @@ Todos os planos incluem cotas diárias para embeddings RAG, reclassificação Re
 
 ## Modelos de assinatura
 
-Pro, Max e Ultimate incluem uma cota mensal para modelos de assinatura, que são os modelos do catálogo cujos nomes começam com `@aivax-subscription/`. Usá-los nunca debita o saldo da conta; outros modelos são cobrados em suas tarifas. Quando a cota se esgota, ou em planos sem uma, as solicitações a modelos de assinatura retornam `429 Too Many Requests`. Veja [Modelos de assinatura](inference/subscription-models/overview.md) e [Cota mensal de modelos de assinatura](limits.md#monthly-subscription-model-quota).
+Pro, Max e Ultimate incluem uma cota mensal para modelos de assinatura, que são os modelos do catálogo cujos nomes começam com `@aivax-subscription/`. Usá-los nunca debita o saldo da conta; outros modelos são cobrados conforme suas tarifas. Quando a cota se esgota, ou em planos sem uma, as solicitações aos modelos de assinatura retornam `429 Too Many Requests`. Veja [Modelos de assinatura](inference/subscription-models/overview.md) e [Cota mensal de modelos de assinatura](limits.md#monthly-subscription-model-quota).
 
 ## Armazenamento
 
-Cada plano inclui armazenamento. No Pro, Max e Ultimate, o armazenamento além da quantidade incluída é cobrado nas tarifas mensais abaixo; o armazenamento Free não pode ser expandido.
+Cada plano inclui armazenamento. No Pro, Max e Ultimate, o armazenamento além da quantidade incluída é cobrado pelas tarifas mensais abaixo; o armazenamento Free não pode ser expandido.
 
 | Descrição | Preço |
 | --- | ---: |
@@ -48,9 +48,9 @@ Cada plano inclui armazenamento. No Pro, Max e Ultimate, o armazenamento além d
 
 ## Cabeçalho de custo da solicitação
 
-As respostas da API incluem um cabeçalho `Consumed-Credits` com o total cobrado pela solicitação em USD, por exemplo `Consumed-Credits: 0.000184`. O valor inclui o multiplicador do plano e cada item cobrado durante a solicitação. O cabeçalho é omitido quando nada foi cobrado; considere a ausência do cabeçalho como zero.
+As respostas da API incluem um cabeçalho `Consumed-Credits` com o total cobrado pela solicitação em USD, por exemplo `Consumed-Credits: 0.000184`. O valor inclui o multiplicador do plano e todos os itens cobrados durante a solicitação. O cabeçalho é omitido quando nada foi cobrado; considere a ausência do cabeçalho como zero.
 
-Respostas transmitidas (streamed) e trabalho assíncrono, como [Batch](inference/batch.md), não incluem esse cabeçalho. Use seus registros de uso da conta como fonte da verdade para faturamento.
+Respostas transmitidas (streamed) e trabalhos assíncronos, como [Batch](inference/batch/workflows.md), não incluem esse cabeçalho. Use os registros de uso da sua conta como fonte da verdade para faturamento.
 
 ## Desconto por Compartilhamento de Dados
 
@@ -60,14 +60,14 @@ Contas que ativam o [Compartilhamento de Dados](data-sharing.md) recebem um desc
 
 As tarifas de uso estão sujeitas ao imposto de inferência do plano:
 
-| Plano | Imposto de inferência | Teto diário de inferência de modelo |
+| Plano | Imposto de inferência | Teto diário de inferência de modelos |
 | --- | ---: | ---: |
 | Free | +25% | $1,50 |
 | Pro | +5% | $1,20 |
 | Max | +2% | $1,00 |
 | Ultimate | 0% | Não aplicável |
 
-Uma vez que o imposto de inferência do dia atinge o teto, a inferência de modelo adicional naquele dia é cobrada apenas nas tarifas do modelo. Outros serviços incluem o multiplicador do plano em suas próprias tarifas.
+Uma vez que o imposto de inferência do dia atinge o teto, a inferência adicional de modelos naquele dia é cobrada apenas nas tarifas do modelo. Outros serviços incluem o multiplicador do plano em suas próprias tarifas.
 
 O uso BYOK não é afetado pelos impostos de inferência. As páginas do produto indicam quando uma tarifa está isenta do multiplicador do plano, como na geração de imagens.
 
@@ -77,4 +77,4 @@ Adicionar créditos cobra o valor escolhido por você mais a taxa do processador
 
 ## Impostos sobre pagamentos
 
-Todo pagamento, incluindo recargas de créditos e assinaturas, inclui impostos brasileiros adicionados sobre o valor devido: cerca de 11,33% do total em impostos de serviço e 2% em IOF. Por exemplo, um pagamento de assinatura de $19,00 cobra $21,92. Os preços listados dos planos não incluem impostos, e cada recibo os lista.
+Todo pagamento, incluindo recargas de créditos e assinaturas, inclui impostos brasileiros adicionados ao montante devido: cerca de 11,33% do total em impostos sobre serviços e 2% em IOF. Por exemplo, um pagamento de assinatura de $19,00 cobra $21,92. Os preços listados dos planos não incluem impostos, e cada recibo os lista.

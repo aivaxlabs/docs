@@ -2,6 +2,25 @@
 
 Changelog entries older than the ones shown at https://docs.aivax.net/docs/legal/changelogs.html, newest first.
 
+## Tuesday, November 10th, 2026
+
+Breaking changes:
+
+- **Chat clients — New webhook URLs for messaging integrations.** Telegram, Z-API, Evolution API, and Kapso integrations now have a webhook URL that contains a key generated for each integration. Copy the new URL from the integration settings in the dashboard and update it in the provider, or use **Update hooks** for Telegram. Current URLs keep working until December 1st, 2026 and are rejected after that date. You can rotate the key at any time with **Rotate webhook key** or `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; the previous URL stops working immediately. Telegram webhooks registered with the new URL also require the secret token that **Update hooks** configures. See [Chat clients](/docs/inference/chat-clients/integrations.md#webhook-urls).
+- **Chat clients — Changing context goes back into the system instructions.** The November 9th change is reverted: the content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are again appended to the system instructions, after the session `extraContext`, instead of being sent as a user message after the last user message. `instructions` again accepts only a string or an array of strings, joined with blank lines; content parts such as images and files are no longer accepted. See [Choose where to put context](/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
+- **Chat clients — Kapso webhook signatures are verified.** When **Webhook secret key** is set on a Kapso integration, requests whose `X-Webhook-Signature` doesn't match are rejected. Leave it empty if you haven't configured a secret in Kapso.
+
+Fixes:
+
+- **Language models — Invalid routing presets are rejected.** Numeric values in `routing_preset` or `routing_options.preset` that don't match a routing option now return a validation error.
+- **Language models — Context-aware routing.** Routing now picks only providers whose context window fits the request input.
+
+Changes:
+
+- **Data processing — Patches in instruction refinement.** Each item of `suggestedFixes` returned by `POST /api/v1/generations/instruction-refinement` now has a `patches` array with the fix as unified diffs against the context items sent in the request, so you can preview and apply a fix directly. See [Instruction Refinement](/docs/data-processing/instruction-refinement.md).
+- **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
+- **Conversations — Moderation refusals are identified in the conversation list.** Conversations refused by AI gateway moderation now show a **Moderated** label with the violated categories in the dashboard conversation list, instead of **Error**. `GET /api/v1/conversations` returns them in the new `moderationCategories` field.
+
 ## Monday, November 9th, 2026
 
 Breaking changes:

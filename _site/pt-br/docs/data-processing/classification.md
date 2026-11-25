@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/classification.html
 
 # Classificação de Texto
 
-Use a classificação de texto para ranquear um conjunto fixo de rótulos para um ou mais documentos sem precisar treinar um classificador personalizado. É adequado para tarefas como etiquetagem, triagem ou roteamento de solicitações, nas quais as categorias são conhecidas antecipadamente e você precisa de um ranqueamento por similaridade em vez de uma resposta gerada.
+Use a classificação de texto para rankear um conjunto fixo de rótulos para um ou mais documentos, sem precisar treinar um classificador personalizado. Isso se adequa a tarefas como etiquetagem, triagem ou roteamento de solicitações, nas quais as categorias são conhecidas antecipadamente e você precisa de uma classificação por similaridade em vez de uma resposta gerada.
 
 A AIVAX incorpora (embeds) cada documento e rótulo com o modelo de incorporação padrão e compara seus vetores usando similaridade cosseno. Para cada documento, ele retorna todos os rótulos ordenados do mais semelhante ao menos semelhante.
 
@@ -24,7 +24,7 @@ Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt
 
 O endpoint usa o modelo de incorporação padrão e não aceita parâmetro de modelo, limite de pontuação ou limite de resultados.
 
-A solicitação a seguir classifica três documentos, sendo um deles em alemão, contra três rótulos:
+A seguinte solicitação classifica três documentos, sendo um deles em alemão, contra três rótulos:
 
 ```json
 {
@@ -70,7 +70,19 @@ A solicitação a seguir classifica três documentos, sendo um deles em alemão,
 }
 ```
 
-Uma pontuação mede a similaridade vetorial, não uma probabilidade. Compare as pontuações dentro da mesma solicitação em vez de interpretar um valor como uma confiança percentual.
+Uma pontuação mede a similaridade vetorial, não uma probabilidade. Compare as pontuações dentro da mesma solicitação, em vez de interpretar um valor como uma confiança percentual.
+
+## Geração assíncrona
+
+Adicione `"async": true` para colocar a classificação em fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "documents": ["Write a poem about the beauty of nature"],
+  "labels": ["Creative writing", "Complex problem", "Simple task"],
+  "async": true
+}
+```
 
 ## Preços e limites
 

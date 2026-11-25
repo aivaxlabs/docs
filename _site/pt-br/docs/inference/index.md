@@ -72,5 +72,8 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
 
-- [Processamento em Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
+## Processamento em Lote
+
+- [Fluxos de Trabalho em Lote](https://docs.aivax.net/pt-br/docs/inference/batch/workflows.md)
+- [Gerações Assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md)
 

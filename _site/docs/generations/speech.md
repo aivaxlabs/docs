@@ -31,6 +31,19 @@ To let an MCP-compatible agent or IDE synthesize speech without calling this end
 
 Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls. Chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.
 
+## Async generation
+
+Add `"async": true` to queue the synthesis instead of keeping the request open. The API answers with HTTP `202` and an ID, and you fetch the stored audio later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "input": "Your order has shipped.",
+  "format": "mp3",
+  "raw": false,
+  "async": true
+}
+```
+
 ## Pricing, limits, and errors
 
 Speech generation price varies by model; current tariffs are listed in the [Models catalog](https://aivax.net/models#text-to-speech).

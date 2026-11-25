@@ -68,6 +68,18 @@ In the JavaScript SDK, add the fields directly to the request object; the SDK se
 
 Fields that AIVAX adds to responses, such as `conversation_token`, `provider`, or `generation_context`, are available through the SDK's raw response or the untyped properties of the returned object.
 
+## Async generation
+
+The `/v1/chat/completions`, `/v1/responses`, and `/v1/messages` endpoints accept `"async": true` to queue the request. The API answers with HTTP `202` and an ID instead of a completion, so send it with a plain HTTP client or the SDK's raw response rather than reading the result as a completion. Fetch the stored result later or receive a webhook when it is done. Streaming requests cannot be queued. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "my-gateway:50c3",
+  "input": "Summarize this report.",
+  "async": true
+}
+```
+
 ## Long requests
 
 Requests with long reasoning or many tool calls can exceed the proxy timeout of the default host. Use the direct inference host `https://direct.inference.aivax.net/v1` as `base_url` and raise the SDK timeout; see [Long-running inference](https://docs.aivax.net/docs/overview.md#long-running-inference).

@@ -416,3 +416,16 @@ Final outcomes are:
 A missing or invalid key returns `401 Unauthorized`; a public API key returns `403 Forbidden`; insufficient balance returns `402 Payment Required`; and malformed fields, unavailable gateway slugs, or invalid threshold combinations return `400 Bad Request`. An inference failure can instead arrive as an SSE event after streaming begins.
 
 To investigate an inference failure, review the [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) used by the test.
+
+## Async generation
+
+Add `"async": true` to the direct evaluation request to queue it instead of keeping an event stream open. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "checkout-gateway",
+  "goal": "Complete checkout successfully",
+  "max_turns": 10,
+  "async": true
+}
+```

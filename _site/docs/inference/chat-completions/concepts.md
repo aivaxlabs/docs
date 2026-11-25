@@ -82,6 +82,18 @@ Set `allow_logging: false` in a `/v1/chat/completions` request to keep that requ
 
 When conversation logging is enabled, the stored record includes the messages, tools, usage, model, gateway and API key context, and `metadata`. Use `conversation_token` and `metadata` to correlate these records with your own workflow.
 
+## Async generation
+
+Add `"async": true` to queue the request instead of waiting for the result. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. Streaming requests cannot be queued. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "@openai/gpt-6-luna#cheapest",
+  "messages": [{ "role": "user", "content": "Summarize this report." }],
+  "async": true
+}
+```
+
 ## Pricing
 
 Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs); its PU price varies with the model and provider used. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it.

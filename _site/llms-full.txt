@@ -34,7 +34,7 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 
 ## Operate at scale and improve quality
 
-- [Batch](https://docs.aivax.net/docs/inference/batch.md) — run the same AI workflow over many independent items in the background.
+- [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) — run the same AI workflow over many independent items in the background.
 - [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) — evaluate complete, goal-oriented conversations and track repeatable gateway regressions.
 - [Structured responses](https://docs.aivax.net/docs/inference/structured-responses/concepts.md) — validate generated JSON against an application contract.
 - [MCP utilities](https://docs.aivax.net/docs/mcp-utilities/account-management-mcp.md) — expose account, collection, documentation, web, and inference capabilities to compatible agents.
@@ -78,7 +78,7 @@ Use this table when you know the job and need the first product to open. Each ro
 | Search your own documents or generate grounded answers | [RAG collections](https://docs.aivax.net/docs/rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
 | Reorder candidates your application already retrieved | [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
 | Publish an assistant to end users | [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
-| Process many independent records | [Batch](https://docs.aivax.net/docs/inference/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
+| Process many independent records | [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
 | Test a complete assistant conversation | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | Simulate a goal-oriented user and judge the gateway across multiple turns. |
 | Build a low-latency two-way voice experience | [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) | Stream user and assistant audio in an interactive session instead of combining separate audio jobs. |
 
@@ -158,7 +158,7 @@ Choose the path by what you need back:
 
 - Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request.
 - Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage.
-- For large independent input sets, run the appropriate operation through [Batch](https://docs.aivax.net/docs/inference/batch.md).
+- For large independent input sets, run the appropriate operation through [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md).
 
 For interactive two-way audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) instead of manually chaining transcription, text inference, and speech generation.
 
@@ -174,7 +174,7 @@ A chat client owns presentation, session behavior, allowed origins, uploads, aud
 
 ### Batch
 
-[Batch](https://docs.aivax.net/docs/inference/batch.md) applies one workflow to dozens or thousands of independent records. Use it when each record is independent and the caller does not need an immediate answer.
+[Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) applies one workflow to dozens or thousands of independent records. Use it when each record is independent and the caller does not need an immediate answer.
 
 A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job then:
 
@@ -868,7 +868,7 @@ Each plan includes storage. On Pro, Max, and Ultimate, storage beyond the includ
 
 API responses include a `Consumed-Credits` header with the total charged by the request in USD, for example `Consumed-Credits: 0.000184`. The value includes the plan multiplier and every item charged during the request. The header is omitted when nothing was charged; treat a missing header as zero.
 
-Streamed responses and asynchronous work, such as [Batch](https://docs.aivax.net/docs/inference/batch.md), do not include this header. Use your account usage records as the source of truth for billing.
+Streamed responses and asynchronous work, such as [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md), do not include this header. Use your account usage records as the source of truth for billing.
 
 ## Data Sharing discount
 
@@ -1012,8 +1012,9 @@ The image generation limit is shared by the built-in tool, the [image generation
 | Batch workflow items processed | 500/day | 25,000/day | 250,000/day | — |
 | New Agentic Test runs | 5/min | 20/min | 100/min | — |
 | Concurrent Agentic Test runs | 1 | 4 | 6 | 8 |
+| Queued async generations | 1,000/hour | 50,000/hour | 250,000/hour | 750,000/hour |
 
-Batch processing paused by the daily quota resumes after the window resets. See [Batch](https://docs.aivax.net/docs/inference/batch.md#limits) and [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits).
+Batch processing paused by the daily quota resumes after the window resets. Async generations above the hourly limit are rejected when queued. See [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md#limits), [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md), and [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits).
 
 ## Included daily subscription allowances
 
@@ -2075,6 +2076,21 @@ Use the [RAG pipeline checklist](https://aivax.net/blog/a-vector-database-is-not
 
 Send enough candidates to cover plausible answers: over-retrieve first, then rank precisely. Use `top_n` to keep only the head of the ranked list, and `min_score` to drop low-relevance tail results. Calibrate that threshold on your own queries, because score scales differ between rankers and a cutoff tuned on one workload rarely transfers to another.
 
+## Async generation
+
+Add `"async": true` to queue the reranking. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "query": "What is the capital of France?",
+  "documents": [
+    "Paris is the capital of France.",
+    "London is the capital of England."
+  ],
+  "async": true
+}
+```
+
 ## Choosing a reranker
 
 Start with the default reranker unless you have a measured reason to select another available option. The default is Reflex; alternatives include lexical matching, reciprocal-rank fusion of several signals, and third-party cross-encoders. Fusion (`rrf`) is retrieval-only and is rejected by this endpoint: it exists for combining signals inside collection search, not for autonomous ranking.
@@ -2125,6 +2141,10 @@ For the supported request, response, authentication, and error contract, use the
 Reflex is also the default reranker after AIVAX retrieves candidates from RAG collections. It improves the order of retrieved candidates but cannot recover a document the retrieval stage did not select.
 
 Every plan includes a daily reranking allowance for Reflex, shared between autonomous calls and RAG reranking and separate from the RAG embedding allowance. Other rerankers are billed normally. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for plan capacity.
+
+## Async generation
+
+The reranking API accepts `"async": true` to queue the request. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md) and [Rerankers](https://docs.aivax.net/docs/rag/reranking.md#async-generation).
 
 ## Pricing and limits
 
@@ -2466,6 +2486,18 @@ In the JavaScript SDK, add the fields directly to the request object; the SDK se
 
 Fields that AIVAX adds to responses, such as `conversation_token`, `provider`, or `generation_context`, are available through the SDK's raw response or the untyped properties of the returned object.
 
+## Async generation
+
+The `/v1/chat/completions`, `/v1/responses`, and `/v1/messages` endpoints accept `"async": true` to queue the request. The API answers with HTTP `202` and an ID instead of a completion, so send it with a plain HTTP client or the SDK's raw response rather than reading the result as a completion. Fetch the stored result later or receive a webhook when it is done. Streaming requests cannot be queued. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "my-gateway:50c3",
+  "input": "Summarize this report.",
+  "async": true
+}
+```
+
 ## Long requests
 
 Requests with long reasoning or many tool calls can exceed the proxy timeout of the default host. Use the direct inference host `https://direct.inference.aivax.net/v1` as `base_url` and raise the SDK timeout; see [Long-running inference](https://docs.aivax.net/docs/overview.md#long-running-inference).
@@ -2602,6 +2634,18 @@ Responses for integrated models also include `provider`, the tag of the provider
 Set `allow_logging: false` in a `/v1/chat/completions` request to keep that request out of the account conversation logs. It defaults to `true` and cannot enable logging when conversation logging is disabled for the account.
 
 When conversation logging is enabled, the stored record includes the messages, tools, usage, model, gateway and API key context, and `metadata`. Use `conversation_token` and `metadata` to correlate these records with your own workflow.
+
+## Async generation
+
+Add `"async": true` to queue the request instead of waiting for the result. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. Streaming requests cannot be queued. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "@openai/gpt-6-luna#cheapest",
+  "messages": [{ "role": "user", "content": "Summarize this report." }],
+  "async": true
+}
+```
 
 ## Pricing
 
@@ -5995,6 +6039,19 @@ A missing or invalid key returns `401 Unauthorized`; a public API key returns `4
 
 To investigate an inference failure, review the [AI Gateway configuration](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md) used by the test.
 
+## Async generation
+
+Add `"async": true` to the direct evaluation request to queue it instead of keeping an event stream open. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "checkout-gateway",
+  "goal": "Complete checkout successfully",
+  "max_turns": 10,
+  "async": true
+}
+```
+
 ---
 
 Source: https://docs.aivax.net/docs/inference/voice-session.html
@@ -6812,9 +6869,9 @@ Use skills together with [collections](https://docs.aivax.net/docs/rag/collectio
 
 ---
 
-Source: https://docs.aivax.net/docs/inference/batch.html
+Source: https://docs.aivax.net/docs/inference/batch/workflows.html
 
-# Batch Processing
+# Batch Workflows
 
 Batch runs the same AI workflow over many independent items. It turns a list of inputs into a background queue with fixed instructions, structured output, optional validation, progress tracking, retries, and result export.
 
@@ -7163,6 +7220,190 @@ Use these checks before a large run, while you repair failures, and before you h
 
 ---
 
+Source: https://docs.aivax.net/docs/inference/batch/async-generations.html
+
+# Async Generations
+
+Async generations queue a single API request and run it in the background. Instead of keeping a connection open until the result is ready, you receive an ID, and then fetch the stored result later or let AIVAX notify your service when it is done.
+
+Use async generations when one request is slow, when a caller cannot hold a connection open, or when many independent requests should run without client-side concurrency control. Use [Batch workflows](https://docs.aivax.net/docs/inference/batch/workflows.md) when the same instruction should be applied to a list of inputs with validation, retries, and export.
+
+## Queue a request
+
+Add `async` to the body of any [supported request](#supported-endpoints). The rest of the body is the same as the synchronous request.
+
+```json
+{
+  "model": "@openai/gpt-6-luna#cheapest",
+  "messages": [{ "role": "user", "content": "Summarize this report." }],
+  "async": true
+}
+```
+
+Nothing is generated while the request is open. AIVAX validates it, queues it, and returns HTTP `202`:
+
+```json
+{
+  "message": "The generation was queued.",
+  "data": {
+    "async_generation": {
+      "id": "<generation-id>",
+      "status": "pending"
+    }
+  }
+}
+```
+
+Keep the `id`: it identifies the item in the [management API](#manage-queued-generations).
+
+### Options
+
+Use the object form to tag the item, register webhooks, or change the timeout:
+
+```json
+{
+  "async": {
+    "enabled": true,
+    "tags": ["nightly-report", "customer-42"],
+    "webhooks": ["https://example.com/hooks/async-generations"],
+    "timeout": 300
+  }
+}
+```
+
+| Field | Description |
+| --- | --- |
+| `enabled` | Set to `true` to queue the request. |
+| `tags` | Up to 16 labels, each 1–64 characters. Use them to find items later. |
+| `webhooks` | Up to 4 public HTTP or HTTPS URLs notified when the item is done. See [Webhooks](#webhooks). |
+| `timeout` | Seconds allowed for each execution attempt, from 10 to 3,600. The default is 3,600. |
+
+`"async": true` is the same as `{ "enabled": true }`. Tags can also be sent as a top-level `async_tags` array.
+
+### Restrictions
+
+- `async` cannot be combined with `stream: true`; the request fails with `400`.
+- Queuing is not available with [public API keys](https://docs.aivax.net/docs/authentication.md#public-keys).
+- An account can turn the feature off with the **Async generations** account parameter, which is on by default. While it is off, queuing requests fail with `403`, and items already queued wait until it is turned back on.
+- Each plan limits how many items an account can queue per hour. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests).
+
+## Supported endpoints
+
+The same `async` field works on these requests:
+
+| Product | Endpoint |
+| --- | --- |
+| [Chat completions](https://docs.aivax.net/docs/inference/chat-completions/concepts.md#async-generation) | `POST /v1/chat/completions` |
+| [Responses and Messages](https://docs.aivax.net/docs/inference/ai-gateways/using-sdks.md#async-generation) | `POST /v1/responses`, `POST /v1/messages` |
+| [Semantic decisions](https://docs.aivax.net/docs/data-processing/decisions.md#async-generation) | `POST /api/v1/generations/decisions` |
+| [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md#async-generation) | `POST /api/v1/generations/extract` |
+| [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md#async-generation) | `POST /api/v1/generations/summarize` |
+| [Translations](https://docs.aivax.net/docs/data-processing/translations.md#async-generation) | `POST /api/v1/generations/translate` |
+| [Text segmentation](https://docs.aivax.net/docs/data-processing/text-segmentation.md#async-generation) | `POST /api/v1/generations/segment` |
+| [Text classification](https://docs.aivax.net/docs/data-processing/classification.md#async-generation) | `POST /api/v1/generations/classify` |
+| [Image generation](https://docs.aivax.net/docs/generations/images.md#async-generation) | `POST /api/v1/generations/images` |
+| [Speech-to-text](https://docs.aivax.net/docs/generations/audio-transcriptions.md#async-generation) | `POST /api/v1/generations/audio/transcriptions` |
+| [Text-to-speech](https://docs.aivax.net/docs/generations/speech.md#async-generation) | `POST /api/v1/generations/speech` |
+| [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#async-generation) | `POST /api/v1/generations/agentic-tests` |
+| [Rerankers](https://docs.aivax.net/docs/rag/reranking.md#async-generation) | `POST /api/v1/generations/rerank` |
+| [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md#async-generation) | `POST /api/v1/web/search` |
+| [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md#async-generation) | `POST /api/v1/web/fetch` |
+
+## How an item runs
+
+Queued items run in the order they were queued.
+
+When an item runs, AIVAX executes the original request exactly as sent: the same endpoint and the same body. The result is stored with the original HTTP status code, content type, and cost, so a failed generation is stored as a failed result rather than as a platform error.
+
+An item moves through these statuses:
+
+| Status | Meaning |
+| --- | --- |
+| `pending` | Queued and waiting to run. |
+| `retrying` | A previous attempt failed with a retryable error and another attempt is scheduled. |
+| `processing` | Running now. |
+| `done` | Finished. The stored result may be a success or an error; check its status code. |
+| `cancelled` | Cancelled by you. It will not run again. |
+
+### Retries
+
+These failures are retried up to 3 times:
+
+- insufficient balance;
+- rate limiting;
+- service unavailable or other server errors (`5xx`).
+
+When the retries run out, the item finishes as `done` with the error status code of the last attempt. Keep the account balance topped up before queuing large amounts of work.
+
+Other outcomes are final:
+
+- An attempt that exceeds its `timeout` is stored with status `408` and is not retried.
+- A response larger than 12 MB is not stored; the item finishes with status `507`.
+- When the API key that queued the item was deleted or expired before the item ran, the item finishes with status `401`.
+
+### Retention
+
+Items are deleted automatically:
+
+| Item | Deleted |
+| --- | --- |
+| `pending` or `retrying` | 15 days after creation. |
+| `cancelled` | 1 hour after cancellation. |
+| `done` | 90 days after completion. |
+
+Fetch and store the results you need before they expire.
+
+## Webhooks
+
+When an item reaches `done`, AIVAX sends a `POST` request with a JSON body to each URL in `webhooks`:
+
+```json
+{
+  "id": "<generation-id>",
+  "status": "done"
+}
+```
+
+The notification carries no result and no outcome, so `done` also covers a stored error. Use the `id` to [fetch the result](#manage-queued-generations) with your API key, and check its status code.
+
+Webhook URLs must be public HTTP or HTTPS URLs. When the account has a hook key, each request includes `X-Request-Nonce`; verify it as described in [Hook authentication](https://docs.aivax.net/docs/authentication.md#hook-authentication) before trusting the notification.
+
+Delivery is not retried. If your service can be unavailable, also poll the [list endpoint](#manage-queued-generations) for `done` items.
+
+## Manage queued generations
+
+Authenticate management requests with an AIVAX API key. All routes are under `/api/v1/async-generations`.
+
+| Request | Description |
+| --- | --- |
+| `GET /api/v1/async-generations` | Lists items as summaries, without request or response bodies. Filter with `status`, `tags` (comma-separated; an item must have all of them), `limit` (default 50, maximum 100), and `offset`. |
+| `GET /api/v1/async-generations/<id>` | Returns the item with its request and response. JSON bodies are embedded as JSON; other content is returned as base64. |
+| `GET /api/v1/async-generations/<id>/response` | Returns the stored response as it was produced, with its original status code and content type. Use it to consume the result as if the request had been synchronous. |
+| `PUT /api/v1/async-generations/<id>/cancel` | Cancels an item that is `pending`, `retrying`, or `done` with an error status code. Any other item returns `409`. |
+| `PUT /api/v1/async-generations/cancel?scope=<scope>` | Cancels in bulk. `scope` is `pending`, `failed`, or `all`. |
+| `DELETE /api/v1/async-generations/<id>` | Deletes an item. Returns `409` while it is `processing`. |
+
+For example, to list the finished items tagged for a nightly job:
+
+```text
+GET /api/v1/async-generations?status=done&tags=nightly-report&limit=100
+```
+
+## Reduce cost
+
+Queued work rarely needs the fastest provider. Pair async generations with cheaper routing: add the `#cheapest` suffix to an integrated model name, or set `routing_options.preset` to `Cheapest`. See [Inline routing](https://docs.aivax.net/docs/inference/routing/inline-routing.md) and [Setup provider routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
+
+```json
+{
+  "model": "@openai/gpt-6-luna",
+  "routing_options": { "preset": "Cheapest" },
+  "messages": [{ "role": "user", "content": "Classify this ticket." }],
+  "async": { "enabled": true, "tags": ["triage"] }
+}
+```
+
+---
+
 Source: https://docs.aivax.net/docs/web-foundation/web-search.html
 
 # Web Search
@@ -7192,6 +7433,18 @@ Treat retrieved text as external, untrusted content, not as instructions for you
 For the supported request, response, authentication, and error contract, use the API Reference:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Search%20the%20web)
+
+## Async generation
+
+Add `"async": true` to queue the search, which is useful for scheduled monitors and dataset enrichment. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "query": "latest artificial intelligence research",
+  "topn": 5,
+  "async": true
+}
+```
 
 ## Pricing and limits
 
@@ -7307,6 +7560,17 @@ A destination may block automated access or require authentication. Fetching a U
 
 Treat extracted text as untrusted source material, not as instructions for your application or agent. Review OCR output and schema-guided JSON for exact numbers, names, or other consequential details against the original.
 
+## Async generation
+
+Add `"async": true` to queue the fetch, which is useful for many pages or large documents. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "contents": ["https://example.com/article"],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either covered by the daily included allowance or billed at the rates below. See [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.
@@ -7371,6 +7635,18 @@ The embedded reference is the source of truth for the request shape, supported o
 
 To let an MCP-compatible agent or IDE generate images without calling this endpoint directly, use the [Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md). For a Claude Code setup, see [generate images in Claude Code with an MCP server](https://aivax.net/blog/generate-images-and-speech-from-claude-code-with-mcp/).
 
+## Async generation
+
+Add `"async": true` to queue the generation instead of keeping the request open. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "input": "A kitten playing with a ball",
+  "model": "@alibaba/wan-image-2.7-pro",
+  "async": true
+}
+```
+
 ## Pricing, limits, and errors
 
 Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Prompt processing is included, and no account or plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
@@ -7414,6 +7690,19 @@ To let an MCP-compatible agent or IDE synthesize speech without calling this end
 
 Use Speech Generation for one-shot synthesis of known text. Use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) when the experience is an interactive spoken conversation with interruptions, turn-taking, and tool calls. Chaining transcription, inference, and synthesis manually adds latency that the realtime session avoids.
 
+## Async generation
+
+Add `"async": true` to queue the synthesis instead of keeping the request open. The API answers with HTTP `202` and an ID, and you fetch the stored audio later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "input": "Your order has shipped.",
+  "format": "mp3",
+  "raw": false,
+  "async": true
+}
+```
+
 ## Pricing, limits, and errors
 
 Speech generation price varies by model; current tariffs are listed in the [Models catalog](https://aivax.net/models#text-to-speech).
@@ -7450,7 +7739,22 @@ The embedded reference is the source of truth for accepted request forms, option
 
 ## After the transcript
 
-A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](https://docs.aivax.net/docs/rag/collections.md) to make recordings searchable, run it through [Batch](https://docs.aivax.net/docs/inference/batch.md) when there are many files, or feed it to [Text classification](https://docs.aivax.net/docs/data-processing/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md).
+A transcript is usually the start of a pipeline, not the end. Index it into a [RAG collection](https://docs.aivax.net/docs/rag/collections.md) to make recordings searchable, run it through [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) when there are many files, or feed it to [Text classification](https://docs.aivax.net/docs/data-processing/classification.md) to label conversations at scale. For live conversation instead of recorded audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md).
+
+## Async generation
+
+Add `"async": true` to queue the transcription, which is useful for long recordings. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "input_audio": {
+    "data": "<base64-audio>",
+    "format": "mp3"
+  },
+  "language": "en",
+  "async": true
+}
+```
 
 ## Pricing, limits, and errors
 
@@ -7785,6 +8089,28 @@ With Julia-1:
 
 Other models may omit optional fields such as `probabilities`, `legend`, or `confidence`, and may use a different score scale. Validate thresholds and escalation rules with labeled examples from your own domain.
 
+## Async generation
+
+Add `"async": true` to queue the evaluation. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "@supersonic-labs/julia-1",
+  "state": "I was charged twice. Please return the extra payment.",
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "Which team should handle this request?",
+      "criteria": {
+        "billing": "Charges, payments, and refunds",
+        "technical": "Software errors and service outages"
+      }
+    }
+  },
+  "async": true
+}
+```
+
 ## Account rate limits
 
 Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request counts once, regardless of how many questions it contains. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
@@ -7913,6 +8239,18 @@ The following request classifies three documents, one of them in German, against
 
 A score measures vector similarity, not a probability. Compare scores within the same request rather than reading a value as a percentage confidence.
 
+## Async generation
+
+Add `"async": true` to queue the classification. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "documents": ["Write a poem about the beauty of nature"],
+  "labels": ["Creative writing", "Complex problem", "Simple task"],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 | Description | Pricing |
@@ -7958,6 +8296,18 @@ Use sanitization only when omitted content is genuinely irrelevant to retrieval.
 For the supported request, response, authentication, and error contract, use the API Reference:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Segment%20text)
+
+## Async generation
+
+Add `"async": true` to queue the segmentation, which is useful for long documents and sanitized requests. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "documents": ["<long document text>"],
+  "sanitize": true,
+  "async": true
+}
+```
 
 ## Pricing and limits
 
@@ -8078,6 +8428,25 @@ Documents are processed independently. If any document fails, the whole request 
 
 Extracted values are model-generated. Verify consequential values, such as amounts and identifiers, against the original document.
 
+## Async generation
+
+Add `"async": true` to queue the extraction. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "total": { "type": "number", "description": "invoice total" }
+    }
+  },
+  "documents": [
+    { "type": "text", "text": "Invoice 1042 from Acme Corp. Total: 20.00 USD." }
+  ],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Extraction is billed for the input tokens of each document. Output tokens are not billed.
@@ -8151,6 +8520,26 @@ Images and files accept base64 data URLs or public HTTP(S) URLs. Supported forma
 ```
 
 If any document fails, the request returns an error instead of partial results. Documents that finished before the failure are still billed and count toward your quota, so fix or remove the failing document before retrying. Summaries are model-generated; verify consequential information against the original document.
+
+## Async generation
+
+Add `"async": true` to queue the summary, which is useful for large files. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "instructions": "Answer in three bullet points, in English.",
+  "documents": [
+    {
+      "type": "file",
+      "file": {
+        "filename": "report.pdf",
+        "file_data": "https://example.com/report.pdf"
+      }
+    }
+  ],
+  "async": true
+}
+```
 
 ## Pricing and limits
 
@@ -8231,6 +8620,21 @@ The service returns only the translated content and preserves formatting, Markdo
 ```
 
 Translations are model-generated. Review them before publishing legal, medical, financial, or other consequential content.
+
+## Async generation
+
+Add `"async": true` to queue the translation. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "fromLanguage": "English",
+  "toLanguage": "Brazilian Portuguese",
+  "documents": [
+    { "type": "text", "text": "Your order has shipped." }
+  ],
+  "async": true
+}
+```
 
 ## Pricing and limits
 
@@ -9372,7 +9776,7 @@ When enabled in an AI Gateway, the model sees a `shell` tool with one argument: 
 
 The command timeout and output cap shape how shell tools should behave. Keep commands fast and their output narrow: filter server-side with `grep`, `awk`, or query flags before printing, and prefer tools that return CSV or line-delimited rows the model can slice with pipes. When a result legitimately exceeds the cap, split the work — one command to list or count, follow-ups to fetch slices — or write the full output to a workspace file and read the relevant part back through the Shell file API below.
 
-Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/inference/batch.md) or an external job, and let the shell handle the interactive slices.
+Long-running operations do not belong in an inference command. Move exports, bulk transforms, and polling loops to [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) or an external job, and let the shell handle the interactive slices.
 
 ## Adapting tools for shell
 
@@ -10814,7 +11218,8 @@ When a setting changes the level, the Collection Policy column lists each condit
 | [Chat Clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | 🔴 Full | Sessions store message history, extra context, and metadata until the session expires. Media sent as data URLs is uploaded to object storage and referenced by a public URL. Generated audio is cached when audio synthesis is enabled. Inference also follows the conversation logging condition. |
 | [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | AIVAX records follow the account's **Conversations logging** setting. Subscription models are not zero data retention: their suppliers collect prompts and keep them for an indefinite period for moderation and internal control. According to their published terms, the suppliers do not use prompts for training. Requests to these models fail when **Zero data retention providers only** is enabled. |
 | [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md) | **Conversation logging enabled:** 🔴 Full<br>**Conversation logging disabled:** 🟡 Partial | Follows the account's **Conversations logging** setting. It cannot be disabled per session. |
-| [Batch processing](https://docs.aivax.net/docs/inference/batch.md) | 🔴 Full | Workflows, jobs, and item inputs and outputs are stored until you delete them or clean the job items. |
+| [Batch processing](https://docs.aivax.net/docs/inference/batch/workflows.md) | 🔴 Full | Workflows, jobs, and item inputs and outputs are stored until you delete them or clean the job items. |
+| [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md#retention) | 🔴 Full | Queued requests and their responses are stored until you delete them or they expire: 15 days after creation for items that never ran, 1 hour after cancellation, and 90 days after completion. |
 | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | 🔴 Full | Test definitions, runs, simulated conversations, and judge results are stored. |
 | [Shell sandboxing](https://docs.aivax.net/docs/tools/shell.md#data-persistence) | **Persistence disabled:** 🟢 ZDR<br>**Persistence enabled:** 🔴 Full | With `allowDataPersistence` enabled and a user external ID, files persist in a per-user workspace until deleted. Otherwise, the in-memory filesystem is discarded after the inference iteration. Persistence is disabled by default. |
 | [Protocol functions](https://docs.aivax.net/docs/tools/protocol-functions.md) | 🟡 Partial | Function calls are sent to your callback and are not stored beyond conversation logging. Callback failures and their error messages are recorded in the account logs. |
@@ -10872,6 +11277,12 @@ Source: https://docs.aivax.net/docs/legal/changelogs.html
 Changes to AIVAX products, services, and the public API.
 
 This page lists the changes from the last 14 days. Older entries are kept in the [changelog archive](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
+
+## Wednesday, November 25th, 2026
+
+Changes:
+
+- **Inference — Async generations.** Add `"async": true` to chat completions, Responses, Messages, data processing, image and speech generation, transcription, Agentic Test, reranking, web search, and web fetch requests to queue them: the API answers with HTTP `202` and an ID, and you fetch the stored result or receive a webhook when it is done. Manage queued items under `/api/v1/async-generations`; streaming requests and public API keys cannot be queued. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
 
 ## Tuesday, November 24th, 2026
 
@@ -10996,24 +11407,5 @@ Changes:
 - **AI Gateways — New `tool.fetched` and `message.completed` worker events.** Gateway workers now receive `tool.fetched` after a server-side tool returns its result, and can keep, block, or replace that result with a `tool.fetched.response` action. Workers also receive `message.completed` after each inference finishes, with the messages, errors, and usage. See [Gateway Workers](https://docs.aivax.net/docs/inference/workers.md).
 - **Account — No service fee on credit top-ups for Pro, Max, and Ultimate.** Adding credits on Pro, Max, and Ultimate no longer includes the service fee. See [Credit top-ups](https://docs.aivax.net/docs/pricing.md#credit-top-ups).
 - **Account — Daily ceiling on the inference commission.** The plan's inference commission on integrated-model inference is now limited to $1.50 per day on Free, $1.20 on Pro, and $1.00 on Max. After the ceiling is reached, model inference that day is charged at the model's rates only. See [Plan multipliers](https://docs.aivax.net/docs/pricing.md#plan-multipliers).
-
-## Tuesday, November 10th, 2026
-
-Breaking changes:
-
-- **Chat clients — New webhook URLs for messaging integrations.** Telegram, Z-API, Evolution API, and Kapso integrations now have a webhook URL that contains a key generated for each integration. Copy the new URL from the integration settings in the dashboard and update it in the provider, or use **Update hooks** for Telegram. Current URLs keep working until December 1st, 2026 and are rejected after that date. You can rotate the key at any time with **Rotate webhook key** or `POST /api/v1/web-chat-client/<id>/integrations/<name>/hook-key`; the previous URL stops working immediately. Telegram webhooks registered with the new URL also require the secret token that **Update hooks** configures. See [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/integrations.md#webhook-urls).
-- **Chat clients — Changing context goes back into the system instructions.** The November 9th change is reverted: the content loaded from a session's `contextLocation` and the `instructions` of `POST /api/v1/public/chat-clients/<access-key>/prompt` are again appended to the system instructions, after the session `extraContext`, instead of being sent as a user message after the last user message. `instructions` again accepts only a string or an array of strings, joined with blank lines; content parts such as images and files are no longer accepted. See [Choose where to put context](https://docs.aivax.net/docs/inference/chat-clients/managing-sessions.md#choose-where-to-put-context).
-- **Chat clients — Kapso webhook signatures are verified.** When **Webhook secret key** is set on a Kapso integration, requests whose `X-Webhook-Signature` doesn't match are rejected. Leave it empty if you haven't configured a secret in Kapso.
-
-Fixes:
-
-- **Language models — Invalid routing presets are rejected.** Numeric values in `routing_preset` or `routing_options.preset` that don't match a routing option now return a validation error.
-- **Language models — Context-aware routing.** Routing now picks only providers whose context window fits the request input.
-
-Changes:
-
-- **Data processing — Patches in instruction refinement.** Each item of `suggestedFixes` returned by `POST /api/v1/generations/instruction-refinement` now has a `patches` array with the fix as unified diffs against the context items sent in the request, so you can preview and apply a fix directly. See [Instruction Refinement](https://docs.aivax.net/docs/data-processing/instruction-refinement.md).
-- **Chat clients — Longer session access keys.** New chat client sessions get longer access keys. Existing keys keep working.
-- **Conversations — Moderation refusals are identified in the conversation list.** Conversations refused by AI gateway moderation now show a **Moderated** label with the violated categories in the dashboard conversation list, instead of **Error**. `GET /api/v1/conversations` returns them in the new `moderationCategories` field.
 
 

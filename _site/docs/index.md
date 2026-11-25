@@ -69,7 +69,8 @@ Source: https://docs.aivax.net/docs/index.html
 - [Voice and Realtime](https://docs.aivax.net/docs/inference/voice-session.md)
 - [Gateway Workers](https://docs.aivax.net/docs/inference/workers.md)
 - [Skills](https://docs.aivax.net/docs/inference/skills.md)
-- [Batch Processing](https://docs.aivax.net/docs/inference/batch.md)
+- [Batch Workflows](https://docs.aivax.net/docs/inference/batch/workflows.md)
+- [Async Generations](https://docs.aivax.net/docs/inference/batch/async-generations.md)
 
 ## Web Foundation
 

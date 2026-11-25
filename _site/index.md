@@ -30,7 +30,7 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 
 ## Operate at scale and improve quality
 
-- [Batch](https://docs.aivax.net/docs/inference/batch.md) — run the same AI workflow over many independent items in the background.
+- [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) — run the same AI workflow over many independent items in the background.
 - [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) — evaluate complete, goal-oriented conversations and track repeatable gateway regressions.
 - [Structured responses](https://docs.aivax.net/docs/inference/structured-responses/concepts.md) — validate generated JSON against an application contract.
 - [MCP utilities](https://docs.aivax.net/docs/mcp-utilities/account-management-mcp.md) — expose account, collection, documentation, web, and inference capabilities to compatible agents.

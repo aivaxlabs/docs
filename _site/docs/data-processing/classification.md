@@ -72,6 +72,18 @@ The following request classifies three documents, one of them in German, against
 
 A score measures vector similarity, not a probability. Compare scores within the same request rather than reading a value as a percentage confidence.
 
+## Async generation
+
+Add `"async": true` to queue the classification. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "documents": ["Write a poem about the beauty of nature"],
+  "labels": ["Creative writing", "Complex problem", "Simple task"],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 | Description | Pricing |

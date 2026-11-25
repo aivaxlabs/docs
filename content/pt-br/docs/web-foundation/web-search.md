@@ -1,5 +1,5 @@
 ---
-{title: Pesquisa na Web,linkTitle: Pesquisa na Web,weight: 10,group: Web Foundation,sourceHash: 42d6d78a0083261d,aliases: [/docs/pt-br/web-foundation/web-search.html]}
+{title: Pesquisa na Web,linkTitle: Pesquisa na Web,weight: 10,group: Web Foundation,sourceHash: 3cc74dd042310ac1,aliases: [/docs/pt-br/web-foundation/web-search.html]}
 ---
 
 # Pesquisa na Web
@@ -11,8 +11,8 @@ A Pesquisa na Web recupera informações atualizadas da internet para pesquisa, 
 | Integração | Quando usá-la |
 | --- | --- |
 | [Ferramentas integradas](/docs/pt-br/tools/builtin-tools) | Permita que um modelo AIVAX decida quando pesquisar durante a inferência. Ative `WebSearch` no gateway ou na configuração `builtin_tools` da solicitação. |
-| [MCP de utilitários web](/docs/pt-br/mcp-utilities/web-utilities-mcp) | Conceda a um agente, IDE ou cliente de automação compatível com MCP acesso à ferramenta `web_search` sem executar a inferência de um modelo AIVAX. |
-| API direta | Chame o endpoint de pesquisa a partir do seu back-end quando nenhum modelo ou agente estiver envolvido — monitores agendados, enriquecimento de conjuntos de dados ou pré-busca de contexto antes da inferência. |
+| [MCP de utilitários web](/docs/pt-br/mcp-utilities/web-utilities-mcp) | Conceda a um agente, IDE ou cliente de automação compatível com MCP acesso à ferramenta `web_search` sem executar uma inferência de modelo AIVAX. |
+| API direta | Chame o endpoint de pesquisa do seu back-end quando nenhum modelo ou agente estiver envolvido — monitores agendados, enriquecimento de conjuntos de dados ou pré-busca de contexto antes da inferência. |
 
 ## Pesquise e verifique fontes
 
@@ -30,15 +30,27 @@ Para a solicitação, resposta, autenticação e contrato de erro suportados, us
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Search%20the%20web&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
+## Geração assíncrona
+
+Adicione `"async": true` para colocar a pesquisa em fila, o que é útil para monitores agendados e enriquecimento de conjuntos de dados. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+
+```json
+{
+  "query": "latest artificial intelligence research",
+  "topn": 5,
+  "async": true
+}
+```
+
 ## Preços e limites
 
 A Pesquisa na Web é cobrada por pesquisa. As chamadas através do [MCP de utilitários web](/docs/pt-br/mcp-utilities/web-utilities-mcp) usam o mesmo preço da ferramenta integrada correspondente e são cobradas na conta autenticada. A inferência do modelo, quando usada, é cobrada separadamente.
 
 | Descrição | Preço |
 | --- | ---: |
-| Pesquisa na web | **US$ 5/1k pesquisas** |
-| Pesquisa no X (Twitter) | **US$ 5/1k pesquisas** |
+| Pesquisa na Web | **$5/1k pesquisas** |
+| Pesquisa X (Twitter) | **$5/1k pesquisas** |
 
 As solicitações de API direta retornam 1–25 resultados por solicitação (`topn`).
 
-A pesquisa na web integrada e a pesquisa no X/Twitter têm limites diários de plano, e a pesquisa no X/Twitter não está disponível no plano Gratuito; consulte [Ferramentas integradas e limites de pesquisa na web](/docs/pt-br/limits.md#built-in-tools-and-web-search).
+A pesquisa na Web integrada e a pesquisa X/Twitter têm limites diários de plano, e a pesquisa X/Twitter não está disponível no Gratuito; consulte [Ferramentas integradas e limites de pesquisa na web](/docs/pt-br/limits.md#built-in-tools-and-web-search).

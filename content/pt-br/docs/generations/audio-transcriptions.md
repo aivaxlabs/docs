@@ -1,10 +1,10 @@
 ---
-{title: Fala para Texto (STT),linkTitle: Fala para texto (STT),weight: 30,group: Media generation,sourceHash: 8fd7b1a4dbb7ec12,aliases: [/docs/pt-br/generations/audio-transcriptions.html]}
+{title: Fala para Texto (STT),linkTitle: Fala para texto (STT),weight: 30,group: Media generation,sourceHash: ac21fd0892e80385,aliases: [/docs/pt-br/generations/audio-transcriptions.html]}
 ---
 
 # Fala para Texto (STT)
 
-Use Transcrições de Áudio para converter fala gravada em texto para busca, revisão, legendas ou automação posterior. Os usos típicos incluem transcrever reuniões e entrevistas, legendar vídeos gravados, tornar notas de voz pesquisáveis e alimentar entradas faladas em pipelines de classificação ou RAG.
+Use Transcrições de Áudio para converter fala gravada em texto para busca, revisão, legendas ou automação downstream. Os usos típicos incluem transcrever reuniões e entrevistas, legendar vídeos gravados, tornar notas de voz pesquisáveis e alimentar entradas faladas em pipelines de classificação ou RAG.
 
 Autentique as solicitações com uma chave de API da AIVAX. Consulte [Autenticação](/docs/pt-br/authentication) para orientações de autorização.
 
@@ -16,22 +16,37 @@ Consulte os modelos de transcrição disponíveis para a conta autenticada antes
 
 ## Transcreva áudio
 
-Envie o áudio como base64 junto com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho em [Preços, limites e erros](#pricing-limits-and-errors). A cobrança segue a duração da mídia.
+Envie o áudio como base64 com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho em [Preços, limites e erros](#pricing-limits-and-errors). A cobrança segue a duração da mídia.
 
-Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário específico do domínio; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe que a detecção faça o trabalho.
+Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário de domínio; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe a detecção lidar com isso.
 
 Revise o texto retornado antes de usá-lo em ações visíveis ao usuário ou irreversíveis. O endpoint retorna o texto da transcrição sem rótulos de locutor.
 
-A referência embutida é a fonte da verdade para formas aceitas de solicitação, opções e campos de resposta.
+A referência embutida é a fonte da verdade para formas de solicitação aceitas, opções e campos de resposta.
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Transcribe%20audio&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
 ## Após a transcrição
 
-Uma transcrição geralmente é o início de um pipeline, não o fim. Indexe-a em uma [coleção RAG](/docs/pt-br/rag/collections.md) para tornar as gravações pesquisáveis, execute-a pelo [Batch](/docs/pt-br/inference/batch.md) quando houver muitos arquivos ou alimente-a na [Classificação de Texto](/docs/pt-br/data-processing/classification.md) para rotular conversas em escala. Para conversas ao vivo em vez de áudio gravado, use [Sessões de Voz](/docs/pt-br/inference/voice-session).
+Uma transcrição geralmente é o início de um pipeline, não o fim. Indexe-a em uma [coleção RAG](/docs/pt-br/rag/collections.md) para tornar as gravações pesquisáveis, execute-a pelo [Batch](/docs/pt-br/inference/batch/workflows.md) quando houver muitos arquivos ou alimente-a no [Classificação de Texto](/docs/pt-br/data-processing/classification.md) para rotular conversas em escala. Para conversas ao vivo em vez de áudio gravado, use [Sessões de Voz](/docs/pt-br/inference/voice-session).
+
+## Geração assíncrona
+
+Adicione `"async": true` para colocar a transcrição em fila, o que é útil para gravações longas. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado mais tarde ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+
+```json
+{
+  "input_audio": {
+    "data": "<base64-audio>",
+    "format": "mp3"
+  },
+  "language": "en",
+  "async": true
+}
+```
 
 ## Preços, limites e erros
 
 O preço da transcrição varia conforme o modelo; as tarifas atuais estão listadas no [Catálogo de Modelos](https://aivax.net/models#speech-to-text).
 
-As solicitações de transcrição de áudio isolada são limitadas por minuto e, no plano Free, por hora; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As solicitações de transcrição têm uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado é limitado a 75 MB por solicitação. Corrija áudios inválidos ou inacessíveis antes de tentar novamente uma solicitação com falha.
+As solicitações de transcrição de áudio independentes são limitadas por minuto, e por hora na versão Free; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As solicitações de transcrição têm uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado é limitado a 75 MB por solicitação. Corrija o áudio inválido ou inacessível antes de tentar novamente uma solicitação com falha.

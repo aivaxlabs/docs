@@ -111,8 +111,9 @@ The image generation limit is shared by the built-in tool, the [image generation
 | Batch workflow items processed | 500/day | 25,000/day | 250,000/day | — |
 | New Agentic Test runs | 5/min | 20/min | 100/min | — |
 | Concurrent Agentic Test runs | 1 | 4 | 6 | 8 |
+| Queued async generations | 1,000/hour | 50,000/hour | 250,000/hour | 750,000/hour |
 
-Batch processing paused by the daily quota resumes after the window resets. See [Batch](https://docs.aivax.net/docs/inference/batch.md#limits) and [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits).
+Batch processing paused by the daily quota resumes after the window resets. Async generations above the hourly limit are rejected when queued. See [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md#limits), [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md), and [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md#pricing-and-limits).
 
 ## Included daily subscription allowances
 

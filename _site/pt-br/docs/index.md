@@ -69,7 +69,8 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Voz e Tempo Real](https://docs.aivax.net/pt-br/docs/inference/voice-session.md)
 - [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md)
 - [Habilidades](https://docs.aivax.net/pt-br/docs/inference/skills.md)
-- [Processamento em Lote](https://docs.aivax.net/pt-br/docs/inference/batch.md)
+- [Fluxos de Trabalho em Lote](https://docs.aivax.net/pt-br/docs/inference/batch/workflows.md)
+- [Gerações Assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md)
 
 ## Fundação Web
 
@@ -114,5 +115,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Changelogs](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

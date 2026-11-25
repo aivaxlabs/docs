@@ -107,6 +107,25 @@ Documents are processed independently. If any document fails, the whole request 
 
 Extracted values are model-generated. Verify consequential values, such as amounts and identifiers, against the original document.
 
+## Async generation
+
+Add `"async": true` to queue the extraction. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "schema": {
+    "type": "object",
+    "properties": {
+      "total": { "type": "number", "description": "invoice total" }
+    }
+  },
+  "documents": [
+    { "type": "text", "text": "Invoice 1042 from Acme Corp. Total: 20.00 USD." }
+  ],
+  "async": true
+}
+```
+
 ## Pricing and limits
 
 Extraction is billed for the input tokens of each document. Output tokens are not billed.

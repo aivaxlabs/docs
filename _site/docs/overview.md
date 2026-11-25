@@ -33,7 +33,7 @@ Use this table when you know the job and need the first product to open. Each ro
 | Search your own documents or generate grounded answers | [RAG collections](https://docs.aivax.net/docs/rag/collections.md) | Store and index knowledge for semantic retrieval, citations, and gateway context. |
 | Reorder candidates your application already retrieved | [Rerankers](https://docs.aivax.net/docs/rag/reranking.md) | Improve relevance without requiring a managed AIVAX collection. |
 | Publish an assistant to end users | [Chat clients](https://docs.aivax.net/docs/inference/chat-clients/overview.md) | Connect a gateway to web chat or supported messaging integrations with session and channel controls. |
-| Process many independent records | [Batch](https://docs.aivax.net/docs/inference/batch.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
+| Process many independent records | [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) | Run one repeatable workflow asynchronously with per-item state, validation, retries, cost, and export. |
 | Test a complete assistant conversation | [Agentic Tests](https://docs.aivax.net/docs/inference/agentic-tests.md) | Simulate a goal-oriented user and judge the gateway across multiple turns. |
 | Build a low-latency two-way voice experience | [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) | Stream user and assistant audio in an interactive session instead of combining separate audio jobs. |
 
@@ -113,7 +113,7 @@ Choose the path by what you need back:
 
 - Use direct multimodal inference when the selected chat model supports the input and should reason over it in the same request.
 - Use a focused generation endpoint when you need a reusable artifact, a transcript, a description, or a preprocessing stage.
-- For large independent input sets, run the appropriate operation through [Batch](https://docs.aivax.net/docs/inference/batch.md).
+- For large independent input sets, run the appropriate operation through [Batch](https://docs.aivax.net/docs/inference/batch/workflows.md).
 
 For interactive two-way audio, use [Voice Sessions](https://docs.aivax.net/docs/inference/voice-session.md) instead of manually chaining transcription, text inference, and speech generation.
 
@@ -129,7 +129,7 @@ A chat client owns presentation, session behavior, allowed origins, uploads, aud
 
 ### Batch
 
-[Batch](https://docs.aivax.net/docs/inference/batch.md) applies one workflow to dozens or thousands of independent records. Use it when each record is independent and the caller does not need an immediate answer.
+[Batch](https://docs.aivax.net/docs/inference/batch/workflows.md) applies one workflow to dozens or thousands of independent records. Use it when each record is independent and the caller does not need an immediate answer.
 
 A workflow defines the instruction, model or gateway, structured output, validation, tools, and retry policy. A job then:
 

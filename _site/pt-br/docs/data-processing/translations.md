@@ -60,12 +60,27 @@ O serviço retorna apenas o conteúdo traduzido e preserva a formatação, Markd
 
 As traduções são geradas por modelos. Revise-as antes de publicar conteúdo legal, médico, financeiro ou outro de consequências significativas.
 
+## Geração assíncrona
+
+Adicione `"async": true` para colocar a tradução na fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "fromLanguage": "English",
+  "toLanguage": "Brazilian Portuguese",
+  "documents": [
+    { "type": "text", "text": "Your order has shipped." }
+  ],
+  "async": true
+}
+```
+
 ## Preços e limites
 
 As traduções são cobradas em unidades de processamento (PUs), cobrindo o uso de entrada e saída, e o [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers) se aplica.
 
 O número de solicitações de tradução por minuto e por dia depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing). O limite conta solicitações HTTP, não documentos. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
-A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erro mantidos pelo servidor:
+A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erros mantidos pelo servidor:
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Translate%20documents)

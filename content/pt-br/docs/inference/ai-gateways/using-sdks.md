@@ -1,5 +1,5 @@
 ---
-{title: Usando Gateways de IA via SDKs,linkTitle: Usando via SDKs,weight: 40,group: AI Gateways,sourceHash: eb6fb82a968fa951,aliases: [/docs/pt-br/inference/ai-gateways/using-sdks.html]}
+{title: Usando Gateways de IA via SDKs,linkTitle: Usando via SDKs,weight: 40,group: AI Gateways,sourceHash: 4d7de0ad96cd09d3,aliases: [/docs/pt-br/inference/ai-gateways/using-sdks.html]}
 ---
 
 # Usando Gateways de IA via SDKs
@@ -50,7 +50,7 @@ A inferência compatível com o OpenAI usa `/v1/chat/completions`. O endpoint se
 
 ## Enviar campos AIVAX
 
-As extensões do AIVAX, como `conversation_token`, `builtin_tools`, `response_schema`, `routing_options` ou `metadata`, não fazem parte dos parâmetros tipados do SDK. Envie-as como campos extras no corpo da solicitação:
+As extensões AIVAX, como `conversation_token`, `builtin_tools`, `response_schema`, `routing_options` ou `metadata`, não fazem parte dos parâmetros tipados do SDK. Envie-as como campos extras no corpo da solicitação:
 
 ```python
 response = client.chat.completions.create(
@@ -69,6 +69,18 @@ No SDK JavaScript, adicione os campos diretamente ao objeto de solicitação; o 
 > O argumento `extra_body` do SDK Python adiciona apenas campos ao corpo da solicitação. É diferente do campo de solicitação `extra_body` do AIVAX, que encaminha JSON personalizado para um provedor BYOK; consulte [JSON Personalizado](/docs/pt-br/inference/chat-completions/custom-json.md).
 
 Os campos que o AIVAX adiciona às respostas, como `conversation_token`, `provider` ou `generation_context`, estão disponíveis por meio da resposta bruta do SDK ou das propriedades não tipadas do objeto retornado.
+
+## Geração assíncrona
+
+Os endpoints `/v1/chat/completions`, `/v1/responses` e `/v1/messages` aceitam `"async": true` para enfileirar a solicitação. A API responde com HTTP `202` e um ID em vez de uma conclusão, portanto, envie-a com um cliente HTTP simples ou a resposta bruta do SDK, em vez de ler o resultado como uma conclusão. Busque o resultado armazenado mais tarde ou receba um webhook quando estiver concluído. Solicitações de streaming não podem ser enfileiradas. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+
+```json
+{
+  "model": "my-gateway:50c3",
+  "input": "Resuma este relatório.",
+  "async": true
+}
+```
 
 ## Solicitações longas
 

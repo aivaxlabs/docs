@@ -38,6 +38,18 @@ The embedded reference is the source of truth for the request shape, supported o
 
 To let an MCP-compatible agent or IDE generate images without calling this endpoint directly, use the [Media generation MCP](https://docs.aivax.net/docs/mcp-utilities/media-generation-mcp.md). For a Claude Code setup, see [generate images in Claude Code with an MCP server](https://aivax.net/blog/generate-images-and-speech-from-claude-code-with-mcp/).
 
+## Async generation
+
+Add `"async": true` to queue the generation instead of keeping the request open. The API answers with HTTP `202` and an ID, and you fetch the stored result later or receive a webhook when it is done. See [Async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md).
+
+```json
+{
+  "input": "A kitten playing with a ball",
+  "model": "@alibaba/wan-image-2.7-pro",
+  "async": true
+}
+```
+
 ## Pricing, limits, and errors
 
 Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Prompt processing is included, and no account or plan multiplier applies. Current tariffs for each model are listed in the Models catalog.

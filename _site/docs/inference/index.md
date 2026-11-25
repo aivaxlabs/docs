@@ -72,5 +72,8 @@ Source: https://docs.aivax.net/docs/inference/index.html
 
 - [Skills](https://docs.aivax.net/docs/inference/skills.md)
 
-- [Batch Processing](https://docs.aivax.net/docs/inference/batch.md)
+## Batch Processing
+
+- [Batch Workflows](https://docs.aivax.net/docs/inference/batch/workflows.md)
+- [Async Generations](https://docs.aivax.net/docs/inference/batch/async-generations.md)
 
