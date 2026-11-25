@@ -150,6 +150,8 @@ Webhook URLs must be public HTTP or HTTPS URLs. When the account has a hook key,
 
 Delivery is not retried. If your service can be unavailable, also poll the [list endpoint](#manage-queued-generations) for `done` items.
 
+For a Python example that collects results by tag, re-queues only the failures, and verifies the webhook nonce, see [Async LLM API: queue the request, get an ID, fetch the result later](https://aivax.net/blog/async-llm-api-queue-request-fetch-result-later/).
+
 ## Manage queued generations
 
 Authenticate management requests with an AIVAX API key. All routes are under `/api/v1/async-generations`.
