@@ -150,6 +150,8 @@ As URLs dos webhooks devem ser URLs HTTP ou HTTPS públicos. Quando a conta poss
 
 A entrega não é retryada. Se o seu serviço puder ficar indisponível, também faça polling do [endpoint de lista](#manage-queued-generations) para itens `done`.
 
+Para um exemplo em Python que coleta os resultados por tag, reenfileira só as falhas e verifica o nonce do webhook, veja [Async LLM API: queue the request, get an ID, fetch the result later](https://aivax.net/blog/async-llm-api-queue-request-fetch-result-later/).
+
 ## Gerenciar gerações em fila
 
 Autentique solicitações de gerenciamento com uma chave de API do AIVAX. Todas as rotas estão sob `/api/v1/async-generations`.
