@@ -173,12 +173,12 @@ GET /api/v1/async-generations?status=done&tags=nightly-report&limit=100
 
 ## Reduce cost
 
-Queued work rarely needs the fastest provider. Pair async generations with cheaper routing: add the `#cheapest` suffix to an integrated model name, or set `routing_options.preset` to `Cheapest`. See [Inline routing](/docs/inference/routing/inline-routing.md) and [Setup provider routing](/docs/inference/routing/setup-routing.md).
+Queued work rarely needs the fastest provider, so async generations use the `Cheapest` [routing preference](/docs/inference/routing/setup-routing.md) by default. To favor speed or quality for a queued item, set the preference explicitly with `routing_options.preset` or a [model name suffix](/docs/inference/routing/inline-routing.md):
 
 ```json
 {
   "model": "@openai/gpt-6-luna",
-  "routing_options": { "preset": "Cheapest" },
+  "routing_options": { "preset": "Fastest" },
   "messages": [{ "role": "user", "content": "Classify this ticket." }],
   "async": { "enabled": true, "tags": ["triage"] }
 }

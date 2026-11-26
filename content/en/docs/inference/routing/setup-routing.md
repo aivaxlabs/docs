@@ -14,7 +14,7 @@ Available routing preferences are:
 
 | Preference | Behavior |
 |---|---|
-| `Balanced` | Balances price, speed, and quality. This is the default. |
+| `Balanced` | Balances price, speed, and quality. This is the default, except for [async generations](/docs/inference/batch/async-generations.md), which default to `Cheapest`. |
 | `Cheapest` | Selects the provider with the lowest applicable input and output token price. |
 | `Fastest` | Prioritizes the provider with the highest available throughput. |
 | `Quality` | Selects the provider that AIVAX ranks highest for quality, without optimizing for price or speed. |
