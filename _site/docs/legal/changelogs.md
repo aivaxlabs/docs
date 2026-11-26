@@ -13,6 +13,12 @@ Announced changes that take effect on a future date and may require action.
 - **Models — Previous model names stop working on December 1st, 2026.** Model names replaced in the November 1st, 2026 renaming, decision aliases without `:latest`, `@x-ai/grok-imagine-pro` and `@microsoft/mai-image-2.5-flash` will be rejected, and saved AI gateways that still store a previous language model name will fail until updated. Gateways that store a previous image model name can no longer be saved, and their chat image tool switches to `@black-forest-labs/flux-schnell`; replace previous names with the ones returned by the model catalogs, as shown in the [November 1st, 2026 entry](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md#sunday-november-1st-2026) and the November 24th entry below.
 - **Chat clients — Previous messaging webhook URLs stop working on December 1st, 2026.** Telegram, Z-API, Evolution API, and Kapso webhook URLs without the integration key will be rejected. Copy the new URL from the integration settings and update it in the provider, or use **Update hooks** for Telegram; see [Webhook URLs](https://docs.aivax.net/docs/inference/chat-clients/integrations.md#webhook-urls).
 
+## Thursday, November 26th, 2026
+
+Changes:
+
+- **Models — Speed of subscription models.** Subscription models now show their measured throughput (tokens per second) and latency (seconds to the first token) on the [Models page](https://aivax.net/models) and in the model catalog.
+
 ## Wednesday, November 25th, 2026
 
 Changes:

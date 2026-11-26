@@ -1,12 +1,12 @@
 ---
-{title: Texto para Fala (TTS),linkTitle: Texto para fala (TTS),weight: 20,group: Media generation,sourceHash: 1f490787a7dce76d,aliases: [/docs/pt-br/generations/speech.html]}
+{title: Texto para Fala (TTS),linkTitle: Texto para fala (TTS),weight: 20,group: Media generation,sourceHash: 862fed635c3d9003,aliases: [/docs/pt-br/generations/speech.html]}
 ---
 
 # Texto para Fala (TTS)
 
-Use a Geração de Fala quando seu aplicativo já tiver o texto final e precisar de áudio reproduzível sem executar uma conclusão de chat. Os usos típicos incluem narrar um artigo ou notificação, dar voz a um prompt IVR, produzir uma versão preliminar de narração para revisão ou gerar arquivos de áudio para reprodução offline.
+Use a Geração de Fala quando seu aplicativo já tiver o texto final e precisar de áudio reproduzível sem executar uma conclusão de chat. Usos típicos incluem narrar um artigo ou notificação, dar voz a um prompt IVR, produzir um esboço de narração para revisão ou gerar arquivos de áudio para reprodução offline.
 
-Autentique as solicitações com uma chave de API da AIVAX. Consulte [Autenticação](/docs/pt-br/authentication) para orientações sobre autorização.
+Autentique as solicitações com uma chave de API da AIVAX. Consulte [Autenticação](/docs/pt-br/authentication) para orientações de autorização.
 
 ## Escolha a forma de entrega
 
@@ -27,7 +27,7 @@ A referência embutida é a fonte da verdade para modelos e vozes disponíveis, 
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Generate%20speech&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>
 
-Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar este endpoint diretamente, use o [Media generation MCP](/docs/pt-br/mcp-utilities/media-generation-mcp). Ele retorna uma URL pública para áudio MP3 em vez de áudio inline.
+Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar este endpoint diretamente, use a [MCP de geração de mídia](/docs/pt-br/mcp-utilities/media-generation-mcp). Ele retorna uma URL pública para áudio MP3 em vez de áudio inline.
 
 ## Fala ou Sessões de Voz
 
@@ -35,7 +35,7 @@ Use a Geração de Fala para síntese única de texto conhecido. Use [Sessões d
 
 ## Geração assíncrona
 
-Adicione `"async": true` para enfileirar a síntese em vez de manter a solicitação aberta. A API responde com HTTP `202` e um ID, e você busca o áudio armazenado mais tarde ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+Adicione `"async": true` para enfileirar a síntese em vez de manter a solicitação aberta. A API responde com HTTP `202` e um ID, e você busca o áudio armazenado mais tarde ou recebe um webhook quando estiver concluído. Veja [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
 
 ```json
 {
@@ -51,4 +51,4 @@ Adicione `"async": true` para enfileirar a síntese em vez de manter a solicita�
 
 O preço da geração de fala varia por modelo; as tarifas atuais estão listadas no [Catálogo de Modelos](https://aivax.net/models#text-to-speech).
 
-As solicitações independentes de texto para fala são limitadas por minuto, e por hora no plano Gratuito; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As Sessões de Voz não estão sujeitas a essas cotas de solicitações independentes; elas seguem o acesso, saldo e limites de inferência do modelo de tempo real selecionado. Revise os erros de validação relatados antes de tentar novamente uma solicitação com falha.
+As solicitações independentes de texto para fala são limitadas por minuto e por hora no plano Gratuito; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As Sessões de Voz não estão sujeitas a essas cotas de solicitações independentes; elas seguem o acesso, saldo e limites de inferência do modelo de tempo real selecionado. Revise os erros de validação relatados antes de tentar novamente uma solicitação com falha.

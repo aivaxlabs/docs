@@ -48,8 +48,8 @@ Reflex is billed by input tokens, with a lower rate for cached input. Accounts w
 | Description | Pricing |
 | --- | ---: |
 | Reflex - cache miss | **$0.015/M tokens** |
-| Reflex - cache hit | **$0.003/M tokens** |
+| Reflex - cache hit | **$0.005/M tokens** |
 
-Each request accepts up to 10,000 candidate documents and returns up to 200 ranked results on every plan. Reflex processing time per day and reranking requests per minute depend on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections).
+Each request accepts up to 15,000 candidate documents and returns up to 50 ranked results on every plan. Reflex processing time per day and reranking requests per minute depend on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections).
 
 The processing-time limit covers Reflex requests on the reranking endpoint and in RAG searches. The reranking request limit applies to the reranking endpoint and to RAG searches that use a reranker, including through AI Gateways and MCP tools. Requests above a limit return `429 Too Many Requests`.
