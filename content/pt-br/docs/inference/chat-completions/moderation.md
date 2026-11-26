@@ -1,12 +1,12 @@
 ---
-{title: Moderação,linkTitle: Moderação,weight: 135,group: Inference,sourceHash: ab76088ce2f93b12,aliases: [/docs/pt-br/inference/chat-completions/moderation.html]}
+{title: Moderação,linkTitle: Moderação,weight: 135,group: Inference,sourceHash: cf0dca2665c58790,aliases: [/docs/pt-br/inference/chat-completions/moderation.html]}
 ---
 
 # Moderação
 
-A moderação aplica a política de segurança às solicitações do usuário antes que o modelo principal as responda. Utilize-a para bloquear solicitações inseguras ou fora da política em assistentes voltados ao usuário. Configure-a na seção **Content Moderation** (Moderação de Conteúdo) do editor do gateway ou em `parameters.moderationParameters`.
+A moderação aplica a política de segurança às solicitações dos usuários antes que o modelo principal as responda. Utilize-a para bloquear solicitações inseguras ou fora da política em assistentes voltados ao usuário. Configure-a na seção **Content Moderation** do editor do gateway ou em `parameters.moderationParameters`.
 
-A moderação é uma configuração do Gateway AI; chamadas diretas a `chat/completions` com um nome de modelo não a executam, e as solicitações não podem alterá-la.
+A moderação é uma configuração do AI Gateway; chamadas diretas a `chat/completions` com um nome de modelo não a executam, e as solicitações não podem alterá-la.
 
 ## Escolha um modo
 
@@ -31,15 +31,15 @@ No modo `LayeredGuardrail`, quando pelo menos uma categoria de moderação está
 
 | Categoria | Propriedade do Gateway | O que a salvaguarda avalia |
 | --- | --- | --- |
-| **Violência e discurso de ódio** | `violenceThreshold` | Violência, ódio, extremismo, ameaças ou incentivo à lesão física. |
+| **Violência e discurso de ódio** | `violenceThreshold` | Violência, ódio, extremismo, ameaças ou incentivo a danos físicos. |
 | **Conteúdo sexual e explícito** | `sexualExplicitThreshold` | Conteúdo sexualmente explícito ou adulto. |
 | **Tópicos políticos** | `politicalThreshold` | Persuasão política, campanhas, manipulação ou conteúdo altamente político. |
 | **Conteúdo perigoso** | `dangerousContentThreshold` | Armas, explosivos, abuso cibernético, autolesão ou outros atos e instruções perigosas. |
-| **Tentativas de jailbreak** | `jailbreakThreshold` | Tentativas de substituir instruções, revelar instruções protegidas, exfiltrar dados ou injetar prompts. |
+| **Tentativas de jailbreak** | `jailbreakThreshold` | Tentativas de ignorar instruções, revelar instruções protegidas, exfiltrar dados ou injetar prompts. |
 
 ## Entenda os níveis de sensibilidade
 
-O valor configurado no gateway é um **nível de sensibilidade** de `0` a `10`, não a própria pontuação da salvaguarda. Um nível mais alto reduz a pontuação necessária para bloquear a entrada. Valores fora desse intervalo são rejeitados quando o gateway é salvo.
+O valor configurado no gateway é um **nível de sensibilidade** de `0` a `10`, não a pontuação da salvaguarda em si. Um nível mais alto reduz a pontuação necessária para bloquear a entrada. Valores fora dessa faixa são rejeitados quando o gateway é salvo.
 
 | Nível de sensibilidade | Pontuações da salvaguarda que bloqueiam |
 | ---: | --- |
@@ -61,13 +61,13 @@ As **regras adicionais de moderação** permitem que um administrador do gateway
 Por exemplo:
 
 ```text
-Permita que os usuários descrevam acidentes e ferimentos ao solicitar cobertura de seguro ou assistência.
-Trate solicitações por instruções para causar um acidente ou prejudicar alguém como conteúdo perigoso.
+Permita que os usuários descrevam acidentes e lesões ao solicitar cobertura ou assistência de seguro.
+Trate solicitações de instruções para causar um acidente ou prejudicar alguém como conteúdo perigoso.
 ```
 
 Regras adicionais orientam a classificação; elas não criam uma pontuação separada nem bloqueiam uma entrada diretamente. Pelo menos uma categoria deve ter um nível de sensibilidade acima de `0` para que a moderação seja executada. No exemplo acima, habilite **Conteúdo perigoso** para que a pontuação da salvaguarda possa produzir uma decisão de bloqueio.
 
-Escreva as regras como declarações de política curtas com casos explícitos permitidos e proibidos. Não inclua segredos, credenciais ou dados operacionais privados, pois as regras são armazenadas com a configuração do gateway e enviadas ao modelo de salvaguarda durante a moderação.
+Escreva regras como declarações de política curtas com casos permitidos e proibidos explícitos. Não inclua segredos, credenciais ou dados operacionais privados, pois as regras são armazenadas com a configuração do gateway e enviadas ao modelo de salvaguarda durante a moderação.
 
 O seguinte fragmento de gateway habilita diferentes níveis de sensibilidade e fornece orientação específica do domínio à salvaguarda. Os valores são um exemplo, não uma linha de base recomendada para produção:
 
@@ -95,11 +95,13 @@ Quando qualquer categoria habilitada atinge seu corte:
 
 A recusa é gerada pelo modelo; a moderação não retorna um corpo de resposta fixo. Solicitações bloqueadas ainda são cobradas pela análise de moderação e pela geração da recusa.
 
-No modo `LayeredGuardrail`, se a moderação não puder produzir um resultado, a solicitação não será rejeitada: o modelo principal aplica a política configurada por conta própria. Se seu aplicativo deve falhar de forma fechada (fail closed) quando a moderação estiver indisponível, imponha isso no seu aplicativo ou em um worker.
+## Se a moderação não puder ser executada
+
+No modo `LayeredGuardrail`, se a moderação não puder produzir um resultado, a solicitação não será rejeitada: o modelo principal aplica a política configurada por conta própria. Se seu aplicativo deve falhar de forma segura (fail closed) quando a moderação estiver indisponível, imponha isso no seu aplicativo ou em um worker.
 
 ## Onde a moderação é executada no pipeline
 
-A moderação é executada uma vez por solicitação, antes que o loop agêntico comece. Veja [Pipeline de processamento](processing-pipeline.md) para a ordem completa. Como consequência:
+A moderação é executada uma vez por solicitação, antes que o loop agentic comece. Veja [Pipeline de processamento](processing-pipeline.md) para a ordem completa. Como consequência:
 
 - [Workers](/docs/pt-br/inference/workers.md) são executados primeiro. Um worker pode bloquear uma solicitação antes que a moderação seja executada, e a moderação avalia a conversa conforme alterada pelo worker.
 - Documentos recuperados por injeção de [estratégias RAG](processing-pipeline.md#rag) já estão na última mensagem do usuário, então a salvaguarda os avalia junto com o texto do usuário.
@@ -108,12 +110,12 @@ A moderação é executada uma vez por solicitação, antes que o loop agêntico
 
 ## Escopo
 
-No modo `LayeredGuardrail`, a salvaguarda avalia o histórico da conversa, não apenas a mensagem mais recente. A moderação aplica-se apenas ao texto de entrada:
+No modo `LayeredGuardrail`, a salvaguarda lê todo o histórico da conversa, não apenas a mensagem mais recente. A moderação cobre apenas texto de entrada:
 
-- A saída gerada não é moderada.
-- Imagens, áudio, vídeo e conteúdos de arquivos não são analisados. A salvaguarda recebe apenas um marcador indicando que havia mídia presente.
-- A autorização de ferramentas ou workers ainda requer política em nível de aplicativo; a moderação não é um mecanismo de autorização.
+- Saída gerada não é moderada.
+- Imagens, áudio, vídeo e conteúdos de arquivo não são analisados. A salvaguarda recebe apenas um marcador indicando que havia mídia presente.
+- Autorização de ferramentas ou workers ainda requer política em nível de aplicativo; a moderação não é um mecanismo de autorização.
 
 Use a moderação para políticas amplas de segurança. Use workers quando a decisão depender de identidade externa, estado da conta ou política específica do negócio.
 
-Para saber quando a autoavaliação é suficiente e quando a salvaguarda separada permanece necessária, com tempos de execução em ambiente real, consulte [API de moderação LLM: camada separada ou autoavaliação do modelo?](https://aivax.net/blog/aivax-gateway-moderation/).
+Para saber quando a autoavaliação é suficiente e quando a salvaguarda separada permanece necessária, com tempos de execução em ambientes reais, consulte [API de moderação LLM: camada separada ou autoavaliação do modelo?](https://aivax.net/blog/aivax-gateway-moderation/).

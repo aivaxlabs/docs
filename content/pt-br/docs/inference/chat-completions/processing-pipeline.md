@@ -1,10 +1,10 @@
 ---
-{title: Pipeline de Processamento,linkTitle: Pipeline de processamento,weight: 45,group: Inference,aliases: [/docs/pt-br/inference/pipelines.html,/docs/pt-br/inference/chat-completions/processing-pipeline.html],sourceHash: f99c1769f527d78f}
+{title: Pipeline de Processamento,linkTitle: Pipeline de processamento,weight: 45,group: Inference,aliases: [/docs/pt-br/inference/pipelines.html,/docs/pt-br/inference/chat-completions/processing-pipeline.html],sourceHash: a384a8e4e71ddbf0}
 ---
 
 # Pipeline de processamento
 
-Quando uma solicitação utiliza um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md), o AIVAX executa uma sequência fixa de etapas antes, durante e após cada geração do modelo. Cada etapa pode adicionar contexto, alterar a conversa, expor ferramentas ou interromper a solicitação. Conhecer a ordem ajuda você a prever o que cada etapa pode ver: por exemplo, a moderação vê os documentos recuperados pelo RAG, mas não as descrições produzidas pelo pré-processamento multimodal.
+Quando uma solicitação utiliza um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md), o AIVAX executa uma sequência fixa de etapas antes, durante e após a geração de cada modelo. Cada etapa pode adicionar contexto, alterar a conversa, expor ferramentas ou interromper a solicitação. Conhecer a ordem ajuda você a prever o que cada etapa pode ver: por exemplo, a moderação vê os documentos recuperados pelo RAG, mas não as descrições produzidas pelo pré-processamento multimodal.
 
 A maioria das etapas é configurada nos parâmetros do gateway. Solicitações enviadas com uma chave privada podem substituir algumas delas; consulte [Inferência com AI Gateways](ai-gateways.md).
 
@@ -29,33 +29,33 @@ flowchart TD
     M -->|resposta final ou chamadas de ferramentas do cliente| O[Saída estruturada, uso e registro da conversa]
 ```
 
-As etapas 1 a 6 são executadas uma vez por solicitação. As etapas 7 a 12 formam o loop agêntico e são executadas novamente sempre que o modelo chama uma ferramenta no lado do servidor.
+As etapas 1 a 6 são executadas uma vez por solicitação. As etapas 7 a 12 formam o loop agêntico e são executadas novamente sempre que o modelo chama uma ferramenta no lado do servidor. A etapa 13 é executada uma vez, após a última geração.
 
-| # | Etapa | Executa | O que faz |
+| # | Etapa | Execução | O que faz |
 | --- | --- | --- | --- |
-| 1 | [Preparar](#rag) | Uma vez | Carrega as habilidades do gateway. Para estratégias de injeção de consulta, pesquisa nas coleções vinculadas e insere os resultados na última mensagem do usuário. Os contextos das coleções são adicionados às instruções do sistema. |
-| 2 | Resolver | Uma vez | Resolve o modelo e o provedor através do [roteamento](/docs/pt-br/inference/routing/setup-routing.md), busca [fontes de instrução remotas](#instructions), carrega funções de protocolo, fontes de funções de protocolo, ferramentas MCP e ferramentas integradas do gateway, e aplica os [parâmetros](#parameterization) do gateway. |
+| 1 | [Preparação](#rag) | Uma vez | Carrega as habilidades do gateway. Para estratégias de injeção de consulta, pesquisa nas coleções vinculadas e insere os resultados na última mensagem do usuário. Os contextos das coleções são adicionados às instruções do sistema. |
+| 2 | Resolver | Uma vez | Resolve o modelo e o provedor por meio do [roteamento](/docs/pt-br/inference/routing/setup-routing.md), busca [fontes de instrução remotas](#instructions), carrega funções de protocolo, fontes de funções de protocolo, ferramentas MCP e ferramentas integradas do gateway, e aplica os [parâmetros](#parameterization) do gateway. |
 | 3 | Substituições da solicitação | Uma vez | Aplica campos da solicitação como `temperature`, `tools`, `builtin_tools`, `multimodal_resolver` e `response_format`. |
 | 4 | [Worker `message.received`](/docs/pt-br/inference/workers.md#messagereceived) | Uma vez | Chama seu worker, que pode interromper a solicitação ou alterar mensagens, instruções, ferramentas e fontes MCP. |
-| 5 | Contexto no lado do servidor | Uma vez | Restaura o [contexto no lado do servidor](server-side-context.md) de rodadas anteriores quando a [reutilização de sessão](session-reuse.md) se aplica. |
+| 5 | Contexto no lado do servidor | Uma vez | Restaura o [contexto no lado do servidor](server-side-context.md) das rodadas anteriores quando a [reutilização de sessão](session-reuse.md) se aplica. |
 | 6 | [Moderação](moderation.md) | Uma vez | Avalia o texto da conversa e o bloqueia, ou adiciona instruções de autoavaliação e a ferramenta de recusa. |
 | 7 | Instruções do sistema | Cada iteração | Junta instruções do gateway, fontes remotas, contextos de coleção, mensagens `system` da solicitação, lista de habilidades e orientações de explicação de ferramentas. |
 | 8 | [Truncamento de contexto](context-truncation.md) | Cada iteração | Compara o tamanho aproximado de entrada com `contextMaximumSize` e aplica `contextOverflowAction`. |
 | 9 | [Pré-processamento multimodal](multimodal-pre-processing.md) | Cada iteração | Substitui mídia por descrições textuais usando os mecanismos configurados. |
 | 10 | Reescrita de mensagens | Cada iteração | Aplica [truncamento de mensagens de ferramenta](context-truncation.md#tool-message-truncation), o [modelo de prompt do usuário](#instructions) e, apenas na primeira iteração, o [preenchimento inicial do assistente](#instructions). |
-| 11 | Montagem de ferramentas | Cada iteração | Junta ferramentas da solicitação e ferramentas no lado do servidor. A solicitação é rejeitada quando duas ferramentas diferentes compartilham um nome. Com um [interpretador de função](function-interpreter.md), a seleção de ferramentas ocorre aqui em vez de na chamada do provedor. |
+| 11 | Montagem de ferramentas | Cada iteração | Junta ferramentas da solicitação e ferramentas no lado do servidor. A solicitação é rejeitada quando duas ferramentas diferentes compartilham o mesmo nome. Com um [interpretador de funções](function-interpreter.md), a seleção de ferramentas ocorre aqui em vez de na chamada do provedor. |
 | 12 | Geração e ferramentas | Cada iteração | Chama o provedor. Chamadas de ferramentas no lado do servidor passam pelo [evento `tool.called` do worker](/docs/pt-br/inference/workers.md#toolcalled), são executadas dentro do AIVAX, passam pelo [evento `tool.fetched` do worker](/docs/pt-br/inference/workers.md#toolfetched) e retornam à etapa 7 com seus resultados. |
 | 13 | Finalização | Uma vez | Valida ou corrige [saída estruturada](structured-output.md), registra o uso, armazena a conversa quando o log está habilitado e notifica o [evento `message.completed` do worker](/docs/pt-br/inference/workers.md#messagecompleted). |
 
 ### O que a ordem significa na prática
 
-- **Workers são executados antes da moderação.** Um worker pode bloquear uma solicitação sem gastar recursos de moderação, e a moderação avalia a conversa após o worker tê-la alterado.
+- **Workers são executados antes da moderação.** Um worker pode bloquear uma solicitação sem gastar recursos de moderação, e a moderação avalia a conversa após o worker alterá-la.
 - **A moderação vê documentos recuperados.** Os resultados do RAG são inseridos na última mensagem do usuário antes que a moderação seja executada, para que a salvaguarda os avalie junto com o texto do usuário.
 - **A moderação não vê mídia.** O pré-processamento multimodal é executado após a moderação, portanto, as descrições de mídia não são moderadas.
 - **A moderação é executada uma vez por solicitação.** Resultados de ferramentas produzidos durante o loop agêntico não são moderados.
 - **O truncamento pode ocorrer no meio de uma solicitação.** A verificação de contexto é executada em cada iteração, então grandes resultados de ferramentas podem causar a remoção de mensagens mais antigas ou um erro `Throw`, após algumas ferramentas já terem sido executadas.
 - **O tamanho do contexto é medido antes do pré-processamento.** A mídia é contada por sua estimativa de tamanho original, não pelo tamanho de sua descrição textual.
-- **O modelo de prompt se aplica a toda mensagem do usuário,** incluindo mensagens que carregam documentos RAG recuperados.
+- **O modelo de prompt se aplica a cada mensagem do usuário,** incluindo mensagens que carregam documentos RAG recuperados.
 
 ## RAG
 
@@ -65,7 +65,7 @@ A etapa RAG adiciona conhecimento dos seus documentos ao contexto do modelo. Ela
 - Número máximo de documentos recuperados.
 - Pontuação mínima.
 - Nome do reranker.
-- Se referências de chunk estão incluídas.
+- Se as referências de chunk estão incluídas.
 - Estratégia de consulta.
 
 Quando um gateway possui coleções de conhecimento e a última mensagem do usuário contém texto, o AIVAX pode recuperar documentos correspondentes antes da chamada do modelo. Para estratégias de injeção, o contexto recuperado é inserido no início da última mensagem do usuário. Se uma coleção vinculada tiver seu próprio texto de contexto, esse contexto da coleção é adicionado às instruções do sistema.
@@ -73,9 +73,9 @@ Quando um gateway possui coleções de conhecimento e a última mensagem do usu�
 Estratégias de consulta:
 
 - `Plain`: Usa a última mensagem do usuário como a consulta de pesquisa.
-- `Concatenate`: Junta as últimas mensagens configuradas do usuário linha por linha e pesquisa com o texto combinado.
-- `UserRewrite`: Reescreve mensagens recentes do usuário em uma ou mais consultas de pesquisa usando um modelo de resolução.
-- `FullRewrite`: Reescreve mensagens recentes do usuário e do assistente em uma ou mais consultas de pesquisa usando um modelo de resolução.
+- `Concatenate`: Junta as últimas mensagens do usuário configuradas linha por linha e pesquisa com o texto combinado.
+- `UserRewrite`: Reescreve as mensagens recentes do usuário em uma ou mais consultas de pesquisa usando um modelo de resolução.
+- `FullRewrite`: Reescreve as mensagens recentes do usuário e do assistente em uma ou mais consultas de pesquisa usando um modelo de resolução.
 - `QueryFunction`: Adiciona uma função de consulta ao modelo. O modelo decide quando pesquisar nas coleções vinculadas, e os resultados da pesquisa são retornados como respostas de ferramenta. O modelo pode restringir uma pesquisa com um [filtro de documento](/docs/pt-br/rag/document-filters) opcional.
 
 Estratégias de reescrita adicionam custo (consulte [Preços](/docs/pt-br/pricing)) e latência do modelo de resolução. Elas são úteis quando perguntas de acompanhamento dependem de rodadas anteriores.
@@ -109,7 +109,7 @@ O pré-processamento multimodal converte conteúdo de mídia selecionado em text
 
 A configuração do gateway `multimodalResolverParameters` substitui as sinalizações `enabledMultimodalFeatures` obsoletas. Gateways que ainda usam as sinalizações continuam funcionando com os mecanismos equivalentes até que `multimodalResolverParameters` seja definido.
 
-Use o pré-processamento quando o modelo principal for baseado em texto ou quando você quiser que o AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré-processamento para que o modelo possa inspecioná-la diretamente.
+Use o pré-processamento quando o modelo principal for focado em texto ou quando você quiser que o AIVAX normalize a mídia em contexto textual. Para modelos multimodais diretos, envie a mídia original sem pré-processamento para que o modelo possa inspecioná-la diretamente.
 
 ## Parametrização
 
@@ -128,7 +128,7 @@ Valores em nível de solicitação podem substituir valores do gateway quando o 
 
 ## Truncamento de contexto
 
-`contextMaximumSize`, `contextOverflowAction` e `toolContextCount` mantêm conversas longas dentro de um tamanho de entrada máximo. Consulte [Truncamento de contexto](context-truncation.md).
+`contextMaximumSize`, `contextOverflowAction` e `toolContextCount` mantêm conversas longas dentro de um tamanho máximo de entrada. Consulte [Truncamento de contexto](context-truncation.md).
 
 ## Moderação
 
@@ -169,13 +169,11 @@ Consulte [Ferramentas integradas](/docs/pt-br/tools/builtin-tools).
 
 Ferramentas listadas por uma fonte MCP ficam disponíveis para o modelo com seus esquemas declarados. Resultados de ferramentas MCP podem incluir texto, imagens e áudio; resultados de mídia são anexados à conversa como mensagens adicionais quando suportados.
 
-Funções de protocolo expõem callbacks HTTP ou URLs de callback do AIVAX como ferramentas chamáveis por modelos. Fontes remotas de funções de protocolo são buscadas e armazenadas em cache antes que suas ferramentas fiquem disponíveis para o modelo.
-
 Consulte [Funções de protocolo](/docs/pt-br/tools/protocol-functions) e [MCP](/docs/pt-br/tools/mcp).
 
-## Interpretador de função
+## Interpretador de funções
 
-O interpretador de função está obsoleto. Consulte [Interpretador de função](function-interpreter.md).
+O interpretador de funções está obsoleto. Consulte [Interpretador de funções](function-interpreter.md).
 
 ## Workers
 

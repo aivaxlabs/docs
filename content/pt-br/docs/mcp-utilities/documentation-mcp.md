@@ -1,10 +1,10 @@
 ---
-{title: Documentação MCP,linkTitle: Documentação MCP,weight: 20,group: MCP Utilities,aliases: [/docs/pt-br/tools/documentation-mcp.html,/docs/pt-br/mcp-utilities/documentation-mcp.html],sourceHash: 3500c325ba4054c3}
+{title: Documentação MCP,linkTitle: Documentação MCP,weight: 20,group: MCP Utilities,aliases: [/docs/pt-br/tools/documentation-mcp.html,/docs/pt-br/mcp-utilities/documentation-mcp.html],sourceHash: 0c8fd82207a6a985}
 ---
 
 # Documentação MCP
 
-O MCP de documentação da AIVAX expõe a documentação, o conteúdo de referência da API e os metadados do modelo da AIVAX aos clientes compatíveis com MCP. Ele foi projetado para assistentes, IDEs, agentes internos e fluxos de trabalho de implementação que precisam do contexto atual da AIVAX antes de responder, escrever código, configurar um gateway ou solucionar problemas de integração.
+O MCP de documentação da AIVAX expõe a documentação da AIVAX, o conteúdo de referência da API e os metadados do modelo aos clientes compatíveis com MCP. Ele foi projetado para assistentes, IDEs, agentes internos e fluxos de trabalho de implementação que precisam do contexto atual da AIVAX antes de responder, escrever código, configurar um gateway ou solucionar problemas de integração.
 
 Este MCP é orientado à leitura. Ele não expõe uma ferramenta genérica de invocação da API de conta. Use-o quando um agente precisar entender os recursos da AIVAX, encontrar a rota de API correta, comparar as capacidades dos modelos ou fundamentar sua resposta no manual do produto. Use apenas o [MCP de gerenciamento de contas](/docs/pt-br/mcp-utilities/account-management-mcp) quando o cliente também precisar inspecionar ou alterar recursos de conta autenticados por meio de chamadas de API.
 
@@ -13,7 +13,7 @@ Este MCP é orientado à leitura. Ele não expõe uma ferramenta genérica de in
 
 ## Endpoint
 
-Este é o endereço do MCP de documentação. Conecte um cliente aqui quando ele deve pesquisar o manual do produto, a referência da API ou os modelos de chat integrados para o plano da conta.
+Este é o endereço para o MCP de documentação. Conecte um cliente aqui quando ele deve pesquisar o manual do produto, a referência da API ou os modelos de chat integrados para o plano da conta.
 
 ```text
 https://inference.aivax.net/v1/mcp/documentation
@@ -59,8 +59,8 @@ A ferramenta aceita:
 
 | Argumento | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
-| `search_terms` | `string[]` | Sim | Termos de pesquisa para consultar contra a documentação e a referência da API da AIVAX. |
-| `search_type` | `string` | Não | Escopo de pesquisa. Use `documentation-manual`, `api-function-reference` ou `all`. |
+| `search_terms` | `string[]` | Sim | Termos de pesquisa para consulta contra a documentação e a referência da API da AIVAX. |
+| `search_type` | `string` | Não | Escopo da pesquisa. Use `documentation-manual`, `api-function-reference` ou `all`. |
 
 A pesquisa pode consultar o manual de documentação, a referência de função da API ou ambos. Ela retorna trechos de documentação relevantes em formato de texto para que o cliente possa usá-los diretamente como contexto. O número de termos e caracteres por chamada é limitado; consulte [Preços e limites](#preços-e-limites).
 
@@ -81,11 +81,11 @@ Escolha termos que correspondam à pergunta:
 - Use uma frase completa quando a intenção for clara, como `semantic search reranker settings` ou `public key chat completion restrictions`.
 - Use vários termos para cobrir conceitos vizinhos, nomes alternativos ou prováveis termos de referência da API.
 
-As chamadas de pesquisa usam as cotas por conta documentadas em [Planos e limites](/docs/pt-br/limits#account-limits).
+As chamadas de pesquisa têm limite de taxa por conta e retornam `429 Too Many Requests` quando o limite é excedido.
 
 ### `aivax_list_models`
 
-`aivax_list_models` lista os modelos de chat integrados da AIVAX e retorna um resumo legível por modelo para cada correspondência. Use-o quando o assistente precisar escolher um modelo, explicar se um modelo está disponível para o plano atual, comparar capacidades ou entender os preços (consulte [Preços](/docs/pt-br/pricing)).
+`aivax_list_models` lista os modelos de chat integrados da AIVAX e retorna um resumo legível pelo modelo para cada correspondência. Use-o quando o assistente precisar escolher um modelo, explicar se um modelo está disponível para o plano atual, comparar capacidades ou entender os preços (consulte [Preços](/docs/pt-br/pricing)).
 
 A ferramenta aceita:
 
@@ -103,11 +103,11 @@ Exemplo de argumentos:
 }
 ```
 
-As chamadas de listagem de modelos usam as cotas por conta documentadas em [Planos e limites](/docs/pt-br/limits#account-limits).
+As chamadas de listagem de modelos têm limite de taxa por conta e retornam `429 Too Many Requests` quando o limite é excedido.
 
 ## Quando usar
 
-Use o MCP de documentação quando quiser que um assistente responda perguntas sobre a AIVAX com base em contexto respaldado pela fonte, em vez de memória. As seções abaixo correspondem aos trabalhos habituais.
+Use o MCP de documentação quando quiser que um assistente responda perguntas sobre a AIVAX com base em contexto respaldado pela fonte, em vez de memória. As seções abaixo correspondem às tarefas habituais.
 
 ### Responder com base no manual
 
@@ -131,7 +131,7 @@ Combine `aivax_search_documentation` com `aivax_list_models`:
 
 ## Escolhendo termos de pesquisa
 
-Bons termos de pesquisa descrevem o objetivo do usuário, não apenas uma palavra-chave. Use esta seção quando uma pesquisa retornar ruído ou perder a página que você esperava.
+Bons termos de pesquisa descrevem o objetivo do usuário, não apenas uma palavra-chave. Use esta seção quando uma pesquisa retornar ruído ou perder a página esperada.
 
 Prefira:
 
@@ -142,7 +142,7 @@ AI Gateway MCP source headers
 multimodal preprocess video
 ```
 
-Sobre:
+Em vez de:
 
 ```text
 key
@@ -151,17 +151,17 @@ headers
 video
 ```
 
-Escolha `search_type` a partir do tipo de resposta que você precisa:
+Escolha `search_type` com base no tipo de resposta necessária:
 
 - Use `search_type: "all"` quando o assistente não tiver certeza de qual página contém a resposta.
-- Use `api-function-reference` quando precisar de nomes de rotas, corpos de solicitação ou comportamento de endpoint.
+- Use `api-function-reference` quando precisar de nomes de rotas, corpos de solicitação ou comportamento de endpoints.
 - Use `documentation-manual` quando precisar de orientação conceitual, compensações ou explicações de fluxo de trabalho.
 
 ## Preços e limites
 
-Ambas as ferramentas usam as cotas por conta documentadas em [Planos e limites](/docs/pt-br/limits#account-limits). `aivax_search_documentation` também aceita no máximo 10 termos de pesquisa e 500 caracteres totais por chamada.
+Ambas as ferramentas têm limite de taxa por conta e retornam `429 Too Many Requests` quando o limite é excedido. `aivax_search_documentation` também aceita no máximo 10 termos de pesquisa e 500 caracteres totais por chamada.
 
-## Orientações de segurança
+## Diretrizes de segurança
 
 O MCP de documentação é mais seguro do que uma ferramenta de gerenciamento porque é orientado à leitura, mas ainda assim autentica como uma conta da AIVAX. Conecte-o apenas a clientes que devem conhecer os modelos disponíveis e o contexto de documentação da conta. Ele pode expor a disponibilidade de modelos sensível ao plano da conta.
 
