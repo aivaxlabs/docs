@@ -2627,7 +2627,7 @@ Set `metadata` to attach string key/value information to the inference request. 
 
 The standard `/v1/chat/completions` response envelope includes `generation_context`, which lists the usage billed for the request. Set [`json_only: true`](https://docs.aivax.net/docs/inference/structured-responses/json-only.md) to return only the final JSON without this envelope.
 
-`usage` reports `prompt_tokens`, `completion_tokens`, and `total_tokens`. `prompt_tokens` counts only uncached input; cached input is reported separately in `prompt_tokens_details.cached_tokens`. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
+`usage` reports `prompt_tokens`, `completion_tokens`, and `total_tokens`. `prompt_tokens` counts the full input, including the cached input reported in `prompt_tokens_details.cached_tokens`. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
 
 Responses for integrated models also include `provider`, the tag of the provider that served the request; see [Provider in responses](https://docs.aivax.net/docs/inference/routing/setup-routing.md#provider-in-responses).
 
@@ -3147,12 +3147,12 @@ Prompt caching lowers the cost of input the provider has already processed. AIVA
 
 Providers that support prompt caching reuse the processing of an identical request prefix. Cached input tokens are billed at the model's cache rate, which is lower than its input rate. Rates per model are listed on the dashboard **Models** page and in `GET /v1/models`.
 
-The response reports cached input separately:
+The response reports the cached part of the input in `prompt_tokens_details.cached_tokens`:
 
 ```json
 {
     "usage": {
-        "prompt_tokens": 412,
+        "prompt_tokens": 4508,
         "completion_tokens": 96,
         "total_tokens": 4604,
         "prompt_tokens_details": {
@@ -3162,7 +3162,7 @@ The response reports cached input separately:
 }
 ```
 
-`prompt_tokens` counts only the uncached input. Add `prompt_tokens_details.cached_tokens` to it to get the full input size.
+`prompt_tokens` counts the full input, including the cached part reported in `prompt_tokens_details.cached_tokens`. Subtract `cached_tokens` from it to get the uncached input.
 
 Send `prompt_cache_key` to group requests that share a prefix, such as the requests of one gateway or one user; AIVAX forwards it to the provider. Providers that do not support it ignore it.
 
@@ -3495,7 +3495,7 @@ The last chunk before `[DONE]` has an empty `delta`, the final `finish_reason`, 
         { "index": 0, "finish_reason": "stop", "delta": {} }
     ],
     "usage": {
-        "prompt_tokens": 412,
+        "prompt_tokens": 4508,
         "completion_tokens": 96,
         "total_tokens": 4604,
         "prompt_tokens_details": { "cached_tokens": 4096, "audio_tokens": 0 }
@@ -3504,7 +3504,7 @@ The last chunk before `[DONE]` has an empty `delta`, the final `finish_reason`, 
 }
 ```
 
-`prompt_tokens` excludes cached input; see [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
+`prompt_tokens` includes cached input (`prompt_tokens_details.cached_tokens`); see [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
 
 ## Keep-alive
 
@@ -4006,7 +4006,7 @@ Available routing preferences are:
 
 | Preference | Behavior |
 |---|---|
-| `Balanced` | Balances price, speed, and quality. This is the default. |
+| `Balanced` | Balances price, speed, and quality. This is the default, except for [async generations](https://docs.aivax.net/docs/inference/batch/async-generations.md), which default to `Cheapest`. |
 | `Cheapest` | Selects the provider with the lowest applicable input and output token price. |
 | `Fastest` | Prioritizes the provider with the highest available throughput. |
 | `Quality` | Selects the provider that AIVAX ranks highest for quality, without optimizing for price or speed. |
@@ -7393,12 +7393,12 @@ GET /api/v1/async-generations?status=done&tags=nightly-report&limit=100
 
 ## Reduce cost
 
-Queued work rarely needs the fastest provider. Pair async generations with cheaper routing: add the `#cheapest` suffix to an integrated model name, or set `routing_options.preset` to `Cheapest`. See [Inline routing](https://docs.aivax.net/docs/inference/routing/inline-routing.md) and [Setup provider routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
+Queued work rarely needs the fastest provider, so async generations use the `Cheapest` [routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md) by default. To favor speed or quality for a queued item, set the preference explicitly with `routing_options.preset` or a [model name suffix](https://docs.aivax.net/docs/inference/routing/inline-routing.md):
 
 ```json
 {
   "model": "@openai/gpt-6-luna",
-  "routing_options": { "preset": "Cheapest" },
+  "routing_options": { "preset": "Fastest" },
   "messages": [{ "role": "user", "content": "Classify this ticket." }],
   "async": { "enabled": true, "tags": ["triage"] }
 }
@@ -11290,9 +11290,13 @@ Announced changes that take effect on a future date and may require action.
 
 ## Thursday, November 26th, 2026
 
+Fixes:
+
+- **Inference — `prompt_tokens` includes cached input.** In chat completions, `usage.prompt_tokens` counts the full input, including `prompt_tokens_details.cached_tokens`, as in the OpenAI format, so `total_tokens` equals `prompt_tokens` plus `completion_tokens`. If you added `cached_tokens` to `prompt_tokens`, stop adding it. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
+
 Changes:
 
-- **Models — Speed of subscription models.** Subscription models now show their measured throughput (tokens per second) and latency (seconds to the first token) on the [Models page](https://aivax.net/models) and in the model catalog.
+- **Models — Speed of subscription models.** Subscription models now show their measured throughput (tokens per second, including reasoning) and latency (seconds to the first token) on the [Models page](https://aivax.net/models) and in the model catalog.
 
 ## Wednesday, November 25th, 2026
 

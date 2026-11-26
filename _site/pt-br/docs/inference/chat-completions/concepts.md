@@ -18,7 +18,7 @@ Uma única solicitação pode envolver várias gerações de modelos. A AIVAX pr
 
 1. **Preparar.** A AIVAX resolve o modelo ou gateway, adiciona instruções do gateway e documentos recuperados, restaura o [contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md) das rodadas anteriores, aplica [pré-processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md) e moderação, e ajusta a conversa à janela de contexto.
 2. **Gerar.** O provedor selecionado gera raciocínio, texto ou chamadas de ferramenta; consulte [Roteamento](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md) para saber como o provedor é escolhido.
-3. **Executar ferramentas do lado do servidor.** As [ferramentas integradas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/built-in-tools.md), [ferramentas MCP e funções de protocolo](https://docs.aivax.net/pt-br/docs/inference/chat-completions/mcp-and-protocol-functions.md) são executadas dentro da AIVAX, e o loop retorna ao passo 2.
+3. **Executar ferramentas do lado do servidor.** [Ferramentas integradas](https://docs.aivax.net/pt-br/docs/inference/chat-completions/built-in-tools.md), [ferramentas MCP e funções de protocolo](https://docs.aivax.net/pt-br/docs/inference/chat-completions/mcp-and-protocol-functions.md) são executadas dentro da AIVAX, e o loop retorna ao passo 2.
 4. **Finalizar.** A AIVAX valida a [saída estruturada](https://docs.aivax.net/pt-br/docs/inference/chat-completions/structured-output.md) quando solicitado e retorna a resposta final ou as [chamadas de ferramenta do cliente](https://docs.aivax.net/pt-br/docs/inference/chat-completions/tools.md) que seu aplicativo deve executar.
 
 Somente o resultado final é retornado como uma mensagem do assistente. Com [streaming](https://docs.aivax.net/pt-br/docs/inference/chat-completions/streaming.md), você também recebe raciocínio, eventos de ferramenta e texto parcial conforme eles ocorrem.
@@ -40,17 +40,17 @@ Referência:
 
 ## Inferência de longa duração
 
-Como uma solicitação pode executar várias gerações e ferramentas, pode levar minutos. Em `https://inference.aivax.net`, uma solicitação sem streaming que excede o tempo limite do proxy termina com HTTP `524`, enquanto a AIVAX continua processando-a. Envie solicitações longas para o host de inferência direto em vez disso:
+Como uma única solicitação pode executar várias gerações e ferramentas, ela pode levar minutos. Em `https://inference.aivax.net`, uma solicitação sem streaming que excede o tempo limite do proxy termina com HTTP `524`, enquanto a AIVAX continua processando-a. Envie solicitações longas para o host de inferência direto em vez disso:
 
 ```text
 https://direct.inference.aivax.net/v1
 ```
 
-A solicitação ainda é síncrona: mantenha a conexão aberta e defina um tempo limite no cliente que cubra o tempo de processamento esperado. Caminhos, chaves e corpos de solicitação são os mesmos do host padrão. Solicitações de streaming enviam dados continuamente e raramente precisam disso. Consulte [Inferência de longa duração](https://docs.aivax.net/pt-br/docs/overview.md#long-running-inference) para um exemplo de SDK e os endpoints que o host direto atende.
+A solicitação ainda é síncrona: mantenha a conexão aberta e defina um tempo limite do cliente que cubra o tempo de processamento esperado. Caminhos, chaves e corpos de solicitação são os mesmos do host padrão. Solicitações de streaming enviam dados continuamente e raramente precisam disso. Consulte [Inferência de longa duração](https://docs.aivax.net/pt-br/docs/overview.md#long-running-inference) para um exemplo de SDK e os endpoints que o host direto atende.
 
 ## Metadados da solicitação
 
-Defina `metadata` para anexar informações de chave/valor (ambas strings) à solicitação de inferência. A AIVAX armazena este objeto junto com a conversa registrada e o expõe aos eventos do gateway, sendo útil para correlação operacional, como ID de pedido, tenant, fluxo de trabalho ou chave de rastreamento interna.
+Defina `metadata` para anexar informações de chave/valor (ambas strings) à solicitação de inferência. A AIVAX armazena este objeto junto com a conversa registrada e o expõe aos eventos do gateway, sendo útil para correlação operacional, como ID de pedido, inquilino, fluxo de trabalho ou chave de rastreamento interno.
 
 ```json
 {
@@ -70,17 +70,17 @@ Defina `metadata` para anexar informações de chave/valor (ambas strings) à so
 
 `metadata` deve ser um objeto JSON cujos nomes de propriedade e valores sejam strings. Não coloque segredos, credenciais, dados de pagamento ou cargas úteis grandes neste campo.
 
-## Resposta e registros de conversa
+## Registros de resposta e conversa
 
-O envelope de resposta padrão de `/v1/chat/completions` inclui `generation_context`, que lista o uso cobrado pela solicitação. Defina [`json_only: true`](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-only.md) para retornar apenas o JSON final sem este envelope.
+O envelope de resposta padrão `/v1/chat/completions` inclui `generation_context`, que lista o uso cobrado pela solicitação. Defina [`json_only: true`](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-only.md) para retornar apenas o JSON final sem este envelope.
 
-`usage` relata `prompt_tokens`, `completion_tokens` e `total_tokens`. `prompt_tokens` conta apenas a entrada não em cache; a entrada em cache é relatada separadamente em `prompt_tokens_details.cached_tokens`. Consulte [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md).
+`usage` relata `prompt_tokens`, `completion_tokens` e `total_tokens`. `prompt_tokens` conta a entrada completa, incluindo a entrada em cache relatada em `prompt_tokens_details.cached_tokens`. Consulte [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md).
 
 As respostas para modelos integrados também incluem `provider`, a tag do provedor que atendeu à solicitação; consulte [Provedor nas respostas](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md#provider-in-responses).
 
-Defina `allow_logging: false` em uma solicitação `/v1/chat/completions` para manter essa solicitação fora dos logs de conversa da conta. Ela assume `true` como padrão e não pode habilitar o registro de logs quando o registro de conversas está desativado para a conta.
+Defina `allow_logging: false` em uma solicitação `/v1/chat/completions` para manter essa solicitação fora dos logs de conversa da conta. Ela assume `true` como padrão e não pode habilitar o registro de conversas quando o log de conversas está desabilitado para a conta.
 
-Quando o registro de conversas está habilitado, o registro armazenado inclui as mensagens, ferramentas, uso, modelo, contexto do gateway e chave de API, além de `metadata`. Use `conversation_token` e `metadata` para correlacionar esses registros com seu próprio fluxo de trabalho.
+Quando o log de conversas está habilitado, o registro armazenado inclui as mensagens, ferramentas, uso, modelo, contexto do gateway e chave de API, além de `metadata`. Use `conversation_token` e `metadata` para correlacionar esses registros com seu próprio fluxo de trabalho.
 
 ## Geração assíncrona
 
@@ -96,7 +96,7 @@ Adicione `"async": true` para colocar a solicitação na fila em vez de esperar 
 
 ## Preços
 
-As taxas de inferência dependem do modelo selecionado, do provedor, do tamanho da entrada e do tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs); seu preço em PU varia conforme o modelo e o provedor utilizados. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers) aplica-se à inferência de modelos integrados e à moderação. O BYOK não é afetado por ele.
+As taxas de inferência dependem do modelo selecionado, do provedor, do tamanho da entrada e do tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs); seu preço em PU varia conforme o modelo e o provedor utilizados. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers) aplica-se à inferência de modelos integrados e à moderação. BYOK não é afetado por ele.
 
 | Descrição | Preço |
 | --- | ---: |

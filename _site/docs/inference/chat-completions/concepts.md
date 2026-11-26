@@ -74,7 +74,7 @@ Set `metadata` to attach string key/value information to the inference request. 
 
 The standard `/v1/chat/completions` response envelope includes `generation_context`, which lists the usage billed for the request. Set [`json_only: true`](https://docs.aivax.net/docs/inference/structured-responses/json-only.md) to return only the final JSON without this envelope.
 
-`usage` reports `prompt_tokens`, `completion_tokens`, and `total_tokens`. `prompt_tokens` counts only uncached input; cached input is reported separately in `prompt_tokens_details.cached_tokens`. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
+`usage` reports `prompt_tokens`, `completion_tokens`, and `total_tokens`. `prompt_tokens` counts the full input, including the cached input reported in `prompt_tokens_details.cached_tokens`. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
 
 Responses for integrated models also include `provider`, the tag of the provider that served the request; see [Provider in responses](https://docs.aivax.net/docs/inference/routing/setup-routing.md#provider-in-responses).
 

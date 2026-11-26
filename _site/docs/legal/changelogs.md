@@ -15,9 +15,13 @@ Announced changes that take effect on a future date and may require action.
 
 ## Thursday, November 26th, 2026
 
+Fixes:
+
+- **Inference — `prompt_tokens` includes cached input.** In chat completions, `usage.prompt_tokens` counts the full input, including `prompt_tokens_details.cached_tokens`, as in the OpenAI format, so `total_tokens` equals `prompt_tokens` plus `completion_tokens`. If you added `cached_tokens` to `prompt_tokens`, stop adding it. See [Caching](https://docs.aivax.net/docs/inference/chat-completions/caching.md).
+
 Changes:
 
-- **Models — Speed of subscription models.** Subscription models now show their measured throughput (tokens per second) and latency (seconds to the first token) on the [Models page](https://aivax.net/models) and in the model catalog.
+- **Models — Speed of subscription models.** Subscription models now show their measured throughput (tokens per second, including reasoning) and latency (seconds to the first token) on the [Models page](https://aivax.net/models) and in the model catalog.
 
 ## Wednesday, November 25th, 2026
 
