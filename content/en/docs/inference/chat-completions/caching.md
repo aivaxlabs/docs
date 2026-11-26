@@ -10,12 +10,12 @@ Prompt caching lowers the cost of input the provider has already processed. AIVA
 
 Providers that support prompt caching reuse the processing of an identical request prefix. Cached input tokens are billed at the model's cache rate, which is lower than its input rate. Rates per model are listed on the dashboard **Models** page and in `GET /v1/models`.
 
-The response reports cached input separately:
+The response reports the cached part of the input in `prompt_tokens_details.cached_tokens`:
 
 ```json
 {
     "usage": {
-        "prompt_tokens": 412,
+        "prompt_tokens": 4508,
         "completion_tokens": 96,
         "total_tokens": 4604,
         "prompt_tokens_details": {
@@ -25,7 +25,7 @@ The response reports cached input separately:
 }
 ```
 
-`prompt_tokens` counts only the uncached input. Add `prompt_tokens_details.cached_tokens` to it to get the full input size.
+`prompt_tokens` counts the full input, including the cached part reported in `prompt_tokens_details.cached_tokens`. Subtract `cached_tokens` from it to get the uncached input.
 
 Send `prompt_cache_key` to group requests that share a prefix, such as the requests of one gateway or one user; AIVAX forwards it to the provider. Providers that do not support it ignore it.
 

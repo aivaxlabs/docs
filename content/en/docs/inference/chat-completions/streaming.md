@@ -62,7 +62,7 @@ The last chunk before `[DONE]` has an empty `delta`, the final `finish_reason`, 
         { "index": 0, "finish_reason": "stop", "delta": {} }
     ],
     "usage": {
-        "prompt_tokens": 412,
+        "prompt_tokens": 4508,
         "completion_tokens": 96,
         "total_tokens": 4604,
         "prompt_tokens_details": { "cached_tokens": 4096, "audio_tokens": 0 }
@@ -71,7 +71,7 @@ The last chunk before `[DONE]` has an empty `delta`, the final `finish_reason`, 
 }
 ```
 
-`prompt_tokens` excludes cached input; see [Caching](caching.md).
+`prompt_tokens` includes cached input (`prompt_tokens_details.cached_tokens`); see [Caching](caching.md).
 
 ## Keep-alive
 
