@@ -65,7 +65,8 @@ Use the object form to tag the item, register webhooks, or change the timeout:
 - `async` cannot be combined with `stream: true`; the request fails with `400`.
 - Queuing is not available with [public API keys](/docs/authentication.md#public-keys).
 - An account can turn the feature off with the **Async generations** account parameter, which is on by default. While it is off, queuing requests fail with `403`, and items already queued wait until it is turned back on.
-- Each plan limits how many items an account can queue per hour. See [Batch and Agentic Tests limits](/docs/limits.md#batch-and-agentic-tests).
+- Each plan limits how many items an account can queue per hour; above it, queuing returns `429`. See [Batch and Agentic Tests limits](/docs/limits.md#batch-and-agentic-tests).
+- A request body above 12 MB is rejected with `400`.
 
 ## Supported endpoints
 
@@ -91,7 +92,7 @@ The same `async` field works on these requests:
 
 ## How an item runs
 
-Queued items run in the order they were queued.
+Queued items run in the background; do not rely on them finishing in the order they were queued.
 
 When an item runs, AIVAX executes the original request exactly as sent: the same endpoint and the same body. The result is stored with the original HTTP status code, content type, and cost, so a failed generation is stored as a failed result rather than as a platform error.
 
@@ -107,13 +108,7 @@ An item moves through these statuses:
 
 ### Retries
 
-These failures are retried up to 3 times:
-
-- insufficient balance;
-- rate limiting;
-- service unavailable or other server errors (`5xx`).
-
-When the retries run out, the item finishes as `done` with the error status code of the last attempt. Keep the account balance topped up before queuing large amounts of work.
+Temporary failures are retried automatically. When the retries run out, the item finishes as `done` with the error status code of the last attempt.
 
 Other outcomes are final:
 
@@ -132,6 +127,8 @@ Items are deleted automatically:
 | `done` | 90 days after completion. |
 
 Fetch and store the results you need before they expire.
+
+An item keeps its request and response for the periods above, even when conversation logging is turned off for the account. Delete items you no longer need with the [management API](#manage-queued-generations).
 
 ## Webhooks
 
@@ -160,7 +157,7 @@ Authenticate management requests with an AIVAX API key. All routes are under `/a
 | --- | --- |
 | `GET /api/v1/async-generations` | Lists items as summaries, without request or response bodies. Filter with `status`, `tags` (comma-separated; an item must have all of them), `limit` (default 50, maximum 100), and `offset`. |
 | `GET /api/v1/async-generations/<id>` | Returns the item with its request and response. JSON bodies are embedded as JSON; other content is returned as base64. |
-| `GET /api/v1/async-generations/<id>/response` | Returns the stored response as it was produced, with its original status code and content type. Use it to consume the result as if the request had been synchronous. |
+| `GET /api/v1/async-generations/<id>/response` | Returns the stored response as it was produced, with its original status code and content type. Use it to consume the result as if the request had been synchronous. Returns `404` until the item has a stored response. |
 | `PUT /api/v1/async-generations/<id>/cancel` | Cancels an item that is `pending`, `retrying`, or `done` with an error status code. Any other item returns `409`. |
 | `PUT /api/v1/async-generations/cancel?scope=<scope>` | Cancels in bulk. `scope` is `pending`, `failed`, or `all`. |
 | `DELETE /api/v1/async-generations/<id>` | Deletes an item. Returns `409` while it is `processing`. |
@@ -171,9 +168,13 @@ For example, to list the finished items tagged for a nightly job:
 GET /api/v1/async-generations?status=done&tags=nightly-report&limit=100
 ```
 
+## Pricing
+
+A queued request costs the same as the equivalent synchronous request, and its cost is stored with the result.
+
 ## Reduce cost
 
-Queued work rarely needs the fastest provider, so async generations use the `Cheapest` [routing preference](/docs/inference/routing/setup-routing.md) by default. To favor speed or quality for a queued item, set the preference explicitly with `routing_options.preset` or a [model name suffix](/docs/inference/routing/inline-routing.md):
+Queued work rarely needs the fastest provider, so async generations use the `Cheapest` [routing preference](/docs/inference/routing/setup-routing.md) by default. `Cheapest` can select [special providers](/docs/inference/routing/special-providers.md), which are not zero data retention providers. To favor speed or quality for a queued item, set the preference explicitly with `routing_options.preset` or a [model name suffix](/docs/inference/routing/inline-routing.md):
 
 ```json
 {

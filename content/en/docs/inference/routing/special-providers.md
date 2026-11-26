@@ -21,6 +21,10 @@ When a model is currently available only through special providers, requests tha
 
 [Zero data retention providers only](zdr.md) and `allowed_providers` still apply to special providers.
 
+## Data retention
+
+Special providers are not zero data retention providers, and they can keep the prompts and responses they receive. They are enabled by default on new accounts: turn off **Allow special providers** or enable [Zero data retention providers only](zdr.md) when the data you send cannot be retained.
+
 ## Select a special provider directly
 
 Listing a special provider's tag in `allowed_providers`, or as a `#tag` suffix on the model name, routes to it under any preference, including `Balanced`.

@@ -16,4 +16,4 @@ The option applies to text inference. It does not change conversation logging; u
 
 ## Platform steps
 
-Platform steps that run around a request, such as content moderation, the complexity router, and RAG query rewriting, always use a zero data retention provider, whether or not the account option is enabled. If none is available for one of them, the request fails and can be retried later.
+Platform steps that run around a request, such as content moderation, the complexity router, and RAG query rewriting, always use a zero data retention provider, whether or not the account option is enabled. If none is available for one of them, the request fails.

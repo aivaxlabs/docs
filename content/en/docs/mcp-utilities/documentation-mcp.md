@@ -81,7 +81,7 @@ Choose terms that match the question:
 - Use a complete phrase when the intent is clear, such as `semantic search reranker settings` or `public key chat completion restrictions`.
 - Use multiple terms to cover neighboring concepts, alternate names, or likely API-reference terms.
 
-Search calls use the per-account quotas documented in [Plans and limits](/docs/limits#account-limits).
+Search calls are rate limited per account and return `429 Too Many Requests` when the limit is exceeded.
 
 ### `aivax_list_models`
 
@@ -103,7 +103,7 @@ Example arguments:
 }
 ```
 
-Model listing calls use the per-account quotas documented in [Plans and limits](/docs/limits#account-limits).
+Model listing calls are rate limited per account and return `429 Too Many Requests` when the limit is exceeded.
 
 ## When to use it
 
@@ -159,7 +159,7 @@ Choose `search_type` from the kind of answer you need:
 
 ## Pricing and limits
 
-Both tools use the per-account quotas documented in [Plans and limits](/docs/limits#account-limits). `aivax_search_documentation` also accepts at most 10 search terms and 500 total characters per call.
+Both tools are rate limited per account and return `429 Too Many Requests` when the limit is exceeded. `aivax_search_documentation` also accepts at most 10 search terms and 500 total characters per call.
 
 ## Security guidance
 
