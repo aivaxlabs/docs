@@ -128,7 +128,14 @@ When a user sends a message while a reply is still being generated, AIVAX passes
 
 Scheduled messages let the assistant write to the user first, at a set time: a reminder the user asked for, a follow-up on an open order, or a daily check-in. They are available only in integrations, not in the web client.
 
-Enable `allowScheduledContinuations` in the chat client. The assistant then gets tools to schedule a single message for a date and time, create a recurring task with a cron expression, list what is scheduled for the current user, and cancel it. The assistant decides when to use them, based on the conversation and the gateway instructions. Describe in your instructions when scheduling is appropriate, such as only when the user asks for a reminder, to avoid unwanted messages.
+Enable `allowScheduledContinuations` in the chat client. The assistant then gets tools to:
+
+- schedule a single message for a date and time;
+- create a recurring task with a cron expression;
+- list what is scheduled for the current user;
+- cancel a scheduled message or task.
+
+The assistant decides when to use them, based on the conversation and the gateway instructions. To avoid unwanted messages, describe in your instructions when scheduling is appropriate, such as only when the user asks for a reminder.
 
 Times are interpreted in the gateway time zone, set in `parameters.timeZone`, unless the assistant includes an explicit UTC offset. Recurring tasks also follow that time zone. See [Current date and time](/docs/tools/builtin-tools.md#current-date-and-time) for how the time zone is configured.
 
@@ -162,4 +169,10 @@ Without a template, Kapso sends scheduled messages as plain text, which only wor
 
 ### Review and cancel scheduled messages
 
-Users can ask the assistant to list or cancel their scheduled messages. You can also review them per chat client in the API reference: **List Hook Schedules** shows pending messages, recurring tasks, and users who stopped replying to scheduled messages. **Get Schedule** shows the outcome of a message, including when it was skipped, and **Cancel Schedule** and **Cancel Recurring Task** remove it. Scheduled messages and recurring tasks are deleted together with their chat client.
+Users can ask the assistant to list or cancel their scheduled messages. You can also review them per chat client in the API reference:
+
+- **List Hook Schedules** shows pending messages, recurring tasks, and users who stopped replying to scheduled messages.
+- **Get Schedule** shows the outcome of a message, including when it was skipped.
+- **Cancel Schedule** and **Cancel Recurring Task** remove a message or a task.
+
+Scheduled messages and recurring tasks are deleted together with their chat client.

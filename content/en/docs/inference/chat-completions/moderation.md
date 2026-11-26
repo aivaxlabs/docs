@@ -95,6 +95,8 @@ When any enabled category reaches its cutoff:
 
 The refusal is model-generated; moderation does not return a fixed response body. Blocked requests are still billed for the moderation analysis and for the refusal generation.
 
+## If moderation cannot run
+
 In `LayeredGuardrail` mode, if moderation cannot produce a result, the request is not rejected: the main model applies the configured policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
 
 ## Where moderation runs in the pipeline
@@ -108,7 +110,7 @@ Moderation runs once per request, before the agentic loop starts. See [Processin
 
 ## Scope
 
-In `LayeredGuardrail` mode, the safeguard evaluates the conversation history, not only the latest message. Moderation applies only to input text:
+In `LayeredGuardrail` mode, the safeguard reads the whole conversation history, not only the latest message. Moderation covers input text only:
 
 - Generated output is not moderated.
 - Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
