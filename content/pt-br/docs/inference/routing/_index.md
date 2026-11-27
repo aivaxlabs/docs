@@ -1,5 +1,5 @@
 ---
-{title: Roteamento,weight: 3,sourceHash: b9ba011a33559f50,aliases: [/docs/pt-br/inference/routing/index.html]}
+{title: Roteamento,weight: 4,sourceHash: 2b0a1b8287e6df45,aliases: [/docs/pt-br/inference/routing/index.html]}
 ---
 
 

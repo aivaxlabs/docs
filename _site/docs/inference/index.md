@@ -32,6 +32,8 @@ Source: https://docs.aivax.net/docs/inference/index.html
 - [Inference Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md)
 - [Troubleshooting Inference](https://docs.aivax.net/docs/inference/chat-completions/troubleshooting.md)
 
+- [Providers](https://docs.aivax.net/docs/inference/providers.md)
+
 ## Routing
 
 - [Setup Provider Routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md)

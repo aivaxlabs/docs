@@ -63,7 +63,9 @@ Set parameters on the gateway when the behavior must be the same for every clien
 - `Truncate` removes the oldest non-system messages until the conversation fits, then continues.
 - `TruncateHard` truncates like `Truncate`, but fails the request if the prompt still does not fit.
 
-Use truncation for long-lived chats in which old turns lose relevance, such as support conversations. Keep `Throw` when every message matters, such as a document review, so the application decides what to remove. On the Free plan, the input context is capped regardless of this setting; see [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md). See [Context truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md) for how messages are removed and when the check runs.
+Use truncation for long-lived chats in which old turns lose relevance, such as support conversations. Keep `Throw` when every message matters, such as a document review, so the application decides what to remove. On the Free plan, the input context is capped regardless of this setting; see [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md).
+
+See [Context truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md) for how messages are removed and when the check runs.
 
 ## Tool message truncation
 

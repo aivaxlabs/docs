@@ -14,4 +14,4 @@ A opção se aplica à inferência de texto. Ela não altera o registro de conve
 
 ## Etapas da plataforma
 
-As etapas da plataforma executadas ao redor de uma solicitação, como moderação de conteúdo, roteador de complexidade e reescrita de consultas RAG, sempre usam um provedor com retenção zero de dados, independentemente de a opção da conta estar ativada ou não. Se nenhum estiver disponível para uma delas, a solicitação falha e pode ser retryada mais tarde.
+As etapas da plataforma executadas ao redor de uma solicitação, como moderação de conteúdo, roteador de complexidade e reescrita de consultas RAG, sempre usam um provedor com retenção zero de dados, independentemente de a opção da conta estar ativada ou não. Se nenhum estiver disponível para uma delas, a solicitação falhará.

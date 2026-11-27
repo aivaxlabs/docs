@@ -17,6 +17,7 @@ The table lists each model's context window and the usage included every month, 
 | DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $380 |
 | GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
 | GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
+| GLM 5.4<br>`@aivax-subscription/glm-5.4` | 500K tokens | ≈ $30 | ≈ $130 | ≈ $320 |
 | Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200 | ≈ $490 |
 | MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
 | Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $40 | ≈ $190 | ≈ $460 |

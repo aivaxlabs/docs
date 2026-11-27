@@ -121,7 +121,7 @@ Every plan includes separate daily allowances for the services below. Each compa
 
 | Included service | Free | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| RAG search and insertion embeddings | 10,000 tokens | 15× Free | 50× Free | 100× Free |
+| RAG search and insertion embeddings | 10,000 tokens | 25× Free | 500× Free | 2,500× Free |
 | Reranking with Reflex | 2,000 input tokens | 4× Free | 20× Free | 50× Free |
 | Semantic decisions with eligible models | 20,000 input tokens | 2× Free | 3× Free | 5× Free |
 | Fetch and OCR extraction | 1,000 PUs | 8× Free | 25× Free | 50× Free |

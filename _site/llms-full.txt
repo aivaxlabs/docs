@@ -1022,7 +1022,7 @@ Every plan includes separate daily allowances for the services below. Each compa
 
 | Included service | Free | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| RAG search and insertion embeddings | 10,000 tokens | 15× Free | 50× Free | 100× Free |
+| RAG search and insertion embeddings | 10,000 tokens | 25× Free | 500× Free | 2,500× Free |
 | Reranking with Reflex | 2,000 input tokens | 4× Free | 20× Free | 50× Free |
 | Semantic decisions with eligible models | 20,000 input tokens | 2× Free | 3× Free | 5× Free |
 | Fetch and OCR extraction | 1,000 PUs | 8× Free | 25× Free | 50× Free |
@@ -2226,7 +2226,9 @@ Set parameters on the gateway when the behavior must be the same for every clien
 - `Truncate` removes the oldest non-system messages until the conversation fits, then continues.
 - `TruncateHard` truncates like `Truncate`, but fails the request if the prompt still does not fit.
 
-Use truncation for long-lived chats in which old turns lose relevance, such as support conversations. Keep `Throw` when every message matters, such as a document review, so the application decides what to remove. On the Free plan, the input context is capped regardless of this setting; see [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md). See [Context truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md) for how messages are removed and when the check runs.
+Use truncation for long-lived chats in which old turns lose relevance, such as support conversations. Keep `Throw` when every message matters, such as a document review, so the application decides what to remove. On the Free plan, the input context is capped regardless of this setting; see [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md).
+
+See [Context truncation](https://docs.aivax.net/docs/inference/chat-completions/context-truncation.md) for how messages are removed and when the check runs.
 
 ## Tool message truncation
 
@@ -2872,7 +2874,7 @@ flowchart TD
     M -->|final answer or client tool calls| O[Structured output, usage and conversation record]
 ```
 
-Steps 1 to 6 run once per request. Steps 7 to 12 form the agentic loop and run again every time the model calls a server-side tool.
+Steps 1 to 6 run once per request. Steps 7 to 12 form the agentic loop and run again every time the model calls a server-side tool. Step 13 runs once, after the last generation.
 
 | # | Step | Runs | What it does |
 | --- | --- | --- | --- |
@@ -3819,6 +3821,8 @@ When any enabled category reaches its cutoff:
 
 The refusal is model-generated; moderation does not return a fixed response body. Blocked requests are still billed for the moderation analysis and for the refusal generation.
 
+## If moderation cannot run
+
 In `LayeredGuardrail` mode, if moderation cannot produce a result, the request is not rejected: the main model applies the configured policy itself. If your application must fail closed when moderation is unavailable, enforce that in your application or in a worker.
 
 ## Where moderation runs in the pipeline
@@ -3832,7 +3836,7 @@ Moderation runs once per request, before the agentic loop starts. See [Processin
 
 ## Scope
 
-In `LayeredGuardrail` mode, the safeguard evaluates the conversation history, not only the latest message. Moderation applies only to input text:
+In `LayeredGuardrail` mode, the safeguard reads the whole conversation history, not only the latest message. Moderation covers input text only:
 
 - Generated output is not moderated.
 - Images, audio, video, and file contents are not analyzed. The safeguard receives only a marker indicating that media was present.
@@ -3989,6 +3993,52 @@ For integrated models, provider error details are not returned; the message says
 | `The 'X' parameter is not allowed with public API keys.` | Public keys accept a reduced set of fields. See [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md#public-api-keys). |
 | A conversation suddenly fails with a message-size error. | The conversation exceeded the gateway context limit or the Free plan cap. See [Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md#context-window). |
 | A routed request fails although the model exists. | No eligible provider remains after routing, ZDR, or special-provider rules. See [Setup routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md). |
+
+---
+
+Source: https://docs.aivax.net/docs/inference/providers.html
+
+# Providers
+
+Providers are the services that actually run the integrated models you call through AIVAX. A single model can be offered by several providers, each with its own price, speed, capacity, and data collection policy. AIVAX chooses among them according to your [routing preferences](https://docs.aivax.net/docs/inference/routing/setup-routing.md) and account settings.
+
+## Where providers come from
+
+Each model's providers are listed on the [Models page](https://aivax.net/models). AIVAX works as a marketplace: providers offer the models they distribute, and AIVAX lists those offers. Because the providers decide what they offer, a provider can be added to or removed from a model without prior notice.
+
+Some providers are negotiated directly with AIVAX. Others are aggregators of other services, such as OpenRouter, Vertex AI, or other routers, and AIVAX lists the providers available through them. In both cases, your AIVAX account rules apply to every provider. For example, [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) excludes any provider that does not declare zero data retention, regardless of how it is reached.
+
+## Data collection
+
+Providers can see the content of your requests. Depending on the provider, prompts and responses may be moderated, collected, retained, or used for training.
+
+The Models page shows the data collection policy of each provider. The policy is declared by the provider itself; when a provider does not declare one, the platform classifies it as **unknown**. These policies are commitments the providers make to AIVAX. AIVAX does not audit or verify that they are followed.
+
+To keep sensitive content away from providers that retain data:
+
+- Enable [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) in the account settings.
+- Restrict the eligible providers with `allowed_providers`; see [Setup provider routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
+- Review the provider policies listed on the Models page before sending personal, confidential, or regulated data. See also [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md#inference).
+
+## Prices below the model's usual rate
+
+Some providers charge much less than the model's usual rate. These offers come from special agreements or serve the model with reduced capacity. They can be obtained in several ways, such as the sale of surplus quota, direct negotiations, or dedicated hardware.
+
+Discounted offers are usually served by [special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md), which are used only when your routing preference and account settings allow them.
+
+## Model authenticity
+
+It is rare for a provider to misrepresent which model it serves. AIVAX continuously collects anonymous metrics about each provider's performance, latency, and problem-solving ability, including by sending random tasks, to check that the model served is the one advertised. These checks are applied with much more rigor to special providers and to the providers behind subscription models.
+
+When a provider is suspected of serving a different model, AIVAX immediately verifies and audits it. Providers found not to be genuine are removed from the provider pool immediately.
+
+## Special providers
+
+[Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md) are often dedicated endpoints whose operators agreed directly with AIVAX to supply the models. For this reason, they are classified as **hidden**, and their identity is not disclosed. AIVAX remains committed to the quality and authenticity of these providers, which are subject to the checks described in [Model authenticity](#model-authenticity).
+
+## Subscription model providers
+
+[Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md) are served by special dedicated endpoints from an internal pool of providers, with negotiated rates, that supply models according to availability. These rates are volatile and can change from hour to hour, but they always stay below the model's original rates. This is why a subscription model's [consumption rate](https://docs.aivax.net/docs/inference/subscription-models/overview.md#consumption-rate) can change over time.
 
 ---
 
@@ -4153,7 +4203,7 @@ The option applies to text inference. It does not change conversation logging; u
 
 ## Platform steps
 
-Platform steps that run around a request, such as content moderation, the complexity router, and RAG query rewriting, always use a zero data retention provider, whether or not the account option is enabled. If none is available for one of them, the request fails and can be retried later.
+Platform steps that run around a request, such as content moderation, the complexity router, and RAG query rewriting, always use a zero data retention provider, whether or not the account option is enabled. If none is available for one of them, the request fails.
 
 ---
 
@@ -4177,6 +4227,10 @@ When a model is currently available only through special providers, requests tha
 - Enable **Allow special providers** and use a preference other than `Balanced`.
 
 [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) and `allowed_providers` still apply to special providers.
+
+## Data retention
+
+Special providers are not zero data retention providers, and they can keep the prompts and responses they receive. They are enabled by default on new accounts: turn off **Allow special providers** or enable [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) when the data you send cannot be retained.
 
 ## Select a special provider directly
 
@@ -4903,7 +4957,9 @@ The access key and the link of a session are its credentials, so create sessions
 </iframe>
 ```
 
-The `microphone` permission is only needed when `Audio` is in `inputModes`. When the session expires, the link stops working: create or refresh the session again with the same `tag` to get a working link that keeps the conversation.
+The `microphone` permission is only needed when `Audio` is in `inputModes`.
+
+When the session expires, the link stops working. Create or refresh the session again with the same `tag` to get a working link that keeps the conversation.
 
 ## Customize the hosted chat
 
@@ -5034,6 +5090,8 @@ Use `inferenceOptions` to override some AI Gateway settings for one request. Omi
 
 With the default `commit: true`, the assistant's tool-call message is already in the session: submit only the tool results, without duplicating that assistant message. If the preceding request used `commit: false`, include the unsaved conversation messages—including the assistant message containing `tool_calls`—before the results. The top-level `toolCalls` entries are not message objects; use the OpenAI-compatible messages in `createdMessages` when reconstructing that exchange.
 
+### Add client-side tools for one request
+
 Use the request `tools` field for client-side tools that apply only to that inference, such as an action available on the screen the user is on. It takes OpenAI-compatible function tools, added to the AI Gateway tools for that request only; they are not saved to the session. They stay visible even when the gateway hides tools without a skill, and their names must not repeat a gateway tool name. Send the same `tools` again in the request that submits the results, so the model can call them again in the next step.
 
 ```json
@@ -5055,6 +5113,8 @@ Use the request `tools` field for client-side tools that apply only to that infe
     ]
 }
 ```
+
+### Server-side tools in the response
 
 For server-side tools, AIVAX executes the tools and continues generation within the same request. `createdMessages` can therefore contain an assistant tool call, its tool result, and the final assistant reply, while top-level `toolCalls` is empty. Do not execute those server-side calls again. The API reference above includes examples for simple completions, client-side calls, submitted client-side results, and multiple messages from server-side calling.
 
@@ -5196,7 +5256,14 @@ When a user sends a message while a reply is still being generated, AIVAX passes
 
 Scheduled messages let the assistant write to the user first, at a set time: a reminder the user asked for, a follow-up on an open order, or a daily check-in. They are available only in integrations, not in the web client.
 
-Enable `allowScheduledContinuations` in the chat client. The assistant then gets tools to schedule a single message for a date and time, create a recurring task with a cron expression, list what is scheduled for the current user, and cancel it. The assistant decides when to use them, based on the conversation and the gateway instructions. Describe in your instructions when scheduling is appropriate, such as only when the user asks for a reminder, to avoid unwanted messages.
+Enable `allowScheduledContinuations` in the chat client. The assistant then gets tools to:
+
+- schedule a single message for a date and time;
+- create a recurring task with a cron expression;
+- list what is scheduled for the current user;
+- cancel a scheduled message or task.
+
+The assistant decides when to use them, based on the conversation and the gateway instructions. To avoid unwanted messages, describe in your instructions when scheduling is appropriate, such as only when the user asks for a reminder.
 
 Times are interpreted in the gateway time zone, set in `parameters.timeZone`, unless the assistant includes an explicit UTC offset. Recurring tasks also follow that time zone. See [Current date and time](https://docs.aivax.net/docs/tools/builtin-tools.md#current-date-and-time) for how the time zone is configured.
 
@@ -5230,7 +5297,13 @@ Without a template, Kapso sends scheduled messages as plain text, which only wor
 
 ### Review and cancel scheduled messages
 
-Users can ask the assistant to list or cancel their scheduled messages. You can also review them per chat client in the API reference: **List Hook Schedules** shows pending messages, recurring tasks, and users who stopped replying to scheduled messages. **Get Schedule** shows the outcome of a message, including when it was skipped, and **Cancel Schedule** and **Cancel Recurring Task** remove it. Scheduled messages and recurring tasks are deleted together with their chat client.
+Users can ask the assistant to list or cancel their scheduled messages. You can also review them per chat client in the API reference:
+
+- **List Hook Schedules** shows pending messages, recurring tasks, and users who stopped replying to scheduled messages.
+- **Get Schedule** shows the outcome of a message, including when it was skipped.
+- **Cancel Schedule** and **Cancel Recurring Task** remove a message or a task.
+
+Scheduled messages and recurring tasks are deleted together with their chat client.
 
 ---
 
@@ -5248,26 +5321,23 @@ The table lists each model's context window and the usage included every month, 
 
 | Model | Context window | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $380<br>12.5× Pro |
-| GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
-| GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
-| Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $490<br>12.5× Pro |
-| MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160<br>5× Pro | ≈ $400<br>12.5× Pro |
-| Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $40 | ≈ $190<br>5× Pro | ≈ $460<br>12.5× Pro |
-| Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200<br>5× Pro | ≈ $480<br>12.5× Pro |
-| Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320<br>5× Pro | ≈ $800<br>12.5× Pro |
+| DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $380 |
+| GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
+| GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
+| GLM 5.4<br>`@aivax-subscription/glm-5.4` | 500K tokens | ≈ $30 | ≈ $130 | ≈ $320 |
+| Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200 | ≈ $490 |
+| MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
+| Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $40 | ≈ $190 | ≈ $460 |
+| Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200 | ≈ $480 |
+| Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320 | ≈ $800 |
 
 The values are approximate. Spreading usage across several subscription models divides the same quota between them.
 
 The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15. See [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
 
-## Consumption rate
-
-The rate at which a model consumes the quota can change over time, so similar requests may use slightly more or less of your quota. The included equivalents above change with it.
-
 ## Availability
 
-A subscription model runs the model it names, but it can occasionally become unavailable. Requests fail while it is unavailable; use another subscription model or a regular integrated model in the meantime.
+A subscription model runs the model it names. If a request fails, retry it later or use another subscription model or a regular integrated model.
 
 ## When the quota is exhausted
 
@@ -5275,7 +5345,7 @@ When the quota is exhausted, or the plan does not include it, a request to a sub
 
 ## Data retention
 
-Subscription models are not zero data retention. Prompts sent to them are collected and kept for an indefinite period for moderation and internal control. According to the providers' terms, they are not used for training.
+Subscription models are not zero data retention. Prompts sent to them are collected and kept for an indefinite period. According to the providers' terms, they are not used for training.
 
 With [Zero data retention providers only](https://docs.aivax.net/docs/inference/routing/zdr.md) enabled, requests to subscription models fail. Do not send personal, confidential, or regulated data to these models unless that retention is acceptable. AIVAX's own records follow the account's conversation logging setting; see [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md#inference).
 
@@ -7285,7 +7355,8 @@ Use the object form to tag the item, register webhooks, or change the timeout:
 - `async` cannot be combined with `stream: true`; the request fails with `400`.
 - Queuing is not available with [public API keys](https://docs.aivax.net/docs/authentication.md#public-keys).
 - An account can turn the feature off with the **Async generations** account parameter, which is on by default. While it is off, queuing requests fail with `403`, and items already queued wait until it is turned back on.
-- Each plan limits how many items an account can queue per hour. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests).
+- Each plan limits how many items an account can queue per hour; above it, queuing returns `429`. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests).
+- A request body above 12 MB is rejected with `400`.
 
 ## Supported endpoints
 
@@ -7311,7 +7382,7 @@ The same `async` field works on these requests:
 
 ## How an item runs
 
-Queued items run in the order they were queued.
+Queued items run in the background; do not rely on them finishing in the order they were queued.
 
 When an item runs, AIVAX executes the original request exactly as sent: the same endpoint and the same body. The result is stored with the original HTTP status code, content type, and cost, so a failed generation is stored as a failed result rather than as a platform error.
 
@@ -7327,13 +7398,7 @@ An item moves through these statuses:
 
 ### Retries
 
-These failures are retried up to 3 times:
-
-- insufficient balance;
-- rate limiting;
-- service unavailable or other server errors (`5xx`).
-
-When the retries run out, the item finishes as `done` with the error status code of the last attempt. Keep the account balance topped up before queuing large amounts of work.
+Temporary failures are retried automatically. When the retries run out, the item finishes as `done` with the error status code of the last attempt.
 
 Other outcomes are final:
 
@@ -7352,6 +7417,8 @@ Items are deleted automatically:
 | `done` | 90 days after completion. |
 
 Fetch and store the results you need before they expire.
+
+An item keeps its request and response for the periods above, even when conversation logging is turned off for the account. Delete items you no longer need with the [management API](#manage-queued-generations).
 
 ## Webhooks
 
@@ -7380,7 +7447,7 @@ Authenticate management requests with an AIVAX API key. All routes are under `/a
 | --- | --- |
 | `GET /api/v1/async-generations` | Lists items as summaries, without request or response bodies. Filter with `status`, `tags` (comma-separated; an item must have all of them), `limit` (default 50, maximum 100), and `offset`. |
 | `GET /api/v1/async-generations/<id>` | Returns the item with its request and response. JSON bodies are embedded as JSON; other content is returned as base64. |
-| `GET /api/v1/async-generations/<id>/response` | Returns the stored response as it was produced, with its original status code and content type. Use it to consume the result as if the request had been synchronous. |
+| `GET /api/v1/async-generations/<id>/response` | Returns the stored response as it was produced, with its original status code and content type. Use it to consume the result as if the request had been synchronous. Returns `404` until the item has a stored response. |
 | `PUT /api/v1/async-generations/<id>/cancel` | Cancels an item that is `pending`, `retrying`, or `done` with an error status code. Any other item returns `409`. |
 | `PUT /api/v1/async-generations/cancel?scope=<scope>` | Cancels in bulk. `scope` is `pending`, `failed`, or `all`. |
 | `DELETE /api/v1/async-generations/<id>` | Deletes an item. Returns `409` while it is `processing`. |
@@ -7391,9 +7458,13 @@ For example, to list the finished items tagged for a nightly job:
 GET /api/v1/async-generations?status=done&tags=nightly-report&limit=100
 ```
 
+## Pricing
+
+A queued request costs the same as the equivalent synchronous request, and its cost is stored with the result.
+
 ## Reduce cost
 
-Queued work rarely needs the fastest provider, so async generations use the `Cheapest` [routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md) by default. To favor speed or quality for a queued item, set the preference explicitly with `routing_options.preset` or a [model name suffix](https://docs.aivax.net/docs/inference/routing/inline-routing.md):
+Queued work rarely needs the fastest provider, so async generations use the `Cheapest` [routing preference](https://docs.aivax.net/docs/inference/routing/setup-routing.md) by default. `Cheapest` can select [special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md), which are not zero data retention providers. To favor speed or quality for a queued item, set the preference explicitly with `routing_options.preset` or a [model name suffix](https://docs.aivax.net/docs/inference/routing/inline-routing.md):
 
 ```json
 {
@@ -10086,7 +10157,7 @@ Choose terms that match the question:
 - Use a complete phrase when the intent is clear, such as `semantic search reranker settings` or `public key chat completion restrictions`.
 - Use multiple terms to cover neighboring concepts, alternate names, or likely API-reference terms.
 
-Search calls use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#account-limits).
+Search calls are rate limited per account and return `429 Too Many Requests` when the limit is exceeded.
 
 ### `aivax_list_models`
 
@@ -10108,7 +10179,7 @@ Example arguments:
 }
 ```
 
-Model listing calls use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#account-limits).
+Model listing calls are rate limited per account and return `429 Too Many Requests` when the limit is exceeded.
 
 ## When to use it
 
@@ -10164,7 +10235,7 @@ Choose `search_type` from the kind of answer you need:
 
 ## Pricing and limits
 
-Both tools use the per-account quotas documented in [Plans and limits](https://docs.aivax.net/docs/limits.md#account-limits). `aivax_search_documentation` also accepts at most 10 search terms and 500 total characters per call.
+Both tools are rate limited per account and return `429 Too Many Requests` when the limit is exceeded. `aivax_search_documentation` also accepts at most 10 search terms and 500 total characters per call.
 
 ## Security guidance
 
@@ -11287,6 +11358,14 @@ Announced changes that take effect on a future date and may require action.
 
 - **Models — Previous model names stop working on December 1st, 2026.** Model names replaced in the November 1st, 2026 renaming, decision aliases without `:latest`, `@x-ai/grok-imagine-pro` and `@microsoft/mai-image-2.5-flash` will be rejected, and saved AI gateways that still store a previous language model name will fail until updated. Gateways that store a previous image model name can no longer be saved, and their chat image tool switches to `@black-forest-labs/flux-schnell`; replace previous names with the ones returned by the model catalogs, as shown in the [November 1st, 2026 entry](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md#sunday-november-1st-2026) and the November 24th entry below.
 - **Chat clients — Previous messaging webhook URLs stop working on December 1st, 2026.** Telegram, Z-API, Evolution API, and Kapso webhook URLs without the integration key will be rejected. Copy the new URL from the integration settings and update it in the provider, or use **Update hooks** for Telegram; see [Webhook URLs](https://docs.aivax.net/docs/inference/chat-clients/integrations.md#webhook-urls).
+
+## Friday, November 27th, 2026
+
+Changes:
+
+- **Models — New subscription model.** Adds `@aivax-subscription/glm-5.4`, Z.ai's GLM-5.4, to the subscription model catalog. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md).
+- **Plans — Larger RAG embedding allowances.** The daily allowance for RAG search and insertion embeddings is now 25× the Free allowance on Pro (was 15×), 500× on Max (was 50×), and 2,500× on Ultimate (was 100×); the Free allowance is unchanged. See [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances).
+- **Plans — Live subscription model metrics.** The [Pricing page](https://aivax.net/pricing) now shows each subscription model's throughput, latency, uptime and estimated included usage per plan over the last 24 hours, with a trend for each, and lets you pick the plan to compare.
 
 ## Thursday, November 26th, 2026
 

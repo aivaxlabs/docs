@@ -48,6 +48,7 @@ Source: https://docs.aivax.net/docs/index.html
 - [Function Interpreter (Deprecated)](https://docs.aivax.net/docs/inference/chat-completions/function-interpreter.md)
 - [Inference Limits](https://docs.aivax.net/docs/inference/chat-completions/limits.md)
 - [Troubleshooting Inference](https://docs.aivax.net/docs/inference/chat-completions/troubleshooting.md)
+- [Providers](https://docs.aivax.net/docs/inference/providers.md)
 - [Setup Provider Routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md)
 - [Inline Routing](https://docs.aivax.net/docs/inference/routing/inline-routing.md)
 - [Zero Data Retention Providers](https://docs.aivax.net/docs/inference/routing/zdr.md)

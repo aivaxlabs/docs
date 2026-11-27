@@ -27,7 +27,9 @@ The access key and the link of a session are its credentials, so create sessions
 </iframe>
 ```
 
-The `microphone` permission is only needed when `Audio` is in `inputModes`. When the session expires, the link stops working: create or refresh the session again with the same `tag` to get a working link that keeps the conversation.
+The `microphone` permission is only needed when `Audio` is in `inputModes`.
+
+When the session expires, the link stops working. Create or refresh the session again with the same `tag` to get a working link that keeps the conversation.
 
 ## Customize the hosted chat
 
@@ -158,6 +160,8 @@ Use `inferenceOptions` to override some AI Gateway settings for one request. Omi
 
 With the default `commit: true`, the assistant's tool-call message is already in the session: submit only the tool results, without duplicating that assistant message. If the preceding request used `commit: false`, include the unsaved conversation messages—including the assistant message containing `tool_calls`—before the results. The top-level `toolCalls` entries are not message objects; use the OpenAI-compatible messages in `createdMessages` when reconstructing that exchange.
 
+### Add client-side tools for one request
+
 Use the request `tools` field for client-side tools that apply only to that inference, such as an action available on the screen the user is on. It takes OpenAI-compatible function tools, added to the AI Gateway tools for that request only; they are not saved to the session. They stay visible even when the gateway hides tools without a skill, and their names must not repeat a gateway tool name. Send the same `tools` again in the request that submits the results, so the model can call them again in the next step.
 
 ```json
@@ -179,6 +183,8 @@ Use the request `tools` field for client-side tools that apply only to that infe
     ]
 }
 ```
+
+### Server-side tools in the response
 
 For server-side tools, AIVAX executes the tools and continues generation within the same request. `createdMessages` can therefore contain an assistant tool call, its tool result, and the final assistant reply, while top-level `toolCalls` is empty. Do not execute those server-side calls again. The API reference above includes examples for simple completions, client-side calls, submitted client-side results, and multiple messages from server-side calling.
 

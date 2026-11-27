@@ -32,6 +32,8 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Limites de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md)
 - [Solução de Problemas de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshooting.md)
 
+- [Provedores](https://docs.aivax.net/pt-br/docs/inference/providers.md)
+
 ## Roteamento
 
 - [Configuração do roteamento de provedores](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md)

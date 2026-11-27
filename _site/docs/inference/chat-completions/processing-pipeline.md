@@ -27,7 +27,7 @@ flowchart TD
     M -->|final answer or client tool calls| O[Structured output, usage and conversation record]
 ```
 
-Steps 1 to 6 run once per request. Steps 7 to 12 form the agentic loop and run again every time the model calls a server-side tool.
+Steps 1 to 6 run once per request. Steps 7 to 12 form the agentic loop and run again every time the model calls a server-side tool. Step 13 runs once, after the last generation.
 
 | # | Step | Runs | What it does |
 | --- | --- | --- | --- |
