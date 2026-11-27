@@ -2,10 +2,10 @@ Source: https://docs.aivax.net/docs/legal/terms-of-service.html
 
 # Terms of Use
 
-Revision: 1.4
-Effective date: August 1, 2026
-Previous update: July 20, 2026
-Last updated: September 26, 2026
+Revision: 1.5
+Effective date: November 27, 2026
+Previous update: September 26, 2026
+Last updated: November 27, 2026
 
 ---
 
@@ -154,7 +154,11 @@ AIVAX Services may route Input Content to AI models, rerankers, search providers
 
 When using a specific model, provider, or tool, you may also be subject to that provider's terms. You are responsible for reviewing provider suitability before sending personal, confidential, regulated, or sensitive data.
 
-AIVAX selects providers whose published terms meet the data-handling classifications it shows for each provider or model, including "zero data retention" and not using prompts for training. Each third party handles data under its own terms, and AIVAX is not responsible for a third party's failure to comply with them.
+You choose the models, routing options, and account settings that determine which third parties receive Input Content, and you accept the data handling of the providers you allow. Special providers may retain prompts and responses, and subscription model suppliers retain prompts.
+
+Data-handling classifications that AIVAX shows for a provider or model, including "zero data retention" and not using prompts for training, reproduce what the provider or aggregator declares. AIVAX does not audit, verify, or guarantee these declarations. Each third party handles data under its own terms and security practices. To the maximum extent permitted by law, AIVAX is not responsible for a third party's failure to comply with them, or for unauthorized access, loss, disclosure, retention, or use of Input Content or Generated Content that occurs in a third party's systems.
+
+When AIVAX becomes aware of a security incident that directly or indirectly involves a model or tool provider, AIVAX may suspend routing to that provider until the provider clarifies the incident. Suspension is a precaution, not an admission of responsibility, and may make models or features that depend on that provider unavailable.
 
 ---
 
@@ -170,13 +174,19 @@ THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTIES OF ANY 
 
 TO THE MAXIMUM EXTENT PERMITTED BY LAW, AIVAX WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES ARISING FROM YOUR ACCESS TO OR USE OF THE SERVICES.
 
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, AIVAX'S TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS ARISING FROM OR RELATED TO THE SERVICES OR THESE TERMS, WHETHER IN CONTRACT, TORT, OR ANY OTHER THEORY, IS LIMITED TO THE GREATER OF (A) THE AMOUNTS YOU ACTUALLY PAID TO AIVAX IN THE 3 (THREE) MONTHS BEFORE THE EVENT GIVING RISE TO THE CLAIM AND (B) USD 100. THIS LIMIT APPLIES TO ALL CLAIMS TOGETHER AND IS NOT INCREASED BY MULTIPLE CLAIMS.
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, AIVAX IS NOT LIABLE FOR ACTS, OMISSIONS, SECURITY INCIDENTS, DATA BREACHES, DATA RETENTION, OR DATA USE BY THIRD-PARTY PROVIDERS, INCLUDING PROVIDERS THAT DECLARE ZERO DATA RETENTION.
+
+THESE LIMITATIONS DO NOT APPLY TO THE EXTENT THE LAW DOES NOT ALLOW LIABILITY TO BE LIMITED OR EXCLUDED, INCLUDING IN CASES OF WILLFUL MISCONDUCT (DOLO) OR GROSS NEGLIGENCE (CULPA GRAVE). IF A LIMITATION IS HELD UNENFORCEABLE, LIABILITY IS LIMITED TO THE LOWEST AMOUNT THE LAW ALLOWS. YOU ACKNOWLEDGE THAT AIVAX'S PRICES REFLECT THIS ALLOCATION OF RISK.
+
 GENERATED CONTENT MAY CONTAIN INACCURACIES, OMISSIONS, OR HALLUCINATIONS AND IS PROVIDED FOR INFORMATIONAL PURPOSES ONLY. YOU ARE RESPONSIBLE FOR HUMAN REVIEW BEFORE CRITICAL USE.
 
 ---
 
 ### 7. Indemnification
 
-You agree to indemnify, defend, and hold harmless AIVAX, its affiliates, administrators, collaborators, and partners from claims, losses, damages, liabilities, costs, and expenses resulting from: (i) Input Content; (ii) misuse of the Services; (iii) breach of these Terms or applicable law; (iv) infringement of third-party intellectual property, privacy, or personality rights; (v) improper use or exposure of API keys or credentials associated with your account.
+You agree to indemnify, defend, and hold harmless AIVAX, its affiliates, administrators, collaborators, and partners from claims, losses, damages, liabilities, costs, and expenses resulting from: (i) Input Content; (ii) misuse of the Services; (iii) breach of these Terms or applicable law; (iv) infringement of third-party intellectual property, privacy, or personality rights; (v) improper use or exposure of API keys or credentials associated with your account; (vi) your selection of models, providers, routing options, and account settings; (vii) claims by your end users or other data subjects that relate to personal data you sent to the Services, except to the extent that AIVAX caused those claims by breaching its own legal obligations.
 
 ### 8. Termination and Post-Termination
 
@@ -184,7 +194,7 @@ After termination or suspension: (a) access and keys may be deactivated; (b) exp
 
 ### 9. Force Majeure
 
-No party will be liable for failures or delays caused by events beyond reasonable control, including natural disasters, governmental actions, widespread infrastructure failures, cyber-attacks, pandemics, wars, or broad power outages. Payment obligations for consumed services are not discharged by force majeure.
+No party will be liable for failures or delays caused by events beyond reasonable control, including natural disasters, governmental actions, widespread infrastructure failures, cyber-attacks, pandemics, wars, broad power outages, or failures, outages, or security incidents at third-party providers. Payment obligations for consumed services are not discharged by force majeure.
 
 ### 10. Export Controls and Sanctions
 

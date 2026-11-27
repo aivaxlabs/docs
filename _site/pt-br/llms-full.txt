@@ -10715,14 +10715,14 @@ Source: https://docs.aivax.net/pt-br/docs/legal/privacy-policy.html
 
 # Política de Privacidade
 
-Revisão: 1.4
-Data de vigência: 1º de agosto de 2026
-Atualização anterior: 20 de julho de 2026
-Última atualização: 26 de setembro de 2026
+Revisão: 1.5
+Data de vigência: 27 de novembro de 2026
+Atualização anterior: 26 de setembro de 2026
+Última atualização: 27 de novembro de 2026
 
 ---
 
-Bem-vindo à AIVAX. Esta Política de Privacidade descreve como a AIVAX coleta, usa, armazena, compartilha e protege informações em seus serviços de inferência de IA. Ela foi redigida para garantir transparência e clareza técnica, não constituindo aconselhamento jurídico. Os Gerentes de Conta devem revisá-la com seus próprios conselheiros jurídicos quando necessário.
+Bem-vindo à AIVAX. Esta Política de Privacidade descreve como a AIVAX coleta, usa, armazena, compartilha e protege informações em seus serviços de inferência de IA. Ela foi redigida para garantir transparência e clareza técnica, não constituindo aconselhamento jurídico. Os Gerentes de Conta devem revisar este documento com seus próprios conselheiros jurídicos quando necessário.
 
 Ao utilizar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com os termos desta política.
 
@@ -10735,8 +10735,8 @@ Ao utilizar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com o
 - **Dados de Faturamento:** Dados necessários para faturas, recibos, saldo da conta, créditos, eventos de pagamento e processamento de pagamentos por meio de processadores terceirizados.
 - **Dados de Inferência:** Entradas enviadas aos modelos e as saídas resultantes. Nos Termos de Uso, isso corresponde ao Conteúdo de Entrada e ao Conteúdo Gerado.
 - **Dados de Treinamento Semântico:** Conteúdo RAG (Recuperação Aumentada por Geração) e de reranking elegível, anonimizado, coletado após o Gerente de Conta habilitar a coleta de dados semânticos, conforme descrito em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md). A indexação e o armazenamento de documentos estão excluídos.
-- **Conversas:** Sequências armazenadas de interações de inferência, incluindo mensagens, metadados, nome do modelo, objeto de uso, ferramentas, recursos e informações de erro quando o registro de conversas estiver habilitado.
-- **Metadados Técnicos:** Logs de inferência e acesso, endereços IP ou informações de encaminhamento, strings de user-agent, carimbos de data/hora, latência, identificadores de sessão, uso de tokens, códigos de resposta, identificadores de solicitação e sinais de segurança ou abuso.
+- **Conversas:** Sequências armazenadas de interações de inferência, incluindo mensagens, metadados, nome do modelo, objeto de uso, ferramentas, recursos e informações de erro, quando o registro de conversas estiver habilitado.
+- **Metadados Técnicos:** Logs de inferência e acesso, endereços IP ou informações de encaminhamento, strings do user-agent, carimbos de data/hora, latência, identificadores de sessão, uso de tokens, códigos de resposta, identificadores de solicitação e sinais de segurança ou abuso.
 - **Processador:** A AIVAX quando processa dados de acordo com as instruções do Gerente de Conta.
 - **Controlador:** A AIVAX quando define finalidades para dados de conta, faturamento, segurança e conformidade.
 - **Subprocessador:** Terceiro contratado ou configurado pela AIVAX para apoiar o processamento, como infraestrutura, e-mail, faturamento, provedores de modelos, provedores de pesquisa ou armazenamento de objetos.
@@ -10750,7 +10750,7 @@ Ao utilizar os serviços da AIVAX, o Gerente de Conta reconhece e concorda com o
 | Dados da Conta | Controlador | Titular dos dados ou controlador de seu próprio relacionamento interno |
 | Dados de Faturamento | Controlador para finalidades legais, contratuais e operacionais de faturamento | Fornece e verifica |
 | Dados de Inferência / Conversas | Processador para processamento direcionado pelo cliente; Controlador para segurança, prevenção de abuso e logs operacionais, quando aplicável | Controlador do conteúdo e da finalidade |
-| Dados de Treinamento Semântico | Controlador para desenvolvimento de modelos e sistemas semânticos com base no consentimento do Gerente de Conta | Controlador do conteúdo de origem e responsável pela base legal e pelos avisos necessários aos usuários finais |
+| Dados de Treinamento Semântico | Controlador para desenvolvimento de modelos e sistemas semânticos com base no consentimento do Gerente de Conta | Controlador do conteúdo de origem e responsável pela base legal e avisos necessários aos usuários finais |
 | Metadados Técnicos | Controlador para segurança, confiabilidade, prevenção de abuso e operações da plataforma; Processador quando gerado como parte da execução do serviço | Controlador do contexto do aplicativo de origem |
 
 Ao atuar como Processador, a AIVAX segue as instruções do Gerente de Conta expressas por meio de chamadas de API, configurações do painel, seleção de modelos e integrações configuradas.
@@ -10779,10 +10779,10 @@ A AIVAX não requer categorias especiais de dados pessoais sensíveis. Se o Gere
 | --- | --- | --- | --- |
 | Dados da Conta | Criação de conta, autenticação, gerenciamento de conta, comunicações operacionais | Execução contratual / interesse legítimo | Enquanto a conta estiver ativa; contas desativadas ou inativas podem ser excluídas por limpeza agendada de acordo com as regras da plataforma |
 | Dados de Faturamento | Faturas, créditos, confirmação de pagamento, prevenção de fraude, registros fiscais e contábeis | Obrigações legais / execução contratual | De acordo com requisitos legais, contábeis e contratuais |
-| Metadados Técnicos | Segurança, prevenção de abuso, depuração, confiabilidade, limitação de taxa, contabilidade de custos | Interesse legítimo / execução contratual | Logs de inferência e acesso e metadados, incluindo endereços IP e strings de user-agent, são retidos por até 1 ano |
+| Metadados Técnicos | Segurança, prevenção de abuso, depuração, confiabilidade, limitação de taxa, contabilidade de custos | Interesse legítimo / execução contratual | Logs de inferência e acesso e metadados, incluindo endereços IP e strings do user-agent, são retidos por até 1 ano |
 | Dados de Inferência | Execução da inferência solicitada e integrações configuradas | Execução contratual | Processados para a solicitação e podem ser armazenados dentro das Conversas quando o registro de conversas estiver habilitado |
-| Dados de Treinamento Semântico | Desenvolver, treinar, ajustar finamente, avaliar, testar e melhorar modelos e sistemas de recuperação ou classificação semântica | Consentimento | Retidos na forma anonimizada enquanto razoavelmente necessário para essas finalidades, obrigações legais, segurança e auditorias; depois excluídos |
-| Conversas | Monitoramento, suporte, exportação, depuração, revisão de uso e histórico visível ao usuário | Interesse legítimo / execução contratual | Visíveis/exportáveis de acordo com a retenção do plano: Grátis até 2 horas, Pro até 2 dias, Max até 14 dias, Ultimate até 30 dias |
+| Dados de Treinamento Semântico | Desenvolver, treinar, ajustar, avaliar, testar e melhorar modelos e sistemas de recuperação ou classificação semântica | Consentimento | Retidos de forma anonimizada enquanto razoavelmente necessários para essas finalidades, obrigações legais, segurança e auditorias; depois, excluídos |
+| Conversas | Monitoramento, suporte, exportação, depuração, revisão de uso e histórico voltado ao usuário | Interesse legítimo / execução contratual | Visíveis/exportáveis de acordo com a retenção do plano: Grátis até 2 horas, Pro até 2 dias, Max até 14 dias, Ultimate até 30 dias |
 | Suporte | Resolver dúvidas, incidentes e solicitações de conformidade | Execução contratual / interesse legítimo | Retidos conforme necessário para resolver a solicitação e manter registros comerciais |
 | Dados Agregados ou Anonimizados | Planejamento de capacidade, confiabilidade, prevenção de abuso, melhoria do serviço | Fora do escopo da LGPD quando irreversivelmente anonimizados | Indeterminado enquanto anonimizados |
 
@@ -10796,13 +10796,13 @@ A AIVAX coleta e registra conversas apenas quando o Gerente de Conta habilita o 
 
 A AIVAX não pode recuperar ou fornecer conversas que não foram coletadas porque esse recurso não estava habilitado, inclusive em resposta a uma ordem judicial. Os logs técnicos e metadados descritos na Seção 4 são separados do conteúdo das conversas. A divulgação de conversas armazenadas às autoridades está sujeita aos requisitos de ordem judicial na Seção 7.1.
 
-O Gerente de Conta autenticado pode listar, visualizar, exportar e excluir conversas armazenadas por meio da API de conversas, sujeito a autorização e janelas de retenção. Excluir uma conversa remove o registro de conversa correspondente para essa conta do armazenamento de produção.
+O Gerente de Conta autenticado pode listar, visualizar, exportar e excluir conversas armazenadas por meio da API de conversas, sujeito à autorização e às janelas de retenção. Excluir uma conversa remove o registro de conversa correspondente para essa conta do armazenamento de produção.
 
 ---
 
 ### 6. RAG, Memórias e Armazenamento
 
-A AIVAX pode armazenar coleções RAG, documentos, embeddings, metadados de documentos, memórias do usuário, descrições de mídia, dados de sessão de chat web e arquivos de workspace shell quando esses recursos forem usados.
+A AIVAX pode armazenar coleções RAG, documentos, embeddings, metadados de documentos, memórias do usuário, descrições de mídia, dados de sessão de chat web e arquivos do workspace shell quando esses recursos forem usados.
 
 A contabilidade atual de armazenamento inclui:
 
@@ -10818,26 +10818,26 @@ As cotas de armazenamento são baseadas no plano. O armazenamento incluído atua
 
 ### 7. Coleta Opcional de Dados Semânticos e Treinamento de Modelos
 
-Por padrão, a AIVAX não utiliza Dados de Inferência ou Conversas do Gerente de Conta para treinar modelos proprietários da AIVAX. Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, a AIVAX pode usar registros elegíveis de RAG e reranking anonimizados gerados enquanto a configuração estiver habilitada para as finalidades descritas em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md). A indexação e o armazenamento de documentos RAG não estão incluídos e não recebem desconto de programa.
+Por padrão, a AIVAX não usa Dados de Inferência do Gerente de Conta ou Conversas para treinar modelos proprietários da AIVAX. Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, a AIVAX pode usar registros RAG e de reranking anonimizados elegíveis gerados enquanto a configuração estiver habilitada para as finalidades descritas em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md). A indexação e o armazenamento de documentos RAG não estão incluídos e não recebem desconto de programa.
 
-Antes do armazenamento, a AIVAX anonimiza esses registros removendo a relação da conta e excluindo identificadores operacionais, nomes de documentos, dados de faturamento e carimbos de data/hora da coleta. A conta é consultada apenas para verificar o consentimento e aplicar o desconto elegível. A AIVAX não retém um mapeamento de conta para registro.
+Antes do armazenamento, a AIVAX anonimiza esses registros removendo o vínculo com a conta e excluindo identificadores operacionais, nomes de documentos, dados de faturamento e carimbos de data/hora da coleta. A conta é consultada apenas para verificar o consentimento e aplicar o desconto elegível. A AIVAX não retém um mapeamento de conta para registro.
 
-A configuração é desativada por padrão. Desativá-la interrompe a nova coleta, mas não exclui automaticamente os registros coletados enquanto o consentimento estava ativo nem reverte o treinamento já concluído. Como os mapeamentos de conta para registro não são armazenados, a AIVAX não pode localizar um registro de treinamento apenas por um ID de conta. O Gerente de Conta permanece responsável pela base legal, avisos e permissões necessárias para os dados pessoais submetidos por seus usuários finais. Solicitações concernentes a dados pessoais presentes dentro de conteúdo semântico podem ser enviadas para **privacy@aivax.net** ou **wm@aivax.net** com informações suficientes para localizar o conteúdo, quando aplicável.
+A configuração é desabilitada por padrão. Desabilitá-la interrompe a nova coleta, mas não exclui automaticamente os registros coletados enquanto o consentimento estava ativo nem reverte o treinamento já concluído. Como os mapeamentos de conta para registro não são armazenados, a AIVAX não consegue localizar um registro de treinamento apenas pelo ID da conta. O Gerente de Conta permanece responsável pela base legal, avisos e permissões necessárias para os dados pessoais submetidos por seus usuários finais. Solicitações relativas a dados pessoais presentes dentro do conteúdo semântico podem ser enviadas para **privacy@aivax.net** ou **wm@aivax.net** com informações suficientes para localizar o conteúdo, quando aplicável.
 
-Provedores de modelos e agregadores de terceiros podem ter seus próprios termos de processamento, termos de retenção e políticas de melhoria de modelos independentemente deste programa opcional. O Gerente de Conta deve revisar a política do provedor selecionado antes de enviar dados pessoais ou sensíveis.
+Provedores de modelos e agregadores de terceiros podem ter seus próprios termos de processamento, termos de retenção e políticas de melhoria de modelos, independentemente deste programa opcional. O Gerente de Conta deve revisar a política do provedor selecionado antes de enviar dados pessoais ou sensíveis.
 
 ---
 
 ### 7.1. Ordens Judiciais e Solicitações de Autoridades Estrangeiras
 
-Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens emitidas em outros países devem ser submetidas por meio dos tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que a AIVAX divulgue dados. Uma ordem estrangeira por si só não autoriza a divulgação.
+Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens emitidas em outros países devem ser submetidas por meio dos tribunais brasileiros e resultar em uma ordem judicial brasileira antes que a AIVAX divulgue os dados. Uma ordem estrangeira isolada não autoriza a divulgação.
 
-Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto buscam os procedimentos aplicáveis por meio dos tribunais brasileiros. A preservação não é divulgação e não autoriza a coleta ou reconstrução de conteúdo de conversa que não foi registrado.
+Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto buscam os procedimentos aplicáveis por meio dos tribunais brasileiros. A preservação não é divulgação e não autoriza a coleta ou reconstrução do conteúdo de conversas que não foram registradas.
 
-Para cumprir uma ordem de tribunal brasileiro, a AIVAX pode fornecer os seguintes dados, limitados ao escopo da ordem e aos registros realmente disponíveis:
+Para cumprir uma ordem judicial brasileira, a AIVAX pode fornecer os seguintes dados, limitados ao escopo da ordem e aos registros realmente disponíveis:
 
-- **Logs e metadados técnicos:** Até 1 ano de logs e metadados de inferência e acesso, incluindo endereços IP e strings de user-agent. Esses registros não implicam que o conteúdo da conversa foi coletado.
-- **Conversas armazenadas:** Apenas conversas coletadas enquanto o Gerente de Conta havia habilitado "Conversas" para a solicitação ou globalmente para a conta, e que permanecem disponíveis. A AIVAX fornece essas conversas às autoridades apenas sob uma ordem de tribunal brasileiro; não pode fornecer conversas que nunca foram coletadas.
+- **Logs e metadados técnicos:** Até 1 ano de logs e metadados de inferência e acesso, incluindo endereços IP e strings do user-agent. Esses registros não implicam que o conteúdo da conversa foi coletado.
+- **Conversas armazenadas:** Apenas conversas coletadas enquanto o Gerente de Conta havia habilitado "Conversas" para a solicitação ou globalmente para a conta, e que permanecem disponíveis. A AIVAX fornece essas conversas às autoridades apenas sob uma ordem judicial brasileira; não pode fornecer conversas que nunca foram coletadas.
 - **Outras informações da conta e recursos armazenados:** Informações da conta, memórias do usuário, gateways de IA e suas configurações, coleções RAG e documentos, e outros recursos armazenados da conta. Os registros disponíveis podem incluir backups com histórico de até 3 meses, conforme descrito na Seção 21.
 
 Esses períodos descrevem os limites da retenção disponível, não uma garantia de que cada registro exista durante todo o período. Um pedido de preservação não restaura registros que nunca foram coletados ou que não estão mais disponíveis.
@@ -10846,7 +10846,7 @@ Esses períodos descrevem os limites da retenção disponível, não uma garanti
 
 ### 8. Direitos do Titular dos Dados (Art. 18, LGPD)
 
-Quando a AIVAX atua como Controlador, os titulares dos dados podem solicitar confirmação de processamento, acesso, correção, anonimização, bloqueio ou exclusão, portabilidade, informações sobre compartilhamento, revogação de consentimento, quando aplicável, oposição ao processamento baseado em interesse legítimo e revisão de decisões automatizadas, quando aplicável.
+Quando a AIVAX atua como Controlador, os titulares dos dados podem solicitar confirmação do processamento, acesso, correção, anonimização, bloqueio ou exclusão, portabilidade, informações sobre compartilhamento, revogação de consentimento, quando aplicável, oposição ao processamento baseado em interesse legítimo e revisão de decisões automatizadas, quando aplicável.
 
 Canal: **privacy@aivax.net** ou **wm@aivax.net** (Encarregado de Proteção de Dados). Podemos solicitar verificação de identidade. Para dados nos quais a AIVAX atua como Processador, a AIVAX pode direcionar o titular dos dados ao Gerente de Conta Controlador.
 
@@ -10854,41 +10854,45 @@ Canal: **privacy@aivax.net** ou **wm@aivax.net** (Encarregado de Proteção de D
 
 ### 9. Encarregado de Proteção de Dados (DPO)
 
-Encarregado de Proteção de Dados (Art. 41): **(Identidade anonimizada)**
+Encarregado de Proteção de Dados (Art. 41): **(Identidade Anonimizada)**
 Contato: **wm@aivax.net**
 
-As funções incluem comunicação com titulares de dados e ANPD, orientação interna de conformidade e suporte para avaliações de impacto à privacidade.
+As funções incluem comunicação com titulares de dados e com a ANPD, orientação interna de conformidade e apoio para avaliações de impacto à privacidade.
 
 ---
 
 ### 10. Subprocessadores e Provedores de Terceiros
 
-A AIVAX utiliza serviços de terceiros para infraestrutura, armazenamento de objetos, e-mail transacional, faturamento, pesquisa na web, geração de imagens, reranking e inferência de modelos de IA. A lista técnica atual é mantida em [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md).
+A AIVAX utiliza serviços de terceiros para infraestrutura, armazenamento de objetos, e-mail transacional, faturamento, pesquisa web, geração de imagens, reranking e inferência de modelos de IA. Provedores de infraestrutura, pagamento, e-mail e pesquisa estão listados em [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md). Os provedores disponíveis para cada modelo integrado são mostrados na [Página de Modelos](https://aivax.net/models) com a classificação de manipulação de dados que cada um declara. A identidade de provedores especiais e de fornecedores de modelos de assinatura não é publicada.
 
-Ao selecionar um modelo ou habilitar uma ferramenta, o Gerente de Conta pode fazer com que o conteúdo seja enviado ao provedor de modelo, agregador ou provedor de ferramenta selecionado. A AIVAX não controla as políticas de terceiros e recomenda a revisão prévia.
+Ao selecionar um modelo ou habilitar uma ferramenta, o Gerente de Conta pode fazer com que o conteúdo seja enviado ao provedor de modelo, agregador ou ferramenta selecionado. A AIVAX não controla as políticas de terceiros e recomenda a revisão prévia.
 
-A AIVAX seleciona provedores cujos termos publicados atendem às classificações de manipulação de dados que ela mostra para cada provedor ou modelo, incluindo "zero retenção de dados". Cada terceiro lida com os dados sob seus próprios termos, e a AIVAX não é responsável pelo descumprimento de um terceiro.
+As classificações de manipulação de dados que a AIVAX mostra para um provedor ou modelo, incluindo "retenção zero de dados" e não uso de prompts para treinamento, reproduzem o que o provedor ou agregador declara. A AIVAX não audita, verifica ou garante essas declarações. Cada terceiro lida com os dados sob seus próprios termos e práticas de segurança, e, na medida máxima permitida por lei, a AIVAX não é responsável pelo descumprimento de um terceiro ou por incidentes de segurança que ocorram nos sistemas de um terceiro.
 
-Modelos de assinatura, cujos nomes começam com `@aivax-subscription/`, não têm zero retenção de dados. Seus fornecedores coletam prompts e os retêm por um período indeterminado para moderação e controle interno. De acordo com seus termos publicados, os fornecedores não usam prompts para treinamento. O Gerente de Conta não deve enviar dados pessoais, confidenciais ou regulamentados para esses modelos, a menos que essa retenção seja aceitável. Veja [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md#data-retention).
+Quando a AIVAX toma conhecimento de um incidente de segurança que envolve direta ou indiretamente um provedor de modelo ou ferramenta, a AIVAX pode suspender o roteamento para esse provedor até que ele esclareça o incidente. Modelos ou recursos que dependem desse provedor podem ficar indisponíveis durante a suspensão.
+
+Provedores especiais não têm retenção zero de dados e podem manter os prompts e respostas que recebem. Veja [Provedores especiais](https://docs.aivax.net/pt-br/docs/inference/routing/special-providers.md#data-retention).
+
+Modelos de assinatura, cujos nomes começam com `@aivax-subscription/`, não têm retenção zero de dados. Seus fornecedores coletam prompts e os retêm por um período indeterminado para moderação e controle interno. De acordo com seus termos publicados, os fornecedores não usam prompts para treinamento. O Gerente de Conta não deve enviar dados pessoais, confidenciais ou regulamentados a esses modelos, a menos que essa retenção seja aceitável. Veja [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md#data-retention).
 
 ---
 
 ### 11. Transferências Internacionais de Dados
 
-Os dados podem ser processados ou armazenados fora do Brasil dependendo da infraestrutura selecionada, provedor de modelo, provedor de pesquisa, provedor de armazenamento de objetos ou provedor de pagamento. A AIVAX aplica salvaguardas técnicas e contratuais adequadas ao serviço, incluindo controles de acesso, criptografia em trânsito, minimização e segregação lógica, quando aplicável.
+Os dados podem ser processados ou armazenados fora do Brasil dependendo da infraestrutura selecionada, provedor de modelo, provedor de pesquisa, provedor de armazenamento de objetos ou provedor de pagamento. A AIVAX aplica salvaguardas técnicas adequadas ao serviço, incluindo controles de acesso, criptografia em trânsito, minimização e segregação lógica, quando aplicável, e pode suspender o roteamento para um provedor conforme descrito na Seção 10. A AIVAX não controla a infraestrutura ou a segurança de terceiros.
 
 ---
 
 ### 12. Segurança da Informação
 
-Principais medidas incluem:
+As principais medidas incluem:
 
 - Criptografia em trânsito com HTTPS/TLS.
-- Autenticação por chave de API e autorização escopada por conta.
-- Acesso administrativo baseado em função.
+- Autenticação por chave de API e autorização limitada à conta.
+- Acesso administrativo baseado em papéis.
 - Limitação de taxa para inferência, pesquisa RAG, inserção de documentos, ferramentas e operações de pagamento.
-- Verificações de saldo, saldo mínimo e cota de armazenamento antes de operações que incorram em custos.
-- Logs operacionais e relatórios de erro para solução de problemas e prevenção de abuso.
+- Verificações de saldo, saldo mínimo e cota de armazenamento antes de operações que incorrem em custos.
+- Logs operacionais e relatórios de erros para solução de problemas e prevenção de abuso.
 - Separação entre recursos de propriedade da conta, como coleções, documentos, conversas, memórias e arquivos shell.
 - Manipulação segura de credenciais de serviço.
 
@@ -10898,7 +10902,7 @@ Nenhuma medida de segurança é absoluta; a AIVAX mantém um processo de melhori
 
 ### 13. Gestão de Incidentes
 
-Incidentes de segurança relevantes são avaliados com base no impacto, natureza dos dados e risco aos titulares dos dados. Quando necessário, a AIVAX notificará os Gerentes de Conta afetados e as autoridades competentes com informações disponíveis sobre o evento, categorias de dados afetados, etapas de mitigação e ações recomendadas.
+Incidentes de segurança relevantes são avaliados com base no impacto, na natureza dos dados e no risco aos titulares dos dados. Quando necessário, a AIVAX notificará os Gerentes de Conta afetados e as autoridades competentes com informações disponíveis sobre o evento, categorias de dados afetados, etapas de mitigação e ações recomendadas. Para incidentes que se originam em um provedor de terceiros, a AIVAX depende das informações divulgadas por esse provedor e pode suspender o roteamento para esse provedor, conforme descrito na Seção 10.
 
 ---
 
@@ -10916,7 +10920,7 @@ As interfaces do painel podem usar cookies estritamente necessários ou armazena
 
 ### 16. Crianças, Adolescentes e Menores Emancipados
 
-Os serviços não se destinam a pessoas menores de 18 anos, exceto menores emancipados legalmente com idade igual ou superior a 16 anos, conforme a lei brasileira. O Gerente de Conta é responsável por implementar verificações apropriadas quando seu caso de uso puder envolver menores.
+Os serviços não se destinam a pessoas menores de 18 anos, exceto menores emancipados legalmente com idade igual ou superior a 16 anos, conforme a legislação brasileira. O Gerente de Conta é responsável por implementar verificações adequadas quando seu caso de uso puder envolver menores.
 
 ---
 
@@ -10940,13 +10944,13 @@ A AIVAX pode gerar estatísticas agregadas, como volume de tokens, taxa de erro,
 
 ### 20. Exportação e Portabilidade
 
-A AIVAX fornece APIs para exportar o histórico de conversas em JSON ou JSONL dentro da janela de retenção configurada. Documentos de coleção podem ser exportados no formato JSONL. A disponibilidade de exportação está sujeita a autenticação, autorização, retenção e estado da conta.
+A AIVAX fornece APIs para exportar o histórico de conversas em JSON ou JSONL dentro da janela de retenção configurada. Documentos de coleção podem ser exportados no formato JSONL. A disponibilidade da exportação está sujeita a autenticação, autorização, retenção e estado da conta.
 
 ---
 
 ### 21. Backups e Recuperação de Desastres
 
-A AIVAX mantém backups para continuidade operacional e recuperação de desastres, com cópias históricas com retrocesso de até 3 meses. Esses backups podem conter informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e coleções e documentos RAG. Dados de produção excluídos podem permanecer em backups dentro desse período até que a rotação do backup seja concluída. Dados de backup disponíveis podem ser fornecidos para cumprir uma ordem de tribunal brasileiro conforme a Seção 7.1. Backups não contêm conversas que nunca foram coletadas porque "Conversas" não estava habilitado.
+A AIVAX mantém backups para continuidade operacional e recuperação de desastres, com cópias históricas com data de até 3 meses atrás. Esses backups podem conter informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e coleções e documentos RAG. Dados de produção excluídos podem permanecer nos backups dentro desse período até que a rotação do backup seja concluída. Os dados de backup disponíveis podem ser fornecidos para cumprir uma ordem judicial brasileira conforme a Seção 7.1. Backups não contêm conversas que nunca foram coletadas porque "Conversas" não estava habilitado.
 
 ---
 
@@ -10968,7 +10972,8 @@ Se insatisfeito, o titular dos dados pode recorrer à **ANPD** (Autoridade Nacio
 | Versão | Data de Vigência | Principais Alterações |
 | --- | --- | --- |
 | 1.0 | 30/07/2025 | Versão inicial publicada |
-| 1.1 | 05/10/2025 | Adicionadas bases legais, direitos, retenção detalhada, subprocessadores, transferências, segurança expandida, incidentes, decisões automatizadas, cookies, dados sensíveis, versionamento |
+| 1.1 | 05/10/2025 | Adição de bases legais, direitos, retenção detalhada, subprocessadores, transferências, segurança ampliada, incidentes, decisões automatizadas, cookies, dados sensíveis, versionamento |
+| 1.5 | 27/11/2026 | Classificações de manipulação de dados do provedor descritas como declaradas pelo provedor; suspensão do provedor após incidentes de segurança; incidentes de terceiros |
 
 ---
 
@@ -10983,7 +10988,7 @@ Sempre use canais oficiais para evitar engenharia social.
 
 ### 26. Disposições Gerais
 
-Se qualquer cláusula desta política for considerada inválida, as disposições restantes permanecem em pleno vigor. Em caso de conflito entre esta política e termos específicos do produto, prevalecerá a disposição mais protetiva para os titulares dos dados, a menos que uma obrigação legal diferente se aplique.
+Se qualquer cláusula desta política for considerada inválida, as disposições restantes permanecerão em pleno vigor. Em caso de conflito entre esta política e termos específicos do produto, prevalecerá a disposição mais protetiva para os titulares dos dados, a menos que uma obrigação legal diferente se aplique.
 
 > Nota: Esta política pode ser complementada por um Acordo Específico de Processamento de Dados (DPA) entre a AIVAX e o Gerente de Conta, quando aplicável.
 
@@ -10993,26 +10998,26 @@ Source: https://docs.aivax.net/pt-br/docs/legal/terms-of-service.html
 
 # Termos de Uso
 
-Revisão: 1.4
-Data de vigência: 1º de agosto de 2026
-Atualização anterior: 20 de julho de 2026
-Última atualização: 26 de setembro de 2026
+Revisão: 1.5
+Data de vigência: 27 de novembro de 2026
+Atualização anterior: 26 de setembro de 2026
+Última atualização: 27 de novembro de 2026
 
 ---
 
 Bem-vindo à AIVAX. Estes Termos de Uso ("Termos") regem o seu acesso e uso dos nossos serviços de inferência de IA, APIs, site e qualquer software associado (coletivamente, os "Serviços"). Estes Termos não constituem aconselhamento jurídico.
 
-Ao criar uma conta, acessar ou usar nossos Serviços, você ("Gerente da Conta AIVAX") concorda em ficar vinculado a estes Termos e à nossa [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md). Se você não concordar com estes Termos, não use nossos Serviços.
+Ao criar uma conta, acessar ou usar nossos Serviços, você ("Gerente de Conta AIVAX") concorda em ficar vinculado a estes Termos e à nossa [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md). Se você não concordar com estes Termos, não utilize nossos Serviços.
 
 ### 1. Definições
 
 - **AIVAX:** A empresa que fornece os Serviços.
-- **Gerente da Conta AIVAX:** A pessoa física ou jurídica que cria e gerencia uma conta na plataforma AIVAX e concorda com estes Termos.
-- **Conteúdo de Entrada:** Dados, texto, prompts, arquivos, mensagens, metadados ou qualquer outra informação que o Gerente da Conta AIVAX envia aos Serviços para processamento.
+- **Gerente de Conta AIVAX:** A pessoa física ou jurídica que cria e gerencia uma conta na plataforma AIVAX e concorda com estes Termos.
+- **Conteúdo de Entrada:** Dados, texto, prompts, arquivos, mensagens, metadados ou qualquer outra informação que o Gerente de Conta AIVAX envia aos Serviços para processamento.
 - **Conteúdo Gerado:** Respostas, texto, imagens, arquivos ou quaisquer outros dados gerados por modelos de IA ou ferramentas da plataforma como resultado do processamento do Conteúdo de Entrada.
 - **Conversas:** Sequências armazenadas de Conteúdo de Entrada, Conteúdo Gerado, metadados, informações do modelo, dados de uso, ferramentas e informações técnicas relacionadas quando o registro de conversas está habilitado.
-- **Dados RAG:** Coleções, documentos, metadados de documentos, referências, tags e vetores de incorporação armazenados para geração aumentada por recuperação.
-- **Dados de Treinamento Semântico:** Conteúdo RAG e de reranking elegível anonimizado coletado após o Gerente da Conta AIVAX habilitar a coleta de dados semânticos, conforme descrito em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md). A indexação e o armazenamento de documentos estão excluídos.
+- **Dados RAG:** Coleções, documentos, metadados de documentos, referências, tags e vetores de incorporação armazenados para geração aumentada por recuperação (RAG).
+- **Dados de Treinamento Semântico:** Conteúdo RAG e de reranking elegível anonimizado coletado após o Gerente de Conta AIVAX habilitar a coleta de dados semânticos, conforme descrito em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md). A indexação e o armazenamento de documentos estão excluídos.
 
 Na Política de Privacidade, "Dados de Inferência" cobre conjuntamente o Conteúdo de Entrada e o Conteúdo Gerado.
 
@@ -11028,7 +11033,7 @@ Você concorda em usar os Serviços AIVAX de forma ética e responsável. É pro
 - Tentar contornar autenticação, autorização, limites de taxa, controles de cobrança, cotas de armazenamento ou controles de segurança.
 - Explorar, testar ou divulgar vulnerabilidades sem autorização.
 - Usar os Serviços para assediar, ameaçar, difamar, enganar ou violar os direitos e a dignidade de terceiros.
-- Armazenar, gerar ou distribuir conteúdo ilegal, malware ou material que infrinja direitos.
+- Armazenar, gerar ou distribuir conteúdo ilegal, malware ou material que infrinja direitos autorais.
 
 #### 2.2. Conformidade Legal
 
@@ -11038,15 +11043,15 @@ Seu uso deve respeitar os princípios estabelecidos pelo Marco Civil da Internet
 
 #### 2.3. Dados Pessoais
 
-O Gerente da Conta AIVAX é o controlador dos dados inseridos nos Serviços. Se o Conteúdo de Entrada incluir dados pessoais de terceiros, você declara que:
+O Gerente de Conta AIVAX é o controlador dos dados inseridos nos Serviços. Se o Conteúdo de Entrada incluir dados pessoais de terceiros, você declara que:
 
 - Você possui a base legal adequada para coletar, processar e enviar esses dados à AIVAX para a finalidade configurada.
-- Você é responsável pelos avisos, consentimentos (quando exigidos), solicitações dos titulares de dados, escolhas de retenção e uso subsequente do Conteúdo Gerado.
-- A AIVAX atua como operadora para o processamento de inferência direcionado pelo cliente, sujeita à Política de Privacidade e aos acordos aplicáveis.
+- Você é responsável por avisos, consentimentos onde exigidos, solicitações dos titulares dos dados, escolhas de retenção e uso subsequente do Conteúdo Gerado.
+- A AIVAX atua como operadora para o processamento de inferência direcionado pelo cliente, sujeita à Política de Privacidade e acordos aplicáveis.
 
 #### 2.4. Elegibilidade
 
-Para usar os serviços da AIVAX, você deve ser capaz legalmente, ter pelo menos 18 anos de idade, ou 16 anos se emancipado legalmente conforme a lei brasileira. Ao usar nossos serviços, você declara que:
+Para usar os serviços AIVAX, você deve ser capaz legalmente, ter pelo menos 18 anos de idade, ou 16 anos se emancipado legalmente sob a lei brasileira. Ao usar nossos serviços, você declara que:
 
 - você não foi anteriormente suspenso, removido ou banido dos Serviços;
 - sua conta está vinculada a uma pessoa ou organização em conformidade com as leis aplicáveis e às obrigações da conta;
@@ -11056,22 +11061,22 @@ Se você usar os Serviços em nome de outra pessoa, organização ou empresa, vo
 
 #### 2.5. Saldo, Créditos, Armazenamento e Reembolsos
 
-A maioria dos serviços da AIVAX requer saldo pré-pago ("créditos"). Operações que geram custos podem ser bloqueadas quando o saldo da conta estiver zerado ou negativo, quando a conta não tiver o saldo mínimo necessário para um recurso ou quando o uso do armazenamento exceder a cota do plano.
+A maioria dos serviços AIVAX requer saldo pré-pago ("créditos"). Operações que incorrem em custos podem ser bloqueadas quando o saldo da conta estiver zerado ou negativo, quando a conta não tiver o saldo mínimo necessário para um recurso, ou quando o uso do armazenamento exceder a cota do plano.
 
-A plataforma atual aplica cotas de armazenamento baseadas no plano aos recursos armazenados, como documentos RAG e embeddings, memórias do usuário, descrições de mídia, dados de sessão do chat web e arquivos de shell. O armazenamento incluído atualmente é de 30 MB para Free, 2 GB para Pro, 10 GB para Max e 20 GB para Ultimate.
+A plataforma atual aplica cotas de armazenamento baseadas em plano aos recursos armazenados, como documentos RAG e incorporações, memórias do usuário, descrições de mídia, dados de sessão do chat web e arquivos de shell. O armazenamento incluído atualmente é de 30 MB para Free, 2 GB para Pro, 10 GB para Max e 20 GB para Ultimate.
 
-Provedores de pagamento podem coletar e processar informações de cobrança e pagamento necessárias para adicionar créditos. A AIVAX usa a Mixtic para criar links de pagamento, armazenar métodos de pagamento salvos, cobrar compras de créditos e assinaturas e confirmar pagamentos.
+Provedores de pagamento podem coletar e processar informações de cobrança e pagamento necessárias para adicionar créditos. A AIVAX usa a Mixtic para criar links de pagamento, armazenar métodos de pagamento salvos, cobrar compras de créditos e assinaturas, e confirmar pagamentos.
 
-Antes de pagar por créditos, você pode visualizar as taxas aplicáveis e recusar o pagamento antes da adição ao saldo. Os créditos adicionados expiram um ano após a adição. Créditos expirados não contam mais para o saldo da sua conta.
+Antes de pagar pelos créditos, você pode visualizar as taxas aplicáveis e recusar o pagamento antes da adição ao saldo. Os créditos adicionados expiram um ano após a adição. Créditos expirados não contam mais para o saldo da sua conta.
 
-**Política de Reembolso:** De acordo com o Art. 49 do Código de Defesa do Consumidor (Lei nº 8.078/1990), você pode exercer o direito de arrependimento dentro de 7 (sete) dias corridos a partir da data de adição do saldo solicitando um reembolso via legal@aivax.net. Do valor reembolsável, podem ser deduzidos:
+**Política de Reembolso:** De acordo com o Art. 49 do Código de Defesa do Consumidor (Lei nº 8.078/1990), você pode exercer o direito de arrependimento dentro de 7 (sete) dias corridos a partir da data de adição do saldo, solicitando um reembolso via legal@aivax.net. Do valor reembolsável, podem ser deduzidos:
 
 - custos correspondentes a serviços de computação, inferência, processamento, dados RAG, vetores, memórias, armazenamento ou outros recursos realmente consumidos até o momento da solicitação;
 - taxas de serviço do provedor de pagamento não reembolsáveis.
 
 O reembolso será processado usando o mesmo método de pagamento em até 15 (quinze) dias úteis após a aprovação. O saldo restante da conta pode ser deduzido ou zerado.
 
-**Interrupção do serviço por saldo insuficiente ou armazenamento:** A plataforma pode negar novas solicitações com custo quando a conta tiver saldo insuficiente ou exceder a cota de armazenamento. Você é responsável por exportar ou excluir os dados armazenados conforme necessário e por manter saldo e cota suficientes para a operação contínua do serviço.
+**Interrupção do serviço por saldo insuficiente ou armazenamento:** A plataforma pode negar novas solicitações que incorram em custos quando a conta tiver saldo insuficiente ou exceder a cota de armazenamento. Você é responsável por exportar ou excluir os dados armazenados conforme necessário e por manter saldo e cota suficientes para a operação contínua do serviço.
 
 ---
 
@@ -11079,13 +11084,13 @@ O reembolso será processado usando o mesmo método de pagamento em até 15 (qui
 
 #### 3.1. Propriedade e Responsabilidade pelo Conteúdo Gerado
 
-Sujeito a estes Termos, a AIVAX concede a você todos os direitos, títulos e interesses que possa ter sobre o Conteúdo Gerado. Em outras palavras: o que você cria é seu, sujeito à lei aplicável e aos direitos de terceiros.
+Sujeito a estes Termos, a AIVAX concede a você todos os direitos, títulos e interesses que possa ter no Conteúdo Gerado. Em outras palavras: o que você cria é seu, sujeito à lei aplicável e aos direitos de terceiros.
 
-Você é inteiramente responsável pelo Conteúdo Gerado e seu uso subsequente, incluindo legalidade, precisão, adequação e possíveis infrações de direitos de terceiros. A AIVAX não é responsável pelo modo como você usa o Conteúdo Gerado.
+Você é inteiramente responsável pelo Conteúdo Gerado e seu uso subsequente, incluindo legalidade, precisão, adequação e possíveis infrações aos direitos de terceiros. A AIVAX não se responsabiliza pela forma como você usa o Conteúdo Gerado.
 
-**Não exclusividade e similaridade:** Devido à natureza estatística dos modelos de IA, conteúdos semelhantes podem ser gerados para diferentes usuários sem acesso cruzado aos insumos originais. A AIVAX não garante exclusividade absoluta de expressões ou ideias geradas pelos modelos. Você não adquire direitos sobre pesos do modelo, prompts internos, técnicas, código da plataforma ou segredos comerciais da AIVAX.
+**Não exclusividade e similaridade:** Devido à natureza estatística dos modelos de IA, conteúdos semelhantes podem ser gerados para diferentes usuários sem acesso cruzado aos inputs originais. A AIVAX não garante exclusividade absoluta de expressões ou ideias geradas pelos modelos. Você não adquire direitos sobre pesos do modelo, prompts internos, técnicas, código da plataforma ou segredos comerciais da AIVAX.
 
-**Licença limitada concedida à AIVAX:** Ao submeter Conteúdo de Entrada, você concede à AIVAX uma licença mundial, não exclusiva, livre de royalties, limitada ao necessário para processar inferências, fornecer ferramentas e integrações configuradas, manter logs técnicos e de segurança, detectar abusos, calcular cobranças e cumprir obrigações legais. Esta licença está sujeita aos limites de coleta, retenção e divulgação judicial de conversas na Seção 3.4 e na Política de Privacidade; ela não autoriza o registro de conversas quando "Conversas" não está habilitado.
+**Licença limitada concedida à AIVAX:** Ao enviar Conteúdo de Entrada, você concede à AIVAX uma licença mundial, não exclusiva, isenta de royalties, limitada ao que for necessário para processar inferências, fornecer ferramentas e integrações configuradas, manter logs técnicos e de segurança, detectar abusos, calcular cobranças e cumprir obrigações legais. Esta licença está sujeita aos limites de coleta, retenção e divulgação judicial de conversas na Seção 3.4 e na Política de Privacidade; ela não autoriza o registro de conversas quando "Conversas" não estiver habilitado.
 
 Por padrão, a AIVAX não usa Conteúdo de Entrada ou Conteúdo Gerado para treinar modelos proprietários da AIVAX. O programa opcional de coleta de dados semânticos descrito abaixo é a exceção a esta regra padrão.
 
@@ -11096,13 +11101,13 @@ Por padrão, a AIVAX não usa Conteúdo de Entrada ou Conteúdo Gerado para trei
 Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, o Gerente de Conta:
 
 - autoriza a AIVAX a coletar registros RAG e de reranking elegíveis e anonimizados gerados enquanto a configuração estiver habilitada;
-- concede à AIVAX uma licença mundial, não exclusiva, livre de royalties, para armazenar, reproduzir, transformar, anotar, combinar, analisar e usar Dados de Treinamento Semântico para desenvolver, treinar, ajustar finamente, avaliar, testar e melhorar modelos e sistemas relacionados a embeddings, recuperação, classificação, reranking e outros processamentos semânticos;
+- concede à AIVAX uma licença mundial, não exclusiva, isenta de royalties, para armazenar, reproduzir, transformar, anotar, combinar, analisar e usar os Dados de Treinamento Semântico para desenvolver, treinar, ajustar, avaliar, testar e melhorar modelos e sistemas relacionados a incorporações, recuperação, classificação, reranking e outros processamentos semânticos;
 - declara que possui a autoridade, base legal, avisos e permissões necessários para este uso, inclusive para dados pessoais submetidos por usuários finais; e
 - reconhece que operações RAG e de reranking elegíveis recebem o desconto documentado de 10%, enquanto a indexação de documentos, armazenamento e serviços não relacionados permanecem com seus preços regulares.
 
-A AIVAX anonimiza esses registros antes do armazenamento, removendo a relação com a conta e excluindo identificadores operacionais, nomes de documentos, dados de cobrança e carimbos de data/hora da coleta.
+A AIVAX anonimiza esses registros antes do armazenamento, removendo o vínculo com a conta e excluindo identificadores operacionais, nomes de documentos, dados de cobrança e carimbos de data/hora da coleta.
 
-A configuração é desativada por padrão. Desativá-la aplica-se prospectivamente: ela interrompe a nova coleta e encerra o desconto para operações futuras elegíveis, mas não exclui automaticamente os registros já coletados nem exige que a AIVAX reverta o treinamento concluído. Como a AIVAX não retém um mapeamento conta-registro, os registros não podem ser localizados ou excluídos seletivamente apenas por um ID de conta. Solicitações de exclusão permanecem sujeitas à Política de Privacidade e à lei aplicável. Os termos operacionais completos estão documentados em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md).
+A configuração vem desativada por padrão. Desativá-la aplica-se prospectivamente: interrompe a nova coleta e encerra o desconto para operações elegíveis futuras, mas não exclui automaticamente os registros já coletados nem exige que a AIVAX reverta o treinamento concluído. Como a AIVAX não retém um mapeamento conta-registro, os registros não podem ser localizados ou excluídos seletivamente apenas com base no ID da conta. Solicitações de exclusição estão sujeitas à Política de Privacidade e à lei aplicável. Os termos operacionais completos estão documentados em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md).
 
 #### 3.3. Conteúdo Adulto, Explícito e Sensível
 
@@ -11111,19 +11116,19 @@ A AIVAX é uma ferramenta que pode ser usada para gerar muitos tipos de conteúd
 1. Você assume total responsabilidade pela criação, armazenamento e distribuição do material.
 2. O material não viola nenhuma lei aplicável, com tolerância zero para conteúdo envolvendo exploração infantil, conteúdo sexual não consensual, violência não consensual ou abuso ilegal.
 3. Se o material envolver representações de pessoas reais, você tem consentimento explícito e verificável desses indivíduos.
-4. Você implementa seus próprios mecanismos de controle de acesso e verificação de idade se disponibilizar esse conteúdo para terceiros.
+4. Você implementa seus próprios mecanismos de controle de acesso e verificação de idade se disponibilizar esse conteúdo a terceiros.
 
-A AIVAX não endossa esse tipo de conteúdo e pode investigar ou suspender contas que violem essas condições.
+A AIVAX não endossa este tipo de conteúdo e pode investigar ou suspender contas que violem estas condições.
 
 #### 3.4. Registro de Conversas, Retenção e Divulgação Judicial
 
-A AIVAX coleta e registra o conteúdo das conversas apenas quando o Gerente de Conta habilita o recurso de observabilidade ("Conversas") para a solicitação individual ou globalmente para a conta. Se nenhum deles habilitar o registro para a solicitação, seu conteúdo de conversa não será coletado, registrado ou armazenado. Processar Conteúdo de Entrada e Conteúdo Gerado para executar uma solicitação não cria um registro de conversa armazenado. A AIVAX não pode recuperar ou fornecer conversas que nunca foram coletadas, mesmo sob ordem judicial.
+A AIVAX coleta e registra o conteúdo das conversas apenas quando o Gerente de Conta habilita o recurso de observabilidade ("Conversas") para a solicitação individual ou globalmente para a conta. Se nenhum deles habilitar o registro para a solicitação, seu conteúdo de conversa não será coletado, registrado ou armazenado. O processamento do Conteúdo de Entrada e do Conteúdo Gerado para executar uma solicitação não cria um registro de conversa armazenado. A AIVAX não pode recuperar ou fornecer conversas que nunca foram coletadas, mesmo sob ordem judicial.
 
-Logs técnicos e metadados são separados do conteúdo das conversas. A AIVAX retém logs de inferência e acesso e metadados, incluindo endereços IP e strings de user-agent, por até 1 ano. Informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e suas configurações, e coleções e documentos RAG, também podem permanecer em backups datados de até 3 meses atrás. Esses períodos não garantem que cada registro permaneça disponível; a retenção de conversas e outros limites aplicáveis são descritos na [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md).
+Logs técnicos e metadados são separados do conteúdo das conversas. A AIVAX retém logs de inferência e acesso e metadados, incluindo endereços IP e strings de user-agent, por até 1 ano. Informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e suas configurações, e coleções e documentos RAG, também podem permanecer em backups com data de até 3 meses atrás. Esses períodos não garantem que cada registro permaneça disponível; a retenção de conversas e outros limites aplicáveis são descritos na [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md).
 
-Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens de outros países devem ser submetidas através de tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que os dados sejam divulgados. Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto prosseguem com esses procedimentos. Apenas a preservação não autoriza a divulgação, restaura registros indisponíveis ou autoriza a coleta de conteúdo de conversa que não foi registrado.
+Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens de outros países devem ser submetidas por meio de tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que os dados sejam divulgados. Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto prosseguem com esses procedimentos. Apenas a preservação não autoriza a divulgação, não restaura registros indisponíveis nem autoriza a coleta de conteúdo de conversa que não foi registrado.
 
-Sob uma ordem de tribunal brasileiro, a AIVAX pode fornecer logs disponíveis e metadados, conversas armazenadas e outras informações e recursos da conta, incluindo dados de backup disponíveis, limitados ao escopo da ordem. As conversas armazenadas são fornecidas às autoridades apenas sob tal ordem. Veja a Seção 7.1 da Política de Privacidade para as regras de divulgação e a Seção 21 para backups.
+Sob uma ordem de tribunal brasileiro, a AIVAX pode fornecer logs disponíveis e metadados, conversas armazenadas e outras informações e recursos da conta, incluindo dados de backup disponíveis, limitados ao escopo da ordem. As conversas armazenadas são fornecidas às autoridades apenas sob tal ordem. Consulte a Seção 7.1 da Política de Privacidade para as regras de divulgação e a Seção 21 para backups.
 
 ---
 
@@ -11137,49 +11142,59 @@ A AIVAX pode oferecer funcionalidade BYOK (Traga Sua Própria Chave), permitindo
 - A AIVAX não tem controle sobre as políticas, limites de uso, proibições, suspensões, preços ou termos do provedor original.
 - Se sua chave externa for bloqueada, revogada, limitada em taxa ou esgotada, os Serviços que dependem dela podem falhar.
 - Serviços periféricos da AIVAX, incluindo armazenamento, processamento RAG, gerenciamento de vetores, memórias do usuário, orquestração de agentes e ferramentas auxiliares, podem continuar sendo cobrados contra seu saldo AIVAX de acordo com a precificação atual.
-- O BYOK não isenta você destes Termos, conformidade legal, regras de abuso ou políticas de uso aceitável.
+- O BYOK não o isenta destes Termos, conformidade legal, regras de abuso ou políticas de uso aceitável.
 
 #### 4.2. Modelos e Ferramentas de Terceiros Fornecidos pela AIVAX
 
-Os Serviços AIVAX podem rotear o Conteúdo de Entrada para modelos de IA, rerankers, provedores de pesquisa, provedores de geração de imagem, provedores de pagamento, provedores de armazenamento de objetos, provedores de mensagens ou outros processadores. O provedor específico depende do modelo selecionado, provedor configurado, ferramenta, gateway ou integração.
+Os Serviços AIVAX podem rotear o Conteúdo de Entrada para modelos de IA, rerankers, provedores de pesquisa, provedores de geração de imagens, provedores de pagamento, provedores de armazenamento de objetos, provedores de mensagens ou outros processadores. O provedor específico depende do modelo selecionado, provedor configurado, ferramenta, gateway ou integração.
 
 Ao usar um modelo, provedor ou ferramenta específicos, você também pode estar sujeito aos termos desse provedor. Você é responsável por revisar a adequação do provedor antes de enviar dados pessoais, confidenciais, regulamentados ou sensíveis.
 
-A AIVAX seleciona provedores cujos termos publicados atendem às classificações de manipulação de dados que ela mostra para cada provedor ou modelo, incluindo "zero retenção de dados" e não uso de prompts para treinamento. Cada terceiro lida com os dados sob seus próprios termos, e a AIVAX não é responsável pelo fracasso de um terceiro em cumpri-los.
+Você escolhe os modelos, opções de roteamento e configurações da conta que determinam quais terceiros recebem o Conteúdo de Entrada, e aceita o tratamento de dados dos provedores que você permite. Provedores especiais podem reter prompts e respostas, e fornecedores de modelos de assinatura retêm prompts.
+
+Classificações de tratamento de dados que a AIVAX mostra para um provedor ou modelo, incluindo "zero retenção de dados" e não uso de prompts para treinamento, reproduzem o que o provedor ou agregador declara. A AIVAX não audita, verifica ou garante essas declarações. Cada terceiro trata os dados sob seus próprios termos e práticas de segurança. Na medida máxima permitida por lei, a AIVAX não se responsabiliza pelo fracasso de um terceiro em cumpri-los, ou por acesso não autorizado, perda, divulgação, retenção ou uso do Conteúdo de Entrada ou Conteúdo Gerado que ocorra nos sistemas de um terceiro.
+
+Quando a AIVAX toma conhecimento de um incidente de segurança que envolve direta ou indiretamente um provedor de modelo ou ferramenta, a AIVAX pode suspender o roteamento para esse provedor até que o provedor esclareça o incidente. A suspensão é uma precaução, não uma admissão de responsabilidade, e pode tornar modelos ou recursos que dependem desse provedor indisponíveis.
 
 ---
 
-### 5. Suspensão e Rescisão
+### 5. Suspensão e Encerramento
 
-A AIVAX pode suspender, restringir, rescindir ou banir o acesso aos Serviços por violações destes Termos, riscos de segurança, requisitos legais, falta de pagamento repetida, abuso, fraude ou risco à plataforma ou a terceiros. As suspensões podem ser temporárias ou permanentes, dependendo da gravidade do problema.
+A AIVAX pode suspender, restringir, encerrar ou banir o acesso aos Serviços por violações destes Termos, riscos de segurança, requisitos legais, falta de pagamento repetida, abuso, fraude ou risco à plataforma ou a terceiros. As suspensões podem ser temporárias ou permanentes, dependendo da gravidade do problema.
 
 ---
 
 ### 6. Limitação de Responsabilidade e Isenção de Garantias
 
-OS SERVIÇOS SÃO FORNECIDOS "COMO ESTÃO" E "COMO DISPONÍVEIS", SEM GARANTIAS DE QUALQUER TIPO, SEJA EXPRESSA OU IMPLÍCITA. A AIVAX NÃO GARANTE QUE OS SERVIÇOS SERÃO ININTERRUPROS, SEGUROS, LIVRES DE ERROS OU ADEQUADOS PARA UM FIM ESPECÍFICO.
+OS SERVIÇOS SÃO FORNECIDOS "COMO ESTÃO" E "COMO DISPONÍVEIS", SEM GARANTIAS DE QUALQUER TIPO, SEJAM ELAS EXPRESSAS OU IMPLÍCITAS. A AIVAX NÃO GARANTE QUE OS SERVIÇOS SERÃO ININTERRUPROS, SEGUROS, LIVRES DE ERROS OU ADEQUADOS PARA UM FIM ESPECÍFICO.
 
-NA EXTENSÃO MÁXIMA PERMITIDA POR LEI, A AIVAX NÃO SERÁ RESPONSÁVEL POR DANOS INDIRETOS, INCIDENTAIS, ESPECIAIS, CONSEQUENCIAIS, EXEMPLARES OU PUNITIVOS DECORRENTES DO SEU ACESSO OU USO DOS SERVIÇOS.
+NA MEDIDA MÁXIMA PERMITIDA POR LEI, A AIVAX NÃO SERÁ RESPONSÁVEL POR DANOS INDIRETOS, ACIDENTAIS, ESPECIAIS, CONSEQUENCIAIS, EXEMPLARES OU PUNITIVOS DECORRENTES DO SEU ACESSO OU USO DOS SERVIÇOS.
 
-O CONTEÚDO GERADO PODE CONTERRAR INCORRETIDÕES, OMISÕES OU ALUCINAÇÕES E É FORNECIDO APENAS PARA FINS INFORMATIVOS. VOCÊ É RESPONSÁVEL PELA REVISÃO HUMANA ANTES DO USO CRÍTICO.
+NA MEDIDA MÁXIMA PERMITIDA POR LEI, A RESPONSABILIDADE AGREGADA TOTAL DA AIVAX POR TODAS AS RECLAMAÇÕES DECORRENTES OU RELACIONADAS AOS SERVIÇOS OU A ESTES TERMOS, SEJA EM CONTRATO, ILÍCITO CIVIL OU QUALQUER OUTRA TEORIA, É LIMITADA AO MAIOR VALOR ENTRE (A) OS VALORES QUE VOCÊ REALMENTE PAGOU À AIVAX NOS 3 (TRÊS) MESES ANTERIORES AO EVENTO QUE GEROU A RECLAMAÇÃO E (B) USD 100. ESTE LIMITE SE APLICA A TODAS AS RECLAMAÇÕES JUNTAS E NÃO É AUMENTADO POR MÚLTIPLAS RECLAMAÇÕES.
+
+NA MEDIDA MÁXIMA PERMITIDA POR LEI, A AIVAX NÃO É RESPONSÁVEL POR ATOS, OMISSÕES, INCIDENTES DE SEGURANÇA, VIOLAÇÕES DE DADOS, RETENÇÃO DE DADOS OU USO DE DADOS POR PROVEDORES DE TERCEIROS, INCLUINDO PROVEDORES QUE DECLARAM ZERO RETENÇÃO DE DADOS.
+
+ESTAS LIMITAÇÕES NÃO SE APLICAM NA MEDIDA EM QUE A LEI NÃO PERMITE QUE A RESPONSABILIDADE SEJA LIMITADA OU EXCLUÍDA, INCLUINDO EM CASOS DE DOLO INTENCIONAL OU NEGLIGÊNCIA GRAVE. SE UMA LIMITAÇÃO FOR JULGADA INEXECUTÁVEL, A RESPONSABILIDADE SERÁ LIMITADA AO MENOR VALOR QUE A LEI PERMITE. VOCÊ RECONHECE QUE OS PREÇOS DA AIVAX REFLETEM ESTA ALOCAÇÃO DE RISCO.
+
+O CONTEÚDO GERADO PODE CONTETER INCORRETIDÕES, OMISÕES OU ALUCINAÇÕES E É FORNECIDO APENAS PARA FINS INFORMATIVOS. VOCÊ É RESPONSÁVEL PELA REVISÃO HUMANA ANTES DO USO CRÍTICO.
 
 ---
 
 ### 7. Indenização
 
-Você concorda em indenizar, defender e isentar a AIVAX, suas afiliadas, administradores, colaboradores e parceiros de reclamações, perdas, danos, responsabilidades, custos e despesas resultantes de: (i) Conteúdo de Entrada; (ii) uso indevido dos Serviços; (iii) violação destes Termos ou lei aplicável; (iv) infração de propriedade intelectual, privacidade ou direitos de personalidade de terceiros; (v) uso impróprio ou exposição de chaves de API ou credenciais associadas à sua conta.
+Você concorda em indenizar, defender e isentar a AIVAX, suas afiliadas, administradores, colaboradores e parceiros de reclamações, perdas, danos, responsabilidades, custos e despesas resultantes de: (i) Conteúdo de Entrada; (ii) uso indevido dos Serviços; (iii) violação destes Termos ou lei aplicável; (iv) infração de propriedade intelectual, privacidade ou direitos de personalidade de terceiros; (v) uso inadequado ou exposição de chaves de API ou credenciais associadas à sua conta; (vi) sua seleção de modelos, provedores, opções de roteamento e configurações da conta; (vii) reclamações de seus usuários finais ou outros titulares de dados que se relacionem com dados pessoais que você enviou aos Serviços, exceto na medida em que a AIVAX causou essas reclamações violando suas próprias obrigações legais.
 
-### 8. Rescisão e Pós-Rescisão
+### 8. Encerramento e Pós-Encerramento
 
-Após a rescisão ou suspensão: (a) o acesso e as chaves podem ser desativados; (b) a exportação de dados disponíveis pode ser limitada por janelas de retenção, estado da conta e requisitos de segurança; (c) os dados podem ser excluídos ou anonimizados de acordo com a Política de Privacidade e procedimentos operacionais; (d) os valores pendentes permanecem pagáveis.
+Após o encerramento ou suspensão: (a) o acesso e as chaves podem ser desativados; (b) a exportação de dados disponíveis pode ser limitada por janelas de retenção, estado da conta e requisitos de segurança; (c) os dados podem ser excluídos ou anonimizados de acordo com a Política de Privacidade e procedimentos operacionais; (d) os valores pendentes permanecem pagáveis.
 
 ### 9. Força Maior
 
-Nenhuma parte será responsável por falhas ou atrasos causados por eventos fora do controle razoável, incluindo desastres naturais, ações governamentais, falhas generalizadas de infraestrutura, ataques cibernéticos, pandemias, guerras ou apagões amplos. As obrigações de pagamento por serviços consumidos não são extintas por força maior.
+Nenhuma parte será responsável por falhas ou atrasos causados por eventos fora do controle razoável, incluindo desastres naturais, ações governamentais, falhas generalizadas de infraestrutura, ataques cibernéticos, pandemias, guerras, apagões amplos ou falhas, interrupções ou incidentes de segurança em provedores de terceiros. As obrigações de pagamento por serviços consumidos não são extintas por força maior.
 
 ### 10. Controles de Exportação e Sanções
 
-Você declara que não está localizado em, nem agindo em nome de, qualquer entidade ou pessoa sujeita a sanções ou restrições comerciais aplicáveis. Você não usará os Serviços para fins proibidos por leis de exportação, anticorrupção ou antiterrorismo. A violação desta cláusula pode resultar em suspensão ou rescisão imediata.
+Você declara que não está localizado em, nem agindo em nome de, qualquer entidade ou pessoa sujeita a sanções ou restrições comerciais aplicáveis. Você não usará os Serviços para fins proibidos por leis de exportação, anticorrupção ou antiterrorismo. A violação desta cláusula pode resultar em suspensão ou encerramento imediatos.
 
 ### 11. Confidencialidade e Segurança de Credenciais
 
@@ -11195,7 +11210,7 @@ Recursos identificados como "Beta", "Experimental" ou equivalentes podem ser ins
 
 ### 14. Procedimento de Remoção
 
-Se você acreditar que a saída ou o uso dos Serviços infringe direitos autorais, marcas registradas, privacidade, personalidade ou outros direitos, envie um aviso para legal@aivax.net contendo: (i) identificação precisa do material; (ii) base da reivindicação; (iii) suas informações de contato; (iv) uma declaração de boa-fé e veracidade. A AIVAX pode remover ou limitar o acesso preventivamente e rescindir contas de reincidentes.
+Se você acreditar que a saída ou o uso dos Serviços infringe direitos autorais, marcas registradas, privacidade, personalidade ou outros direitos, envie um aviso para legal@aivax.net contendo: (i) identificação precisa do material; (ii) base da reclamação; (iii) suas informações de contato; (iv) uma declaração de boa-fé e veracidade. A AIVAX pode remover ou limitar o acesso preventivamente e encerrar contas de infratores recorrentes.
 
 ### 15. Cessão
 
@@ -11203,7 +11218,7 @@ Você não pode ceder ou transferir estes Termos sem o consentimento prévio por
 
 ### 16. Sobrevivência
 
-As seguintes disposições sobrevivem à rescisão: Propriedade Intelectual, Limitação de Responsabilidade, Indenização, Confidencialidade, Rescisão, Cessão, Lei Aplicável e Jurisdição, e quaisquer outras que, por sua natureza, devam persistir.
+As seguintes disposições sobrevivem ao encerramento: Propriedade Intelectual, Limitação de Responsabilidade, Indenização, Confidencialidade, Encerramento, Cessão, Lei Aplicável e Jurisdição, e quaisquer outras que, por sua natureza, devam persistir.
 
 ### 17. Acordo Integral
 
@@ -11211,11 +11226,11 @@ Estes Termos, juntamente com a Política de Privacidade e quaisquer documentos a
 
 ### 18. Notificações
 
-Notificações formais podem ser entregues por e-mail registrado, aviso no painel ou publicação na página oficial dos Termos. Uma nota enviada por e-mail é considerada recebida após 24 horas, a menos que ocorra um erro técnico comprovado.
+Notificações formais podem ser entregues por email registrado, aviso no painel ou publicação na página oficial dos Termos. Uma notificação enviada por email é considerada recebida após 24 horas, a menos que ocorra um erro técnico comprovado.
 
 ### 19. Atualizações de Preço e Limites
 
-A AIVAX pode ajustar preços, modelos de cobrança, limites de uso, cotas de armazenamento ou políticas de limite de taxa. Alterações materiais que afetam custos futuros podem ser comunicadas com aviso razoável antecipado, a menos que exigido por lei, segurança ou condições de emergência. O uso continuado após a entrada em vigor das alterações implica aceitação, onde permitido.
+A AIVAX pode ajustar preços, modelos de cobrança, limites de uso, cotas de armazenamento ou políticas de limite de taxa. Mudanças materiais que afetem custos futuros podem ser comunicadas com aviso prévio razoável, a menos que exigido por lei, segurança ou condições de emergência. O uso continuado após a entrada em vigor das mudanças implica aceitação, onde permitido.
 
 ### 20. Idioma
 
@@ -11223,7 +11238,7 @@ A versão em português destes Termos prevalece sobre traduções fornecidas ape
 
 ### 21. Modificações nos Termos
 
-A AIVAX pode modificar estes Termos. Alterações materiais podem ser notificadas por publicação, e-mail ou aviso no painel e podem exigir aceitação adicional. O uso continuado após a data de vigência constitui aceitação, onde permitido.
+A AIVAX pode modificar estes Termos. Mudanças materiais podem ser notificadas por publicação, email ou aviso no painel e podem exigir aceitação adicional. O uso continuado após a data de vigência constitui aceitação, onde permitido.
 
 ### 22. Disposições Gerais
 
@@ -11237,7 +11252,7 @@ Source: https://docs.aivax.net/pt-br/docs/legal/third-party-processors.html
 
 # Processadores de Dados
 
-A AIVAX utiliza serviços de terceiros para operações específicas, como infraestrutura, armazenamento de objetos, entrega de e-mails, processamento de pagamentos e pesquisa na web. Os provedores envolvidos em uma solicitação dependem do modelo selecionado, gateway, ferramenta e integração.
+A AIVAX utiliza serviços de terceiros para operações específicas, como infraestrutura, armazenamento de objetos, entrega de e-mails, processamento de pagamentos e pesquisa na web. Os provedores envolvidos em uma solicitação dependem do modelo, gateway, ferramenta e integração selecionados.
 
 Esta página é um inventário técnico, não aconselhamento jurídico. As políticas dos provedores podem mudar, e os Gerentes de Conta devem revisar os termos dos provedores aplicáveis aos seus modelos e ferramentas selecionados antes de enviar dados pessoais, confidenciais, regulados ou sensíveis.
 
@@ -11251,44 +11266,44 @@ A coluna de lei de proteção de dados resume as principais estruturas identific
 | [Hetzner](https://www.hetzner.com/) | Infraestrutura de computação e hospedagem | [GDPR e BDSG](https://docs.hetzner.com/general/company-and-policy/data-protection-at-hetzner/) |
 | [netcup](https://www.netcup.com/) | Infraestrutura de computação e hospedagem | [GDPR e BDSG](https://www.netcup.com/en/contact/data-privacy) |
 | [Backblaze](https://www.backblaze.com/) | Armazenamento de objetos e arquivos para mídia gerada, mídia enviada, documentos gerados, arquivos expostos e artefatos de erro | [EU/UK GDPR e CCPA/CPRA](https://www.backblaze.com/company/privacy) |
-| [Brevo](https://www.brevo.com/) | E-mail transacional e notificações | [GDPR, Lei Francesa de Proteção de Dados, CCPA/CPRA, PIPEDA e LGPD](https://www.brevo.com/legal/privacypolicy/) |
-| [Mixtic](https://mixtic.com.br/) | Links de pagamento, métodos de pagamento salvos, cobranças de crédito e assinatura e confirmação de pagamento | [LGPD (Lei Brasileira nº 13.709/2018)](https://mixtic.com.br/privacidade) |
+| [Brevo](https://www.brevo.com/) | E-mail transacional e notificações | [GDPR, French Data Protection Act, CCPA/CPRA, PIPEDA e LGPD](https://www.brevo.com/legal/privacypolicy/) |
+| [Mixtic](https://mixtic.com.br/) | Links de pagamento, métodos de pagamento salvos, cobranças de crédito e assinatura, e confirmação de pagamento | [LGPD (Lei Brasileira nº 13.709/2018)](https://mixtic.com.br/privacidade) |
 | [Twitter/X](https://developer.x.com/) | Ferramentas integradas de pesquisa e leitura de posts X/Twitter | [EU/UK GDPR, Swiss FADP, CCPA e LGPD](https://x.com/en/privacy) |
-| [Linkup](https://www.linkup.so/) | Pesquisa na web para enriquecimento de contexto | [GDPR, Lei Francesa de Proteção de Dados, Diretiva ePrivacy e CCPA/CPRA](https://www.linkup.so/privacy-policy) |
+| [Linkup](https://www.linkup.so/) | Pesquisa na web para enriquecimento de contexto | [GDPR, French Data Protection Act, ePrivacy Directive e CCPA/CPRA](https://www.linkup.so/privacy-policy) |
 | [Jina AI](https://jina.ai/) | Pesquisa na web para enriquecimento de contexto | [GDPR e BDSG](https://jina.ai/legal/) |
 | [Tavily](https://www.tavily.com/) | Pesquisa na web para enriquecimento de contexto | [GDPR, UK Data Protection Act 2018 e leis de privacidade estaduais dos EUA aplicáveis](https://www.tavily.com/privacy) |
 
 ## Políticas de Coleta
 
-As tabelas abaixo descrevem o que a própria AIVAX retém para cada serviço e se um provedor de terceiros recebe o conteúdo. Cada serviço é classificado em um de três níveis:
+As tabelas abaixo descrevem o que a própria AIVAX retém para cada serviço e se um provedor terceirizado recebe o conteúdo. Cada serviço é classificado em um de três níveis:
 
 | Nível | Significado |
 | --- | --- |
-| 🟢 **ZDR** | Retenção zero de dados. A AIVAX não armazena a entrada ou saída da solicitação após a resposta ser retornada, e o serviço não a envia a um provedor de terceiros. |
-| 🟡 **Parcial** | A AIVAX não armazena o conteúdo, mas mantém logs, registros ou metadados sobre a operação por tempo indeterminado, ou envia o conteúdo a um provedor de terceiros que pode coletá-lo ou retê-lo. |
-| 🔴 **Completo** | A AIVAX armazena o conteúdo ela mesma, que pode incluir dados pessoais ou sensíveis, por tempo indeterminado. |
+| 🟢 **ZDR** | Retenção zero de dados. A AIVAX não armazena a entrada ou saída da solicitação após a resposta ser retornada, e o serviço não o envia a um provedor terceirizado. |
+| 🟡 **Parcial** | A AIVAX não armazena o conteúdo, mas mantém logs, registros ou metadados sobre a operação por tempo indeterminado, ou envia o conteúdo a um provedor terceirizado que pode coletá-lo ou retê-lo. |
+| 🔴 **Completo** | A AIVAX armazena o conteúdo ela mesma, o que pode incluir dados pessoais ou sensíveis, por tempo indeterminado. |
 
-Quando uma configuração altera o nível, a coluna Política de Coleta lista cada condição e seu nível. Todo serviço também produz os registros de uso, faturamento e técnicos descritos na [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md), e os recursos de conta armazenados podem ser incluídos em backups. Provedores de terceiros que recebem dados para uma solicitação aplicam suas próprias regras de retenção, portanto, um serviço que envia conteúdo a um deles é classificado como Parcial mesmo quando a AIVAX não armazena nada. A AIVAX seleciona provedores cujos termos publicados atendem às classificações de manipulação de dados mostradas nesta página, incluindo "retenção zero de dados" e não usar prompts para treinamento. Cada terceiro lida com os dados sob seus próprios termos, e a AIVAX não é responsável pelo fracasso de um terceiro em cumpri-los. As Utilidades MCP seguem a política do serviço que chamam.
+Quando uma configuração altera o nível, a coluna Política de Coleta lista cada condição e seu nível. Todo serviço também produz os registros de uso, faturamento e técnicos descritos na [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md), e os recursos de conta armazenados podem estar incluídos em backups. Provedores terceirizados que recebem dados para uma solicitação aplicam suas próprias regras de retenção, portanto, um serviço que envia conteúdo a um deles é classificado como Parcial mesmo quando a AIVAX não armazena nada. As classificações de manipulação de dados mostradas nesta página para terceiros, incluindo "retenção zero de dados" e não uso de prompts para treinamento, reproduzem o que cada provedor ou agregador declara. A AIVAX não audita, verifica nem garante essas declarações. Cada terceiro lida com os dados sob seus próprios termos e práticas de segurança, e, na máxima extensão permitida por lei, a AIVAX não é responsável pelo fracasso de um terceiro em cumpri-los ou por incidentes de segurança nos sistemas de um terceiro. As utilidades MCP seguem a política do serviço que chamam.
 
 ## RAG e Coleções
 
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
 | [Coleções e documentos](https://docs.aivax.net/pt-br/docs/rag/collections.md) | 🔴 Completo | O texto do documento, embeddings e metadados são armazenados até que você exclua o documento ou a coleção. |
-| [Pesquisa semântica](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) | **Registro de RAG habilitado:** 🔴 Completo<br>**Registro de RAG desabilitado:** 🟡 Parcial | O **registro de RAG** nas configurações da conta registra termos de consulta, documentos retornados, pontuações, tempo de processamento e custo na aba [Transações](https://docs.aivax.net/pt-br/docs/rag/observability.md) da coleção. Ele está desabilitado por padrão para novas contas. |
-| [Reflex e rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md) | **Compartilhamento de Dados desabilitado:** 🟡 Parcial<br>**Compartilhamento de Dados habilitado:** 🔴 Completo | A AIVAX não armazena documentos candidatos; o Reflex usa um cache temporário em memória. Dependendo do reranker selecionado, a consulta e os documentos candidatos são enviados a um provedor de terceiros. Com o [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md) habilitado, a consulta anonimizada, os documentos e os resultados do ranking são mantidos para desenvolvimento de modelos. O Compartilhamento de Dados está desabilitado por padrão e também cobre os resultados anonimizados das pesquisas semânticas. |
+| [Pesquisa semântica](https://docs.aivax.net/pt-br/docs/rag/semantic-search.md) | **Registro RAG habilitado:** 🔴 Completo<br>**Registro RAG desabilitado:** 🟡 Parcial | O **registro RAG** nas configurações da conta registra termos de consulta, documentos retornados, pontuações, tempo de processamento e custo na aba [Transações](https://docs.aivax.net/pt-br/docs/rag/observability.md) da coleção. Ele está desabilitado por padrão para novas contas. |
+| [Reflex e rerankers](https://docs.aivax.net/pt-br/docs/rag/reranking.md) | **Compartilhamento de Dados desabilitado:** 🟡 Parcial<br>**Compartilhamento de Dados habilitado:** 🔴 Completo | A AIVAX não armazena documentos candidatos; o Reflex usa um cache temporário em memória. Dependendo do reranker selecionado, a consulta e os documentos candidatos são enviados a um provedor terceirizado. Com o [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md) habilitado, a consulta anonimizada, os documentos e os resultados de classificação são mantidos para desenvolvimento de modelos. O Compartilhamento de Dados está desabilitado por padrão e também cobre os resultados anonimizados das pesquisas semânticas. |
 | [Memórias do usuário](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#memory) | 🔴 Completo | Memórias salvas pela ferramenta integrada Memory são armazenadas na coleção `@memories` até serem excluídas ou expirarem. |
 
 ## Inferência
 
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
-| [Completions de chat e Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#response-and-conversation-records) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | O **registro de conversas** nas configurações da conta armazena mensagens, chamadas de ferramentas, metadados, uso e erros como conversas. Ele está desabilitado por padrão para novas contas. Defina `allow_logging: false` para excluir uma única solicitação. Habilite [Apenas provedores com retenção zero de dados](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md) para restringir os modelos de texto integrados a provedores com termos de retenção zero de dados. Etapas auxiliares (moderação de conteúdo, roteamento de complexidade, reescrita de consultas RAG, o resumo lido em voz alta pelos clientes de chat, a reescrita de texto com instruções de voz para geração de fala e o Media Injector) sempre são executadas em provedores com retenção zero de dados, mesmo quando a opção está desabilitada. |
-| Configuração do [Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e [skill](https://docs.aivax.net/pt-br/docs/inference/skills.md) | 🔴 Completo | Instruções, skills, ferramentas e configurações de integração são armazenadas até serem excluídas. |
-| Pré-processamento multimodal | 🔴 Completo | Quando anexos são convertidos em texto por meio de descrição, OCR ou transcrição durante a inferência, o texto resultante é armazenado em cache por conta para evitar reprocessar o mesmo conteúdo. Arquivos originais não são armazenados. |
+| [Completions de chat e Gateways de IA](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md#response-and-conversation-records) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | O **registro de conversas** nas configurações da conta armazena mensagens, chamadas de ferramentas, metadados, uso e erros como conversas. Ele está desabilitado por padrão para novas contas. Defina `allow_logging: false` para excluir uma única solicitação. Habilite [Apenas provedores com retenção zero de dados](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md) para restringir os modelos de texto integrados a provedores com termos de retenção zero de dados. Etapas auxiliares (moderação de conteúdo, roteamento de complexidade, reescrita de consultas RAG, o resumo lido em voz alta pelos clientes de chat, a reescrita de texto com instruções de voz para geração de fala e Media Injector) sempre são executadas em provedores com retenção zero de dados, mesmo quando a opção está desabilitada. |
+| Configuração do [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) e [skill](https://docs.aivax.net/pt-br/docs/inference/skills.md) | 🔴 Completo | Instruções, skills, ferramentas e configurações de integração são armazenadas até serem excluídas. |
+| Pré-processamento multimodal | 🔴 Completo | Quando anexos são convertidos em texto por meio de descrição, OCR ou transcrição durante a inferência, o texto resultante é armazenado em cache por conta para evitar reprocessementar o mesmo conteúdo. Arquivos originais não são armazenados. |
 | Diagnósticos de erro do provedor | 🔴 Completo | Quando um provedor de modelo retorna um erro, a solicitação enviada ao provedor e sua resposta podem ser armazenadas para diagnóstico, independentemente do registro de conversas. |
-| [Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/overview.md) | 🔴 Completo | Sessões armazenam histórico de mensagens, contexto extra e metadados até que a sessão expire. Mídia enviada como URLs de dados é carregada no armazenamento de objetos e referenciada por uma URL pública. Áudio gerado é armazenado em cache quando a síntese de áudio está habilitada. A inferência também segue a condição de registro de conversas. |
-| [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | Os registros da AIVAX seguem a configuração de **Registro de Conversas** da conta. Modelos de assinatura não têm retenção zero de dados: seus fornecedores coletam prompts e os mantêm por tempo indeterminado para moderação e controle interno. De acordo com seus termos publicados, os fornecedores não usam prompts para treinamento. Solicitações a esses modelos falham quando **Apenas provedores com retenção zero de dados** está habilitado. |
+| [Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/overview.md) | 🔴 Completo | Sessões armazenam histórico de mensagens, contexto extra e metadados até que a sessão expire. Mídia enviada como URLs de dados é carregada no armazenamento de objetos e referenciada por uma URL pública. Áudio gerado é armazenado em cache quando a síntese de áudio está habilitada. A inferência segue também a condição de registro de conversas. |
+| [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | Os registros da AIVAX seguem a configuração de **Registro de Conversas** da conta. Modelos de assinatura não têm retenção zero de dados: seus fornecedores coletam prompts e os mantêm por tempo indeterminado para moderação e controle interno. De acordo com seus termos publicados, os fornecedores não usam prompts para treinamento. Solicitações a esses modelos falham quando **Apenas provedores com retenção zero de dados** está habilitado. |
 | [Voz e Realtime](https://docs.aivax.net/pt-br/docs/inference/voice-session.md) | **Registro de conversas habilitado:** 🔴 Completo<br>**Registro de conversas desabilitado:** 🟡 Parcial | Segue a configuração de **Registro de Conversas** da conta. Não pode ser desabilitado por sessão. |
 | [Processamento em lote](https://docs.aivax.net/pt-br/docs/inference/batch/workflows.md) | 🔴 Completo | Workflows, jobs e entradas e saídas de itens são armazenados até que você os exclua ou limpe os itens do job. |
 | [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md#retention) | 🔴 Completo | Solicitações enfileiradas e suas respostas são armazenadas até que você as exclua ou elas expirem: 15 dias após a criação para itens que nunca foram executados, 1 hora após o cancelamento e 90 dias após a conclusão. |
@@ -11301,7 +11316,7 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
 | [Pesquisa na Web](https://docs.aivax.net/pt-br/docs/web-foundation/web-search.md) | 🟡 Parcial | A AIVAX não armazena consultas ou resultados. As consultas são enviadas aos provedores de pesquisa na web listados acima. |
-| [Busca e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md) | 🟡 Parcial | A AIVAX não armazena páginas buscadas, arquivos, texto extraído ou saída JSON. O OCR de páginas digitalizadas e imagens e a conversão JSON opcional são processados por provedores de modelo. |
+| [Fetch e OCR](https://docs.aivax.net/pt-br/docs/web-foundation/fetch-and-ocr.md) | 🟡 Parcial | A AIVAX não armazena páginas buscadas, arquivos, texto extraído ou saída JSON. OCR de páginas digitalizadas e imagens e conversão JSON opcional são processados por provedores de modelo. |
 | [Pesquisa de posts X](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#x-posts-search) | 🟡 Parcial | A AIVAX não armazena consultas ou posts. As consultas são enviadas ao X. |
 
 ## Geração de Mídia
@@ -11309,8 +11324,8 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
 | [Geração de imagem](https://docs.aivax.net/pt-br/docs/generations/images.md) | 🔴 Completo | Imagens geradas são carregadas no armazenamento de objetos e servidas a partir de uma URL pública. Qualquer pessoa com a URL pode abrir a imagem. Prompts e imagens de referência são enviados ao provedor do modelo de imagem. |
-| Geração de [Documento](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#document-generation) e [página da web](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#web-page-generation) | 🔴 Completo | Arquivos criados por essas ferramentas integradas são hospedados nos servidores da AIVAX e servidos a partir de uma URL pública. |
-| [Texto para fala](https://docs.aivax.net/pt-br/docs/generations/speech.md) | **API:** 🟡 Parcial<br>**[MCP de geração de mídia](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md):** 🔴 Completo | O texto é enviado ao provedor do modelo de fala. A API retorna o áudio na resposta sem armazená-lo. A ferramenta de fala do MCP carrega o MP3 no armazenamento de objetos e retorna uma URL pública. |
+| Geração de [Documento](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#document-generation) e [página web](https://docs.aivax.net/pt-br/docs/tools/builtin-tools.md#web-page-generation) | 🔴 Completo | Arquivos criados por essas ferramentas integradas são hospedados em servidores da AIVAX e servidos a partir de uma URL pública. |
+| [Texto para fala](https://docs.aivax.net/pt-br/docs/generations/speech.md) | **API:** 🟡 Parcial<br>**[MCP de geração de mídia](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md):** 🔴 Completo | O texto é enviado ao provedor do modelo de fala. A API retorna o áudio na resposta sem armazená-lo. A ferramenta de fala MCP carrega o MP3 no armazenamento de objetos e retorna uma URL pública. |
 | [Fala para texto](https://docs.aivax.net/pt-br/docs/generations/audio-transcriptions.md) | 🟡 Parcial | A AIVAX não armazena áudio ou transcrições. O áudio é enviado ao provedor do modelo de transcrição. |
 
 ## Processamento de Dados
@@ -11319,15 +11334,15 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 | --- | --- | --- |
 | [Descrições de Mídia](https://docs.aivax.net/pt-br/docs/data-processing/media-descriptions.md) | 🟡 Parcial | Mídia submetida e descrições geradas não são armazenadas por este endpoint. A mídia é enviada a um provedor de modelo para descrição, OCR ou transcrição. Anexos convertidos durante a inferência seguem a política de pré-processamento multimodal. |
 | [Classificação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/classification.md) | 🟡 Parcial | A AIVAX não armazena o texto. Ele é enviado a um provedor de modelo de embedding, e os embeddings usam um cache temporário em memória. |
-| [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md) | 🟡 Parcial | A AIVAX não armazena entradas ou resultados. Dependendo do modelo de decisão selecionado, as entradas são enviadas a um provedor de terceiros. |
+| [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md) | 🟡 Parcial | A AIVAX não armazena entradas ou resultados. Dependendo do modelo de decisão selecionado, as entradas são enviadas a um provedor terceirizado. |
 | [Segmentação de Texto](https://docs.aivax.net/pt-br/docs/data-processing/text-segmentation.md) | 🟡 Parcial | A AIVAX não armazena texto fonte ou segmentos. O texto é enviado a um provedor de modelo de embedding, e a sanitização é processada por um provedor de modelo de linguagem. |
 
 ## Utilitários de Conta
 
 | Descrição | Política de Coleta | Detalhes |
 | --- | --- | --- |
-| Contas e chaves de API | 🟡 Parcial | Dados da conta, configurações e metadados da chave de API são mantidos enquanto a conta estiver ativa. |
-| Faturamento e pagamentos | 🟡 Parcial | Faturas, créditos, recibos e registros de pagamento são mantidos de acordo com requisitos legais, contábeis e contratuais. Pagamentos são processados pela Mixtic. |
+| Conta e chaves de API | 🟡 Parcial | Dados da conta, configurações e metadados de chave de API são mantidos enquanto a conta estiver ativa. |
+| Faturamento e pagamentos | 🟡 Parcial | Faturas, créditos, recibos e registros de pagamento são mantidos de acordo com requisitos legais, contábeis e contratuais. Os pagamentos são processados pela Mixtic. |
 | Logs de uso e técnicos | 🟡 Parcial | Registros de uso com modelo, quantidade, custo e recursos vinculados, e logs de inferência e acesso com metadados como endereços IP e strings de user-agent. |
 | Logs da conta | 🟡 Parcial | Avisos operacionais e erros exibidos nos logs da conta. |
 | Notificações | 🟡 Parcial | Notificações da conta são armazenadas para o painel. Notificações por e-mail são entregues através da Brevo. |
@@ -11336,7 +11351,7 @@ Quando uma configuração altera o nível, a coluna Política de Coleta lista ca
 
 Por padrão, a AIVAX não usa Conteúdo de Entrada do Gerente de Conta, Conteúdo Gerado ou Conversas para treinar modelos proprietários da AIVAX. Registros de RAG e reranking anonimizados elegíveis são usados apenas para desenvolvimento de modelos quando um Gerente de Conta autorizado habilita o programa opcional descrito em [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md). Indexação e armazenamento de documentos estão excluídos.
 
-Provedores de terceiros podem ter suas próprias regras de processamento, retenção, monitoramento de abuso e melhoria de modelos. O modelo, provedor, ferramenta ou integração selecionados determinam qual terceiro recebe dados para uma solicitação específica.
+Provedores terceirizados podem ter suas próprias regras de processamento, retenção, monitoramento de abuso e melhoria de modelos. O modelo, provedor, ferramenta ou integração selecionados determinam qual terceiro recebe dados para uma solicitação específica.
 
 Evite enviar informações sensíveis, confidenciais, reguladas ou pessoais a um provedor, a menos que você tenha revisado os termos atuais desse provedor e tenha uma base legal adequada para o processamento.
 
@@ -11346,75 +11361,76 @@ Source: https://docs.aivax.net/pt-br/docs/legal/changelogs.html
 
 # Changelogs
 
-Alterações nos produtos, serviços e na API pública da AIVAX.
+Alterações nos produtos, serviços e API pública da AIVAX.
 
 Esta página lista as alterações dos últimos 14 dias. As entradas mais antigas estão mantidas no [arquivo de changelogs](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md).
 
 ## Alterações futuras
 
-Alterações anunciadas que entram em vigor em uma data futura e podem exigir ação.
+Alterações anunciadas que entrarão em vigor em uma data futura e podem exigir ação.
 
-- **Modelos — Nomes anteriores de modelos deixam de funcionar em 1º de dezembro de 2026.** Os nomes de modelos substituídos na renomeação de 1º de novembro de 2026, aliases de decisão sem `:latest`, `@x-ai/grok-imagine-pro` e `@microsoft/mai-image-2.5-flash` serão rejeitados, e os gateways de IA salvos que ainda armazenam um nome anterior de modelo de linguagem falharão até serem atualizados. Gateways que armazenam um nome anterior de modelo de imagem não podem mais ser salvos, e sua ferramenta de chat de imagens muda para `@black-forest-labs/flux-schnell`; substitua os nomes anteriores pelos retornados pelos catálogos de modelos, conforme mostrado na [entrada de 1º de novembro de 2026](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md#sunday-november-1st-2026) e na entrada de 24 de novembro abaixo.
-- **Clientes de chat — URLs de webhook de mensagens anteriores deixam de funcionar em 1º de dezembro de 2026.** URLs de webhook do Telegram, Z-API, Evolution API e Kapso sem a chave de integração serão rejeitados. Copie a nova URL nas configurações de integração e atualize-a no provedor, ou use **Atualizar hooks** para o Telegram; consulte [URLs de Webhook](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md#webhook-urls).
+- **Modelos — Nomes anteriores de modelos deixarão de funcionar em 1º de dezembro de 2026.** Os nomes de modelos substituídos na renomeação de 1º de novembro de 2026, aliases de decisão sem `:latest`, `@x-ai/grok-imagine-pro` e `@microsoft/mai-image-2.5-flash` serão rejeitados, e os gateways de IA salvos que ainda armazenam um nome anterior de modelo de linguagem falharão até serem atualizados. Gateways que armazenam um nome anterior de modelo de imagem não poderão mais ser salvos, e sua ferramenta de chat de imagens passará a usar `@black-forest-labs/flux-schnell`; substitua os nomes anteriores pelos retornados pelos catálogos de modelos, conforme mostrado na [entrada de 1º de novembro de 2026](https://github.com/aivaxlabs/docs/blob/master/archive/changelogs.md#sunday-november-1st-2026) e na entrada de 24 de novembro abaixo.
+- **Clientes de chat — URLs de webhook de mensagens anteriores deixarão de funcionar em 1º de dezembro de 2026.** URLs de webhook do Telegram, Z-API, Evolution API e Kapso sem a chave de integração serão rejeitados. Copie a nova URL nas configurações de integração e atualize-a no provedor, ou use **Atualizar hooks** para o Telegram; consulte [URLs de Webhook](https://docs.aivax.net/pt-br/docs/inference/chat-clients/integrations.md#webhook-urls).
 
 ## Sexta-feira, 27 de novembro de 2026
 
 Alterações:
 
-- **Modelos — Novo modelo de assinatura.** Adiciona `@aivax-subscription/glm-5.4`, o GLM-5.4 da Z.ai, ao catálogo de modelos de assinatura. Consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
+- **Legal — Revisão 1.5 dos Termos de Uso e Política de Privacidade.** Os [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md) agora estabelecem um limite agregado de responsabilidade, estendem a indenização à sua escolha de modelos, provedores e opções de roteamento, e permitem que a AIVAX suspenda o roteamento para um provedor após um incidente de segurança, o que pode tornar os modelos que dependem dele indisponíveis. A [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md) e os [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md) declaram que as classificações de manipulação de dados dos provedores, como retenção zero de dados, são declaradas por cada provedor.
+- **Modelos — Novo modelo de assinatura.** Adiciona `@aivax-subscription/glm-5.4`, o GLM-5.4 da Z.ai, ao catálogo de modelos de assinatura. Consulte [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
 - **Planos — Maiores cotas de incorporação RAG.** A cota diária para incorporações de pesquisa e inserção RAG é agora 25× a cota Gratuita no Pro (era 15×), 500× no Max (era 50×) e 2.500× no Ultimate (era 100×); a cota Gratuita permanece inalterada. Consulte [Cotas diárias incluídas na assinatura](https://docs.aivax.net/pt-br/docs/limits.md#included-daily-subscription-allowances).
-- **Planos — Métricas de modelos de assinatura em tempo real.** A [página de Preços](https://aivax.net/pricing) agora mostra a taxa de transferência, latência, disponibilidade e uso estimado incluído por plano para cada modelo de assinatura nas últimas 24 horas, com uma tendência para cada um, e permite escolher o plano para comparar.
+- **Planos — Métricas de modelos de assinatura em tempo real.** A [Página de Preços](https://aivax.net/pricing) agora mostra a taxa de transferência, latência, disponibilidade e uso estimado incluído por plano para cada modelo de assinatura nas últimas 24 horas, com uma tendência para cada um, e permite escolher o plano para comparação.
 
 ## Quinta-feira, 26 de novembro de 2026
 
 Correções:
 
-- **Inferência — `prompt_tokens` inclui entrada em cache.** Nas conclusões de chat, `usage.prompt_tokens` conta a entrada completa, incluindo `prompt_tokens_details.cached_tokens`, como no formato OpenAI, então `total_tokens` é igual a `prompt_tokens` mais `completion_tokens`. Se você adicionou `cached_tokens` a `prompt_tokens`, pare de fazê-lo. Consulte [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md).
+- **Inferência — `prompt_tokens` inclui entrada em cache.** Nas conclusões de chat, `usage.prompt_tokens` conta a entrada completa, incluindo `prompt_tokens_details.cached_tokens`, conforme o formato OpenAI, então `total_tokens` é igual a `prompt_tokens` mais `completion_tokens`. Se você adicionou `cached_tokens` a `prompt_tokens`, pare de adicioná-lo. Consulte [Cache](https://docs.aivax.net/pt-br/docs/inference/chat-completions/caching.md).
 
 Alterações:
 
-- **Modelos — Velocidade dos modelos de assinatura.** Os modelos de assinatura agora mostram sua taxa de transferência medida (tokens por segundo, incluindo raciocínio) e latência (segundos até o primeiro token) na [página Modelos](https://aivax.net/models) e no catálogo de modelos.
+- **Modelos — Velocidade dos modelos de assinatura.** Os modelos de assinatura agora mostram sua taxa de transferência medida (tokens por segundo, incluindo raciocínio) e latência (segundos até o primeiro token) na [Página de Modelos](https://aivax.net/models) e no catálogo de modelos.
 
-## Quarta-feira, 25 de novembro de 2026
+## Wednesday, November 25th, 2026
 
 Alterações:
 
-- **Inferência — Gerações assíncronas.** Adicione `"async": true` às conclusões de chat, Respostas, Mensagens, processamento de dados, geração de imagens e fala, transcrição, Agentic Test, reranking, pesquisa web e solicitações de busca web para colocá-las em fila: a API responde com HTTP `202` e um ID, e você busca o resultado armazenado ou recebe um webhook quando terminar. Gerencie itens em fila em `/api/v1/async-generations`; solicitações em streaming e chaves de API pública não podem ser colocadas em fila. Consulte [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
+- **Inferência — Gerações assíncronas.** Adicione `"async": true` às conclusões de chat, Respostas, Mensagens, processamento de dados, geração de imagens e fala, transcrição, Teste Agentic, reranking, pesquisa web e solicitações de busca web para colocá-las em fila: a API responde com HTTP `202` e um ID, e você busca o resultado armazenado ou recebe um webhook quando estiver concluído. Gerencie itens enfileirados em `/api/v1/async-generations`; solicitações de streaming e chaves de API públicas não podem ser enfileiradas. Consulte [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
 
-## Terça-feira, 24 de novembro de 2026
+## Tuesday, November 24th, 2026
 
 Alterações incompatíveis:
 
-- **Geração de imagens — Grok Imagine Pro e MAI-Image-2.5 Flash removidos.** `@x-ai/grok-imagine-pro` e `@microsoft/mai-image-2.5-flash` não estão mais no catálogo. Até 1º de dezembro de 2026, solicitações e gateways que os mencionam são atendidos por `@x-ai/grok-imagine-image-2.0` e `@microsoft/mai-image-2.7-flash`, aos preços desses modelos; atualize-os antes dessa data. Consulte [Geração de imagens](https://docs.aivax.net/pt-br/docs/generations/images.md).
+- **Geração de imagens — Grok Imagine Pro e MAI-Image-2.5 Flash removidos.** `@x-ai/grok-imagine-pro` e `@microsoft/mai-image-2.5-flash` não estão mais no catálogo. Até 1º de dezembro de 2026, solicitações e gateways que os mencionam serão atendidos por `@x-ai/grok-imagine-image-2.0` e `@microsoft/mai-image-2.7-flash`, aos preços desses modelos; atualize-os antes dessa data. Consulte [Geração de imagens](https://docs.aivax.net/pt-br/docs/generations/images.md).
 
 Alterações:
 
 - **Geração de imagens — Novos modelos.** Adiciona `@microsoft/mai-image-2.7` ($0,029 por imagem de saída mais $0,025 por imagem de referência por saída), `@microsoft/mai-image-2.7-flash` ($0,008 mais $0,008), `@bytedance/seedream-5.5` ($0,035 mais $0,008), `@minimax/minimax-h3-image` ($0,004 mais $0,006) e `@minimax/minimax-h3-image-highspeed` ($0,008 mais $0,013). Todos eles suportam edição de imagem de referência. Consulte [Geração de imagens](https://docs.aivax.net/pt-br/docs/generations/images.md).
 - **Geração de imagens — Modelos mais antigos descontinuados.** `@microsoft/mai-image-2.6`, `@microsoft/mai-image-2.6-flash` e `@openai/gpt-image-2` agora estão marcados como descontinuados. Eles continuam funcionando por enquanto; migre para `@microsoft/mai-image-2.7`, `@microsoft/mai-image-2.7-flash` ou `@openai/gpt-image-2.6-flare`.
-- **Geração de imagens — Atualização de preço do Qwen Image 2.1.** `@qwen/qwen-image-2.1` agora custa $0,042 por imagem de saída, abaixo de $0,06, mais $0,035 por imagem de referência por saída, abaixo de $0,13.
+- **Geração de imagens — Atualização de preço do Qwen Image 2.1.** `@qwen/qwen-image-2.1` agora custa $0,042 por imagem de saída, reduzido de $0,06, mais $0,035 por imagem de referência por saída, reduzido de $0,13.
 
-## Segunda-feira, 23 de novembro de 2026
+## Monday, November 23rd, 2026
 
 Alterações:
 
 - **Inferência — Endpoints de Respostas e Mensagens Anthropic.** Adiciona `POST /v1/responses` (também `/api/v1/responses`), seguindo a especificação Open Responses e compatível com clientes da API de Respostas OpenAI, e `POST /v1/messages` (também `/api/v1/messages`), compatível com a API de Mensagens Anthropic, seus SDKs e Claude Code. Ambos aceitam um nome de modelo integrado ou um Gateway de IA como `model`, suportam streaming, ferramentas de função, imagens, arquivos e raciocínio, e são cobrados como conclusões de chat. O endpoint de Respostas é stateless, então envie a conversa completa em `input`. O cabeçalho `x-api-key` também é aceito para autenticação.
 - **Observabilidade — Pesquisa de conversas aprimorada.** A pesquisa de texto livre agora pode ser combinada com filtros em `GET /api/v1/conversations`, que também aceita filtros `--id`, `--token` e `--rid` e retorna `conversationToken` e `requestId`. O comando CLI `conversations list` adiciona `--search`, `--id`, `--token` e `--request-id`.
 
-## Sexta-feira, 20 de novembro de 2026
+## Friday, November 20th, 2026
 
 Alterações:
 
 - **Conta — Renovação mensal da cota de modelos de assinatura.** A cota mensal de modelos de assinatura agora se renova um mês após seu primeiro uso em cada ciclo, em vez de no dia 1º de cada mês. `resetAt` na resposta do saldo da conta mostra a próxima renovação.
-- **Modelos — Novos modelos de assinatura.** Adiciona `@aivax-subscription/qwen3.8-max`, `@aivax-subscription/step-5-preview` e `@aivax-subscription/grok-4.7` ao catálogo de modelos de assinatura. Consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
+- **Modelos — Novos modelos de assinatura.** Adiciona `@aivax-subscription/qwen3.8-max`, `@aivax-subscription/step-5-preview` e `@aivax-subscription/grok-4.7` ao catálogo de modelos de assinatura. Consulte [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
 - **Gateways de IA — Alternância de acesso à internet para a ferramenta Bash virtual.** As configurações do gateway de IA agora incluem uma opção **Permitir acesso à internet** para a ferramenta Bash virtual, ativada por padrão. Desative-a para executar comandos totalmente offline.
 
-## Quinta-feira, 19 de novembro de 2026
+## Thursday, November 19th, 2026
 
 Alterações:
 
-- **RAG — Limites de documentos por conta e por coleção.** Cada plano agora limita o número de documentos armazenados por conta e por coleção: Gratuito 2.000 por conta e 1.000 por coleção, Pro 200.000 e 50.000, Max 250.000 por conta sem limite de conta, e Ultimate 500.000 por coleção sem limite de conta. Quando um limite é atingido, a criação de um documento retorna `400 Bad Request`; exclua documentos ou atualize o plano para continuar. Consulte [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#rag-and-collections).
+- **RAG — Limites de documentos por conta e por coleção.** Cada plano agora limita o número de documentos armazenados por conta e por coleção: Gratuito 2.000 por conta e 1.000 por coleção, Pro 200.000 e 50.000, Max 250.000 por conta sem limite de conta, e Ultimate 500.000 por coleção sem limite de conta. Quando um limite é atingido, a criação de um documento retorna `400 Bad Request`; exclua documentos ou faça upgrade do plano para continuar. Consulte [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md#rag-and-collections).
 
-## Quarta-feira, 18 de novembro de 2026
+## Wednesday, November 18th, 2026
 
 Alterações incompatíveis:
 
@@ -11428,28 +11444,28 @@ Correções:
 
 Alterações:
 
-- **Conta — Cota mensal de modelos de assinatura.** Pro, Max e Ultimate agora incluem uma cota mensal para modelos de assinatura, cujos nomes começam com `@aivax-subscription/`. Usar esses modelos nunca debita o saldo da conta. Quando a cota se esgota, ou o plano não tem nenhuma, solicitações a modelos de assinatura retornam `429 Too Many Requests`. Modelos de assinatura não estão disponíveis quando **Apenas provedores de retenção zero de dados** está habilitado. Consulte [Modelos de assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
+- **Conta — Cota mensal de modelos de assinatura.** Pro, Max e Ultimate agora incluem uma cota mensal para modelos de assinatura, cujos nomes começam com `@aivax-subscription/`. Usar esses modelos nunca debita o saldo da conta. Quando a cota se esgota, ou o plano não tem nenhuma, solicitações a modelos de assinatura retornam `429 Too Many Requests`. Modelos de assinatura não estão disponíveis quando **Apenas provedores de retenção zero de dados** está habilitado. Consulte [Modelos de Assinatura](https://docs.aivax.net/pt-br/docs/inference/subscription-models/overview.md).
 - **Resumo e Extração — URLs de PDF.** Uma parte `file` agora pode apontar para um URL HTTP(S) público de um PDF.
-- **Transcrições de áudio — Novos modelos e preço menor do Parakeet.** Adicionado `@nvidia/nemotron-3.5-transcribe` ($0,001 por minuto, gravações de até uma hora, 40 idiomas) e `@qwen/qwen3-asr-1.7b` ($0,027 por hora). `@nvidia/parakeet-tdt-0.6b-v3` agora custa $0,001 por minuto, abaixo de $0,0015.
-- **Fala — Speechify Simba 3.5 e preços atualizados.** Adicionado `@speechify/simba-3.5`, um modelo de texto para fala que cobre 48 idiomas, a $0,0075 por 1.000 caracteres. `@fish-audio/drama-3` agora custa $0,01 por 1.000 caracteres, acima de $0,002, e `@elevenlabs/eleven-flash-v2.5` custa $0,02, acima de $0,01.
+- **Transcrições de áudio — Novos modelos e menor preço do Parakeet.** Adicionado `@nvidia/nemotron-3.5-transcribe` ($0,001 por minuto, gravações de até uma hora, 40 idiomas) e `@qwen/qwen3-asr-1.7b` ($0,027 por hora). `@nvidia/parakeet-tdt-0.6b-v3` agora custa $0,001 por minuto, reduzido de $0,0015.
+- **Fala — Speechify Simba 3.5 e preços atualizados.** Adicionado `@speechify/simba-3.5`, um modelo de texto para fala que cobre 48 idiomas, a $0,0075 por 1.000 caracteres. `@fish-audio/drama-3` agora custa $0,01 por 1.000 caracteres, aumentado de $0,002, e `@elevenlabs/eleven-flash-v2.5` custa $0,02, aumentado de $0,01.
 
-## Terça-feira, 17 de novembro de 2026
+## Tuesday, November 17th, 2026
 
 Correções:
 
-- **Clientes de chat — Metadados de sessão em integrações de mensagens.** Respostas e mensagens agendadas do WhatsApp, Telegram e outras integrações de mensagens agora carregam os metadados da sessão para servidores MCP, funções de protocolo, trabalhadores de gateway e conversas salvas, assim como as sessões de chat web já faziam.
+- **Clientes de chat — Metadados de sessão em integrações de mensagens.** Respostas e mensagens agendadas do WhatsApp, Telegram e outras integrações de mensagens agora carregam os metadados da sessão para servidores MCP, funções de protocolo, workers de gateway e conversas salvas, assim como as sessões de chat web já faziam.
 - **Gateways — Chaves de metadados reservados do MCP.** Chaves de metadados personalizados começando com `_aiv` não fazem mais chamadas de ferramenta MCP falharem.
-- **Ferramentas — Explicações de ferramentas com servidores MCP rigorosos.** Com explicações de ferramentas habilitadas, servidores MCP e funções de protocolo que rejeitam argumentos desconhecidos agora funcionam conforme esperado. Consulte [Explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
+- **Ferramentas — Explicações de ferramentas com servidores MCP estritos.** Com explicações de ferramentas habilitadas, servidores MCP e funções de protocolo que rejeitam argumentos desconhecidos agora funcionam conforme o esperado. Consulte [Explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
 - **Modelos — Busca de modelos com sufixos.** O filtro `name` de `GET /api/v1/information/models.json` agora ignora uma tag de provedor `#` ou um sufixo de variante `:` e retorna o modelo base correspondente.
 
 Alterações:
 
-- **Modelos — GPT-6.2 Astra e GPT-6. Sol.** Adiciona `@openai/gpt-6.2-astra`, `@openai/gpt-6.2-astra:pro`, `@openai/gpt-6.2-sol` e `@openai/gpt-6.2-sol:pro`, com raciocínio, entrada de imagem e arquivo, chamada de ferramentas e saída estruturada. `@model-router/openai:frontier` agora roteia para `@openai/gpt-6.2-astra` em vez de `@openai/gpt-6-astra`; selecione `@openai/gpt-6-astra` diretamente para manter o modelo anterior.
-- **Decisões — Liquid d1.2 e d1.2-ultra.** Adiciona `@liquid/d1.2` e `@liquid/d1.2-ultra`, com contexto de 64K, entrada de imagem e perguntas sim/não, múltipla escolha e pontuação. `@liquid/d:latest` agora resolve para `@liquid/d1.2` em vez de `@liquid/d1.1`. Verifique os preços no [listagem de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically).
+- **Modelos — GPT-6.2 Astra e GPT-6.2 Sol.** Adiciona `@openai/gpt-6.2-astra`, `@openai/gpt-6.2-astra:pro`, `@openai/gpt-6.2-sol` e `@openai/gpt-6.2-sol:pro`, com raciocínio, entrada de imagem e arquivo, chamada de ferramentas e saída estruturada. `@model-router/openai:frontier` agora roteia para `@openai/gpt-6.2-astra` em vez de `@openai/gpt-6-astra`; selecione `@openai/gpt-6-astra` diretamente para manter o modelo anterior.
+- **Decisões — Liquid d1.2 e d1.2-ultra.** Adiciona `@liquid/d1.2` e `@liquid/d1.2-ultra`, com contexto de 64K, entrada de imagem e perguntas sim/não, múltipla escolha e pontuação. `@liquid/d:latest` agora resolve para `@liquid/d1.2` em vez de `@liquid/d1.1`. Verifique os preços na [lista de modelos de decisão](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#discover-models-programmatically).
 - **Gateways — Metadados em toda solicitação MCP.** A AIVAX agora envia o contexto de chamada e metadados personalizados em `params._meta` de toda solicitação a um servidor MCP, incluindo `initialize`, `tools/list`, `skills/list` e `resources/read`, não apenas `tools/call`. Consulte [Metadados enviados com solicitações MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md#metadata-sent-with-mcp-requests).
 - **Clientes de chat — Raciocínio e atividade de ferramentas no chat hospedado.** O chat web hospedado agora mostra raciocínio e chamadas de ferramentas em blocos recolhíveis, ocultos quando a **Visibilidade de chamada de ferramenta** (`showToolCalls`) está desligada. Consulte [Publicar o chat hospedado](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat) e [Explicações de ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md).
 
-## Segunda-feira, 16 de novembro de 2026
+## Monday, November 16th, 2026
 
 Correções:
 
@@ -11457,29 +11473,29 @@ Correções:
 
 Alterações:
 
-- **Conta — Impostos brasileiros sobre pagamentos.** Novos pagamentos, incluindo recargas de crédito e assinaturas, agora incluem impostos brasileiros adicionados ao valor devido. O painel mostra o total antes de você confirmar, e os recibos listam cada imposto. Consulte [Impostos sobre pagamentos](https://docs.aivax.net/pt-br/docs/pricing.md#taxes-on-payments).
-- **Conta — Faturas de serviço.** Faturas de serviço (nota fiscal de serviços) podem ser baixadas na aba Faturas de Análise, e você é notificado quando uma é emitida. Os dados de uso retornam o link em `serviceInvoiceLocation`.
-- **Decisões — Entrada de conversa e mídia.** Solicitações de decisão agora aceitam `input`, uma matriz de mensagens de conversa, em vez de `state`. Partes de imagem, áudio, vídeo e documento são avaliadas em modelos que as suportam. Consulte [Enviar mídia](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#send-media).
+- **Conta — Impostos brasileiros sobre pagamentos.** Novos pagamentos, incluindo recargas de crédito e assinaturas, agora incluem impostos brasileiros adicionados sobre o valor devido. O painel mostra o total antes da confirmação, e os recibos listam cada imposto. Consulte [Impostos sobre pagamentos](https://docs.aivax.net/pt-br/docs/pricing.md#taxes-on-payments).
+- **Conta — Faturas de serviço.** Faturas de serviço (nota fiscal de serviços) podem ser baixadas na aba Faturas de Analytics, e você é notificado quando uma é emitida. Os dados de uso retornam o link em `serviceInvoiceLocation`.
+- **Decisões — Entrada de conversa e mídia.** Solicitações de decisão agora aceitam `input`, um array de mensagens de conversa, em vez de `state`. Partes de imagem, áudio, vídeo e documento são avaliadas em modelos que as suportam. Consulte [Enviar mídia](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#send-media).
 - **Roteamento — Etapas auxiliares em provedores de retenção zero de dados.** Moderação de conteúdo, roteador de complexidade, reescrita de consulta RAG, resumos de áudio de cliente de chat, instruções de voz de fala e Injetor de Mídia agora sempre são executados em provedores de retenção zero de dados. Consulte [Apenas provedores de retenção zero de dados](https://docs.aivax.net/pt-br/docs/inference/routing/zdr.md).
-- **Análise — Totais de pagamento no relatório mensal.** O relatório mensal agora soma os pagamentos confirmados no mês, com seus impostos e taxas, retornados em `payments` por Obter Relatório de Uso Mensal.
-- **RAG — Reranker Reflex v1.5.** O endpoint de rerank aceita `@aivax/reflex-v1.5`, uma opção de maior precisão para `@aivax/reflex-v1`. Ele classifica até 15.000 documentos por solicitação, retorna até 50 resultados e custa $0,015 por 1M tokens de entrada. Consulte [Reranking](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
+- **Analytics — Totais de pagamento no relatório mensal.** O relatório agora soma os pagamentos confirmados no mês, com seus impostos e taxas, retornados em `payments` por Get Monthly Usage Report.
+- **RAG — Reranker Reflex v1.5.** O endpoint de rerank aceita `@aivax/reflex-v1.5`, uma opção de maior precisão para `@aivax/reflex-v1`. Ele classifica até 15.000 documentos por solicitação, retorna até 50 resultados e custa $0,015 por 1 milhão de tokens de entrada. Consulte [Reranking](https://docs.aivax.net/pt-br/docs/rag/reranking.md).
 
-## Sexta-feira, 13 de novembro de 2026
+## Friday, November 13th, 2026
 
 Alterações incompatíveis:
 
-- **Clientes de chat — `allowedFrameOrigins` removido.** A opção obsoleta de cliente de chat `allowedFrameOrigins` não é mais retornada quando você lê um cliente de chat. Solicitações que ainda a enviam continuam funcionando, e o valor é ignorado. Consulte [Publicar o chat hospedado](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat).
+- **Clientes de chat — `allowedFrameOrigins` removido.** A opção obsoleta `allowedFrameOrigins` do cliente de chat não é mais retornada quando você lê um cliente de chat. Solicitações que ainda a enviam continuam funcionando, e o valor é ignorado. Consulte [Publicar o chat hospedado](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#publish-the-hosted-chat).
 
 Correções:
 
-- **Lote — Trabalhos retomam após o limite diário de itens.** Trabalhos pausados pelo limite diário de itens do plano agora retomam automaticamente após a reinicialização do limite. Consulte [Limites de Lote e Testes Agentic](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests).
-- **Clientes de chat — Contagem de tokens de sessão após Enviar Prompt.** Sessões que recebem mensagens através de Enviar Prompt agora relatam sua contagem de tokens na listagem de sessões.
+- **Batch — Trabalhos retomam após o limite diário de itens.** Trabalhos pausados pelo limite diário de itens do plano agora retomam automaticamente após a reinicialização do limite. Consulte [Limites de Batch e Testes Agentic](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests).
+- **Clientes de chat — Contagem de tokens de sessão após Enviar Prompt.** Sessões que recebem mensagens através do Enviar Prompt agora relatam sua contagem de tokens na listagem de sessões.
 
 Alterações:
 
 - **Clientes de chat — Inserir mensagens em uma sessão.** O novo endpoint `POST /api/v1/web-chat-client/<chat-client-id>/sessions/insert-message` anexa mensagens de usuário, assistente ou ferramenta a uma sessão ativa, identificada por `sessionId` ou `tag`, sem executar inferência. As mensagens inseridas são usadas como contexto pela próxima prompt.
 
-## Quinta-feira, 12 de novembro de 2026
+## Thursday, November 12th, 2026
 
 Alterações incompatíveis:
 
@@ -11490,9 +11506,9 @@ Alterações:
 - **Clientes de chat — Contexto descartável no Enviar Prompt.** Enviar Prompt aceita um novo campo `context` com partes de conteúdo de texto ou compatíveis com OpenAI, incluindo imagens, áudio, vídeo e arquivos. O contexto se aplica apenas a essa solicitação e não é salvo no histórico da sessão. Consulte [Adicionar contexto descartável à última mensagem do usuário](https://docs.aivax.net/pt-br/docs/inference/chat-clients/web-client.md#add-disposable-context-to-the-last-user-message).
 - **Geração de imagens — GPT Image 2.6 Flare e Sunburst.** Adiciona `@openai/gpt-image-2.6-flare`, para geração rápida, e `@openai/gpt-image-2.6-sunburst`, para composições detalhadas. Ambos suportam edição de imagem de referência e são precificados em $0,025 por imagem de saída mais $0,025 por imagem de referência por saída.
 - **Geração de imagens — Modelos mais antigos descontinuados.** `@openai/gpt-image-2.5-flare`, `@openai/gpt-image-2.5-sunburst` e `@openai/gpt-image-1-mini` agora estão marcados como descontinuados. Eles continuam funcionando por enquanto; migre para `@openai/gpt-image-2.6-flare`, `@openai/gpt-image-2.6-sunburst` ou `@openai/gpt-image-2`.
-- **Geração de imagens — Preços menores.** `@bytedance/seedream-5-pro` agora custa $0,035 por imagem de saída, abaixo de $0,09, e `@recraft/recraft-v4.1-flash` custa $0,007, abaixo de $0,008.
+- **Geração de imagens — Preços menores.** `@bytedance/seedream-5-pro` agora custa $0,035 por imagem de saída, reduzido de $0,09, e `@recraft/recraft-v4.1-flash` custa $0,007, reduzido de $0,008.
 
-## Quarta-feira, 11 de novembro de 2026
+## Wednesday, November 11th, 2026
 
 Correções:
 
@@ -11501,8 +11517,8 @@ Correções:
 Alterações:
 
 - **Painel — Página inicial redesenhada.** A página inicial do painel agora mostra seu saldo de crédito, tendências de uso das últimas 24 horas a 90 dias e atalhos para os principais produtos.
-- **Gateways de IA — Novos eventos de trabalhador `tool.fetched` e `message.completed`.** Os trabalhadores de gateway agora recebem `tool.fetched` após uma ferramenta do lado do servidor retornar seu resultado, e podem manter, bloquear ou substituir esse resultado com uma ação `tool.fetched.response`. Os trabalhadores também recebem `message.completed` após cada inferência terminar, com as mensagens, erros e uso. Consulte [Trabalhadores de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md).
+- **Gateways de IA — Novos eventos de worker `tool.fetched` e `message.completed`.** Os workers de gateway agora recebem `tool.fetched` após uma ferramenta do lado do servidor retornar seu resultado, e podem manter, bloquear ou substituir esse resultado com uma ação `tool.fetched.response`. Os workers também recebem `message.completed` após cada inferência terminar, com as mensagens, erros e uso. Consulte [Workers de Gateway](https://docs.aivax.net/pt-br/docs/inference/workers.md).
 - **Conta — Sem taxa de serviço em recargas de crédito para Pro, Max e Ultimate.** Adicionar créditos no Pro, Max e Ultimate não inclui mais a taxa de serviço. Consulte [Recargas de crédito](https://docs.aivax.net/pt-br/docs/pricing.md#credit-top-ups).
-- **Conta — Teto diário na comissão de inferência.** A comissão de inferência do plano na inferência de modelo integrado é agora limitada a $1,50 por dia no Gratuito, $1,20 no Pro e $1,00 no Max. Após atingir o teto, a inferência de modelo naquele dia é cobrada apenas nas taxas do modelo. Consulte [Multiplicadores de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers).
+- **Conta — Teto diário na comissão de inferência.** A comissão de inferência do plano na inferência de modelos integrados é agora limitada a $1,50 por dia no Gratuito, $1,20 no Pro e $1,00 no Max. Após atingir o teto, a inferência de modelos naquele dia é cobrada apenas nas taxas do modelo. Consulte [Multiplicadores de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers).
 
 

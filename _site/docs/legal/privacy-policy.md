@@ -2,10 +2,10 @@ Source: https://docs.aivax.net/docs/legal/privacy-policy.html
 
 # Privacy Policy
 
-Revision: 1.4
-Effective date: August 1, 2026
-Previous update: July 20, 2026
-Last updated: September 26, 2026
+Revision: 1.5
+Effective date: November 27, 2026
+Previous update: September 26, 2026
+Last updated: November 27, 2026
 
 ---
 
@@ -150,11 +150,15 @@ Functions include communication with data subjects and the ANPD, internal compli
 
 ### 10. Subprocessors and Third-Party Providers
 
-AIVAX uses third-party services for infrastructure, object storage, transactional email, billing, web search, image generation, reranking, and AI model inference. The current technical list is maintained in [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md).
+AIVAX uses third-party services for infrastructure, object storage, transactional email, billing, web search, image generation, reranking, and AI model inference. Infrastructure, payment, email, and search providers are listed in [Data Processors](https://docs.aivax.net/docs/legal/third-party-processors.md). The providers available for each integrated model are shown on the [Models page](https://aivax.net/models) with the data-handling classification each one declares. The identity of special providers and of subscription model suppliers is not published.
 
 When selecting a model or enabling a tool, the Account Manager may cause content to be sent to the selected model provider, aggregator, or tool provider. AIVAX does not control third-party policies and recommends prior review.
 
-AIVAX selects providers whose published terms meet the data-handling classifications it shows for each provider or model, including "zero data retention". Each third party handles data under its own terms, and AIVAX is not responsible for a third party's failure to comply with them.
+Data-handling classifications that AIVAX shows for a provider or model, including "zero data retention" and not using prompts for training, reproduce what the provider or aggregator declares. AIVAX does not audit, verify, or guarantee these declarations. Each third party handles data under its own terms and security practices, and, to the maximum extent permitted by law, AIVAX is not responsible for a third party's failure to comply with them or for security incidents that occur in a third party's systems.
+
+When AIVAX becomes aware of a security incident that directly or indirectly involves a model or tool provider, AIVAX may suspend routing to that provider until the provider clarifies the incident. Models or features that depend on that provider may be unavailable during the suspension.
+
+Special providers are not zero data retention and can keep the prompts and responses they receive. See [Special providers](https://docs.aivax.net/docs/inference/routing/special-providers.md#data-retention).
 
 Subscription models, whose names start with `@aivax-subscription/`, are not zero data retention. Their suppliers collect prompts and retain them for an indefinite period for moderation and internal control. According to their published terms, the suppliers do not use prompts for training. The Account Manager should not send personal, confidential, or regulated data to these models unless that retention is acceptable. See [Subscription models](https://docs.aivax.net/docs/inference/subscription-models/overview.md#data-retention).
 
@@ -162,7 +166,7 @@ Subscription models, whose names start with `@aivax-subscription/`, are not zero
 
 ### 11. International Data Transfers
 
-Data may be processed or stored outside Brazil depending on the selected infrastructure, model provider, search provider, object storage provider, or payment provider. AIVAX applies technical and contractual safeguards appropriate to the service, including access controls, encryption in transit, minimization, and logical segregation where applicable.
+Data may be processed or stored outside Brazil depending on the selected infrastructure, model provider, search provider, object storage provider, or payment provider. AIVAX applies technical safeguards appropriate to the service, including access controls, encryption in transit, minimization, and logical segregation where applicable, and may suspend routing to a provider as described in Section 10. AIVAX does not control the infrastructure or security of third parties.
 
 ---
 
@@ -185,7 +189,7 @@ No security measure is absolute; AIVAX maintains a continuous improvement proces
 
 ### 13. Incident Management
 
-Relevant security incidents are assessed based on impact, data nature, and risk to data subjects. When required, AIVAX will notify affected Account Managers and competent authorities with available information about the event, affected data categories, mitigation steps, and recommended actions.
+Relevant security incidents are assessed based on impact, data nature, and risk to data subjects. When required, AIVAX will notify affected Account Managers and competent authorities with available information about the event, affected data categories, mitigation steps, and recommended actions. For incidents that originate at a third-party provider, AIVAX depends on the information that provider discloses and may suspend routing to that provider as described in Section 10.
 
 ---
 
@@ -256,6 +260,7 @@ If unsatisfied, the data subject may appeal to the **ANPD** (National Data Prote
 | --- | --- | --- |
 | 1.0 | 07/30/2025 | Initial version published |
 | 1.1 | 10/05/2025 | Added legal bases, rights, detailed retention, subprocessors, transfers, expanded security, incidents, automated decisions, cookies, sensitive data, versioning |
+| 1.5 | 11/27/2026 | Provider data-handling classifications described as provider-declared; provider suspension after security incidents; third-party incidents |
 
 ---
 
