@@ -180,7 +180,7 @@ TO THE MAXIMUM EXTENT PERMITTED BY LAW, AIVAX'S TOTAL AGGREGATE LIABILITY FOR AL
 
 TO THE MAXIMUM EXTENT PERMITTED BY LAW, AIVAX IS NOT LIABLE FOR ACTS, OMISSIONS, SECURITY INCIDENTS, DATA BREACHES, DATA RETENTION, OR DATA USE BY THIRD-PARTY PROVIDERS, INCLUDING PROVIDERS THAT DECLARE ZERO DATA RETENTION.
 
-THESE LIMITATIONS DO NOT APPLY TO THE EXTENT THE LAW DOES NOT ALLOW LIABILITY TO BE LIMITED OR EXCLUDED, INCLUDING IN CASES OF WILLFUL MISCONDUCT OR GROSS NEGLIGENCE. IF A LIMITATION IS HELD UNENFORCEABLE, LIABILITY IS LIMITED TO THE LOWEST AMOUNT THE LAW ALLOWS. YOU ACKNOWLEDGE THAT AIVAX'S PRICES REFLECT THIS ALLOCATION OF RISK.
+THESE LIMITATIONS DO NOT APPLY TO THE EXTENT THE LAW DOES NOT ALLOW LIABILITY TO BE LIMITED OR EXCLUDED, INCLUDING IN CASES OF WILLFUL MISCONDUCT (DOLO) OR GROSS NEGLIGENCE (CULPA GRAVE). IF A LIMITATION IS HELD UNENFORCEABLE, LIABILITY IS LIMITED TO THE LOWEST AMOUNT THE LAW ALLOWS. YOU ACKNOWLEDGE THAT AIVAX'S PRICES REFLECT THIS ALLOCATION OF RISK.
 
 GENERATED CONTENT MAY CONTAIN INACCURACIES, OMISSIONS, OR HALLUCINATIONS AND IS PROVIDED FOR INFORMATIONAL PURPOSES ONLY. YOU ARE RESPONSIBLE FOR HUMAN REVIEW BEFORE CRITICAL USE.
 
@@ -188,7 +188,7 @@ GENERATED CONTENT MAY CONTAIN INACCURACIES, OMISSIONS, OR HALLUCINATIONS AND IS 
 
 ### 7. Indemnification
 
-You agree to indemnify, defend, and hold harmless AIVAX, its affiliates, administrators, collaborators, and partners from claims, losses, damages, liabilities, costs, and expenses resulting from: (i) Input Content; (ii) misuse of the Services; (iii) breach of these Terms or applicable law; (iv) infringement of third-party intellectual property, privacy, or personality rights; (v) improper use or exposure of API keys or credentials associated with your account; (vi) your selection of models, providers, routing options, and account settings; (vii) claims by your end users or other data subjects relating to personal data you sent to the Services, except to the extent caused by AIVAX's breach of its own legal obligations.
+You agree to indemnify, defend, and hold harmless AIVAX, its affiliates, administrators, collaborators, and partners from claims, losses, damages, liabilities, costs, and expenses resulting from: (i) Input Content; (ii) misuse of the Services; (iii) breach of these Terms or applicable law; (iv) infringement of third-party intellectual property, privacy, or personality rights; (v) improper use or exposure of API keys or credentials associated with your account; (vi) your selection of models, providers, routing options, and account settings; (vii) claims by your end users or other data subjects that relate to personal data you sent to the Services, except to the extent that AIVAX caused those claims by breaching its own legal obligations.
 
 ### 8. Termination and Post-Termination
 
