@@ -47,7 +47,7 @@ Use `multimodal_resolver` when the main model should receive a textual descripti
 - `InferenceLow` describes the content with a smaller, lower-cost multimodal model.
 - `InferenceHigh` describes the content with a larger multimodal model that is more accurate and costs more.
 - `Ocr` extracts the text of images and files with the same extraction service as [Fetch and OCR](/docs/web-foundation/fetch-and-ocr.md), billed in Processing Units. It accepts base64 data URIs and public URLs.
-- `Stt` transcribes the speech in the audio with the default [speech-to-text](/docs/pricing.md) model and is billed per second of audio. Music and ambient sounds are not described.
+- `Stt` transcribes the speech in the audio with the default [speech-to-text](/docs/pricing/product-pricing.md) model and is billed per second of audio. Music and ambient sounds are not described.
 
 With `InferenceLow` or `InferenceHigh`, `fileEngine` sends PDFs to the multimodal model and converts other file types with OCR. With `Ocr`, every file, including PDFs, is converted with OCR.
 

@@ -4,17 +4,17 @@
 
 # Inference limits
 
-This page lists the limits that apply to `chat/completions` requests. Account-wide request rates and plan limits are documented in [Plans and limits](/docs/limits.md).
+This page lists the limits that apply to `chat/completions` requests. Account-wide request rates and plan limits are documented in [Plans and limits](/docs/pricing/plans-and-limits.md).
 
 ## Rate limits
 
-Requests count toward the account's plan limits for integrated models or BYOK, and return `429 Too Many Requests` when a limit is reached. Requests to subscription models also return `429` when the plan's monthly subscription model quota is exhausted. See [Plans and limits](/docs/limits.md).
+Requests count toward the account's plan limits for integrated models or BYOK, and return `429 Too Many Requests` when a limit is reached. Requests to subscription models also return `429` when the plan's monthly subscription model quota is exhausted. See [Plans and limits](/docs/pricing/plans-and-limits.md).
 
 ## Context window
 
 The context window is the model's maximum input size. A gateway can set a lower limit with `contextMaximumSize` and choose what happens when a conversation exceeds it; see [Context truncation](context-truncation.md).
 
-On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more.
+On the Free plan, the input context is capped at 64,000 tokens, even when the model or the gateway allows more. [Verified accounts](/docs/pricing/plans-and-limits.md#verified-accounts) and Coding plans have no cap.
 
 ## Remote instruction sources
 
@@ -55,6 +55,6 @@ Public keys are designed for code that runs in a browser. With a public key, `ch
 - accepts only a gateway's full ID in `model`, not slugs or integrated model names;
 - accepts only these request fields: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `stream`, `conversation_token`, and `idempotency_key`. Any other field returns `400 Bad Request`;
 - does not use the gateway's MCP sources, protocol functions, built-in tools, shell, or skills;
-- applies request and token rate limits per key and per remote address. See [Public API keys](/docs/limits.md#public-api-keys) for the values.
+- applies request and token rate limits per key and per remote address. See [Public API keys](/docs/pricing/plans-and-limits.md#public-api-keys) for the values.
 
 See [Authentication](/docs/authentication.md) before exposing a public key.

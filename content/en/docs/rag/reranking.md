@@ -49,4 +49,4 @@ To compare options, fix a set of representative queries with known relevant docu
 
 To separate missing-candidate failures from poor-ordering failures before you add a reranker, see [Do I need a reranker for RAG?](https://aivax.net/blog/semantic-search-vs-reranking/). To judge when Reflex is enough, see [how Reflex compares with the other rerankers on this endpoint](https://aivax.net/blog/reflex-retrieval-built-for-recurring-documents/).
 
-For current availability, supported options, and account limits, see the API Reference and [Plans and Limits](../limits.md).
+For current availability, supported options, and account limits, see the API Reference and [Plans and Limits](../pricing/plans-and-limits.md).

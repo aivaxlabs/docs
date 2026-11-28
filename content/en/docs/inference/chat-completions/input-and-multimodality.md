@@ -96,7 +96,7 @@ For a simple text-only request, you can send `prompt` instead of `messages`:
 
 ## Media requirements
 
-Requests with media require a minimum account balance: files and videos need a higher balance than images and audio. Media is billed by the selected model according to its input rates. Review [Pricing](/docs/pricing.md) and [Plans and limits](/docs/limits.md) before using media in production.
+Requests with media require a minimum account balance: files and videos need a higher balance than images and audio. Media is billed by the selected model according to its input rates. Review [Pricing](/docs/pricing/product-pricing.md) and [Plans and limits](/docs/pricing/plans-and-limits.md) before using media in production.
 
 When the selected model does not support a modality, convert the media into text with [multimodal pre-processing](multimodal-pre-processing.md).
 

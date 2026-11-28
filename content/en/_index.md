@@ -10,7 +10,7 @@ AIVAX is an AI orchestration platform for building, operating, and evaluating AI
 
 - **Make your first model call:** follow [Make your first request](docs/overview.md#make-your-first-request) for a minimal OpenAI-compatible chat completion.
 - **Understand the platform:** read the [Welcome](docs/overview.md) page to choose between direct inference, AI Gateways, RAG, generations, Batch, and other products.
-- **Prepare a production integration:** review [Authentication](docs/authentication.md), [Pricing](docs/pricing.md), and [Plans and limits](docs/limits.md).
+- **Prepare a production integration:** review [Authentication](docs/authentication.md), [Pricing](docs/pricing/product-pricing.md), and [Plans and limits](docs/pricing/plans-and-limits.md).
 
 ## Build an AI application
 

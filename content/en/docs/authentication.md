@@ -54,7 +54,7 @@ When a public key calls chat completions:
 - The `model` must be a full AI Gateway UUID; direct integrated-model calls and gateway slug lookup are not available.
 - MCP sources, protocol functions, built-in tools, Bash, skills, and other advanced options are removed from the request.
 - Only these request parameters are accepted: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `conversation_token`, `idempotency_key`, and `stream`.
-- Request and token rate limits are applied both globally per key and per remote address. See [Public API keys](limits.md#public-api-keys) for the current values.
+- Request and token rate limits are applied both globally per key and per remote address. See [Public API keys](pricing/plans-and-limits.md#public-api-keys) for the current values.
 
 If you are exposing a browser or widget experience to end users, review [Chat Clients](/docs/inference/chat-clients/overview.md) before deciding whether a public key is the right boundary.
 

@@ -185,9 +185,9 @@ Reviews are model-generated. Read each patch before applying it, check removals 
 
 ## Pricing and limits
 
-Instruction Refinement is billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies. Longer context items consume more input.
+Instruction Refinement is billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing/product-pricing.md#plan-multipliers) applies. Longer context items consume more input.
 
-Instruction Refinement shares the document limits of [Extraction](extraction.md) and [Summarization](summarization.md). Each item in the request's `context` array counts as one document, not each HTTP request. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](/docs/limits.md#data-processing). A request that would exceed any active window returns `429 Too Many Requests`.
+Instruction Refinement shares the document limits of [Extraction](extraction.md) and [Summarization](summarization.md). Each item in the request's `context` array counts as one document, not each HTTP request. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](/docs/pricing/plans-and-limits.md#data-processing). A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

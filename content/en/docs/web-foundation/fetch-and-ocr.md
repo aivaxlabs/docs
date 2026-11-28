@@ -112,7 +112,7 @@ Add `"async": true` to queue the fetch, which is useful for many pages or large 
 
 ## Pricing and limits
 
-Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either covered by the daily included allowance or billed at the rates below. See [Included daily subscription allowances](/docs/limits#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.
+Fetch and OCR extraction is metered in `processingUnits`. Each extraction is either covered by the daily included allowance or billed at the rates below. See [Included daily subscription allowances](/docs/pricing/plans-and-limits.md#included-daily-subscription-allowances) for the allowance rules. Each item can be up to 50 MB.
 
 | Description | Pricing |
 | --- | ---: |

@@ -87,6 +87,6 @@ Indexing and search are billed by token usage. Generated RAG answers are charged
 | RAG answer generation | **~$0.50/M tokens**, excluding query rates |
 | Collection de-duplication | **$0.05/1k PUs** |
 
-Every plan includes a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](../limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](../data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](reflex.md#pricing-and-limits) are billed separately.
+Every plan includes a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](../pricing/plans-and-limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](../pricing/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](reflex.md#pricing-and-limits) are billed separately.
 
-The number of collections, searches, reranking requests, and document insertions depends on the plan; see [RAG and collections limits](../limits.md#rag-and-collections). Requests above a limit return `429 Too Many Requests`.
+The number of collections, searches, reranking requests, and document insertions depends on the plan; see [RAG and collections limits](../pricing/plans-and-limits.md#rag-and-collections). Requests above a limit return `429 Too Many Requests`.

@@ -123,7 +123,7 @@ Calls use the same pricing and quotas as the corresponding built-in tools, and A
 
 - [Web Search](/docs/web-foundation/web-search#pricing-and-limits) for `web_search`.
 - [Fetch and OCR](/docs/web-foundation/fetch-and-ocr#pricing-and-limits) for `fetch_url`.
-- [Pricing](/docs/pricing) for general billing rules.
+- [Pricing](/docs/pricing/product-pricing.md) for general billing rules.
 
 A positive account balance is required to use these tools.
 

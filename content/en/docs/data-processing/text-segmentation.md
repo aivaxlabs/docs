@@ -50,4 +50,4 @@ Add `"async": true` to queue the segmentation, which is useful for long document
 | --- | ---: |
 | Text segmentation | **$0.10/M tokens** |
 
-The number of segmented documents per minute and per day depends on the plan; see [Data processing limits](../limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of segmented documents per minute and per day depends on the plan; see [Data processing limits](../pricing/plans-and-limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.

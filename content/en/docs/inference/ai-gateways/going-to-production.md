@@ -43,4 +43,4 @@ When you enable moderation, see [LLM moderation API: separate layer or model sel
 
 Validate the configuration with a [simulated-user and LLM-judge scenario](/docs/inference/agentic-tests.md) before relying on it in production, and run the same scenarios again after changing the model, instructions, or tools.
 
-Review [Pricing](/docs/pricing.md) and [Plans and limits](/docs/limits.md) before increasing traffic.
+Review [Pricing](/docs/pricing/product-pricing.md) and [Plans and limits](/docs/pricing/plans-and-limits.md) before increasing traffic.

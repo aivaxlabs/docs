@@ -205,9 +205,9 @@ Your tool handler should:
 
 ## Billing and limits
 
-Voice Sessions are billed at the selected realtime model's rates. The charge uses that model's text, audio, and image token prices. The [plan multiplier](/docs/pricing#plan-multipliers) applies.
+Voice Sessions are billed at the selected realtime model's rates. The charge uses that model's text, audio, and image token prices. The [plan multiplier](/docs/pricing/product-pricing.md#plan-multipliers) applies.
 
-Model access, balance, and inference limits follow [Plans and Limits](/docs/limits). Voice Sessions do not use the standalone text-to-speech and audio-transcription request quotas.
+Model access, balance, and inference limits follow [Plans and Limits](/docs/pricing/plans-and-limits.md). Voice Sessions do not use the standalone text-to-speech and audio-transcription request quotas.
 
 ## Disconnect gracefully
 

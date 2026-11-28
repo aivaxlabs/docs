@@ -79,9 +79,9 @@ Add `"async": true` to queue the translation. The API answers with HTTP `202` an
 
 ## Pricing and limits
 
-Translations are billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing.md#plan-multipliers) applies.
+Translations are billed in processing units (PUs), covering input and output usage, and the [plan multiplier](/docs/pricing/product-pricing.md#plan-multipliers) applies.
 
-The number of translation requests per minute and per day depends on the plan; see [Data processing limits](/docs/limits.md#data-processing). The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of translation requests per minute and per day depends on the plan; see [Data processing limits](/docs/pricing/plans-and-limits.md#data-processing). The limit counts HTTP requests, not documents. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

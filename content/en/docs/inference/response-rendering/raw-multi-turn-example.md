@@ -57,7 +57,7 @@ I found several candidates and should rank them by cost, speed, and modality sup
 <assistant-answer>
 For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.
 
-Model availability and prices change over time; the picks below are example output — see [Pricing](/docs/pricing.md) for current values.
+Model availability and prices change over time; the picks below are example output — see [Pricing](/docs/pricing/product-pricing.md) for current values.
 
 Top picks:
 
@@ -81,7 +81,7 @@ When the user replies, keep the conversation history focused on the user-visible
         },
         {
             "role": "assistant",
-            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](/docs/pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-3.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
+            "content": "For security camera analysis, prioritize models with VideoInput, low input pricing, and high speed.\n\nModel availability and prices change over time; the picks below are example output — see [Pricing](/docs/pricing/product-pricing.md) for current values.\n\nTop picks:\n\n1. @google/gemini-3.5-flash-lite: fast, inexpensive, and supports video.\n2. @qwen/qwen3.5-9b: low input cost in this example output with video support.\n3. @amazon/nova-lite: low input cost and a large context window.\n\nUse VideoInput for clips when possible. If a model only supports ImageInput, extract frames from the camera stream before sending them."
         },
         {
             "role": "user",
