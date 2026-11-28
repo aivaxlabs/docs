@@ -1,12 +1,12 @@
 ---
-{title: Plans and Limits,linkTitle: Plans and limits,weight: 40,group: Introduction}
+{title: Plans and Limits,linkTitle: Plans and limits,weight: 10,group: Pricing,aliases: [/docs/limits.html]}
 ---
 
 # Plans and Limits
 
-AIVAX has four account plans: **Free**, **Pro**, **Max**, and **Ultimate**. The current plan controls model access, account and product rate limits, storage quota, retention periods, and included daily service allowances. Every plan limit is listed on this page; product pages link here instead of repeating the values.
+AIVAX has a **Free** plan and three Enterprise plans: **Pro**, **Max**, and **Ultimate**. [Coding plans](coding-plans.md) are a separate line focused on subscription model usage. The current plan controls model access, account and product rate limits, storage quota, retention periods, and included daily service allowances. Every plan limit is listed on this page; product pages link here instead of repeating the values.
 
-For subscription prices, see the [AIVAX pricing page](https://aivax.net/pricing).
+For subscription prices, see the [AIVAX pricing page](https://aivax.net/pricing); coding plan prices are listed in [Coding plans](coding-plans.md).
 
 An em dash (`—`) means the plan does not impose a limit, and `Not available` means the feature is unavailable on the plan. Model, gateway, provider, or product-specific limits may still apply. Limits that are the same on every plan, such as file sizes or results per request, are documented on each product page.
 
@@ -31,7 +31,9 @@ An em dash (`—`) means the plan does not impose a limit, and `Not available` m
 | Service fee on credit top-ups | 5% (minimum $0.20) | None | None | None |
 | Support level | Email | Priority | Priority | Dedicated |
 
-RAG search history is the list of searches shown in [RAG Observability](rag/observability.md#search-history).
+The Free values in this table apply to unverified accounts; [verified accounts](#verified-accounts) get higher inference limits.
+
+RAG search history is the list of searches shown in [RAG Observability](../rag/observability.md#search-history).
 
 Integrated model requests are limited by both request count and input tokens. Model rate-limit groups adjust the request-count thresholds:
 
@@ -49,6 +51,21 @@ BYOK requests use a provider key configured on the gateway and count toward the 
 Rate limits are shared across all API keys of the same account. A request that would exceed an active window returns `429 Too Many Requests`; pace requests and use bounded retries with backoff.
 
 Custom accounts have limits agreed with the AIVAX team.
+
+## Verified accounts
+
+An account becomes verified when it has or had a paid plan, or when it is at least 30 days old and has added at least $10 in paid credits. Verification is applied automatically and is kept afterward. `GET /api/v1/accounts` reports it in `isVerified`.
+
+Verified accounts on Free get higher inference limits. [Coding plans](coding-plans.md) build on these limits:
+
+| Limit | Free | Verified Free |
+| --- | --- | --- |
+| Integrated model requests | 20/min and 500/day | 30/min and 3,000/day |
+| Integrated model input tokens | 1,000,000/min | 3,000,000/min |
+| BYOK requests | 30/min | 50/min |
+| Maximum context | 64,000 input tokens | — |
+
+Every other Free limit stays the same.
 
 ## Product limits
 
@@ -69,7 +86,7 @@ Product limits use the same rules as account limits: they are shared across the 
 | Documents per WebSocket JSONL import | 10,000 | 50,000 | 1,000,000 | 10,000,000 |
 | Media Injector files | 2/day | 20/day | 250/day | 1,000/day |
 
-The reranking request limit applies to the [reranking endpoint](rag/reflex.md) and to RAG searches that use a reranker. If an import exceeds the per-import limit, split it into multiple imports. Document limits count stored documents; updating an existing document is not affected. Once a limit is reached, creating a document returns `400 Bad Request`. See [Collections](rag/collections.md), [Documents](rag/documents.md), and [Reflex](rag/reflex.md).
+The reranking request limit applies to the [reranking endpoint](../rag/reflex.md) and to RAG searches that use a reranker. If an import exceeds the per-import limit, split it into multiple imports. Document limits count stored documents; updating an existing document is not affected. Once a limit is reached, creating a document returns `400 Bad Request`. See [Collections](../rag/collections.md), [Documents](../rag/documents.md), and [Reflex](../rag/reflex.md).
 
 ### Data processing
 
@@ -82,7 +99,7 @@ The reranking request limit applies to the [reranking endpoint](rag/reflex.md) a
 | Media description requests | 10/min and 30/hour | 40/min | 100/min | 200/min |
 | Semantic decision requests | 10/min | 30/min | 200/min | — |
 
-Classification, extraction, summarization, and segmentation limits count every item in the request's `documents` array; extraction, summarization, and instruction refinement share one quota. Translation, media description, and semantic decision limits count HTTP requests. See [Classification](data-processing/classification.md), [Extraction](data-processing/extraction.md), [Summarization](data-processing/summarization.md), [Instruction Refinement](data-processing/instruction-refinement.md), [Text segmentation](data-processing/text-segmentation.md), [Translations](data-processing/translations.md), [Media descriptions](data-processing/media-descriptions.md), and [Semantic Decisions](data-processing/decisions.md).
+Classification, extraction, summarization, and segmentation limits count every item in the request's `documents` array; extraction, summarization, and instruction refinement share one quota. Translation, media description, and semantic decision limits count HTTP requests. See [Classification](../data-processing/classification.md), [Extraction](../data-processing/extraction.md), [Summarization](../data-processing/summarization.md), [Instruction Refinement](../data-processing/instruction-refinement.md), [Text segmentation](../data-processing/text-segmentation.md), [Translations](../data-processing/translations.md), [Media descriptions](../data-processing/media-descriptions.md), and [Semantic Decisions](../data-processing/decisions.md).
 
 ### Speech
 
@@ -91,7 +108,7 @@ Classification, extraction, summarization, and segmentation limits count every i
 | Standalone text-to-speech requests | 3/min and 40/hour | 20/min | 100/min | 300/min |
 | Standalone audio-transcription requests | 3/min and 40/hour | 20/min | 100/min | 300/min |
 
-Text-to-speech and transcription have separate quotas with the same values. [Voice Sessions](inference/voice-session.md) are not subject to these standalone quotas. See [Text-to-speech](generations/speech.md) and [Speech-to-text](generations/audio-transcriptions.md).
+Text-to-speech and transcription have separate quotas with the same values. [Voice Sessions](../inference/voice-session.md) are not subject to these standalone quotas. See [Text-to-speech](../generations/speech.md) and [Speech-to-text](../generations/audio-transcriptions.md).
 
 ### Built-in tools and web search
 
@@ -104,7 +121,7 @@ Text-to-speech and transcription have separate quotas with the same values. [Voi
 | General service actions | 30/day | 2,500/day | 30,000/day | 100,000/day |
 | Bash commands | 300/hour | 30,000/hour | 100,000/hour | — |
 
-The image generation limit is shared by the built-in tool, the [image generation API](generations/images.md), and the [Media generation MCP](mcp-utilities/media-generation-mcp.md). See [Built-in tools](tools/builtin-tools.md), [Web Search](web-foundation/web-search.md), and [Shell](tools/shell.md).
+The image generation limit is shared by the built-in tool, the [image generation API](../generations/images.md), and the [Media generation MCP](../mcp-utilities/media-generation-mcp.md). See [Built-in tools](../tools/builtin-tools.md), [Web Search](../web-foundation/web-search.md), and [Shell](../tools/shell.md).
 
 ### Batch and Agentic Tests
 
@@ -115,7 +132,7 @@ The image generation limit is shared by the built-in tool, the [image generation
 | Concurrent Agentic Test runs | 1 | 4 | 6 | 8 |
 | Queued async generations | 1,000/hour | 50,000/hour | 250,000/hour | 750,000/hour |
 
-Batch processing paused by the daily quota resumes after the window resets. Async generations above the hourly limit are rejected when queued. See [Batch](inference/batch/workflows.md#limits), [Async generations](inference/batch/async-generations.md), and [Agentic Tests](inference/agentic-tests.md#pricing-and-limits).
+Batch processing paused by the daily quota resumes after the window resets. Async generations above the hourly limit are rejected when queued. See [Batch](../inference/batch/workflows.md#limits), [Async generations](../inference/batch/async-generations.md), and [Agentic Tests](../inference/agentic-tests.md#pricing-and-limits).
 
 ## Included daily subscription allowances
 
@@ -128,13 +145,13 @@ Every plan includes separate daily allowances for the services below. Each compa
 | Semantic decisions with eligible models | 20,000 input tokens | 2× Free | 3× Free | 5× Free |
 | Fetch and OCR extraction | 1,000 PUs | 8× Free | 25× Free | 50× Free |
 
-RAG searches and document insertions share the embedding allowance. It does not cover answer generation, media processing, extraction, summarization, classification, or segmentation. The semantic decision allowance covers only eligible decision models; see [Semantic Decisions](data-processing/decisions.md#usage-and-cost).
+RAG searches and document insertions share the embedding allowance. It does not cover answer generation, media processing, extraction, summarization, classification, or segmentation. The semantic decision allowance covers only eligible decision models; see [Semantic Decisions](../data-processing/decisions.md#usage-and-cost).
 
-Usage beyond an allowance is billed at normal rates; see [Pricing](pricing.md). Allowances reset daily, and the dashboard shows current consumption. They do not cover text-model inference; subscription models use a separate [monthly quota](#monthly-subscription-model-quota). For a walkthrough, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+Usage beyond an allowance is billed at normal rates; see [Pricing](product-pricing.md). Allowances reset daily, and the dashboard shows current consumption. They do not cover text-model inference; subscription models use a separate [monthly quota](#monthly-subscription-model-quota). For a walkthrough, see [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Monthly subscription model quota
 
-Pro, Max, and Ultimate include a monthly quota for subscription models. The quota renews one month after its first use in each cycle, and all subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 12.5× the Pro quota. For the available models and the usage each plan includes, see [Subscription models](inference/subscription-models/overview.md).
+Pro, Max, and Ultimate include a monthly quota for subscription models. The quota renews one month after its first use in each cycle, and all subscription models share it. Max includes 5× the Pro quota, and Ultimate includes 10× the Pro quota. [Coding plans](coding-plans.md) include larger quotas. For the available models and the usage each plan includes, see [Subscription models](../inference/subscription-models/overview.md).
 
 Subscription models are the catalog models whose names start with `@aivax-subscription/`. Using them never debits the account balance; every other model is charged to the balance as usual. To identify them, check `flags.isSubscription` in `GET /api/v1/information/models.json` or `_details.provider_model.subscription` in `GET /v1/models`.
 
@@ -184,4 +201,4 @@ Public keys have additional limits independent of the account plan.
 | Per remote address | 100,000/5min, 500,000/30min, 2,000,000/6h, 5,000,000/day |
 | Global per key | 500,000/5min, 2,000,000/30min, 10,000,000/6h, 25,000,000/day |
 
-Public keys can be used for chat completions, the `/api/v1/generations/*` endpoints, RAG semantic search, and RAG answer generation. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](authentication.md).
+Public keys can be used for chat completions, the `/api/v1/generations/*` endpoints, RAG semantic search, and RAG answer generation. For chat completions, public keys also require a full AI Gateway UUID, restrict request parameters, and omit server-side tool surfaces. See [Authentication](../authentication.md).

@@ -1,5 +1,5 @@
 ---
-{title: Data Sharing,linkTitle: Data Sharing,weight: 50,group: Introduction,aliases: [/docs/data-collecting.html]}
+{title: Data Sharing,linkTitle: Data sharing,weight: 40,group: Pricing,aliases: [/docs/data-collecting.html,/docs/data-sharing.html]}
 ---
 
 # Data Sharing
@@ -12,7 +12,7 @@ The setting is disabled by default. It must be enabled by an authorized Account 
 
 While the setting is enabled:
 
-- eligible RAG query-embedding usage receives a discount (see [Pricing](/docs/pricing#data-sharing-discount));
+- eligible RAG query-embedding usage receives a discount (see [Pricing](/docs/pricing/product-pricing.md#data-sharing-discount));
 - eligible reranking operations receive the same discount; and
 - document indexing, storage, unrelated inference, tools, and other services keep their regular prices.
 
