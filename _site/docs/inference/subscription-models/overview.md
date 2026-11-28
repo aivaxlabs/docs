@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/docs/inference/subscription-models/overview.html
 
 # Subscription models
 
-Subscription models are text models included in the Pro, Max, and Ultimate plans. Their names start with `@aivax-subscription/`. They use the plan's [monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota) instead of the account balance, so a request to one of them never debits your credits.
+Subscription models are text models included in the Pro, Max, and Ultimate plans and in the [Coding plans](https://docs.aivax.net/docs/pricing/coding-plans.md). Their names start with `@aivax-subscription/`. They use the plan's [monthly subscription model quota](https://docs.aivax.net/docs/pricing/plans-and-limits.md#monthly-subscription-model-quota) instead of the account balance, so a request to one of them never debits your credits.
 
 Use them like any other integrated model: in API requests, in AI Gateways, in coding agents and other OpenAI-compatible tools, or for everyday tasks. Free and Custom plans do not include the quota.
 
@@ -12,19 +12,19 @@ The table lists each model's context window and the usage included every month, 
 
 | Model | Context window | Pro | Max | Ultimate |
 | --- | --- | --- | --- | --- |
-| DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $380 |
-| GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
-| GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
-| GLM 5.4<br>`@aivax-subscription/glm-5.4` | 500K tokens | ≈ $30 | ≈ $130 | ≈ $320 |
-| Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $40 | ≈ $200 | ≈ $490 |
-| MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $40 | ≈ $160 | ≈ $400 |
-| Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $40 | ≈ $190 | ≈ $460 |
-| Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $40 | ≈ $200 | ≈ $480 |
-| Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $70 | ≈ $320 | ≈ $800 |
+| DeepSeek V4.1 Flash<br>`@aivax-subscription/deepseek-v4.1-flash-1017` | 500K tokens | ≈ $19 | ≈ $95 | ≈ $190 |
+| GLM 5.3<br>`@aivax-subscription/glm-5.3` | 500K tokens | ≈ $20 | ≈ $100 | ≈ $200 |
+| GLM 5.3 Flash<br>`@aivax-subscription/glm-5.3-flash` | 500K tokens | ≈ $20 | ≈ $100 | ≈ $200 |
+| GLM 5.4<br>`@aivax-subscription/glm-5.4` | 500K tokens | ≈ $16 | ≈ $80 | ≈ $160 |
+| Kimi K3.1 Pro<br>`@aivax-subscription/kimi-k3.1-pro` | 500K tokens | ≈ $24 | ≈ $120 | ≈ $240 |
+| MiniMax M3.1 Flash<br>`@aivax-subscription/minimax-m3.1-flash` | 500K tokens | ≈ $20 | ≈ $100 | ≈ $200 |
+| Qwen3.8 Max<br>`@aivax-subscription/qwen3.8-max` | 500K tokens | ≈ $23 | ≈ $115 | ≈ $230 |
+| Step 5 Preview<br>`@aivax-subscription/step-5-preview` | 500K tokens | ≈ $24 | ≈ $120 | ≈ $240 |
+| Grok 4.7<br>`@aivax-subscription/grok-4.7` | 500K tokens | ≈ $40 | ≈ $200 | ≈ $400 |
 
-The values are approximate. Spreading usage across several subscription models divides the same quota between them.
+The values are approximate. Coder Lite includes 3× the Pro usage, and Coder Plus 15×. Spreading usage across several subscription models divides the same quota between them.
 
-The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15. See [Monthly subscription model quota](https://docs.aivax.net/docs/limits.md#monthly-subscription-model-quota).
+The quota window starts with the first request that uses it and lasts one month: using it for the first time on October 15 renews the quota on November 15. See [Monthly subscription model quota](https://docs.aivax.net/docs/pricing/plans-and-limits.md#monthly-subscription-model-quota).
 
 ## Availability
 

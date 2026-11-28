@@ -1,36 +1,36 @@
 ---
-{title: Autenticação,linkTitle: Autenticação,weight: 20,group: Introduction,sourceHash: 83e24b01457f8a12,aliases: [/docs/pt-br/authentication.html]}
+{title: Autenticação,linkTitle: Autenticação,weight: 20,group: Introduction,sourceHash: bf876cfcaa682a8c,aliases: [/docs/pt-br/authentication.html]}
 ---
 
 # Autenticação
 
 A AIVAX autentica solicitações de API com chaves de API da conta. Uma chave de login é uma credencial separada e serve apenas para abrir o console.
 
-A AIVAX aceita chaves de API por meio de:
+A AIVAX aceita chaves de API via:
 
 - `Authorization: Bearer <API_KEY>` (recomendado para chamadas de servidor para servidor)
 - `Authorization: Basic <BASE64_USERNAME_COLON_API_KEY>`
-- `?api-key=<API_KEY>` (use apenas quando um cliente ou integração não puder enviar cabeçalhos, pois URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento)
+- `?api-key=<API_KEY>` (use apenas quando um cliente ou integração não puder enviar cabeçalhos, porque URLs podem ser registradas por proxies, navegadores e ferramentas de monitoramento)
 
 ## Tipos de chave de API
 
-O tipo de chave determina quais rotas o chamador pode usar. Escolha-a com base em onde o código é executado e em quem é titular da conta.
+O tipo de chave determina quais rotas o chamador pode usar. Escolha-a onde o código é executado e quem é o proprietário da conta.
 
-Se seu código for executado no seu servidor, use uma chave privada e mantenha-a fora dos pacotes do cliente, registros (logs) e repositórios públicos. Se seu código for executado em um navegador ou em outro ambiente onde o usuário final possa inspecionar a chave, use uma chave pública, que é limitada às rotas projetadas para acesso público. As chaves de aplicativo são um terceiro tipo: o titular da conta as aprova para um aplicativo de terceiros por meio do [OAuth](oauth.md).
+Se o seu código for executado no seu servidor, use uma chave privada e mantenha-a fora dos pacotes do cliente, registros e repositórios públicos. Se o seu código for executado em um navegador ou em outro ambiente onde o usuário final possa inspecionar a chave, use uma chave pública, que é limitada às rotas projetadas para acesso público. As chaves de aplicativo são um terceiro tipo: um titular de conta as aprova para um aplicativo de terceiros por meio do [OAuth](oauth.md).
 
 | Tipo | Prefixo | Uso pretendido | Acesso |
 | --- | --- | --- | --- |
-| Chave privada | `sk-aiv-acc` | Integrações lado do servidor e chamadas administrativas de API. | Todas as APIs autenticadas da conta, exceto gerenciamento de chaves de API e credenciais. |
-| Chave pública | `pk-aiv-` | Chamadas restritas ao lado do cliente. | Inferência de texto, gerações e recuperação RAG. |
-| Chave de aplicativo | `sk-aiv-apk` | Aplicativos de terceiros autorizados pelo titular da conta. | As permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. |
+| Chave privada | `sk-aiv-acc` | Integrações do lado do servidor e chamadas administrativas de API. | Todas as APIs de conta autenticadas, exceto gerenciamento de chaves de API e credenciais. |
+| Chave pública | `pk-aiv-` | Chamadas restritas do lado do cliente. | Inferência de texto, gerações e recuperação de RAG. |
+| Chave de aplicativo | `sk-aiv-apk` | Aplicações de terceiros autorizadas pelo titular da conta. | As permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. |
 
-Cada tipo de chave concede um conjunto fixo de permissões, e cada rota exige algumas delas. Uma solicitação cuja chave não possui uma permissão exigida pela rota retorna `403 Forbidden`, e a mensagem de erro indica as permissões ausentes.
+Cada tipo de chave concede um conjunto fixo de permissões, e cada rota exige algumas delas. Uma solicitação cuja chave não possui uma permissão exigida pela rota retorna `403 Forbidden`, e a mensagem de erro nomeia as permissões ausentes.
 
 ### Chaves privadas
 
 Use uma chave privada para serviços backend, gerenciamento de conta, listagem de modelos, gerenciamento de coleções, operações em lote e qualquer fluxo de trabalho que precise da superfície completa de ferramentas do gateway.
 
-Chaves privadas não podem listar, criar ou excluir chaves de API, rodar o sal da conta, gerenciar autenticadores ou redefinir a chave de login. Use o painel para essas operações.
+As chaves privadas não podem listar, criar ou excluir chaves de API, rodar o sal da conta, gerenciar autenticadores ou redefinir a chave de login. Use o painel para essas operações.
 
 Para uma primeira solicitação do lado do servidor, continue com [Faça sua primeira solicitação](overview.md#make-your-first-request).
 
@@ -40,8 +40,8 @@ Use uma chave pública apenas para rotas projetadas para acesso público. Uma ch
 
 - conclusões de chat;
 - os endpoints `/api/v1/generations/*`;
-- busca semântica RAG;
-- geração de respostas RAG.
+- busca semântica de RAG;
+- geração de respostas de RAG.
 
 Uma chave pública não pode:
 
@@ -51,16 +51,16 @@ Uma chave pública não pode:
 
 Quando uma chave pública chama conclusões de chat:
 
-- O `model` deve ser um UUID completo do AI Gateway; chamadas diretas de modelos integrados e pesquisa por slug do gateway não estão disponíveis.
+- O `model` deve ser um UUID completo do AI Gateway; chamadas diretas de modelo integrado e pesquisa de slug do gateway não estão disponíveis.
 - Fontes MCP, funções de protocolo, ferramentas integradas, Bash, habilidades e outras opções avançadas são removidas da solicitação.
 - Apenas estes parâmetros de solicitação são aceitos: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `conversation_token`, `idempotency_key` e `stream`.
-- Limites de taxa de solicitação e tokens são aplicados globalmente por chave e por endereço remoto. Consulte [Chaves de API públicas](limits.md#public-api-keys) para os valores atuais.
+- Os limites de taxa de solicitação e token são aplicados globalmente por chave e por endereço remoto. Consulte [Chaves de API públicas](pricing/plans-and-limits.md#public-api-keys) para os valores atuais.
 
-Se você estiver expondo uma experiência de navegador ou widget aos usuários finais, revise [Clientes de Chat](/docs/pt-br/inference/chat-clients/overview.md) antes de decidir se uma chave pública é o limite adequado.
+Se você estiver expondo uma experiência de navegador ou widget aos usuários finais, revise [Clientes de Chat](/docs/pt-br/inference/chat-clients/overview.md) antes de decidir se uma chave pública é o limite certo.
 
 ### Chaves de aplicativo
 
-Use uma chave de aplicativo quando um aplicativo de terceiros deve chamar a AIVAX com a permissão do titular da conta. A chave recebe as permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. Consulte [Autorização OAuth](#oauth-authorization) para a versão resumida e [OAuth](oauth.md) para o fluxo completo.
+Use uma chave de aplicativo quando um aplicativo de terceiros deve chamar a AIVAX com a permissão do titular da conta. A chave recebe as permissões aprovadas por meio do [OAuth](oauth.md), além da identidade da conta. Consulte [Autorização OAuth](#oauth-authorization) para a versão curta e [OAuth](oauth.md) para o fluxo completo.
 
 ## Gerenciar chaves
 
@@ -72,9 +72,9 @@ Crie chaves separadas para aplicativos separados. Se uma integração for compro
 
 ## Autorização OAuth
 
-O OAuth permite que um aplicativo de terceiros solicite ao titular de uma conta AIVAX uma chave de aplicativo em vez de pedir que ele copie uma chave de API. Use-o quando a pessoa que é titular da conta não for o desenvolvedor do aplicativo.
+O OAuth permite que um aplicativo de terceiros peça ao titular de uma conta AIVAX uma chave de aplicativo em vez de pedir que ele copie uma chave de API. Use-o quando a pessoa que possui a conta não for o desenvolvedor do aplicativo.
 
-O titular da conta revisa a solicitação no console, escolhe por quanto tempo o acesso durará e pode revogá-la a qualquer momento. Consulte [OAuth](oauth.md) para o fluxo completo, permissões e tratamento de callback.
+O titular da conta revisa a solicitação no console, escolhe quanto tempo o acesso durará e pode revogá-la a qualquer momento. Consulte [OAuth](oauth.md) para o fluxo completo, permissões e tratamento de callback.
 
 ## Enviar uma chave com autenticação Bearer
 
@@ -91,9 +91,9 @@ client = OpenAI(
 
 ## Autenticação de Hook
 
-A autenticação de hook permite que seu serviço verifique solicitações de saída da AIVAX. Use-a para trabalhadores do AI Gateway e funções de protocolo do lado do servidor.
+A autenticação de hook permite que seu serviço verifique solicitações de saída da AIVAX. Use-o para trabalhadores do AI Gateway e funções de protocolo do lado do servidor.
 
-Esta é a direção inversa da autenticação normal de API: a AIVAX chama seu serviço, e seu serviço verifica se a solicitação vem da configuração da sua conta usando `X-Request-Nonce`.
+Esta é a direção reversa da autenticação normal de API: a AIVAX chama seu serviço, e seu serviço verifica se a solicitação vem da configuração da sua conta usando `X-Request-Nonce`.
 
 Se sua conta tiver uma chave de hook, a AIVAX envia:
 
@@ -103,7 +103,7 @@ X-Request-Nonce: <BCrypt hash>
 
 O nonce é um hash BCrypt derivado da chave de hook da conta. Valide o cabeçalho verificando a chave de hook em texto puro armazenada contra o hash. Se a conta não tiver uma chave de hook, o cabeçalho não será enviado.
 
-A rotação da chave de hook invalida os segredos de validação existentes de trabalhadores e integrações.
+Rodar a chave de hook invalida os segredos de validação existentes de trabalhadores e integrações.
 
 ### Exemplo C#
 
@@ -174,8 +174,8 @@ Os titulares da conta podem adicionar um ou mais aplicativos autenticadores em *
 
 Quando pelo menos um autenticador é confirmado:
 
-- O login no console solicita um código atual de seis dígitos.
-- A alternância para essa conta salva solicita um código atual de seis dígitos.
+- O login no console pede um código atual de seis dígitos.
+- A alternância para essa conta salva pede um código atual de seis dígitos.
 - `POST /api/v1/auth/login` aceita um `totpCode` opcional.
 - Se a chave de login for válida e o código estiver ausente, a resposta terá `requiresTwoFactor: true` e não criará uma sessão.
 - Envie a mesma chave de login novamente com `totpCode`.
@@ -184,18 +184,18 @@ Remover o último autenticador desativa o prompt. Desativar a autenticação de 
 
 ### Recuperar acesso
 
-A página de login tem links para o suporte da conta. Use esses caminhos quando o titular da conta não conseguir fazer login.
+A página de login tem links para suporte à conta. Use esses caminhos quando o titular da conta não conseguir fazer login.
 
 #### Recuperar chave de login
 
-**Recuperar chave de login** solicita o e-mail de registro. Quando o e-mail pertence a uma conta, a mensagem contém:
+**Recuperar chave de login** pede o e-mail de registro. Quando o e-mail pertence a uma conta, a mensagem contém:
 
 - um link de login único;
 - um link para redefinir a chave de login.
 
 Ambos os links expiram em uma hora.
 
-- O link de login ainda solicita um código de autenticador quando a autenticação de dois fatores está habilitada.
+- O link de login ainda pede um código de autenticador quando a autenticação de dois fatores está habilitada.
 - O link de redefinição cria uma nova chave de login, envia-a por e-mail e desconecta a conta de todas as sessões do console.
 - O link de redefinição não desativa a autenticação de dois fatores nem revoga chaves de API.
 
@@ -205,7 +205,7 @@ Se você precisar desativar a autenticação de dois fatores ou se o e-mail de r
 
 #### Redefinir a chave de login em Segurança
 
-Redefinir a chave de login em **Segurança** solicita confirmação e, em seguida, realiza a mesma rotação:
+Redefinir a chave de login em **Segurança** pede confirmação e depois faz a mesma rotação:
 
 - Uma nova chave é enviada por e-mail.
 - As sessões do console são encerradas.

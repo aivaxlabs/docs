@@ -183,9 +183,9 @@ Reviews are model-generated. Read each patch before applying it, check removals 
 
 ## Pricing and limits
 
-Instruction Refinement is billed in processing units (PUs), covering input and output usage, and the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies. Longer context items consume more input.
+Instruction Refinement is billed in processing units (PUs), covering input and output usage, and the [plan multiplier](https://docs.aivax.net/docs/pricing/product-pricing.md#plan-multipliers) applies. Longer context items consume more input.
 
-Instruction Refinement shares the document limits of [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md). Each item in the request's `context` array counts as one document, not each HTTP request. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing). A request that would exceed any active window returns `429 Too Many Requests`.
+Instruction Refinement shares the document limits of [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) and [Summarization](https://docs.aivax.net/docs/data-processing/summarization.md). Each item in the request's `context` array counts as one document, not each HTTP request. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#data-processing). A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

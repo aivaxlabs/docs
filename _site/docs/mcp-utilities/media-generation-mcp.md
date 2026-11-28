@@ -166,7 +166,7 @@ Generation calls use the same pricing and quotas as the generation APIs, and AIV
 
 - [Image Generation](https://docs.aivax.net/docs/generations/images.md#pricing-limits-and-errors) for `generate_image`.
 - [Speech Generation](https://docs.aivax.net/docs/generations/speech.md#pricing-limits-and-errors) for `generate_speech`.
-- [Pricing](https://docs.aivax.net/docs/pricing.md) for general billing rules.
+- [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md) for general billing rules.
 
 A positive account balance is required to use these tools.
 

@@ -1,12 +1,12 @@
 ---
-{title: Refinamento de Instruções,linkTitle: Refinamento de Instruções,weight: 80,group: Data processing,sourceHash: e019fe8ea7c0fece,aliases: [/docs/pt-br/data-processing/instruction-refinement.html]}
+{title: Refinamento de Instruções,linkTitle: Refinamento de Instruções,weight: 80,group: Data processing,sourceHash: a7a42543d0c38b40,aliases: [/docs/pt-br/data-processing/instruction-refinement.html]}
 ---
 
 # Refinamento de Instrução
 
 Use o Refinamento de Instrução para revisar instruções do sistema, prompts e habilidades antes de enviá-los a um modelo. O serviço verifica esses elementos contra um catálogo de diretrizes de engenharia de prompts compiladas a partir da documentação dos fornecedores de modelos, retornando então uma pontuação, problemas priorizados localizados no seu texto, as diretrizes por trás de cada problema e sugestões de correção com patches que você pode visualizar e aplicar.
 
-Ele se integra às revisões de prompts em pull requests, auditorias de instruções e habilidades de gateways de IA, e editores que destacam problemas conforme você escreve. Ele relata questões relacionadas a diretrizes; não executa seu prompt nem mede como um modelo performa com ele. Para testar o comportamento em conversas reais, use [Testes Agênticos](/docs/pt-br/inference/agentic-tests.md).
+Ele se encaixa em revisões de prompts em pull requests, auditorias de instruções e habilidades de gateways de IA, e editores que destacam problemas conforme você escreve. Ele relata questões relacionadas às diretrizes; ele não executa seu prompt nem mede como um modelo performa com ele. Para testar o comportamento contra conversas reais, use [Testes Agênticos](/docs/pt-br/inference/agentic-tests.md).
 
 Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e certifique-se de que a conta tenha um saldo positivo.
 
@@ -21,10 +21,10 @@ Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e c
 
 A revisão é executada em uma de duas visualizações. Cada solicitação executa uma visualização e é cobrada separadamente, portanto, execute ambas quando desejar uma revisão completa.
 
-- **`micro`** (padrão) revisa a redação dentro de cada item: clareza, mensurabilidade das restrições, estrutura, exemplos, ênfase, orientação sobre ferramentas, formato de saída e diretrizes semelhantes. Use-o enquanto escreve ou edita um único prompt.
+- **`micro`** (padrão) revisa a redação dentro de cada item: clareza, restrições mensuráveis, estrutura, exemplos, ênfase, orientação de ferramentas, formato de saída e diretrizes semelhantes. Use-o ao escrever ou editar um único prompt.
 - **`macro`** revisa como os itens funcionam juntos como um único agente. Verifica se o agente tem um propósito claro e limites de autoridade, se cada comportamento reside em um único item responsável por ele, se as habilidades podem ser selecionadas a partir de suas descrições sem sobreposição ou serem forçadas, se o contexto corresponde às ferramentas que o agente realmente possui e se evita superespecificação, como conversas roteirizadas ou regras que a plataforma já fornece. Use-o ao revisar um agente inteiro ou seu conjunto de habilidades.
 
-A visualização macro precisa dos itens relacionados para julgar relações. Envie as instruções base juntamente com as habilidades, descrições de ferramentas e conhecimento que o agente utiliza; um único item lhe dá pouco para comparar.
+A visualização macro precisa dos itens relacionados para julgar relacionamentos. Envie as instruções base juntamente com as habilidades, descrições de ferramentas e conhecimento que o agente utiliza; um único item lhe dá pouco para comparar.
 
 ## Comportamento da solicitação
 
@@ -40,18 +40,18 @@ A visualização macro precisa dos itens relacionados para julgar relações. En
 
 ### Tipos de item de contexto
 
-Defina `context[].type` para um destes valores:
+Defina `context[].type` como um destes valores:
 
-| Tipo | Uso para |
+| Tipo | Use para |
 | --- | --- |
 | `instruction` | Instruções do sistema ou do desenvolvedor que são sempre carregadas. |
-| `prompt` | Um prompt enviado na interação do usuário. |
+| `prompt` | Um prompt enviado na vez do usuário. |
 | `skill` | Um pacote de instruções que o agente carrega sob demanda. |
 | `tool` | A definição ou descrição de uma ferramenta disponível para o agente. |
-| `knowledge` | Conteúdo factual de referência disponível para o agente, como produtos, contatos ou políticas. |
+| `knowledge` | Conteúdo de referência factual disponível para o agente, como produtos, contatos ou políticas. |
 | `documentation` | Notas para pessoas sobre o agente. O agente nunca as vê. |
 
-Envie em uma única solicitação os itens que o mesmo agente recebe. Uma diretriz pode ser satisfeita por outro item, e as descobertas podem apontar itens que entram em conflito ou se duplicam; revisar itens em solicitações separadas perde essas relações. Na visualização micro, os itens `knowledge` e `documentation` são usados apenas como contexto.
+Envie em uma única solicitação os itens que o mesmo agente recebe. Uma diretriz pode ser satisfeita por outro item, e as descobertas podem apontar itens que entram em conflito ou se duplicam; revisar itens em solicitações separadas perde esses relacionamentos. Na visualização micro, os itens `knowledge` e `documentation` são usados apenas como contexto.
 
 Um `view` ou `type` desconhecido, um `content` vazio ou um array `context` vazio retorna `400 Bad Request`.
 
@@ -101,15 +101,15 @@ Cada descoberta tem estas propriedades:
 | `title` | String | Nome curto do problema. |
 | `description` | String | O problema e seu efeito no agente. |
 | `locations` | Array de Objetos | Cada item que a descoberta envolve, como ambos os lados de um conflito. Cada localização tem o `contextIndex` do item em `context` (baseado em zero) e um `evidenceSpan`. Pode estar vazio quando o problema não está vinculado a um item. |
-| `sources` | Array de Objetos | Diretrizes que sustentam a descoberta, descritas abaixo. |
+| `sources` | Array de Objetos | Diretrizes que apoiam a descoberta, descritas abaixo. |
 
-`evidenceSpan` fornece a localização do problema no `content` desse item como `fromLine`, `toLine`, `fromColumn` e `toColumn`, todos baseados em 1 e inclusivos. É `null` quando o problema é uma omissão, quando reside na `description` de uma habilidade ou quando o texto citado não pôde ser localizado.
+`evidenceSpan` fornece a localização do problema no `content` desse item como `fromLine`, `toLine`, `fromColumn` e `toColumn`, todos baseados em 1 e inclusivos. É `null` quando o problema é uma omissão, quando está na `description` de uma habilidade ou quando o texto citado não pôde ser localizado.
 
 Cada fonte tem um `id` que identifica a diretriz em seu catálogo, um `number` dentro de seu tipo, um `type` e `references` com as URLs da documentação do fornecedor por trás dela. `type` reflete o peso da diretriz: uma `rule` previne falhas previsíveis, uma `practice` melhora confiavelmente os resultados, uma `tip` é opcional e situacional, e um `dont` é um anti-padrão a ser evitado.
 
 ### Correções sugeridas
 
-Cada correção sugerida tem um array `refFinding` com os ids das descobertas que resolve, uma `description` do que exatamente alterar e em qual item, um array `patches` descrito abaixo e um `type`:
+Cada correção sugerida tem um array `refFinding` com os ids de descoberta que resolve, uma `description` do que exatamente alterar e em qual item, um array `patches` descrito abaixo e um `type`:
 
 | Tipo | Significado |
 | --- | --- |
@@ -120,11 +120,11 @@ Cada correção sugerida tem um array `refFinding` com os ids das descobertas qu
 
 `patches` contém a correção como alterações de texto. Cada patch tem o `contextIndex` do item que ele altera e um `diff` no formato diff unificado contra o `content` que você enviou para esse item. Uma correção que altera vários itens, como um `transfer`, tem um patch por item; aplique-os juntos.
 
-`patches` está vazio quando a correção não pode ser escrita como uma alteração nos itens que você enviou, por exemplo, quando precisa de uma nova habilidade ou ferramenta, ou fatos que só você possui. Use a `description` nesses casos.
+`patches` está vazio quando a correção não pode ser escrita como uma alteração nos itens que você enviou, por exemplo, quando precisa de uma nova habilidade ou ferramenta, ou fatos que só você tem. Use a `description` nesses casos.
 
-Cada patch é calculado contra o `content` original, independentemente das outras correções, portanto, duas correções podem alterar as mesmas linhas. Quando um patch não se aplica porque um anterior alterou o mesmo texto, ignore-o ou solicite uma nova revisão.
+Cada patch é calculado contra o `content` original, independentemente das outras correções, portanto, duas correções podem alterar as mesmas linhas. Quando um patch não se aplica mais porque um anterior alterou o mesmo texto, ignore-o ou solicite uma nova revisão.
 
-`title`, `description`, `summary` e descrições de correção são escritos no idioma usado pela maior parte do conteúdo analisado.
+`title`, `description`, `summary` e descrições de correção são escritos no idioma usado pela maioria do conteúdo analisado.
 
 ### Exemplo de resposta
 
@@ -135,13 +135,13 @@ A resposta à solicitação acima:
   "message": null,
   "data": {
     "overallScore": 0.35,
-    "summary": "As instruções e a habilidade de reembolsos se contradizem sobre reembolsos, e a descrição da habilidade é vaga demais para ser selecionada de forma confiável.",
+    "summary": "As instruções e a habilidade de reembolsos se contradizem sobre reembolsos, e a descrição da habilidade é muito vaga para ser selecionada de forma confiável.",
     "findings": [
       {
         "id": 1,
         "priority": "P0",
         "title": "Autoridade de reembolso contraditória",
-        "description": "As instruções proíbem prometer reembolsos enquanto a habilidade exige isso, então o agente pode prometer reembolsos que não pode conceder.",
+        "description": "As instruções proíbem prometer reembolsos enquanto a habilidade exige, então o agente pode prometer reembolsos que não pode conceder.",
         "locations": [
           {
             "contextIndex": 0,
@@ -185,9 +185,9 @@ As revisões são geradas por modelos. Leia cada patch antes de aplicá-lo, veri
 
 ## Preços e limites
 
-O Refinamento de Instrução é cobrado em unidades de processamento (PUs), cobrindo o uso de entrada e saída, e o [multiplicador de plano](/docs/pt-br/pricing.md#plan-multipliers) se aplica. Itens de contexto mais longos consomem mais entrada.
+O Refinamento de Instrução é cobrado em unidades de processamento (PUs), cobrindo o uso de entrada e saída, e o [multiplicador de plano](/docs/pt-br/pricing/product-pricing.md#plan-multipliers) se aplica. Itens de contexto mais longos consomem mais entrada.
 
-O Refinamento de Instrução compartilha os limites de documento do [Extração](extraction.md) e [Resumo](summarization.md). Cada item no array `context` da solicitação conta como um documento, não cada solicitação HTTP. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](/docs/pt-br/limits.md#data-processing). Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
+O Refinamento de Instrução compartilha os limites de documento do [Extração](extraction.md) e [Resumo](summarization.md). Cada item no array `context` da solicitação conta como um documento, não cada solicitação HTTP. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](/docs/pt-br/pricing/plans-and-limits.md#data-processing). Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
 A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erro mantidos pelo servidor:
 

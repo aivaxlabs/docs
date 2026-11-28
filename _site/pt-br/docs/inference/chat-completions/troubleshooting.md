@@ -4,19 +4,19 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/troubleshoo
 
 A AIVAX utiliza dois estilos de resposta:
 
-- Endpoints compatíveis com OpenAI retornam um objeto `error` no estilo do OpenAI.
+- Endpoints compatíveis com OpenAI retornam um objeto `error` no estilo OpenAI.
 - Endpoints de conta e administrativos retornam um envelope de resposta da AIVAX contendo um erro ou um valor `data` bem-sucedido.
 
 | Status | O que verificar |
 | --- | --- |
 | `400 Bad Request` | Confirme o identificador do modelo ou do gateway e remova parâmetros não suportados da solicitação. |
 | `401 Unauthorized` | Confirme que a chave privada está presente, completa, ativa e enviada por meio da configuração do SDK. |
-| `402 Payment Required` | Revise [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e confirme se a conta está pronta para uma cobrança. |
+| `402 Payment Required` | Revise [Preços](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md) e confirme se a conta está pronta para uma cobrança. |
 | `403 Forbidden` | Confirme se o tipo de chave, o modelo ou o recurso selecionado permite essa operação. |
-| `429 Too Many Requests` | Tente novamente mais tarde e revise [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) antes de aumentar o volume de solicitações. Se a mensagem indicar que a cota do modelo de assinatura foi esgotada, ela será renovada um mês após a primeira solicitação que a utilizou; use outro modelo nesse intervalo. Consulte [Cota mensal do modelo de assinatura](https://docs.aivax.net/pt-br/docs/limits.md#monthly-subscription-model-quota). |
+| `429 Too Many Requests` | Tente novamente mais tarde e revise [Planos e limites](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md) antes de aumentar o volume de solicitações. Se a mensagem indicar que a cota do modelo de assinatura foi esgotada, ela será renovada um mês após a primeira solicitação que a utilizou; use outro modelo nesse ínterim. Consulte [Cota mensal do modelo de assinatura](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#monthly-subscription-model-quota). |
 | `500 Internal Server Error` | Ocorreu um erro inesperado. Tente novamente mais tarde. |
 | `503 Service Unavailable` | Um serviço do qual a AIVAX depende está temporariamente indisponível. Tente novamente após o intervalo indicado no cabeçalho `Retry-After`. |
-| `524` ou tempo limite do proxy | A solicitação demorou mais do que o permitido pelo proxy enquanto a AIVAX ainda estava processando-a. Envie-a para o [host de inferência direta](https://docs.aivax.net/pt-br/docs/overview.md#long-running-inference) com um tempo limite de cliente maior. |
+| `524` ou tempo limite do proxy | A solicitação demorou mais do que o permitido pelo proxy enquanto a AIVAX ainda estava processando-a. Envie-a para o [host de inferência direto](https://docs.aivax.net/pt-br/docs/overview.md#long-running-inference) com um tempo limite de cliente maior. |
 
 Se a solicitação continuar falhando, verifique nesta ordem:
 
@@ -39,5 +39,5 @@ Para modelos integrados, os detalhes do erro do provedor não são retornados; a
 | `Failed to generate a valid JSON response.` | O JSON Healing atingiu seu limite de tentativas. Simplifique o esquema ou as instruções antes de aumentar `max_attempts`; consulte [JSON Healing](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-healing.md). |
 | O modelo repete chamadas de ferramentas de rodadas anteriores. | A solicitação não está reutilizando o mesmo `conversation_token`, ou o estado expirou. Consulte [Reutilização de sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md). |
 | `The 'X' parameter is not allowed with public API keys.` | Chaves públicas aceitam um conjunto reduzido de campos. Consulte [Limites](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md#public-api-keys). |
-| Uma conversa falha subitamente com um erro de tamanho de mensagem. | A conversa excedeu o limite de contexto do gateway ou o teto do plano Gratuito. Consulte [Limites](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md#context-window). |
+| Uma conversa falha repentinamente com um erro de tamanho da mensagem. | A conversa excedeu o limite de contexto do gateway ou o teto do plano Gratuito. Consulte [Limites](https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.md#context-window). |
 | Uma solicitação roteada falha embora o modelo exista. | Não resta nenhum provedor elegível após o roteamento, ZDR ou regras de provedores especiais. Consulte [Configuração de roteamento](https://docs.aivax.net/pt-br/docs/inference/routing/setup-routing.md). |

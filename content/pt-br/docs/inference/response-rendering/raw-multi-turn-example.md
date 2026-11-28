@@ -1,5 +1,5 @@
 ---
-{title: Exemplo de múltiplas rodadas,linkTitle: Exemplo bruto de múltiplas interações,weight: 20,group: Response rendering,sourceHash: 4156141000119d88,aliases: [/docs/pt-br/inference/response-rendering/raw-multi-turn-example.html]}
+{title: Exemplo bruto de múltiplas interações,linkTitle: Exemplo bruto de múltiplas rodadas,weight: 20,group: Response rendering,sourceHash: 2f2f9223d77a63a2,aliases: [/docs/pt-br/inference/response-rendering/raw-multi-turn-example.html]}
 ---
 
 # Exemplo bruto de múltiplas rodadas
@@ -57,19 +57,19 @@ Encontrei vários candidatos e devo classificá-los por custo, velocidade e supo
 <assistant-answer>
 Para análise de câmeras de segurança, priorize modelos com VideoInput, preço de entrada baixo e alta velocidade.
 
-A disponibilidade dos modelos e os preços mudam com o tempo; as escolhas abaixo são exemplos de saída — consulte [Preços](/docs/pt-br/pricing.md) para valores atuais.
+A disponibilidade dos modelos e os preços mudam com o tempo; as escolhas abaixo são saídas de exemplo — consulte [Preços](/docs/pt-br/pricing/product-pricing.md) para valores atuais.
 
 Principais escolhas:
 
 1. @google/gemini-3.5-flash-lite: rápido, barato e suporta vídeo.
-2. @qwen/qwen3.5-9b: baixo custo de entrada neste exemplo de saída com suporte a vídeo.
+2. @qwen/qwen3.5-9b: baixo custo de entrada nesta saída de exemplo com suporte a vídeo.
 3. @amazon/nova-lite: baixo custo de entrada e grande janela de contexto.
 
 Use VideoInput para clipes sempre que possível. Se um modelo suportar apenas ImageInput, extraia quadros do fluxo da câmera antes de enviá-los.
 </assistant-answer>
 ```
 
-Quando o usuário responder, mantenha o histórico da conversa focado no resultado visível do assistente para o usuário. Armazene o raciocínio e os detalhes das ferramentas como metadados de linha do tempo ou auditoria se seu produto precisar deles, mas não os transforme em uma nova mensagem do usuário. A mensagem do assistente deve usar o conteúdo do bloco `<assistant-answer>` final, não a transcrição completa do raciocínio.
+Quando o usuário responder, mantenha o histórico da conversa focado no resultado visível do assistente. Armazene o raciocínio e os detalhes das ferramentas como metadados de linha do tempo ou auditoria se seu produto precisar deles, mas não os transforme em uma nova mensagem do usuário. A mensagem do assistente deve usar o conteúdo do bloco `<assistant-answer>` final, não a transcrição completa do raciocínio.
 
 ```json
 {
@@ -81,11 +81,11 @@ Quando o usuário responder, mantenha o histórico da conversa focado no resulta
         },
         {
             "role": "assistant",
-            "content": "Para análise de câmeras de segurança, priorize modelos com VideoInput, preço de entrada baixo e alta velocidade.\n\nA disponibilidade dos modelos e os preços mudam com o tempo; as escolhas abaixo são exemplos de saída — consulte [Preços](/docs/pt-br/pricing.md) para valores atuais.\n\nPrincipais escolhas:\n\n1. @google/gemini-3.5-flash-lite: rápido, barato e suporta vídeo.\n2. @qwen/qwen3.5-9b: baixo custo de entrada neste exemplo de saída com suporte a vídeo.\n3. @amazon/nova-lite: baixo custo de entrada e grande janela de contexto.\n\nUse VideoInput para clipes sempre que possível. Se um modelo suportar apenas ImageInput, extraia quadros do fluxo da câmera antes de enviá-los."
+            "content": "Para análise de câmeras de segurança, priorize modelos com VideoInput, preço de entrada baixo e alta velocidade.\n\nA disponibilidade dos modelos e os preços mudam com o tempo; as escolhas abaixo são saídas de exemplo — consulte [Preços](/docs/pt-br/pricing/product-pricing.md) para valores atuais.\n\nPrincipais escolhas:\n\n1. @google/gemini-3.5-flash-lite: rápido, barato e suporta vídeo.\n2. @qwen/qwen3.5-9b: baixo custo de entrada nesta saída de exemplo com suporte a vídeo.\n3. @amazon/nova-lite: baixo custo de entrada e grande janela de contexto.\n\nUse VideoInput para clipes sempre que possível. Se um modelo suportar apenas ImageInput, extraia quadros do fluxo da câmera antes de enviá-los."
         },
         {
             "role": "user",
-            "content": "Agora, recomende um modelo para alertas em tempo real e outro para revisão mais detalhada."
+            "content": "Agora recomende um modelo para alertas em tempo real e outro para revisão mais detalhada."
         }
     ],
     "stream": true,

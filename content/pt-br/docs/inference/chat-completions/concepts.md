@@ -1,29 +1,29 @@
 ---
-{title: Conceitos de Inferência,linkTitle: Conceitos,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/inference.html,/docs/pt-br/inference/chat-handling.html,/docs/pt-br/platform/conversations.html,/docs/pt-br/inference/chat-completions/concepts.html],sourceHash: 9d6fb407742dc011}
+{title: Conceitos de Inferência,linkTitle: Conceitos,weight: 10,group: Inference,aliases: [/docs/pt-br/inference/inference.html,/docs/pt-br/inference/chat-handling.html,/docs/pt-br/platform/conversations.html,/docs/pt-br/inference/chat-completions/concepts.html],sourceHash: bb72a1a5e621bf3e}
 ---
 
 # Conceitos de inferência
 
 A AIVAX expõe uma API `chat/completions` compatível com OpenAI, com parâmetros adicionais da AIVAX. As adições são opcionais e foram projetadas para suportar gateways, RAG, ferramentas integradas, respostas estruturadas, pré-processamento multimodal, roteamento de provedores e metadados de faturamento.
 
-Estas páginas cobrem o contrato de solicitação. Use um [Gateway de IA](/docs/pt-br/inference/ai-gateways/concepts.md) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
+Estas páginas cobrem o contrato de solicitação. Use um [AI Gateway](/docs/pt-br/inference/ai-gateways/concepts.md) quando a mesma configuração precisar ser reutilizada ou gerenciada centralmente.
 
 ## Chamada direta ou gateway
 
 Use uma chamada direta para tarefas simples, testes, rotinas internas e integrações onde o aplicativo controla o modelo, o prompt, as ferramentas e o contexto para cada solicitação.
 
-Use um Gateway de IA quando o comportamento precisar ser estável, auditável e reutilizável. Os gateways são melhores para assistentes de suporte, chatbots, agentes RAG, ferramentas permanentes, workers, habilidades e configurações compartilhadas por vários clientes. Consulte [Inferência com Gateways de IA](ai-gateways.md) para ver como um gateway altera uma solicitação.
+Use um AI Gateway quando o comportamento precisar ser estável, auditável e reutilizável. Os gateways são melhores para assistentes de suporte, chatbots, agentes RAG, ferramentas permanentes, workers, habilidades e configurações compartilhadas por vários clientes. Consulte [Inferência com AI Gateways](ai-gateways.md) para ver como um gateway altera uma solicitação.
 
 ## Como uma solicitação é executada
 
-Uma única solicitação pode envolver várias gerações de modelos. A AIVAX prepara o contexto, chama o modelo, executa quaisquer ferramentas do lado do servidor solicitadas pelo modelo, chama o modelo novamente com os resultados delas e repete até que o modelo produza uma resposta final ou solicite uma ferramenta que seu cliente deve executar.
+Uma única solicitação pode envolver várias gerações de modelos. A AIVAX prepara o contexto, chama o modelo, executa quaisquer ferramentas do lado do servidor solicitadas pelo modelo, chama o modelo novamente com os resultados e repete até que o modelo produza uma resposta final ou solicite uma ferramenta que seu cliente deve executar.
 
 1. **Preparar.** A AIVAX resolve o modelo ou gateway, adiciona instruções do gateway e documentos recuperados, restaura o [contexto do lado do servidor](server-side-context.md) das rodadas anteriores, aplica [pré-processamento](multimodal-pre-processing.md) e moderação, e ajusta a conversa à janela de contexto.
 2. **Gerar.** O provedor selecionado gera raciocínio, texto ou chamadas de ferramenta; consulte [Roteamento](/docs/pt-br/inference/routing/setup-routing.md) para saber como o provedor é escolhido.
 3. **Executar ferramentas do lado do servidor.** [Ferramentas integradas](built-in-tools.md), [ferramentas MCP e funções de protocolo](mcp-and-protocol-functions.md) são executadas dentro da AIVAX, e o loop retorna ao passo 2.
 4. **Finalizar.** A AIVAX valida a [saída estruturada](structured-output.md) quando solicitado e retorna a resposta final ou as [chamadas de ferramenta do cliente](tools.md) que seu aplicativo deve executar.
 
-Somente o resultado final é retornado como uma mensagem do assistente. Com [streaming](streaming.md), você também recebe raciocínio, eventos de ferramenta e texto parcial conforme eles ocorrem.
+Apenas o resultado final é retornado como uma mensagem do assistente. Com [streaming](streaming.md), você também recebe raciocínio, eventos de ferramenta e texto parcial conforme eles ocorrem.
 
 ## Endpoint
 
@@ -48,11 +48,11 @@ Como uma única solicitação pode executar várias gerações e ferramentas, el
 https://direct.inference.aivax.net/v1
 ```
 
-A solicitação ainda é síncrona: mantenha a conexão aberta e defina um tempo limite do cliente que cubra o tempo de processamento esperado. Caminhos, chaves e corpos de solicitação são os mesmos do host padrão. Solicitações de streaming enviam dados continuamente e raramente precisam disso. Consulte [Inferência de longa duração](/docs/pt-br/overview.md#long-running-inference) para um exemplo de SDK e os endpoints que o host direto atende.
+A solicitação ainda é síncrona: mantenha a conexão aberta e defina um tempo limite do cliente que cubra o tempo de processamento esperado. Caminhos, chaves e corpos de solicitação são os mesmos do host padrão. Solicitações de streaming enviam dados continuamente e raramente precisam disso. Consulte [Inferência de longa duração](/docs/pt-br/overview.md#long-running-inference) para um exemplo de SDK e os endpoints que o host direto serve.
 
 ## Metadados da solicitação
 
-Defina `metadata` para anexar informações de chave/valor (ambas strings) à solicitação de inferência. A AIVAX armazena este objeto junto com a conversa registrada e o expõe aos eventos do gateway, sendo útil para correlação operacional, como ID de pedido, inquilino, fluxo de trabalho ou chave de rastreamento interno.
+Defina `metadata` para anexar informações de chave/valor (strings) à solicitação de inferência. A AIVAX armazena este objeto junto com a conversa registrada e o expõe aos eventos do gateway, portanto, é útil para correlação operacional, como ID de pedido, tenant, fluxo de trabalho ou chave de rastreamento interna.
 
 ```json
 {
@@ -76,17 +76,17 @@ Defina `metadata` para anexar informações de chave/valor (ambas strings) à so
 
 O envelope de resposta padrão `/v1/chat/completions` inclui `generation_context`, que lista o uso cobrado pela solicitação. Defina [`json_only: true`](/docs/pt-br/inference/structured-responses/json-only.md) para retornar apenas o JSON final sem este envelope.
 
-`usage` relata `prompt_tokens`, `completion_tokens` e `total_tokens`. `prompt_tokens` conta a entrada completa, incluindo a entrada em cache relatada em `prompt_tokens_details.cached_tokens`. Consulte [Cache](caching.md).
+`usage` relata `prompt_tokens`, `completion_tokens` e `total_tokens`. `prompt_tokens` conta a entrada completa, incluindo a entrada em cache relatada em `prompt_tokens_details.cached_tokens`. Consulte [Caching](caching.md).
 
-As respostas para modelos integrados também incluem `provider`, a tag do provedor que atendeu à solicitação; consulte [Provedor nas respostas](/docs/pt-br/inference/routing/setup-routing.md#provider-in-responses).
+As respostas para modelos integrados também incluem `provider`, a tag do provedor que atendeu à solicitação; consulte [Provider in responses](/docs/pt-br/inference/routing/setup-routing.md#provider-in-responses).
 
-Defina `allow_logging: false` em uma solicitação `/v1/chat/completions` para manter essa solicitação fora dos logs de conversa da conta. Ela assume `true` como padrão e não pode habilitar o registro de conversas quando o log de conversas está desabilitado para a conta.
+Defina `allow_logging: false` em uma solicitação `/v1/chat/completions` para manter essa solicitação fora dos logs de conversa da conta. Ela assume `true` como padrão e não pode habilitar o registro de log quando o registro de conversas está desativado para a conta.
 
-Quando o log de conversas está habilitado, o registro armazenado inclui as mensagens, ferramentas, uso, modelo, contexto do gateway e chave de API, além de `metadata`. Use `conversation_token` e `metadata` para correlacionar esses registros com seu próprio fluxo de trabalho.
+Quando o registro de conversas está habilitado, o registro armazenado inclui as mensagens, ferramentas, uso, modelo, contexto do gateway e chave de API, e `metadata`. Use `conversation_token` e `metadata` para correlacionar esses registros com seu próprio fluxo de trabalho.
 
 ## Geração assíncrona
 
-Adicione `"async": true` para colocar a solicitação na fila em vez de esperar pelo resultado. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado mais tarde ou recebe um webhook quando estiver concluído. Solicitações de streaming não podem ser colocadas na fila. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+Adicione `"async": true` para enfileirar a solicitação em vez de esperar pelo resultado. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado mais tarde ou recebe um webhook quando estiver concluído. Solicitações de streaming não podem ser enfileiradas. Consulte [Async generations](/docs/pt-br/inference/batch/async-generations.md).
 
 ```json
 {
@@ -98,9 +98,9 @@ Adicione `"async": true` para colocar a solicitação na fila em vez de esperar 
 
 ## Preços
 
-As taxas de inferência dependem do modelo selecionado, do provedor, do tamanho da entrada e do tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs); seu preço em PU varia conforme o modelo e o provedor utilizados. O [multiplicador de plano](/docs/pt-br/pricing.md#plan-multipliers) aplica-se à inferência de modelos integrados e à moderação. BYOK não é afetado por ele.
+As taxas de inferência dependem do modelo selecionado, do provedor, do tamanho da entrada e do tipo de mídia. A moderação é cobrada separadamente em Unidades de Processamento (PUs); seu preço em PU varia conforme o modelo e o provedor utilizados. O [multiplicador de plano](/docs/pt-br/pricing/product-pricing.md#plan-multipliers) se aplica à inferência de modelos integrados e à moderação. O BYOK não é afetado por ele.
 
 | Descrição | Preço |
 | --- | ---: |
-| Inferência de modelo de IA e Gateway de IA | Taxas do modelo e provedor selecionados |
+| Inferência de modelo de IA e AI Gateway | Taxas do modelo e provedor selecionados |
 | Moderação de entrada | Preço variável por PU; separado da cobrança principal de inferência |

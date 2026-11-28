@@ -49,4 +49,4 @@ Add `"async": true` to queue the synthesis instead of keeping the request open. 
 
 Speech generation price varies by model; current tariffs are listed in the [Models catalog](https://aivax.net/models#text-to-speech).
 
-Standalone text-to-speech requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/limits.md#speech). Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.
+Standalone text-to-speech requests are limited per minute, and per hour on Free; see [Speech limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#speech). Voice Sessions are not subject to these standalone request quotas; they follow the selected realtime model's access, balance, and inference limits. Review reported validation errors before retrying a failed request.

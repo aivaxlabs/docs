@@ -10,7 +10,7 @@ Testes Agênticos avaliam como um Gateway de IA se comporta ao longo de uma conv
 
 Você pode executar testes de duas maneiras: como [testes persistentes no painel](#persistent-tests-in-the-dashboard), com histórico, agendamentos e notificações, ou como avaliações efêmeras por meio da [execução direta via API](#direct-api-execution).
 
-Use Testes Agênticos para criar verificações de regressão repetíveis para suporte, vendas, onboarding, uso de ferramentas, RAG e outros fluxos de agentes multi-turno. Como um teste é executado através do Gateway de IA configurado, ele exercita o modelo do gateway, instruções, ferramentas, habilidades, conhecimento e configurações de inferência em conjunto.
+Use Testes Agênticos para criar verificações de regressão repetíveis para suporte, vendas, onboarding, uso de ferramentas, RAG e outros fluxos de agentes multi-turno. Como um teste é executado através do Gateway de IA configurado, ele exercita o modelo do gateway, instruções, ferramentas, habilidades, conhecimento e configurações de inferência juntos.
 
 ## Testes persistentes no painel
 
@@ -21,10 +21,10 @@ Abra **Testes Agênticos** no painel do AIVAX para criar e gerenciar casos de te
 - critérios de validação opcionais usados apenas pelo juiz;
 - mensagens iniciais opcionais, recursos externos e um identificador de usuário externo;
 - amostragem do usuário simulado, limites de turno, comportamento de saída e limiares de avaliação;
-- um agendamento recorrente opcional;
+- um cronograma recorrente opcional;
 - configurações de notificação de falha e recuperação.
 
-A definição do teste é reutilizável. Cada execução cria uma corrida (run) separada, portanto, alterar um teste posteriormente não substitui o histórico já coletado para corridas anteriores.
+A definição do teste é reutilizável. Cada execução cria uma corrida separada, portanto, alterar um teste posteriormente não substitui o histórico já coletado para corridas anteriores.
 
 ### Criar um teste útil
 
@@ -61,14 +61,14 @@ Use `resources` para fornecer ao usuário simulado e ao juiz um contexto compart
 
 Tenha em mente como os recursos são usados:
 
-- `visibility` decide quem recebe um recurso: `Internal` (padrão) mostra-o apenas ao usuário simulado e ao juiz, `Gateway` mostra-o apenas ao gateway sob teste, e `Both` mostra-o aos três. Um recurso `Internal` não é enviado ao gateway e não adiciona conhecimento a ele. Um recurso `Gateway` ou `Both` dá ao gateway contexto extra durante o teste, então use-o apenas para material que seu aplicativo também fornece em tempo de execução, como o estado atual da conta. Se o assistente precisar recuperar o mesmo material em produção, disponibilize-o por meio do próprio conhecimento ou ferramentas do gateway.
-- O usuário simulado ainda pode revelar informações do recurso naturalmente em suas mensagens, então não trate os recursos como critérios ocultos apenas para o juiz. Use **Critérios de validação** para isso.
+- `visibility` decide quem recebe um recurso: `Internal` (o padrão) mostra-o apenas ao usuário simulado e ao juiz, `Gateway` mostra-o apenas ao gateway sob teste, e `Both` mostra-o aos três. Um recurso `Internal` não é enviado ao gateway e não adiciona nenhum conhecimento a ele. Um recurso `Gateway` ou `Both` dá ao gateway contexto extra durante o teste, então use-o apenas para material que seu aplicativo também fornece em tempo de execução, como o estado atual da conta. Se o assistente deve recuperar o mesmo material em produção, disponibilize-o por meio do próprio conhecimento ou ferramentas do gateway.
+- O usuário simulado ainda pode revelar informações de recurso naturalmente em suas mensagens, então não trate os recursos como critérios ocultos apenas para o juiz. Use **Critérios de validação** para isso.
 
 Conteúdo remoto pode mudar entre execuções de teste e contribui para o uso. Use apenas URLs confiáveis e publicamente acessíveis cujo conteúdo seja apropriado para o teste.
 
-Um teste focado geralmente oferece resultados mais acionáveis do que um cenário amplo. Separe objetivos não relacionados em testes diferentes para que uma falha identifique o comportamento que entrou em regressão.
+Um teste focado geralmente oferece resultados mais acionáveis do que um cenário amplo. Separe objetivos não relacionados em testes diferentes para que uma falha identifique o comportamento que regrediu.
 
-Siga [avaliação multi-turno para agentes LLM com um usuário simulado e juiz](https://aivax.net/blog/introducing-agentic-tests/) para definir objetivos observáveis, executar uma conversa simulada e inspecionar a recuperação, incluindo como um objetivo que vazou a resposta pode resultar em perda. Movendo testes do OpenAI Evals antes do fechamento? Veja [Alternativas ao OpenAI Evals e para onde vão os testes multi-turno](https://aivax.net/blog/openai-evals-shutdown-multi-turn-agent-tests/).
+Siga [avaliação multi-turno para agentes LLM com um usuário simulado e juiz](https://aivax.net/blog/introducing-agentic-tests/) para definir objetivos observáveis, executar uma conversa simulada e inspecionar a recuperação, incluindo como um objetivo que vazia a resposta pode terminar em derrota. Movendo testes fora do OpenAI Evals antes que ele feche? Veja [Alternativas ao OpenAI Evals e para onde vão os testes multi-turno](https://aivax.net/blog/openai-evals-shutdown-multi-turn-agent-tests/).
 
 ### Ganchos de validação
 
@@ -106,12 +106,12 @@ Os eventos suportados são:
 | Evento | Quando é enviado | Dados do evento |
 |---|---|---|
 | `before-test` | Antes do primeiro turno simulado. | `gateway`, `goal` e `metadata`. |
-| `after-test` | Após o teste atingir um resultado terminal normal e antes do evento final ser emitido. | O resultado final, motivo, estado, número do turno, pontuação, delta da conversa e sequência de perdas. |
+| `after-test` | Após o teste atingir um resultado terminal normal e antes do evento final ser emitido. | O resultado final, motivo, estado, número do turno, pontuação, delta da conversa e sequência de derrotas. |
 | `before-inference` | Uma vez antes da inferência principal do gateway de cada turno. | `turn_number` e o array atual de `messages`. |
 | `after-inference` | Uma vez após a inferência principal do gateway de cada turno. | `turn_number` e o array atual de `messages`. |
 | `context-changed` | Uma vez por turno após a conclusão da resposta do gateway. | `turn_number` e o array atual de `messages`. |
 
-`before-inference` e `after-inference` estão disponíveis apenas quando o teste direciona um Gateway de IA. Ganchos são suportados para testes persistentes do painel e corridas agendadas; o endpoint de validação SSE direto não aceita `hooks`.
+`before-inference` e `after-inference` estão disponíveis apenas quando o teste visa um Gateway de IA. Ganchos são suportados para testes persistentes do painel e corridas agendadas; o endpoint de validação SSE direto não aceita `hooks`.
 
 Cada gancho recebe um envelope JSON compatível com worker:
 
@@ -131,7 +131,7 @@ Cada gancho recebe um envelope JSON compatível com worker:
 }
 ```
 
-A URL do gancho deve ser uma URL HTTP ou HTTPS pública sem credenciais embutidas. Quando a conta possui uma chave de gancho, o AIVAX também envia `X-Request-Nonce`; valide-a antes de confiar no payload. As solicitações de gancho usam `POST` com `Content-Type: application/json`.
+A URL do gancho deve ser uma URL HTTP ou HTTPS pública sem credenciais embutidas. Quando a conta possui uma chave de gancho, o AIVAX também envia `X-Request-Nonce`; valide-o antes de confiar no payload. As solicitações de gancho usam `POST` com `Content-Type: application/json`.
 
 As respostas dos ganchos seguem a convenção do [worker](https://docs.aivax.net/pt-br/docs/inference/workers.md):
 
@@ -143,72 +143,72 @@ Uma corrida interrompida é armazenada como `failed` e emite um resultado termin
 
 ### Executar e inspecionar um teste
 
-Selecione **Run test** para colocar uma execução na fila. Corridas podem estar `pending`, `running`, `succeeded`, `failed` ou `cancelled`. Tanto a taxa de novas corridas quanto a concorrência em nível de conta dependem do plano atual. Consulte [Preços e limites](#pricing-and-limits) para valores atuais.
+Selecione **Executar teste** para colocar uma execução na fila. As corridas podem estar `pending`, `running`, `succeeded`, `failed` ou `cancelled`. Tanto a taxa de novas corridas quanto a concorrência em nível de conta dependem do plano atual. Consulte [Preços e limites](#pricing-and-limits) para valores atuais.
 
-Corridas manuais, corridas agendadas e avaliações diretas via API compartilham uma cota de novas corridas entre as chaves de API da conta. Cada corrida conta uma vez, quando é colocada na fila; os turnos da conversa não consomem unidades adicionais de corrida. Uma solicitação de corrida manual acima da cota retorna HTTP 429 sem criar uma corrida; aguarde a janela de limite de taxa limpar antes de tentar novamente.
+Corridas manuais, corridas agendadas e avaliações diretas via API compartilham uma cota de novas corridas entre as chaves de API da conta. Cada corrida conta uma vez, quando é colocada na fila; os turnos da conversa não consomem unidades adicionais de corrida. Uma solicitação de corrida manual acima da cota retorna HTTP 429 sem criar uma corrida; aguarde a janela de limite de taxa ser limpa antes de tentar novamente.
 
 Uma corrida pode falhar se o saldo for esgotado ou se a inferência não puder continuar. Você pode cancelar uma corrida pendente ou em execução no painel.
 
 O inspetor de corrida retém:
 
 - mensagens do usuário simulado, assistente e juiz em ordem cronológica;
-- um timestamp para cada mensagem;
+- um carimbo de data/hora para cada mensagem;
 - uso de tokens de prompt, prompt em cache e conclusão por mensagem;
 - todas as opiniões do juiz, incluindo seu raciocínio, pontuação, estado e valores de trajetória;
 - o resultado final da avaliação, informações de falha e custo total cobrado pela corrida.
 
-Use as opiniões do juiz para identificar o turno em que a conversa melhorou, ficou em risco, teve sucesso ou entrou em uma perda persistente. O detalhe da corrida também pode ser exportado como JSON para revisão offline.
+Use as opiniões do juiz para identificar o turno em que a conversa melhorou, ficou em risco, teve sucesso ou entrou em uma derrota persistente. Os detalhes da corrida também podem ser exportados como JSON para revisão offline.
 
 ### Agendar testes recorrentes
 
 Um teste pode ser executado automaticamente a partir de uma expressão cron padrão de cinco campos. O intervalo mínimo suportado é de cinco minutos. Por exemplo, `*/15 * * * *` executa a cada 15 minutos.
 
-Corridas agendadas usam a mesma cota de novas corridas que corridas manuais e avaliações diretas. Se a cota for esgotada quando um teste estiver devido, nenhuma corrida será criada.
+Corridas agendadas usam a mesma cota de novas corridas que as corridas manuais e avaliações diretas. Se a cota for esgotada quando um teste estiver devido, nenhuma corrida será criada.
 
 Desative o agendamento quando quiser preservar a definição do teste sem criar novas corridas agendadas. Corridas manuais permanecem disponíveis na página do teste.
 
 ### Notificações de falha e recuperação
 
-Ative notificações de falha quando falhas repetidas na execução da corrida deveriam alertar o proprietário da conta. O **Notification threshold** controla quantas corridas consecutivas no estado `failed` são necessárias antes que o AIVAX envie um alerta. O padrão é `1`.
+Ative notificações de falha quando falhas repetidas na execução da corrida deveriam alertar o proprietário da conta. O **Limite de notificação** controla quantas corridas consecutivas no estado `failed` são necessárias antes que o AIVAX envie um alerta. O padrão é `1`.
 
-Essas notificações rastreiam erros de execução, não falhas de teste comportamental. Uma corrida no estado `succeeded` foi concluída sem erro de execução, mas seu resultado comportamental ainda pode ser `loss` ou `incomplete`. Esses resultados não contam para o limiar de notificação de falha.
+Essas notificações rastreiam erros de execução, não falhas de teste comportamental. Uma corrida no estado `succeeded` foi concluída sem erro de execução, mas seu resultado comportamental ainda pode ser `loss` ou `incomplete`. Esses resultados não contam para o limite de notificação de falha.
 
-Quando **Recovery notification** está habilitado, o AIVAX também notifica a conta após uma corrida ser concluída com sucesso seguindo suficientes falhas de execução consecutivas para atingir o limiar configurado. Uma corrida concluída com sucesso redefine o contador de falhas consecutivas, mesmo que seu resultado comportamental seja `loss` ou `incomplete`. Recuperação significa, portanto, que a execução se recuperou, não que o assistente passou nas verificações comportamentais.
+Quando a **Notificação de recuperação** está habilitada, o AIVAX também notifica a conta após uma corrida ser concluída com sucesso seguindo suficientemente muitas falhas de execução consecutivas para atingir o limite configurado. Uma corrida concluída com sucesso redefine o contador de falhas consecutivas, mesmo que seu resultado comportamental seja `loss` ou `incomplete`. Recuperação significa, portanto, que a execução se recuperou, não que o assistente passou nas verificações comportamentais.
 
 ### Retenção
 
-Corridas bem-sucedidas e falhas são retidas por um mês. Corridas canceladas são retidas por um dia. Exporte qualquer resultado que precise permanecer disponível além desses períodos.
+Corridas bem-sucedidas e falhas são retidas por um mês. Corridas canceladas são retidas por um dia. Exporte qualquer resultado que deva permanecer disponível além desses períodos.
 
 ## Configurações de avaliação
 
-Essas configurações controlam a conversa simulada e o juiz. Testes persistentes as usam; [execução direta via API](#direct-api-execution) aceita as mesmas configurações principais, mas não `hooks`.
+Essas configurações controlam a conversa simulada e o juiz. Testes persistentes as usam; a [execução direta via API](#direct-api-execution) aceita as mesmas configurações principais, mas não `hooks`.
 
 | Configuração | Padrão | Valores aceitos | Descrição |
 | --- | ---: | --- | --- |
-| `validation_criteria` | `null` | String, parte da mensagem ou lista de partes da mensagem | Requisitos opcionais fornecidos apenas ao juiz. Eles não guiam o usuário simulado nem o gateway sob teste. |
+| `validation_criteria` | `null` | String, parte da mensagem ou lista de partes da mensagem | Requisitos opcionais fornecidos apenas ao juiz. Eles não orientam o usuário simulado nem o gateway sob teste. |
 | `resources` | `[]` | Objetos `{ "type", "data", "visibility" }` | Contexto adicional. `visibility` seleciona os destinatários: `Internal` (padrão) para o usuário simulado e juiz, `Gateway` apenas para o gateway sob teste, ou `Both`. Use `Text` para `data` literal ou `RemoteResource` para conteúdo recuperado da URL em `data`. |
-| `hooks` | `[]` | Objetos `{ "event", "url" }` | Callbacks externos para corridas persistentes. Eventos suportados são `before-test`, `after-test`, `before-inference`, `after-inference` e `context-changed`; `before-inference` e `after-inference` requerem um Gateway de IA. |
+| `hooks` | `[]` | Objetos `{ "event", "url" }` | Callbacks externos para corridas persistentes. Eventos suportados são `before-test`, `after-test`, `before-inference`, `after-inference` e `context-changed`; `before-inference` e `after-inference` exigem um Gateway de IA. |
 | `profile` | `medium` | `low`, `medium`, `high` | Seleciona o nível de capacidade e preço usado pelo usuário simulado e pelo juiz. Não substitui o modelo configurado no gateway sob teste. |
 | `max_turns` | `10` | `2`–`64` | Número máximo de turnos do usuário simulado antes que a corrida termine. |
 | `minimum_turns` | `1` | `1`–`63`, menor que `max_turns` | Primeiro turno em que o usuário simulado pode receber a opção de encerrar a conversa. |
-| `allow_user_exit` | `true` | Boolean | Quando habilitado, o prompt do usuário simulado expõe o token de saída da conversa a partir de `minimum_turns` em diante. Quando desabilitado, essa opção é omitida de todos os prompts do usuário simulado. |
+| `allow_user_exit` | `true` | Booleano | Quando habilitado, o prompt do usuário simulado expõe o token de saída da conversa a partir de `minimum_turns` em diante. Quando desabilitado, essa opção é omitida de todos os prompts do usuário simulado. |
 | `judge_start_turn` | `1` | `1`–`63`, menor que `max_turns` | Primeiro turno avaliado pelo juiz. O turno final é sempre avaliado. |
 | `loss_threshold` | `0.2` | `0.01`–`0.99` | Limite usado para identificar uma trajetória persistentemente malsucedida. |
 | `base_threshold` | `0.9` | `0.01`–`0.99` | Pontuação na qual ou acima da qual o objetivo é considerado alcançado. Deve ser maior que `loss_threshold`, com mais de `0.1` entre eles. |
-| `user_sampling.top_k` | `0.4` | `0`–`2` | Controla quantas características de comunicação amostradas guiam o usuário simulado. Valores mais altos aumentam a variação. |
+| `user_sampling.top_k` | `0.4` | `0`–`2` | Controla quantas características de comunicação amostradas orientam o usuário simulado. Valores mais altos aumentam a variação. |
 | `user_sampling.max_decay` | `0.02` | `0`–`1` | Controla como as características do usuário amostradas podem mudar entre turnos. |
 
 Orientações de ajuste:
 
 - **`max_turns`**: reduza-o para verificações de regressão rápidas e limitadas; aumente-o para fluxos que naturalmente exigem descoberta ou várias chamadas de ferramenta.
 - **`minimum_turns` e `judge_start_turn`**: cada um deve ser menor que `max_turns`; caso contrário, são independentes. `minimum_turns` controla apenas quando o usuário simulado vê sua opção de saída e não atrasa as decisões do juiz.
-- **`judge_start_turn`**: adie-o quando a clarificação inicial for esperada e as pontuações intermediárias não forem úteis.
+- **`judge_start_turn`**: atrase-o quando houver esclarecimento inicial esperado e as pontuações intermediárias não forem úteis.
 - **`allow_user_exit`**: desabilite-o quando apenas o juiz ou o orçamento de turnos devem encerrar o teste.
 - **`loss_threshold` e `base_threshold`**: mantenha uma ampla lacuna entre eles, a menos que a política tenha sido calibrada contra conversas representativas.
 
 ## Preços e limites
 
-Cada teste inclui as cobranças de inferência do modelo ou Gateway de IA selecionado, além do uso do usuário simulado e do juiz nas taxas do perfil selecionado. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers) se aplica.
+Cada teste inclui as cobranças de inferência do modelo ou Gateway de IA selecionado, além do uso do usuário simulado e do juiz nas taxas do perfil selecionado. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md#plan-multipliers) se aplica.
 
 | Descrição | Preço |
 | --- | ---: |
@@ -220,17 +220,17 @@ Cada teste inclui as cobranças de inferência do modelo ou Gateway de IA seleci
 | Perfil alto - usuário simulado | Entrada **$0,75/M tokens**; cache **$0,075/M tokens**; saída **$3,75/M tokens** |
 | Perfil alto - juiz | Entrada **$1,25/M tokens**; cache **$0,15/M tokens**; saída **$4,25/M tokens** |
 
-Novas corridas por minuto e corridas concorrentes por conta dependem do plano; consulte [Limites de Batch e Testes Agênticos](https://docs.aivax.net/pt-br/docs/limits.md#batch-and-agentic-tests). Ambos são compartilhados entre as chaves de API da conta. Corridas manuais e avaliações diretas acima da cota de novas corridas retornam `429 Too Many Requests`; use retries limitados com backoff. Ultimate não tem limite imposto pelo plano para novas corridas.
+Novas corridas por minuto e corridas simultâneas por conta dependem do plano; consulte [Limites de Batch e Testes Agênticos](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#batch-and-agentic-tests). Ambos são compartilhados entre as chaves de API da conta. Corridas manuais e avaliações diretas acima da cota de novas corridas retornam `429 Too Many Requests`; use retries limitados com backoff. Ultimate não tem limite imposto pelo plano para novas corridas.
 
 Cada teste aceita até 16 `resources` e 16 `hooks`.
 
 ## Execução direta via API
 
-Use o endpoint de avaliação direta quando um aplicativo precisa executar um teste efêmero e consumir seus eventos imediatamente como um stream de Server-Sent Events (SSE). Uma execução direta **não** cria um caso de teste persistente ou corrida no painel.
+Use o endpoint de avaliação direta quando um aplicativo precisar executar um teste efêmero e consumir seus eventos imediatamente como um stream de Server-Sent Events (SSE). Uma execução direta **não** cria um caso de teste persistente nem uma corrida no painel.
 
-Autentique-se com uma chave de API privada do AIVAX, envie `Accept: text/event-stream` e mantenha a chave em um backend confiável. Não exponha uma chave privada no código do navegador ou em um pacote de aplicação distribuído.
+Autentique-se com uma chave de API privada do AIVAX, envie `Accept: text/event-stream` e mantenha a chave em um backend confiável. Não exponha uma chave privada no código do navegador ou em um pacote de aplicativo distribuído.
 
-Cada avaliação direta consome uma unidade da mesma cota de novas corridas das corridas persistentes. Se a cota for excedida, a solicitação retorna HTTP 429 antes que o stream SSE seja aberto, então verifique o status HTTP antes de processar os eventos. Consulte [Preços e limites](#pricing-and-limits).
+Cada avaliação direta consome uma unidade da mesma cota de novas corridas que as corridas persistentes. Se a cota for excedida, a solicitação retorna HTTP 429 antes que o stream SSE seja aberto, então verifique o status HTTP antes de processar os eventos. Consulte [Preços e limites](#pricing-and-limits).
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Evaluate%20Agentic%20Test)
 
@@ -245,7 +245,7 @@ A solicitação aceita as mesmas [configurações de avaliação](#evaluation-se
 - `resources`: contexto adicional `Text` ou `RemoteResource`.
 - `external_user_id`: uma identidade encaminhada para a inferência do gateway.
 
-### Eventos de stream
+### Stream de eventos
 
 Cada mensagem de Server-Sent Events contém este envelope:
 
@@ -262,7 +262,7 @@ Cada mensagem de Server-Sent Events contém este envelope:
 }
 ```
 
-Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo streamed em ordem. Os exemplos abaixo mostram o objeto `event` dentro do envelope SSE. Marcadores de ciclo de vida (`start_generation`, `end_generation`, `turn_analysis_start`, `turn_analysis_end`) carregam um objeto vazio (`data: {}`); chunks de raciocínio compartilham a forma `{ "reasoning_content": "..." }`. Apenas eventos com conteúdo são mostrados em pleno.
+Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo streamed em ordem. Os exemplos abaixo mostram o objeto `event` dentro do envelope SSE. Marcadores de ciclo de vida (`start_generation`, `end_generation`, `turn_analysis_start`, `turn_analysis_end`) carregam um objeto vazio (`data: {}`); chunks de raciocínio compartilham a forma `{ "reasoning_content": "..." }`. Apenas eventos com conteúdo são mostrados em completo.
 
 - **`chat.start`** — Inicia um turno e relata seu número e orçamento de turnos restante.
 
@@ -276,11 +276,11 @@ Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo strea
   }
   ```
 
-- **`chat.user_message.start_generation`** — Marca o início da geração de mensagem do usuário simulado (`data: {}`).
+- **`chat.user_message.start_generation`** — Marca o início da geração da mensagem do usuário simulado (`data: {}`).
 
-- **`chat.user_message.reasoning`** — Stream de um chunk de raciocínio exposto pelo modelo do usuário simulado. Use isso apenas para depuração.
+- **`chat.user_message.reasoning`** — Transmite um chunk de raciocínio exposto pelo modelo do usuário simulado. Use isso apenas para depuração.
 
-- **`chat.user_message.content`** — Stream de um chunk de conteúdo de mensagem do usuário simulado. Concatene chunks consecutivos na ordem de chegada.
+- **`chat.user_message.content`** — Transmite um chunk de conteúdo da mensagem do usuário simulado. Concatene chunks consecutivos na ordem de chegada.
 
   ```json
   {
@@ -291,7 +291,7 @@ Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo strea
   }
   ```
 
-- **`chat.user_message.end_generation`** — Marca o fim da geração de mensagem do usuário simulado (`data: {}`).
+- **`chat.user_message.end_generation`** — Marca o fim da geração da mensagem do usuário simulado (`data: {}`).
 
 - **`chat.user_message.end_conversation`** — Relata uma saída permitida do usuário simulado após `minimum_turns`. Este evento não é emitido quando `allow_user_exit` está desabilitado.
 
@@ -306,15 +306,15 @@ Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo strea
 
 - **`chat.assistant_message.start_generation`** — Marca o início da resposta do gateway selecionado (`data: {}`).
 
-- **`chat.assistant_message.reasoning`** — Stream de um chunk de raciocínio exposto pelo modelo do gateway (mesma forma `reasoning_content`).
+- **`chat.assistant_message.reasoning`** — Transmite um chunk de raciocínio exposto pelo modelo do gateway (mesma forma `reasoning_content`).
 
 - **`chat.assistant_message.refusal`** — Relata uma recusa retornada pelo modelo do gateway.
 
 - **`chat.assistant_message.tool_call`** — Relata uma chamada de ferramenta do assistente, incluindo seu ID, nome e argumentos.
 
-- **`chat.assistant_message.tool_result`** — Relata um resultado de ferramenta, incluindo o ID de chamada associado, nome e conteúdo.
+- **`chat.assistant_message.tool_result`** — Relata um resultado de ferramenta, incluindo o ID da chamada associada, nome e conteúdo.
 
-- **`chat.assistant_message.content`** — Stream de um chunk de conteúdo de resposta do assistente. Concatene chunks consecutivos na ordem de chegada.
+- **`chat.assistant_message.content`** — Transmite um chunk de conteúdo da resposta do assistente. Concatene chunks consecutivos na ordem de chegada.
 
   ```json
   {
@@ -329,7 +329,7 @@ Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo strea
 
 - **`chat.judge.turn_analysis_start`** — Marca o início de uma avaliação contra o objetivo e quaisquer critérios de validação apenas para o juiz (`data: {}`).
 
-- **`chat.judge.turn_analysis_result_ready`** — Retorna o raciocínio do juiz, pontuação normalizada, estado atual, medições de trajetória e decisão de continuação. `score` varia de `0.001` a `0.999`; `pass` é falso apenas após uma perda persistente ser estabelecida.
+- **`chat.judge.turn_analysis_result_ready`** — Retorna o raciocínio do juiz, pontuação normalizada, estado atual, medições de trajetória e decisão de continuação. `score` varia de `0.001` a `0.999`; `pass` é falso apenas após uma derrota persistente ser estabelecida.
 
   ```json
   {
@@ -400,20 +400,20 @@ Encaminhe as mensagens por `event.type` e concatene os chunks de conteúdo strea
 
 ### Estados e resultados do juiz
 
-O estado do juiz pode ser `active`, `at_risk`, `success` ou `loss`. Um turno fraco não falha imediatamente uma conversa recuperável: a pontuação baixa e a trajetória cumulativa devem permanecer no ou abaixo do limiar de perda configurado para as avaliações consecutivas necessárias.
+O estado do juiz pode ser `active`, `at_risk`, `success` ou `loss`. Um turno fraco não falha imediatamente uma conversa recuperável: a pontuação baixa e a trajetória cumulativa devem permanecer na ou abaixo do limite de perda configurado para as avaliações consecutivas requeridas.
 
 Resultados finais são:
 
 | Resultado | Significado |
 | --- | --- |
-| `success` | O juiz atingiu `base_threshold`. Uma saída permitida do usuário simulado dispara a julgamento, mas não passa o teste por si só; sem o limiar, o resultado é `incomplete`. |
-| `loss` | A pontuação e a trajetória cumulativa permaneceram no ou abaixo de `loss_threshold` pelos turnos julgados consecutivos necessários. |
-| `incomplete` | A conversa esgotou `max_turns` sem alcançar sucesso ou uma perda persistente. |
-| `interrupted` | Uma regra de validação parou a avaliação antes que ela fosse concluída. |
+| `success` | O juiz atingiu `base_threshold`. Uma saída permitida do usuário simulado aciona o julgamento, mas não passa o teste por si só; sem o limite, o resultado é `incomplete`. |
+| `loss` | A pontuação e a trajetória cumulativa permaneceram na ou abaixo de `loss_threshold` pelos turnos julgados consecutivos requeridos. |
+| `incomplete` | A conversa esgotou `max_turns` sem alcançar sucesso ou uma derrota persistente. |
+| `interrupted` | Uma regra de validação interrompeu a avaliação antes que ela fosse concluída. |
 
 ### Erros
 
-Uma chave ausente ou inválida retorna `401 Unauthorized`; uma chave de API pública retorna `403 Forbidden`; saldo insuficiente retorna `402 Payment Required`; e campos malformados, slugs de gateway indisponíveis ou combinações de limiar inválidas retornam `400 Bad Request`. Uma falha de inferência pode, em vez disso, chegar como um evento SSE após o streaming começar.
+Uma chave ausente ou inválida retorna `401 Unauthorized`; uma chave de API pública retorna `403 Forbidden`; saldo insuficiente retorna `402 Payment Required`; e campos malformados, slugs de gateway indisponíveis ou combinações de limite inválidas retornam `400 Bad Request`. Uma falha de inferência pode, em vez disso, chegar como um evento SSE depois que o streaming começa.
 
 Para investigar uma falha de inferência, revise a [configuração do Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md) usada pelo teste.
 

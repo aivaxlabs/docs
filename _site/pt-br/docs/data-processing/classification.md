@@ -2,7 +2,7 @@ Source: https://docs.aivax.net/pt-br/docs/data-processing/classification.html
 
 # Classificação de Texto
 
-Use a classificação de texto para rankear um conjunto fixo de rótulos para um ou mais documentos, sem precisar treinar um classificador personalizado. Isso se adequa a tarefas como etiquetagem, triagem ou roteamento de solicitações, nas quais as categorias são conhecidas antecipadamente e você precisa de uma classificação por similaridade em vez de uma resposta gerada.
+Use a classificação de texto para rankear um conjunto fixo de rótulos para um ou mais documentos sem treinar um classificador personalizado. Isso se adequa a tarefas como etiquetagem, triagem ou roteamento de solicitações, onde as categorias são conhecidas antecipadamente e você precisa de uma classificação por similaridade em vez de uma resposta gerada.
 
 A AIVAX incorpora (embeds) cada documento e rótulo com o modelo de incorporação padrão e compara seus vetores usando similaridade cosseno. Para cada documento, ele retorna todos os rótulos ordenados do mais semelhante ao menos semelhante.
 
@@ -19,7 +19,7 @@ Antes de chamar este endpoint, [crie uma chave de API](https://docs.aivax.net/pt
 
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
-| `documents` | `string[]` | Sim | Um ou mais documentos não vazios para classificar. Os resultados preservam essa ordem e o índice baseado em zero de cada documento. |
+| `documents` | `string[]` | Sim | Um ou mais documentos não vazios para classificar. Os resultados preservam esta ordem e o índice baseado em zero de cada documento. |
 | `labels` | `string[]` | Sim | Um ou mais rótulos não vazios. Cada rótulo é pontuado para cada documento. |
 
 O endpoint usa o modelo de incorporação padrão e não aceita parâmetro de modelo, limite de pontuação ou limite de resultados.
@@ -70,11 +70,11 @@ A seguinte solicitação classifica três documentos, sendo um deles em alemão,
 }
 ```
 
-Uma pontuação mede a similaridade vetorial, não uma probabilidade. Compare as pontuações dentro da mesma solicitação, em vez de interpretar um valor como uma confiança percentual.
+Uma pontuação mede a similaridade vetorial, não uma probabilidade. Compare as pontuações dentro da mesma solicitação em vez de interpretar um valor como uma confiança percentual.
 
 ## Geração assíncrona
 
-Adicione `"async": true` para colocar a classificação em fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
+Adicione `"async": true` para colocar a classificação em fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Veja [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
 
 ```json
 {
@@ -90,7 +90,7 @@ Adicione `"async": true` para colocar a classificação em fila. A API responde 
 | --- | ---: |
 | Classificação de texto | **$0,015/M tokens** |
 
-O número de documentos classificados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/limits.md#data-processing). A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retornará `429 Too Many Requests`.
+O número de documentos classificados por minuto e por dia depende do plano; veja [Limites de processamento de dados](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#data-processing). A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retornará `429 Too Many Requests`.
 
 A referência de API embutida contém os detalhes mantidos pelo servidor sobre solicitações, respostas, autenticação e erros:
 

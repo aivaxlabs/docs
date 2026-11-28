@@ -10,14 +10,14 @@ Autentique as solicitações com uma chave de API da AIVAX. Consulte [Autentica�
 
 O endpoint pode retornar áudio em duas formas, e a escolha certa depende do consumidor:
 
-- **Áudio binário (`raw: true`)** — o corpo da resposta é o próprio arquivo de áudio, servido inline com seu tipo MIME. Use isso quando um player, elemento `<audio>` do navegador ou fluxo de download consumir a resposta diretamente.
+- **Áudio binário (`raw: true`)** — o corpo da resposta é o próprio arquivo de áudio, servido inline com seu tipo MIME. Use isso quando um player, elemento `<audio>` do navegador ou fluxo de download consome a resposta diretamente.
 - **Base64 no envelope JSON (`raw: false`)** — a resposta contém o formato, o tipo MIME e o áudio codificado em base64 dentro do envelope padrão. Use isso quando o resultado viaja por pipelines JSON, é armazenado em um banco de dados ou precisa ser inspecionado junto com metadados de cobrança.
 
 Os formatos suportados são `mp3`, `wav` e `ogg`. Quando o consumidor aceita qualquer um deles, prefira `mp3` para payloads menores e `wav` para máxima compatibilidade com ferramentas de áudio.
 
 ## Gerar fala
 
-Escreva o texto que está pronto para ser falado em voz alta, incluindo pontuação e formatação que comuniquem pausas ou ênfase. Expanda abreviações e numerais da maneira como devem ser ouvidos, como "doutor" em vez de "Dr." ou "vinte e vinte e seis" em vez de "2026", em vez de confiar na voz para adivinhar.
+Escreva texto que esteja pronto para ser falado em voz alta, incluindo pontuação e formatação que comuniquem pausas ou ênfase. Expanda abreviações e numerais da maneira como devem ser ouvidos, como "doutor" em vez de "Dr." ou "vinte e vinte e seis" em vez de "2026", em vez de confiar na voz para adivinhar.
 
 Teste a voz selecionada com conteúdo representativo antes de usá-la em produção, especialmente para nomes, abreviações ou termos especializados. As vozes diferem por modelo de fala, então confirme a voz contra o modelo que você usará em vez de assumir que as vozes de um modelo existem em outro.
 
@@ -25,7 +25,7 @@ A referência embutida é a fonte da verdade para modelos e vozes disponíveis, 
 
 [API endpoint reference](https://inference.aivax.net/apidocs?embed=iframe&embed-endpoint=Generate%20speech)
 
-Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar este endpoint diretamente, use a [MCP de geração de mídia](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md). Ele retorna uma URL pública para áudio MP3 em vez de áudio inline.
+Para permitir que um agente ou IDE compatível com MCP sintetize fala sem chamar este endpoint diretamente, use o [MCP de geração de mídia](https://docs.aivax.net/pt-br/docs/mcp-utilities/media-generation-mcp.md). Ele retorna uma URL pública para áudio MP3 em vez de áudio inline.
 
 ## Fala ou Sessões de Voz
 
@@ -33,7 +33,7 @@ Use a Geração de Fala para síntese única de texto conhecido. Use [Sessões d
 
 ## Geração assíncrona
 
-Adicione `"async": true` para enfileirar a síntese em vez de manter a solicitação aberta. A API responde com HTTP `202` e um ID, e você busca o áudio armazenado mais tarde ou recebe um webhook quando estiver concluído. Veja [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
+Adicione `"async": true` para enfileirar a síntese em vez de manter a solicitação aberta. A API responde com HTTP `202` e um ID, e você busca o áudio armazenado mais tarde ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](https://docs.aivax.net/pt-br/docs/inference/batch/async-generations.md).
 
 ```json
 {
@@ -49,4 +49,4 @@ Adicione `"async": true` para enfileirar a síntese em vez de manter a solicita�
 
 O preço da geração de fala varia por modelo; as tarifas atuais estão listadas no [Catálogo de Modelos](https://aivax.net/models#text-to-speech).
 
-As solicitações independentes de texto para fala são limitadas por minuto e por hora no plano Gratuito; consulte [Limites de fala](https://docs.aivax.net/pt-br/docs/limits.md#speech). As Sessões de Voz não estão sujeitas a essas cotas de solicitações independentes; elas seguem o acesso, saldo e limites de inferência do modelo de tempo real selecionado. Revise os erros de validação relatados antes de tentar novamente uma solicitação com falha.
+As solicitações autônomas de texto para fala têm limite por minuto, e por hora no plano Gratuito; consulte [Limites de fala](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#speech). As Sessões de Voz não estão sujeitas a essas cotas de solicitações autônomas; elas seguem o acesso, saldo e limites de inferência do modelo de tempo real selecionado. Revise os erros de validação relatados antes de tentar novamente uma solicitação falhada.

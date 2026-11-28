@@ -82,7 +82,7 @@ Summarization is billed for the input tokens of each document. Output tokens are
 | --- | ---: |
 | Summarization input | **$0.04/M tokens** |
 
-Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. Remote files are limited to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Summarization and [Extraction](https://docs.aivax.net/docs/data-processing/extraction.md) share the same document limits. Remote files are limited to 5 MB each. The number of processed documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#data-processing).
 
 The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 

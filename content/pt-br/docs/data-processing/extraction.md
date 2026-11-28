@@ -1,5 +1,5 @@
 ---
-{title: Extração,linkTitle: Extração,weight: 50,group: Data processing,sourceHash: 7cfde24176c24d40,aliases: [/docs/pt-br/data-processing/extraction.html]}
+{title: Extração,linkTitle: Extração,weight: 50,group: Data processing,sourceHash: 3401fcfbecdcf63d,aliases: [/docs/pt-br/data-processing/extraction.html]}
 ---
 
 # Extração
@@ -14,14 +14,14 @@ Estes três serviços leem documentos, mas retornam coisas diferentes:
 
 | | Extração | [Busca e OCR](/docs/pt-br/web-foundation/fetch-and-ocr) | [Descrições de Mídia](media-descriptions.md) |
 | --- | --- | --- | --- |
-| Propósito principal | Encontrar campos específicos em cada documento e retorná-los como JSON. | Recuperar o texto legível de páginas da web e documentos, usando OCR quando necessário. | Interpretar mídias com IA e retornar uma descrição textual guiada pelas suas instruções. |
-| Entrada | Texto, JPEG, PNG, TIFF e conteúdo PDF. | Páginas da web e muitos formatos de documento, incluindo arquivos Office, planilhas e e-books. | Imagens, PDFs, áudio e vídeo. |
-| Saída | Um objeto JSON por documento, moldado pelo seu esquema. | Texto extraído, além de JSON opcional convertido a partir desse texto. | Texto gerado. |
-| Cobrança | Apenas tokens de entrada. | Unidades de processamento com cotas do plano diário; a conversão para JSON é cobrada separadamente. | Custos de uso de IA para entrada e saída. |
+| Propósito principal | Encontrar campos específicos em cada documento e retorná-los como JSON. | Recuperar o texto legível de páginas web e documentos, usando OCR quando necessário. | Interpretar mídias com IA e retornar uma descrição textual guiada pelas suas instruções. |
+| Entrada | Texto, JPEG, PNG, TIFF e conteúdo PDF. | Páginas web e muitos formatos de documento, incluindo arquivos Office, planilhas e e-books. | Imagens, PDFs, áudio e vídeo. |
+| Saída | Um objeto JSON por documento, moldado pelo seu esquema. | Texto extraído, mais JSON opcional convertido a partir desse texto. | Texto gerado. |
+| Cobrança | Apenas tokens de entrada. | Unidades de processamento com cotas do plano diário; a conversão JSON é cobrada separadamente. | Custos de uso de IA para entrada e saída. |
 
-Escolha a Extração quando você já sabe quais campos precisa e deseja que sejam lidos diretamente do documento. Escolha a Busca quando precisar do texto completo do documento, por exemplo, para indexá-lo ou ler uma página da web. Escolha as Descrições de Mídia quando precisar de uma explicação sobre conteúdo visual ou audiovisual, como um gráfico, uma foto ou um vídeo, em vez de campos específicos.
+Escolha a Extração quando você já souber quais campos precisa e quiser que eles sejam lidos diretamente do documento. Escolha a Busca quando precisar do texto completo do documento, por exemplo, para indexá-lo ou ler uma página web. Escolha as Descrições de Mídia quando precisar de uma explicação sobre conteúdo visual ou audiovisual, como um gráfico, uma foto ou um vídeo, em vez de campos específicos.
 
-Para um padrão de solicitação que evita que um documento com falha custe o restante, consulte [extrair dados estruturados de um PDF, um documento por solicitação](https://aivax.net/blog/extract-structured-data-from-pdf-llm-api-what-a-failed-batch-costs/).
+Para um padrão de solicitação que evita que um documento falho custe o restante, consulte [extrair dados estruturados de um PDF, um documento por solicitação](https://aivax.net/blog/extract-structured-data-from-pdf-llm-api-what-a-failed-batch-costs/).
 
 ## Endpoint
 
@@ -34,15 +34,15 @@ Para um padrão de solicitação que evita que um documento com falha custe o re
 
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
-| `responseSchema` | Objeto JSON Schema | Sim | Esquema de objeto cujos `properties` descrevem os campos a extrair. Deve ter pelo menos uma propriedade. |
+| `responseSchema` | Objeto JSON Schema | Sim | Esquema de objeto cujas `properties` descrevem os campos a extrair. Deve ter pelo menos uma propriedade. |
 | `documents` | Array de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
-| `instructions` | String | Não | Diretrizes que se aplicam a todos os documentos, como qual parte conta como fornecedor. |
+| `instructions` | String | Não | Orientações que se aplicam a todos os documentos, como qual parte conta como fornecedor. |
 
 Cada propriedade em `responseSchema` é um campo a ser encontrado. Sua `description` é o critério de busca, então escreva-a como uma definição curta e específica, como "valor total devido" em vez de "total". Objetos aninhados e arrays de objetos são suportados. `$ref` e `$defs` não são; incorpore todas as definições inline.
 
 Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos:
 
-- Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas.
+- Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de múltiplas páginas.
 - O recurso deve ser acessível sem login.
 - Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`.
 
@@ -78,7 +78,7 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
       "type": "file",
       "file": {
         "filename": "fatura.pdf",
-        "file_data": "https://example.com/invoice.pdf"
+        "file_data": "https://example.com/fatura.pdf"
       }
     }
   ]
@@ -107,11 +107,11 @@ A seguinte solicitação extrai campos de fatura de um documento de texto e um P
 
 Os documentos são processados independentemente. Se qualquer documento falhar, toda a solicitação retorna um erro em vez de resultados parciais. Documentos que foram concluídos antes da falha ainda são cobrados e contam para sua cota, então corrija ou remova o documento com falha antes de tentar novamente.
 
-Os valores extraídos são gerados pelo modelo. Verifique valores críticos, como montantes e identificadores, contra o documento original.
+Os valores extraídos são gerados pelo modelo. Verifique valores importantes, como montantes e identificadores, contra o documento original.
 
 ## Geração assíncrona
 
-Adicione `"async": true` para enfileirar a extração. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+Adicione `"async": true` para colocar a extração em fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
 
 ```json
 {
@@ -136,7 +136,7 @@ A Extração é cobrada pelos tokens de entrada de cada documento. Tokens de sa�
 | --- | ---: |
 | Entrada de Extração | **$0,04/M tokens** |
 
-Extração e [Resumo](summarization.md) compartilham os mesmos limites de documentos. Arquivos remotos têm limite de 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](/docs/pt-br/limits.md#data-processing).
+A Extração e o [Resumo](summarization.md) compartilham os mesmos limites de documentos. Arquivos remotos têm limite de 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; consulte [Limites de processamento de dados](/docs/pt-br/pricing/plans-and-limits.md#data-processing).
 
 A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 

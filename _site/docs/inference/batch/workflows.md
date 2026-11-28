@@ -312,11 +312,11 @@ Use the export endpoint when your review or downstream process needs a selected 
 
 ## Availability
 
-Review billing and capacity before you process a large workload. Start with [Pricing](https://docs.aivax.net/docs/pricing.md) and the [limits](#limits) below.
+Review billing and capacity before you process a large workload. Start with [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md) and the [limits](#limits) below.
 
 ## Limits
 
-Limits are the capacity check for a large workload. The number of workflow items processed per day depends on the plan. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests).
+Limits are the capacity check for a large workload. The number of workflow items processed per day depends on the plan. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#batch-and-agentic-tests).
 
 These import limits apply to every plan:
 

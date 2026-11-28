@@ -4,7 +4,7 @@ Source: https://docs.aivax.net/pt-br/docs/tools/builtin-tools.html
 
 As ferramentas integradas são capacidades mantidas pela AIVAX, como busca na web, leitura de URLs, execução de código, memória e geração de arquivos, que você pode ativar para um modelo sem precisar escrever seu próprio callback. Você pode combiná-las com suas próprias [funções de protocolo](https://docs.aivax.net/pt-br/docs/tools/protocol-functions.md) e ferramentas [MCP](https://docs.aivax.net/pt-br/docs/tools/mcp.md).
 
-Algumas ferramentas têm custos de uso. Consulte [Preços e limites](#precos-e-limites) antes de ativá-las em um fluxo de produção.
+Algumas ferramentas têm cobranças de uso. Consulte [Preços e limites](#precos-e-limites) antes de ativá-las em um fluxo de produção.
 
 O modelo decide qual ferramenta chamar e quais argumentos enviar.
 
@@ -14,7 +14,7 @@ Ative apenas as ferramentas necessárias para o seu caso de uso. Cada ferramenta
 
 Escolha cada ferramenta pelo tipo de necessidade que ela cobre:
 
-- `WebSearch`: a resposta depende de informações públicas, recentes ou em mudança.
+- `WebSearch`: a resposta depende de informações públicas, recentes ou mutáveis.
 - `OpenUrl`: o usuário já forneceu uma URL e deseja que o assistente analise esse conteúdo específico.
 - `Code`: cálculos, transformações de dados e pequenas tarefas algorítmicas.
 - `Request`: o modelo deve chamar uma API HTTP com um método, cabeçalhos ou corpo específicos.
@@ -22,20 +22,20 @@ Escolha cada ferramenta pelo tipo de necessidade que ela cobre:
 
 Trate as ferramentas de geração (imagem, documento e página da web) como ações de saída. Elas fazem mais do que melhorar uma resposta: elas criam artefatos que são hospedados ou anexados à conversa. Diga ao modelo quando gerar um artefato e quando responder em texto. No suporte, por exemplo, um documento se adequa a uma cotação, proposta ou resumo formal; uma página da web se adequa a um relatório visual; uma imagem se adequa à ideação criativa. Quando o usuário pede apenas uma explicação, o texto simples geralmente é suficiente.
 
-Você pode ativar ferramentas em dois locais:
+Você pode ativar ferramentas em dois lugares:
 
-- **Na solicitação**, por meio de `builtin_tools`. O aplicativo chamador escolhe a lista para cada inferência. Use isso para testes, rotinas internas e fluxos nos quais o aplicativo precisa realmente escolher ferramentas dinamicamente.
+- **Na solicitação**, através de `builtin_tools`. O aplicativo chamador escolhe a lista para cada inferência. Use isso para testes, rotinas internas e fluxos nos quais o aplicativo realmente precisa escolher ferramentas dinamicamente.
 - **No [AI Gateway](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/concepts.md)**. A lista é centralizada e pode ser combinada com habilidades, workers, MCP, funções de protocolo e shell. Prefira o gateway para políticas permanentes de produção, pois ele impede que diferentes clientes habilitem ferramentas diferentes sem controle.
 
-Os valores em `builtin_tools.tools` são sinalizadores de configuração, como `WebSearch`, `Code` e `OpenUrl`. O modelo vê nomes de função em tempo de execução, como `web_search`, `evaluate_code` e `open_url`. Use os nomes de função em tempo de execução ao configurar listas de permissão de ferramentas de skill ou listas de permissão de ferramentas de shell.
+Os valores em `builtin_tools.tools` são sinalizadores de configuração, como `WebSearch`, `Code` e `OpenUrl`. O modelo vê nomes de função em tempo de execução, como `web_search`, `evaluate_code` e `open_url`. Use os nomes de função em tempo de execução ao configurar listas de permissão para ferramentas de habilidade ou shell.
 
 ## Data e Hora Atual
 
-Ative `DateTime` para expor `get_date_time`. Esta ferramenta não aceita argumentos e lê a hora atual quando é chamada. Ela retorna a data, a hora, o dia da semana, o fuso horário, o deslocamento UTC e um carimbo de data/hora ISO 8601.
+Ative `DateTime` para expor `get_date_time`. Esta ferramenta não recebe argumentos e lê a hora atual quando é chamada. Ela retorna a data, hora, dia da semana, fuso horário, deslocamento UTC e um carimbo de data/hora ISO 8601.
 
-A ferramenta relata o fuso horário do gateway, definido no `parameters.timeZone` do gateway com um identificador IANA. O padrão é `America/Sao_Paulo`. No painel, edite **Fuso horário** em **Data e hora** na aba **Parâmetros + Ajuste** do gateway. As ferramentas de agendamento e a ferramenta Bash usam o mesmo fuso.
+A ferramenta relata o fuso horário do gateway, definido no `parameters.timeZone` do gateway com um identificador IANA. O padrão é `America/Sao_Paulo`. No painel, edite **Fuso horário** em **Data e hora** na aba **Parâmetros + Ajuste** do gateway. As ferramentas de agendamento e a ferramenta Bash usam o mesmo fuso horário.
 
-Para usar outro fuso para uma única solicitação para `/v1/chat/completions`, envie `time_zone`, como `"time_zone": "Asia/Tokyo"`. Os fluxos em lote usam o fuso horário do AI Gateway em que são executados, ou `America/Sao_Paulo` quando nomeiam um modelo diretamente.
+Para usar outro fuso horário para uma única solicitação para `/v1/chat/completions`, envie `time_zone`, como `"time_zone": "Asia/Tokyo"`. Os fluxos em lote usam o fuso horário do AI Gateway no qual estão executando, ou `America/Sao_Paulo` quando nomeiam um modelo diretamente.
 
 Ativação via `builtin_tools`:
 
@@ -64,7 +64,7 @@ A data usa `yyyy-MM-dd`, a hora usa 24 horas `HH:mm:ss` e os nomes dos dias da s
 
 ## Busca na Internet
 
-Ative `WebSearch` para permitir que o modelo pesquise na internet informações específicas ou em tempo real, como clima, notícias ou resultados de jogos.
+Ative `WebSearch` para permitir que o modelo pesquise na internet por informações específicas ou em tempo real, como clima, notícias ou resultados de jogos.
 
 Você pode escolher entre dois modos de pesquisa no painel:
 
@@ -115,7 +115,7 @@ Ative `OpenUrl` para permitir que o modelo leia o conteúdo de URLs e links forn
 
 A ferramenta envia uma solicitação `GET` simples ao destino; ela não faz rastreamento. Alguns sites bloqueiam o acesso automatizado.
 
-Páginas HTML são reduzidas ao seu texto puro, outros textos são lidos conforme estão e arquivos, como documentos, são convertidos em texto quando possível.
+Páginas HTML são reduzidas ao seu texto simples, outros textos são lidos conforme estão, e arquivos, como documentos, são convertidos em texto quando possível.
 
 Ativação via `builtin_tools`:
 
@@ -133,7 +133,7 @@ Ativação via `builtin_tools`:
 
 Ative `Remember` quando o assistente precisar salvar informações entre conversas e recuperá-las quando relevante. Ele expõe exatamente duas ferramentas: `memory_save` e `memory_search`.
 
-Ambas as ferramentas exigem um usuário identificado: defina um `tag` estável em um [cliente de chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md#identify-users-with-a-tag) ou `$.user` em uma solicitação chat/completions. Sem esse identificador, as ferramentas retornam um erro. As pesquisas de memória são automaticamente restritas ao usuário atual. Cada memória registra o gateway que a salvou, e `parameters.builtinFunctionsOptions.allowSharedMemory` controla a visibilidade:
+Ambas as ferramentas exigem um usuário identificado: defina um `tag` estável em um [cliente de chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md#identify-users-with-a-tag) ou `$.user` em uma solicitação de chat/completions. Sem esse identificador, as ferramentas retornam um erro. As buscas de memória são automaticamente restritas ao usuário atual. Cada memória registra o gateway que a salvou, e `parameters.builtinFunctionsOptions.allowSharedMemory` controla a visibilidade:
 
 | `allowSharedMemory` | Comportamento |
 | --- | --- |
@@ -175,24 +175,24 @@ Apenas memórias pertencentes ao usuário atual podem ser substituídas ou exclu
 | Argumento | Comportamento |
 | --- | --- |
 | `query` | Uma consulta de texto para busca semântica sobre as memórias do usuário atual. Retorna até 10 resultados. |
-| `filter` | Uma string usando a [sintaxe de filtro de documentos da AIVAX](https://docs.aivax.net/pt-br/docs/rag/document-filters.md). Retorna até 10 memórias correspondentes, das mais recentes para as mais antigas. |
+| `filter` | Uma string usando a [sintaxe de filtro de documento da AIVAX](https://docs.aivax.net/pt-br/docs/rag/document-filters.md). Retorna até 10 memórias correspondentes, das mais recentes para as mais antigas. |
 
 Cada resultado contém `id`, `content`, `createdAt`, `updatedAt` e `expiresAt` (`null` quando a memória nunca expira). Memórias expiradas nunca são retornadas. Use `query` para encontrar significado; use `filter` para texto exato, metadados ou datas de criação e atualização:
 
 | Objetivo | `filter` |
 | --- | --- |
-| Criado nos últimos 7 dias | `createdAt >= now-7d` |
-| Alterado nas últimas 24 horas | `updatedAt >= now-24h` |
-| Criado em outubro de 2026 | `createdAt >= "2026-10-01" and createdAt < "2026-11-01"` |
-| Não atualizado há 90 dias, por exemplo, candidatos obsoletos para revisão | `updatedAt < now-90d` |
-| Menciona um aniversário e foi criado nos últimos 30 dias | `content contains "birthday" and createdAt >= now-30d` |
-| Salvo em uma conversa específica | `metadata.conversation_token = "<token da conversa>"` |
+| Criada nos últimos 7 dias | `createdAt >= now-7d` |
+| Alterada nas últimas 24 horas | `updatedAt >= now-24h` |
+| Criada em outubro de 2026 | `createdAt >= "2026-10-01" and createdAt < "2026-11-01"` |
+| Não atualizada há 90 dias, por exemplo, candidatos obsoletos para revisão | `updatedAt < now-90d` |
+| Menciona um aniversário e foi criada nos últimos 30 dias | `content contains "birthday" and createdAt >= now-30d` |
+| Salva em uma conversa específica | `metadata.conversation_token = "<token da conversa>"` |
 
-Para saber como as datas sem deslocamento são interpretadas, consulte [Filtros de Documentos — Datas](https://docs.aivax.net/pt-br/docs/rag/document-filters.md#dates).
+Para saber como as datas sem deslocamento são interpretadas, consulte [Filtros de Documento — Datas](https://docs.aivax.net/pt-br/docs/rag/document-filters.md#dates).
 
 ### Armazenamento e Gerenciamento
 
-As memórias são documentos na coleção RAG `@memories` na sua conta AIVAX. A coleção é criada automaticamente no primeiro salvamento. O conteúdo de cada documento é o texto da memória, e seus metadados identificam o usuário e a conversa de origem:
+As memórias são documentos na coleção RAG `@memories` na sua conta AIVAX. A coleção é criada automaticamente na primeira gravação. O conteúdo de cada documento é o texto da memória, e seus metadados identificam o usuário e a conversa de origem:
 
 ```json
 {
@@ -203,15 +203,15 @@ As memórias são documentos na coleção RAG `@memories` na sua conta AIVAX. A 
 }
 ```
 
-`gateway_id` é `null` quando a memória não foi salva por um gateway salvo, e `expires_at` é um timestamp Unix em segundos, ou `null` quando a memória nunca expira. Memórias novas ou atualizadas tornam-se pesquisáveis em alguns segundos.
+`gateway_id` é `null` quando a memória não foi salva por um gateway salvo, e `expires_at` é um timestamp Unix em segundos, ou `null` quando a memória nunca expira. Memórias novas ou atualizadas tornam-se pesquisáveis dentro de alguns segundos.
 
-Memórias expiradas são ocultadas da `memory_search` e removidas automaticamente. Memórias sem expiração são mantidas até serem excluídas. Inspecione e gerencie memórias nas páginas Coleções e Documentos do painel ou por meio das [APIs de Coleções e Documentos](https://docs.aivax.net/pt-br/docs/rag/collections.md). **Excluir a coleção `@memories` apaga todas as memórias de todos os usuários na conta**; a coleção é recriada no próximo salvamento.
+Memórias expiradas são ocultadas da `memory_search` e removidas automaticamente. Memórias sem expiração são mantidas até serem excluídas. Inspecione e gerencie memórias nas páginas Coleções e Documentos do painel ou através das [APIs de Coleções e Documentos](https://docs.aivax.net/pt-br/docs/rag/collections.md). **Excluir a coleção `@memories` apaga todas as memórias de todos os usuários na conta**; a coleção é recriada na próxima gravação.
 
 A restrição automática de usuário aplica-se apenas às ferramentas de memória. Ao gerenciar a coleção diretamente, use `metadata.external_user_id` para selecionar os registros do usuário pretendido e preservar os metadados do usuário.
 
 ### Faturamento, Limites e Erros
 
-A memória não tem cobrança separada de ferramenta; consulte [Preços e limites](#precos-e-limites). Ambas as ferramentas de memória usam os [limites de taxa RAG da conta](https://docs.aivax.net/pt-br/docs/rag/collections.md#pricing-and-limits). Se a conta não tiver saldo ou atingir um limite de taxa, a ferramenta retornará um erro ao modelo. Instrua o modelo a relatar a falha em vez de afirmar que salvou ou recuperou informações.
+A memória não tem cobrança separada de ferramenta; consulte [Preços e limites](#precos-e-limites). Ambas as ferramentas de memória usam os [limites de taxa RAG](https://docs.aivax.net/pt-br/docs/rag/collections.md#pricing-and-limits) da conta. Se a conta não tiver saldo ou atingir um limite de taxa, a ferramenta retornará um erro ao modelo. Instrua o modelo a relatar a falha em vez de afirmar que salvou ou recuperou informações.
 
 ### Migração de Antigas Ferramentas de Memória e Calendário
 
@@ -219,7 +219,7 @@ As memórias não expiradas existentes foram movidas para a coleção `@memories
 
 A ferramenta integrada `Calendar` foi removida. Solicitações que ainda incluem `Calendar` em `builtin_tools.tools` falham: remova-a de suas solicitações. Lembretes de calendário existentes foram migrados para memórias de texto.
 
-A antiga API de Memórias não está mais disponível. Mova o gerenciamento de memória em nível de aplicativo para as APIs de Coleções e Documentos e atualize as instruções do gateway para pesquisar explicitamente. O antigo argumento `retentionDays` agora é `expiresInDays`; omiti-lo cria uma memória que nunca expira, onde o antigo padrão era 30 dias.
+A antiga API de Memórias não está mais disponível. Mova o gerenciamento de memória em nível de aplicativo para as APIs de Coleções e Documentos e atualize as instruções do gateway para pesquisar explicitamente. O antigo argumento `retentionDays` agora é `expiresInDays`; omiti-lo cria uma memória que nunca expira, onde o antigo padrão era de 30 dias.
 
 Para controles em nível de aplicativo em torno de gravações de memória, políticas de exclusão e revisão, consulte [Como proteger a memória do agente LLM contra envenenamento](https://aivax.net/blog/persistent-memory-is-a-write-path/).
 
@@ -229,7 +229,7 @@ Ative `ImageGeneration` para permitir que o modelo crie imagens. Os modelos de g
 
 As imagens geradas são anexadas ao contexto da conversa, mas o assistente não pode vê-las diretamente. Elas são armazenadas nos servidores da AIVAX por alguns meses antes de serem removidas permanentemente.
 
-A geração de imagem pode incorrer em custos de uso. Consulte [Preços e limites](#precos-e-limites) antes de ativá-la em produção.
+A geração de imagem pode incorrer em cobranças de uso. Consulte [Preços e limites](#precos-e-limites) antes de ativá-la em produção.
 
 Você pode permitir imagens adultas com `image_generation_allow_mature_content`. O modelo selecionado também deve aceitar gerar esse tipo de conteúdo.
 
@@ -252,13 +252,13 @@ Ativação via `builtin_tools`:
 }
 ```
 
-## Pesquisa de Posts no X
+## Pesquisa de Posts do X
 
 Ative `XPostsSearch` para permitir que o modelo pesquise posts no X (antigo Twitter) e leia um post específico quando tiver o ID do post.
 
 É uma alternativa direta à [busca na internet](#busca-na-internet) (`web_search`) para informações em tempo real, como notícias ou resultados de jogos, e retorna resultados muito mais recentes. Evite ativar ambas as ferramentas juntas, pois elas atendem ao mesmo propósito.
 
-Esta função pode incorrer em custos de uso. Consulte [Preços e limites](#precos-e-limites) antes de ativá-la em produção.
+Esta função pode incorrer em cobranças de uso. Consulte [Preços e limites](#precos-e-limites) antes de ativá-la em produção.
 
 Ativação via `builtin_tools`:
 
@@ -310,9 +310,9 @@ Ativação via `builtin_tools`:
 
 ## Solicitação Avançada
 
-Ative `Request` para dar ao modelo uma ferramenta completa de solicitação HTTP. O modelo pode definir o método, os cabeçalhos, os campos do formulário e o corpo de cada solicitação.
+Ative `Request` para dar ao modelo uma ferramenta completa de solicitação HTTP. O modelo pode definir o método, cabeçalhos, campos de formulário e corpo de cada solicitação.
 
-As respostas de texto são retornadas ao modelo; as respostas binárias não são, e a ferramenta relata apenas seu tipo de conteúdo e tamanho.
+Respostas de texto são retornadas ao modelo; respostas binárias não são, e a ferramenta relata apenas seu tipo de conteúdo e tamanho.
 
 Ativação via `builtin_tools`:
 
@@ -328,18 +328,18 @@ Ativação via `builtin_tools`:
 
 ## Preços e limites
 
-As buscas na web e no X são cobradas por pesquisa. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers) aplica-se a cobranças baseadas em tokens. A inferência do modelo usada para invocar uma ferramenta ainda é cobrada à sua taxa regular. A geração de imagem é cobrada nas taxas do modelo selecionado; consulte [Geração de Imagem](https://docs.aivax.net/pt-br/docs/generations/images.md).
+As buscas na web e no X são cobradas por pesquisa. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md#plan-multipliers) aplica-se a cobranças baseadas em tokens. A inferência do modelo usada para invocar uma ferramenta ainda é cobrada à sua taxa regular. A geração de imagem é cobrada nas taxas do modelo selecionado; consulte [Geração de imagem](https://docs.aivax.net/pt-br/docs/generations/images.md).
 
 | Descrição | Preço |
 | --- | ---: |
 | Busca na web | **$5/1k pesquisas** |
 | Busca no X (Twitter) | **$5/1k pesquisas** |
-| [Memória](#memoria) | Salvando ou substituindo conteúdo: embedding de documento; busca semântica `query`: embedding de consulta RAG; busca `filter`: sem custo |
+| [Memória](#memoria) | Salvar ou substituir conteúdo: embedding de documento; busca semântica `query`: embedding de consulta RAG; busca `filter`: sem custo |
 | Solicitações avançadas | Sem cobrança separada |
 | Geração de documento | Sem cobrança separada |
 | Geração de página web | Sem cobrança separada |
 
-Busca na web, busca no X/Twitter, geração de documento e página web, geração e edição de imagem, ações gerais de serviço e [comandos Bash](https://docs.aivax.net/pt-br/docs/tools/shell.md#precos-e-limites) têm limites de plano; consulte [Limites de ferramentas integradas e busca na web](https://docs.aivax.net/pt-br/docs/limits.md#built-in-tools-and-web-search). A busca no X/Twitter não está disponível no Gratuito. As ações gerais de serviço compartilham uma cota diária de ação de serviço. O conteúdo de cada memória é limitado a 10 KB.
+Busca na web, busca no X/Twitter, geração de documento e página web, geração e edição de imagem, ações gerais de serviço e [comandos Bash](https://docs.aivax.net/pt-br/docs/tools/shell.md#precos-e-limites) têm limites de plano; consulte [Ferramentas integradas e limites de busca na web](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#built-in-tools-and-web-search). A busca no X/Twitter não está disponível no Gratuito. Ações gerais de serviço compartilham uma cota diária de ação de serviço. O conteúdo de cada memória é limitado a 10 KB.
 
 ## Diagnóstico de Ferramentas
 
@@ -348,8 +348,8 @@ Use estas verificações quando uma ferramenta não for chamada, for chamada com
 ### A ferramenta não é chamada
 
 1. Confirme que a ferramenta está habilitada no gateway ou no campo `builtin_tools` da solicitação.
-2. Verifique se o modelo selecionado suporta chamadas de função ou se um manipulador de ferramentas está configurado para modelos sem suporte nativo.
-3. Revise as instruções. Se elas não disserem quando pesquisar, abrir uma URL, gerar uma imagem ou consultar a memória, o modelo pode responder apenas com base em seu próprio conhecimento.
+2. Verifique se o modelo selecionado suporta chamadas de função ou se um manipulador de ferramenta está configurado para modelos sem suporte nativo.
+3. Revise as instruções. Se elas não disserem quando pesquisar, abrir uma URL, gerar uma imagem ou consultar a memória, o modelo pode responder apenas com seu próprio conhecimento.
 4. Teste uma pergunta direta que claramente exige a ferramenta, como pedir um artigo de notícias recente para `WebSearch` ou pedir para abrir uma URL específica para `OpenUrl`.
 
 ### A ferramenta é chamada com muita frequência
@@ -358,4 +358,4 @@ Reduza a ambiguidade. Ferramentas como `WebSearch` e `XPostsSearch` competem por
 
 ### A ferramenta falha
 
-Trate falhas de ferramentas como parte normal da experiência. Pesquisas podem retornar pouco conteúdo, URLs podem bloquear bots, APIs podem negar autorização, geração de imagem pode recusar conteúdo e execução de código pode receber entrada ambígua. Instrua o modelo a explicar a limitação objetivamente e oferecer o próximo passo, como solicitar outro link, tentar uma consulta mais específica, pedir autorização ou responder com base apenas no contexto disponível. Não dependa de uma ferramenta externa como a única maneira de concluir uma conversa crítica sem um fallback de experiência.
+Trate falhas de ferramenta como parte normal da experiência. Pesquisas podem retornar pouco conteúdo, URLs podem bloquear bots, APIs podem negar autorização, geração de imagem pode recusar conteúdo e execução de código pode receber entrada ambígua. Instrua o modelo a explicar a limitação objetivamente e oferecer o próximo passo, como solicitar outro link, tentar uma consulta mais específica, pedir autorização ou responder com base apenas no contexto disponível. Não dependa de uma ferramenta externa como a única maneira de concluir uma conversa crítica sem um fallback de experiência.

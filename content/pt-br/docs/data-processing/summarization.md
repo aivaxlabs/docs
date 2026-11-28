@@ -1,10 +1,10 @@
 ---
-{title: Resumo,linkTitle: Resumo,weight: 60,group: Data processing,sourceHash: 49c3fcf538a451b8,aliases: [/docs/pt-br/data-processing/summarization.html]}
+{title: Resumo,linkTitle: Resumo,weight: 60,group: Data processing,sourceHash: 3d677149d140b113,aliases: [/docs/pt-br/data-processing/summarization.html]}
 ---
 
 # Resumo
 
-Use o Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. Ele se adapta a relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, busca ou de uma etapa posterior do fluxo de trabalho.
+Use o Resumo para condensar textos, imagens e PDFs em resumos curtos, opcionalmente guiados por instruções sobre formato, foco, idioma ou comprimento. É adequado para relatórios, artigos, contratos e documentos digitalizados que precisam de uma visão geral rápida antes da revisão, pesquisa ou de uma etapa posterior do fluxo de trabalho.
 
 Um resumo reafirma o documento com novas palavras, sem adicionar informações ou comentários. Para obter campos específicos como JSON, use [Extração](extraction.md) em vez disso. Para fazer perguntas abertas sobre mídia ou descrever conteúdo visual, use [Descrições de Mídia](media-descriptions.md).
 
@@ -22,7 +22,7 @@ Antes de chamar este endpoint, [crie uma chave de API](../authentication.md) e c
 | Propriedade | Tipo | Obrigatório | Descrição |
 | --- | --- | --- | --- |
 | `documents` | Array de partes de conteúdo | Sim | Um ou mais documentos como partes de conteúdo compatíveis com OpenAI: `text`, `image_url` ou `file`. |
-| `instructions` | String | Não | Diretrizes que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
+| `instructions` | String | Não | Orientações que se aplicam a cada resumo, como formato, idioma, foco ou comprimento. |
 
 Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos. Os formatos suportados são JPEG, PNG, TIFF e PDF, incluindo PDFs de várias páginas. O recurso deve ser acessível sem login. Outros tipos de conteúdo, como áudio ou vídeo, retornam `400 Bad Request`.
 
@@ -49,7 +49,7 @@ Imagens e arquivos aceitam URLs de dados base64 ou URLs HTTP(S) públicos. Os fo
 {
   "message": null,
   "data": [
-    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne a dupla despesa com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Permanece seguro enquanto nós honestos controlam a maior parte do poder de computação."
+    "- Propõe um sistema de dinheiro eletrônico ponto a ponto que funciona sem uma terceira parte confiável.\n- Previne a dupla despesa com uma cadeia de prova de trabalho de transações carimbadas no tempo.\n- Mantém a segurança enquanto nós honestos controlam a maior parte do poder de computação."
   ]
 }
 ```
@@ -84,10 +84,10 @@ O Resumo é cobrado pelos tokens de entrada de cada documento. Tokens de saída 
 | --- | ---: |
 | Entrada de Resumo | **$0,04/M tokens** |
 
-O Resumo e a [Extração](extraction.md) compartilham os mesmos limites de documentos. Arquivos remotos têm limite de 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](/docs/pt-br/limits.md#data-processing).
+O Resumo e a [Extração](extraction.md) compartilham os mesmos limites de documentos. Arquivos remotos têm limite de 5 MB cada. O número de documentos processados por minuto e por dia depende do plano; veja [Limites de processamento de dados](/docs/pt-br/pricing/plans-and-limits.md#data-processing).
 
 A cota conta cada item no array `documents` da solicitação, não cada solicitação HTTP. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
-A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erro mantidos pelo servidor:
+A referência de API embutida contém os detalhes mantidos pelo servidor de solicitação, resposta, autenticação e erro:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Summarize%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>

@@ -8,7 +8,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 - [Nomes de Modelos e Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
 - [Usando Gateways de IA via SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
-- [Levando um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
+- [Levar um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
 
 ## Inferência
 
@@ -51,7 +51,7 @@ Source: https://docs.aivax.net/pt-br/docs/inference/index.html
 ## Renderização da resposta
 
 - [Orientações para Apresentação no Chat](https://docs.aivax.net/pt-br/docs/inference/response-rendering/chat-presentation-guidance.md)
-- [Exemplo de múltiplas rodadas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
+- [Exemplo bruto de múltiplas interações](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
 - [Explicações das Ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md)
 
 ## Clientes de Chat

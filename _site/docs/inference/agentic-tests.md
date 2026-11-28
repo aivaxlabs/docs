@@ -208,7 +208,7 @@ Tuning guidance:
 
 ## Pricing and limits
 
-Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies.
+Each test includes the selected model or AI Gateway's inference charges, plus simulated-user and judge usage at the selected profile's rates. The [plan multiplier](https://docs.aivax.net/docs/pricing/product-pricing.md#plan-multipliers) applies.
 
 | Description | Pricing |
 | --- | ---: |
@@ -220,7 +220,7 @@ Each test includes the selected model or AI Gateway's inference charges, plus si
 | High profile - simulated user | Input **$0.75/M tokens**; cache **$0.075/M tokens**; output **$3.75/M tokens** |
 | High profile - judge | Input **$1.25/M tokens**; cache **$0.15/M tokens**; output **$4.25/M tokens** |
 
-New runs per minute and concurrent runs per account depend on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests). Both are shared across the account's API keys. Manual runs and direct evaluations above the new-run quota return `429 Too Many Requests`; use bounded retries with backoff. Ultimate has no plan-imposed limit on new runs.
+New runs per minute and concurrent runs per account depend on the plan; see [Batch and Agentic Tests limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#batch-and-agentic-tests). Both are shared across the account's API keys. Manual runs and direct evaluations above the new-run quota return `429 Too Many Requests`; use bounded retries with backoff. Ultimate has no plan-imposed limit on new runs.
 
 Each test accepts up to 16 `resources` and 16 `hooks`.
 

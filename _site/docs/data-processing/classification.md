@@ -90,7 +90,7 @@ Add `"async": true` to queue the classification. The API answers with HTTP `202`
 | --- | ---: |
 | Text classification | **$0.015/M tokens** |
 
-The number of classified documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
+The number of classified documents per minute and per day depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#data-processing). The quota counts every item in the request's `documents` array, not each HTTP request. A request that would exceed any active window returns `429 Too Many Requests`.
 
 The embedded API reference contains the server-maintained request, response, authentication, and error details:
 

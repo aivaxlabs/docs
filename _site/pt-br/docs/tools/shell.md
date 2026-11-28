@@ -2,11 +2,11 @@ Source: https://docs.aivax.net/pt-br/docs/tools/shell.html
 
 # Sandboxing de Shell
 
-A AIVAX oferece um ambiente de shell virtual que pode ser utilizado por assistentes de agentes para executar comandos de terminal durante a inferência. Este recurso é especialmente útil para tarefas como manipulação de dados, chamadas de API, execução de scripts e fluxos de trabalho que são mais fáceis de expressar como operações de linha de comando.
+A AIVAX oferece um ambiente de shell virtual que pode ser utilizado por assistentes de agente para executar comandos de terminal durante a inferência. Este recurso é especialmente útil para tarefas como manipulação de dados, chamadas de API, execução de scripts e fluxos de trabalho que são mais fáceis de expressar como operações de linha de comando.
 
 O ambiente de shell permite mover ferramentas selecionadas do modelo para o lado do shell, transformando-as em comandos CLI. Isso é útil quando você possui muitas ferramentas e não deseja expor todas elas diretamente ao modelo, ou quando uma ferramenta é mais fácil de usar por meio de argumentos de linha de comando e pipes.
 
-Quando habilitado em um AI Gateway, o modelo vê uma ferramenta `shell` com um argumento: `command`. Os comandos são executados em um shell isolado (sandboxed) com um espaço de trabalho montado em `/home/workspace`. Cada comando tem um limite de tempo e uma capacidade máxima de saída retornada ao modelo; consulte [Preços e limites](#precos-e-limites).
+Quando habilitado em um Gateway de IA, o modelo vê uma ferramenta `shell` com um argumento: `command`. Os comandos são executados em um shell isolado (sandboxed) com um espaço de trabalho montado em `/home/workspace`. Cada comando tem um limite de tempo e uma capacidade máxima de saída retornada ao modelo; consulte [Preços e limites](#precos-e-limites).
 
 ## Design para os limites
 
@@ -35,7 +35,7 @@ Prefira a whitelist quando o modelo precisar de um conjunto de comandos pequeno 
 
 ## Persistência de dados
 
-É possível definir persistência de dados para o ambiente de shell. Quando `allowDataPersistence` está habilitado e o contexto de inferência possui um ID externo de usuário, a AIVAX monta um espaço de trabalho persistente escopado para a conta e o usuário. Isso permite que o agente mantenha arquivos entre conversas e sessões para esse usuário identificado.
+É possível definir persistência de dados para o ambiente de shell. Quando `allowDataPersistence` está habilitado e o contexto de inferência possui um ID externo de usuário, a AIVAX monta um espaço de trabalho persistente escopoado para a conta e o usuário. Isso permite que o agente mantenha arquivos entre conversas e sessões para esse usuário identificado.
 
 Se a persistência estiver desabilitada, ou se o contexto de inferência não tiver um ID externo de usuário, o shell usa um sistema de arquivos em memória e o espaço de trabalho é descartado após a iteração de inferência.
 
@@ -43,11 +43,11 @@ Habilite a persistência apenas para dados que o usuário espera que sobrevivam 
 
 ## Acesso à internet
 
-Por padrão, o shell tem acesso à internet através de `curl`, `wget` e `ping`. Defina `bashOptions.allowInternetAccess` como `false` para remover os comandos de rede e executar totalmente offline.
+Por padrão, o shell tem acesso à internet por meio de `curl`, `wget` e `ping`. Defina `bashOptions.allowInternetAccess` como `false` para remover os comandos de rede e executar totalmente offline.
 
 ## Preços e limites
 
-O número de comandos Bash por hora depende do plano; consulte [Limites de ferramentas integradas e pesquisa na web](https://docs.aivax.net/pt-br/docs/limits.md#built-in-tools-and-web-search). Esses limites se aplicam a todos os planos:
+O número de comandos Bash por hora depende do plano; consulte [Limites de ferramentas integradas e pesquisa na web](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#built-in-tools-and-web-search). Esses limites se aplicam a todos os planos:
 
 | Limite | Valor |
 | --- | --- |
@@ -57,7 +57,7 @@ O número de comandos Bash por hora depende do plano; consulte [Limites de ferra
 
 ## API de arquivos do Shell
 
-A AIVAX também expõe endpoints de E/S do Shell em `/api/v1/shell/io` para contas autenticadas. Toda solicitação requer o cabeçalho `X-Shell-User-Id`, que escopa o sandbox do sistema de arquivos no qual o endpoint opera.
+A AIVAX também expõe endpoints de E/S do Shell em `/api/v1/shell/io` para contas autenticadas. Cada solicitação requer o cabeçalho `X-Shell-User-Id`, que escopa o sandbox do sistema de arquivos no qual o endpoint opera.
 
 Com esses endpoints, você pode listar diretórios, baixar arquivos, inspecionar metadados de arquivos, criar endereços públicos temporários de arquivos, fazer upload de arquivos, criar diretórios e excluir arquivos ou diretórios. Os uploads têm um tamanho máximo de corpo de solicitação; consulte [Preços e limites](#precos-e-limites).
 

@@ -8,9 +8,15 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md)
 - [OAuth](https://docs.aivax.net/pt-br/docs/oauth.md)
 - [Ferramenta de linha de comando](https://docs.aivax.net/pt-br/docs/cli.md)
-- [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)
 - [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md)
 - [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/data-sharing.md)
+
+## Preços
+
+- [Planos e Limites](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md)
+- [Planos de Codificação](https://docs.aivax.net/pt-br/docs/pricing/coding-plans.md)
+- [Preço do Produto](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md)
+- [Compartilhamento de Dados](https://docs.aivax.net/pt-br/docs/pricing/data-sharing.md)
 
 ## RAG e coleções
 
@@ -28,7 +34,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Nomes de Modelos e Gateways](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/models-and-gateway-names.md)
 - [Usando um Gateway de IA](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-an-ai-gateway.md)
 - [Usando Gateways de IA via SDKs](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/using-sdks.md)
-- [Levando um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
+- [Levar um Gateway de IA para Produção](https://docs.aivax.net/pt-br/docs/inference/ai-gateways/going-to-production.md)
 - [Conceitos de Inferência](https://docs.aivax.net/pt-br/docs/inference/chat-completions/concepts.md)
 - [Contexto do lado do servidor](https://docs.aivax.net/pt-br/docs/inference/chat-completions/server-side-context.md)
 - [Reutilização de Sessão](https://docs.aivax.net/pt-br/docs/inference/chat-completions/session-reuse.md)
@@ -58,7 +64,7 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Respostas Estruturadas com Raciocínio e Ferramentas](https://docs.aivax.net/pt-br/docs/inference/structured-responses/reasoning-and-tools.md)
 - [Respostas Apenas em JSON](https://docs.aivax.net/pt-br/docs/inference/structured-responses/json-only.md)
 - [Orientações para Apresentação no Chat](https://docs.aivax.net/pt-br/docs/inference/response-rendering/chat-presentation-guidance.md)
-- [Exemplo de múltiplas rodadas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
+- [Exemplo bruto de múltiplas interações](https://docs.aivax.net/pt-br/docs/inference/response-rendering/raw-multi-turn-example.md)
 - [Explicações das Ferramentas](https://docs.aivax.net/pt-br/docs/inference/response-rendering/tool-explanations.md)
 - [Visão Geral dos Clientes de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/overview.md)
 - [Gerenciando Sessões do Cliente de Chat](https://docs.aivax.net/pt-br/docs/inference/chat-clients/managing-sessions.md)
@@ -116,5 +122,5 @@ Source: https://docs.aivax.net/pt-br/docs/index.html
 - [Política de Privacidade](https://docs.aivax.net/pt-br/docs/legal/privacy-policy.md)
 - [Termos de Uso](https://docs.aivax.net/pt-br/docs/legal/terms-of-service.md)
 - [Processadores de Dados](https://docs.aivax.net/pt-br/docs/legal/third-party-processors.md)
-- [Notas de versão](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
+- [Registros de alterações](https://docs.aivax.net/pt-br/docs/legal/changelogs.md)
 

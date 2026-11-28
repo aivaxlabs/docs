@@ -8,9 +8,13 @@ Source: https://docs.aivax.net/docs/index.html
 - [Authentication](https://docs.aivax.net/docs/authentication.md)
 - [OAuth](https://docs.aivax.net/docs/oauth.md)
 - [CLI tool](https://docs.aivax.net/docs/cli.md)
-- [Pricing](https://docs.aivax.net/docs/pricing.md)
-- [Plans and Limits](https://docs.aivax.net/docs/limits.md)
-- [Data Sharing](https://docs.aivax.net/docs/data-sharing.md)
+
+## Pricing
+
+- [Plans and Limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md)
+- [Coding Plans](https://docs.aivax.net/docs/pricing/coding-plans.md)
+- [Product Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md)
+- [Data Sharing](https://docs.aivax.net/docs/pricing/data-sharing.md)
 
 ## RAG and collections
 

@@ -1,5 +1,5 @@
 ---
-{title: Decisões Semânticas,linkTitle: Decisões Semânticas,weight: 20,group: Data processing,aliases: [/docs/pt-br/generations/decisions.html,/docs/pt-br/data-processing/decisions.html],sourceHash: f4cc2ccf46de8159}
+{title: Decisões Semânticas,linkTitle: Decisões Semânticas,weight: 20,group: Data processing,aliases: [/docs/pt-br/generations/decisions.html,/docs/pt-br/data-processing/decisions.html],sourceHash: c7920466b554a346}
 ---
 
 # Decisões Semânticas
@@ -10,19 +10,19 @@ Uma solicitação fornece o modelo, as evidências no `state` e um objeto `quest
 
 Para avaliar uma conversa de chat, envie-a em `input` como uma matriz de mensagens no estilo OpenAI em vez de `state`. Use um dos dois campos, nunca ambos. Veja [Avaliar uma conversa](#evaluate-a-conversation).
 
-Use [respostas estruturadas](/docs/pt-br/inference/structured-responses/concepts.md) quando precisar de um objeto gerado maior ou uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, veja [Classificação de texto](classification.md).
+Use [respostas estruturadas](/docs/pt-br/inference/structured-responses/concepts.md) quando precisar de um objeto gerado maior ou uma explicação escrita. Para similaridade baseada em embeddings entre documentos e rótulos, consulte [Classificação de texto](classification.md).
 
-## Escolha um modelo
+## Escolher um modelo
 
 Os modelos de decisão disponíveis, com seus aliases (apelidos), tipos de perguntas suportados, contexto e preços, estão listados no [Catálogo de Modelos](https://aivax.net/models#decisions).
 
 Cada resposta retorna o nome canônico do modelo em `model`. Você também pode enviar um alias de modelo, como `@supersonic-labs/julia:latest`. Um alias pode mudar para uma versão mais nova quando uma for lançada, então fixe o nome canônico quando precisar de uma versão estável.
 
-Os limites e a interpretação da pontuação diferem entre os modelos, portanto, valide um modelo em exemplos representativos antes de alterar o tráfego de produção. Para uma comparação rotulada de 40 tickets entre quatro modelos de decisão, incluindo como a ordem das opções alterou algumas respostas, veja [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
+Os limites e a interpretação da pontuação diferem entre os modelos, então valide um modelo em exemplos representativos antes de alterar o tráfego de produção. Para uma comparação rotulada de 40 tickets entre quatro modelos de decisão, incluindo como a ordem das opções alterou algumas respostas, consulte [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
 
-É necessária uma chave de API autenticada e um saldo positivo na conta, inclusive ao selecionar um modelo com preço base de token zero. Veja [Autenticação](../authentication.md), [Preços](../pricing.md) e [Planos e limites](../limits.md).
+É necessária uma chave de API autenticada e um saldo positivo na conta, inclusive ao selecionar um modelo com preço base de token zero. Consulte [Autenticação](../authentication.md), [Preços](../pricing/product-pricing.md) e [Planos e limites](../pricing/plans-and-limits.md).
 
-### Descubra modelos programaticamente
+### Descobrir modelos programaticamente
 
 `GET /api/v1/information/decisions-models.json` lista o catálogo atual de modelos de decisão sem autenticação. A matriz `data` da resposta contém:
 
@@ -32,23 +32,23 @@ Os limites e a interpretação da pontuação diferem entre os modelos, portanto
 - `maxImages`: o número de imagens aceitas por solicitação, ou `0` para modelos apenas de texto.
 - `releaseDate`: a data de lançamento do catálogo no formato `yyyy-MM-dd`.
 - `capabilities`: tipos de perguntas que o modelo responde (`noul`, `choice`, `score`) e mídia que ele aceita (`imageinput`, `audioinput`, `videoinput`, `fileinput`).
-- `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de tokens antes dos ajustes de conta e plano; veja [Uso e custo](#usage-and-cost).
+- `inputPricePerMillionTokens` e `outputPricePerMillionTokens`: preços base de token antes dos ajustes de conta e plano; veja [Uso e custo](#usage-and-cost).
 
-Use esta listagem para popular seletores de modelo em vez de manter um catálogo codificado separado. Os limites específicos de opções e perguntas por modelo são descritos em [Limites específicos do modelo](#model-specific-limits).
+Use esta lista para popular seletores de modelo em vez de manter um catálogo codificado separado. Os limites específicos de opções e perguntas por modelo são descritos em [Limites específicos do modelo](#model-specific-limits).
 
-## Escreva as perguntas
+## Escrever as perguntas
 
-| Tipo | Formato `criteria` | Use para |
+| Tipo | Formato `criteria` | Use-o para |
 | --- | --- | --- |
 | `choice` | Objeto mapeando IDs de escolha para descrições | Selecionar um destino ou categoria |
 | `noul` | Objeto com descrições não vazias para `false` e `true` | Avaliar uma condição Booleana |
 | `score` | Matriz ordenada de descrições de nível | Avaliar uma condição graduada |
 
-Toda pergunta requer `instructions` não vazios. Use descrições que distingam as opções, não apenas IDs opacos. Por exemplo, `"billing": "Charges, payments, and refunds"` fornece mais evidências do que `"billing": "B"`.
+Toda pergunta requer `instructions` não vazias. Use descrições que distingam as opções, não apenas IDs opacos. Por exemplo, `"billing": "Charges, payments, and refunds"` fornece mais evidências do que `"billing": "B"`.
 
 Para `noul`, ambos os critérios são obrigatórios. Descreva o que conta como falso com tanto cuidado quanto o que conta como verdadeiro, especialmente quando o estado pode omitir a informação relevante. Para `score`, mantenha a ordem dos níveis consistente entre as solicitações.
 
-## Avalie uma solicitação de suporte
+## Avaliar uma solicitação de suporte
 
 Envie o seguinte corpo JSON para `POST /api/v1/generations/decisions`. O exemplo usa Julia-1; seu estado pode ser texto, um objeto ou uma matriz.
 
@@ -93,11 +93,11 @@ Dicas para respostas confiáveis:
 
 - Mantenha apenas evidências relevantes no estado.
 - Escreva instruções que expliquem a decisão, não aquelas que pedem uma cadeia de raciocínio ou texto adicional.
-- Evite descrições de escolha sobrepostas, a menos que essa ambiguidade seja intencional.
+- Evite sobreposição nas descrições das opções, a menos que essa ambiguidade seja intencional.
 
-Para uma solicitação de triage executada inalterada no Jev, GPT-6 Luna Decisions e Gemini Decision 1, com código de roteamento e custo medido, veja [Exemplo de API Jev e OpenAI Decisions: triagem de ticket de suporte](https://aivax.net/blog/support-triage-typed-decisions/).
+Para uma solicitação de triagem executada inalterada no Jev, GPT-6 Luna Decisions e Gemini Decision 1, com código de roteamento e custo medido, consulte [Exemplo de API Jev e OpenAI Decisions: triagem de ticket de suporte](https://aivax.net/blog/support-triage-typed-decisions/).
 
-### Avalie uma conversa
+### Avaliar uma conversa
 
 Use `input` quando a evidência for um chat entre um cliente e um agente, um transcript de bot ou qualquer conversa que você já armazene no formato de mensagem de [completions de chat](/docs/pt-br/inference/chat-completions/concepts.md). Envie `input` em vez de `state`; uma solicitação com ambos retorna `400`.
 
@@ -123,17 +123,17 @@ Use `input` quando a evidência for um chat entre um cliente e um agente, um tra
 ```
 
 - `input` deve ser uma matriz não vazia. Cada mensagem tem um `role` (`system`, `user`, `assistant` ou `tool`; `user` quando omitido) e um `content` que é uma string ou uma matriz de partes de conteúdo.
-- As partes de mídia dentro das mensagens seguem os mesmos formatos, verificações de capacidade e limites de imagem que [mídia enviada no `state`](#send-media). Uma conversa com uma imagem enviada para um modelo apenas de texto retorna `400`.
+- As partes de mídia dentro das mensagens seguem os mesmos formatos, verificações de capacidade e limites de imagens que [mídia enviada no `state`](#send-media). Uma conversa com uma imagem enviada para um modelo apenas de texto retorna `400`.
 - Conversas longas consomem mais tokens de entrada e contam contra o limite de contexto do modelo. Remova mensagens que não afetam a decisão.
 
-### Envie mídia
+### Enviar mídia
 
-Alguns modelos de decisão aceitam mídia; verifique `capabilities` e `maxImages` na [listagem de modelos](#discover-models-programmatically). Coloque cada parte diretamente em uma matriz `state` de nível superior, junto aos itens de texto escritos como strings simples. Em uma conversa, coloque as mesmas partes na matriz `content` de uma mensagem.
+Alguns modelos de decisão aceitam mídia; verifique `capabilities` e `maxImages` na [lista de modelos](#discover-models-programmatically). Coloque cada parte diretamente em uma matriz `state` de nível superior, junto aos itens de texto escritos como strings simples. Em uma conversa, coloque as mesmas partes na matriz `content` de uma mensagem.
 
 | Mídia | Parte | Capacidade obrigatória | Dados aceitos |
 | --- | --- | --- | --- |
 | Imagem | `image_url` | `imageinput` e `maxImages` acima de zero | URL de dados Base64 do tipo `image/png`, `image/jpeg` ou `image/webp` |
-| Áudio | `input_audio` | `audioinput` | Base64 bruto em `data` e um `format` compatível |
+| Áudio | `input_audio` | `audioinput` | Base64 bruto em `data` e um `format` suportado |
 | Vídeo | `video_url` | `videoinput` | URL de dados Base64 do tipo `video/*` |
 | Documento | `file` | `fileinput` | URL de dados Base64 ou URL público `https://` em `file_data` |
 
@@ -157,7 +157,7 @@ Imagens usam uma parte `image_url`:
 ```
 
 - `url` deve ser um URL de dados base64 do tipo `image/png`, `image/jpeg` ou `image/webp`. URLs remotos `http(s)` são rejeitados.
-- Apenas alguns modelos aceitam imagens, cada um até um máximo por solicitação. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`. Veja [Limites específicos do modelo](#model-specific-limits).
+- Apenas alguns modelos aceitam imagens, cada uma até um máximo por solicitação. Enviar imagens para qualquer outro modelo, ou mais do que o modelo aceita, retorna `400`. Veja [Limites específicos do modelo](#model-specific-limits).
 
 #### Áudio, vídeo e documentos
 
@@ -187,14 +187,14 @@ Modelos que listam `audioinput`, `videoinput` ou `fileinput`, como `@google/gemi
 - **Documentos:** `file_data` é um URL de dados base64, como `data:application/pdf;base64,...`, ou um URL público `https://`. `filename` é opcional.
 - Enviar uma parte para um modelo que não lista a capacidade correspondente retorna `400`.
 
-### Leia a resposta
+### Ler a resposta
 
 A resposta de sucesso é um objeto JSON diretamente, **sem um envelope `data`**. Ela contém:
 
 - `id`: o identificador da decisão.
-- `model`: o identificador canônico do modelo usado para a solicitação.
+- `model`: o identificador canônico do modelo usado na solicitação.
 - `provider`: o provedor relatado para o resultado.
-- `answers`: um objeto indexado pelos IDs das suas perguntas.
+- `answers`: um objeto chaveado pelos seus IDs de pergunta.
 - `usage`: `input_tokens`, `output_tokens` e o `cost` cobrado.
 
 Para Julia-1, um objeto `answers` ilustrativo para o exemplo acima é mostrado abaixo.
@@ -238,9 +238,9 @@ Para Julia-1, um objeto `answers` ilustrativo para o exemplo acima é mostrado a
 Com Julia-1:
 
 - `choice` é o ID definido pelo chamador selecionado, não a descrição da opção.
-- `noul` é a probabilidade atribuída ao critério verdadeiro, não um Boolean JSON. Sua aplicação escolhe o limiar e como lidar com casos incertos.
+- `noul` é a probabilidade atribuída ao critério verdadeiro, não um Booleano JSON. Sua aplicação escolhe o limiar e como lidar com casos incertos.
 - `score` é o **índice de nível baseado em zero** esperado. No exemplo, `0 × 0.8 + 1 × 0.1 + 2 × 0.1 = 0.3`. Não é necessariamente um inteiro, e não é uma pontuação normalizada de 0–1 quando há mais de dois níveis.
-- `probabilities` são indexadas por IDs de escolha, `false`/`true` ou índices de nível de pontuação. `legend` descreve os níveis de pontuação.
+- `probabilities` são chavesadas por IDs de escolha, `false`/`true` ou índices de nível de pontuação. `legend` descreve os níveis de pontuação.
 
 Outros modelos podem omitir campos opcionais como `probabilities`, `legend` ou `confidence`, e podem usar uma escala de pontuação diferente. Valide limiares e regras de escalonamento com exemplos rotulados do seu próprio domínio.
 
@@ -268,15 +268,15 @@ Adicione `"async": true` para enfileirar a avaliação. A API responde com HTTP 
 
 ## Limites de taxa da conta
 
-Solicitações de decisão semântica compartilham um único limite de taxa por minuto por conta, entre todos os modelos de decisão e chaves de API. Cada solicitação conta uma vez, independentemente de quantas perguntas ela contenha. O número de solicitações por minuto depende do plano; veja [Limites de processamento de dados](../limits.md#data-processing).
+As solicitações de decisão semântica compartilham um único limite de taxa por minuto por conta, entre todos os modelos de decisão e chaves de API. Cada solicitação conta uma vez, independentemente de quantas perguntas ela contenha. O número de solicitações por minuto depende do plano; veja [Limites de processamento de dados](../pricing/plans-and-limits.md#data-processing).
 
-Solicitações acima do limite retornam `429 Too Many Requests`. Distribua as chamadas pela conta e tente novamente com backoff.
+Solicitações acima do limite retornam `429 Too Many Requests`. Ritme as chamadas através da conta e tente novamente com backoff.
 
 ## Limites específicos do modelo
 
 Esses limites se aplicam além da cota de solicitações de nível de conta acima. O contexto de cada modelo está listado no [Catálogo de Modelos](https://aivax.net/models#decisions).
 
-A maioria dos modelos de decisão é apenas de texto. O campo `maxImages` da [listagem de modelos](#discover-models-programmatically) é o número de imagens que um modelo aceita por solicitação.
+A maioria dos modelos de decisão é apenas de texto. O campo `maxImages` da [lista de modelos](#discover-models-programmatically) é o número de imagens que um modelo aceita por solicitação.
 
 Para `@cloudflare/clef` e `@cloudflare/clef-flash`, mantenha cada imagem abaixo de cerca de 300 KB antes da codificação e o texto no `state` abaixo de aproximadamente 2.000 tokens.
 
@@ -292,21 +292,21 @@ Julia-1 tem estes limites:
 | Descrição de uma opção individual | No máximo 48 tokens |
 | Limite de payload de decisão | 256 KiB |
 
-Esses limites interagem: vinte opções podem exceder o orçamento de pergunta e opções mesmo que cada descrição caiba no seu limite individual. Entradas que excedem um limite são rejeitadas, não truncadas; encurte as descrições ou reduza o número de opções. O literal `<mask>` é reservado e não pode aparecer no estado, instruções ou descrições de opções do Julia-1.
+Esses limites interagem: vinte opções podem exceder o orçamento de pergunta e opções mesmo que cada descrição caiba em seu limite individual. Entradas que excedem um limite são rejeitadas, não truncadas; encurte as descrições ou reduza o número de opções. O literal `<mask>` é reservado e não pode aparecer no estado, instruções ou descrições de opções do Julia-1.
 
 ## Uso e custo
 
-Modelos de decisão são cobrados por token de entrada nas taxas base em USD listadas no [Catálogo de Modelos](https://aivax.net/models#decisions), antes dos ajustes de conta e plano (veja o [multiplicador de plano](../pricing.md#plan-multipliers)).
+Os modelos de decisão são cobrados por token de entrada nas taxas base em USD listadas no [Catálogo de Modelos](https://aivax.net/models#decisions), antes dos ajustes de conta e plano (veja o [multiplicador de plano](../pricing/product-pricing.md#plan-multipliers)).
 
 Para Julia-1, o estado compartilhado é contado novamente para cada pergunta, então o uso de entrada cresce com o número de perguntas. Julia-1 não gera texto, então seu valor de `output_tokens` é zero.
 
-Julia-1 é elegível para a franquia diária de decisão semântica em todos os planos, compartilhada pela conta. Outros modelos de decisão são cobrados normalmente. Veja [Planos e Limites](../limits.md#included-daily-subscription-allowances) para a capacidade relativa do plano.
+Julia-1 é elegível para a concessão diária de decisão semântica em todos os planos, compartilhada pela conta. Outros modelos de decisão são cobrados normalmente. Consulte [Planos e Limites](../pricing/plans-and-limits.md#included-daily-subscription-allowances) para a capacidade relativa do plano.
 
-Use o `usage.cost` retornado para o valor cobrado; ele é zero quando a entrada é coberta pela franquia.
+Use o `usage.cost` retornado para o valor cobrado; ele é zero quando a entrada é coberta pela concessão.
 
 ## Erros e uso confiável
 
-- **Modelo ou pergunta inválido:** verifique o identificador do modelo, tipo de pergunta, instruções e forma dos critérios. Os IDs das perguntas e das escolhas devem ser não vazios.
+- **Modelo ou pergunta inválido:** verifique o identificador do modelo, tipo de pergunta, instruções e forma dos critérios. Os IDs de pergunta e IDs de escolha devem ser não vazios.
 - **Limite de contexto ou opção excedido:** encurte o estado ou as descrições, reduza o número de opções ou selecione um modelo com limites adequados.
 - **Erro de autenticação ou saldo:** verifique a chave de API e o saldo da conta. Um modelo de preço zero ainda requer um saldo positivo.
 - **Limite de taxa (429):** reduza a taxa de solicitações da conta e tente novamente com backoff.

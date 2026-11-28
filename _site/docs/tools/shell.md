@@ -47,7 +47,7 @@ By default, the shell has internet access through `curl`, `wget` and `ping`. Set
 
 ## Pricing and limits
 
-The number of Bash commands per hour depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search). These limits apply to every plan:
+The number of Bash commands per hour depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#built-in-tools-and-web-search). These limits apply to every plan:
 
 | Limit | Value |
 | --- | --- |

@@ -18,7 +18,7 @@ Each response returns the canonical model name in `model`. You can also send a m
 
 Limits and score interpretation differ between models, so validate a model on representative examples before switching production traffic. For a labeled 40-ticket comparison of four decision models, including how option order changed some answers, see [Gemini Decision 1 vs Jev vs OpenAI Decisions](https://aivax.net/blog/gemini-decision-1-vs-jev-vs-openai-decisions/).
 
-An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing.md), and [Plans and limits](https://docs.aivax.net/docs/limits.md).
+An authenticated API key and a positive account balance are required, including when selecting a model with a zero base token price. See [Authentication](https://docs.aivax.net/docs/authentication.md), [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md), and [Plans and limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md).
 
 ### Discover models programmatically
 
@@ -266,7 +266,7 @@ Add `"async": true` to queue the evaluation. The API answers with HTTP `202` and
 
 ## Account rate limits
 
-Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request counts once, regardless of how many questions it contains. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Semantic decision requests share one per-minute rate limit per account, across all decision models and API keys. Each request counts once, regardless of how many questions it contains. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#data-processing).
 
 Requests above the limit return `429 Too Many Requests`. Pace calls across the account and retry with backoff.
 
@@ -294,11 +294,11 @@ These limits interact: twenty options can exceed the question and options budget
 
 ## Usage and cost
 
-Decision models are billed per input token at the base USD rates listed in the [Models catalog](https://aivax.net/models#decisions), before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers)).
+Decision models are billed per input token at the base USD rates listed in the [Models catalog](https://aivax.net/models#decisions), before account and plan adjustments (see the [plan multiplier](https://docs.aivax.net/docs/pricing/product-pricing.md#plan-multipliers)).
 
 For Julia-1, the shared state is counted again for each question, so input usage grows with the number of questions. Julia-1 does not generate text, so its `output_tokens` value is zero.
 
-Julia-1 is eligible for the daily semantic decision allowance on every plan, shared across the account. Other decision models are billed normally. See [Plans and Limits](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances) for relative plan capacity.
+Julia-1 is eligible for the daily semantic decision allowance on every plan, shared across the account. Other decision models are billed normally. See [Plans and Limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#included-daily-subscription-allowances) for relative plan capacity.
 
 Use the returned `usage.cost` for the billed amount; it is zero when the input is covered by the allowance.
 

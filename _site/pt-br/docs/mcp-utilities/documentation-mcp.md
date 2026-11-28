@@ -51,7 +51,7 @@ O servidor expõe duas ferramentas de leitura. Use-as quando o assistente precis
 
 ### `aivax_search_documentation`
 
-`aivax_search_documentation` pesquisa a documentação e o conteúdo de referência da API da AIVAX. Use esta ferramenta quando o assistente precisar de contexto do produto antes de responder ou agir.
+`aivax_search_documentation` pesquisa na documentação e no conteúdo de referência da API da AIVAX. Use esta ferramenta quando o assistente precisar de contexto do produto antes de responder ou agir.
 
 A ferramenta aceita:
 
@@ -60,7 +60,7 @@ A ferramenta aceita:
 | `search_terms` | `string[]` | Sim | Termos de pesquisa para consulta contra a documentação e a referência da API da AIVAX. |
 | `search_type` | `string` | Não | Escopo da pesquisa. Use `documentation-manual`, `api-function-reference` ou `all`. |
 
-A pesquisa pode consultar o manual de documentação, a referência de função da API ou ambos. Ela retorna trechos de documentação relevantes em formato de texto para que o cliente possa usá-los diretamente como contexto. O número de termos e caracteres por chamada é limitado; consulte [Preços e limites](#preços-e-limites).
+A pesquisa pode consultar o manual de documentação, a referência de função da API ou ambos. Ela retorna trechos de documentação relevantes em formato de texto para que o cliente possa usá-los diretamente como contexto. O número de termos e caracteres por chamada é limitado; consulte [Preços e limites](#pricing-and-limits).
 
 Exemplo de argumentos:
 
@@ -83,7 +83,7 @@ As chamadas de pesquisa têm limite de taxa por conta e retornam `429 Too Many R
 
 ### `aivax_list_models`
 
-`aivax_list_models` lista os modelos de chat integrados da AIVAX e retorna um resumo legível pelo modelo para cada correspondência. Use-o quando o assistente precisar escolher um modelo, explicar se um modelo está disponível para o plano atual, comparar capacidades ou entender os preços (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md)).
+`aivax_list_models` lista os modelos de chat integrados da AIVAX e retorna um resumo legível pelo modelo para cada correspondência. Use-o quando o assistente precisar escolher um modelo, explicar se um modelo está disponível para o plano atual, comparar capacidades ou entender os preços (consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md)).
 
 A ferramenta aceita:
 
@@ -91,7 +91,7 @@ A ferramenta aceita:
 | --- | --- | --- | --- |
 | `name_filter` | `string` | Não | Fuzzy filter opcional para nomes de modelos, como `gpt 5`, `sonnet`, `qwen coder` ou `@openai/gpt-5-mini`. |
 
-A resposta inclui a descrição, estabilidade, tipo, capacidades, flags e disponibilidade de cada modelo para o plano de conta autenticado. Para preços atuais, consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md).
+A resposta inclui a descrição, estabilidade, tipo, capacidades, flags e disponibilidade de cada modelo para o plano de conta autenticado. Para preços atuais, consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md).
 
 Exemplo de argumentos:
 
@@ -105,7 +105,7 @@ As chamadas de listagem de modelos têm limite de taxa por conta e retornam `429
 
 ## Quando usar
 
-Use o MCP de documentação quando quiser que um assistente responda perguntas sobre a AIVAX com base em contexto respaldado pela fonte, em vez de memória. As seções abaixo correspondem às tarefas habituais.
+Use o MCP de documentação quando quiser que um assistente responda perguntas sobre a AIVAX com base em contexto respaldado pela fonte, em vez de memória. As seções abaixo correspondem às tarefas usuais.
 
 ### Responder com base no manual
 
@@ -149,7 +149,7 @@ headers
 video
 ```
 
-Escolha `search_type` com base no tipo de resposta necessária:
+Escolha `search_type` conforme o tipo de resposta necessária:
 
 - Use `search_type: "all"` quando o assistente não tiver certeza de qual página contém a resposta.
 - Use `api-function-reference` quando precisar de nomes de rotas, corpos de solicitação ou comportamento de endpoints.

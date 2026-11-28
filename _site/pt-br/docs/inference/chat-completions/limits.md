@@ -2,21 +2,21 @@ Source: https://docs.aivax.net/pt-br/docs/inference/chat-completions/limits.html
 
 # Limites de inferência
 
-Esta página lista os limites que se aplicam às solicitações `chat/completions`. As taxas de solicitação e os limites do plano, gerais para a conta, estão documentados em [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
+Esta página lista os limites que se aplicam às solicitações `chat/completions`. As taxas de solicitação e os limites do plano, em nível de conta, estão documentados em [Planos e limites](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md).
 
 ## Limites de taxa
 
-As solicitações contam para os limites do plano da conta para modelos integrados ou BYOK (Bring Your Own Key) e retornam `429 Too Many Requests` quando um limite é atingido. Solicitações a modelos de assinatura também retornam `429` quando a cota mensal do modelo de assinatura do plano é esgotada. Consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md).
+As solicitações contam para os limites do plano da conta para modelos integrados ou BYOK (Bring Your Own Key) e retornam `429 Too Many Requests` quando um limite é atingido. Solicitações a modelos de assinatura também retornam `429` quando a cota mensal do modelo de assinatura do plano é esgotada. Consulte [Planos e limites](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md).
 
 ## Janela de contexto
 
 A janela de contexto é o tamanho máximo de entrada do modelo. Um gateway pode definir um limite inferior com `contextMaximumSize` e escolher o que acontece quando uma conversa excede esse limite; consulte [Truncamento de contexto](https://docs.aivax.net/pt-br/docs/inference/chat-completions/context-truncation.md).
 
-No plano Gratuito, o contexto de entrada é limitado a 64.000 tokens, mesmo quando o modelo ou o gateway permite mais.
+No plano Gratuito, o contexto de entrada é limitado a 64.000 tokens, mesmo quando o modelo ou o gateway permite mais. Contas [verificadas](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#verified-accounts) e planos Coding não têm limite.
 
-## Fontes de instrução remotas
+## Fontes remotas de instruções
 
-Cada resposta de fonte de instrução remota pode ter no máximo 5 MB. Consulte [Pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#instructions).
+Cada resposta de fonte remota de instruções pode ter no máximo 5 MB. Consulte [Pipeline de processamento](https://docs.aivax.net/pt-br/docs/inference/chat-completions/processing-pipeline.md#instructions).
 
 ## Comprimento da saída
 
@@ -48,11 +48,11 @@ Uma solicitação pode executar várias gerações e chamadas de ferramenta. Em 
 
 ## Chaves de API públicas
 
-Chaves públicas são projetadas para código que executa em um navegador. Com uma chave pública, `chat/completions`:
+Chaves públicas são projetadas para código executado em um navegador. Com uma chave pública, `chat/completions`:
 
 - aceita apenas o ID completo de um gateway em `model`, não slugs ou nomes de modelos integrados;
 - aceita apenas estes campos de solicitação: `model`, `messages`, `prompt`, `temperature`, `top_p`, `top_k`, `seed`, `tools`, `reasoning_effort`, `max_completion_tokens`, `stream`, `conversation_token` e `idempotency_key`. Qualquer outro campo retorna `400 Bad Request`;
-- não utiliza as fontes MCP do gateway, funções de protocolo, ferramentas integradas, shell ou habilidades;
-- aplica limites de taxa de solicitação e token por chave e por endereço remoto. Consulte [Chaves de API públicas](https://docs.aivax.net/pt-br/docs/limits.md#public-api-keys) para os valores.
+- não utiliza as fontes MCP do gateway, funções de protocolo, ferramentas embutidas, shell ou habilidades;
+- aplica limites de taxa de solicitação e tokens por chave e por endereço remoto. Consulte [Chaves de API públicas](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md#public-api-keys) para os valores.
 
 Consulte [Autenticação](https://docs.aivax.net/pt-br/docs/authentication.md) antes de expor uma chave pública.

@@ -1,10 +1,10 @@
 ---
-{title: Fala para Texto (STT),linkTitle: Fala para texto (STT),weight: 30,group: Media generation,sourceHash: ac21fd0892e80385,aliases: [/docs/pt-br/generations/audio-transcriptions.html]}
+{title: Fala para Texto (STT),linkTitle: Fala para texto (STT),weight: 30,group: Media generation,sourceHash: 80770c8b1c232be1,aliases: [/docs/pt-br/generations/audio-transcriptions.html]}
 ---
 
 # Fala para Texto (STT)
 
-Use Transcrições de Áudio para converter fala gravada em texto para busca, revisão, legendas ou automação downstream. Os usos típicos incluem transcrever reuniões e entrevistas, legendar vídeos gravados, tornar notas de voz pesquisáveis e alimentar entradas faladas em pipelines de classificação ou RAG.
+Use Transcrições de Áudio para converter fala gravada em texto para busca, revisão, legendas ou automação posterior. Os usos típicos incluem transcrever reuniões e entrevistas, legendar vídeos gravados, tornar notas de voz pesquisáveis e alimentar entradas faladas em pipelines de classificação ou RAG.
 
 Autentique as solicitações com uma chave de API da AIVAX. Consulte [Autenticação](/docs/pt-br/authentication) para orientações de autorização.
 
@@ -18,7 +18,7 @@ Consulte os modelos de transcrição disponíveis para a conta autenticada antes
 
 Envie o áudio como base64 com seu formato (`wav`, `mp3`, `m4a`, `flac`, `ogg`, `webm` ou `aac`). O áudio decodificado está sujeito ao limite de tamanho em [Preços, limites e erros](#pricing-limits-and-errors). A cobrança segue a duração da mídia.
 
-Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário de domínio; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe a detecção lidar com isso.
+Forneça a dica opcional `language` quando o idioma falado for conhecido. Ela direciona o reconhecimento para esse idioma e ajuda com sotaques e vocabulário de domínio; omita-a quando o idioma variar genuinamente dentro de um único arquivo e deixe que a detecção automática faça o trabalho.
 
 Revise o texto retornado antes de usá-lo em ações visíveis ao usuário ou irreversíveis. O endpoint retorna o texto da transcrição sem rótulos de locutor.
 
@@ -32,7 +32,7 @@ Uma transcrição geralmente é o início de um pipeline, não o fim. Indexe-a e
 
 ## Geração assíncrona
 
-Adicione `"async": true` para colocar a transcrição em fila, o que é útil para gravações longas. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado mais tarde ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+Adicione `"async": true` para colocar a transcrição em fila, o que é útil para gravações longas. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
 
 ```json
 {
@@ -49,4 +49,4 @@ Adicione `"async": true` para colocar a transcrição em fila, o que é útil pa
 
 O preço da transcrição varia conforme o modelo; as tarifas atuais estão listadas no [Catálogo de Modelos](https://aivax.net/models#speech-to-text).
 
-As solicitações de transcrição de áudio independentes são limitadas por minuto, e por hora na versão Free; consulte [Limites de fala](/docs/pt-br/limits.md#speech). As solicitações de transcrição têm uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado é limitado a 75 MB por solicitação. Corrija o áudio inválido ou inacessível antes de tentar novamente uma solicitação com falha.
+As solicitações independentes de transcrição de áudio são limitadas por minuto e, no plano Gratuito, também por hora; consulte [Limites de fala](/docs/pt-br/pricing/plans-and-limits.md#speech). As solicitações de transcrição têm uma cota separada da geração de fala, com os mesmos valores. O áudio decodificado é limitado a 75 MB por solicitação. Corrija áudios inválidos ou inacessíveis antes de tentar novamente uma solicitação com falha.

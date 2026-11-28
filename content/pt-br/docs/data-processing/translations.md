@@ -1,5 +1,5 @@
 ---
-{title: Traduções,linkTitle: Traduções,weight: 70,group: Data processing,sourceHash: 9d32bb0f051a53b7,aliases: [/docs/pt-br/data-processing/translations.html]}
+{title: Traduções,linkTitle: Traduções,weight: 70,group: Data processing,sourceHash: df7b0038578ceafa,aliases: [/docs/pt-br/data-processing/translations.html]}
 ---
 
 # Traduções
@@ -64,7 +64,7 @@ As traduções são geradas por modelos. Revise-as antes de publicar conteúdo l
 
 ## Geração assíncrona
 
-Adicione `"async": true` para colocar a tradução na fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Consulte [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
+Adicione `"async": true` para colocar a tradução na fila. A API responde com HTTP `202` e um ID, e você busca o resultado armazenado posteriormente ou recebe um webhook quando estiver concluído. Veja [Gerações assíncronas](/docs/pt-br/inference/batch/async-generations.md).
 
 ```json
 {
@@ -79,10 +79,10 @@ Adicione `"async": true` para colocar a tradução na fila. A API responde com H
 
 ## Preços e limites
 
-As traduções são cobradas em unidades de processamento (PUs), cobrindo o uso de entrada e saída, e o [multiplicador de plano](/docs/pt-br/pricing.md#plan-multipliers) se aplica.
+As traduções são cobradas em unidades de processamento (PUs), cobrindo o uso de entrada e saída, e o [multiplicador de plano](/docs/pt-br/pricing/product-pricing.md#plan-multipliers) se aplica.
 
-O número de solicitações de tradução por minuto e por dia depende do plano; consulte [Limites de processamento de dados](/docs/pt-br/limits.md#data-processing). O limite conta solicitações HTTP, não documentos. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
+O número de solicitações de tradução por minuto e por dia depende do plano; veja [Limites de processamento de dados](/docs/pt-br/pricing/plans-and-limits.md#data-processing). O limite conta solicitações HTTP, não documentos. Uma solicitação que excederia qualquer janela ativa retorna `429 Too Many Requests`.
 
-A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erros mantidos pelo servidor:
+A referência de API embutida contém os detalhes de solicitação, resposta, autenticação e erro mantidos pelo servidor:
 
 <script src="https://inference.aivax.net/apidocs?embed-target=Translate%20documents&r=https%3A%2F%2Finference.aivax.net%2Fapidocs"></script>

@@ -1,33 +1,33 @@
 ---
-{title: Descrições de Mídia,linkTitle: Descrições de Mídia,weight: 10,group: Data processing,aliases: [/docs/pt-br/generations/media-descriptions.html,/docs/pt-br/data-processing/media-descriptions.html],sourceHash: 5698f5b437dbec2e}
+{title: Descrições de Mídia,linkTitle: Descrições de Mídia,weight: 10,group: Data processing,aliases: [/docs/pt-br/generations/media-descriptions.html,/docs/pt-br/data-processing/media-descriptions.html],sourceHash: 3495b9360f28f357}
 ---
 
 # Descrições de Mídia
 
 Use Descrições de Mídia quando um aplicativo precisar de informações estruturadas a partir de áudio, imagens, vídeo ou conteúdo PDF. Os usos típicos incluem preparar mídia para busca, revisão de moderação, fluxos de trabalho de acessibilidade e automação posterior.
 
-Escolha a API mais especializada quando a tarefa for limitada a um único meio, como [Transcrições de Áudio](/docs/pt-br/generations/audio-transcriptions) para fala-para-texto.
+Escolha a API mais especializada quando a tarefa for limitada a um único tipo de mídia, como [Transcrições de Áudio](/docs/pt-br/generations/audio-transcriptions) para conversão de fala em texto.
 
 ## Descrições de Mídia, Extração ou Busca
 
-- **Descrições de Mídia** interpreta imagens, PDFs, áudio e vídeo e retorna texto gerado orientado pelas suas instruções. Use-o para explicar um gráfico, descrever uma foto ou responder a uma pergunta sobre um vídeo.
-- **[Extração](extraction.md)** lê texto, imagens e PDFs e retorna os campos definidos pelo seu esquema JSON, um objeto por documento. Use-o quando precisar dos mesmos campos, como totais ou identificadores, em todos os documentos. [Resumo](summarization.md) é o seu equivalente para resumos curtos.
-- **[Buscar e OCR](/docs/pt-br/web-foundation/fetch-and-ocr)** retorna o texto legível de páginas da web e documentos. Use-o quando precisar do texto completo, por exemplo, para indexá-lo.
+- **Descrições de Mídia** interpreta imagens, PDFs, áudio e vídeo e retorna texto gerado com base nas suas instruções. Use-o para explicar um gráfico, descrever uma foto ou responder a uma pergunta sobre um vídeo.
+- **[Extração](extraction.md)** lê texto, imagens e PDFs e retorna os campos definidos pelo seu esquema JSON, um objeto por documento. Use-a quando precisar dos mesmos campos, como totais ou identificadores, em todos os documentos. O [Resumo](summarization.md) é o seu equivalente para resumos curtos.
+- **[Busca e OCR](/docs/pt-br/web-foundation/fetch-and-ocr)** retorna o texto legível de páginas da web e documentos. Use-o quando precisar do texto completo, por exemplo, para indexá-lo.
 
 ## Descrever mídia ou raciocinar diretamente sobre ela
 
-Existem duas maneiras de extrair informações da mídia, e elas atendem a necessidades diferentes:
+Existem duas maneiras de extrair informações de mídia, e elas atendem a necessidades diferentes:
 
 - **Descrever a mídia e depois decidir** — use este endpoint quando precisar de um artefato de texto reutilizável: uma descrição armazenada para busca, um registro semelhante a uma transcrição para auditoria ou texto de entrada para uma etapa posterior do fluxo de trabalho que é executada independentemente.
-- **Inferência multimodal em uma única solicitação** — envie a mídia diretamente para um modelo de chat que suporte o tipo de entrada quando o modelo deve raciocinar sobre ela imediatamente e nenhum artefato intermediário for necessário. Veja [Inferência](/docs/pt-br/inference/chat-completions/concepts.md).
+- **Inferência multimodal em uma única solicitação** — envie a mídia diretamente para um modelo de chat que suporte o tipo de entrada quando o modelo deve raciocinar sobre ela imediatamente e nenhum artefato intermediário for necessário. Consulte [Inferência](/docs/pt-br/inference/chat-completions/concepts.md).
 
-Prefira Descrições de Mídia quando a orientação de extração for estável e o resultado alimentar vários consumidores. Prefira a inferência multimodal direta quando a pergunta sobre a mídia mudar a cada solicitação.
+Prefira as Descrições de Mídia quando a orientação de extração for estável e o resultado alimentar vários consumidores. Prefira a inferência multimodal direta quando a pergunta sobre a mídia mudar a cada solicitação.
 
 ## Descrever mídia
 
-Forneça mídia que o AIVAX possa acessar e use orientações que foquem a extração nas informações que seu fluxo de trabalho precisa. A instrução opcional `extractionGuidance` restringe a saída — "identifique o assunto principal e o texto visível" para uma imagem, "resuma a sequência de eventos" para um vídeo — então escreva-a como a pergunta que seu fluxo de trabalho precisa ter respondida.
+Forneça mídia que o AIVAX possa acessar e use orientações que foquem a extração nas informações que seu fluxo de trabalho precisa. A instrução opcional `extractionGuidance` restringe a saída — "identifique o assunto principal e o texto visível" para uma imagem, "resuma a sequência de eventos" para um vídeo" — então escreva-a como a pergunta que seu fluxo de trabalho precisa ter respondida.
 
-Os resultados retornam na ordem de entrada. URLs de arquivos remotos são baixados antes do processamento, dentro de um limite de tamanho (veja [Preços, limites e erros](#precos-limites-e-erros)).
+Os resultados retornam na ordem de entrada. URLs de arquivos remotos são baixados antes do processamento, dentro de um limite de tamanho (consulte [Preços, limites e erros](#precos-limites-e-erros)).
 
 ## Escolher os motores
 
@@ -53,13 +53,13 @@ O objeto opcional `options` seleciona o motor que resolve cada tipo de conteúdo
 | `fileEngine` | `InferenceLow`, `InferenceHigh`, `Ocr` |
 
 - `InferenceLow` descreve o conteúdo com um modelo multimodal menor, mais rápido e mais barato.
-- `InferenceHigh` usa um modelo multimodal maior que é mais preciso e custa mais. Use-o quando pequenos detalhes forem importantes.
+- `InferenceHigh` usa um modelo multimodal maior, mais preciso e mais caro. Use-o quando pequenos detalhes forem importantes.
 - `Ocr` extrai o texto de imagens e arquivos. Com `fileEngine: "Ocr"`, qualquer documento suportado é convertido, não apenas PDFs.
-- `Stt` transcreve a fala no áudio com um modelo de fala-para-texto.
+- `Stt` transcreve a fala no áudio com um modelo de fala para texto.
 
-Motores de Inferência retornam uma descrição estruturada cuja forma depende do tipo de conteúdo. `Ocr` e `Stt` retornam `{ "textContent": "..." }` e ignoram `extractionGuidance`. Os motores correspondem aos do [Pré-processamento Multimodal](/docs/pt-br/inference/chat-completions/multimodal-pre-processing.md).
+Os motores de inferência retornam uma descrição estruturada cuja forma depende do tipo de conteúdo. `Ocr` e `Stt` retornam `{ "textContent": "..." }` e ignoram `extractionGuidance`. Os motores correspondem aos do [Pré-processamento Multimodal](/docs/pt-br/inference/chat-completions/multimodal-pre-processing.md).
 
-A propriedade `preset` está obsoleta. Ela não pode ser combinada com `options`; uma solicitação que envia ambas é rejeitada com `400`.
+A propriedade `preset` está obsoleta. Ela não pode ser combinada com `options`; uma solicitação que envia ambos é rejeitada com `400`.
 
 A mídia remota deve ser acessível sem login. Evite enviar credenciais, dados pessoais ou outro conteúdo que não deve aparecer em uma descrição gerada.
 
@@ -71,10 +71,10 @@ A referência embutida é a fonte da verdade para formas de mídia aceitas, opç
 
 | Descrição | Preço |
 | --- | ---: |
-| Descrições de Mídia | **~$1,50/M tokens** |
+| Descrições de mídia | **~$1,50/M tokens** |
 
-O preço é aproximado e depende do motor selecionado. `InferenceHigh` custa mais que `InferenceLow`; `Ocr` e `Stt` são cobrados como uso de OCR e fala-para-texto.
+O preço é aproximado e depende do motor selecionado. `InferenceHigh` custa mais que `InferenceLow`; `Ocr` e `Stt` são cobrados conforme o uso de OCR e fala para texto.
 
-Arquivos remotos têm limite de 5 MB cada. O número de solicitações por minuto depende do plano; veja [Limites de processamento de dados](/docs/pt-br/limits.md#data-processing).
+Arquivos remotos têm limite de 5 MB cada. O número de solicitações por minuto depende do plano; consulte [Limites de processamento de dados](/docs/pt-br/pricing/plans-and-limits.md#data-processing).
 
 Corrija mídia inacessível ou conteúdo inválido antes de tentar novamente.

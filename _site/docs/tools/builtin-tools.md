@@ -328,7 +328,7 @@ Activation via `builtin_tools`:
 
 ## Pricing and limits
 
-Web and X searches are billed per search. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies to token-based charges. Model inference used to invoke a tool is still billed at its regular rate. Image generation is billed at the selected model's rates; see [Image generation](https://docs.aivax.net/docs/generations/images.md).
+Web and X searches are billed per search. The [plan multiplier](https://docs.aivax.net/docs/pricing/product-pricing.md#plan-multipliers) applies to token-based charges. Model inference used to invoke a tool is still billed at its regular rate. Image generation is billed at the selected model's rates; see [Image generation](https://docs.aivax.net/docs/generations/images.md).
 
 | Description | Pricing |
 | --- | ---: |
@@ -339,7 +339,7 @@ Web and X searches are billed per search. The [plan multiplier](https://docs.aiv
 | Document generation | No separate charge |
 | Web page generation | No separate charge |
 
-Web search, X/Twitter search, document and web page generation, image generation and editing, general service actions, and [Bash commands](https://docs.aivax.net/docs/tools/shell.md#pricing-and-limits) have plan limits; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search). X/Twitter search is not available on Free. General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
+Web search, X/Twitter search, document and web page generation, image generation and editing, general service actions, and [Bash commands](https://docs.aivax.net/docs/tools/shell.md#pricing-and-limits) have plan limits; see [Built-in tools and web search limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#built-in-tools-and-web-search). X/Twitter search is not available on Free. General service actions share one daily service-action quota. Each memory's content is limited to 10 KB.
 
 ## Tool Diagnosis
 

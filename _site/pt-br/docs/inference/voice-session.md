@@ -8,7 +8,7 @@ Escolha a Sessão de Voz quando o chamador e o assistente devem falar na mesma s
 
 - streaming de áudio;
 - transcrições da fala do assistente;
-- detecção de atividade de voz no servidor (VAD);
+- detecção de atividade de voz (VAD) no servidor;
 - interrupções;
 - chamadas de ferramentas.
 
@@ -36,7 +36,7 @@ Authorization: Bearer <AIVAX_API_KEY>
 Prefira o cabeçalho `Authorization`. A AIVAX também aceita `?api-key=<AIVAX_API_KEY>` quando o cliente WebSocket não pode definir cabeçalhos. Os cabeçalhos são preferidos porque as URLs são comumente retidas em logs e sistemas de monitoramento. Chaves de API públicas não podem abrir Sessões de Voz.
 
 > [!WARNING]
-> Nunca coloque uma chave de API privada no JavaScript do navegador, em um pacote de aplicativo móvel ou em uma URL de WebSocket visível no navegador. Os navegadores também não podem adicionar um cabeçalho `Authorization` por meio do construtor nativo `WebSocket`.
+> Nunca coloque uma chave de API privada no JavaScript do navegador, em um pacote de aplicativo móvel ou em uma URL de WebSocket visível pelo navegador. Navegadores também não podem adicionar um cabeçalho `Authorization` por meio do construtor nativo `WebSocket`.
 >
 > Encerre a conexão do usuário final no seu backend. Em seguida, deixe que esse backend confiável abra e retransmita o WebSocket autenticado da AIVAX.
 
@@ -55,9 +55,9 @@ As principais alterações de migração são:
 | Segmentos de resposta WAV | PCM Base64 em `response.output_audio.delta` |
 | Confirmação de reprodução personalizada | Eventos nativos de cancelamento e truncamento de item de conversa |
 | Envelopes personalizados de chamada de ferramenta | Itens de chamada de função e saídas de chamada de função nativas |
-| Cobrança plana por minuto | Taxas de tokens de texto, áudio e imagem do modelo selecionado |
+| Cobrança plana por minuto | Taxas de token de texto, áudio e imagem do modelo selecionado |
 
-Encaminhe cada evento por seu `type`. O áudio permanece codificado em base64 dentro das mensagens de texto JSON. Não envie quadros WebSocket binários.
+Encaminhe cada evento por seu `type`. O áudio permanece codificado em base64 dentro de mensagens de texto JSON. Não envie quadros WebSocket binários.
 
 ## Configure a sessão
 
@@ -112,13 +112,13 @@ Você também pode definir instruções padrão, ferramentas e configurações d
 
 Antes de transmitir áudio:
 
-- Sessões de transcrição de entrada não são suportadas atualmente. Não configure `audio.input.transcription`. Não dependa dos eventos `conversation.item.input_audio_transcription.*`.
+- Sessões de transcrição de entrada não são suportadas atualmente. Não configure `audio.input.transcription`. Não dependa de eventos `conversation.item.input_audio_transcription.*`.
 - Aguarde o evento de confirmação de sessão do servidor antes de considerar a configuração ativa.
-- Uma voz não pode ser alterada depois que a sessão já produziu áudio. Reconecte-se para selecionar uma voz diferente.
+- Uma voz não pode ser alterada após a sessão já ter produzido áudio. Reconecte-se para selecionar uma voz diferente.
 
 ## Transmita áudio do microfone
 
-Use isso quando o chamador estiver falando e a configuração da sessão estiver ativa. Capture PCM bruto mono assinado de 16 bits little-endian (`s16le`) a 24.000 Hz. Codifique em base64 cada fragmento em ordem cronológica de bytes e anexe-o ao buffer de entrada:
+Use isso quando o chamador estiver falando e a configuração da sessão estiver ativa. Capture PCM bruto mono assinado de 16 bits little-endian (`s16le`) a 24.000 Hz. Codifique em base64 cada chunk em ordem cronológica de bytes e anexe-o ao buffer de entrada:
 
 ```json
 {
@@ -127,7 +127,7 @@ Use isso quando o chamador estiver falando e a configuração da sessão estiver
 }
 ```
 
-Envie pequenos fragmentos continuamente para baixa latência. Não adicione cabeçalhos de contêiner WAV, RIFF ou outros a cada fragmento.
+Envie chunks pequenos continuamente para baixa latência. Não adicione cabeçalhos de contêiner WAV, RIFF ou outros a cada chunk.
 
 ### Quando a detecção de turno está habilitada
 
@@ -141,7 +141,7 @@ Controle o turno explicitamente com os eventos nativos do buffer:
 2. Envie `input_audio_buffer.commit` quando a utterance estiver completa.
 3. Envie `response.create` para solicitar a resposta do assistente.
 
-Use `input_audio_buffer.clear` para descartar o áudio em buffer que não deve se tornar um turno de conversa.
+Use `input_audio_buffer.clear` para descartar áudio em buffer que não deve se tornar um turno de conversa.
 
 ## Receba transcrições e áudio
 
@@ -151,7 +151,7 @@ Em particular:
 
 - `input_audio_buffer.speech_started` e `input_audio_buffer.speech_stopped` relatam limites de VAD do servidor;
 - `response.output_audio_transcript.delta` e `response.output_audio_transcript.done` fornecem a transcrição falada do assistente;
-- `response.output_audio.delta` carrega um fragmento de áudio PCM base64;
+- `response.output_audio.delta` carrega um chunk de áudio PCM base64;
 - `response.output_audio.done` marca o fim de um fluxo de áudio de saída;
 - `response.done` relata o status final da resposta e o uso;
 - `error` relata um erro de solicitação ou sessão.
@@ -173,26 +173,26 @@ Ignore tipos de eventos e campos que seu cliente não usa.
 
 ## Lide com interrupções
 
-Use este fluxo quando o chamador falar sobre o assistente. O cancelamento interrompe a geração. O truncamento mantém a conversa do servidor alinhada com o que o chamador ouviu.
+Use este fluxo quando o chamador fala sobre o assistente. O cancelamento interrompe a geração. O truncamento mantém a conversa do servidor alinhada com o que o chamador ouviu.
 
 1. Pare ou reduza o volume da reprodução local quando o evento confirmado `input_audio_buffer.speech_started` chegar.
 2. Envie `response.cancel` se uma resposta ainda estiver sendo gerada.
 3. Envie o evento nativo de truncamento de item de conversa com o identificador do item do assistente e a quantidade de áudio que foi realmente reproduzida.
 
-Rastreie a duração do áudio reproduzido no cliente. Não assuma que cada fragmento recebido chegou ao alto-falante.
+Rastreie a duração do áudio reproduzido no cliente. Não assuma que todos os chunks recebidos chegaram ao alto-falante.
 
-Torne o tratamento de cancelamento idempotente, pois a resposta já pode ter terminado. Para um livro-caixa do lado do cliente que calcula a duração reproduzida por item, e as maneiras comuns pelas quais o deslocamento falha, consulte [tratando interrupções da API Realtime com conversation.item.truncate](https://aivax.net/blog/openai-realtime-api-interruptions-conversation-item-truncate/).
+Torre o tratamento de cancelamento idempotente, já que a resposta pode já ter terminado. Para um livro-caixa do lado do cliente que calcula a duração reproduzida por item, e as maneiras comuns pelas quais o deslocamento dá errado, consulte [tratando interrupções da API Realtime com conversation.item.truncate](https://aivax.net/blog/openai-realtime-api-interruptions-conversation-item-truncate/).
 
 ## Use ferramentas
 
-Declare ferramentas do cliente no campo de sessão `tools` padrão do GA Realtime. Use este caminho quando seu aplicativo precisar executar a função. Quando o modelo chamar uma delas:
+Declare ferramentas do cliente no campo de sessão `tools` padrão do GA Realtime. Use este caminho quando seu aplicativo precisar executar a função. Quando o modelo chama uma delas:
 
 1. Lidere com `response.function_call_arguments.done` usando seu `response_id`, `call_id`, `name` e `arguments` codificados em JSON.
 2. Execute cada função solicitada.
 3. Adicione um item de conversa nativo `function_call_output` por `call_id`.
 4. Envie um único `response.create` após o `response.done` de origem chegar e cada chamada dessa resposta tiver uma saída.
 
-Ferramentas que a AIVAX executa no lado do servidor não exigem ação do cliente; apenas as ferramentas definidas pelo cliente são retornadas a você.
+Ferramentas que a AIVAX executa no lado do servidor não requerem ação do cliente; apenas ferramentas definidas pelo cliente são retornadas a você.
 
 Seu manipulador de ferramentas deve:
 
@@ -203,9 +203,9 @@ Seu manipulador de ferramentas deve:
 
 ## Faturamento e limites
 
-As Sessões de Voz são cobradas nas taxas do modelo de tempo real selecionado. A cobrança usa os preços de token de texto, áudio e imagem desse modelo. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing.md#plan-multipliers) se aplica.
+As Sessões de Voz são faturadas nas taxas do modelo de tempo real selecionado. A cobrança usa os preços de token de texto, áudio e imagem desse modelo. O [multiplicador de plano](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md#plan-multipliers) se aplica.
 
-O acesso ao modelo, saldo e limites de inferência seguem [Planos e Limites](https://docs.aivax.net/pt-br/docs/limits.md). As Sessões de Voz não usam as cotas de solicitação independentes de texto-para-fala e transcrição de áudio.
+O acesso ao modelo, saldo e limites de inferência seguem [Planos e Limites](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md). As Sessões de Voz não usam as cotas de solicitação independentes de texto-para-fala e transcrição de áudio.
 
 ## Desconecte-se graciosamente
 
@@ -217,6 +217,6 @@ Uma Sessão de Voz dura apenas enquanto o WebSocket estiver aberto e não pode s
 4. Feche o WebSocket com um código de fechamento normal.
 5. Libere dispositivos de áudio, filas de reprodução, chamadas pendentes e estado da sessão.
 
-O fechamento do par, perda de rede, falhas de autenticação e erros do modelo também encerram a sessão. Para continuar, abra um novo WebSocket autenticado, envie um novo `session.update` e reconstrua qualquer contexto de aplicativo que sua experiência exija.
+O fechamento peer, perda de rede, falhas de autenticação e erros de modelo também encerram a sessão. Para continuar, abra um novo WebSocket autenticado, envie um novo `session.update` e reconstrua qualquer contexto de aplicativo que sua experiência exija.
 
 Use retry limitado com backoff para falhas transitórias. Não tente novamente automaticamente erros de autenticação ou configuração.

@@ -1,10 +1,10 @@
 ---
-{title: Observabilidade de RAG,linkTitle: Observabilidade,weight: 50,group: RAG and collections,sourceHash: ef5334763d6db3ba,aliases: [/docs/pt-br/rag/observability.html]}
+{title: Observabilidade de RAG,linkTitle: Observabilidade,weight: 50,group: RAG and collections,sourceHash: 6494d9f7dea64c1a,aliases: [/docs/pt-br/rag/observability.html]}
 ---
 
-# Observabilidade de RAG
+# Observabilidade do RAG
 
-O [Console da AIVAX](https://console.aivax.net) mostra como suas coleções são indexadas, quais buscas elas recebem e quão bem essas buscas pontuam. Use-o para confirmar que uma importação foi concluída, encontrar perguntas nas quais sua base de conhecimento responde mal e identificar conteúdo que nunca é recuperado.
+O [Console AIVAX](https://console.aivax.net) mostra como suas coleções são indexadas, quais buscas elas recebem e quão bem essas buscas pontuam. Use-o para confirmar que uma importação foi concluída, encontrar perguntas nas quais sua base de conhecimento responde mal e identificar conteúdo que nunca é recuperado.
 
 ## Visão geral das coleções
 
@@ -12,7 +12,7 @@ Abra **Coleções RAG** na barra lateral do Console. Cada coleção exibe seu **
 
 | Estado | Significado |
 | --- | --- |
-| Indexado | Documentos que são pesquisáveis com o modelo de incorporação (embedding) atual da coleção. |
+| Indexado | Documentos que estão pesquisáveis com o modelo de incorporação (embedding) atual da coleção. |
 | Em fila | Documentos aguardando indexação. Eles ainda não são pesquisáveis. |
 | Desatualizado | Documentos indexados com um modelo de incorporação diferente do atual da coleção. Eles permanecem pesquisáveis, mas seus vetores podem ser menos precisos. |
 
@@ -29,13 +29,13 @@ Selecione **Visualizar** em uma coleção para abrir a aba **Navegar documentos*
 | Desempenho médio | Tempo médio de processamento de uma busca, em milissegundos. |
 | Pontuação média | Pontuação média dos resultados retornados, de 0 a 1. Quanto maior, melhor. |
 
-Cobertura de consulta baixa nem sempre é um problema: uma base de conhecimento ampla pode conter conteúdo sobre o qual os usuários raramente perguntam. Ela merece atenção quando documentos que você espera que sejam usados nunca aparecem, o que frequentemente aponta para documentos muito longos, com tópicos misturados ou escritos de forma diferente de como os usuários fazem perguntas.
+Cobertura de consulta baixa nem sempre é um problema: uma base de conhecimento ampla pode conter conteúdo que os usuários raramente perguntam. Ela merece atenção quando documentos que você espera que sejam usados nunca aparecem, o que frequentemente aponta para documentos muito longos, com tópicos misturados ou escritos de forma diferente de como os usuários fazem perguntas.
 
-A lista de documentos abaixo dos cartões mostra o estado, as tags, a referência e a contagem de tokens de cada documento, e pode ser filtrada por estado. Abra **Detalhes** em um documento para ver seus carimbos de data/hora, incluindo quando foi indexado pela última vez, e suas contagens de caracteres, palavras e aproximadas de tokens. O editor de documentos alerta quando um documento tem muitas ou poucas palavras para recuperação confiável; consulte [Escrever bons documentos](documents.md#write-good-documents).
+A lista de documentos abaixo dos cartões mostra o estado, as tags, a referência e a contagem de tokens de cada documento, e pode ser filtrada por estado. Abra **Detalhes** em um documento para ver seus carimbos de data/hora, incluindo quando foi indexado pela última vez, e suas contagens de caracteres, palavras e tokens aproximados. O editor de documentos alerta quando um documento tem muitas ou poucas palavras para recuperação confiável; consulte [Escrever bons documentos](documents.md#write-good-documents).
 
 ## Histórico de buscas
 
-A aba **Transações** lista as buscas realizadas na coleção, incluindo buscas feitas por Gateways de IA, clientes MCP e seus aplicativos. O tempo de retenção das buscas depende do plano; consulte [Retenção do histórico de buscas RAG](../limits.md#account-limits).
+A aba **Transações** lista as buscas realizadas na coleção, incluindo buscas feitas por Gateways de IA, clientes MCP e seus aplicativos. O tempo de retenção das buscas depende do plano; consulte [Retenção do histórico de buscas RAG](../pricing/plans-and-limits.md#account-limits).
 
 Use o seletor **Visualizar** para escolher o que revisar:
 
@@ -47,24 +47,24 @@ Cada busca mostra seu momento, a consulta, o número de resultados e três pontu
 
 | Pontuação | Significado |
 | --- | --- |
-| Pontuação original | Similaridade vetorial entre a consulta e os documentos, antes do reordenamento. |
-| Pontuação do reordenador | Pontuação atribuída pelo reordenador, com o nome do reordenador. Um traço significa que nenhum reordenador foi usado. |
+| Pontuação original | Similaridade vetorial entre a consulta e os documentos, antes do reranking. |
+| Pontuação do reranker | Pontuação atribuída pelo reranker, com o nome do reranker. Um traço indica que nenhum reranker foi usado. |
 | Pontuação final | Pontuação usada para classificar os resultados. |
 
-Abra **Detalhes** em uma busca para ver seu tempo de processamento, custo, pontuações e os documentos que ela retornou, cada um com sua pontuação original, do reordenador e final, além de uma prévia do texto. Um documento que foi excluído posteriormente é mostrado como inexistente.
+Abra **Detalhes** em uma busca para ver seu tempo de processamento, custo, pontuações e os documentos que ela retornou, cada um com sua pontuação original, do reranker e final, além de uma prévia do texto. Um documento que foi excluído posteriormente é mostrado como inexistente.
 
 ### Diagnosticar uma busca de baixa qualidade
 
 1. Leia a consulta e compare-a com os documentos retornados. Se o documento correto estiver ausente, o problema é de recuperação, não de classificação.
-2. Se o documento correto existir, mas tiver pontuação baixa, verifique se seu texto usa os mesmos termos e linguagem da consulta, e se ele mistura vários tópicos.
-3. Se a pontuação original for boa, mas a pontuação final cair, compare os reordenadores; consulte [Reordenadores](reranking.md).
+2. Se o documento correto existir mas tiver pontuação baixa, verifique se seu texto usa os mesmos termos e linguagem da consulta, e se ele mistura vários tópicos.
+3. Se a pontuação original for boa, mas a pontuação final cair, compare os rankers; consulte [Rankers](reranking.md).
 4. Se nenhum documento cobrir a pergunta, adicione o conhecimento faltante à coleção.
 
 Para as etapas do pipeline que geralmente causam um resultado de baixa qualidade antes da execução da busca, consulte [RAG vs banco de dados vetorial](https://aivax.net/blog/a-vector-database-is-not-a-rag-system/).
 
 ## Testar buscas no playground
 
-Selecione **Playground** em uma coleção para executar uma busca sem escrever código. Defina o texto da busca, pontuação mínima, máximo de resultados, reordenador, expansão de referência e [filtros avançados](document-filters.md), depois selecione **Executar consulta**. A aba **Visual** mostra os documentos classificados com suas pontuações, conteúdos e metadados, e a resposta gerada quando você usa geração de respostas; a aba **JSON** mostra o resultado bruto.
+Selecione **Playground** em uma coleção para executar uma busca sem escrever código. Defina o texto da busca, pontuação mínima, máximo de resultados, reranker, expansão de referência e [filtros avançados](document-filters.md), depois selecione **Executar consulta**. A aba **Visual** mostra os documentos classificados com suas pontuações, conteúdos e metadados, e a resposta gerada quando você usa geração de respostas; a aba **JSON** mostra o resultado bruto.
 
 Use o playground para reproduzir uma busca de baixa qualidade do histórico, ajustar opções e confirmar uma melhoria antes de alterar um Gateway de IA. Para tempo de processamento, custo e pontuações por etapa, use os detalhes da busca em **Transações**.
 
@@ -76,8 +76,8 @@ Após a conclusão de um trabalho, seus documentos aparecem na coleção como Em
 
 ## Custo e armazenamento
 
-- **Análises > Uso por recurso** agrupa o uso por recurso, incluindo cada coleção, e fornece links para elas.
-- **Análises > Relatórios Mensais** mostra o custo do RAG do mês, que inclui incorporações, consultas e reordenamento.
+- **Análises > Uso por recurso** agrupa o uso por recurso, incluindo cada coleção, e faz link para ela.
+- **Análises > Relatórios Mensais** mostra o custo do RAG do mês, que inclui incorporações, consultas e reranking.
 - **Uso e limites** mostra o armazenamento utilizado em relação à cota do seu plano.
 
 Os relatórios de deduplicação informam seus resultados por meio de notificações da conta; consulte [Deduplicador](collections.md#de-duplicator).

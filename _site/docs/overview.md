@@ -169,7 +169,7 @@ AIVAX tracks usage, and conversations when logging is enabled, so you can trace 
 - Batch items.
 - Agentic Test runs.
 
-Start with [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md) before enabling a high-volume or media-heavy workflow.
+Start with [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md) and [Plans and limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md) before enabling a high-volume or media-heavy workflow.
 
 AIVAX also provides MCP utilities for compatible agents:
 
@@ -299,5 +299,5 @@ After the first request succeeds, continue in this order:
 
 1. Make your first request with the example above, then read [Inference](https://docs.aivax.net/docs/inference/chat-completions/concepts.md) for the full request contract.
 2. Read [Authentication](https://docs.aivax.net/docs/authentication.md) before choosing private keys, public keys, or chat sessions for an application boundary.
-3. Review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing traffic or processing large collections, media, tests, or Batch jobs.
+3. Review [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md) and [Plans and limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md) before increasing traffic or processing large collections, media, tests, or Batch jobs.
 4. Move reusable assistant behavior into an [AI Gateway](https://docs.aivax.net/docs/inference/ai-gateways/concepts.md), then add RAG, skills, tools, and a chat client only when the use case requires them.

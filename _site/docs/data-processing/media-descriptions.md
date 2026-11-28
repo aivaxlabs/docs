@@ -73,6 +73,6 @@ The embedded reference is the source of truth for accepted media forms, request 
 
 The price is approximate and depends on the selected engine. `InferenceHigh` costs more than `InferenceLow`; `Ocr` and `Stt` are billed as OCR and speech-to-text usage.
 
-Remote files are limited to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/limits.md#data-processing).
+Remote files are limited to 5 MB each. The number of requests per minute depends on the plan; see [Data processing limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#data-processing).
 
 Correct inaccessible media or invalid content before retrying.

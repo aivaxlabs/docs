@@ -85,6 +85,6 @@ Indexing and search are billed by token usage. Generated RAG answers are charged
 | RAG answer generation | **~$0.50/M tokens**, excluding query rates |
 | Collection de-duplication | **$0.05/1k PUs** |
 
-Every plan includes a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](https://docs.aivax.net/docs/limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) are billed separately.
+Every plan includes a daily embedding allowance shared by searches and document insertions; see [Included daily subscription allowances](https://docs.aivax.net/docs/pricing/plans-and-limits.md#included-daily-subscription-allowances). Accounts with [Data Sharing](https://docs.aivax.net/docs/pricing/data-sharing.md) enabled receive a discount on eligible query embeddings. Reranking and [Reflex](https://docs.aivax.net/docs/rag/reflex.md#pricing-and-limits) are billed separately.
 
-The number of collections, searches, reranking requests, and document insertions depends on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/limits.md#rag-and-collections). Requests above a limit return `429 Too Many Requests`.
+The number of collections, searches, reranking requests, and document insertions depends on the plan; see [RAG and collections limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#rag-and-collections). Requests above a limit return `429 Too Many Requests`.

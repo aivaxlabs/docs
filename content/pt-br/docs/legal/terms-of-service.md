@@ -1,5 +1,5 @@
 ---
-{title: Termos de Uso,linkTitle: Termos de serviço,weight: 20,group: Legal documents,sourceHash: 29ddf22982a98890,aliases: [/docs/pt-br/legal/terms-of-service.html]}
+{title: Termos de Uso,linkTitle: Termos de serviço,weight: 20,group: Legal documents,sourceHash: 2ad583d190e41e12,aliases: [/docs/pt-br/legal/terms-of-service.html]}
 ---
 
 # Termos de Uso
@@ -11,19 +11,19 @@ Atualização anterior: 26 de setembro de 2026
 
 ---
 
-Bem-vindo à AIVAX. Estes Termos de Uso ("Termos") regem o seu acesso e uso dos nossos serviços de inferência de IA, APIs, site e qualquer software associado (coletivamente, os "Serviços"). Estes Termos não constituem aconselhamento jurídico.
+Bem-vindo ao AIVAX. Estes Termos de Uso ("Termos") regem o seu acesso e uso dos nossos serviços de inferência de IA, APIs, site e qualquer software associado (coletivamente, os "Serviços"). Estes Termos não constituem aconselhamento jurídico.
 
-Ao criar uma conta, acessar ou usar nossos Serviços, você ("Gerente de Conta AIVAX") concorda em ficar vinculado a estes Termos e à nossa [Política de Privacidade](https://docs.aivax.net/docs/pt-br/legal/privacy-policy). Se você não concordar com estes Termos, não utilize nossos Serviços.
+Ao criar uma conta, acessar ou usar nossos Serviços, você ("Gerente da Conta AIVAX") concorda em ficar vinculado a estes Termos e à nossa [Política de Privacidade](https://docs.aivax.net/docs/pt-br/legal/privacy-policy). Se você não concordar com estes Termos, não use nossos Serviços.
 
 ### 1. Definições
 
 - **AIVAX:** A empresa que fornece os Serviços.
-- **Gerente de Conta AIVAX:** A pessoa física ou jurídica que cria e gerencia uma conta na plataforma AIVAX e concorda com estes Termos.
-- **Conteúdo de Entrada:** Dados, texto, prompts, arquivos, mensagens, metadados ou qualquer outra informação que o Gerente de Conta AIVAX envia aos Serviços para processamento.
+- **Gerente da Conta AIVAX:** A pessoa física ou jurídica que cria e gerencia uma conta na plataforma AIVAX e concorda com estes Termos.
+- **Conteúdo de Entrada:** Dados, texto, prompts, arquivos, mensagens, metadados ou qualquer outra informação que o Gerente da Conta AIVAX envia aos Serviços para processamento.
 - **Conteúdo Gerado:** Respostas, texto, imagens, arquivos ou quaisquer outros dados gerados por modelos de IA ou ferramentas da plataforma como resultado do processamento do Conteúdo de Entrada.
 - **Conversas:** Sequências armazenadas de Conteúdo de Entrada, Conteúdo Gerado, metadados, informações do modelo, dados de uso, ferramentas e informações técnicas relacionadas quando o registro de conversas está habilitado.
-- **Dados RAG:** Coleções, documentos, metadados de documentos, referências, tags e vetores de incorporação armazenados para geração aumentada por recuperação (RAG).
-- **Dados de Treinamento Semântico:** Conteúdo RAG e de reranking elegível anonimizado coletado após o Gerente de Conta AIVAX habilitar a coleta de dados semânticos, conforme descrito em [Compartilhamento de Dados](/docs/pt-br/data-sharing). A indexação e o armazenamento de documentos estão excluídos.
+- **Dados RAG:** Coleções, documentos, metadados de documentos, referências, tags e vetores de incorporação armazenados para geração aumentada por recuperação.
+- **Dados de Treinamento Semântico:** Conteúdo RAG e de reranking elegível anonimizado coletado após o Gerente da Conta AIVAX habilitar a coleta de dados semânticos, conforme descrito em [Compartilhamento de Dados](/docs/pt-br/pricing/data-sharing.md). A indexação e o armazenamento de documentos estão excluídos.
 
 Na Política de Privacidade, "Dados de Inferência" cobre conjuntamente o Conteúdo de Entrada e o Conteúdo Gerado.
 
@@ -36,10 +36,10 @@ Na Política de Privacidade, "Dados de Inferência" cobre conjuntamente o Conte�
 Você concorda em usar os Serviços AIVAX de forma ética e responsável. É proibido:
 
 - Abusar, interferir, interromper, sobrecarregar ou prejudicar os Serviços, servidores, redes ou integrações de terceiros.
-- Tentar contornar autenticação, autorização, limites de taxa, controles de cobrança, cotas de armazenamento ou controles de segurança.
+- Tentar contornar autenticação, autorização, limites de taxa, controles de faturamento, cotas de armazenamento ou controles de segurança.
 - Explorar, testar ou divulgar vulnerabilidades sem autorização.
 - Usar os Serviços para assediar, ameaçar, difamar, enganar ou violar os direitos e a dignidade de terceiros.
-- Armazenar, gerar ou distribuir conteúdo ilegal, malware ou material que infrinja direitos autorais.
+- Armazenar, gerar ou distribuir conteúdo ilegal, malware ou material que infrinja direitos.
 
 #### 2.2. Conformidade Legal
 
@@ -49,15 +49,15 @@ Seu uso deve respeitar os princípios estabelecidos pelo Marco Civil da Internet
 
 #### 2.3. Dados Pessoais
 
-O Gerente de Conta AIVAX é o controlador dos dados inseridos nos Serviços. Se o Conteúdo de Entrada incluir dados pessoais de terceiros, você declara que:
+O Gerente da Conta AIVAX é o controlador dos dados inseridos nos Serviços. Se o Conteúdo de Entrada incluir dados pessoais de terceiros, você declara que:
 
 - Você possui a base legal adequada para coletar, processar e enviar esses dados à AIVAX para a finalidade configurada.
-- Você é responsável por avisos, consentimentos onde exigidos, solicitações dos titulares dos dados, escolhas de retenção e uso subsequente do Conteúdo Gerado.
+- Você é responsável pelos avisos, consentimentos (quando exigidos), solicitações dos titulares dos dados, escolhas de retenção e uso subsequente do Conteúdo Gerado.
 - A AIVAX atua como operadora para o processamento de inferência direcionado pelo cliente, sujeita à Política de Privacidade e acordos aplicáveis.
 
 #### 2.4. Elegibilidade
 
-Para usar os serviços AIVAX, você deve ser capaz legalmente, ter pelo menos 18 anos de idade, ou 16 anos se emancipado legalmente sob a lei brasileira. Ao usar nossos serviços, você declara que:
+Para usar os serviços AIVAX, você deve ser capaz legalmente, ter pelo menos 18 anos de idade, ou 16 anos se emancipado legalmente segundo a lei brasileira. Ao usar nossos serviços, você declara que:
 
 - você não foi anteriormente suspenso, removido ou banido dos Serviços;
 - sua conta está vinculada a uma pessoa ou organização em conformidade com as leis aplicáveis e às obrigações da conta;
@@ -69,9 +69,9 @@ Se você usar os Serviços em nome de outra pessoa, organização ou empresa, vo
 
 A maioria dos serviços AIVAX requer saldo pré-pago ("créditos"). Operações que incorrem em custos podem ser bloqueadas quando o saldo da conta estiver zerado ou negativo, quando a conta não tiver o saldo mínimo necessário para um recurso, ou quando o uso do armazenamento exceder a cota do plano.
 
-A plataforma atual aplica cotas de armazenamento baseadas em plano aos recursos armazenados, como documentos RAG e incorporações, memórias do usuário, descrições de mídia, dados de sessão do chat web e arquivos de shell. O armazenamento incluído atualmente é de 30 MB para Free, 2 GB para Pro, 10 GB para Max e 20 GB para Ultimate.
+A plataforma atual aplica cotas de armazenamento baseadas no plano aos recursos armazenados, como documentos RAG e embeddings, memórias de usuários, descrições de mídia, dados de sessão do chat web e arquivos shell. O armazenamento incluído atualmente é de 30 MB para Free, 2 GB para Pro, 10 GB para Max e 20 GB para Ultimate.
 
-Provedores de pagamento podem coletar e processar informações de cobrança e pagamento necessárias para adicionar créditos. A AIVAX usa a Mixtic para criar links de pagamento, armazenar métodos de pagamento salvos, cobrar compras de créditos e assinaturas, e confirmar pagamentos.
+Provedores de pagamento podem coletar e processar informações de faturamento e pagamento necessárias para adicionar créditos. A AIVAX usa a Mixtic para criar links de pagamento, armazenar métodos de pagamento salvos, cobrar compras de créditos e assinaturas, e confirmar pagamentos.
 
 Antes de pagar pelos créditos, você pode visualizar as taxas aplicáveis e recusar o pagamento antes da adição ao saldo. Os créditos adicionados expiram um ano após a adição. Créditos expirados não contam mais para o saldo da sua conta.
 
@@ -90,13 +90,13 @@ O reembolso será processado usando o mesmo método de pagamento em até 15 (qui
 
 #### 3.1. Propriedade e Responsabilidade pelo Conteúdo Gerado
 
-Sujeito a estes Termos, a AIVAX concede a você todos os direitos, títulos e interesses que possa ter no Conteúdo Gerado. Em outras palavras: o que você cria é seu, sujeito à lei aplicável e aos direitos de terceiros.
+Sujeito a estes Termos, a AIVAX concede a você todos os direitos, títulos e interesses que possa ter sobre o Conteúdo Gerado. Em outras palavras: o que você cria é seu, sujeito à lei aplicável e aos direitos de terceiros.
 
-Você é inteiramente responsável pelo Conteúdo Gerado e seu uso subsequente, incluindo legalidade, precisão, adequação e possíveis infrações aos direitos de terceiros. A AIVAX não se responsabiliza pela forma como você usa o Conteúdo Gerado.
+Você é inteiramente responsável pelo Conteúdo Gerado e seu uso subsequente, incluindo legalidade, precisão, adequação e possíveis infrações aos direitos de terceiros. A AIVAX não é responsável pela forma como você usa o Conteúdo Gerado.
 
-**Não exclusividade e similaridade:** Devido à natureza estatística dos modelos de IA, conteúdos semelhantes podem ser gerados para diferentes usuários sem acesso cruzado aos inputs originais. A AIVAX não garante exclusividade absoluta de expressões ou ideias geradas pelos modelos. Você não adquire direitos sobre pesos do modelo, prompts internos, técnicas, código da plataforma ou segredos comerciais da AIVAX.
+**Não exclusividade e similaridade:** Devido à natureza estatística dos modelos de IA, conteúdo semelhante pode ser gerado para diferentes usuários sem acesso cruzado aos inputs originais. A AIVAX não garante exclusividade absoluta de expressões ou ideias geradas pelos modelos. Você não adquire direitos sobre pesos de modelo, prompts internos, técnicas, código da plataforma ou segredos comerciais da AIVAX.
 
-**Licença limitada concedida à AIVAX:** Ao enviar Conteúdo de Entrada, você concede à AIVAX uma licença mundial, não exclusiva, isenta de royalties, limitada ao que for necessário para processar inferências, fornecer ferramentas e integrações configuradas, manter logs técnicos e de segurança, detectar abusos, calcular cobranças e cumprir obrigações legais. Esta licença está sujeita aos limites de coleta, retenção e divulgação judicial de conversas na Seção 3.4 e na Política de Privacidade; ela não autoriza o registro de conversas quando "Conversas" não estiver habilitado.
+**Licença limitada concedida à AIVAX:** Ao submeter Conteúdo de Entrada, você concede à AIVAX uma licença mundial, não exclusiva, livre de royalties, limitada ao necessário para processar inferências, fornecer ferramentas e integrações configuradas, manter logs técnicos e de segurança, detectar abusos, calcular faturamento e cumprir obrigações legais. Esta licença está sujeita aos limites de coleta, retenção e divulgação judicial de conversas na Seção 3.4 e na Política de Privacidade; ela não autoriza o registro de conversas quando "Conversas" não está habilitado.
 
 Por padrão, a AIVAX não usa Conteúdo de Entrada ou Conteúdo Gerado para treinar modelos proprietários da AIVAX. O programa opcional de coleta de dados semânticos descrito abaixo é a exceção a esta regra padrão.
 
@@ -107,13 +107,13 @@ Por padrão, a AIVAX não usa Conteúdo de Entrada ou Conteúdo Gerado para trei
 Quando um Gerente de Conta autorizado habilita a coleta de dados semânticos, o Gerente de Conta:
 
 - autoriza a AIVAX a coletar registros RAG e de reranking elegíveis e anonimizados gerados enquanto a configuração estiver habilitada;
-- concede à AIVAX uma licença mundial, não exclusiva, isenta de royalties, para armazenar, reproduzir, transformar, anotar, combinar, analisar e usar os Dados de Treinamento Semântico para desenvolver, treinar, ajustar, avaliar, testar e melhorar modelos e sistemas relacionados a incorporações, recuperação, classificação, reranking e outros processamentos semânticos;
+- concede à AIVAX uma licença mundial, não exclusiva, livre de royalties, para armazenar, reproduzir, transformar, anotar, combinar, analisar e usar os Dados de Treinamento Semântico para desenvolver, treinar, ajustar fino, avaliar, testar e melhorar modelos e sistemas relacionados a embeddings, recuperação, classificação, reranking e outros processamentos semânticos;
 - declara que possui a autoridade, base legal, avisos e permissões necessários para este uso, inclusive para dados pessoais submetidos por usuários finais; e
 - reconhece que operações RAG e de reranking elegíveis recebem o desconto documentado de 10%, enquanto a indexação de documentos, armazenamento e serviços não relacionados permanecem com seus preços regulares.
 
-A AIVAX anonimiza esses registros antes do armazenamento, removendo o vínculo com a conta e excluindo identificadores operacionais, nomes de documentos, dados de cobrança e carimbos de data/hora da coleta.
+A AIVAX anonimiza esses registros antes do armazenamento, removendo a relação com a conta e excluindo identificadores operacionais, nomes de documentos, dados de faturamento e carimbos de tempo de coleta.
 
-A configuração vem desativada por padrão. Desativá-la aplica-se prospectivamente: interrompe a nova coleta e encerra o desconto para operações elegíveis futuras, mas não exclui automaticamente os registros já coletados nem exige que a AIVAX reverta o treinamento concluído. Como a AIVAX não retém um mapeamento conta-registro, os registros não podem ser localizados ou excluídos seletivamente apenas com base no ID da conta. Solicitações de exclusição estão sujeitas à Política de Privacidade e à lei aplicável. Os termos operacionais completos estão documentados em [Compartilhamento de Dados](/docs/pt-br/data-sharing).
+A configuração é desativada por padrão. Desativá-la aplica-se prospectivamente: ela interrompe a nova coleta e encerra o desconto para operações elegíveis futuras, mas não exclui automaticamente os registros já coletados nem exige que a AIVAX reverta o treinamento concluído. Como a AIVAX não retém um mapeamento conta-registro, os registros não podem ser localizados ou excluídos seletivamente apenas com base no ID da conta. Solicitações de exclusão estão sujeitas à Política de Privacidade e à lei aplicável. Os termos operacionais completos estão documentados em [Compartilhamento de Dados](/docs/pt-br/pricing/data-sharing.md).
 
 #### 3.3. Conteúdo Adulto, Explícito e Sensível
 
@@ -124,17 +124,17 @@ A AIVAX é uma ferramenta que pode ser usada para gerar muitos tipos de conteúd
 3. Se o material envolver representações de pessoas reais, você tem consentimento explícito e verificável desses indivíduos.
 4. Você implementa seus próprios mecanismos de controle de acesso e verificação de idade se disponibilizar esse conteúdo a terceiros.
 
-A AIVAX não endossa este tipo de conteúdo e pode investigar ou suspender contas que violem estas condições.
+A AIVAX não endossa este tipo de conteúdo e pode investigar ou suspender contas que violem essas condições.
 
 #### 3.4. Registro de Conversas, Retenção e Divulgação Judicial
 
-A AIVAX coleta e registra o conteúdo das conversas apenas quando o Gerente de Conta habilita o recurso de observabilidade ("Conversas") para a solicitação individual ou globalmente para a conta. Se nenhum deles habilitar o registro para a solicitação, seu conteúdo de conversa não será coletado, registrado ou armazenado. O processamento do Conteúdo de Entrada e do Conteúdo Gerado para executar uma solicitação não cria um registro de conversa armazenado. A AIVAX não pode recuperar ou fornecer conversas que nunca foram coletadas, mesmo sob ordem judicial.
+A AIVAX coleta e registra o conteúdo das conversas apenas quando o Gerente de Conta habilita o recurso de observabilidade ("Conversas") para a solicitação individual ou globalmente para a conta. Se nenhum deles habilitar o registro para a solicitação, o conteúdo de sua conversa não será coletado, registrado ou armazenado. O processamento do Conteúdo de Entrada e do Conteúdo Gerado para executar uma solicitação não cria um registro de conversa armazenado. A AIVAX não pode recuperar ou fornecer conversas que nunca foram coletadas, mesmo sob ordem judicial.
 
-Logs técnicos e metadados são separados do conteúdo das conversas. A AIVAX retém logs de inferência e acesso e metadados, incluindo endereços IP e strings de user-agent, por até 1 ano. Informações da conta e recursos armazenados, incluindo memórias do usuário, gateways de IA e suas configurações, e coleções e documentos RAG, também podem permanecer em backups com data de até 3 meses atrás. Esses períodos não garantem que cada registro permaneça disponível; a retenção de conversas e outros limites aplicáveis são descritos na [Política de Privacidade](https://docs.aivax.net/docs/pt-br/legal/privacy-policy).
+Logs técnicos e metadados são separados do conteúdo das conversas. A AIVAX retém logs de inferência e acesso e metadados, incluindo endereços IP e strings de user-agent, por até 1 ano. Informações da conta e recursos armazenados, incluindo memórias de usuários, gateways de IA e suas configurações, e coleções e documentos RAG, também podem permanecer em backups com data de até 3 meses atrás. Esses períodos não garantem que cada registro permaneça disponível; a retenção de conversas e outros limites aplicáveis são descritos na [Política de Privacidade](https://docs.aivax.net/docs/pt-br/legal/privacy-policy).
 
-Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens de outros países devem ser submetidas por meio de tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que os dados sejam divulgados. Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto prosseguem com esses procedimentos. Apenas a preservação não autoriza a divulgação, não restaura registros indisponíveis nem autoriza a coleta de conteúdo de conversa que não foi registrado.
+Para divulgação judicial de dados da conta, a AIVAX executa apenas ordens emitidas por tribunais brasileiros competentes. Ordens de outros países devem ser submetidas através de tribunais brasileiros e resultar em uma ordem de tribunal brasileiro antes que os dados sejam divulgados. Autoridades judiciais estrangeiras podem solicitar a preservação de logs existentes por até 1 ano enquanto prosseguem com esses procedimentos. Apenas a preservação não autoriza a divulgação, não restaura registros indisponíveis nem autoriza a coleta de conteúdo de conversa que não foi registrado.
 
-Sob uma ordem de tribunal brasileiro, a AIVAX pode fornecer logs disponíveis e metadados, conversas armazenadas e outras informações e recursos da conta, incluindo dados de backup disponíveis, limitados ao escopo da ordem. As conversas armazenadas são fornecidas às autoridades apenas sob tal ordem. Consulte a Seção 7.1 da Política de Privacidade para as regras de divulgação e a Seção 21 para backups.
+Sob uma ordem de tribunal brasileiro, a AIVAX pode fornecer logs disponíveis e metadados, conversas armazenadas e outras informações e recursos da conta, incluindo dados de backup disponíveis, limitados ao escopo da ordem. As conversas armazenadas são fornecidas às autoridades apenas sob tal ordem. Veja a Seção 7.1 da Política de Privacidade para as regras de divulgação e a Seção 21 para backups.
 
 ---
 
@@ -145,20 +145,20 @@ Sob uma ordem de tribunal brasileiro, a AIVAX pode fornecer logs disponíveis e 
 A AIVAX pode oferecer funcionalidade BYOK (Traga Sua Própria Chave), permitindo que você use suas próprias chaves de API de provedores externos para inferência ou serviços relacionados. Ao usar o BYOK, você concorda que:
 
 - Você é responsável por obter, armazenar, rotacionar e usar suas próprias chaves de provedor.
-- A AIVAX não tem controle sobre as políticas, limites de uso, proibições, suspensões, preços ou termos do provedor original.
+- A AIVAX não tem controle sobre as políticas, limites de uso, bans, suspensões, preços ou termos do provedor original.
 - Se sua chave externa for bloqueada, revogada, limitada em taxa ou esgotada, os Serviços que dependem dela podem falhar.
-- Serviços periféricos da AIVAX, incluindo armazenamento, processamento RAG, gerenciamento de vetores, memórias do usuário, orquestração de agentes e ferramentas auxiliares, podem continuar sendo cobrados contra seu saldo AIVAX de acordo com a precificação atual.
-- O BYOK não o isenta destes Termos, conformidade legal, regras de abuso ou políticas de uso aceitável.
+- Serviços periféricos da AIVAX, incluindo armazenamento, processamento RAG, gerenciamento de vetores, memórias de usuários, orquestração de agentes e ferramentas auxiliares, podem continuar sendo cobrados contra seu saldo AIVAX de acordo com a precificação atual.
+- O BYOK não isenta você destes Termos, conformidade legal, regras de abuso ou políticas de uso aceitável.
 
 #### 4.2. Modelos e Ferramentas de Terceiros Fornecidos pela AIVAX
 
-Os Serviços AIVAX podem rotear o Conteúdo de Entrada para modelos de IA, rerankers, provedores de pesquisa, provedores de geração de imagens, provedores de pagamento, provedores de armazenamento de objetos, provedores de mensagens ou outros processadores. O provedor específico depende do modelo selecionado, provedor configurado, ferramenta, gateway ou integração.
+Os Serviços AIVAX podem rotear o Conteúdo de Entrada para modelos de IA, rerankers, provedores de pesquisa, provedores de geração de imagem, provedores de pagamento, provedores de armazenamento de objetos, provedores de mensagens ou outros processadores. O provedor específico depende do modelo selecionado, provedor configurado, ferramenta, gateway ou integração.
 
 Ao usar um modelo, provedor ou ferramenta específicos, você também pode estar sujeito aos termos desse provedor. Você é responsável por revisar a adequação do provedor antes de enviar dados pessoais, confidenciais, regulamentados ou sensíveis.
 
 Você escolhe os modelos, opções de roteamento e configurações da conta que determinam quais terceiros recebem o Conteúdo de Entrada, e aceita o tratamento de dados dos provedores que você permite. Provedores especiais podem reter prompts e respostas, e fornecedores de modelos de assinatura retêm prompts.
 
-Classificações de tratamento de dados que a AIVAX mostra para um provedor ou modelo, incluindo "zero retenção de dados" e não uso de prompts para treinamento, reproduzem o que o provedor ou agregador declara. A AIVAX não audita, verifica ou garante essas declarações. Cada terceiro trata os dados sob seus próprios termos e práticas de segurança. Na medida máxima permitida por lei, a AIVAX não se responsabiliza pelo fracasso de um terceiro em cumpri-los, ou por acesso não autorizado, perda, divulgação, retenção ou uso do Conteúdo de Entrada ou Conteúdo Gerado que ocorra nos sistemas de um terceiro.
+Classificações de tratamento de dados que a AIVAX mostra para um provedor ou modelo, incluindo "zero retenção de dados" e não uso de prompts para treinamento, reproduzem o que o provedor ou agregador declara. A AIVAX não audita, verifica ou garante essas declarações. Cada terceiro trata os dados sob seus próprios termos e práticas de segurança. Na máxima extensão permitida por lei, a AIVAX não é responsável pelo fracasso de um terceiro em cumpri-los, ou por acesso não autorizado, perda, divulgação, retenção ou uso do Conteúdo de Entrada ou Conteúdo Gerado que ocorra nos sistemas de um terceiro.
 
 Quando a AIVAX toma conhecimento de um incidente de segurança que envolve direta ou indiretamente um provedor de modelo ou ferramenta, a AIVAX pode suspender o roteamento para esse provedor até que o provedor esclareça o incidente. A suspensão é uma precaução, não uma admissão de responsabilidade, e pode tornar modelos ou recursos que dependem desse provedor indisponíveis.
 
@@ -172,39 +172,39 @@ A AIVAX pode suspender, restringir, encerrar ou banir o acesso aos Serviços por
 
 ### 6. Limitação de Responsabilidade e Isenção de Garantias
 
-OS SERVIÇOS SÃO FORNECIDOS "COMO ESTÃO" E "COMO DISPONÍVEIS", SEM GARANTIAS DE QUALQUER TIPO, SEJAM ELAS EXPRESSAS OU IMPLÍCITAS. A AIVAX NÃO GARANTE QUE OS SERVIÇOS SERÃO ININTERRUPROS, SEGUROS, LIVRES DE ERROS OU ADEQUADOS PARA UM FIM ESPECÍFICO.
+OS SERVIÇOS SÃO FORNECIDOS "COMO ESTÃO" E "COMO DISPONÍVEIS", SEM GARANTIAS DE QUALQUER TIPO, SEJA EXPRESSA OU IMPLÍCITA. A AIVAX NÃO GARANTE QUE OS SERVIÇOS SERÃO ININTERRUPROS, SEGUROS, LIVRES DE ERROS OU ADEQUADOS PARA UM FIM ESPECÍFICO.
 
-NA MEDIDA MÁXIMA PERMITIDA POR LEI, A AIVAX NÃO SERÁ RESPONSÁVEL POR DANOS INDIRETOS, ACIDENTAIS, ESPECIAIS, CONSEQUENCIAIS, EXEMPLARES OU PUNITIVOS DECORRENTES DO SEU ACESSO OU USO DOS SERVIÇOS.
+NA MÁXIMA EXTENSÃO PERMITIDA POR LEI, A AIVAX NÃO SERÁ RESPONSÁVEL POR DANOS INDIRETOS, INCIDENTAIS, ESPECIAIS, CONSEQUENCIAIS, EXEMPLARES OU PUNITIVOS DECORRENTES DO SEU ACESSO OU USO DOS SERVIÇOS.
 
-NA MEDIDA MÁXIMA PERMITIDA POR LEI, A RESPONSABILIDADE AGREGADA TOTAL DA AIVAX POR TODAS AS RECLAMAÇÕES DECORRENTES OU RELACIONADAS AOS SERVIÇOS OU A ESTES TERMOS, SEJA EM CONTRATO, ILÍCITO CIVIL OU QUALQUER OUTRA TEORIA, É LIMITADA AO MAIOR VALOR ENTRE (A) OS VALORES QUE VOCÊ REALMENTE PAGOU À AIVAX NOS 3 (TRÊS) MESES ANTERIORES AO EVENTO QUE GEROU A RECLAMAÇÃO E (B) USD 100. ESTE LIMITE SE APLICA A TODAS AS RECLAMAÇÕES JUNTAS E NÃO É AUMENTADO POR MÚLTIPLAS RECLAMAÇÕES.
+NA MÁXIMA EXTENSÃO PERMITIDA POR LEI, A RESPONSABILIDADE TOTAL AGREGADA DA AIVAX POR TODAS AS REIVINDICAÇÕES DECORRENTES OU RELACIONADAS AOS SERVIÇOS OU A ESTES TERMOS, SEJA EM CONTRATO, ATO ILÍCITO OU QUALQUER OUTRA TEORIA, É LIMITADA AO MAIOR ENTRE (A) OS VALORES QUE VOCÊ REALMENTE PAGOU À AIVAX NOS 3 (TRÊS) MESES ANTERIORES AO EVENTO QUE GEROU A REIVINDICAÇÃO E (B) USD 100. ESTE LIMITE SE APLICA A TODAS AS REIVINDICAÇÕES JUNTAS E NÃO É AUMENTADO POR MÚLTIPLAS REIVINDICAÇÕES.
 
-NA MEDIDA MÁXIMA PERMITIDA POR LEI, A AIVAX NÃO É RESPONSÁVEL POR ATOS, OMISSÕES, INCIDENTES DE SEGURANÇA, VIOLAÇÕES DE DADOS, RETENÇÃO DE DADOS OU USO DE DADOS POR PROVEDORES DE TERCEIROS, INCLUINDO PROVEDORES QUE DECLARAM ZERO RETENÇÃO DE DADOS.
+NA MÁXIMA EXTENSÃO PERMITIDA POR LEI, A AIVAX NÃO É RESPONSÁVEL POR ATOS, OMISSÕES, INCIDENTES DE SEGURANÇA, VIOLAÇÕES DE DADOS, RETENÇÃO DE DADOS OU USO DE DADOS POR PROVEDORES DE TERCEIROS, INCLUINDO PROVEDORES QUE DECLARAM ZERO RETENÇÃO DE DADOS.
 
-ESTAS LIMITAÇÕES NÃO SE APLICAM NA MEDIDA EM QUE A LEI NÃO PERMITE QUE A RESPONSABILIDADE SEJA LIMITADA OU EXCLUÍDA, INCLUINDO EM CASOS DE DOLO INTENCIONAL OU NEGLIGÊNCIA GRAVE. SE UMA LIMITAÇÃO FOR JULGADA INEXECUTÁVEL, A RESPONSABILIDADE SERÁ LIMITADA AO MENOR VALOR QUE A LEI PERMITE. VOCÊ RECONHECE QUE OS PREÇOS DA AIVAX REFLETEM ESTA ALOCAÇÃO DE RISCO.
+ESTAS LIMITAÇÕES NÃO SE APLICAM NA MEDIDA EM QUE A LEI NÃO PERMITE QUE A RESPONSABILIDADE SEJA LIMITADA OU EXCLUÍDA, INCLUINDO EM CASOS DE DOLO OU CULPA GRAVE. SE UMA LIMITAÇÃO FOR JULGADA INEXECUTÁVEL, A RESPONSABILIDADE É LIMITADA AO MENOR VALOR QUE A LEI PERMITE. VOCÊ RECONHECE QUE OS PREÇOS DA AIVAX REFLETEM ESTA ALOCAÇÃO DE RISCO.
 
-O CONTEÚDO GERADO PODE CONTETER INCORRETIDÕES, OMISÕES OU ALUCINAÇÕES E É FORNECIDO APENAS PARA FINS INFORMATIVOS. VOCÊ É RESPONSÁVEL PELA REVISÃO HUMANA ANTES DO USO CRÍTICO.
+O CONTEÚDO GERADO PODE CONTAR COM INCORRETIDÕES, OMISÕES OU ALUCINAÇÕES E É FORNECIDO APENAS PARA FINS INFORMATIVOS. VOCÊ É RESPONSÁVEL PELA REVISÃO HUMANA ANTES DO USO CRÍTICO.
 
 ---
 
 ### 7. Indenização
 
-Você concorda em indenizar, defender e isentar a AIVAX, suas afiliadas, administradores, colaboradores e parceiros de reclamações, perdas, danos, responsabilidades, custos e despesas resultantes de: (i) Conteúdo de Entrada; (ii) uso indevido dos Serviços; (iii) violação destes Termos ou lei aplicável; (iv) infração de propriedade intelectual, privacidade ou direitos de personalidade de terceiros; (v) uso inadequado ou exposição de chaves de API ou credenciais associadas à sua conta; (vi) sua seleção de modelos, provedores, opções de roteamento e configurações da conta; (vii) reclamações de seus usuários finais ou outros titulares de dados que se relacionem com dados pessoais que você enviou aos Serviços, exceto na medida em que a AIVAX causou essas reclamações violando suas próprias obrigações legais.
+Você concorda em indenizar, defender e isentar a AIVAX, suas afiliadas, administradores, colaboradores e parceiros de reivindicações, perdas, danos, responsabilidades, custos e despesas resultantes de: (i) Conteúdo de Entrada; (ii) uso indevido dos Serviços; (iii) violação destes Termos ou lei aplicável; (iv) infração de propriedade intelectual, privacidade ou direitos de personalidade de terceiros; (v) uso impróprio ou exposição de chaves de API ou credenciais associadas à sua conta; (vi) sua seleção de modelos, provedores, opções de roteamento e configurações da conta; (vii) reivindicações de seus usuários finais ou outros titulares de dados que se relacionam com dados pessoais que você enviou aos Serviços, exceto na medida em que a AIVAX causou essas reivindicações violando suas próprias obrigações legais.
 
-### 8. Encerramento e Pós-Encerramento
+### 8. Encerramento Pós-Encerramento
 
-Após o encerramento ou suspensão: (a) o acesso e as chaves podem ser desativados; (b) a exportação de dados disponíveis pode ser limitada por janelas de retenção, estado da conta e requisitos de segurança; (c) os dados podem ser excluídos ou anonimizados de acordo com a Política de Privacidade e procedimentos operacionais; (d) os valores pendentes permanecem pagáveis.
+Após o encerramento ou suspensão: (a) o acesso e as chaves podem ser desativados; (b) a exportação de dados disponíveis pode ser limitada por janelas de retenção, estado da conta e requisitos de segurança; (c) os dados podem ser excluídos ou anonimizados de acordo com a Política de Privacidade e procedimentos operacionais; (d) valores pendentes permanecem pagáveis.
 
 ### 9. Força Maior
 
-Nenhuma parte será responsável por falhas ou atrasos causados por eventos fora do controle razoável, incluindo desastres naturais, ações governamentais, falhas generalizadas de infraestrutura, ataques cibernéticos, pandemias, guerras, apagões amplos ou falhas, interrupções ou incidentes de segurança em provedores de terceiros. As obrigações de pagamento por serviços consumidos não são extintas por força maior.
+Nenhuma parte será responsável por falhas ou atrasos causados por eventos além do controle razoável, incluindo desastres naturais, ações governamentais, falhas generalizadas de infraestrutura, ataques cibernéticos, pandemias, guerras, apagões amplos, ou falhas, interrupções ou incidentes de segurança em provedores de terceiros. As obrigações de pagamento por serviços consumidos não são extintas por força maior.
 
 ### 10. Controles de Exportação e Sanções
 
-Você declara que não está localizado em, nem agindo em nome de, qualquer entidade ou pessoa sujeita a sanções ou restrições comerciais aplicáveis. Você não usará os Serviços para fins proibidos por leis de exportação, anticorrupção ou antiterrorismo. A violação desta cláusula pode resultar em suspensão ou encerramento imediatos.
+Você declara que não está localizado em, nem agindo em nome de, qualquer entidade ou pessoa sujeita a sanções ou restrições comerciais aplicáveis. Você não usará os Serviços para fins proibidos por leis de exportação, anticorrupção ou antiterrorismo. A violação desta cláusula pode resultar em suspensão ou encerramento imediato.
 
 ### 11. Confidencialidade e Segurança de Credenciais
 
-Você deve manter as chaves de API, tokens e credenciais confidenciais e implementar controles de acesso apropriados. A atividade realizada com suas credenciais pode ser presumida autorizada até que uma violação seja relatada. Você deve notificar imediatamente a AIVAX sobre o uso não autorizado suspeito.
+Você deve manter chaves de API, tokens e credenciais confidenciais e implementar controles de acesso apropriados. A atividade realizada com suas credenciais pode ser presumida autorizada até que uma violação seja relatada. Você deve notificar imediatamente a AIVAX sobre o uso não autorizado suspeito.
 
 ### 12. Feedback e Melhorias
 
@@ -216,7 +216,7 @@ Recursos identificados como "Beta", "Experimental" ou equivalentes podem ser ins
 
 ### 14. Procedimento de Remoção
 
-Se você acreditar que a saída ou o uso dos Serviços infringe direitos autorais, marcas registradas, privacidade, personalidade ou outros direitos, envie um aviso para legal@aivax.net contendo: (i) identificação precisa do material; (ii) base da reclamação; (iii) suas informações de contato; (iv) uma declaração de boa-fé e veracidade. A AIVAX pode remover ou limitar o acesso preventivamente e encerrar contas de infratores recorrentes.
+Se você acredita que a saída ou o uso dos Serviços infringe direitos autorais, marcas registradas, privacidade, personalidade ou outros direitos, envie um aviso para legal@aivax.net contendo: (i) identificação precisa do material; (ii) base da reivindicação; (iii) suas informações de contato; (iv) uma declaração de boa-fé e veracidade. A AIVAX pode remover ou limitar o acesso preventivamente e encerrar contas de reincidentes.
 
 ### 15. Cessão
 
@@ -236,7 +236,7 @@ Notificações formais podem ser entregues por email registrado, aviso no painel
 
 ### 19. Atualizações de Preço e Limites
 
-A AIVAX pode ajustar preços, modelos de cobrança, limites de uso, cotas de armazenamento ou políticas de limite de taxa. Mudanças materiais que afetem custos futuros podem ser comunicadas com aviso prévio razoável, a menos que exigido por lei, segurança ou condições de emergência. O uso continuado após a entrada em vigor das mudanças implica aceitação, onde permitido.
+A AIVAX pode ajustar preços, modelos de faturamento, limites de uso, cotas de armazenamento ou políticas de limite de taxa. Mudanças materiais que afetam custos futuros podem ser comunicadas com aviso razoável antecipado, a menos que exigido por lei, segurança ou condições de emergência. O uso continuado após as entradas em vigor implica aceitação, onde permitido.
 
 ### 20. Idioma
 
@@ -244,7 +244,7 @@ A versão em português destes Termos prevalece sobre traduções fornecidas ape
 
 ### 21. Modificações nos Termos
 
-A AIVAX pode modificar estes Termos. Mudanças materiais podem ser notificadas por publicação, email ou aviso no painel e podem exigir aceitação adicional. O uso continuado após a data de vigência constitui aceitação, onde permitido.
+A AIVAX pode modificar estes Termos. Mudanças materiais podem ser notificadas por publicação, email ou aviso no painel e podem exigir aceitação adicional. O uso continuado após a data de entrada em vigor constitui aceitação, onde permitido.
 
 ### 22. Disposições Gerais
 

@@ -54,6 +54,6 @@ Add `"async": true` to queue the generation instead of keeping the request open.
 
 Image generation is charged per delivered image, with an additional charge per reference image on some models. Failed or undelivered outputs are not charged. Prompt processing is included, and no account or plan multiplier applies. Current tariffs for each model are listed in the Models catalog.
 
-The built-in image generation and editing tool has a daily limit that depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search).
+The built-in image generation and editing tool has a daily limit that depends on the plan; see [Built-in tools and web search limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#built-in-tools-and-web-search).
 
 If a request fails, revise the reported validation issue before retrying.

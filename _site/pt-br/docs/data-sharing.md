@@ -10,7 +10,7 @@ A configuração está desativada por padrão. Ela deve ser ativada por um Geren
 
 Enquanto a configuração estiver ativada:
 
-- o uso elegível de incorporação de consulta de RAG recebe um desconto (veja [Preços](https://docs.aivax.net/pt-br/docs/pricing.md#data-sharing-discount));
+- o uso elegível de incorporação de consulta de RAG recebe um desconto (veja [Preços](https://docs.aivax.net/pt-br/docs/pricing/index.md#data-sharing-discount));
 - as operações elegíveis de reranking recebem o mesmo desconto; e
 - a indexação de documentos, armazenamento, inferência não relacionada, ferramentas e outros serviços mantêm seus preços regulares.
 

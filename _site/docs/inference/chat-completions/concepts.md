@@ -96,7 +96,7 @@ Add `"async": true` to queue the request instead of waiting for the result. The 
 
 ## Pricing
 
-Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs); its PU price varies with the model and provider used. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it.
+Inference rates depend on the selected model, provider, input size, and media type. Moderation is charged separately in Processing Units (PUs); its PU price varies with the model and provider used. The [plan multiplier](https://docs.aivax.net/docs/pricing/product-pricing.md#plan-multipliers) applies to integrated-model inference and moderation. BYOK is not affected by it.
 
 | Description | Pricing |
 | --- | ---: |

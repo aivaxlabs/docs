@@ -121,7 +121,7 @@ Calls use the same pricing and quotas as the corresponding built-in tools, and A
 
 - [Web Search](https://docs.aivax.net/docs/web-foundation/web-search.md#pricing-and-limits) for `web_search`.
 - [Fetch and OCR](https://docs.aivax.net/docs/web-foundation/fetch-and-ocr.md#pricing-and-limits) for `fetch_url`.
-- [Pricing](https://docs.aivax.net/docs/pricing.md) for general billing rules.
+- [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md) for general billing rules.
 
 A positive account balance is required to use these tools.
 

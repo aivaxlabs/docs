@@ -203,9 +203,9 @@ Your tool handler should:
 
 ## Billing and limits
 
-Voice Sessions are billed at the selected realtime model's rates. The charge uses that model's text, audio, and image token prices. The [plan multiplier](https://docs.aivax.net/docs/pricing.md#plan-multipliers) applies.
+Voice Sessions are billed at the selected realtime model's rates. The charge uses that model's text, audio, and image token prices. The [plan multiplier](https://docs.aivax.net/docs/pricing/product-pricing.md#plan-multipliers) applies.
 
-Model access, balance, and inference limits follow [Plans and Limits](https://docs.aivax.net/docs/limits.md). Voice Sessions do not use the standalone text-to-speech and audio-transcription request quotas.
+Model access, balance, and inference limits follow [Plans and Limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md). Voice Sessions do not use the standalone text-to-speech and audio-transcription request quotas.
 
 ## Disconnect gracefully
 

@@ -51,4 +51,4 @@ Web Search is billed per search. Calls through [Web utilities MCP](https://docs.
 
 Direct API requests return 1–25 results per request (`topn`).
 
-Built-in web search and X/Twitter search have daily plan limits, and X/Twitter search is not available on Free; see [Built-in tools and web search limits](https://docs.aivax.net/docs/limits.md#built-in-tools-and-web-search).
+Built-in web search and X/Twitter search have daily plan limits, and X/Twitter search is not available on Free; see [Built-in tools and web search limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#built-in-tools-and-web-search).

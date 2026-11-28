@@ -24,7 +24,7 @@ The sections below describe what each resource does and when to use it. [Process
 The gateway's model is either an integrated AIVAX model or a model served by your own provider key (BYOK).
 
 - **Integrated models** use `baseAddress: "@integrated"` and a model name such as `@openai/gpt-5-mini`. AIVAX selects the provider, bills the account, and applies [provider routing](https://docs.aivax.net/docs/inference/routing/setup-routing.md).
-- **BYOK models** use the base address of an OpenAI-compatible provider endpoint, your provider `apiKey`, and the provider's model name. AIVAX still runs the gateway pipeline, but the provider bills you directly and provider routing does not apply. BYOK requests use the plan's BYOK rate limit; see [Plans and limits](https://docs.aivax.net/docs/limits.md).
+- **BYOK models** use the base address of an OpenAI-compatible provider endpoint, your provider `apiKey`, and the provider's model name. AIVAX still runs the gateway pipeline, but the provider bills you directly and provider routing does not apply. BYOK requests use the plan's BYOK rate limit; see [Plans and limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md).
 
 Use an integrated model unless you need a model, contract, or region that only your provider account offers. See [Models and gateway names](https://docs.aivax.net/docs/inference/ai-gateways/models-and-gateway-names.md) for how the model is identified.
 

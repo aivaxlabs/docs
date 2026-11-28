@@ -41,7 +41,7 @@ When a setting changes the level, the Collection Policy column lists each condit
 | --- | --- | --- |
 | [Collections and documents](https://docs.aivax.net/docs/rag/collections.md) | 🔴 Full | Document text, embeddings, and metadata are stored until you delete the document or collection. |
 | [Semantic search](https://docs.aivax.net/docs/rag/semantic-search.md) | **RAG logging enabled:** 🔴 Full<br>**RAG logging disabled:** 🟡 Partial | **RAG logging** in the account settings records query terms, returned documents, scores, processing time, and cost in the collection's [Transactions](https://docs.aivax.net/docs/rag/observability.md) tab. It is disabled by default for new accounts. |
-| [Reflex and rerankers](https://docs.aivax.net/docs/rag/reranking.md) | **Data Sharing disabled:** 🟡 Partial<br>**Data Sharing enabled:** 🔴 Full | AIVAX does not store candidate documents; Reflex uses a temporary in-memory cache. Depending on the selected reranker, the query and candidate documents are sent to a third-party provider. With [Data Sharing](https://docs.aivax.net/docs/data-sharing.md) enabled, the anonymized query, documents, and ranking results are kept for model development. Data Sharing is disabled by default and also covers the anonymized results of semantic searches. |
+| [Reflex and rerankers](https://docs.aivax.net/docs/rag/reranking.md) | **Data Sharing disabled:** 🟡 Partial<br>**Data Sharing enabled:** 🔴 Full | AIVAX does not store candidate documents; Reflex uses a temporary in-memory cache. Depending on the selected reranker, the query and candidate documents are sent to a third-party provider. With [Data Sharing](https://docs.aivax.net/docs/pricing/data-sharing.md) enabled, the anonymized query, documents, and ranking results are kept for model development. Data Sharing is disabled by default and also covers the anonymized results of semantic searches. |
 | [User memories](https://docs.aivax.net/docs/tools/builtin-tools.md#memory) | 🔴 Full | Memories saved by the Memory built-in tool are stored in the `@memories` collection until deleted or expired. |
 
 ## Inference
@@ -99,7 +99,7 @@ When a setting changes the level, the Collection Policy column lists each condit
 
 ## Data Handling Notes
 
-By default, AIVAX does not use Account Manager Input Content, Generated Content, or Conversations to train proprietary AIVAX models. Eligible anonymized RAG and reranking records are used for model development only when an authorized Account Manager enables the optional program described in [Data Sharing](https://docs.aivax.net/docs/data-sharing.md). Document indexing and storage are excluded.
+By default, AIVAX does not use Account Manager Input Content, Generated Content, or Conversations to train proprietary AIVAX models. Eligible anonymized RAG and reranking records are used for model development only when an authorized Account Manager enables the optional program described in [Data Sharing](https://docs.aivax.net/docs/pricing/data-sharing.md). Document indexing and storage are excluded.
 
 Third-party providers may have their own processing, retention, abuse-monitoring, and model-improvement rules. The selected model, provider, tool, or integration determines which third party receives data for a specific request.
 

@@ -76,9 +76,9 @@ Query strategies:
 - `FullRewrite`: Rewrites recent user and assistant messages into one or more search queries using a resolver model.
 - `QueryFunction`: Adds a query function to the model. The model decides when to search the linked collections, and search results are returned as tool responses. The model can narrow a search with an optional [document filter](https://docs.aivax.net/docs/rag/document-filters.md).
 
-Rewrite strategies add resolver-model cost (see [Pricing](https://docs.aivax.net/docs/pricing.md)) and latency. They are useful when follow-up questions depend on earlier turns.
+Rewrite strategies add resolver-model cost (see [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md)) and latency. They are useful when follow-up questions depend on earlier turns.
 
-Defining many RAG results increases input token usage and can increase final inference cost (see [Pricing](https://docs.aivax.net/docs/pricing.md)). Start with a small result count and raise it only when the model lacks enough evidence.
+Defining many RAG results increases input token usage and can increase final inference cost (see [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md)). Start with a small result count and raise it only when the model lacks enough evidence.
 
 ## Instructions
 

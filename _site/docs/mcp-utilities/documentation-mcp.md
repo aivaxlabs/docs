@@ -83,7 +83,7 @@ Search calls are rate limited per account and return `429 Too Many Requests` whe
 
 ### `aivax_list_models`
 
-`aivax_list_models` lists integrated AIVAX chat models and returns a model-readable summary for each match. Use it when the assistant needs to choose a model, explain whether a model is available to the current plan, compare capabilities, or understand pricing (see [Pricing](https://docs.aivax.net/docs/pricing.md)).
+`aivax_list_models` lists integrated AIVAX chat models and returns a model-readable summary for each match. Use it when the assistant needs to choose a model, explain whether a model is available to the current plan, compare capabilities, or understand pricing (see [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md)).
 
 The tool accepts:
 
@@ -91,7 +91,7 @@ The tool accepts:
 | --- | --- | --- | --- |
 | `name_filter` | `string` | No | Optional fuzzy filter for model names, such as `gpt 5`, `sonnet`, `qwen coder`, or `@openai/gpt-5-mini`. |
 
-The response includes each model's description, stability, type, capabilities, flags, and availability for the authenticated account plan. For current prices, see [Pricing](https://docs.aivax.net/docs/pricing.md).
+The response includes each model's description, stability, type, capabilities, flags, and availability for the authenticated account plan. For current prices, see [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md).
 
 Example arguments:
 

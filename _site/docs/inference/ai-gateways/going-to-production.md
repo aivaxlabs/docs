@@ -41,4 +41,4 @@ When you enable moderation, see [LLM moderation API: separate layer or model sel
 
 Validate the configuration with a [simulated-user and LLM-judge scenario](https://docs.aivax.net/docs/inference/agentic-tests.md) before relying on it in production, and run the same scenarios again after changing the model, instructions, or tools.
 
-Review [Pricing](https://docs.aivax.net/docs/pricing.md) and [Plans and limits](https://docs.aivax.net/docs/limits.md) before increasing traffic.
+Review [Pricing](https://docs.aivax.net/docs/pricing/product-pricing.md) and [Plans and limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md) before increasing traffic.

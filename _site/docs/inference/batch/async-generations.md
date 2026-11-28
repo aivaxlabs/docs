@@ -63,7 +63,7 @@ Use the object form to tag the item, register webhooks, or change the timeout:
 - `async` cannot be combined with `stream: true`; the request fails with `400`.
 - Queuing is not available with [public API keys](https://docs.aivax.net/docs/authentication.md#public-keys).
 - An account can turn the feature off with the **Async generations** account parameter, which is on by default. While it is off, queuing requests fail with `403`, and items already queued wait until it is turned back on.
-- Each plan limits how many items an account can queue per hour; above it, queuing returns `429`. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/limits.md#batch-and-agentic-tests).
+- Each plan limits how many items an account can queue per hour; above it, queuing returns `429`. See [Batch and Agentic Tests limits](https://docs.aivax.net/docs/pricing/plans-and-limits.md#batch-and-agentic-tests).
 - A request body above 12 MB is rejected with `400`.
 
 ## Supported endpoints

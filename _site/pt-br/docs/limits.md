@@ -128,7 +128,7 @@ Cada plano inclui cotas diárias separadas para os serviços abaixo. Cada compar
 
 As pesquisas RAG e as inserções de documentos compartilham a cota de embedding. Ela não cobre geração de respostas, processamento de mídia, extração, resumo, classificação ou segmentação. A cota de decisão semântica cobre apenas modelos de decisão elegíveis; consulte [Decisões Semânticas](https://docs.aivax.net/pt-br/docs/data-processing/decisions.md#usage-and-cost).
 
-O uso além de uma cota é cobrado nas taxas normais; consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md). As cotas são reiniciadas diariamente, e o painel mostra o consumo atual. Elas não cobrem a inferência de modelos de texto; os modelos de assinatura usam uma [cota mensal separada](#monthly-subscription-model-quota). Para um tutorial, consulte [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
+O uso além de uma cota é cobrado nas taxas normais; consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing/index.md). As cotas são reiniciadas diariamente, e o painel mostra o consumo atual. Elas não cobrem a inferência de modelos de texto; os modelos de assinatura usam uma [cota mensal separada](#monthly-subscription-model-quota). Para um tutorial, consulte [Free RAG API on AIVAX Free](https://aivax.net/blog/free-tier-for-rag-reflex-decisions-and-ocr/).
 
 ## Cota mensal de modelos de assinatura
 

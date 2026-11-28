@@ -22,14 +22,14 @@ A AIVAX aceita partes de conteúdo de mensagens compatíveis com o OpenAI para t
                 {
                     "type": "image_url",
                     "image_url": {
-                        "url": "data:image/png;base64,<CONTEÚDO_BASE64_PNG>",
+                        "url": "data:image/png;base64,<CONTEÚDO_PNG_BASE64>",
                         "detail": "auto"
                     }
                 },
                 {
                     "type": "input_audio",
                     "input_audio": {
-                        "data": "<CONTEÚDO_BASE64_WAV>",
+                        "data": "<CONTEÚDO_WAV_BASE64>",
                         "format": "wav"
                     }
                 },
@@ -37,7 +37,7 @@ A AIVAX aceita partes de conteúdo de mensagens compatíveis com o OpenAI para t
                     "type": "file",
                     "file": {
                         "filename": "documento.pdf",
-                        "file_data": "data:application/pdf;base64,<CONTEÚDO_BASE64_PDF>"
+                        "file_data": "data:application/pdf;base64,<CONTEÚDO_PDF_BASE64>"
                     }
                 }
             ]
@@ -51,8 +51,8 @@ Mapeamentos de partes de conteúdo suportados:
 - `text`: Texto simples.
 - `image_url`: Conteúdo de imagem. `image_url.url` pode ser uma URL externa ou uma URL de dados base64. `image_url.detail` pode ser `low`, `high` ou `auto` quando o modelo oferece suporte.
 - `video_url`: Conteúdo de vídeo. `video_url.url` pode ser uma URL externa ou uma URL de dados base64. Prefira URLs para vídeos grandes.
-- `input_audio`: Conteúdo de áudio. `input_audio.data` são dados de áudio em base64 e `input_audio.format` nomeia o formato.
-- `file`: Conteúdo de arquivo. `file.filename` nomeia o arquivo e `file.file_data` pode ser uma URL externa ou uma URL de dados base64.
+- `input_audio`: Conteúdo de áudio. `input_audio.data` são dados de áudio em base64, e `input_audio.format` indica o formato.
+- `file`: Conteúdo de arquivo. `file.filename` nomeia o arquivo, e `file.file_data` pode ser uma URL externa ou uma URL de dados base64.
 
 Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a seguir usa uma URL de dados base64; para vídeos grandes, prefira uma URL publicamente acessível:
 
@@ -70,7 +70,7 @@ Para entrada de vídeo, envie uma parte de conteúdo `video_url`. O exemplo a se
                 {
                     "type": "video_url",
                     "video_url": {
-                        "url": "data:video/mp4;base64,<CONTEÚDO_BASE64_MP4>"
+                        "url": "data:video/mp4;base64,<CONTEÚDO_MP4_BASE64>"
                     }
                 }
             ]
@@ -94,15 +94,15 @@ Para uma solicitação simples apenas de texto, você pode enviar `prompt` em ve
 
 ## Requisitos de mídia
 
-Solicitações com mídia exigem um saldo mínimo de conta: arquivos e vídeos precisam de um saldo maior do que imagens e áudio. A mídia é cobrada pelo modelo selecionado de acordo com suas taxas de entrada. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/limits.md) antes de usar mídia em produção.
+Solicitações com mídia exigem um saldo mínimo na conta: arquivos e vídeos precisam de um saldo maior do que imagens e áudio. A mídia é cobrada pelo modelo selecionado de acordo com suas taxas de entrada. Consulte [Preços](https://docs.aivax.net/pt-br/docs/pricing/product-pricing.md) e [Planos e limites](https://docs.aivax.net/pt-br/docs/pricing/plans-and-limits.md) antes de usar mídia em produção.
 
 Quando o modelo selecionado não suporta uma modalidade, converta a mídia em texto usando [pré-processamento multimodal](https://docs.aivax.net/pt-br/docs/inference/chat-completions/multimodal-pre-processing.md).
 
 ## Quando uma solicitação multimodal falha
 
-Reduza o problema:
+Reduza o escopo do problema:
 
 1. Teste uma mensagem de texto simples com o mesmo modelo.
-2. Teste um anexo pequeno.
+2. Teste um pequeno anexo.
 3. Teste o mesmo anexo com `multimodal_resolver`.
 4. Revise a URL, o formato, o tamanho e o suporte de modalidade do modelo.
