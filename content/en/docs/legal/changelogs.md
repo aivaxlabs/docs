@@ -17,11 +17,18 @@ Announced changes that take effect on a future date and may require action.
 
 ## Friday, November 27th, 2026
 
+Breaking changes:
+
+- **Plans — Smaller subscription model quotas on Enterprise plans.** The monthly subscription model quota is reduced on Pro, Max, and Ultimate, effective immediately for the current cycle: about 40% less on Pro and Max and half on Ultimate, which now includes 10× the Pro quota (was 12.5×) while Max still includes 5×. See the updated estimates in [Subscription models](/docs/inference/subscription-models/overview.md#available-models). Requests above the new quota return `429 Too Many Requests`; for more subscription model usage, see the new coding plans. See [Monthly subscription model quota](/docs/pricing/plans-and-limits.md#monthly-subscription-model-quota).
+
 Changes:
 
+- **Plans — Coding plans.** Coder Lite ($8/month) and Coder Plus ($39/month) include 3× and 15× the Pro subscription model quota with higher inference limits than Free, no service fee on credit top-ups, and keep the Free limits for other resources; subscribe through the subscriptions API, and read the plan type from `planType` in `GET /api/v1/accounts`. See [Coding plans](/docs/pricing/coding-plans.md).
+- **Plans — Verified accounts.** Accounts that have had a paid plan, or that are at least 30 days old and added at least $10 in credits, become verified and get higher Free inference limits and no input context cap; `GET /api/v1/accounts` reports `isVerified`. See [Verified accounts](/docs/pricing/plans-and-limits.md#verified-accounts).
+- **Documentation — New Pricing section.** Plans and limits, coding plans, product pricing, and Data Sharing are now grouped under [Pricing](/docs/pricing/plans-and-limits.md); previous page addresses redirect to the new ones.
 - **Legal — Terms of Use and Privacy Policy revision 1.5.** The [Terms of Use](/docs/legal/terms-of-service.md) now set an aggregate liability limit, extend indemnification to your choice of models, providers, and routing options, and allow AIVAX to suspend routing to a provider after a security incident, which can make models that depend on it unavailable. The [Privacy Policy](/docs/legal/privacy-policy.md) and [Data Processors](/docs/legal/third-party-processors.md) state that provider data-handling classifications, such as zero data retention, are declared by each provider.
 - **Models — New subscription model.** Adds `@aivax-subscription/glm-5.4`, Z.ai's GLM-5.4, to the subscription model catalog. See [Subscription models](/docs/inference/subscription-models/overview.md).
-- **Plans — Larger RAG embedding allowances.** The daily allowance for RAG search and insertion embeddings is now 25× the Free allowance on Pro (was 15×), 500× on Max (was 50×), and 2,500× on Ultimate (was 100×); the Free allowance is unchanged. See [Included daily subscription allowances](/docs/limits.md#included-daily-subscription-allowances).
+- **Plans — Larger RAG embedding allowances.** The daily allowance for RAG search and insertion embeddings is now 25× the Free allowance on Pro (was 15×), 500× on Max (was 50×), and 2,500× on Ultimate (was 100×); the Free allowance is unchanged. See [Included daily subscription allowances](/docs/pricing/plans-and-limits.md#included-daily-subscription-allowances).
 - **Plans — Live subscription model metrics.** The [Pricing page](https://aivax.net/pricing) now shows each subscription model's throughput, latency, uptime and estimated included usage per plan over the last 24 hours, with a trend for each, and lets you pick the plan to compare.
 
 ## Thursday, November 26th, 2026
@@ -71,7 +78,7 @@ Changes:
 
 Changes:
 
-- **RAG — Document limits per account and per collection.** Each plan now limits the number of documents stored per account and per collection: Free 2,000 per account and 1,000 per collection, Pro 200,000 and 50,000, Max 250,000 per collection with no account limit, and Ultimate 500,000 per collection with no account limit. When a limit is reached, creating a document returns `400 Bad Request`; delete documents or upgrade the plan to continue. See [Plans and Limits](/docs/limits.md#rag-and-collections).
+- **RAG — Document limits per account and per collection.** Each plan now limits the number of documents stored per account and per collection: Free 2,000 per account and 1,000 per collection, Pro 200,000 and 50,000, Max 250,000 per collection with no account limit, and Ultimate 500,000 per collection with no account limit. When a limit is reached, creating a document returns `400 Bad Request`; delete documents or upgrade the plan to continue. See [Plans and Limits](/docs/pricing/plans-and-limits.md#rag-and-collections).
 
 ## Wednesday, November 18th, 2026
 
@@ -116,7 +123,7 @@ Fixes:
 
 Changes:
 
-- **Account — Brazilian taxes on payments.** New payments, including credit top-ups and subscriptions, now include Brazilian taxes added on top of the amount due. The dashboard shows the total before you confirm, and receipts list each tax. See [Taxes on payments](/docs/pricing.md#taxes-on-payments).
+- **Account — Brazilian taxes on payments.** New payments, including credit top-ups and subscriptions, now include Brazilian taxes added on top of the amount due. The dashboard shows the total before you confirm, and receipts list each tax. See [Taxes on payments](/docs/pricing/product-pricing.md#taxes-on-payments).
 - **Account — Service invoices.** Service invoices (nota fiscal de serviços) can be downloaded from the Invoices tab of Analytics, and you are notified when one is issued. Usage data returns the link in `serviceInvoiceLocation`.
 - **Decisions — Conversation input and media.** Decision requests now accept `input`, an array of conversation messages, instead of `state`. Image, audio, video, and document parts are evaluated on models that support them. See [Send media](/docs/data-processing/decisions.md#send-media).
 - **Routing — Auxiliary steps on zero data retention providers.** Content moderation, the complexity router, RAG query rewriting, chat client audio summaries, speech voice instructions, and Media Injector now always run on zero data retention providers. See [Zero data retention providers only](/docs/inference/routing/zdr.md).
@@ -131,7 +138,7 @@ Breaking changes:
 
 Fixes:
 
-- **Batch — Jobs resume after the daily item limit.** Jobs paused by the plan's daily item limit now resume automatically after the limit resets. See [Batch and Agentic Tests limits](/docs/limits.md#batch-and-agentic-tests).
+- **Batch — Jobs resume after the daily item limit.** Jobs paused by the plan's daily item limit now resume automatically after the limit resets. See [Batch and Agentic Tests limits](/docs/pricing/plans-and-limits.md#batch-and-agentic-tests).
 - **Chat clients — Session token count after Send Prompt.** Sessions that receive messages through Send Prompt now report their token count in the session listing.
 
 Changes:
@@ -155,11 +162,11 @@ Changes:
 
 Fixes:
 
-- **Account — Credit top-ups add the chosen amount to the balance.** A top-up now adds exactly the amount you choose to your balance; fees are charged separately. See [Credit top-ups](/docs/pricing.md#credit-top-ups).
+- **Account — Credit top-ups add the chosen amount to the balance.** A top-up now adds exactly the amount you choose to your balance; fees are charged separately. See [Credit top-ups](/docs/pricing/product-pricing.md#credit-top-ups).
 
 Changes:
 
 - **Dashboard — Redesigned home page.** The dashboard home now shows your credit balance, usage trends for the last 24 hours to 90 days, and shortcuts to the main products.
 - **AI Gateways — New `tool.fetched` and `message.completed` worker events.** Gateway workers now receive `tool.fetched` after a server-side tool returns its result, and can keep, block, or replace that result with a `tool.fetched.response` action. Workers also receive `message.completed` after each inference finishes, with the messages, errors, and usage. See [Gateway Workers](/docs/inference/workers.md).
-- **Account — No service fee on credit top-ups for Pro, Max, and Ultimate.** Adding credits on Pro, Max, and Ultimate no longer includes the service fee. See [Credit top-ups](/docs/pricing.md#credit-top-ups).
-- **Account — Daily ceiling on the inference commission.** The plan's inference commission on integrated-model inference is now limited to $1.50 per day on Free, $1.20 on Pro, and $1.00 on Max. After the ceiling is reached, model inference that day is charged at the model's rates only. See [Plan multipliers](/docs/pricing.md#plan-multipliers).
+- **Account — No service fee on credit top-ups for Pro, Max, and Ultimate.** Adding credits on Pro, Max, and Ultimate no longer includes the service fee. See [Credit top-ups](/docs/pricing/product-pricing.md#credit-top-ups).
+- **Account — Daily ceiling on the inference commission.** The plan's inference commission on integrated-model inference is now limited to $1.50 per day on Free, $1.20 on Pro, and $1.00 on Max. After the ceiling is reached, model inference that day is charged at the model's rates only. See [Plan multipliers](/docs/pricing/product-pricing.md#plan-multipliers).
